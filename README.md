@@ -1,3 +1,7 @@
+# Port of Ishtar-Commander as a web app
+
+For now this project is developed using Bun.sh instead of node. However a PNPM lock-file is maintained as dependabot does not currently support bun. It means each update PR needs a manual tweak to also update Bun, but keeps the main benefit of constant update notifications.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
