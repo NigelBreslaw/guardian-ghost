@@ -9,5 +9,8 @@ export default defineConfig({
     port: 7777,
     open: true,
     host: '127.0.0.1'
+  },
+  build: {
+    sourcemap: true,
   }
 })
