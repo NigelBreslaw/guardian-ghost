@@ -1,5 +1,5 @@
 type CookieOptions = {
-  expires?: Date
+  maxAge?: number
   path?: string
   domain?: string
   secure?: boolean
@@ -10,8 +10,8 @@ export const setCookie = (name: string, value: string, options?: CookieOptions) 
   let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`
 
   if (options) {
-    if (options.expires instanceof Date) {
-      cookieString += `; expires=${options.expires.toUTCString()}`
+    if (options.maxAge) {
+      cookieString += `; Max-Age=${options.maxAge}`
     }
     if (options.path) {
       cookieString += `; path=${options.path}`
