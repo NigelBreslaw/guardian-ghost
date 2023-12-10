@@ -30,6 +30,7 @@ const App: React.FC = () => {
 		console.log("cookie", cookie);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Should run once on mount
 	useEffect(() => {
 		determineState();
 	}, []);
@@ -97,8 +98,12 @@ const App: React.FC = () => {
 			<h1>Ishtar For Web</h1>
 			<h2>Auth State: {authState}</h2>
 
-			<div className="card">
-				{authState === "pre-auth" && <button onClick={startAuth}>Auth</button>}
+			<div>
+				{authState === "pre-auth" && (
+					<button type="button" onClick={startAuth}>
+						Auth
+					</button>
+				)}
 			</div>
 		</>
 	);
