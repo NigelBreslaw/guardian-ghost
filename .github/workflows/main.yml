@@ -1,4 +1,10 @@
 name: ishtar-ci
+
+on:
+    push:
+      branches:
+        - main
+
 jobs:
   build:
     name: build
