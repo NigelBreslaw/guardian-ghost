@@ -1,0 +1,30 @@
+{
+  "name": "@gg-monorepo/react-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "analyze": "source-map-explorer dist/**/*.js",
+    "build": "vite build",
+    "dev": "vite",
+    "dev:bun": "bunx --bun vite",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
+    "lint": "biome lint ./src",
+    "preview": "vite preview",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "source-map-explorer": "2.5.3"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.45",
+    "@types/react-dom": "18.2.18",
+    "@vitejs/plugin-react-swc": "3.5.0",
+    "typescript": "5.3.3",
+    "vite": "5.0.10",
+    "vite-plugin-mkcert": "1.17.1"
+  }
+}

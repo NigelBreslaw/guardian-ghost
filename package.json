@@ -1,29 +1,21 @@
 {
-  "name": "web-ishtar",
+  "name": "@GG-monorepo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "analyze": "source-map-explorer dist/**/*.js",
-    "dev": "vite",
-    "build": "tsc && bun --bun vite build",
-    "lint": "biome lint ./src",
-    "format:check": "biome format ./src",
-    "format:write": "biome format --write ./src",
-    "preview": "vite preview"
+    "build": "pnpm --stream -r build",
+    "lint": "pnpm -r lint",
+    "format:check": "pnpm -r format:check",
+    "format:write": "pnpm -r format:write"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "source-map-explorer": "2.5.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.4.1",
-    "@types/react": "18.2.45",
-    "@types/react-dom": "18.2.18",
-    "@vitejs/plugin-react-swc": "3.5.0",
-    "typescript": "5.3.3",
-    "vite": "5.0.10",
-    "vite-plugin-mkcert": "1.17.1"
-  }
+    "@biomejs/biome": "1.4.1"
+  },
+  "workspaces": [
+    "apps/*",
+    "docs/*"
+  ]
 }
