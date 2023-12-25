@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "biome lint ./apps/react-frontend/src",
-    "format:check": "biome format ./apps/react-frontend/src",
-    "format:write": "biome format --write ./apps/react-frontend/src"
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format:check": "pnpm -r format:check",
+    "format:write": "pnpm -r format:write"
   },
   "dependencies": {
   },

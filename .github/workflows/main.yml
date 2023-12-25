@@ -12,14 +12,14 @@ jobs:
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: oven-sh/setup-bun@v1
+      -  uses: pnpm/action-setup@v2.4.0
         with:
-          bun-version: 1.0.20
+          version: 8.12.1
       - name: install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: lint
-        run: bun run lint
+        run: pnpm lint
       - name: format
-        run: bun run format:check
+        run: pnpm format:check
       - name: build
-        run: cd apps/react-frontend && bun run build
+        run: pnpm build

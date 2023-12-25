@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer dist/**/*.js",
+    "build": "vite build",
     "dev": "vite",
     "dev:bun": "bunx --bun vite",
-    "build": "vite build",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
+    "lint": "biome lint ./src",
     "preview": "vite preview",
     "typecheck": "tsc"
   },
