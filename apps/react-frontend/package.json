@@ -6,8 +6,10 @@
   "scripts": {
     "analyze": "source-map-explorer dist/**/*.js",
     "dev": "vite",
-    "build": "tsc && bun --bun vite build",
-    "preview": "vite preview"
+    "dev:bun": "bunx --bun vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "react": "18.2.0",

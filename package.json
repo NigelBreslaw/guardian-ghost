@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "biome lint .",
-    "format:check": "biome format .",
-    "format:write": "biome format --write ."
+    "lint": "biome lint ./apps/react-frontend/src",
+    "format:check": "biome format ./apps/react-frontend/src",
+    "format:write": "biome format --write ./apps/react-frontend/src"
   },
   "dependencies": {
   },
