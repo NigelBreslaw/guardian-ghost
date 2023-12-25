@@ -16,7 +16,7 @@ jobs:
         with:
           bun-version: 1.0.20
       - name: install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
       - name: lint
         run: bun run lint
       - name: format
