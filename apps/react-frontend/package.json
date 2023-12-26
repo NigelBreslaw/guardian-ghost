@@ -11,6 +11,7 @@
     "format:check": "biome format ./src",
     "format:write": "biome format --write ./src",
     "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply ./src",
     "preview": "vite preview",
     "typecheck": "tsc"
   },
