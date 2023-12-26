@@ -1,17 +1,6 @@
 {
   "name": "@gg-monorepo/dashboard",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "format:check": "biome format ./src",
-    "format:write": "biome format --write ./src",
-    "lint": "biome lint ./src",
-    "lint:fix": "biome check --apply ./src",
-    "preview": "vite preview"
-  },
+  "version": "0.0.1",
   "dependencies": {
     "solid-js": "1.8.7"
   },
@@ -19,5 +8,16 @@
     "typescript": "5.3.3",
     "vite": "5.0.10",
     "vite-plugin-solid": "2.8.0"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply ./src",
+    "preview": "vite preview"
+  },
+  "type": "module"
 }

@@ -1,18 +1,6 @@
 {
   "name": "@gg-monorepo/starlight",
-  "type": "module",
   "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "format:check": "biome format ./src",
-    "format:write": "biome format --write ./src",
-    "lint": "biome lint ./src",
-    "lint:fix": "biome check --apply ./src",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
   "dependencies": {
     "@astrojs/starlight": "0.15.1",
     "astro": "4.0.7",
@@ -21,5 +9,17 @@
   "devDependencies": {
     "@astrojs/check": "0.3.4",
     "typescript": "5.3.3"
-  }
+  },
+  "scripts": {
+    "astro": "astro",
+    "build": "astro check && astro build",
+    "dev": "astro dev",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply ./src",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "type": "module"
 }
