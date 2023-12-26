@@ -18,7 +18,7 @@ function App() {
 			</div>
 			<h1>Placeholder for dashboard!</h1>
 			<div class="card">
-				<button onClick={() => setCount((count) => count + 1)}>
+				<button type="button" onClick={() => setCount((count) => count + 1)}>
 					count is {count()}
 				</button>
 				<p>Developer stats coming soon.</p>
