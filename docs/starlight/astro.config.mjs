@@ -11,20 +11,19 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
+					label: 'Guides',
+					items: [
+						{ label: 'Getting started', link: '/guides/getting-started/' },
+						{ label: 'Cloudflare', link: '/guides/cloudflare/' },
+
+					],
+				},
+				{
 					label: 'Technologies',
 					items: [
 						{ label: 'CI', link: '/tech/ci/' },
 						{ label: 'Misc', link: '/tech/misc/' },
 					]
-				},
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Getting started', link: '/guides/getting-started/' },
-						{ label: 'Cloudflare', link: '/guides/cloudflare/' },
-
-					],
 				},
 				{
 					label: 'Reference',

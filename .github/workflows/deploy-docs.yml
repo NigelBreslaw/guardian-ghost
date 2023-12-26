@@ -19,7 +19,7 @@ jobs:
         - name: build
           run: pnpm build
         - name: publish docs
-          uses: cloudflare/pages-action@1
+          uses: cloudflare/pages-action@v1.5.0
           with:
             apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
             accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

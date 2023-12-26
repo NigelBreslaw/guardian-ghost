@@ -13,17 +13,11 @@ Web apps: Cloudflare Pages (free)
 Windows and Android are either free or were a one off fee paid years ago.
 Apple (iOS and MacOS): $99 a year.
 
+Github Copilot is $10 a month.
+
 
 ### Domain registration
 .com and .app yearly fees are ~$20 a year
 
 # Yearly total
-$120
-
-
-
-
-
-
-
-
+$240
