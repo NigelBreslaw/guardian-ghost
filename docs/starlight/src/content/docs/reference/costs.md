@@ -21,11 +21,3 @@ Github Copilot is $10 a month.
 
 # Yearly total
 $240
-
-
-
-
-
-
-
-
