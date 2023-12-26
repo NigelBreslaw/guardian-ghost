@@ -11,15 +11,26 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
+					label: 'Technologies',
+					items: [
+						{ label: 'CI', link: '/tech/ci/' },
+						{ label: 'Misc', link: '/tech/misc/' },
+					]
+				},
+				{
 					label: 'Guides',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', link: '/guides/example/' },
+						{ label: 'Getting started', link: '/guides/getting-started/' },
+						{ label: 'Cloudflare', link: '/guides/cloudflare/' },
+
 					],
 				},
 				{
 					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					items: [
+						{ label: 'Costs', link: '/reference/costs/' },
+					]
 				},
 			],
 		}),

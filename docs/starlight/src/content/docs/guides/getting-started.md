@@ -3,9 +3,18 @@ title: Getting Started
 description: Instructions for setting up the Guardian Ghost monorepo and dev environment
 ---
 
-Guides lead a user through a specific task they want to accomplish, often with a sequence of steps.
-Writing a good guide requires thinking about what your users are trying to do.
+Guardian Ghost is setup as a monorepo.
 
-## Further reading
+The following setup presumes you are using Git Worktree. If that is new to you check out this quick [video](https://www.youtube.com/watch?v=2uEqYw-N8uE).
 
-- Read [about how-to guides](https://diataxis.fr/how-to-guides/) in the Diátaxis framework
+First bare clone the repo `git clone --bare git@github.com:NigelBreslaw/guardian-ghost.git`.
+
+Then cd in `cd guardian-ghost.git` and setup the origin `git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"` or git fetch won't work as expected.
+
+When pushing a new branch you will see 'current branch has no upstream branch, blah blah blah'. As of git 2.37.0 and higher you can setup auto tracking and never have to deal with this again! `git config --global push.autoSetupRemote true`
+
+
+
+## TODO
+
+Create a bash script that checks you have the right version of various tools such as git, xcode, etc and clones and sets everything up for you.
