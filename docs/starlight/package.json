@@ -8,11 +8,13 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.3.4",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vitest": "^1.1.0"
   },
   "scripts": {
     "astro": "astro",
     "build": "astro check && astro build",
+    "coverage": "vitest run --coverage",
     "dev": "astro dev",
     "format:check": "biome format ./src",
     "format:write": "biome format --write ./src",
