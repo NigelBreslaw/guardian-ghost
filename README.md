@@ -7,3 +7,11 @@ The tech choices are based on interesting new tools to learn. However the main a
 ## Developer environment
 
 Full documentation and details about the project can be found [here](https://docs.guardianghost.com).
+
+## Main deployments
+
+Main website [guardianghost.com](https://guardianghost.com)
+
+Stats dashboard [dashboard.guardianghost.com](https://dashboard.guardianghost.com)
+
+Documentation [docs.guardianghost.com](https://dashboard.guardianghost.com)
