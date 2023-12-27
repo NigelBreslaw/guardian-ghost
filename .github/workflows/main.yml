@@ -24,8 +24,30 @@ jobs:
         run: pnpm format:check
       - name: build
         run: pnpm build
-  sonarcloudDashboard:
-    name: SonarCloud
+  
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      dashboard: ${{ steps.changes.outputs.dashboard }}
+      react-frontend: ${{ steps.changes.outputs.react-frontend }}
+      docs: ${{ steps.changes.outputs.docs }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          dashboard:
+            - 'apps/dashboard/**'
+          react-frontend:
+            - 'apps/dashboard/**'
+          docs:
+            - 'docs/starlight/**'
+
+  dashboard:
+    name: Sonarqube Dashboard
+    needs: changes
+    if: ${{ needs.changes.outputs.dashboard == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -38,8 +60,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DASHBOARD }}
-  sonarcloudDocs:
-    name: SonarCloud Dashbaord
+
+  docs:
+    name: Sonarqube Docs
+    needs: changes
+    if: ${{ needs.changes.outputs.docs == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -52,8 +77,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DOCS }}
-  sonarcloudRFrontend:
-    name: SonarCloud Dashbaord
+
+  react-frontend:
+    name: Sonarqube React Frontend
+    needs: changes
+    if: ${{ needs.changes.outputs.react-frontend == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
