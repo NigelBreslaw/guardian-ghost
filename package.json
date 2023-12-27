@@ -3,16 +3,20 @@
   "version": "0.0.0",
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "syncpack": "12.0.1"
+    "@vitest/coverage-v8": "^1.1.0",
+    "syncpack": "12.0.1",
+    "vitest": "^1.1.0"
   },
   "private": true,
   "scripts": {
     "build": "pnpm --stream -r build",
+    "coverage": "vitest run --coverage",
     "format:check": "pnpm --stream -r format:check",
     "format:write": "pnpm -r format:write",
     "lint": "pnpm --stream -r lint",
     "lint:fix": "pnpm -r lint:fix",
-    "syncpack": "syncpack format && syncpack set-semver-ranges && syncpack list-mismatches"
+    "syncpack": "syncpack format && syncpack set-semver-ranges && syncpack list-mismatches",
+    "test": "vitest"
   },
   "type": "module",
   "workspaces": [
