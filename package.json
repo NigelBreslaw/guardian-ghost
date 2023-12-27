@@ -1,9 +1,8 @@
 {
   "name": "@gg-monorepo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "@vitest/coverage-v8": "^1.1.0",
     "syncpack": "12.0.1"
   },
   "private": true,
