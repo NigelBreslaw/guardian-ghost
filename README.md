@@ -14,4 +14,4 @@ Main website [guardianghost.com](https://guardianghost.com)
 
 Stats dashboard [dashboard.guardianghost.com](https://dashboard.guardianghost.com)
 
-Documentation [docs.guardianghost.com](https://dashboard.guardianghost.com)
+Documentation [docs.guardianghost.com](https://docs.guardianghost.com)
