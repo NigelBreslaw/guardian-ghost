@@ -18,7 +18,11 @@ source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 chruby ruby-3.3.0
 
+Ensure cocoapods is installed.
 
+If cloning from scratch or switching to a new git worktree the cocoapods need reinstalling before `pnpm start` will work.
+
+First cd in the ios folder and then `bundle install && bundle exec pod install`
 
 ## Android
 
@@ -36,6 +40,7 @@ Java 17 was needed. [SdkMan](https://sdkman.io/) was used instead of brew.
 
 `java -version` => 17.0.9
 
+Also ensure the Android SDK Command Line Tools are installed via the Android Studio SDK manager.
 
 After setting up Android Studio and an emulator the following is needed in .zshrc
 
