@@ -49,3 +49,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 Remember to `source ~/.zshrc` after, or open a new terminal. Without this `pnpm start` will fail to first launch the emulator and then fail to launch the react native app, even though it will install it successfully. 
+
+NOTE: I didn't have time to root cause this, but after cloning from scratch the Android project was missing some dependencies. Maybe the original init did some magic? I fixed these manually by
+
+pnpm add -D @react-native-community/cli-platform-android @react-native/gradle-plugin 
