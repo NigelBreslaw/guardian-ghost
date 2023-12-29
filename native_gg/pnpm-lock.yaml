@@ -26,13 +26,13 @@ devDependencies:
     specifier: 1.4.1
     version: 1.4.1
   '@react-native-community/cli-platform-android':
-    specifier: ^13.2.0
+    specifier: 13.2.0
     version: 13.2.0
   '@react-native/babel-preset':
     specifier: 0.73.18
     version: 0.73.18(@babel/core@7.23.6)(@babel/preset-env@7.23.6)
   '@react-native/gradle-plugin':
-    specifier: ^0.73.4
+    specifier: 0.73.4
     version: 0.73.4
   '@react-native/metro-config':
     specifier: 0.73.2
@@ -46,9 +46,6 @@ devDependencies:
   '@types/react-test-renderer':
     specifier: 18.0.0
     version: 18.0.0
-  add:
-    specifier: ^2.0.6
-    version: 2.0.6
   react-test-renderer:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
@@ -2050,10 +2047,6 @@ packages:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-
-  /add@2.0.6:
-    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
-    dev: true
 
   /anser@1.4.10:
     resolution: {integrity: sha512-hCv9AqTQ8ycjpSd3upOJd7vFwW1JaoYQ7tpham03GJ1ca8/65rqn0RpaWpItOAd6ylW9wAw6luXYPJIyPFVOww==}
