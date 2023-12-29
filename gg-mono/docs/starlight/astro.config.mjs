@@ -28,6 +28,7 @@ export default defineConfig({
 				{
 					label: 'Reference',
 					items: [
+						{ label: 'React Native', link: '/reference/react-native/' },
 						{ label: 'Costs', link: '/reference/costs/' },
 					]
 				},
