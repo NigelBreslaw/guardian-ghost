@@ -10,6 +10,9 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gg-mono
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
@@ -38,11 +41,11 @@ jobs:
       with:
         filters: |
           dashboard:
-            - 'apps/dashboard/**'
+            - 'gg-mono/apps/dashboard/**'
           react-frontend:
-            - 'apps/dashboard/**'
+            - 'gg-mono/apps/dashboard/**'
           docs:
-            - 'docs/starlight/**'
+            - 'gg-mono/docs/starlight/**'
 
   dashboard:
     name: Sonarqube Dashboard
@@ -56,7 +59,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: apps/dashboard/
+          projectBaseDir: gg-mono/apps/dashboard/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DASHBOARD }}
@@ -73,7 +76,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: docs/starlight/
+          projectBaseDir: gg-mono/docs/starlight/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DOCS }}
@@ -90,7 +93,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: apps/react-frontend/
+          projectBaseDir: gg-mono/apps/react-frontend/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_REACT_FRONTEND }}
