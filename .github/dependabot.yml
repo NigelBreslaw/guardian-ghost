@@ -9,3 +9,7 @@ updates:
     directory: "/gg-mono" # Location of package manifests
     schedule:
       interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/native_gg" # Location react native package.json
+    schedule:
+      interval: "daily"
