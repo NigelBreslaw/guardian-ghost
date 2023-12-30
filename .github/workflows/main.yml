@@ -34,6 +34,7 @@ jobs:
       dashboard: ${{ steps.changes.outputs.dashboard }}
       react-frontend: ${{ steps.changes.outputs.react-frontend }}
       docs: ${{ steps.changes.outputs.docs }}
+      react-native: ${{ steps.changes.outputs.react-native }}
     steps:
     - uses: actions/checkout@v4
     - uses: dorny/paths-filter@v2
@@ -46,6 +47,8 @@ jobs:
             - 'gg-mono/apps/dashboard/**'
           docs:
             - 'gg-mono/docs/starlight/**'
+          react-native:
+            - 'native_gg/**'
 
   dashboard:
     name: Sonarqube Dashboard
@@ -97,3 +100,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_REACT_FRONTEND }}
+
+  react-native:
+    name: Sonarqube React Native
+    needs: changes
+    if: ${{ needs.changes.outputs.react-native == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: native_gg/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_REACT_NATIVE }}
