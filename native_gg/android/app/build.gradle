@@ -76,7 +76,7 @@ android {
 
     namespace "com.native_gg"
     defaultConfig {
-        applicationId "com.native_gg"
+        applicationId "com.guardianghost"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
