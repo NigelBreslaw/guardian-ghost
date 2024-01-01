@@ -9,7 +9,25 @@ updates:
     directory: "/gg-mono" # Location of package manifests
     schedule:
       interval: "daily"
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
+      vitest:
+        patterns:
+          - "vitest*"
   - package-ecosystem: "npm"
     directory: "/native_gg" # Location react native package.json
     schedule:
       interval: "daily"
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
+      vitest:
+        patterns:
+          - "vitest*"
+          - "@react-native*"
+          - "@babel*"
