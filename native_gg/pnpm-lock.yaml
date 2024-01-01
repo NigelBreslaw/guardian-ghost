@@ -29,8 +29,8 @@ devDependencies:
     specifier: 13.2.0
     version: 13.2.0
   '@react-native/babel-preset':
-    specifier: 0.73.18
-    version: 0.73.18(@babel/core@7.23.7)(@babel/preset-env@7.23.7)
+    specifier: 0.74.0
+    version: 0.74.0(@babel/core@7.23.7)(@babel/preset-env@7.23.7)
   '@react-native/gradle-plugin':
     specifier: 0.73.4
     version: 0.73.4
@@ -1766,8 +1766,8 @@ packages:
       - '@babel/preset-env'
       - supports-color
 
-  /@react-native/babel-preset@0.73.18(@babel/core@7.23.7)(@babel/preset-env@7.23.7):
-    resolution: {integrity: sha512-FzPasmazoX9WZnmwotk6SK9ydiExdqS4Xt5VaukPoY9u8u3AUUODzqjTsWSOxjFD9eRF3Knyg5H8JMDe6pj5wQ==}
+  /@react-native/babel-preset@0.74.0(@babel/core@7.23.7)(@babel/preset-env@7.23.7):
+    resolution: {integrity: sha512-k+1aaYQeLn+GBmGA5Qs3NKI8uzhLvRRMML+pB/+43ZL6DvCklbuJ5KO5oqRRpF3KZ2t/VKUqqSichpXfFrXGjg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': '*'
@@ -1915,7 +1915,7 @@ packages:
       '@babel/core': '*'
     dependencies:
       '@babel/core': 7.23.7
-      '@react-native/babel-preset': 0.73.18(@babel/core@7.23.7)(@babel/preset-env@7.23.7)
+      '@react-native/babel-preset': 0.74.0(@babel/core@7.23.7)(@babel/preset-env@7.23.7)
       babel-preset-fbjs: 3.4.0(@babel/core@7.23.7)
       hermes-parser: 0.15.0
       nullthrows: 1.1.1
