@@ -44,7 +44,7 @@ jobs:
           dashboard:
             - 'gg-mono/apps/dashboard/**'
           react-frontend:
-            - 'gg-mono/apps/dashboard/**'
+            - 'gg-mono/apps/react-frontend/**'
           docs:
             - 'gg-mono/docs/starlight/**'
           react-native:
