@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "pod-install": "cd ios && bundle install && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
     "lint": "eslint .",
     "start": "react-native start --verbose",
     "test": "jest"

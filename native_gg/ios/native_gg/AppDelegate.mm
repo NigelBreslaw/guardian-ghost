@@ -14,6 +14,11 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+- (BOOL)bridgelessEnabled
+{
+    return YES;
+}
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
   return [self getBundleURL];
