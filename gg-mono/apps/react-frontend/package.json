@@ -22,7 +22,6 @@
     "build": "vite build",
     "coverage": "vitest run --coverage",
     "dev": "vite",
-    "dev:bun": "bunx --bun vite",
     "format:check": "biome format ./src",
     "format:write": "biome format --write ./src",
     "lint": "biome lint ./src",
