@@ -20,8 +20,8 @@ devDependencies:
     specifier: 7.23.6
     version: 7.23.6(@babel/core@7.23.7)
   '@babel/runtime':
-    specifier: 7.23.6
-    version: 7.23.6
+    specifier: 7.23.7
+    version: 7.23.7
   '@biomejs/biome':
     specifier: 1.4.1
     version: 1.4.1
@@ -1326,8 +1326,8 @@ packages:
   /@babel/regjsgen@0.8.0:
     resolution: {integrity: sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==}
 
-  /@babel/runtime@7.23.6:
-    resolution: {integrity: sha512-zHd0eUrf5GZoOWVCXp6koAKQTfZV07eit6bGPmJgnZdnSAvvZee6zniW2XMF7Cmc4ISOOnPy3QaSiIJGJkVEDQ==}
+  /@babel/runtime@7.23.7:
+    resolution: {integrity: sha512-w06OXVOFso7LcbzMiDGt+3X7Rh7Ho8MmgPoWU3rarH+8upf+wSU/grlGbWzQyr3DkdN6ZeuMFjpdwW0Q+HxobA==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.1
@@ -3250,7 +3250,7 @@ packages:
     resolution: {integrity: sha512-ruIlSEVnmJGbLnZIGf8/ra+qoD1Knft0R+5laUpp/KEGkD+GEr4XgP+5j5Uuq3v36qDLFTj1KXfQP5JVoeM8zw==}
     engines: {node: '>=18'}
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.23.7
 
   /metro-source-map@0.80.2:
     resolution: {integrity: sha512-fM6RwYCJrwfqVk8Z1ApvJ3+Zz7fso38AszmAXqFDXziOC0AfmMCv/W9FosE9BY+y5QJ7YcvW0RIYLQhpCn+V9w==}
@@ -3846,7 +3846,7 @@ packages:
   /regenerator-transform@0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}
     dependencies:
-      '@babel/runtime': 7.23.6
+      '@babel/runtime': 7.23.7
 
   /regexpu-core@5.3.2:
     resolution: {integrity: sha512-RAM5FlZz+Lhmo7db9L298p2vHP5ZywrVXmVXpmAD9GuL5MPH6t9ROw1iA/wfHkQ76Qe7AaPF0nGuim96/IrQMQ==}
