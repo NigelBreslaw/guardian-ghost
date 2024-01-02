@@ -6,8 +6,15 @@
 #  Created by NigelBreslaw on 2.1.2024.
 #
 
-pushd ..
- 
+echo "============> Installing Node <============"
+curl "https://nodejs.org/dist/v20.10.0/node-v20.10.0-darwin-arm64.tar.gz" -o $HOME/Downloads/node.tar.gz
+tar -xf "$HOME/Downloads/node.tar.gz"
+NODE_PATH="$PWD/node-20.10.0-darwin-arm64/bin"
+PATH+=":$NODE_PATH"
+export PATH
+node -v
+npm -v
+
 echo ">>> SETUP ENVIRONMENT"
 echo 'export GEM_HOME=$HOME/gems' >>~/.bash_profile
 echo 'export PATH=$HOME/gems/bin:$PATH' >>~/.bash_profile
@@ -17,16 +24,7 @@ export PATH="$GEM_HOME/bin:$PATH"
 echo ">>> INSTALL BUNDLER"
 gem install bundler --install-dir $GEM_HOME
 
-echo "============> Installing Node <============"
-curl "https://nodejs.org/dist/v20.10.0/node-v20.10.0-darwin-arm64.tar.gz" -o $HOME/Downloads/node.tar.gz
-tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-$VERSION-darwin-$ARCH/bin"
-PATH+=":$NODE_PATH"
-export PATH
-node -v
-npm -v
 
-popd
 
 
 echo "=======> Installing PNPM"
