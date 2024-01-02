@@ -9,7 +9,7 @@
 echo "============> Installing Node <============"
 curl "https://nodejs.org/dist/v20.10.0/node-v20.10.0-darwin-arm64.tar.gz" -o $HOME/Downloads/node.tar.gz
 tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-20.10.0-darwin-arm64/bin"
+NODE_PATH="$PWD/node-v20.10.0-darwin-arm64/bin"
 PATH+=":$NODE_PATH"
 export PATH
 node -v
