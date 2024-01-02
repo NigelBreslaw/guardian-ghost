@@ -9,11 +9,14 @@
 echo "============> Installing Node <============"
 brew install node@20
 
+echo "============> Linking Node <============"
+brew link node@16
+
 echo "=========> Installing cocoapods"
 brew install cocoapods
 
 echo "=======> Installing PNPM"
-npm install -g pnpm
+npm install -g pnpm@8.13.1
 
 echo "=====> Moving to build directory"
 cd native_gg
