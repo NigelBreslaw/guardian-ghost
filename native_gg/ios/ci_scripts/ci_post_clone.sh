@@ -7,7 +7,7 @@
 #
 
 echo "============> Installing Node <============"
-brew install node@20.10.0
+brew install node@20
 
 echo "=========> Installing cocoapods"
 brew install cocoapods
