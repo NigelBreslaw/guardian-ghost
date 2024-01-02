@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E35182C4E5FE5A071678572 /* libPods-native_gg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2969F2EE7549F936C291D5 /* libPods-native_gg.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A4D1E5932B448875007E9E84 /* WhatToTest.en-US.txt in Resources */ = {isa = PBXBuildFile; fileRef = A4D1E5922B448875007E9E84 /* WhatToTest.en-US.txt */; };
 		A4EC1E002B405F7A00AF2253 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4EC1DFF2B405F7A00AF2253 /* Assets.xcassets */; };
 		FBD9C02B9B5431BBE5CB41D6 /* libPods-native_gg-native_ggTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F967F7AF2CDBFBF2F5C26F4D /* libPods-native_gg-native_ggTests.a */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		75B8ED6E518FCAD041C2E98A /* Pods-native_gg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_gg.debug.xcconfig"; path = "Target Support Files/Pods-native_gg/Pods-native_gg.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = native_gg/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A2969F2EE7549F936C291D5 /* libPods-native_gg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_gg.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4D1E5922B448875007E9E84 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		A4EC1DFF2B405F7A00AF2253 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F7151F1CAA104E251EE548 /* Pods-native_gg-native_ggTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_gg-native_ggTests.debug.xcconfig"; path = "Target Support Files/Pods-native_gg-native_ggTests/Pods-native_gg-native_ggTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CEE85DBC62F97AA3D0AF71DF /* Pods-native_gg-native_ggTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_gg-native_ggTests.release.xcconfig"; path = "Target Support Files/Pods-native_gg-native_ggTests/Pods-native_gg-native_ggTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A4D1E5912B448826007E9E84 /* TestFlight */,
 				13B07FAE1A68108700A75B9A /* native_gg */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* native_ggTests */,
@@ -138,6 +141,14 @@
 				00E356EE1AD99517003FC87E /* native_ggTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A4D1E5912B448826007E9E84 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				A4D1E5922B448875007E9E84 /* WhatToTest.en-US.txt */,
+			);
+			path = TestFlight;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -247,6 +258,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A4EC1E002B405F7A00AF2253 /* Assets.xcassets in Resources */,
+				A4D1E5932B448875007E9E84 /* WhatToTest.en-US.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
