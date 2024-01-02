@@ -13,7 +13,7 @@ echo "============> Linking Node <============"
 brew link node@20
 
 echo "=========> Installing cocoapods"
-brew install cocoapods
+brew install cocoapods && bundle update --bundler
 
 echo "=======> Installing PNPM"
 npm install -g pnpm@8.13.1
