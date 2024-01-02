@@ -6,40 +6,52 @@
 #  Created by NigelBreslaw on 2.1.2024.
 #
 
-arch
+brew install frum
+frum install 3.3.0
+ruby -v
 
-if [ "$ARCHITECTURE" == "arm64" ]; then
-    # For arm64 architecture (Apple Silicon)
-    arch=arm64
-else
-    # For x86 architecture
-    arch=x64
-fi
+# arch
 
-echo "============> Installing Node <============"
-curl "https://nodejs.org/dist/v20.10.0/node-v20.10.0-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
-tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-v20.10.0-darwin-$arch/bin"
-PATH+=":$NODE_PATH"
-export PATH
-node -v
-npm -v
+# if [ "$ARCHITECTURE" == "arm64" ]; then
+#     # For arm64 architecture (Apple Silicon)
+#     arch=arm64
+# else
+#     # For x86 architecture
+#     arch=x64
+# fi
 
-echo "============> Installing cocoapods <============"
-brew install cocoapods
+# echo "============> Installing Node <============"
+# curl "https://nodejs.org/dist/v20.10.0/node-v20.10.0-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
+# tar -xf "$HOME/Downloads/node.tar.gz"
+# NODE_PATH="$PWD/node-v20.10.0-darwin-$arch/bin"
+# PATH+=":$NODE_PATH"
+# export PATH
+# node -v
+# npm -v
+
+# echo "============> Installing chruby <============"
+# brew install chruby ruby-install
+
+# echo "============> Installing ruby <============"
+# ruby-install ruby 3.3
+
+
+
+# echo "============> Installing cocoapods <============"
+# brew install cocoapods
 
 
 
 
-echo "=======> Installing PNPM"
-npm install -g pnpm@8.13.1
+# echo "=======> Installing PNPM"
+# npm install -g pnpm@8.13.1
 
 
-echo "=====> Moving to build directory"
-cd native_gg
+# echo "=====> Moving to build directory"
+# cd native_gg
 
-echo "=> Install npm dependencies"
-pnpm i --frozen-lockfile
+# echo "=> Install npm dependencies"
+# pnpm i --frozen-lockfile
 
-echo "=> Install pods"
-pnpm run pod-install
+# echo "=> Install pods"
+# pnpm run pod-install
