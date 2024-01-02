@@ -15,14 +15,8 @@ export PATH
 node -v
 npm -v
 
-echo ">>> SETUP ENVIRONMENT"
-echo 'export GEM_HOME=$HOME/gems' >>~/.bash_profile
-echo 'export PATH=$HOME/gems/bin:$PATH' >>~/.bash_profile
-export GEM_HOME=$HOME/gems
-export PATH="$GEM_HOME/bin:$PATH"
- 
-echo ">>> INSTALL BUNDLER"
-gem install bundler --install-dir $GEM_HOME
+echo "============> Installing cocoapods <============"
+brew install cocoapods
 
 
 
