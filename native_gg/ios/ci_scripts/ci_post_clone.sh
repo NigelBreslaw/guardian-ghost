@@ -6,11 +6,8 @@
 #  Created by NigelBreslaw on 2.1.2024.
 #
 
-echo "============> Installing NVM <============"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
 echo "============> Installing Node <============"
-nvm install 20.10.0
+brew install node@20.10.0
 
 echo "=========> Installing cocoapods"
 brew install cocoapods
