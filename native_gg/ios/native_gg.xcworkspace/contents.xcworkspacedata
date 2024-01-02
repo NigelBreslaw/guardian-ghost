@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ci_scripts/ci_post_clone.sh">
+   </FileRef>
+   <FileRef
       location = "group:native_gg.xcodeproj">
    </FileRef>
    <FileRef
