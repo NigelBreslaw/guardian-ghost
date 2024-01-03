@@ -102,6 +102,12 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    bundle {
+        // Added to stop some incorrect extra languages being added.
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {
