@@ -1,0 +1,26 @@
+{
+  "name": "default-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "coverage": "vitest run --coverage",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply ./src",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "solid-js": "1.8.7"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "1.1.1",
+    "typescript": "5.3.3",
+    "vite": "5.0.10",
+    "vite-plugin-solid": "2.8.0",
+    "vitest": "1.1.1"
+  }
+}
