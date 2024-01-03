@@ -1,0 +1,53 @@
+
+name: Android Build CI/CD 
+
+on:
+    push:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: native_gg
+    timeout-minutes: 1
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8.12.1
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Automatically overrides the version code and version name through the github actions
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.1
+        with:
+            gradlePath: native_gg/android/app/build.gradle 
+            versionCode: ${{github.run_number}}
+
+      - name: Install Dependencies
+        run: yarn install
+            
+      - name: Run Unit Test
+        run: ./gradlew test
+
+
+# cache Gradle dependencies and wrapper to reduce build time
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v3.3.2
+        with:
+            path: ~/.gradle/wrapper
+            key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v3
+        with:
+            path: ~/.gradle/caches
+            key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            restore-keys: |
+              ${{ runner.os }}-gradle-caches-
+      - name: Make Gradlew Executable
+        run: cd android && chmod +x ./gradlew
+        
