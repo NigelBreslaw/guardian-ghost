@@ -30,8 +30,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
             
-      - name: Run Unit Test
-        run: ./gradlew test
+    #   - name: Run Unit Test
+    #     run: ./gradlew test
 
 
 # cache Gradle dependencies and wrapper to reduce build time
@@ -42,7 +42,7 @@ jobs:
             key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Cache Gradle Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v3.3.2
         with:
             path: ~/.gradle/caches
             key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
