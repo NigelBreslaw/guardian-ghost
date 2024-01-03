@@ -28,7 +28,7 @@ jobs:
             versionCode: ${{github.run_number}}
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
             
       - name: Run Unit Test
         run: ./gradlew test
@@ -50,4 +50,3 @@ jobs:
               ${{ runner.os }}-gradle-caches-
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
-        
