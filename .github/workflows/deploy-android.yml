@@ -10,7 +10,7 @@ jobs:
     defaults:
       run:
         working-directory: native_gg
-    timeout-minutes: 1
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: pnpm/action-setup@v2.4.0
