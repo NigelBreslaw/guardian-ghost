@@ -9,6 +9,7 @@ updates:
     directory: "/gg-mono" # Location of package manifests
     schedule:
       interval: "daily"
+      time: "07:00"
     groups:
       production-dependencies:
         dependency-type: "production"
@@ -21,6 +22,7 @@ updates:
     directory: "/native_gg" # Location react native package.json
     schedule:
       interval: "daily"
+      time: "07:00"
     groups:
       production-dependencies:
         dependency-type: "production"
@@ -31,3 +33,10 @@ updates:
           - "vitest*"
           - "@react-native*"
           - "@babel*"
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Workflow files stored in the default location of `.github/workflows`. (You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.)
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "07:00"
