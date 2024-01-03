@@ -4,27 +4,6 @@ on:
     push:
 
 jobs:
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: gg-mono
-    timeout-minutes: 1
-    steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8.12.1
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: lint
-        run: pnpm lint
-      - name: format
-        run: pnpm format:check
-      - name: build
-        run: pnpm build
-  
   changes:
     runs-on: ubuntu-latest
     outputs:
@@ -114,3 +93,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_REACT_NATIVE }}
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gg-mono
+    timeout-minutes: 1
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8.12.1
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: lint
+        run: pnpm lint
+      - name: format
+        run: pnpm format:check
+      - name: build
+        run: pnpm build
