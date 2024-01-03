@@ -12,8 +12,8 @@ jobs:
       docs: ${{ steps.changes.outputs.docs }}
       react-native: ${{ steps.changes.outputs.react-native }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v2
+    - uses: actions/checkout@v4.1.1
+    - uses: dorny/paths-filter@v2.11.1
       id: changes
       with:
         filters: |
