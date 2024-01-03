@@ -102,7 +102,7 @@ jobs:
       - name: Publish to Play Store internal test track
         uses: r0adkll/upload-google-play@v1.1.2
         with:
-            serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+            serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
             packageName: com.guardianghost
             releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
             track: internal
