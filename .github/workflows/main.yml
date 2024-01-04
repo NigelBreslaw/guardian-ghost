@@ -25,11 +25,11 @@ jobs:
       - name: build
         run: cd gg-mono && pnpm build
       - name: install dependencies
-        run: cd navite_gg && pnpm install --frozen-lockfile
+        run: cd native_gg && pnpm install --frozen-lockfile
       - name: lint
-        run: cd navite_gg && pnpm lint
+        run: cd native_gg && pnpm lint
       - name: format
-        run: cd navite_gg && pnpm format:check
+        run: cd native_gg && pnpm format:check
      
 
   changes:
