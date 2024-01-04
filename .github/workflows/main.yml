@@ -7,9 +7,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: gg-mono
+    # defaults:
+    #   run:
+    #     working-directory: gg-mono
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
@@ -17,13 +17,20 @@ jobs:
         with:
           version: 8.12.1
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: cd gg-mono && pnpm install --frozen-lockfile
       - name: lint
-        run: pnpm lint
+        run: cd gg-mono && pnpm lint
       - name: format
         run: pnpm format:check
       - name: build
-        run: pnpm build
+        run: cd gg-mono && pnpm build
+      - name: install dependencies
+        run: cd navite_gg && pnpm install --frozen-lockfile
+      - name: lint
+        run: cd navite_gg && pnpm lint
+      - name: format
+        run: cd navite_gg && pnpm format:check
+     
 
   changes:
     runs-on: ubuntu-latest
