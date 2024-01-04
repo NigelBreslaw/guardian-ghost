@@ -10,7 +10,7 @@
     "test": "jest",
     "coverage": "vitest run --coverage",
     "dev": "astro dev",
-    "format:check": "biome format ./src",
+    "format:check": "biome format .",
     "format:write": "biome format --write .",
     "lint": "biome lint .",
     "lint:fix": "biome check --apply ."
