@@ -4,9 +4,10 @@
         "enabled": true
     },
     "formatter": {
-        "indentWidth": 4,
+        "indentWidth": 2,
         "indentStyle": "space",
-        "lineWidth": 120
+        "lineWidth": 120,
+        "ignore": ["ios/**"]
     },
     "linter": {
         "enabled": true,
