@@ -78,10 +78,10 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.15.2
-        version: 0.15.2(astro@4.0.9)
+        version: 0.15.2(astro@4.1.0)
       astro:
-        specifier: 4.0.9
-        version: 4.0.9(typescript@5.3.3)
+        specifier: 4.1.0
+        version: 4.1.0(typescript@5.3.3)
       sharp:
         specifier: 0.33.1
         version: 0.33.1
@@ -209,7 +209,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/mdx@2.0.2(astro@4.0.9):
+  /@astrojs/mdx@2.0.2(astro@4.1.0):
     resolution: {integrity: sha512-pTkUb0+aiVU8MZU6XQKA/FyXdNOKxHwq+3uCIuzWyqjZyRB9hN3G3iokmkXFJhwgxl6gilkYeAKmmciVwnpq6w==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -218,7 +218,7 @@ packages:
       '@astrojs/markdown-remark': 4.0.1
       '@mdx-js/mdx': 3.0.0
       acorn: 8.11.2
-      astro: 4.0.9(typescript@5.3.3)
+      astro: 4.1.0(typescript@5.3.3)
       es-module-lexer: 1.4.1
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -249,18 +249,18 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.15.2(astro@4.0.9):
+  /@astrojs/starlight@0.15.2(astro@4.1.0):
     resolution: {integrity: sha512-HGs8IWAVsJI2wc8eIotXNavM3LDi6RVeGHI0PqsP4jdK0qB3mXC8VIBMaeSYP9ySUbX2JwNTdJgp3jDfrXtopA==}
     peerDependencies:
       astro: ^4.0.0
     dependencies:
-      '@astrojs/mdx': 2.0.2(astro@4.0.9)
+      '@astrojs/mdx': 2.0.2(astro@4.1.0)
       '@astrojs/sitemap': 3.0.3
       '@pagefind/default-ui': 1.0.4
       '@types/hast': 3.0.3
       '@types/mdast': 4.0.3
-      astro: 4.0.9(typescript@5.3.3)
-      astro-expressive-code: 0.30.1(astro@4.0.9)
+      astro: 4.1.0(typescript@5.3.3)
+      astro-expressive-code: 0.30.1(astro@4.1.0)
       bcp-47: 2.1.0
       execa: 8.0.1
       hast-util-select: 6.0.2
@@ -1920,6 +1920,12 @@ packages:
   /argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+  /aria-query@5.3.0:
+    resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
+    dependencies:
+      dequal: 2.0.3
+    dev: false
+
   /array-iterate@2.0.1:
     resolution: {integrity: sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==}
     dev: false
@@ -1938,17 +1944,17 @@ packages:
     hasBin: true
     dev: false
 
-  /astro-expressive-code@0.30.1(astro@4.0.9):
+  /astro-expressive-code@0.30.1(astro@4.1.0):
     resolution: {integrity: sha512-Dr3VbK4HvIXTT8rsvd8PuRW4uZOpfRz9J8noVSSxmx7/M7o73SBtqauBYvxXpGHnagTJPGzYOa9BQS7jDHNUVw==}
     peerDependencies:
       astro: ^3.3.0 || ^4.0.0-beta
     dependencies:
-      astro: 4.0.9(typescript@5.3.3)
+      astro: 4.1.0(typescript@5.3.3)
       remark-expressive-code: 0.30.1
     dev: false
 
-  /astro@4.0.9(typescript@5.3.3):
-    resolution: {integrity: sha512-xQHapUGqdHQuaBDCYZxyVh5rvpgIUuulsEITl7bOQ6rRXwbQtoGc5gQ95dGV830PEpvyAGVhQ9pA8PIwfCMpeg==}
+  /astro@4.1.0(typescript@5.3.3):
+    resolution: {integrity: sha512-xbLWqvMn2JFyv7FpzHiXFn17bRS0P/b4cdEPXMMZOpBI9V8ZC33o6Xs+c59/pYSZpYiNd1HTg778XT5MhcpyKw==}
     engines: {node: '>=18.14.1', npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -1964,6 +1970,8 @@ packages:
       '@babel/types': 7.23.6
       '@types/babel__core': 7.20.5
       acorn: 8.11.2
+      aria-query: 5.3.0
+      axobject-query: 4.0.0
       boxen: 7.1.1
       chokidar: 3.5.3
       ci-info: 4.0.0
@@ -2044,6 +2052,12 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
+
+  /axobject-query@4.0.0:
+    resolution: {integrity: sha512-+60uv1hiVFhHZeO+Lz0RYzsVHy5Wr1ayX0mwda9KPDVLNJgZ1T9Ny7VmFbLDzxsH0D87I86vgj3gFrjTJUYznw==}
+    dependencies:
+      dequal: 2.0.3
+    dev: false
 
   /babel-plugin-jsx-dom-expressions@0.37.9(@babel/core@7.23.6):
     resolution: {integrity: sha512-6w+zs2i14fVanj4e1hXCU5cp+x0U0LJ5jScknpMZZUteHhwFRGJflHMVJ+xAcW7ku41FYjr7DgtK9mnc2SXlJg==}
