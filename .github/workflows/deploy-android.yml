@@ -76,27 +76,7 @@ jobs:
             path: ${{steps.sign_app.outputs.signedReleaseFile}}
             retention-days: 4
 
-    #   - name: Create Release
-    #     id: create_release
-    #     uses: actions/create-release@v1.1.4
-    #     env:
-    #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-    #     with:
-    #         tag_name: ${{ github.run_number }}
-    #         release_name: Release V${{ github.run_number }}
-    #         draft: false
-    #         prerelease: false
-
-    #   - name: Upload Release AAB
-    #     id: upload-release-asset 
-    #     uses: actions/upload-release-asset@v1
-    #     env:
-    #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     with:
-    #         upload_url: ${{ steps.create_release.outputs.upload_url }}
-    #         asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
-    #         asset_name: app-release-v${{ github.run_number }}.zip
-    #         asset_content_type: application/zip
+    
 
     # Distribute  App to google play
       - name: Publish to Play Store internal test track
@@ -107,5 +87,3 @@ jobs:
             releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
             track: internal
             inAppUpdatePriority: 3
-
-
