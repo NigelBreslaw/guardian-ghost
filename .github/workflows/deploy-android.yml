@@ -1,29 +1,16 @@
 
 name: Android Build CI/CD 
 
-# Only code merged to main can be released as a build.
+# Only code merged to main with new release notes can be released as a build.
 on:
     push:
         # branches: [ main ]
+        paths: 
+          - 'native_gg/android/WhatsNew/**'
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      android-build: ${{ steps.changes.outputs.android-build }}
-    steps:
-    - uses: actions/checkout@v4.1.1
-    - uses: dorny/paths-filter@v2.11.1
-      id: changes
-      with:
-        filters: |
-          android-build:
-            - 'native_gg/android/WhatsNew/**'
-
   android-build:
     runs-on: ubuntu-latest
-    needs: changes
-    if: ${{ needs.changes.outputs.android-build == 'true' }}
     defaults:
       run:
         working-directory: native_gg
@@ -46,6 +33,7 @@ jobs:
         with:
             gradlePath: native_gg/android/app/build.gradle 
             versionCode: ${{github.run_number}}
+            versionName: '1.0.0'
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -102,5 +90,5 @@ jobs:
             releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
             whatsNewDirectory: native_gg/android/WhatsNew
             track: internal
-            status: draft
+            status: completed
             inAppUpdatePriority: 3
