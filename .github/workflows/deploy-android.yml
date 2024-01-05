@@ -86,4 +86,5 @@ jobs:
             packageName: com.guardianghost
             releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
             track: internal
+            status: draft
             inAppUpdatePriority: 3
