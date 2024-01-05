@@ -4,7 +4,7 @@ name: Android Build CI/CD
 # Only code merged to main with new release notes can be released as a build.
 on:
     push:
-        # branches: [ main ]
+        branches: [ main ]
         paths: 
           - 'native_gg/android/WhatsNew/**'
 
