@@ -5,12 +5,12 @@ on:
       branches: [ main ]
 
 jobs:
+
   build:
-    name: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: gg-mono
+    # defaults:
+    #   run:
+    #     working-directory: gg-mono
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
@@ -18,14 +18,21 @@ jobs:
         with:
           version: 8.12.1
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: cd gg-mono && pnpm install --frozen-lockfile
       - name: lint
-        run: pnpm lint
+        run: cd gg-mono && pnpm lint
       - name: format
-        run: pnpm format:check
+        run: cd gg-mono && pnpm format:check
       - name: build
-        run: pnpm build
-  
+        run: cd gg-mono && pnpm build
+      - name: install dependencies
+        run: cd native_gg && pnpm install --frozen-lockfile
+      - name: lint
+        run: cd native_gg && pnpm lint
+      - name: format
+        run: cd native_gg && pnpm format:check
+     
+
   changes:
     runs-on: ubuntu-latest
     outputs:
@@ -34,8 +41,8 @@ jobs:
       docs: ${{ steps.changes.outputs.docs }}
       react-native: ${{ steps.changes.outputs.react-native }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v2
+    - uses: actions/checkout@v4.1.1
+    - uses: dorny/paths-filter@v2.11.1
       id: changes
       with:
         filters: |

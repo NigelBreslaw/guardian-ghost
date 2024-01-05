@@ -26,6 +26,13 @@ export default defineConfig({
 					]
 				},
 				{
+					label: 'Setup',
+					items: [
+						{ label: 'CI', link: '/setup/ci/' },
+						{ label: 'Dependabot', link: '/setup/dependabot/' },
+					]
+				},
+				{
 					label: 'Reference',
 					items: [
 						{ label: 'React Native', link: '/reference/react-native/' },
