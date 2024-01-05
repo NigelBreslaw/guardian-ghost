@@ -90,5 +90,6 @@ jobs:
             releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
             whatsNewDirectory: native_gg/android/WhatsNew
             track: internal
-            status: completed
+            # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
+            status: draft
             inAppUpdatePriority: 3
