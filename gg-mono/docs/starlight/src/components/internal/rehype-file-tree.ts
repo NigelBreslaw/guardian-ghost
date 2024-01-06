@@ -1,5 +1,5 @@
 import { fromHtml } from 'hast-util-from-html';
-import { toString } from 'hast-util-to-string';
+import { toString as toStr } from 'hast-util-to-string';
 import { h, type Child } from 'hastscript';
 import type { Element } from 'hast';
 import { rehype } from 'rehype';
@@ -65,7 +65,7 @@ export const fileTreeProcessor = rehype().use(() => (tree: Element, file) => {
 		otherChildren.splice(0, subTreeIndex > -1 ? subTreeIndex : otherChildren.length);
 		comment.push(...commentNodes);
 
-		const firstChildTextContent = firstChild ? toString(firstChild) : '';
+		const firstChildTextContent = firstChild ? toStr(firstChild) : '';
 
 		// Decide a node is a directory if it ends in a `/` or contains another list.
 		const isDirectory =
