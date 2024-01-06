@@ -33,7 +33,7 @@ const rawDefinitions = {
     "README.md": ["info", "blue"],
     "README.txt": ["info", "blue"],
     README: ["info", "blue"],
-    "CHANGELOG.md": ["clock", 'blue'],
+    "CHANGELOG.md": ["clock", "blue"],
     "CHANGELOG.txt": ["clock", "blue"],
     CHANGELOG: ["clock", "blue"],
     "CHANGES.md": ["clock", "blue"],
