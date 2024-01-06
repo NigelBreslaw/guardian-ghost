@@ -3,9 +3,32 @@ title: Getting Started
 description: Details about the project Monorepo
 ---
 
+import FileTree from '../../../components/file-tree.astro';
+
 Guardian Ghost is setup as a monorepo.
 
+<FileTree>
 
+  - .github/
+    {/* - workflows/
+    - dependabot.yml */}
+  - .vscode/
+  - gg-mono/
+    - apps/
+      - dashboard/
+      - react-frontend/
+    - docs/
+      - starlight/
+        {/* - src
+          - components/
+          - content/
+            - docs/
+              - guides/ */}
+    - examples/
+      - default-project/
+  - native_gg/
+
+</FileTree>
 
 The following setup presumes you are using Git Worktree. If that is new to you check out this quick [video](https://www.youtube.com/watch?v=2uEqYw-N8uE).
 
