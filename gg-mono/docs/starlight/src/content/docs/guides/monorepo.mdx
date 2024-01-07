@@ -5,7 +5,7 @@ description: Details about the project Monorepo
 
 import FileTree from '../../../components/file-tree.astro';
 
-Guardian Ghost is setup as a monorepo.
+## Guardian Ghost is setup as a monorepo.
 
 <FileTree>
 
@@ -30,6 +30,34 @@ Guardian Ghost is setup as a monorepo.
 
 </FileTree>
 
+Guardian Ghost is going to target Web, iOS and Android. With MacOS and Windows being a possibility in the future. It also has
+statically generated documentation and systems to collect and display stats and analytics as a dashboard. To minimise
+developement effort this is all done inside a monorepo. Right now (Jan 2024) it isn't as integrated a monorepo as possible.
+This is due to React Native 0.73 not playing nicely with pnpm workspaces. However it looks like this will be fixed during
+2024 and allow the structure of the monorepo to be simplified.
+
+
+## Developer Environment
+
+Right now the project is only tested on MacOS, but should work as is on Linux and Windows. However the React Native project
+requries a Mac for iOS development. The Android side of the project should be fine on all platforms.
+
+### Prerequisites
+
+Brew - MacOS Package manager.\
+pnpm - Web Package manager.\
+nvm - Node Version Manager.\
+Visual Studio Code - IDE. Other IDEs are fine, but this is what the project is setup for and if you are a VIM nerd you can probably work
+out how to set everything up yourself.\
+Android Studio - Compiling Android project.\
+Xcode (plus command line tools) - Compiling iOS project.\
+React.\
+React Native (pure CLI, not Expo).\
+Solid.JS.\
+Astro.\
+Typescript.
+
+
 The following setup presumes you are using Git Worktree. If that is new to you check out this quick [video](https://www.youtube.com/watch?v=2uEqYw-N8uE).
 
 First bare clone the repo `git clone --bare git@github.com:NigelBreslaw/guardian-ghost.git`.
@@ -40,6 +68,4 @@ When pushing a new branch you will see 'current branch has no upstream branch, b
 
 
 
-## TODO
 
-Create a bash script that checks you have the right version of various tools such as git, xcode, etc and clones and sets everything up for you.

@@ -1,5 +1,5 @@
 ---
-title: CI
+title: Continuous Integration
 description: Details on continuous integration
 ---
 
