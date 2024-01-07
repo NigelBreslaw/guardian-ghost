@@ -17,6 +17,7 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Monorepo', link: '/guides/monorepo/' },
+						{ label: 'Coding Guidelines', link: '/guides/coding-guidelines/' },
 						{ label: 'Infrastructure', link: '/guides/infrastructure/' },
 						{ label: 'Continuous Integration', link: '/guides/ci/' },
 						{ label: 'Automated Deployment', link: '/guides/automated-deployment/' },
