@@ -1,0 +1,35 @@
+---
+title: CI info
+description: Details on how the CI was setup
+---
+
+
+### .github/workflows/main.yml
+
+import FileTree from '../../../components/file-tree.astro';
+
+<FileTree>
+ - .github/
+    - workflows/
+      - **main.yml**
+    - dependabot.yml
+
+</FileTree>
+
+The 'main.yml' github action is triggered on every push to the repo. It builds the project and conditionally
+runs the related Sonarqube scans depending on if any files have changed. See more here for how that works [Source helper](https://how.wtf/run-workflow-step-or-job-based-on-file-changes-github-actions.html).
+
+
+### CI secrets
+
+Dependabot doesn't get access to repo secrets to be able to deploy the various web projects after a dependency changes. These secrets are duplicated [here](https://github.com/NigelBreslaw/guardian-ghost/settings/secrets/dependabot).
+
+### Syncpack
+
+[Syncpack](https://jamiemason.github.io/syncpack/) is an NPM tool to help keep a monorepo consistent. It is able to scan all the package.json files, make them consistent, sort items alphabetically and spot dependencies where one project is using a different version to another. 
+
+Occasionally run the 'syncpack' script in the root package.json to keep things consistent. However dependency consistency is enforced via dependabot. 
+
+### Tokens and Certificates
+
+Most project certificates automatically renew themselves. However the cloudflare tokens to deploy need updating every 90 days. On a solo project like this it isn't really necessary, but just a good habit to keep.
