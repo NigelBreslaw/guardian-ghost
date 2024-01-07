@@ -29,3 +29,7 @@ Dependabot doesn't get access to repo secrets to be able to deploy the various w
 [Syncpack](https://jamiemason.github.io/syncpack/) is an NPM tool to help keep a monorepo consistent. It is able to scan all the package.json files, make them consistent, sort items alphabetically and spot dependencies where one project is using a different version to another. 
 
 Occasionally run the 'syncpack' script in the root package.json to keep things consistent. However dependency consistency is enforced via dependabot. 
+
+### Tokens and Certificates
+
+Most project certificates automatically renew themselves. However the cloudflare tokens to deploy need updating every 90 days. On a solo project like this it isn't really necessary, but just a good habit to keep.
