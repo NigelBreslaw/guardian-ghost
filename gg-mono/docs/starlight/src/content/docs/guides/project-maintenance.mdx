@@ -22,10 +22,10 @@ runs the related Sonarqube scans depending on if any files have changed. See mor
 
 ### CI secrets
 
-Dependabot doesn't get access to repo secrets to be able to deploy the various web projects after a dependancy changes. These secrets are duplicated [here](https://github.com/NigelBreslaw/guardian-ghost/settings/secrets/dependabot).
+Dependabot doesn't get access to repo secrets to be able to deploy the various web projects after a dependency changes. These secrets are duplicated [here](https://github.com/NigelBreslaw/guardian-ghost/settings/secrets/dependabot).
 
 ### Syncpack
 
 [Syncpack](https://jamiemason.github.io/syncpack/) is an NPM tool to help keep a monorepo consistent. It is able to scan all the package.json files, make them consistent, sort items alphabetically and spot dependencies where one project is using a different version to another. 
 
-Occasionally run the 'syncpack' script in the root package.json to keep things consistent. However depenceny consistency is enforced via dependabot. 
+Occasionally run the 'syncpack' script in the root package.json to keep things consistent. However dependency consistency is enforced via dependabot. 

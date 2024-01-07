@@ -8,7 +8,7 @@ description: Details about the project setup
 
 Prettier, eslint and jest have been removed from the package.json. This roughly halves the number of dependencies that were being installed. There were only a handful of React Native specific eslint rules so the loss might not be a big deal? Also need to see if vitest can be used to replace what jest was doing.
 
-Running `npx react-native doctor` can find issue in the dev environmemt.
+Running `npx react-native doctor` can find issue in the dev environment.
 
 ## iOS
 
