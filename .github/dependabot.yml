@@ -24,14 +24,14 @@ updates:
       interval: "daily"
       time: "07:00"
     groups:
-      production-dependencies:
-        dependency-type: "production"
-      development-dependencies:
-        dependency-type: "development"
       vitest:
         patterns:
           - "vitest*"
+      react-native:
+        patterns:
           - "@react-native*"
+      babel:
+        patterns:
           - "@babel*"
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
