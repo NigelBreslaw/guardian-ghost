@@ -11,10 +11,6 @@ updates:
       interval: "daily"
       time: "07:00"
     groups:
-      production-dependencies:
-        dependency-type: "production"
-      development-dependencies:
-        dependency-type: "development"
       vitest:
         patterns:
           - "vitest*"
