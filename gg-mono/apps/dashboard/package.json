@@ -37,8 +37,8 @@
     "coverage": "vitest run --coverage",
     "format:check": "biome format ./src",
     "format:write": "biome format --write ./src",
-    "lint": "biome lint ./src",
-    "lint:fix": "biome check --apply ./src"
+    "lint": "biome lint ./src --max-diagnostics=500",
+    "lint:fix": "biome check --apply ./src --max-diagnostics=500"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.0.4",
