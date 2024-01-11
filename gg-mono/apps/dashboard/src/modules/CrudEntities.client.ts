@@ -35,14 +35,17 @@ export class CrudEntities extends HTMLElement {
     console.log("UP");
 
     this.#rows.forEach((row, index) =>
-      row.querySelectorAll("data").forEach((binding) => {
-        const valKey = binding.value;
-        const rowData = newData[index];
-        if (!rowData) return;
-        if (!(valKey in rowData)) return;
+      // biome-ignore lint/complexity/noForEach: <explanation>
+      row
+        .querySelectorAll("data")
+        .forEach((binding) => {
+          const valKey = binding.value;
+          const rowData = newData[index];
+          if (!rowData) return;
+          if (!(valKey in rowData)) return;
 
-        binding.innerText = rowData[valKey as keyof typeof rowData].toString();
-      }),
+          binding.innerText = rowData[valKey as keyof typeof rowData].toString();
+        }),
     );
 
     console.log("New data received!", newData);
