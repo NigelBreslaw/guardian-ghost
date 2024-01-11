@@ -31,7 +31,7 @@ echo "============> Installing cocoapods <============"
 brew install cocoapods
 
 echo "=======> Installing PNPM"
-npm install -g pnpm@8.14.0
+npm install -g pnpm@8.14.1
 
 
 echo "=====> Moving to build directory"
