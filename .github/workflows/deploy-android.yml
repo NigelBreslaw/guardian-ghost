@@ -44,13 +44,13 @@ jobs:
 
 # cache Gradle dependencies and wrapper to reduce build time
       - name: Cache Gradle Wrapper
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@v3.3.3
         with:
             path: ~/.gradle/wrapper
             key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Cache Gradle Dependencies
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@v3.3.3
         with:
             path: ~/.gradle/caches
             key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
