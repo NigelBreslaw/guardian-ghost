@@ -26,8 +26,8 @@ devDependencies:
     specifier: 1.5.1
     version: 1.5.1
   '@react-native-community/cli-platform-android':
-    specifier: 13.2.0
-    version: 13.2.0
+    specifier: 13.4.0
+    version: 13.4.0
   '@react-native/babel-preset':
     specifier: 0.73.19
     version: 0.73.19(@babel/core@7.23.7)(@babel/preset-env@7.23.8)
@@ -1662,20 +1662,20 @@ packages:
       '@react-native-community/cli-tools': 12.3.0
       chalk: 4.1.2
       execa: 5.1.1
-      fast-xml-parser: 4.3.2
+      fast-xml-parser: 4.3.3
       glob: 7.2.3
       logkitty: 0.7.1
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@react-native-community/cli-platform-android@13.2.0:
-    resolution: {integrity: sha512-+sbtMwc1yeR/mO3nrqJJh6iWVR17zXXNXb6gH5Sy0/YIQP3EhVgAHuTy8G0Vx1e2e9dTD67ChRhwd4il+jm6gQ==}
+  /@react-native-community/cli-platform-android@13.4.0:
+    resolution: {integrity: sha512-UKu8Cq1vAnMkEEfTsJ7CYzvnDTcDo3/a3RehEaJKS2LC8USKnTlDtgMrLFrEM7GyBIIBDhS/3R3d4rU1KWOSFg==}
     dependencies:
-      '@react-native-community/cli-tools': 13.2.0
+      '@react-native-community/cli-tools': 13.4.0
       chalk: 4.1.2
       execa: 5.1.1
-      fast-xml-parser: 4.3.2
+      fast-xml-parser: 4.3.3
       glob: 7.2.3
       logkitty: 0.7.1
     transitivePeerDependencies:
@@ -1688,7 +1688,7 @@ packages:
       '@react-native-community/cli-tools': 12.3.0
       chalk: 4.1.2
       execa: 5.1.1
-      fast-xml-parser: 4.3.2
+      fast-xml-parser: 4.3.3
       glob: 7.2.3
       ora: 5.4.1
     transitivePeerDependencies:
@@ -1735,8 +1735,8 @@ packages:
       - encoding
     dev: false
 
-  /@react-native-community/cli-tools@13.2.0:
-    resolution: {integrity: sha512-/w3L/iIoIxd4UKk0W2ZGWtuQ1OLkTXtVDxduiuriszv4cB+QUxFgNXEqNLKV1TA5POlG3prSVlXuDDVt9Nq5iw==}
+  /@react-native-community/cli-tools@13.4.0:
+    resolution: {integrity: sha512-0r/yauxOO3W1DmnCCzkVYvem/fK9FVKUDcMq2adcLdDpOLCQGWLC/LN+hNwQAT5s2Ki+oM5WWwyoS2+iQoKCxg==}
     dependencies:
       appdirsjs: 1.2.7
       chalk: 4.1.2
@@ -2618,8 +2618,8 @@ packages:
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
 
-  /fast-xml-parser@4.3.2:
-    resolution: {integrity: sha512-rmrXUXwbJedoXkStenj1kkljNF7ugn5ZjR9FJcwmCfcCbtOMDghPajbc+Tck6vE6F5XsDmx+Pr2le9fw8+pXBg==}
+  /fast-xml-parser@4.3.3:
+    resolution: {integrity: sha512-coV/D1MhrShMvU6D0I+VAK3umz6hUaxxhL0yp/9RjfiYUfAv14rDhGQL+PLForhMdr0wq3PiV07WtkkNjJjNHg==}
     hasBin: true
     dependencies:
       strnum: 1.0.5
