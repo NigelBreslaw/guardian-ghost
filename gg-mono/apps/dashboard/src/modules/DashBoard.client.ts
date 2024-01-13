@@ -78,7 +78,7 @@ const getMainChartOptions = () => {
       },
     },
     xaxis: {
-      categories: ["01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb"],
+      categories: ["01 Jan", "02 Jan", "03 Jan", "04 Jan", "05 Jan", "06 Jan", "07 Jan"],
       labels: {
         style: {
           colors: [mainChartColors.labelColor],
