@@ -20,10 +20,11 @@ jobs:
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8.14.1
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4.0.0
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
             java-version: '21'
+
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -34,35 +35,13 @@ jobs:
             gradlePath: native_gg/android/app/build.gradle 
             versionCode: ${{github.run_number}}
             versionName: '1.0.0'
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
             
-    #   - name: Run Unit Test
-    #     run: ./gradlew test
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.11.1
 
-
-# cache Gradle dependencies and wrapper to reduce build time
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v3.3.3
-        with:
-            path: ~/.gradle/wrapper
-            key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v3.3.3
-        with:
-            path: ~/.gradle/caches
-            key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-            restore-keys: |
-              ${{ runner.os }}-gradle-caches-
-      - name: Make Gradlew Executable
-        run: cd android && chmod +x ./gradlew
-
-      # Building and signing App
-      - name: Build Android App Bundle
-        run: cd android && ./gradlew bundleRelease 
-
+      - name: Execute Gradle build
+        run: cd android && ./gradlew bundleRelease
+        
       - name: Sign ABB
         uses: r0adkll/sign-android-release@v1
         # ID used to access action output
@@ -75,7 +54,7 @@ jobs:
             keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.1.0
         with:
             name: Signed app bundle
             path: ${{steps.sign_app.outputs.signedReleaseFile}}
