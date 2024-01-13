@@ -4,9 +4,9 @@ name: Android Build CI/CD
 # Only code merged to main with new release notes can be released as a build.
 on:
     push:
-        # branches: [ main ]
-        # paths: 
-        #   - 'native_gg/android/WhatsNew/**'
+        branches: [ main ]
+        paths: 
+          - 'native_gg/android/WhatsNew/**'
 
 jobs:
   android-build:
@@ -24,6 +24,7 @@ jobs:
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
             java-version: '21'
+
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -37,8 +38,6 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.11.1
-        with:
-            cache-read-only: false
 
       - name: Execute Gradle build
         run: cd android && ./gradlew bundleRelease
@@ -62,14 +61,14 @@ jobs:
             retention-days: 4
 
       # Distribute  App to google play
-      # - name: Publish to Play Store internal test track
-      #   uses: r0adkll/upload-google-play@v1.1.2
-      #   with:
-      #       serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      #       packageName: com.guardianghost
-      #       releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
-      #       whatsNewDirectory: native_gg/android/WhatsNew
-      #       track: internal
-      #       # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
-      #       status: draft
-      #       inAppUpdatePriority: 3
+      - name: Publish to Play Store internal test track
+        uses: r0adkll/upload-google-play@v1.1.2
+        with:
+            serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+            packageName: com.guardianghost
+            releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
+            whatsNewDirectory: native_gg/android/WhatsNew
+            track: internal
+            # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
+            status: draft
+            inAppUpdatePriority: 3
