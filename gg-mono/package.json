@@ -14,11 +14,9 @@
     "format:write": "pnpm -r format:write",
     "lint": "pnpm --stream -r lint",
     "lint:fix": "pnpm -r lint:fix",
-    "syncpack": "syncpack format && syncpack set-semver-ranges && syncpack list-mismatches"
+    "syncpack": "syncpack format && syncpack set-semver-ranges && syncpack list-mismatches",
+    "type-check": "pnpm --stream -r type-check"
   },
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "docs/*"
-  ]
+  "workspaces": ["apps/*", "docs/*"]
 }

@@ -27,7 +27,7 @@
     "lint": "biome lint ./src",
     "lint:fix": "biome check --apply ./src",
     "preview": "vite preview",
-    "typecheck": "tsc"
+    "type-check": "tsc"
   },
   "type": "module"
 }

@@ -20,7 +20,7 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "coverage": "vitest run --coverage",
     "dev": "astro dev",
     "format:check": "biome format ./src",
@@ -28,7 +28,8 @@
     "lint": "biome lint ./src",
     "lint:fix": "biome check --apply ./src",
     "preview": "astro preview",
-    "start": "astro dev"
+    "start": "astro dev",
+    "type-check": "astro check"
   },
   "type": "module"
 }

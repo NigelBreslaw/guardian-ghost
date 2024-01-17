@@ -38,7 +38,8 @@
     "format:check": "biome format ./src --max-diagnostics=500",
     "format:write": "biome format --write ./src --max-diagnostics=500",
     "lint": "biome lint ./src --max-diagnostics=500",
-    "lint:fix": "biome check --apply ./src --max-diagnostics=500"
+    "lint:fix": "biome check --apply ./src --max-diagnostics=500",
+    "type-check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.0.4",
