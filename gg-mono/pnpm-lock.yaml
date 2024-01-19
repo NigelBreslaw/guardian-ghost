@@ -79,8 +79,8 @@ importers:
         specifier: 5.0.11
         version: 5.0.11
       vite-plugin-mkcert:
-        specifier: 1.17.2
-        version: 1.17.2(vite@5.0.11)
+        specifier: 1.17.3
+        version: 1.17.3(vite@5.0.11)
       vitest:
         specifier: 1.2.1
         version: 1.2.1
@@ -6363,9 +6363,9 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-mkcert@1.17.2(vite@5.0.11):
-    resolution: {integrity: sha512-2lc+zKwPgnkx0xDPMgoeNPtXmjGrWqg/V99D9Ybib7Mrg0pHI0VaAwAw95xa0x4Tlg33/FNzqm0RnCTr4QCIgw==}
-    engines: {node: '>=20.0.0'}
+  /vite-plugin-mkcert@1.17.3(vite@5.0.11):
+    resolution: {integrity: sha512-C8iLz4Su4kEyJb1GdlGIMfKkYMqfH5qvhqVP1x/hrc+1mo9GOzqU88mevvP5epgoqawkhVpcQVQ+HTFXsRuC0g==}
+    engines: {node: '>=v16.7.0'}
     peerDependencies:
       vite: '>=3'
     dependencies:
