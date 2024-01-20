@@ -25,10 +25,11 @@ Dependabot runs every workday in the morning. It checks for any dependency updat
 
 Updates are then manually reviewed and merged in the following order:
 
-1. Security updates.
+1. Security updates (Any change to Dependabot or CodeQL github-actions counts as a security update).
 2. Breaking updates.
-3. Non-breaking 'dependency' updates.
-4. Non-breaking 'devDependency' updates.
+3. Non-breaking 'github-actions' updates.
+4. Non-breaking 'dependency' updates.
+5. Non-breaking 'devDependency' updates.
 
 If after merging a PR a Dependabot PR has a conflict, Dependabot will automatically update the PR with the latest changes and rebase it. This can take a few minutes.
 To see the progress of these updates they can be found [here](https://github.com/NigelBreslaw/guardian-ghost/network/updates).
