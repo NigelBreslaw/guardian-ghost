@@ -27,8 +27,8 @@ importers:
         specifier: 8.3.1
         version: 8.3.1
       apexcharts:
-        specifier: 3.45.1
-        version: 3.45.1
+        specifier: 3.45.2
+        version: 3.45.2
       astro:
         specifier: 4.2.1
         version: 4.2.1(typescript@5.3.3)
@@ -2034,8 +2034,8 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  /apexcharts@3.45.1:
-    resolution: {integrity: sha512-pPjj/SA6dfPvR/IKRZF0STdfBGpBh3WRt7K0DFuW9P8erypYkX17EHu3/molPRfo2zSiQwTVpshHC5ncysqfkA==}
+  /apexcharts@3.45.2:
+    resolution: {integrity: sha512-PpuM4sJWy70sUh5U1IFn1m1p45MdHSChLUNnqEoUUUHSU2IHZugFrsVNhov1S8Q0cvfdrCRCvdBtHGSs6PSAWQ==}
     dependencies:
       '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
