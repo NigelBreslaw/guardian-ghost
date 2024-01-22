@@ -7,9 +7,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: gg-mono
+    env:
+      TURBO_URL: ${{ secrets.TURBO_URL }}
+      TURBO_CODE: ${{ secrets.TURBO_CODE }}
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
