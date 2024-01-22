@@ -23,7 +23,7 @@ jobs:
       - name: format
         run: cd gg-mono && pnpm format:check
       - name: build
-        run: cd gg-mono && pnpm build:turbo
+        run: cd gg-mono && pnpm build:ci
       - name: install dependencies
         run: cd native_gg && pnpm install --frozen-lockfile
       - name: lint

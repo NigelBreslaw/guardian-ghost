@@ -21,6 +21,7 @@
   "scripts": {
     "astro": "astro",
     "build": "astro build",
+    "build:ci": "turbo build --remote-only --api=$TURBO_URL --token=$TURBO_CODE --team=CI",
     "coverage": "vitest run --coverage",
     "dev": "astro dev",
     "format:check": "biome format ./src",

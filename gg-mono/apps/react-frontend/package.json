@@ -20,6 +20,7 @@
   "scripts": {
     "analyze": "source-map-explorer dist/**/*.js",
     "build": "vite build",
+    "build:ci": "turbo build --remote-only --api=$TURBO_URL --token=$TURBO_CODE --team=CI",
     "coverage": "vitest run --coverage",
     "dev": "vite",
     "format:check": "biome format ./src",

@@ -20,7 +20,7 @@ jobs:
         - name: install dependencies
           run: pnpm install --frozen-lockfile
         - name: build
-          run: cd apps/dashboard && pnpm build
+          run: cd apps/dashboard && pnpm build:ci
         - name: deploy dashboard
           uses: cloudflare/pages-action@v1.5.0
           with:

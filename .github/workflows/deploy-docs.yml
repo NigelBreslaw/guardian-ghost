@@ -20,7 +20,7 @@ jobs:
         - name: install dependencies
           run: pnpm install --frozen-lockfile
         - name: build
-          run: pnpm build
+          run: cd docs/starlight && pnpm build:ci
         - name: publish docs
           uses: cloudflare/pages-action@v1.5.0
           with:
