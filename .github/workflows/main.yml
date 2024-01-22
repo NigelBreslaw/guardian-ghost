@@ -7,9 +7,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: gg-mono
+    env:
+      TURBO_URL: ${{ secrets.TURBO_URL }}
+      TURBO_CODE: ${{ secrets.TURBO_CODE }}
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
@@ -23,7 +23,7 @@ jobs:
       - name: format
         run: cd gg-mono && pnpm format:check
       - name: build
-        run: cd gg-mono && pnpm build
+        run: cd gg-mono && pnpm build:ci
       - name: install dependencies
         run: cd native_gg && pnpm install --frozen-lockfile
       - name: lint

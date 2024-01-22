@@ -5,6 +5,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      TURBO_URL: ${{ secrets.TURBO_URL }}
+      TURBO_CODE: ${{ secrets.TURBO_CODE }}
     defaults:
       run:
         working-directory: gg-mono
@@ -20,7 +23,7 @@ jobs:
         - name: install dependencies
           run: pnpm install --frozen-lockfile
         - name: build
-          run: cd apps/dashboard && pnpm build
+          run: cd apps/dashboard && pnpm build:ci
         - name: deploy dashboard
           uses: cloudflare/pages-action@v1.5.0
           with:
