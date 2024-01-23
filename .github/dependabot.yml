@@ -19,6 +19,10 @@ updates:
         patterns:
           - "astro*"
           - "@astro*"
+      solidjs:
+        patterns:
+          - "solid-js*"
+          - "vite-plugin-solid"
   - package-ecosystem: "npm"
     directory: "/native_gg" # Location react native package.json
     schedule:
