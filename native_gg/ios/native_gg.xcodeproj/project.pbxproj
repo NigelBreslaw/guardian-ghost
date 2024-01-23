@@ -41,6 +41,7 @@
 		75B8ED6E518FCAD041C2E98A /* Pods-native_gg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_gg.debug.xcconfig"; path = "Target Support Files/Pods-native_gg/Pods-native_gg.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = native_gg/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A2969F2EE7549F936C291D5 /* libPods-native_gg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_gg.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A48AE95A2B5FC914003FD499 /* native_gg.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = native_gg.entitlements; path = native_gg/native_gg.entitlements; sourceTree = "<group>"; };
 		A4D1E5922B448875007E9E84 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		A4EC1DFF2B405F7A00AF2253 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F7151F1CAA104E251EE548 /* Pods-native_gg-native_ggTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_gg-native_ggTests.debug.xcconfig"; path = "Target Support Files/Pods-native_gg-native_ggTests/Pods-native_gg-native_ggTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +91,7 @@
 		13B07FAE1A68108700A75B9A /* native_gg */ = {
 			isa = PBXGroup;
 			children = (
+				A48AE95A2B5FC914003FD499 /* native_gg.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -481,6 +483,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = native_gg/native_gg.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X2Z8M625Y9;
 				ENABLE_BITCODE = NO;
@@ -511,6 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = native_gg/native_gg.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X2Z8M625Y9;
 				INFOPLIST_FILE = native_gg/Info.plist;
