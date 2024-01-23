@@ -91,7 +91,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <h1>Ishtar For Web</h1>
+      <h1>Guardian Ghost for web</h1>
       <h2>Auth State: {authState}</h2>
 
       <div>
