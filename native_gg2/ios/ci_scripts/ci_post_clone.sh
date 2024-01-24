@@ -41,4 +41,4 @@ echo "=> Install npm dependencies"
 npm ci
 
 echo "=> Install pods"
-npm run ?
+cd ios && npx pod-install 
