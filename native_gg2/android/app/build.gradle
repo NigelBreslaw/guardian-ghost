@@ -85,7 +85,7 @@ android {
 
     namespace 'com.example.withnewarch'
     defaultConfig {
-        applicationId 'com.example.withnewarch'
+        applicationId 'com.guardianghost'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
