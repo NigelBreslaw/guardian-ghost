@@ -30,7 +30,7 @@ npm -v
 echo "============> Installing cocoapods <============"
 brew install cocoapods
 
-echo pwd
+pwd
 
 # echo "=====> Moving to build directory"
 # cd native_gg
