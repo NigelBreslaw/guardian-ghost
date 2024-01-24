@@ -44,34 +44,3 @@ jobs:
       uses: github/codeql-action/analyze@v3.23.1
       with:
         category: "/language:javascript-typescript"
-
-  analyze-ruby:
-    name: Analyze Ruby
-
-    runs-on: 'ubuntu-latest'
-    timeout-minutes: 5
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4.1.1
-
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3.23.1
-      with:
-        languages: 'ruby'
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3.23.1
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3.23.1
-      with:
-        category: "/language:ruby"
