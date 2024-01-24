@@ -8,7 +8,7 @@
 
 
 arch
-node_version=20.10.0
+node_version=20.11.0
 
 if [ "$ARCHITECTURE" == "arm64" ]; then
     # For arm64 architecture (Apple Silicon)
@@ -31,14 +31,14 @@ echo "============> Installing cocoapods <============"
 brew install cocoapods
 
 echo "=======> Installing PNPM"
-npm install -g pnpm@8.14.1
+npm install -g pnpm@8.14.3
 
 
 echo "=====> Moving to build directory"
 cd native_gg
 
 echo "=> Install npm dependencies"
-pnpm i --frozen-lockfile
+npm ci
 
 echo "=> Install pods"
-pnpm run pod-install
+cd ios && npx pod-install 
