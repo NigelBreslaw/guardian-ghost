@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.guardianghost'
+    namespace 'com.example.withnewarch'
     defaultConfig {
-        applicationId 'com.guardianghost'
+        applicationId 'com.example.withnewarch'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
