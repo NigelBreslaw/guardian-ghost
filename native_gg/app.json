@@ -1,4 +1,29 @@
 {
-  "name": "native_gg",
-  "displayName": "Guardian Ghost"
+  "expo": {
+    "name": "native_gg2",
+    "slug": "native_gg2",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.guardianghost.mobile"
+    },
+    "android": {
+      "package": "com.example.withnewarch"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "newArchEnabled": true
+          },
+          "android": {
+            "newArchEnabled": true
+          }
+        }
+      ]
+    ]
+  }
 }
