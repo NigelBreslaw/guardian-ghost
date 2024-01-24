@@ -26,8 +26,8 @@ devDependencies:
     specifier: 1.5.3
     version: 1.5.3
   '@react-native-community/cli-platform-android':
-    specifier: 13.5.0
-    version: 13.5.0
+    specifier: 13.5.1
+    version: 13.5.1
   '@react-native/babel-preset':
     specifier: 0.73.19
     version: 0.73.19(@babel/core@7.23.7)(@babel/preset-env@7.23.8)
@@ -1669,10 +1669,10 @@ packages:
       - encoding
     dev: false
 
-  /@react-native-community/cli-platform-android@13.5.0:
-    resolution: {integrity: sha512-pMcV9B5D2CH7kOeI2BCVL37MSnA1ZozZ6ZXgnkmuu0w3blTuN4QUp1fWxIhlfOSysuIB0Mribj7S34Dz0eg8Mw==}
+  /@react-native-community/cli-platform-android@13.5.1:
+    resolution: {integrity: sha512-U6TixH8X1LsheCr5Sd7/68OpH4DbLcNhbqROfnezIByimjNpLby2mQ85yPXTrV1MYck0Q78L99yvevqLZbJ53Q==}
     dependencies:
-      '@react-native-community/cli-tools': 13.5.0
+      '@react-native-community/cli-tools': 13.5.1
       chalk: 4.1.2
       execa: 5.1.1
       fast-xml-parser: 4.3.3
@@ -1735,8 +1735,8 @@ packages:
       - encoding
     dev: false
 
-  /@react-native-community/cli-tools@13.5.0:
-    resolution: {integrity: sha512-p47uy8Cqkhrso1Fog6zzdQ5edyg224uOdzfjsjl9bzSj2UqerAJafgQBFEdovP5teOdwxNyTrlzPCPTLLjKFvA==}
+  /@react-native-community/cli-tools@13.5.1:
+    resolution: {integrity: sha512-IIC/xGjSJCKFnhedgP8FAL85IBYsEf80FNrPxmIcaHVTHxE4eXs5/Cc/d2NgL8BZGBT8QK3TV4XQuWbgDGBCoQ==}
     dependencies:
       appdirsjs: 1.2.7
       chalk: 4.1.2
