@@ -23,12 +23,12 @@ jobs:
       - uses: actions/setup-java@v4.0.0
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
-            java-version: '21'
+            java-version: '17'
       - uses: actions/setup-node@v4
         with:
             node-version: 20.11.0
       - name: install dependencies
-        run: npm install -ci
+        run: npm ci
 
       # Automatically overrides the version code and version name through the github actions
       - name: Bump version
