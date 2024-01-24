@@ -30,11 +30,13 @@ npm -v
 echo "============> Installing cocoapods <============"
 brew install cocoapods
 
-echo "=====> Moving to build directory"
-cd native_gg
+echo pwd
 
-echo "=> Install npm dependencies"
-npm ci
+# echo "=====> Moving to build directory"
+# cd native_gg
 
-echo "=> Install pods"
-cd ios && npx pod-install 
+# echo "=> Install npm dependencies"
+# npm ci
+
+# echo "=> Install pods"
+# cd ios && npx pod-install 
