@@ -11,14 +11,6 @@ export default function App() {
         style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
       />
 
-      <View style={{ position: 'absolute', bottom: 50, left: 0, right: 0, alignItems: 'center' }}>
-        <Image
-          style={{ width: 100, height: 100 }}
-          contentFit="contain"
-          source="https://raw.githubusercontent.com/expo/styleguide/main/common/logos/word-mark-logo.svg"
-        />
-      </View>
-
       <Image
         style={{ width: 200, height: 200 }}
         contentFit="contain"
