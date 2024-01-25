@@ -33,6 +33,7 @@ cd ../..
 pwd
 
 echo "=> Install npm dependencies"
+npm cache clean --force
 npm ci
 
 echo "============> Installing cocoapods <============"
