@@ -21,7 +21,7 @@ echo $HOME
 echo "============> Installing Node <============"
 curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
 tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
+NODE_PATH="$HOME/node-v$node_version-darwin-$arch/bin"
 echo $NODE_PATH
 PATH+=":$NODE_PATH"
 export PATH
