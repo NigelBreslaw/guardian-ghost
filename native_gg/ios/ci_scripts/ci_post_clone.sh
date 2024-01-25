@@ -3,6 +3,7 @@
 # Ensure that the script fails if any error occurs. Otherwise Xcode Cloud will continue
 # any you might spend hours debugging the wrong part of the workflow.
 set -e
+set -x
 
 # Xcode cloud could x86 or arm64 architecture. So detect it and install node accordingly.
 arch
