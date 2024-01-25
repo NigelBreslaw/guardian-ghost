@@ -1,8 +1,6 @@
 name: "CodeQL"
 
 on:
-  pull_request:
-    branches: [ "main" ]
   push:
     branches: [ "main" ]
   # Run once a week so old code is regularly re-analyzed.
