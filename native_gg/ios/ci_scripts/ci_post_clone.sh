@@ -52,4 +52,4 @@ brew install cocoapods
 
 # Install all pod dependencies.
 echo "=> Install pods"
-cd ios && pwd && npx pod-install 
+cd ios && pwd && pod install
