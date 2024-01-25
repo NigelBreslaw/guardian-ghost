@@ -27,8 +27,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
             node-version: 20.11.0
+      - name: Install yarn
+        run: npm install -g yarn@1.22.21
       - name: install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       # Automatically overrides the version code and version name through the github actions
       - name: Bump version
