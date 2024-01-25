@@ -28,6 +28,8 @@ PATH+=":$NODE_PATH"
 export PATH
 node -v
 npm -v
+npm install -g npm@latest
+npm -v
 
 echo "=====> Moving to build directory"
 pwd
