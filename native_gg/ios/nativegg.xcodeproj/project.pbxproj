@@ -332,6 +332,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = nativegg/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Guardian Ghost";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -365,6 +366,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X2Z8M625Y9;
 				INFOPLIST_FILE = nativegg/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Guardian Ghost";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
