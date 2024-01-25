@@ -26,5 +26,10 @@
   },
   "name": "native_gg",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "pnpm": {
+    "overrides": {
+      "semver@>=7.0.0 <7.5.2": ">=7.5.2"
+    }
+  }
 }
