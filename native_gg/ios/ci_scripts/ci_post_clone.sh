@@ -17,8 +17,7 @@ else
     # For x86 architecture
     arch=x64
 fi
-node -v
-npm -v
+echo $HOME
 echo "============> Installing Node <============"
 curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
 tar -xf "$HOME/Downloads/node.tar.gz"
