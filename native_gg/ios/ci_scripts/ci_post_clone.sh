@@ -30,8 +30,8 @@ node -v
 npm -v
 
 # Install yarn
-npm install -g yarn@1.22.21
-yarn -v
+npm install -g pnpm@8.14.3
+pnpm -v
 
 
 
@@ -44,7 +44,7 @@ pwd
 # Install npm dependencies.
 echo "=> Install npm dependencies"
 # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
-yarn install --frozen-lockfile
+pnpm install --frozen-lockfile
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"

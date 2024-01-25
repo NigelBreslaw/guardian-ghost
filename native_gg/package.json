@@ -19,7 +19,13 @@
     "@expo/metro-runtime": "3.1.2"
   },
   "devDependencies": {
-    "@babel/core": "7.23.7"
+    "@babel/core": "7.23.7",
+    "typescript": "5.3.3"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["@babel/*", "expo-modules-*", "typescript"]
+    }
   },
   "name": "native_gg",
   "version": "1.0.0",
