@@ -21,7 +21,8 @@ echo $HOME
 echo "============> Installing Node <============"
 curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
 tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$HOME/node-v$node_version-darwin-$arch/bin"
+cd /Volumes/workspace/
+NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
 echo $NODE_PATH
 PATH+=":$NODE_PATH"
 export PATH
@@ -30,7 +31,7 @@ npm -v
 
 echo "=====> Moving to build directory"
 pwd
-cd ../..
+cd /Volumes/workspace/repository/native_gg
 pwd
 
 echo "=> Install npm dependencies"
