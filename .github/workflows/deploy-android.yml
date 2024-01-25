@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: native_gg2
+        working-directory: native_gg
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4.1.1
@@ -34,7 +34,7 @@ jobs:
       - name: Bump version
         uses: chkfung/android-version-actions@v1.2.1
         with:
-            gradlePath: native_gg2/android/app/build.gradle 
+            gradlePath: native_gg/android/app/build.gradle 
             versionCode: ${{github.run_number}}
             versionName: '1.0.0'
             
@@ -49,7 +49,7 @@ jobs:
         # ID used to access action output
         id: sign_app
         with:
-            releaseDirectory: native_gg2/android/app/build/outputs/bundle/release
+            releaseDirectory: native_gg/android/app/build/outputs/bundle/release
             signingKeyBase64: ${{ secrets.SIGNING_KEY }}
             alias: ${{ secrets.ALIAS }}
             keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -68,8 +68,8 @@ jobs:
         with:
             serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
             packageName: com.guardianghost
-            releaseFiles: native_gg2/android/app/build/outputs/bundle/release/app-release.aab
-            whatsNewDirectory: native_gg2/android/WhatsNew
+            releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
+            whatsNewDirectory: native_gg/android/WhatsNew
             track: internal
             # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
             status: draft
