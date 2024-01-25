@@ -39,7 +39,7 @@ pwd
 echo "=> Install npm dependencies"
 # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
 npm config set maxsockets 3
-npm ci
+npm ci --verbose
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
