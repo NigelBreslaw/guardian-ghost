@@ -29,6 +29,12 @@ export PATH
 node -v
 npm -v
 
+# Install yarn
+npm install -g yarn@1.22.21
+yarn -v
+
+
+
 # move to the react native project.
 echo "=====> Moving to build directory"
 pwd
@@ -38,8 +44,7 @@ pwd
 # Install npm dependencies.
 echo "=> Install npm dependencies"
 # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
-npm config set maxsockets 3
-npm ci --verbose
+yarn install --frozen-lockfile
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
