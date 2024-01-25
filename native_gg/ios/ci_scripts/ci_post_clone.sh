@@ -27,14 +27,18 @@ export PATH
 node -v
 npm -v
 
-echo "============> Installing cocoapods <============"
-brew install cocoapods
-
 echo "=====> Moving to build directory"
+pwd
 cd ../..
+pwd
 
 echo "=> Install npm dependencies"
 npm ci
 
+echo "============> Installing cocoapods <============"
+brew install cocoapods
+
+
+
 echo "=> Install pods"
-cd ios && npx pod-install 
+cd ios && pwd && npx pod-install 
