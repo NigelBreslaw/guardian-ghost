@@ -35,7 +35,7 @@ node -v
 npm -v
 
 # Install yarn
-npm install -g pnpm@8.14.3
+npm install -g pnpm@8.15.1
 pnpm -v
 
 
