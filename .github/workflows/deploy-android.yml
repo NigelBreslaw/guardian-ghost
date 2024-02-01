@@ -10,7 +10,7 @@ on:
 
 jobs:
   android-build:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     defaults:
       run:
         working-directory: native_gg
@@ -41,9 +41,8 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.0.0
-        with:
-          gradle-version: 8.3
-      - run: cd android && gradle bundleRelease
+        # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
+      - run: cd android && ./gradlew bundleRelease
 
         
         
