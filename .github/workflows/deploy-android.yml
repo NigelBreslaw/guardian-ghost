@@ -4,9 +4,9 @@ name: Android Build CI/CD
 # Only code merged to main with new release notes can be released as a build.
 on:
     push:
-        branches: [ main ]
-        paths: 
-          - 'native_gg/android/WhatsNew/**'
+        # branches: [ main ]
+        # paths: 
+        #   - 'native_gg/android/WhatsNew/**'
 
 jobs:
   android-build:
@@ -17,6 +17,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4.1.1
+      - uses: actions/setup-node@v4
+        with:
+            node-version: 20.11.0
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8.15.1
@@ -24,9 +27,7 @@ jobs:
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
             java-version: '17'
-      - uses: actions/setup-node@v4
-        with:
-            node-version: 20.11.0
+      
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -39,10 +40,10 @@ jobs:
             versionName: '1.0.0'
             
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3.0.0
+        uses: gradle/actions/setup-gradle@v3.0.0
+      - run: cd android && gradle build bundleRelease
 
-      - name: Execute Gradle build
-        run: cd android && ./gradlew bundleRelease
+        
         
       - name: Sign ABB
         uses: r0adkll/sign-android-release@v1
@@ -55,22 +56,22 @@ jobs:
             keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
             keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.0
-        with:
-            name: Signed app bundle
-            path: ${{steps.sign_app.outputs.signedReleaseFile}}
-            retention-days: 4
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v4.3.0
+      #   with:
+      #       name: Signed app bundle
+      #       path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      #       retention-days: 4
 
-      # Distribute  App to google play
-      - name: Publish to Play Store internal test track
-        uses: r0adkll/upload-google-play@v1.1.2
-        with:
-            serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-            packageName: com.guardianghost
-            releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
-            whatsNewDirectory: native_gg/android/WhatsNew
-            track: internal
-            # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
-            status: draft
-            inAppUpdatePriority: 3
+      # # Distribute  App to google play
+      # - name: Publish to Play Store internal test track
+      #   uses: r0adkll/upload-google-play@v1.1.2
+      #   with:
+      #       serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      #       packageName: com.guardianghost
+      #       releaseFiles: native_gg/android/app/build/outputs/bundle/release/app-release.aab
+      #       whatsNewDirectory: native_gg/android/WhatsNew
+      #       track: internal
+      #       # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
+      #       status: draft
+      #       inAppUpdatePriority: 3
