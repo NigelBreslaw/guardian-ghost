@@ -41,6 +41,8 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.0.0
+        with:
+          gradle-version: 8.3
       - run: cd android && gradle build bundleRelease
 
         
