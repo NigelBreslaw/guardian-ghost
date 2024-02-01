@@ -10,13 +10,16 @@ on:
 
 jobs:
   android-build:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     defaults:
       run:
         working-directory: native_gg
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4.1.1
+      - uses: actions/setup-node@v4
+        with:
+            node-version: 20.11.0
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8.15.1
@@ -24,9 +27,7 @@ jobs:
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
             java-version: '17'
-      - uses: actions/setup-node@v4
-        with:
-            node-version: 20.11.0
+      
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -39,10 +40,11 @@ jobs:
             versionName: '1.0.0'
             
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.12.0
+        uses: gradle/actions/setup-gradle@v3.0.0
+        # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
+      - run: cd android && ./gradlew bundleRelease
 
-      - name: Execute Gradle build
-        run: cd android && ./gradlew bundleRelease
+        
         
       - name: Sign ABB
         uses: r0adkll/sign-android-release@v1
