@@ -38,6 +38,9 @@ npm -v
 echo "============> Installing cocoapods <============"
 # Temp hack to work around brew only installing the latest cocoapods version that is broken.
 export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE
+
+
 curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
 brew install cocoapods.rb
 
