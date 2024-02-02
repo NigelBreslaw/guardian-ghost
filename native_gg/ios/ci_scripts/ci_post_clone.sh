@@ -34,6 +34,16 @@ export PATH
 node -v
 npm -v
 
+# Install cocoapods.
+echo "============> Installing cocoapods <============"
+# Temp hack to work around brew only installing the latest cocoapods version that is broken.
+export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE
+
+
+curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
+brew install cocoapods.rb
+
 # Install yarn
 npm install -g pnpm@8.15.1
 pnpm -v
@@ -51,9 +61,6 @@ echo "=> Install npm dependencies"
 # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
 pnpm install --frozen-lockfile
 
-# Install cocoapods.
-echo "============> Installing cocoapods <============"
-brew install cocoapods@1.14.3
 
 # Install all pod dependencies.
 echo "=> Install pods"
