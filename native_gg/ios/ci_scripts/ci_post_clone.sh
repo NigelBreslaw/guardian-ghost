@@ -53,7 +53,9 @@ pnpm install --frozen-lockfile
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
-sudo gem install cocoapods -v 1.14.3
+# Temp hack to work around brew only installing the latest cocoapods version that is broken.
+curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
+brew install cocoapods.rb
 
 # Install all pod dependencies.
 echo "=> Install pods"
