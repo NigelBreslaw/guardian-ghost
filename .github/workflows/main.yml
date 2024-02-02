@@ -28,6 +28,6 @@ jobs:
         run: cd native_gg && pnpm install --frozen-lockfile
       # - name: lint
       #   run: cd native_gg && pnpm lint
-      # - name: format
-      #   run: cd native_gg && pnpm format:check
+      - name: format
+        run: cd native_gg && pnpm format:check
      

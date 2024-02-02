@@ -2,6 +2,12 @@
   "expo": {
     "name": "native_gg",
     "slug": "native_gg",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.guardianghost.mobile"

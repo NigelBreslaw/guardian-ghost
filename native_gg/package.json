@@ -3,7 +3,9 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "format:check": "biome format .",
+    "format:write": "biome format --write ."
   },
   "dependencies": {
     "@babel/preset-env": "7.23.9",
@@ -22,6 +24,8 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.9",
+    "@types/react": "18.2.51",
+    "biome": "0.3.3",
     "typescript": "5.3.3"
   },
   "name": "native_gg",

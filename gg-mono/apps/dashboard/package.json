@@ -36,8 +36,8 @@
     "preview": "astro preview",
     "start": "astro dev",
     "coverage": "vitest run --coverage",
-    "format:check": "biome format ./src --max-diagnostics=500",
-    "format:write": "biome format --write ./src --max-diagnostics=500",
+    "format:check": "biome format ./src",
+    "format:write": "biome format --write ./src",
     "lint": "biome lint ./src --max-diagnostics=500",
     "lint:fix": "biome check --apply ./src --max-diagnostics=500"
   },
