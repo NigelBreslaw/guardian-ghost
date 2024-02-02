@@ -10,7 +10,7 @@ on:
 
 jobs:
   android-build:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: native_gg
