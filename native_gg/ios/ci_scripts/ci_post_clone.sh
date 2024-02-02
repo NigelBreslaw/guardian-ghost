@@ -53,7 +53,7 @@ pnpm install --frozen-lockfile
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
-brew install cocoapods@1.14.3
+gem install cocoapods -v 1.14.3
 
 # Install all pod dependencies.
 echo "=> Install pods"
