@@ -41,7 +41,7 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
-      - run: cd android && ./gradlew bundleRelease --configuration-cache --scan
+      - run: cd android && ./gradlew bundleRelease --scan
 
         
         
