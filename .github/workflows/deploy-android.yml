@@ -5,8 +5,6 @@ name: Android Build CI/CD
 on:
     push:
         branches: [ main ]
-        paths: 
-          - 'native_gg/android/WhatsNew/**'
 
 jobs:
   android-build:
@@ -17,9 +15,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: actions/setup-node@v4
+      - uses: dorny/paths-filter@v3.0.0
+        id: changes
         with:
-            node-version: 20.11.0
+          filters: |
+            whatsNew:
+              - 'native_gg/android/WhatsNew/**'
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8.15.1
@@ -41,8 +42,10 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.0.0
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
-      - run: cd android && ./gradlew bundleRelease
+      - run: cd android && ./gradlew bundleRelease --scan
 
         
         
@@ -66,6 +69,8 @@ jobs:
 
       # Distribute  App to google play
       - name: Publish to Play Store internal test track
+        if:  ${{ steps.changes.outputs.whatsNew == 'true' }}
+          
         uses: r0adkll/upload-google-play@v1.1.2
         with:
             serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
