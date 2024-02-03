@@ -4,9 +4,9 @@ name: Android Build CI/CD
 # Only code merged to main with new release notes can be released as a build.
 on:
     push:
-        branches: [ main ]
-        paths: 
-          - 'native_gg/android/WhatsNew/**'
+        # branches: [ main ]
+        # paths: 
+        #   - 'native_gg/android/WhatsNew/**'
 
 jobs:
   android-build:
@@ -17,9 +17,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: actions/setup-node@v4
-        with:
-            node-version: 20.11.0
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8.15.1
@@ -41,8 +38,10 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.0.0
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
-      - run: cd android && ./gradlew bundleRelease
+      - run: cd android && ./gradlew bundleRelease --configuration-cache --scan
 
         
         
