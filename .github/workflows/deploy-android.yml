@@ -5,8 +5,6 @@ name: Android Build CI/CD
 on:
     push:
         branches: [ main ]
-        paths: 
-          - 'native_gg/android/WhatsNew/**'
 
 jobs:
   android-build:
