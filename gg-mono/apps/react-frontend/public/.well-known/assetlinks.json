@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.guardianghost",
+      "sha256_cert_fingerprints": [
+        "03:8C:FF:63:6D:B2:BB:00:0D:37:4D:AF:D3:37:CC:CA:48:9B:BF:33:0B:EB:91:86:20:79:80:16:AE:E9:B2:FB"
+      ]
+    }
+  }
+]
