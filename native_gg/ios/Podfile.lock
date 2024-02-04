@@ -39,6 +39,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - ExpoWebBrowser (12.8.2):
+    - ExpoModulesCore
   - EXSplashScreen (0.26.4):
     - ExpoModulesCore
     - glog
@@ -1198,6 +1200,7 @@ DEPENDENCIES:
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -1287,6 +1290,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
+  ExpoWebBrowser:
+    :path: "../node_modules/expo-web-browser/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -1400,6 +1405,7 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoLinearGradient: d10226652f849e675528883aa45afd2358c2f92f
   ExpoModulesCore: 83dfc98358de225bd0953401ce5b0c14fa8eabd0
+  ExpoWebBrowser: e31c97230ea93b51a2a74c6c2381b0d4fca5698c
   EXSplashScreen: 91f8723e444480409e74155bfe08e20e23b3662c
   FBLazyVector: 70590b4f9e8ae9b0ce076efacea3abd7bc585ace
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
