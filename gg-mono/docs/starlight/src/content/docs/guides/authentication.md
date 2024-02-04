@@ -29,4 +29,5 @@ Details on how to setup the assetlinks and verify them can be found [here](https
 
 Details on how to update the AndroidManifest.xml are [here](https://developer.android.com/training/app-links/deep-linking).
 
+The AndroidManifest has been setup so only the following link is captured by the app 'https://guardianghost.com/auth'.
 ## Web
