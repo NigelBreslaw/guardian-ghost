@@ -10,7 +10,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.guardianghost.mobile"
+      "bundleIdentifier": "com.guardianghost.mobile",
+      "associatedDomains": ["applinks:guardianghost.com"]
     },
     "android": {
       "package": "com.example.withnewarch"
