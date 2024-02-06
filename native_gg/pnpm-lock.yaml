@@ -18,8 +18,8 @@ dependencies:
     specifier: 50.0.4
     version: 50.0.4(@babel/core@7.23.9)(@react-native/babel-preset@0.73.20)
   expo-build-properties:
-    specifier: 0.11.0
-    version: 0.11.0(expo@50.0.4)
+    specifier: 0.11.1
+    version: 0.11.1(expo@50.0.4)
   expo-dev-client:
     specifier: 3.3.8
     version: 3.3.8(expo@50.0.4)
@@ -3701,8 +3701,8 @@ packages:
       - supports-color
     dev: false
 
-  /expo-build-properties@0.11.0(expo@50.0.4):
-    resolution: {integrity: sha512-14+UjV4uKCI5KsOw/BTL++T3N1OPWnOvLGoF39/o9XjB4t0wqXoSrcEl6ZbtH/b3xzd6dj9pnDDBLWDn/7uKvQ==}
+  /expo-build-properties@0.11.1(expo@50.0.4):
+    resolution: {integrity: sha512-m4j4aEjFaDuBE6KWYMxDhWgLzzSmpE7uHKAwtvXyNmRK+6JKF0gjiXi0sXgI5ngNppDQpsyPFMvqG7uQpRuCuw==}
     peerDependencies:
       expo: '*'
     dependencies:
