@@ -7,7 +7,7 @@
     "indentWidth": 2,
     "indentStyle": "space",
     "lineWidth": 120,
-    "ignore": ["ios/**", "android/**", "node_modules/**"]
+    "ignore": ["ios/**", "android/**", "node_modules/**", "app.json", "eas.json"]
   },
   "linter": {
     "enabled": true,
