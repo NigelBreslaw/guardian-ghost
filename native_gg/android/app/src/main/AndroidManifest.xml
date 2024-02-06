@@ -21,13 +21,13 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-      <intent-filter android:autoVerify="true" >
+      <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="https" />
-        <data android:host="guardianghost.com" />
-        <data android:pathPrefix="/auth" />
+        <data android:scheme="https"/>
+        <data android:host="guardianghost.com"/>
+        <data android:pathPrefix="/auth"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

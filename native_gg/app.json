@@ -7,10 +7,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.guardianghost.mobile"
+      "bundleIdentifier": "com.guardianghost.mobile",
+      "associatedDomains": [
+        "applinks:guardianghost.com"
+      ]
     },
     "android": {
       "package": "com.example.withnewarch"
@@ -30,6 +35,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "aa838362-0c4a-434d-b70b-d67f764a5d32"
+      }
+    }
   }
 }

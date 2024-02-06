@@ -1,9 +1,28 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import * as WebBrowser from "expo-web-browser";
 
 export default function App() {
+  const openURL = async (url: string) => {
+    if (Platform.OS === "ios") {
+      // Open URL in Expo's WebBrowser on iOS
+      console.log("Opening URL in WebBrowser");
+      try {
+        const result = await WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", {
+          preferEphemeralSession: false,
+        });
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (Platform.OS === "android") {
+      // Open URL in the default system browser on Android
+      Linking.openURL(url);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -16,7 +35,12 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-
+      <Button
+        title="Auth"
+        onPress={() =>
+          openURL("https://www.bungie.net/en/oauth/authorize?client_id=46250&response_type=code&reauth=true")
+        }
+      />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         New Architecture: <Text style={{ fontWeight: "bold" }}>Enabled</Text>
       </Text>
