@@ -30,11 +30,11 @@ dependencies:
     specifier: 12.7.1
     version: 12.7.1(expo@50.0.4)
   expo-modules-autolinking:
-    specifier: 1.10.2
-    version: 1.10.2
+    specifier: 1.10.3
+    version: 1.10.3
   expo-splash-screen:
     specifier: 0.26.4
-    version: 0.26.4(expo-modules-autolinking@1.10.2)(expo@50.0.4)
+    version: 0.26.4(expo-modules-autolinking@1.10.3)(expo@50.0.4)
   expo-status-bar:
     specifier: 1.11.1
     version: 1.11.1
@@ -1955,6 +1955,27 @@ packages:
       - supports-color
     dev: false
 
+  /@expo/prebuild-config@6.7.4(expo-modules-autolinking@1.10.3):
+    resolution: {integrity: sha512-x8EUdCa8DTMZ/dtEXjHAdlP+ljf6oSeSKNzhycXiHhpMSMG9jEhV28ocCwc6cKsjK5GziweEiHwvrj6+vsBlhA==}
+    peerDependencies:
+      expo-modules-autolinking: '>=0.8.1'
+    dependencies:
+      '@expo/config': 8.5.4
+      '@expo/config-plugins': 7.8.4
+      '@expo/config-types': 50.0.0
+      '@expo/image-utils': 0.4.1
+      '@expo/json-file': 8.3.0
+      debug: 4.3.4
+      expo-modules-autolinking: 1.10.3
+      fs-extra: 9.1.0
+      resolve-from: 5.0.0
+      semver: 7.5.3
+      xml2js: 0.6.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@expo/rudder-sdk-node@1.1.1:
     resolution: {integrity: sha512-uy/hS/awclDJ1S88w9UGpc6Nm9XnNUjzOAAib1A3PVAnGQIwebg8DpFqOthFBTlZxeuV/BKbZ5jmTbtNZkp1WQ==}
     engines: {node: '>=12'}
@@ -3842,18 +3863,32 @@ packages:
       - supports-color
     dev: false
 
+  /expo-modules-autolinking@1.10.3:
+    resolution: {integrity: sha512-pn4n2Dl4iRh/zUeiChjRIe1C7EqOw1qhccr85viQV7W6l5vgRpY0osE51ij5LKg/kJmGRcJfs12+PwbdTplbKw==}
+    hasBin: true
+    dependencies:
+      '@expo/config': 8.5.4
+      chalk: 4.1.2
+      commander: 7.2.0
+      fast-glob: 3.3.2
+      find-up: 5.0.0
+      fs-extra: 9.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /expo-modules-core@1.11.8:
     resolution: {integrity: sha512-rlctE3nCNLCGv3LosGQNaTuwGrr2SyQA+hOgci/0l+VRc0gFNtvl0gskph9C0tnN1jzBeb8rRZQYVj5ih1yxcA==}
     dependencies:
       invariant: 2.2.4
     dev: false
 
-  /expo-splash-screen@0.26.4(expo-modules-autolinking@1.10.2)(expo@50.0.4):
+  /expo-splash-screen@0.26.4(expo-modules-autolinking@1.10.3)(expo@50.0.4):
     resolution: {integrity: sha512-2DwofTQ0FFQCsvDysm/msENsbyNsJiAJwK3qK/oXeizECAPqD7bK19J4z9kuEbr7ORPX9MLnTQYKl6kmX3keUg==}
     peerDependencies:
       expo: '*'
     dependencies:
-      '@expo/prebuild-config': 6.7.4(expo-modules-autolinking@1.10.2)
+      '@expo/prebuild-config': 6.7.4(expo-modules-autolinking@1.10.3)
       expo: 50.0.4(@babel/core@7.23.9)(@react-native/babel-preset@0.73.20)
     transitivePeerDependencies:
       - encoding
