@@ -24,8 +24,8 @@ dependencies:
     specifier: 3.3.8
     version: 3.3.8(expo@50.0.4)
   expo-image:
-    specifier: 1.10.5
-    version: 1.10.5(expo@50.0.4)
+    specifier: 1.10.6
+    version: 1.10.6(expo@50.0.4)
   expo-linear-gradient:
     specifier: 12.7.1
     version: 12.7.1(expo@50.0.4)
@@ -3787,8 +3787,8 @@ packages:
       fontfaceobserver: 2.3.0
     dev: false
 
-  /expo-image@1.10.5(expo@50.0.4):
-    resolution: {integrity: sha512-IiqSU9FxpoNeSFbtVLHdLq9MIHtAUYI1hcNGXoj3fpNpPEUdjN41mPftLQPIszfWWBxgrjUu4trIVXuf/Ijy+w==}
+  /expo-image@1.10.6(expo@50.0.4):
+    resolution: {integrity: sha512-vcnAIym1eU8vQgV1re1E7rVQZStJimBa4aPDhjFfzMzbddAF7heJuagyewiUkTzbZUwYzPaZAie6VJPyWx9Ueg==}
     peerDependencies:
       expo: '*'
     dependencies:
