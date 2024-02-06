@@ -29,6 +29,10 @@ updates:
       interval: "daily"
       time: "07:00"
     groups:
+      expo:
+        patterns:
+          - "expo*"
+          - "@expo*"
       vitest:
         patterns:
           - "vitest*"
