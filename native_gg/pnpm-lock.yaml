@@ -12,8 +12,8 @@ dependencies:
     specifier: 7.23.9
     version: 7.23.9(@babel/core@7.23.9)
   '@expo/metro-runtime':
-    specifier: 3.1.2
-    version: 3.1.2(react-native@0.73.3)
+    specifier: 3.1.3
+    version: 3.1.3(react-native@0.73.3)
   expo:
     specifier: 50.0.4
     version: 50.0.4(@babel/core@7.23.9)(@react-native/babel-preset@0.73.20)
@@ -1893,8 +1893,8 @@ packages:
       - supports-color
     dev: false
 
-  /@expo/metro-runtime@3.1.2(react-native@0.73.3):
-    resolution: {integrity: sha512-Wekv2AZ3HY0NG9Im8AMB1KHGyHjmALg6xekVK34724I/DLtcocLKtQEP04oI9GcAZBotAhROHH5E4ADhJAEgYg==}
+  /@expo/metro-runtime@3.1.3(react-native@0.73.3):
+    resolution: {integrity: sha512-u1CaQJJlSgvxBB5NJ6YMVvSDTTRzjT71dHpEBnKPZhpFv5ebVry52FZ2sEeEEA6mHG5zGxWXmHImW3hNKHh8EA==}
     peerDependencies:
       react-native: '*'
     dependencies:
