@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["X2Z8M625Y9.com.guardianghost.mobile"],
+        "components": [
+          {
+            "#": "no_universal_links",
+            "exclude": true,
+            "comment": "Matches any URL with a fragment that equals no_universal_links and instructs the system not to open it as a universal link."
+          },
+          {
+            "/": "/auth",
+            "comment": "Matches a URL with a path that starts with /auth."
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["X2Z8M625Y9.com.guardianghost.mobile"]
+  }
+}
