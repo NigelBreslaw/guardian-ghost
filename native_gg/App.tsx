@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import Auth from "./src/Auth";
+import Auth from "./src/AuthUI.tsx";
 
 export default function App() {
   const [token, setToken] = useState("");
