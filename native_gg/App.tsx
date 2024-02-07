@@ -26,8 +26,10 @@ export default function App() {
   }, [url]);
 
   function openURL(url: string) {
-    console.log("Opening URL in WebBrowser");
-    WebBrowser.openAuthSessionAsync(url, null);
+    console.log("Opening URL in WebBrowser!");
+    WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth").then((result) => {
+      console.log("WebBrowser result", result);
+    });
   }
 
   return (
