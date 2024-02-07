@@ -1,27 +1,38 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Linking, Platform, StyleSheet, Text, View } from "react-native";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import { useEffect, useState } from "react";
 
 export default function App() {
-  const openURL = async (url: string) => {
-    if (Platform.OS === "ios") {
-      // Open URL in Expo's WebBrowser on iOS
-      console.log("Opening URL in WebBrowser");
-      try {
-        const result = await WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", {
-          preferEphemeralSession: false,
-        });
-        console.log(result);
-      } catch (error) {
-        console.error(error);
+  const url = Linking.useURL();
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (url) {
+      const { hostname, path, queryParams } = Linking.parse(url);
+      console.log("hostname", hostname, "path", path, "queryParams", queryParams);
+
+      if (queryParams?.code) {
+        setToken(queryParams.code.toString());
       }
-    } else if (Platform.OS === "android") {
-      // Open URL in the default system browser on Android
-      Linking.openURL(url);
+
+      if (Platform.OS === "ios") {
+        WebBrowser.dismissAuthSession();
+      }
     }
-  };
+  }, [url]);
+
+  function openURL(url: string) {
+    const params = {
+      preferEphemeralSession: false,
+    };
+
+    console.log("Opening URL in WebBrowser");
+    WebBrowser.openAuthSessionAsync(url, null, params);
+  }
 
   return (
     <View style={styles.container}>
@@ -42,7 +53,7 @@ export default function App() {
         }
       />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        New Architecture: <Text style={{ fontWeight: "bold" }}>Enabled</Text>
+        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>
