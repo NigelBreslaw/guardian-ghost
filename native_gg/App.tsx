@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Linking from "expo-linking";
@@ -10,36 +10,24 @@ export default function App() {
   const url = Linking.useURL();
 
   useEffect(() => {
-    // Do something with url
-    console.log(url);
+    if (url) {
+      const { hostname, path, queryParams } = Linking.parse(url);
+      console.log("hostname", hostname, "path", path, "queryParams", queryParams);
+
+      if (Platform.OS === "ios") {
+        console.log("dismissBrowser", queryParams?.code);
+        WebBrowser.dismissAuthSession();
+      }
+    }
   }, [url]);
 
-  // const openURL = async (url: string) => {
-  //   if (Platform.OS === "ios") {
-  //     // Open URL in Expo's WebBrowser on iOS
-  //     console.log("Opening URL in WebBrowser");
-  //     try {
-  //       const result = await WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", {
-  //         preferEphemeralSession: false,
-  //       });
-  //       console.log(result);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   } else if (Platform.OS === "android") {
-  //     // Open URL in the default system browser on Android
-  //     Linking.openURL(url);
-  //   }
-  // };
   function openURL(url: string) {
     const params = {
       preferEphemeralSession: false,
     };
 
     console.log("Opening URL in WebBrowser");
-    WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", params).then((result) => {
-      console.log(result);
-    });
+    WebBrowser.openAuthSessionAsync(url, null, params);
   }
 
   return (
