@@ -1,7 +1,7 @@
 on: 
     push:
         paths: 
-            - 'gg-mono/apps/react-frontend/**'
+            - 'native_gg/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -10,7 +10,7 @@ jobs:
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
     defaults:
       run:
-        working-directory: gg-mono
+        working-directory: native_gg
     permissions:
         contents: read
         deployments: write
@@ -23,12 +23,12 @@ jobs:
         - name: install dependencies
           run: pnpm install --frozen-lockfile
         - name: build
-          run: cd apps/react-frontend && pnpm build:ci
-        - name: deploy dashboard
+          run: pnpm expo export -p web 
+        - name: deploy website
           uses: cloudflare/pages-action@v1.5.0
           with:
             apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
             accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
             projectName: gg-app
-            directory: gg-mono/apps/react-frontend/dist # e.g. 'dist'
+            directory: native_gg/dist
             gitHubToken: ${{ secrets.GITHUB_TOKEN }}
