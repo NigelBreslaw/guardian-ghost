@@ -1,27 +1,46 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Linking, Platform, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import { useEffect } from "react";
 
 export default function App() {
-  const openURL = async (url: string) => {
-    if (Platform.OS === "ios") {
-      // Open URL in Expo's WebBrowser on iOS
-      console.log("Opening URL in WebBrowser");
-      try {
-        const result = await WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", {
-          preferEphemeralSession: false,
-        });
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (Platform.OS === "android") {
-      // Open URL in the default system browser on Android
-      Linking.openURL(url);
-    }
-  };
+  const url = Linking.useURL();
+
+  useEffect(() => {
+    // Do something with url
+    console.log(url);
+  }, [url]);
+
+  // const openURL = async (url: string) => {
+  //   if (Platform.OS === "ios") {
+  //     // Open URL in Expo's WebBrowser on iOS
+  //     console.log("Opening URL in WebBrowser");
+  //     try {
+  //       const result = await WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", {
+  //         preferEphemeralSession: false,
+  //       });
+  //       console.log(result);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   } else if (Platform.OS === "android") {
+  //     // Open URL in the default system browser on Android
+  //     Linking.openURL(url);
+  //   }
+  // };
+  function openURL(url: string) {
+    const params = {
+      preferEphemeralSession: false,
+    };
+
+    console.log("Opening URL in WebBrowser");
+    WebBrowser.openAuthSessionAsync(url, "https://guardianghost.com/auth", params).then((result) => {
+      console.log(result);
+    });
+  }
 
   return (
     <View style={styles.container}>
