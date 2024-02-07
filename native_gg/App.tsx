@@ -4,18 +4,22 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const url = Linking.useURL();
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     if (url) {
       const { hostname, path, queryParams } = Linking.parse(url);
       console.log("hostname", hostname, "path", path, "queryParams", queryParams);
 
+      if (queryParams?.code) {
+        setToken(queryParams.code.toString());
+      }
+
       if (Platform.OS === "ios") {
-        console.log("dismissBrowser", queryParams?.code);
         WebBrowser.dismissAuthSession();
       }
     }
@@ -49,7 +53,7 @@ export default function App() {
         }
       />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        New Architecture: <Text style={{ fontWeight: "bold" }}>Enabled</Text>
+        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>
