@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Platform, StyleSheet, Text, View } from "react-native";
+import { Button, DynamicColorIOS, Platform, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Linking from "expo-linking";
@@ -26,12 +26,13 @@ export default function App() {
   }, [url]);
 
   function openURL(url: string) {
-    const params = {
-      preferEphemeralSession: false,
+    const options: WebBrowser.WebBrowserOpenOptions = {
+      toolbarColor: "#FF0000",
+      controlsColor: "#FF0000",
     };
 
     console.log("Opening URL in WebBrowser");
-    WebBrowser.openAuthSessionAsync(url, null, params);
+    WebBrowser.openAuthSessionAsync(url, null, options);
   }
 
   return (
