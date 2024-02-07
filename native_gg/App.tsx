@@ -26,12 +26,8 @@ export default function App() {
   }, [url]);
 
   function openURL(url: string) {
-    const params = {
-      preferEphemeralSession: false,
-    };
-
     console.log("Opening URL in WebBrowser");
-    WebBrowser.openAuthSessionAsync(url, null, params);
+    WebBrowser.openAuthSessionAsync(url, null);
   }
 
   return (
