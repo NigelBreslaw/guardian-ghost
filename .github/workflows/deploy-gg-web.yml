@@ -22,6 +22,8 @@ jobs:
             version: 8.15.1
         - name: install dependencies
           run: pnpm install --frozen-lockfile
+        - name: add .env file
+          run: echo ${{ secrets.CLIENT_SECRETS }} > .env
         - name: build
           run: pnpm expo export -p web 
         - name: deploy website
