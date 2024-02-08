@@ -22,7 +22,7 @@ export default function App() {
       />
       <Auth token={token} setToken={setToken} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Auth token:: <Text style={{ fontWeight: "bold" }}>{token}</Text>
+        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>

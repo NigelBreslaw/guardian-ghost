@@ -3,19 +3,13 @@ import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Button, Platform } from "react-native";
 import { randomUUID } from "expo-crypto";
+import { appID, redirectURL } from "./constants/env.ts";
 
 type AuthProps = {
   token: string;
   setToken: (token: string) => void;
 };
 
-const isLocalWeb = process.env.NODE_ENV === "development" && Platform.OS === "web";
-const localAppID = "46261";
-const realAppID = "46250";
-const localRedirectURL = "https://localhost:19006/auth";
-const realRedirectURL = "https://guardianghost.com/auth";
-const redirectURL = isLocalWeb ? localRedirectURL : realRedirectURL;
-const appID = isLocalWeb ? localAppID : realAppID;
 const stateID = randomUUID();
 
 export default function Auth(props: AuthProps) {
