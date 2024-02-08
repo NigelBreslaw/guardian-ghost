@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "strict": true,
+    "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
   }
 }
