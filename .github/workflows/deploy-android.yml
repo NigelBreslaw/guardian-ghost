@@ -33,6 +33,8 @@ jobs:
       
       - name: install dependencies
         run: pnpm install --frozen-lockfile
+      - name: add .env file
+        run: echo ${{ secrets.CLIENT_SECRETS }} > .env
 
       # Automatically overrides the version code and version name through the github actions
       - name: Bump version

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import Auth from "./src/Auth";
+import Auth from "./src/AuthUI.tsx";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -22,7 +22,7 @@ export default function App() {
       />
       <Auth token={token} setToken={setToken} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Auth token:: <Text style={{ fontWeight: "bold" }}>{token}</Text>
+        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>
