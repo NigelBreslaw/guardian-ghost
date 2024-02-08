@@ -56,6 +56,10 @@ pwd
 cd /Volumes/workspace/repository/native_gg
 pwd
 
+# Add the .env file
+echo "Adding .env file"
+echo $CLIENT_SECRETS > .env
+
 # Install npm dependencies.
 echo "=> Install npm dependencies"
 # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
