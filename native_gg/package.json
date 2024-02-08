@@ -4,8 +4,13 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "web:build": "expo export -p web",
+    "web:buildSM": "expo export -p web --source-maps",
     "format:check": "biome format .",
-    "format:write": "biome format --write ."
+    "format:write": "biome format --write .",
+    "analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
+    "analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
+    "analyze:android": "source-map-explorer 'dist/_expo/static/js/android/*.js' 'dist/_expo/static/js/android/*.js.map'"
   },
   "dependencies": {
     "@babel/preset-env": "7.23.9",
@@ -29,6 +34,7 @@
     "@babel/core": "7.23.9",
     "@biomejs/biome": "1.5.3",
     "@types/react": "18.2.55",
+    "source-map-explorer": "2.5.3",
     "typescript": "5.3.3"
   },
   "name": "native_gg",

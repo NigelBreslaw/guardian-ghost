@@ -12,6 +12,9 @@
       "**/*"
     ],
     "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.guardianghost.mobile",
       "associatedDomains": [
