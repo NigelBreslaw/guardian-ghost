@@ -11,54 +11,42 @@ type AuthProps = {
 };
 
 const stateID = randomUUID();
+const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${appID}&response_type=code&reauth=true&state=${stateID}`;
 
 export default function Auth(props: AuthProps) {
   const url = useURL();
 
   useEffect(() => {
     if (url) {
-      const { queryParams } = parse(url);
-
-      // Check if the stateID matches to avoid man in the middle attacks.
-      if (queryParams?.code && queryParams?.state === stateID) {
-        props.setToken(queryParams.code.toString());
-
-        if (Platform.OS === "ios") {
-          WebBrowser.dismissAuthSession();
-        }
-
-        if (Platform.OS === "web") {
-          WebBrowser.maybeCompleteAuthSession();
-        }
+      processURL(url);
+      if (Platform.OS === "web") {
+        WebBrowser.maybeCompleteAuthSession();
       }
     }
-  }, [url, props.setToken]);
+  }, [url]);
 
   function processURL(url: string) {
-    if (Platform.OS === "web") {
-      const { queryParams } = parse(url);
-      if (queryParams?.code) {
-        props.setToken(queryParams.code.toString());
-      }
+    const { queryParams } = parse(url);
+    if (queryParams?.code && queryParams?.state === stateID) {
+      props.setToken(queryParams.code.toString());
+    } else {
+      console.error("Invalid URL");
+      return;
+    }
+
+    if (Platform.OS === "ios") {
+      WebBrowser.dismissAuthSession();
     }
   }
 
-  function openURL(url: string) {
-    WebBrowser.openAuthSessionAsync(url, `${redirectURL}`).then((result) => {
+  function startAuth() {
+    WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
+      // Only used for web.
       if (result?.type === "success") {
         processURL(result.url);
       }
     });
   }
 
-  return (
-    <Button
-      title="Auth"
-      onPress={() =>
-        openURL(
-          `https://www.bungie.net/en/oauth/authorize?client_id=${appID}&response_type=code&reauth=true&state=${stateID}`,
-        )
-      }
-    />
-  );
+  return <Button title="Auth" onPress={startAuth} />;
 }

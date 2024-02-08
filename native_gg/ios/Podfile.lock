@@ -197,6 +197,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - ExpoCrypto (12.8.0):
+    - ExpoModulesCore
   - ExpoFileSystem (16.0.6):
     - ExpoModulesCore
   - ExpoImage (1.10.6):
@@ -1392,6 +1394,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -1490,6 +1493,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   ExpoImage:
@@ -1618,6 +1623,7 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 65b6fc1382bf95e1a215bec26b7b0f897cc76432
   expo-dev-menu: e73c9a9637c9935dcefa206e1a2ea3eae3bb7ecd
   expo-dev-menu-interface: 7ba029c9d1a82ac22b9b584c00514860b060553e
+  ExpoCrypto: e2ca148f5c93a0514959df86b34256bb3c50d358
   ExpoFileSystem: a9273932e69a9a1e1a8d01b6ba895bb8294bbea2
   ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
