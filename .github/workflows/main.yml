@@ -13,9 +13,12 @@ jobs:
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: pnpm/action-setup@v2.4.0
+      - name: Set up Node.js
+        run: corepack enable pnpm
+      - uses: actions/setup-node@v4.0.2
         with:
-          version: 8.15.1
+          node-version: 20
+          cache: "pnpm"
       - name: install dependencies
         run: cd gg-mono && pnpm install --frozen-lockfile
       - name: lint
