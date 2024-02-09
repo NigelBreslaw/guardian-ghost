@@ -13,14 +13,12 @@ jobs:
     timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4.1.1
-      - name: Set up Node.js
-        run: pwd && corepack enable
       - uses: actions/setup-node@v4.0.2
         with:
           node-version: 20
           cache: "pnpm"
       - name: install dependencies
-        run: cd gg-mono && pnpm install --frozen-lockfile
+        run: pwd && corepack enable && pnpm -v && cd gg-mono && pnpm install --frozen-lockfile
       - name: lint
         run: cd gg-mono && pnpm lint
       - name: format
