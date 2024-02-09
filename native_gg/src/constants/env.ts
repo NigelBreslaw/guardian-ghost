@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 // @ts-ignore
 export const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 // @ts-ignore
-export const clientIDD = process.env.EXPO_PUBLIC_CLIENT_ID;
+export const clientID = process.env.EXPO_PUBLIC_CLIENT_ID;
 // @ts-ignore
 export const clientSecret = process.env.EXPO_PUBLIC_CLIENT_SECRET;
 
