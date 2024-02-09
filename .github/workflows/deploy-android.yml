@@ -23,9 +23,13 @@ jobs:
           filters: |
             whatsNew:
               - 'native_gg/android/WhatsNew/**'
-      - uses: pnpm/action-setup@v2.4.0
+      - name: Set up Node.js
+        run: corepack enable pnpm
+      - uses: actions/setup-node@v4.0.2
         with:
-          version: 8.15.1
+          node-version: 20
+          cache: "pnpm"
+
       - uses: actions/setup-java@v4.0.0
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
