@@ -1,13 +1,16 @@
 import { clientID, clientSecret } from "./constants/env.ts";
+import { object, string, number, Output, parse } from "valibot";
 
-type InitialAuthJWT = {
-  access_token: string;
-  expires_in: number;
-  membership_id: string;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-};
+const AuthJWT = object({
+  access_token: string(),
+  expires_in: number(),
+  membership_id: string(),
+  refresh_expires_in: number(),
+  refresh_token: string(),
+  token_type: string(),
+});
+
+type InitialAuthJWT = Output<typeof AuthJWT>;
 
 export function handleAuthCode(code: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -54,12 +57,11 @@ export function getAuthToken(bungieCode: string): Promise<JSON> {
 }
 
 function processInitialAuthJWT(jwtToken: unknown): string {
-  const initialAuthJWT = jwtToken as InitialAuthJWT;
-
-  if (Object.hasOwn(initialAuthJWT, "membership_id")) {
-    return initialAuthJWT.membership_id;
+  try {
+    const result: InitialAuthJWT = parse(AuthJWT, jwtToken);
+    return result.membership_id;
+  } catch (error) {
+    console.error(error);
+    return "";
   }
-
-  console.error("membership_id property does not exist");
-  return "";
 }
