@@ -3,7 +3,7 @@ import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Button, Platform } from "react-native";
 import { randomUUID } from "expo-crypto";
-import { appID, redirectURL } from "./constants/env.ts";
+import { clientID, redirectURL } from "./constants/env.ts";
 import { getAuthToken } from "./Authentication.ts";
 
 type InitialAuthJWT = {
@@ -21,9 +21,9 @@ type AuthProps = {
 };
 
 const stateID = randomUUID();
-const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${appID}&response_type=code&reauth=true&state=${stateID}`;
+const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${stateID}`;
 
-export default function Auth(props: AuthProps) {
+export default function AuthUI(props: AuthProps) {
   const url = useURL();
 
   useEffect(() => {

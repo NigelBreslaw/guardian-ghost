@@ -1,4 +1,4 @@
-import { apiKey, appID, clientID, clientSecret } from "./constants/env.ts";
+import { apiKey, clientID, clientSecret } from "./constants/env.ts";
 
 export function getAuthToken(bungieCode: string): Promise<JSON> {
   // {
