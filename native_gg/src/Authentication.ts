@@ -1,4 +1,4 @@
-import { apiKey, clientID, clientSecret } from "./constants/env.ts";
+import { clientID, clientSecret } from "./constants/env.ts";
 
 type InitialAuthJWT = {
   access_token: string;

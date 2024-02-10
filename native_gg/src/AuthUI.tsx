@@ -1,10 +1,10 @@
-import { useURL, parse } from "expo-linking";
+import { randomUUID } from "expo-crypto";
+import { parse, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Button, Platform } from "react-native";
-import { randomUUID } from "expo-crypto";
+import { handleAuthCode } from "./Authentication.ts";
 import { clientID, redirectURL } from "./constants/env.ts";
-import { getAuthToken, handleAuthCode } from "./Authentication.ts";
 
 type AuthProps = {
   setToken: (token: string) => void;
