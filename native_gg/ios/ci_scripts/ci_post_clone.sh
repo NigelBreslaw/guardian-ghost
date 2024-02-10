@@ -23,7 +23,7 @@ echo "============> Installing Node <============"
 
 # Download and install node
 curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
-cd /Volumes/workspace/
+cd $CI_WORKSPACE_PATH
 tar -xf "$HOME/Downloads/node.tar.gz"
 NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
 echo $NODE_PATH
@@ -46,8 +46,10 @@ pnpm -v
 # move to the react native project.
 echo "=====> Moving to build directory"
 pwd
-cd /Volumes/workspace/repository/native_gg
+cd $CI_PRIMARY_REPOSITORY_PATH/native_gg
 pwd
+
+
 
 # Add the .env file
 echo "Adding .env file"
