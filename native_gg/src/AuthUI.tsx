@@ -29,13 +29,14 @@ export default function AuthUI(props: AuthProps) {
     }
   }, [url]);
 
-  function processURL(url: string) {
+  async function processURL(url: string) {
     const { queryParams } = parse(url);
     if (queryParams?.code && queryParams?.state === stateID) {
       const code = queryParams.code.toString();
       props.setToken(code);
 
-      handleAuthCode(code);
+      const membership_id = await handleAuthCode(code);
+      props.setMembershipID(membership_id);
     } else {
       console.error("Invalid URL");
       return;
@@ -47,11 +48,9 @@ export default function AuthUI(props: AuthProps) {
   }
 
   function startAuth() {
-    console.log("startAuth", authURL);
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
       // Only used for web.
       if (result?.type === "success") {
-        console.log("start auth process URL");
         processURL(result.url);
       }
     });

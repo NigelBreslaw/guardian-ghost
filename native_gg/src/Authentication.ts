@@ -9,12 +9,18 @@ type InitialAuthJWT = {
   token_type: string;
 };
 
-export function handleAuthCode(code: string) {
-  getAuthToken(code)
-    .then((initialJWT) => {
-      processInitialAuthJWT(initialJWT);
-    })
-    .catch(console.error);
+export function handleAuthCode(code: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    getAuthToken(code)
+      .then((initialJWT) => {
+        const membership_id = processInitialAuthJWT(initialJWT);
+
+        resolve(membership_id);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 export function getAuthToken(bungieCode: string): Promise<JSON> {
