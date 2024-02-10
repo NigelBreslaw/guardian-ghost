@@ -1,16 +1,16 @@
 import { clientID, clientSecret } from "./constants/env.ts";
-import { object, string, number, Output, parse } from "valibot";
+import * as v from "valibot";
 
-const AuthJWT = object({
-  access_token: string(),
-  expires_in: number(),
-  membership_id: string(),
-  refresh_expires_in: number(),
-  refresh_token: string(),
-  token_type: string(),
+const authJWTSchema = v.object({
+  access_token: v.string(),
+  expires_in: v.number(),
+  membership_id: v.string(),
+  refresh_expires_in: v.number(),
+  refresh_token: v.string(),
+  token_type: v.string(),
 });
 
-type InitialAuthJWT = Output<typeof AuthJWT>;
+type InitialAuthJWT = v.Output<typeof authJWTSchema>;
 
 export function handleAuthCode(code: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ export function getAuthToken(bungieCode: string): Promise<JSON> {
 
 function processInitialAuthJWT(jwtToken: unknown): string {
   try {
-    const result: InitialAuthJWT = parse(AuthJWT, jwtToken);
+    const result = v.parse(authJWTSchema, jwtToken);
     return result.membership_id;
   } catch (error) {
     console.error(error);
