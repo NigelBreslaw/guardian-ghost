@@ -4,16 +4,7 @@ import { useEffect } from "react";
 import { Button, Platform } from "react-native";
 import { randomUUID } from "expo-crypto";
 import { clientID, redirectURL } from "./constants/env.ts";
-import { getAuthToken } from "./Authentication.ts";
-
-type InitialAuthJWT = {
-  access_token: string;
-  expires_in: number;
-  membership_id: string;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-};
+import { getAuthToken, handleAuthCode } from "./Authentication.ts";
 
 type AuthProps = {
   setToken: (token: string) => void;
@@ -44,11 +35,7 @@ export default function AuthUI(props: AuthProps) {
       const code = queryParams.code.toString();
       props.setToken(code);
 
-      getAuthToken(code)
-        .then((initialJWT) => {
-          processInitialAuthJWT(initialJWT);
-        })
-        .catch(console.error);
+      handleAuthCode(code);
     } else {
       console.error("Invalid URL");
       return;
@@ -56,16 +43,6 @@ export default function AuthUI(props: AuthProps) {
 
     if (Platform.OS === "ios") {
       WebBrowser.dismissAuthSession();
-    }
-  }
-
-  function processInitialAuthJWT(jwtToken: unknown) {
-    const initialAuthJWT = jwtToken as InitialAuthJWT;
-
-    if (Object.hasOwn(initialAuthJWT, "membership_id")) {
-      props.setMembershipID(initialAuthJWT.membership_id);
-    } else {
-      console.log("membership_id property does not exist");
     }
   }
 
