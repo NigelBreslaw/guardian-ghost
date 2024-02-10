@@ -26,8 +26,8 @@ jobs:
         run: cd gg-mono && pnpm build:ci
       - name: install dependencies
         run: cd native_gg && pnpm install --frozen-lockfile
-      # - name: lint
-      #   run: cd native_gg && pnpm lint
+      - name: lint
+        run: cd native_gg && pnpm lint
       - name: format
         run: cd native_gg && pnpm format:check
      
