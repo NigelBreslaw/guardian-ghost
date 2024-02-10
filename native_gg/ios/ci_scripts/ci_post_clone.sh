@@ -23,7 +23,7 @@ echo "============> Installing Node <============"
 
 # Download and install node
 curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
-cd /Volumes/workspace/
+cd $CI_WORKSPACE_PATH
 tar -xf "$HOME/Downloads/node.tar.gz"
 NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
 echo $NODE_PATH
@@ -36,29 +36,24 @@ npm -v
 
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
-# Temp hack to work around brew only installing the latest cocoapods version that is broken.
-export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE
-
-
-curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
-brew install cocoapods.rb
+brew install cocoapods
 
 # Install yarn
 npm install -g pnpm@8.15.1
 pnpm -v
 
 
-
 # move to the react native project.
 echo "=====> Moving to build directory"
 pwd
-cd /Volumes/workspace/repository/native_gg
+cd $CI_PRIMARY_REPOSITORY_PATH/native_gg
 pwd
+
+
 
 # Add the .env file
 echo "Adding .env file"
-echo -n $CLIENT_SECRETS > .env
+echo $CLIENT_SECRETS > .env
 
 # Install npm dependencies.
 echo "=> Install npm dependencies"
