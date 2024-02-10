@@ -32,7 +32,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="https"/>
-        <data android:host="guardianghost.com"/>
+        <data android:host="app.guardianghost.com"/>
         <data android:pathPrefix="/auth"/>
       </intent-filter>
     </activity>
