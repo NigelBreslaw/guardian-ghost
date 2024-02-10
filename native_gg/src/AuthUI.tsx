@@ -6,9 +6,18 @@ import { randomUUID } from "expo-crypto";
 import { appID, redirectURL } from "./constants/env.ts";
 import { getAuthToken } from "./Authentication.ts";
 
+type InitialAuthJWT = {
+  access_token: string;
+  expires_in: number;
+  membership_id: string;
+  refresh_expires_in: number;
+  refresh_token: string;
+  token_type: string;
+};
+
 type AuthProps = {
-  token: string;
   setToken: (token: string) => void;
+  setMembershipID: (membership_id: string) => void;
 };
 
 const stateID = randomUUID();
@@ -35,8 +44,12 @@ export default function Auth(props: AuthProps) {
     if (queryParams?.code && queryParams?.state === stateID) {
       const code = queryParams.code.toString();
       props.setToken(code);
-      console.log("PROCESS URL");
-      getAuthToken(code).then(console.log).catch(console.error);
+
+      getAuthToken(code)
+        .then((initialJWT) => {
+          processInitialAuthJWT(initialJWT);
+        })
+        .catch(console.error);
     } else {
       console.error("Invalid URL");
       return;
@@ -44,6 +57,17 @@ export default function Auth(props: AuthProps) {
 
     if (Platform.OS === "ios") {
       WebBrowser.dismissAuthSession();
+    }
+  }
+
+  function processInitialAuthJWT(jwtToken: unknown) {
+    const initialAuthJWT = jwtToken as InitialAuthJWT;
+
+    if (Object.hasOwn(initialAuthJWT, "membership_id")) {
+      console.log("membership_id property exists");
+      props.setMembershipID(initialAuthJWT.membership_id);
+    } else {
+      console.log("membership_id property does not exist");
     }
   }
 
