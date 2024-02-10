@@ -17,7 +17,6 @@ type InitialAuthJWT = {
 
 type AuthProps = {
   setToken: (token: string) => void;
-
   setMembershipID: (membership_id: string) => void;
 };
 
