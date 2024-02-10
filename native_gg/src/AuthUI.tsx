@@ -28,7 +28,6 @@ export default function AuthUI(props: AuthProps) {
 
   useEffect(() => {
     if (url) {
-      console.log("useEffect process url");
       if (Platform.OS === "ios") {
         processURL(url);
       }
@@ -64,7 +63,6 @@ export default function AuthUI(props: AuthProps) {
     const initialAuthJWT = jwtToken as InitialAuthJWT;
 
     if (Object.hasOwn(initialAuthJWT, "membership_id")) {
-      console.log("membership_id property exists");
       props.setMembershipID(initialAuthJWT.membership_id);
     } else {
       console.log("membership_id property does not exist");
@@ -72,6 +70,7 @@ export default function AuthUI(props: AuthProps) {
   }
 
   function startAuth() {
+    console.log("startAuth", authURL);
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
       // Only used for web.
       if (result?.type === "success") {
