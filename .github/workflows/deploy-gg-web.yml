@@ -23,7 +23,7 @@ jobs:
         - name: install dependencies
           run: pnpm install --frozen-lockfile
         - name: add .env file
-          run: pwd && echo ${{ secrets.CLIENT_SECRETS }} > .env && cat .env
+          run: pwd 
         - name: build
           run: pnpm expo export -p web 
         - name: deploy website
