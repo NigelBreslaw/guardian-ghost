@@ -9,44 +9,44 @@ set -x
 arch
 node_version=20.11.0
 
-if [ "$ARCHITECTURE" == "arm64" ]; then
-    # For arm64 architecture (Apple Silicon)
-    arch=arm64
-else
-    # For x86 architecture
-    arch=x64
-fi
+# if [ "$ARCHITECTURE" == "arm64" ]; then
+#     # For arm64 architecture (Apple Silicon)
+#     arch=arm64
+# else
+#     # For x86 architecture
+#     arch=x64
+# fi
 
-# Echo for debugging logs purposes
-echo $HOME
-echo "============> Installing Node <============"
+# # Echo for debugging logs purposes
+# echo $HOME
+# echo "============> Installing Node <============"
 
-# Download and install node
-curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
-cd /Volumes/workspace/
-tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
-echo $NODE_PATH
-PATH+=":$NODE_PATH"
-export PATH
+# # Download and install node
+# curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
+# cd /Volumes/workspace/
+# tar -xf "$HOME/Downloads/node.tar.gz"
+# NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
+# echo $NODE_PATH
+# PATH+=":$NODE_PATH"
+# export PATH
 
-# Check node and npm version
-node -v
-npm -v
+# # Check node and npm version
+# node -v
+# npm -v
 
-# Install cocoapods.
-echo "============> Installing cocoapods <============"
-# Temp hack to work around brew only installing the latest cocoapods version that is broken.
-export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE
+# # Install cocoapods.
+# echo "============> Installing cocoapods <============"
+# # Temp hack to work around brew only installing the latest cocoapods version that is broken.
+# export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+# export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE
 
 
-curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
-brew install cocoapods.rb
+# curl https://raw.githubusercontent.com/Homebrew/homebrew-core/1364b74ebeedb2eab300d62c99e12f2a6f344277/Formula/c/cocoapods.rb > cocoapods.rb
+# brew install cocoapods.rb
 
-# Install yarn
-npm install -g pnpm@8.15.1
-pnpm -v
+# # Install yarn
+# npm install -g pnpm@8.15.1
+# pnpm -v
 
 
 
@@ -60,13 +60,14 @@ pwd
 echo "Adding .env file"
 echo -n $CLIENT_SECRETS > .env
 ls -a
+cat .env
 
-# Install npm dependencies.
-echo "=> Install npm dependencies"
-# Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
-pnpm install --frozen-lockfile
+# # Install npm dependencies.
+# echo "=> Install npm dependencies"
+# # Workaround for Xcode Cloud issue https://forums.developer.apple.com/forums/thread/738136
+# pnpm install --frozen-lockfile
 
 
-# Install all pod dependencies.
-echo "=> Install pods"
-cd ios && pwd && pod install
+# # Install all pod dependencies.
+# echo "=> Install pods"
+# cd ios && pwd && pod install
