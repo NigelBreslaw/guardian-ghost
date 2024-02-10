@@ -7,6 +7,7 @@ import Auth from "./src/AuthUI.tsx";
 
 export default function App() {
   const [token, setToken] = useState("");
+  const [membershipID, setMembershipID] = useState("");
 
   return (
     <View style={styles.container}>
@@ -20,10 +21,15 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-      <Auth token={token} setToken={setToken} />
+      <Auth setToken={setToken} setMembershipID={setMembershipID} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
+      {membershipID && (
+        <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+          Membership ID: <Text style={{ fontWeight: "bold" }}>{membershipID}</Text>
+        </Text>
+      )}
       <StatusBar style="auto" />
     </View>
   );
