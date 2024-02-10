@@ -1,19 +1,10 @@
-import { useURL, parse } from "expo-linking";
+import { randomUUID } from "expo-crypto";
+import { parse, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Button, Platform } from "react-native";
-import { randomUUID } from "expo-crypto";
+import { handleAuthCode } from "./Authentication.ts";
 import { clientID, redirectURL } from "./constants/env.ts";
-import { getAuthToken } from "./Authentication.ts";
-
-type InitialAuthJWT = {
-  access_token: string;
-  expires_in: number;
-  membership_id: string;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-};
 
 type AuthProps = {
   setToken: (token: string) => void;
@@ -38,17 +29,14 @@ export default function AuthUI(props: AuthProps) {
     }
   }, [url]);
 
-  function processURL(url: string) {
+  async function processURL(url: string) {
     const { queryParams } = parse(url);
     if (queryParams?.code && queryParams?.state === stateID) {
       const code = queryParams.code.toString();
       props.setToken(code);
 
-      getAuthToken(code)
-        .then((initialJWT) => {
-          processInitialAuthJWT(initialJWT);
-        })
-        .catch(console.error);
+      const membership_id = await handleAuthCode(code);
+      props.setMembershipID(membership_id);
     } else {
       console.error("Invalid URL");
       return;
@@ -59,22 +47,10 @@ export default function AuthUI(props: AuthProps) {
     }
   }
 
-  function processInitialAuthJWT(jwtToken: unknown) {
-    const initialAuthJWT = jwtToken as InitialAuthJWT;
-
-    if (Object.hasOwn(initialAuthJWT, "membership_id")) {
-      props.setMembershipID(initialAuthJWT.membership_id);
-    } else {
-      console.log("membership_id property does not exist");
-    }
-  }
-
   function startAuth() {
-    console.log("startAuth", authURL);
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
       // Only used for web.
       if (result?.type === "success") {
-        console.log("start auth process URL");
         processURL(result.url);
       }
     });

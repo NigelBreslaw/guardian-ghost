@@ -10,7 +10,9 @@
     "format:write": "biome format --write .",
     "analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
     "analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
-    "analyze:android": "source-map-explorer 'dist/_expo/static/js/android/*.js' 'dist/_expo/static/js/android/*.js.map'"
+    "analyze:android": "source-map-explorer 'dist/_expo/static/js/android/*.js' 'dist/_expo/static/js/android/*.js.map'",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply ./src"
   },
   "dependencies": {
     "@babel/preset-env": "7.23.9",
@@ -29,7 +31,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
-    "react-native-web": "0.19.10"
+    "react-native-web": "0.19.10",
+    "valibot": "0.28.1"
   },
   "devDependencies": {
     "@babel/core": "7.23.9",

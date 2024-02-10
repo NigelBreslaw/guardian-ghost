@@ -59,6 +59,9 @@ dependencies:
   react-native-web:
     specifier: 0.19.10
     version: 0.19.10(react-dom@18.2.0)(react@18.2.0)
+  valibot:
+    specifier: 0.28.1
+    version: 0.28.1
 
 devDependencies:
   '@babel/core':
@@ -9080,6 +9083,10 @@ packages:
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+    dev: false
+
+  /valibot@0.28.1:
+    resolution: {integrity: sha512-zQnjwNJuXk6362Leu0+4eFa/SMwRom3/hEvH6s1EGf3oXIPbo2WFKDra9ymnbVh3clLRvd8hw4sKF5ruI2Lyvw==}
     dev: false
 
   /valid-url@1.0.9:
