@@ -58,7 +58,7 @@ pwd
 
 # Add the .env file
 echo "Adding .env file"
-echo $CLIENT_SECRETS > .env
+echo -n $CLIENT_SECRETS > .env
 
 # Install npm dependencies.
 echo "=> Install npm dependencies"
