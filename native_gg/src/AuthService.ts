@@ -1,7 +1,11 @@
-import { apiKey, clientID, clientSecret } from "./constants/env.ts";
+import { Platform } from "react-native";
+import { randomUUID } from "expo-crypto";
+import * as WebBrowser from "expo-web-browser";
+import { parse } from "expo-linking";
 import * as v from "valibot";
-import * as base64 from "base-64";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { clientID, redirectURL } from "./constants/env.ts";
+import { handleAuthCode } from "./Authentication.ts";
 
 interface User {
   membership_id: string;
@@ -26,12 +30,12 @@ class AuthService {
   private observers: ((setAuthenticated: boolean) => void)[];
   private userObservers: ((setUser: string) => void)[];
   private currentUser: string;
+  private stateID: string;
 
   private constructor() {
-    console.log("auth init");
     this.observers = [];
     this.userObservers = [];
-
+    this.stateID = randomUUID();
     this.authToken = null;
     this.currentUser = "";
     this.init()
@@ -78,30 +82,22 @@ class AuthService {
     });
   }
 
-  startAuth(): void {
-    console.log("start auth");
-  }
-
   // Method to subscribe to auth changes
   subscribeAuthenticated(fn: (setAuthenticated: boolean) => void): void {
     this.observers.push(fn);
-    console.log("subscribed", this.observers.length);
   }
 
   // Method to unsubscribe from auth changes
   unsubscribeAuthenticated(fn: (isAuthenticated: boolean) => void): void {
     this.observers = this.observers.filter((subscriber) => subscriber !== fn);
-    console.log("unsubscribe", this.observers.length);
   }
 
   subscribeUser(fn: (setUser: string) => void): void {
     this.userObservers.push(fn);
-    console.log("subscribed users", this.userObservers.length);
   }
 
   unsubscribeUser(fn: (user: string) => void): void {
     this.userObservers = this.userObservers.filter((subscriber) => subscriber !== fn);
-    console.log("unsubscribe users ", this.observers.length);
   }
 
   // Method to notify all subscribers of auth changes
@@ -123,6 +119,40 @@ class AuthService {
   // Method to get current user data
   getCurrentUser(): string {
     return this.currentUser;
+  }
+
+  setCurrentUser(user: string) {
+    this.currentUser = user;
+    this.notify();
+  }
+
+  startAuth(): void {
+    const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${this.stateID}`;
+    WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
+      // Only used for web.
+      if (result.type === "success") {
+        this.processURL(result.url);
+      }
+    });
+  }
+
+  async processURL(url: string) {
+    const { queryParams } = parse(url);
+    if (queryParams?.code && queryParams?.state === this.stateID) {
+      const code = queryParams.code.toString();
+      // props.setToken(code);
+
+      const membership_id = await handleAuthCode(code);
+      this.setCurrentUser(membership_id);
+      // props.setMembershipID(membership_id);
+    } else {
+      console.error("Invalid URL", url, this.stateID);
+      return;
+    }
+
+    if (Platform.OS === "ios") {
+      WebBrowser.dismissAuthSession();
+    }
   }
 
   // Method to set user data and auth token

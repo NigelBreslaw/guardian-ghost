@@ -18,7 +18,6 @@ export default function App() {
   const [membershipID, setMembershipID] = useState(authService.getCurrentUser());
 
   useEffect(() => {
-    console.log("useEffect");
     // Subscribe to auth changes
     authService.subscribeAuthenticated(setIsLoggedIn);
     authService.subscribeUser(setMembershipID);
@@ -47,7 +46,7 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-      <AuthUI setToken={setToken} setMembershipID={setMembershipID} startAuth={authService.startAuth} />
+      <AuthUI startAuth={() => authService.startAuth()} processURL={(url) => authService.processURL(url)} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
