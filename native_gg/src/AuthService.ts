@@ -24,19 +24,18 @@ class AuthService {
   private static instance: AuthService;
   private authToken: RefreshToken | null;
   private observers: ((setAuthenticated: boolean) => void)[];
-  private user: string | null;
-  private foo: boolean;
+  private userObservers: ((setUser: string) => void)[];
+  private currentUser: string;
 
   private constructor() {
     console.log("auth init");
-    this.foo = false;
     this.observers = [];
+    this.userObservers = [];
+
     this.authToken = null;
-    this.user = null;
+    this.currentUser = "";
     this.init()
-      .then((result) => {
-        this.foo = result;
-      })
+      // .then((result) => {})
       .catch((e) => {
         console.log("No user or token found");
       });
@@ -58,11 +57,11 @@ class AuthService {
           if (current_user === null) {
             return reject(false);
           }
-          this.user = current_user;
-          console.log("user!", this.user);
+          this.currentUser = current_user;
+          console.log("user!", this.currentUser);
 
           // Then is there an auth token?
-          AsyncStorage.getItem(`${this.user}_auth_token`)
+          AsyncStorage.getItem(`${this.currentUser}_auth_token`)
             .then((token) => {
               console.log("token!", token);
               resolve(true);
@@ -79,6 +78,10 @@ class AuthService {
     });
   }
 
+  startAuth(): void {
+    console.log("start auth");
+  }
+
   // Method to subscribe to auth changes
   subscribeAuthenticated(fn: (setAuthenticated: boolean) => void): void {
     this.observers.push(fn);
@@ -91,23 +94,35 @@ class AuthService {
     console.log("unsubscribe", this.observers.length);
   }
 
+  subscribeUser(fn: (setUser: string) => void): void {
+    this.userObservers.push(fn);
+    console.log("subscribed users", this.userObservers.length);
+  }
+
+  unsubscribeUser(fn: (user: string) => void): void {
+    this.userObservers = this.userObservers.filter((subscriber) => subscriber !== fn);
+    console.log("unsubscribe users ", this.observers.length);
+  }
+
   // Method to notify all subscribers of auth changes
   notify(): void {
     for (const observer of this.observers) {
       observer(this.isAuthenticated());
     }
+    for (const observer of this.userObservers) {
+      observer(this.getCurrentUser());
+    }
   }
 
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
-    const user = this.user;
+    const user = this.currentUser;
     return user && this.authToken ? true : false;
   }
 
   // Method to get current user data
-  getCurrentUser(): User | null {
-    const user = localStorage.getItem("currentUser");
-    return user ? JSON.parse(user) : null;
+  getCurrentUser(): string {
+    return this.currentUser;
   }
 
   // Method to set user data and auth token

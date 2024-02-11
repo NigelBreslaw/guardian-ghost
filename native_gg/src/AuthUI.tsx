@@ -9,6 +9,7 @@ import { clientID, redirectURL } from "./constants/env.ts";
 type AuthProps = {
   setToken: (token: string) => void;
   setMembershipID: (membership_id: string) => void;
+  startAuth: () => void;
 };
 
 const stateID = randomUUID();
@@ -56,5 +57,5 @@ export default function AuthUI(props: AuthProps) {
     });
   }
 
-  return <Button title="Auth" onPress={startAuth} />;
+  return <Button title="Auth" onPress={props.startAuth} />;
 }

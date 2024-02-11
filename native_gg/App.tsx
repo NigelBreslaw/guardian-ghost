@@ -13,18 +13,27 @@ export default function App() {
   }
 
   const authService = AuthService.getInstance();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(authService.isAuthenticated());
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
   const [token, setToken] = useState("");
-  const [membershipID, setMembershipID] = useState("");
+  const [membershipID, setMembershipID] = useState(authService.getCurrentUser());
 
   useEffect(() => {
     console.log("useEffect");
     // Subscribe to auth changes
     authService.subscribeAuthenticated(setIsLoggedIn);
+    authService.subscribeUser(setMembershipID);
 
     // Unsubscribe when the component unmounts
-    return () => authService.unsubscribeAuthenticated(setIsLoggedIn);
-  }, [authService.subscribeAuthenticated, authService.unsubscribeAuthenticated]);
+    return () => {
+      authService.unsubscribeAuthenticated(setIsLoggedIn);
+      authService.unsubscribeUser(setMembershipID);
+    };
+  }, [
+    authService.subscribeAuthenticated,
+    authService.subscribeUser,
+    authService.unsubscribeAuthenticated,
+    authService.unsubscribeUser,
+  ]);
 
   return (
     <View style={styles.container}>
@@ -38,7 +47,7 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-      <AuthUI setToken={setToken} setMembershipID={setMembershipID} />
+      <AuthUI setToken={setToken} setMembershipID={setMembershipID} startAuth={authService.startAuth} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
