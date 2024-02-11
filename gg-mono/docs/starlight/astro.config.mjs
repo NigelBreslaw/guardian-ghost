@@ -25,7 +25,8 @@ export default defineConfig({
 						{ label: 'React Native', link: '/guides/react-native/' },
 						{ label: 'Costs', link: '/guides/costs/' },
 						{ label: 'Misc', link: '/guides/misc/' },
-						{ label: 'Authentication', link: '/guides/authentication/' }
+						{ label: 'Authentication', link: '/guides/authentication/' },
+						{ label: 'To-do\'s', link: '/guides/todo/' }
 					],
 				},
 			],
