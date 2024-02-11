@@ -2,24 +2,13 @@ import { apiKey, clientID, clientSecret } from "./constants/env.ts";
 import * as v from "valibot";
 import base64 from "base-64";
 
-const authJWTSchema = v.object({
-  access_token: v.string(),
-  expires_in: v.number(),
-  membership_id: v.optional(v.string()),
-  refresh_expires_in: v.number(),
-  refresh_token: v.string(),
-  time_stamp: v.optional(v.string([v.isoDateTime()])),
-  token_type: v.string(),
-});
-
-type InitialAuthJWT = v.Output<typeof authJWTSchema>;
-
 const refreshTokenSchema = v.object({
   access_token: v.string(),
   expires_in: v.number(),
+  membership_id: v.string(),
   refresh_expires_in: v.number(),
   refresh_token: v.string(),
-  time_stamp: v.string([v.isoTimestamp()]),
+  time_stamp: v.optional(v.string([v.isoTimestamp()])),
   token_type: v.string(),
 });
 
@@ -77,8 +66,6 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
   // https://github.com/facebook/hermes/issues/1178
   headers.append("Authorization", `Basic ${base64.encode(`${clientID}:${clientSecret}`)}`);
 
-  console.log("authorization", headers.get("Authorization"));
-
   const bodyParams = `grant_type=refresh_token&refresh_token=${token.refresh_token}`;
 
   const requestOptions: RequestInit = {
@@ -105,57 +92,28 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
   });
 }
 
-// private static function accessTokenFromRefreshTokenPostRequest ( Network.OauthToken token ) -> Http.Request {
-
-//   Http.Request authRequest
-
-//   var isDesktop = @device(Desktop) || App.isPreview
-//   // System.log("IS DESKTOP!!", isDesktop)
-//   /// Note API key does not seem to be needed here
-//   var apiKey = isDesktop ? Network.Authentication.Secret.desktopApiKey : Network.Authentication.Secret.mobileApiKey
-//   var clientId = isDesktop ? Network.Authentication.Secret.destktopClientId : Network.Authentication.Secret.mobileClientId
-//   var clientSecret = isDesktop ? Network.Authentication.Secret.destktopClientSecret : Network.Authentication.Secret.mobileClientSecret
-
-//   authRequest.setHeader("X-API-Key", apiKey)
-//   authRequest.setHeader( "Authorization", "Basic " + String.base64Encoded( clientId+ ":"+ clientSecret ) )
-
-//   String param = "grant_type=refresh_token&refresh_token={0}".arg( token.refresh_token )
-
-//   authRequest.setContent("application/x-www-form-urlencoded", param )
-
-//   var url = "https://www.bungie.net/platform/app/oauth/token/"
-
-//   authRequest.url = url
-
-//   return authRequest
-// }
-
 function processInitialAuthJWT(jwtToken: object): string {
-  // check it is valid
-  // add a timestamp
   try {
-    const initialToken: InitialAuthJWT = v.parse(authJWTSchema, jwtToken);
+    const initialToken = v.parse(refreshTokenSchema, jwtToken);
 
-    let membership_id = "";
-    if (Object.hasOwn(initialToken, "membership_id") && typeof initialToken.membership_id === "string") {
-      membership_id = initialToken.membership_id;
-    }
-    const key = "membership_id";
-    delete initialToken[key];
+    let token: RefreshToken;
 
-    initialToken.time_stamp = new Date().toISOString();
-
-    const token = v.parse(refreshTokenSchema, initialToken);
-
-    getAccessToken(token)
+    getAccessToken(initialToken)
       .then((newToken) => {
-        console.log("newtoken", newToken);
+        token = v.parse(refreshTokenSchema, newToken);
+        token.time_stamp = new Date().toISOString();
+        const tokenTime = new Date(token.time_stamp).getTime();
+        // pause for 10 seconds, but don't do anything else
+        setTimeout(() => {
+          const timeNow = new Date().getTime();
+          console.log("token time", Math.trunc((timeNow - tokenTime) / 1000));
+        }, 10000);
       })
       .catch((error) => {
         console.error(error);
       });
 
-    return membership_id;
+    return initialToken.membership_id;
   } catch (error) {
     console.error(error);
     return "";
