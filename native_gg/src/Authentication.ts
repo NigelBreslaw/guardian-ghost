@@ -34,7 +34,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
   const bodyParams = `client_id=${clientID}&grant_type=authorization_code&code=${bungieCode}&client_secret=${clientSecret}`;
-
+  console.log("bodyParams", bodyParams);
   const requestOptions: RequestInit = {
     method: "POST",
     headers: headers,
@@ -54,6 +54,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
         resolve(data);
       })
       .catch((error) => {
+        console.error("getRefreshToken", error);
         reject(error);
       });
   });

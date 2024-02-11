@@ -2,10 +2,31 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import AuthUI from "./src/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/AuthService";
+import { AppAction, AppState } from "./src/state/Actions.ts";
+
+const initialState: AppState = {
+  authenticated: false,
+  currentUserID: "",
+};
+
+const reducer = (state: AppState, action: AppAction) => {
+  const { authenticated, currentUserID } = state;
+  switch (action.type) {
+    case "setAuthenticated": {
+      return { authenticated: action.payload, currentUserID };
+    }
+    case "setCurrentUserID": {
+      return { authenticated, currentUserID: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 export default function App() {
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
@@ -13,26 +34,19 @@ export default function App() {
   }
 
   const authService = AuthService.getInstance();
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
+
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useState("");
-  const [membershipID, setMembershipID] = useState(authService.getCurrentUser());
 
   useEffect(() => {
     // Subscribe to auth changes
-    authService.subscribeAuthenticated(setIsLoggedIn);
-    authService.subscribeUser(setMembershipID);
+    authService.subscribe(dispatch);
 
     // Unsubscribe when the component unmounts
     return () => {
-      authService.unsubscribeAuthenticated(setIsLoggedIn);
-      authService.unsubscribeUser(setMembershipID);
+      authService.unsubscribe();
     };
-  }, [
-    authService.subscribeAuthenticated,
-    authService.subscribeUser,
-    authService.unsubscribeAuthenticated,
-    authService.unsubscribeUser,
-  ]);
+  }, [authService.subscribe, authService.unsubscribe]);
 
   return (
     <View style={styles.container}>
@@ -51,10 +65,10 @@ export default function App() {
         Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Membership ID: <Text style={{ fontWeight: "bold" }}>{membershipID}</Text>
+        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Logged In: <Text style={{ fontWeight: "bold" }}>{isLoggedIn ? "True" : "False"}</Text>
+        Logged In: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>

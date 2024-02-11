@@ -6,6 +6,7 @@ import * as v from "valibot";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { clientID, redirectURL } from "./constants/env.ts";
 import { handleAuthCode } from "./Authentication.ts";
+import { AppAction, AppState } from "./state/Actions.ts";
 
 const refreshTokenSchema = v.object({
   access_token: v.string(),
@@ -22,13 +23,13 @@ type RefreshToken = v.Output<typeof refreshTokenSchema>;
 class AuthService {
   private static instance: AuthService;
   private authToken: RefreshToken | null;
-  private observers: ((setAuthenticated: boolean) => void)[];
+  private dispatch: React.Dispatch<AppAction> | null;
   private userObservers: ((setUser: string) => void)[];
   private currentUser: string;
   private stateID: string;
 
   private constructor() {
-    this.observers = [];
+    this.dispatch = null;
     this.userObservers = [];
     this.stateID = randomUUID();
     this.authToken = null;
@@ -78,32 +79,33 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  subscribeAuthenticated(fn: (setAuthenticated: boolean) => void): void {
-    this.observers.push(fn);
+  subscribe(dispatch: React.Dispatch<AppAction>) {
+    this.dispatch = dispatch;
   }
 
   // Method to unsubscribe from auth changes
-  unsubscribeAuthenticated(fn: (isAuthenticated: boolean) => void): void {
-    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+  unsubscribe() {
+    this.dispatch = null;
   }
 
-  subscribeUser(fn: (setUser: string) => void): void {
-    this.userObservers.push(fn);
-  }
+  // subscribeUser(fn: (setUser: string) => void): void {
+  //   this.userObservers.push(fn);
+  // }
 
-  unsubscribeUser(fn: (user: string) => void): void {
-    this.userObservers = this.userObservers.filter((subscriber) => subscriber !== fn);
-  }
+  // unsubscribeUser(fn: (user: string) => void): void {
+  //   this.userObservers = this.userObservers.filter((subscriber) => subscriber !== fn);
+  // }
 
   // Method to notify all subscribers of auth changes
-  notify(): void {
-    for (const observer of this.observers) {
-      observer(this.isAuthenticated());
-    }
-    for (const observer of this.userObservers) {
-      observer(this.getCurrentUser());
-    }
-  }
+  // notify(): void {
+  //   for (const observer of this.observers) {
+  //     // observer(this.isAuthenticated());
+  //     observer({ type: "setAuthenticated", payload: this.isAuthenticated() });
+  //   }
+  //   for (const observer of this.userObservers) {
+  //     observer(this.getCurrentUser());
+  //   }
+  // }
 
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
@@ -118,7 +120,9 @@ class AuthService {
 
   setCurrentUser(user: string) {
     this.currentUser = user;
-    this.notify();
+    if (this.dispatch) {
+      this.dispatch({ type: "setCurrentUserID", payload: user });
+    }
   }
 
   startAuth(): void {
@@ -132,6 +136,7 @@ class AuthService {
   }
 
   async processURL(url: string) {
+    console.log("processURL!!!", url);
     const { queryParams } = parse(url);
     if (queryParams?.code && queryParams?.state === this.stateID) {
       const code = queryParams.code.toString();
@@ -141,7 +146,7 @@ class AuthService {
       this.setCurrentUser(membership_id);
       // props.setMembershipID(membership_id);
     } else {
-      console.error("Invalid URL", url, this.stateID);
+      console.log("Invalid URL", url, this.stateID);
       return;
     }
 
