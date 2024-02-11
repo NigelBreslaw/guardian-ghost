@@ -1,12 +1,12 @@
-import { Platform } from "react-native";
-import { randomUUID } from "expo-crypto";
-import * as WebBrowser from "expo-web-browser";
-import { parse } from "expo-linking";
-import * as v from "valibot";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { clientID, redirectURL } from "./constants/env.ts";
+import { randomUUID } from "expo-crypto";
+import { parse } from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+import { Platform } from "react-native";
+import * as v from "valibot";
 import { handleAuthCode } from "./Authentication.ts";
-import { AppAction, AppState } from "./state/Actions.ts";
+import { clientID, redirectURL } from "./constants/env.ts";
+import { AppAction } from "./state/Actions.ts";
 
 const refreshTokenSchema = v.object({
   access_token: v.string(),
