@@ -2,19 +2,29 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AuthUI from "./src/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/AuthService";
 
 export default function App() {
-  const authService = useRef(AuthService.getInstance());
-  const [token, setToken] = useState("");
-  const [membershipID, setMembershipID] = useState("");
-
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
+
+  const authService = AuthService.getInstance();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(authService.isAuthenticated());
+  const [token, setToken] = useState("");
+  const [membershipID, setMembershipID] = useState("");
+
+  useEffect(() => {
+    console.log("useEffect");
+    // Subscribe to auth changes
+    authService.subscribeAuthenticated(setIsLoggedIn);
+
+    // Unsubscribe when the component unmounts
+    return () => authService.unsubscribeAuthenticated(setIsLoggedIn);
+  }, [authService.subscribeAuthenticated, authService.unsubscribeAuthenticated]);
 
   return (
     <View style={styles.container}>
@@ -34,6 +44,9 @@ export default function App() {
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Membership ID: <Text style={{ fontWeight: "bold" }}>{membershipID}</Text>
+      </Text>
+      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+        Logged In: <Text style={{ fontWeight: "bold" }}>{isLoggedIn ? "True" : "False"}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>

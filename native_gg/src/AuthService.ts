@@ -80,8 +80,15 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  subscribe(fn: (setAuthenticated: boolean) => void): void {
+  subscribeAuthenticated(fn: (setAuthenticated: boolean) => void): void {
     this.observers.push(fn);
+    console.log("subscribed", this.observers.length);
+  }
+
+  // Method to unsubscribe from auth changes
+  unsubscribeAuthenticated(fn: (isAuthenticated: boolean) => void): void {
+    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+    console.log("unsubscribe", this.observers.length);
   }
 
   // Method to notify all subscribers of auth changes
