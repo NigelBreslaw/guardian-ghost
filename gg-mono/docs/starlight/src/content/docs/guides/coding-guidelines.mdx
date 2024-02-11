@@ -18,3 +18,53 @@ import FileTree from '../../../components/file-tree.astro';
   - **biome.json**
 
 </FileTree>
+
+### Functions
+Explicit functions should be 'named', not arrow functions
+```ts
+// Valid
+function myFunction() {
+  // ...
+}
+
+// Not valid
+const myFunction = () => {
+  // ...
+}
+```
+
+Arrow functions are great when needed in-line
+```ts
+myArray.map((item) => {
+  return item + 1;
+});
+```
+### Imports
+When importing functions from the project (not NPM) use file extensions. This means the
+monorepo tools don't need to do extra work trying a range of extensions on hundreds of files.
+The project is set up so you can rely on autocomplete for imports and it will add the extension for you.
+```ts
+// Valid
+import { myFunction } from './my-file.ts';
+
+// Not valid
+import { myFunction } from './my-file';
+```
+
+### Exports
+A common problem is the use of 'barrel files' which export everything from a folder.
+This can cause performance issues, especially in a monorepo. You need just one function
+from a file, but behind the scenes the whole file is being imported and parsed.
+
+Instead, export each function directly from the file and rely on autocomplete to help you find the right file.
+```ts
+// Valid
+export function myFunction() {
+  // ...
+}
+
+// Not valid
+export * from './my-file';
+```
+TODO: When Biome [supports](https://biomejs.dev/linter/rules/no-re-export-all) it, add a rule to enforce this.
+
