@@ -7,11 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { clientID, redirectURL } from "./constants/env.ts";
 import { handleAuthCode } from "./Authentication.ts";
 
-interface User {
-  membership_id: string;
-  // Add other user properties as needed
-}
-
 const refreshTokenSchema = v.object({
   access_token: v.string(),
   expires_in: v.number(),
