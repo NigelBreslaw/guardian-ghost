@@ -50,7 +50,7 @@ export default function AuthUI(props: AuthProps) {
   function startAuth() {
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
       // Only used for web.
-      if (result?.type === "success") {
+      if (result.type === "success") {
         processURL(result.url);
       }
     });
