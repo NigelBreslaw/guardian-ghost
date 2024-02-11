@@ -4,10 +4,15 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import AuthUI from "./src/AuthUI.tsx";
+import { clientID } from "./src/constants/env.ts";
 
 export default function App() {
   const [token, setToken] = useState("");
   const [membershipID, setMembershipID] = useState("");
+
+  if (clientID === undefined) {
+    console.warn("No .ENV file found. Please create one.");
+  }
 
   return (
     <View style={styles.container}>
