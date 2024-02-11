@@ -1,6 +1,6 @@
 import { apiKey, clientID, clientSecret } from "./constants/env.ts";
 import * as v from "valibot";
-import base64 from "base-64";
+import * as base64 from "base-64";
 
 const refreshTokenSchema = v.object({
   access_token: v.string(),
