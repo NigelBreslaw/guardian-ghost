@@ -10,7 +10,7 @@ export default function App() {
   const [token, setToken] = useState("");
   const [membershipID, setMembershipID] = useState("");
 
-  if (clientID === undefined) {
+  if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
 
