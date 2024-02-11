@@ -2,17 +2,51 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import AuthUI from "./src/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
+import AuthService from "./src/AuthService";
+import { AppAction, AppState } from "./src/state/Actions.ts";
+
+const initialState: AppState = {
+  authenticated: false,
+  currentUserID: "",
+};
+
+const reducer = (state: AppState, action: AppAction) => {
+  const { authenticated, currentUserID } = state;
+  switch (action.type) {
+    case "setAuthenticated": {
+      return { authenticated: action.payload, currentUserID };
+    }
+    case "setCurrentUserID": {
+      return { authenticated, currentUserID: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 export default function App() {
-  const [token, setToken] = useState("");
-  const [membershipID, setMembershipID] = useState("");
-
-  if (clientID === undefined) {
+  if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
+
+  const authService = AuthService.getInstance();
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    // Subscribe to auth changes
+    authService.subscribe(dispatch);
+
+    // Unsubscribe when the component unmounts
+    return () => {
+      authService.unsubscribe();
+    };
+  }, [authService.subscribe, authService.unsubscribe]);
 
   return (
     <View style={styles.container}>
@@ -26,12 +60,15 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-      <AuthUI setToken={setToken} setMembershipID={setMembershipID} />
+      <AuthUI startAuth={() => authService.startAuth()} processURL={(url) => authService.processURL(url)} />
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Membership ID: <Text style={{ fontWeight: "bold" }}>{membershipID}</Text>
+        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
+      </Text>
+      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+        Logged In: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>

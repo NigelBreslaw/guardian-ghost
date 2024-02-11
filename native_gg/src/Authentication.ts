@@ -1,6 +1,7 @@
-import { apiKey, clientID, clientSecret } from "./constants/env.ts";
-import * as v from "valibot";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as base64 from "base-64";
+import * as v from "valibot";
+import { apiKey, clientID, clientSecret } from "./constants/env.ts";
 
 const refreshTokenSchema = v.object({
   access_token: v.string(),
@@ -33,7 +34,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
   const bodyParams = `client_id=${clientID}&grant_type=authorization_code&code=${bungieCode}&client_secret=${clientSecret}`;
-
+  console.log("bodyParams", bodyParams);
   const requestOptions: RequestInit = {
     method: "POST",
     headers: headers,
@@ -53,6 +54,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
         resolve(data);
       })
       .catch((error) => {
+        console.error("getRefreshToken", error);
         reject(error);
       });
   });
@@ -95,7 +97,7 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
 function processInitialAuthJWT(jwtToken: object): string {
   try {
     const initialToken = v.parse(refreshTokenSchema, jwtToken);
-
+    const membership_id = initialToken.membership_id;
     let token: RefreshToken;
 
     getAccessToken(initialToken)
@@ -103,19 +105,24 @@ function processInitialAuthJWT(jwtToken: object): string {
         token = v.parse(refreshTokenSchema, newToken);
         token.time_stamp = new Date().toISOString();
         const tokenTime = new Date(token.time_stamp).getTime();
-        // pause for 10 seconds, but don't do anything else
-        setTimeout(() => {
-          const timeNow = new Date().getTime();
-          console.log("token time", Math.trunc((timeNow - tokenTime) / 1000));
-        }, 10000);
       })
       .catch((error) => {
         console.error(error);
       });
 
-    return initialToken.membership_id;
+    return membership_id;
   } catch (error) {
     console.error(error);
     return "";
+  }
+}
+
+// This does not delete everything. Logging out should still leave user data behind for when they log back in.
+// The 'logout' might simply be the app not being used for so long it needs re-authentication.
+async function logoutCurrentUser() {
+  try {
+    await AsyncStorage.removeItem("current_user");
+  } catch (e) {
+    throw new Error("Error removing current user from storage");
   }
 }
