@@ -21,15 +21,33 @@ const refreshTokenSchema = v.object({
 type RefreshToken = v.Output<typeof refreshTokenSchema>;
 
 class AuthService {
+  private static instance: AuthService;
   private authToken: RefreshToken | null;
   private observers: ((setAuthenticated: boolean) => void)[];
   private user: string | null;
+  private foo: boolean;
 
-  constructor() {
+  private constructor() {
+    console.log("auth init");
+    this.foo = false;
     this.observers = [];
     this.authToken = null;
     this.user = null;
-    this.init();
+    this.init()
+      .then((result) => {
+        this.foo = result;
+      })
+      .catch((e) => {
+        console.log("No user or token found");
+      });
+  }
+
+  public static getInstance(): AuthService {
+    if (!AuthService.instance) {
+      AuthService.instance = new AuthService();
+    }
+
+    return AuthService.instance;
   }
 
   init(): Promise<boolean> {
@@ -37,6 +55,9 @@ class AuthService {
       // Is there a current user?
       AsyncStorage.getItem("current_user")
         .then((current_user) => {
+          if (current_user === null) {
+            return reject(false);
+          }
           this.user = current_user;
           console.log("user!", this.user);
 

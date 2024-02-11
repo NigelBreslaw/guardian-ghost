@@ -2,11 +2,13 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AuthUI from "./src/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
+import AuthService from "./src/AuthService";
 
 export default function App() {
+  const authService = useRef(AuthService.getInstance());
   const [token, setToken] = useState("");
   const [membershipID, setMembershipID] = useState("");
 
