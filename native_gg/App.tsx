@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/authentication/AuthService.ts";
@@ -32,20 +32,22 @@ export default function App() {
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
-
-  const authService = AuthService.getInstance();
-
+  const authServiceRef = useRef<AuthService | null>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    authServiceRef.current = AuthService.getInstance();
     // Subscribe to auth changes
-    authService.subscribe(dispatch);
+    authServiceRef.current.subscribe(dispatch);
 
     // Unsubscribe when the component unmounts
     return () => {
-      authService.unsubscribe();
+      if (authServiceRef.current) {
+        authServiceRef.current.unsubscribe();
+      }
+      authServiceRef.current = null;
     };
-  }, [authService.subscribe, authService.unsubscribe]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -59,7 +61,18 @@ export default function App() {
         contentFit="contain"
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
-      <AuthUI startAuth={() => authService.startAuth()} processURL={(url) => authService.processURL(url)} />
+      <AuthUI
+        startAuth={() => {
+          if (authServiceRef.current) {
+            authServiceRef.current.startAuth();
+          }
+        }}
+        processURL={(url) => {
+          if (authServiceRef.current) {
+            authServiceRef.current.processURL(url);
+          }
+        }}
+      />
 
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
