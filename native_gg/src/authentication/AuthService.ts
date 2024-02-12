@@ -123,7 +123,7 @@ class AuthService {
   setAuthToken(token: RefreshToken) {
     this.authToken = token;
     if (this.dispatch) {
-      this.dispatch({ type: "setAuthenticated", payload: true });
+      this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
     }
   }
 

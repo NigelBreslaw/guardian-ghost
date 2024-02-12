@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/authentication/AuthService.ts";
@@ -65,7 +65,7 @@ export default function App() {
         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Logged In: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+        Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>
