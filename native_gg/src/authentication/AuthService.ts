@@ -3,7 +3,7 @@ import { randomUUID } from "expo-crypto";
 import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
-import { getRefreshToken } from "./Utilities.ts";
+import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { AppAction } from "../state/Actions.ts";
 
@@ -33,10 +33,16 @@ class AuthService {
     this.authToken = null;
     this.currentUserID = "";
     this.usedAuthCodes = [];
+    const p1 = performance.now();
+
     this.init()
       // .then((result) => {})
       .catch((e) => {
-        console.log("No valid user and auth found");
+        console.info("No valid user and auth found");
+      })
+      .finally(() => {
+        const p2 = performance.now();
+        console.log("took:", (p2 - p1).toFixed(4), "ms");
       });
   }
 
@@ -51,19 +57,28 @@ class AuthService {
   init(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // Is there a current user?
-      AsyncStorage.getItem("current_user")
+      AsyncStorage.getItem("current_user_id")
         .then((current_user) => {
           if (current_user === null) {
             return reject(false);
           }
-          this.currentUserID = current_user;
+          this.setCurrentUser(current_user);
           console.log("user!", this.currentUserID);
 
           // Then is there an auth token?
-          AsyncStorage.getItem(`${this.currentUserID}_auth_token`)
+          AsyncStorage.getItem(`${this.currentUserID}_refresh_token`)
             .then((token) => {
-              console.log("token!", token);
-              resolve(true);
+              console.log("token!", token !== null);
+
+              try {
+                const stringToken = v.parse(v.string(), token);
+                const validatedToken = v.parse(refreshTokenSchema, JSON.parse(stringToken));
+                this.setAuthToken(validatedToken);
+                return resolve(true);
+              } catch (error) {
+                console.error(error);
+                return resolve(false);
+              }
             })
             .catch((e) => {
               console.error(e);
@@ -105,6 +120,13 @@ class AuthService {
     }
   }
 
+  setAuthToken(token: RefreshToken) {
+    this.authToken = token;
+    if (this.dispatch) {
+      this.dispatch({ type: "setAuthenticated", payload: true });
+    }
+  }
+
   startAuth(): void {
     this.stateID = randomUUID();
     const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${this.stateID}`;
@@ -138,6 +160,20 @@ class AuthService {
       try {
         const validatedToken = v.parse(refreshTokenSchema, initialJSONToken);
         this.setCurrentUser(validatedToken.membership_id);
+
+        AsyncStorage.setItem("current_user_id", validatedToken.membership_id)
+          .then(() => console.log("saved new user ID"))
+          .catch((e) => {
+            console.error("Failed to save user ID", e);
+          });
+
+        const fullToken = await getAccessToken(validatedToken);
+        console.log("save", `${this.currentUserID}_refresh_token`);
+        AsyncStorage.setItem(`${this.currentUserID}_refresh_token`, JSON.stringify(fullToken))
+          .then(() => console.log("saved token"))
+          .catch((e) => {
+            console.error("Failed to save token", e);
+          });
       } catch (e) {
         console.error("Failed to validate token", e);
       }
@@ -146,6 +182,16 @@ class AuthService {
     } else {
       console.log("Invalid URL", url, this.stateID);
       return;
+    }
+  }
+
+  // This does not delete everything. Logging out should still leave user data behind for when they log back in.
+  // The 'logout' might simply be the app not being used for so long it needs re-authentication.
+  async logoutCurrentUser() {
+    try {
+      await AsyncStorage.removeItem("current_user");
+    } catch (e) {
+      throw new Error("Error removing current user from storage");
     }
   }
 }

@@ -36,7 +36,6 @@ export default function App() {
   const authService = AuthService.getInstance();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [token, setToken] = useState("");
 
   useEffect(() => {
     // Subscribe to auth changes
@@ -61,9 +60,7 @@ export default function App() {
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
       <AuthUI startAuth={() => authService.startAuth()} processURL={(url) => authService.processURL(url)} />
-      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
-      </Text>
+
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
       </Text>
