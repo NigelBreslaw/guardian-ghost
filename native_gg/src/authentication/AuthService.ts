@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { Platform } from "react-native";
 import * as v from "valibot";
 import { getRefreshToken } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
@@ -25,21 +24,21 @@ class AuthService {
   private authToken: RefreshToken | null;
   private dispatch: React.Dispatch<AppAction> | null;
   private userObservers: ((setUser: string) => void)[];
-  private currentUser: string;
+  private currentUserID: string;
   private stateID: string;
   private usedAuthCodes: Array<string>;
 
   private constructor() {
     this.dispatch = null;
     this.userObservers = [];
-    this.stateID = randomUUID();
+    this.stateID = "";
     this.authToken = null;
-    this.currentUser = "";
+    this.currentUserID = "";
     this.usedAuthCodes = [];
     this.init()
       // .then((result) => {})
       .catch((e) => {
-        console.log("No user or token found");
+        console.log("No valid user and auth found");
       });
   }
 
@@ -59,11 +58,11 @@ class AuthService {
           if (current_user === null) {
             return reject(false);
           }
-          this.currentUser = current_user;
-          console.log("user!", this.currentUser);
+          this.currentUserID = current_user;
+          console.log("user!", this.currentUserID);
 
           // Then is there an auth token?
-          AsyncStorage.getItem(`${this.currentUser}_auth_token`)
+          AsyncStorage.getItem(`${this.currentUserID}_auth_token`)
             .then((token) => {
               console.log("token!", token);
               resolve(true);
@@ -92,26 +91,28 @@ class AuthService {
 
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
-    const user = this.currentUser;
+    const user = this.currentUserID;
     return user && this.authToken ? true : false;
   }
 
   // Method to get current user data
   getCurrentUser(): string {
-    return this.currentUser;
+    return this.currentUserID;
   }
 
-  setCurrentUser(user: string) {
-    this.currentUser = user;
+  setCurrentUser(membership_id: string) {
+    this.currentUserID = membership_id;
     if (this.dispatch) {
-      this.dispatch({ type: "setCurrentUserID", payload: user });
+      this.dispatch({ type: "setCurrentUserID", payload: membership_id });
     }
   }
 
   startAuth(): void {
+    this.stateID = randomUUID();
     const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${this.stateID}`;
+
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
-      // Only used for web.
+      // Used for Web and Android
       if (result.type === "success") {
         this.processURL(result.url);
       }
@@ -119,7 +120,6 @@ class AuthService {
   }
 
   async processURL(url: string) {
-    console.log("processURL");
     const { queryParams } = parse(url);
 
     if (queryParams?.code && queryParams?.state === this.stateID) {
@@ -150,22 +150,6 @@ class AuthService {
       return;
     }
   }
-
-  // Method to set user data and auth token
-  //   login(user: User, token: string): void {
-  //     localStorage.setItem("currentUser", JSON.stringify(user));
-  //     localStorage.setItem("authToken", token);
-  //     this.authToken = token;
-  //     this.notify();
-  //   }
-
-  // Method to clear user data and auth token
-  //   logout(): void {
-  //     localStorage.removeItem("currentUser");
-  //     localStorage.removeItem("authToken");
-  //     this.authToken = null;
-  //     this.notify();
-  //   }
 }
 
 export default AuthService;
