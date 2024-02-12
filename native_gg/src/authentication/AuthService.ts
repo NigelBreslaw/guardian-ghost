@@ -4,7 +4,7 @@ import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
 import * as v from "valibot";
-import { handleAuthCode } from "./Authentication.ts";
+import { handleAuthCode } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { AppAction } from "../state/Actions.ts";
 
