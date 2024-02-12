@@ -10,9 +10,21 @@ type AuthUIProps = {
 
 export default function AuthUI(props: AuthUIProps) {
   const url = useURL();
-  addEventListener("url", (event) => {
-    handleRedirect(event);
-  });
+
+  useEffect(() => {
+    const handleRedirect = (event: { url: string }) => {
+      if (Platform.OS === "ios") {
+        WebBrowser.dismissAuthSession();
+        props.processURL(event.url);
+      }
+    };
+
+    const listener = addEventListener("url", handleRedirect);
+
+    return () => {
+      listener.remove()
+    };
+  }, [props.processURL]);
 
   useEffect(() => {
     if (url) {
@@ -21,12 +33,6 @@ export default function AuthUI(props: AuthUIProps) {
       }
     }
   }, [url]);
-
-  function handleRedirect(event: { url: string }) {
-    if (Platform.OS === "ios") {
-      props.processURL(event.url);
-    }
-  }
 
   return <Button title="Auth" onPress={props.startAuth} />;
 }

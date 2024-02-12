@@ -15,19 +15,19 @@ const refreshTokenSchema = v.object({
 
 type RefreshToken = v.Output<typeof refreshTokenSchema>;
 
-export function handleAuthCode(code: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    getRefreshToken(code)
-      .then((initialJWT) => {
-        const membership_id = processInitialAuthJWT(initialJWT);
+// export function handleAuthCode(code: string): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     getRefreshToken(code)
+//       .then((initialJWT) => {
+//         const membership_id = processInitialAuthJWT(initialJWT);
 
-        resolve(membership_id);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
+//         resolve(membership_id);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// }
 
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();

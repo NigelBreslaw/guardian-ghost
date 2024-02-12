@@ -4,7 +4,7 @@ import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
 import * as v from "valibot";
-import { handleAuthCode } from "./Utilities.ts";
+import { getRefreshToken } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { AppAction } from "../state/Actions.ts";
 
@@ -119,7 +119,9 @@ class AuthService {
   }
 
   async processURL(url: string) {
+    console.log("processURL");
     const { queryParams } = parse(url);
+
     if (queryParams?.code && queryParams?.state === this.stateID) {
       const code = queryParams.code.toString();
 
@@ -133,15 +135,19 @@ class AuthService {
 
       this.usedAuthCodes.push(code);
 
-      const membership_id = await handleAuthCode(code);
-      this.setCurrentUser(membership_id);
+      // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
+      const initialJSONToken = await getRefreshToken(code);
+      try {
+        const validatedToken = v.parse(refreshTokenSchema, initialJSONToken);
+        this.setCurrentUser(validatedToken.membership_id);
+      } catch (e) {
+        console.error("Failed to validate token", e);
+      }
+
+      // validate the token
     } else {
       console.log("Invalid URL", url, this.stateID);
       return;
-    }
-
-    if (Platform.OS === "ios") {
-      WebBrowser.dismissAuthSession();
     }
   }
 
