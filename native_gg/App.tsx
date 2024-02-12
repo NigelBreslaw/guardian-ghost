@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useReducer } from "react";
@@ -67,6 +67,7 @@ export default function App() {
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
+      <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
       <StatusBar style="auto" />
     </View>
   );

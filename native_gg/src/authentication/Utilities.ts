@@ -1,18 +1,7 @@
 import * as base64 from "base-64";
 import * as v from "valibot";
 import { apiKey, clientID, clientSecret } from "../constants/env.ts";
-
-const refreshTokenSchema = v.object({
-  access_token: v.string(),
-  expires_in: v.number(),
-  membership_id: v.string(),
-  refresh_expires_in: v.number(),
-  refresh_token: v.string(),
-  time_stamp: v.optional(v.string([v.isoTimestamp()])),
-  token_type: v.string(),
-});
-
-type RefreshToken = v.Output<typeof refreshTokenSchema>;
+import { RefreshToken, refreshTokenSchema } from "./Types.ts";
 
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();
@@ -85,4 +74,32 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
         reject(error);
       });
   });
+}
+
+export function hasAccessExpired(token: RefreshToken): boolean {
+  // Access lasts 3600 seconds (1 hour)
+  if (token.time_stamp) {
+    const lifeTime = token.expires_in;
+    const timeNow = new Date();
+    const timeThen = new Date(token.time_stamp);
+    const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
+    // Count anything less than 5 mins (345 seconds) as expired
+    return secondsLeft < 345;
+  }
+
+  return true;
+}
+
+export function hasRefreshExpired(token: RefreshToken): boolean {
+  // Refresh lasts 7,776,000 seconds (90 days)
+  if (token.time_stamp) {
+    const lifeTime = token.refresh_expires_in;
+    const timeNow = new Date();
+    const timeThen = new Date(token.time_stamp);
+    const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
+    // Count anything less than 5 mins (345 seconds) as expired
+    return secondsLeft < 345;
+  }
+
+  return true;
 }

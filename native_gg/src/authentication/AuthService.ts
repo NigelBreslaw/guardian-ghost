@@ -3,21 +3,11 @@ import { randomUUID } from "expo-crypto";
 import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
-import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
+import { Store } from "../constants/storage.ts";
 import { AppAction } from "../state/Actions.ts";
-
-const refreshTokenSchema = v.object({
-  access_token: v.string(),
-  expires_in: v.number(),
-  membership_id: v.string(),
-  refresh_expires_in: v.number(),
-  refresh_token: v.string(),
-  time_stamp: v.optional(v.string([v.isoTimestamp()])),
-  token_type: v.string(),
-});
-
-type RefreshToken = v.Output<typeof refreshTokenSchema>;
+import { RefreshToken, refreshTokenSchema } from "./Types.ts";
+import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -57,7 +47,7 @@ class AuthService {
   init(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // Is there a current user?
-      AsyncStorage.getItem("current_user_id")
+      AsyncStorage.getItem(Store.current_user_ID)
         .then((current_user) => {
           if (current_user === null) {
             return reject(false);
@@ -66,7 +56,7 @@ class AuthService {
           console.log("user!", this.currentUserID);
 
           // Then is there an auth token?
-          AsyncStorage.getItem(`${this.currentUserID}_refresh_token`)
+          AsyncStorage.getItem(`${this.currentUserID}${Store._refresh_token}`)
             .then((token) => {
               console.log("token!", token !== null);
 
@@ -76,8 +66,8 @@ class AuthService {
                 this.setAuthToken(validatedToken);
                 return resolve(true);
               } catch (error) {
-                console.error(error);
-                return resolve(false);
+                console.log(error);
+                return reject(false);
               }
             })
             .catch((e) => {
@@ -120,7 +110,7 @@ class AuthService {
     }
   }
 
-  setAuthToken(token: RefreshToken) {
+  setAuthToken(token: RefreshToken | null) {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
@@ -161,16 +151,16 @@ class AuthService {
         const validatedToken = v.parse(refreshTokenSchema, initialJSONToken);
         this.setCurrentUser(validatedToken.membership_id);
 
-        AsyncStorage.setItem("current_user_id", validatedToken.membership_id)
+        AsyncStorage.setItem(Store.current_user_ID, validatedToken.membership_id)
           .then(() => console.log("saved new user ID"))
           .catch((e) => {
             console.error("Failed to save user ID", e);
           });
 
         const fullToken = await getAccessToken(validatedToken);
-        console.log("save", `${this.currentUserID}_refresh_token`);
-        AsyncStorage.setItem(`${this.currentUserID}_refresh_token`, JSON.stringify(fullToken))
-          .then(() => console.log("saved token"))
+        console.log("save", `${this.currentUserID}${Store._refresh_token}`);
+        AsyncStorage.setItem(`${this.currentUserID}${Store._refresh_token}`, JSON.stringify(fullToken))
+          .then(() => this.setAuthToken(fullToken))
           .catch((e) => {
             console.error("Failed to save token", e);
           });
@@ -187,12 +177,20 @@ class AuthService {
 
   // This does not delete everything. Logging out should still leave user data behind for when they log back in.
   // The 'logout' might simply be the app not being used for so long it needs re-authentication.
-  async logoutCurrentUser() {
+  static async logoutCurrentUser() {
+    console.log("logoutCurrentUser", AuthService.instance.currentUserID);
     try {
-      await AsyncStorage.removeItem("current_user");
+      await AsyncStorage.removeItem(Store.current_user_ID);
+      await AsyncStorage.removeItem(`${AuthService.instance.currentUserID}${Store._refresh_token}`);
+      AuthService.instance.setAuthToken(null);
+      AuthService.instance.setCurrentUser("");
     } catch (e) {
       throw new Error("Error removing current user from storage");
     }
+  }
+
+  cleanup() {
+    this.unsubscribe();
   }
 }
 
