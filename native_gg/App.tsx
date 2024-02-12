@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useReducer, useState } from "react";
-import AuthUI from "./src/AuthUI.tsx";
+import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
-import AuthService from "./src/AuthService";
+import AuthService from "./src/authentication/AuthService.ts";
 import { AppAction, AppState } from "./src/state/Actions.ts";
 
 const initialState: AppState = {
