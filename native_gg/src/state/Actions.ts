@@ -5,7 +5,7 @@ export type AppAction =
     }
   | {
       type: "setCurrentUserID";
-      payload: string;
+      payload: string | null;
     };
 
 export type AppState = {
