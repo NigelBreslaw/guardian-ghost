@@ -23,14 +23,12 @@ class AuthService {
   private static instance: AuthService;
   private authToken: RefreshToken | null;
   private dispatch: React.Dispatch<AppAction> | null;
-  private userObservers: ((setUser: string) => void)[];
   private currentUserID: string;
   private stateID: string;
   private usedAuthCodes: Array<string>;
 
   private constructor() {
     this.dispatch = null;
-    this.userObservers = [];
     this.stateID = "";
     this.authToken = null;
     this.currentUserID = "";
