@@ -67,7 +67,7 @@ export default function App() {
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
-      <Button title="Logout" onPress={AuthService.logoutCurrentUser} />
+      <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
       <StatusBar style="auto" />
     </View>
   );
