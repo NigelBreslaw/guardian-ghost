@@ -88,25 +88,6 @@ class AuthService {
     this.dispatch = null;
   }
 
-  // subscribeUser(fn: (setUser: string) => void): void {
-  //   this.userObservers.push(fn);
-  // }
-
-  // unsubscribeUser(fn: (user: string) => void): void {
-  //   this.userObservers = this.userObservers.filter((subscriber) => subscriber !== fn);
-  // }
-
-  // Method to notify all subscribers of auth changes
-  // notify(): void {
-  //   for (const observer of this.observers) {
-  //     // observer(this.isAuthenticated());
-  //     observer({ type: "setAuthenticated", payload: this.isAuthenticated() });
-  //   }
-  //   for (const observer of this.userObservers) {
-  //     observer(this.getCurrentUser());
-  //   }
-  // }
-
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
     const user = this.currentUser;
