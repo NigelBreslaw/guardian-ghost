@@ -42,8 +42,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(tailwindcss@3.4.1)
       shiki:
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.1.1
+        version: 1.1.1
       tailwind-scrollbar:
         specifier: 3.1.0
         version: 3.1.0(tailwindcss@3.4.1)
@@ -1438,8 +1438,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@shikijs/core@1.0.0:
-    resolution: {integrity: sha512-UMKGMZ+8b88N0/n6DWwWth1PHsOaxjW+R2u+hzSiargZWTv+l3s1l8dhuIxUSsEUPlBDKLs2CSMiFZeviKQM1w==}
+  /@shikijs/core@1.1.1:
+    resolution: {integrity: sha512-WSHuW0i4W04+UZgim378oxHBAp4S5X3hVI2zXh+t5v2fx2u/7QXz9VNisoOD/CA4O9Lc6Zs97TrKiDbWyZua6Q==}
     dev: false
 
   /@sinclair/typebox@0.27.8:
@@ -5491,10 +5491,10 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  /shiki@1.0.0:
-    resolution: {integrity: sha512-rOUGJa3yFGgOrEoiELYxraoBbag3ZWf9bpodlr05Wjm85Scx8OIX+otdSefq9Pk7L47TKEzGodSQb4L38jka6A==}
+  /shiki@1.1.1:
+    resolution: {integrity: sha512-7ksyiu01NltBvEcLq9GcguF+7RGa5lDwozjgdbiXnlkro1FtMCcrVtHUWbKuYBSOZW74gC4KlnBcgRCwK2ERAw==}
     dependencies:
-      '@shikijs/core': 1.0.0
+      '@shikijs/core': 1.1.1
     dev: false
 
   /shikiji-core@0.9.19:
