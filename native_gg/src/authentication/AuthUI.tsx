@@ -22,7 +22,7 @@ export default function AuthUI(props: AuthUIProps) {
     const listener = addEventListener("url", handleRedirect);
 
     return () => {
-      listener.remove()
+      listener.remove();
     };
   }, [props.processURL]);
 
