@@ -2,10 +2,10 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useReducer, useState } from "react";
-import AuthUI from "./src/AuthUI.tsx";
+import { useEffect, useReducer } from "react";
+import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
-import AuthService from "./src/AuthService";
+import AuthService from "./src/authentication/AuthService.ts";
 import { AppAction, AppState } from "./src/state/Actions.ts";
 
 const initialState: AppState = {
@@ -36,7 +36,6 @@ export default function App() {
   const authService = AuthService.getInstance();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [token, setToken] = useState("");
 
   useEffect(() => {
     // Subscribe to auth changes
@@ -61,14 +60,12 @@ export default function App() {
         source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
       />
       <AuthUI startAuth={() => authService.startAuth()} processURL={(url) => authService.processURL(url)} />
-      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Auth token: <Text style={{ fontWeight: "bold" }}>{token}</Text>
-      </Text>
+
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Logged In: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+        Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
       <StatusBar style="auto" />
     </View>

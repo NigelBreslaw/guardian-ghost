@@ -1,7 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as base64 from "base-64";
 import * as v from "valibot";
-import { apiKey, clientID, clientSecret } from "./constants/env.ts";
+import { apiKey, clientID, clientSecret } from "../constants/env.ts";
 
 const refreshTokenSchema = v.object({
   access_token: v.string(),
@@ -15,26 +14,12 @@ const refreshTokenSchema = v.object({
 
 type RefreshToken = v.Output<typeof refreshTokenSchema>;
 
-export function handleAuthCode(code: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    getRefreshToken(code)
-      .then((initialJWT) => {
-        const membership_id = processInitialAuthJWT(initialJWT);
-
-        resolve(membership_id);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
   const bodyParams = `client_id=${clientID}&grant_type=authorization_code&code=${bungieCode}&client_secret=${clientSecret}`;
-  console.log("bodyParams", bodyParams);
+
   const requestOptions: RequestInit = {
     method: "POST",
     headers: headers,
@@ -61,6 +46,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
 }
 
 export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
+  console.log("getAccessToken");
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("X-API-Key", apiKey);
@@ -83,46 +69,20 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
           console.error(response);
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
-        resolve(data);
+
+        response.json().then((rawToken) => {
+          try {
+            const validatedToken = v.parse(refreshTokenSchema, rawToken);
+            validatedToken.time_stamp = new Date().toISOString();
+            resolve(validatedToken);
+          } catch (error) {
+            console.error("went wrong here");
+            return reject(error);
+          }
+        });
       })
       .catch((error) => {
         reject(error);
       });
   });
-}
-
-function processInitialAuthJWT(jwtToken: object): string {
-  try {
-    const initialToken = v.parse(refreshTokenSchema, jwtToken);
-    const membership_id = initialToken.membership_id;
-    let token: RefreshToken;
-
-    getAccessToken(initialToken)
-      .then((newToken) => {
-        token = v.parse(refreshTokenSchema, newToken);
-        token.time_stamp = new Date().toISOString();
-        const tokenTime = new Date(token.time_stamp).getTime();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    return membership_id;
-  } catch (error) {
-    console.error(error);
-    return "";
-  }
-}
-
-// This does not delete everything. Logging out should still leave user data behind for when they log back in.
-// The 'logout' might simply be the app not being used for so long it needs re-authentication.
-async function logoutCurrentUser() {
-  try {
-    await AsyncStorage.removeItem("current_user");
-  } catch (e) {
-    throw new Error("Error removing current user from storage");
-  }
 }

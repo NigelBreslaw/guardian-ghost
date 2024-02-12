@@ -3,33 +3,36 @@ import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Button, Platform } from "react-native";
 
-type AuthProps = {
+type AuthUIProps = {
   startAuth: () => void;
   processURL: (url: string) => void;
 };
 
-export default function AuthUI(props: AuthProps) {
+export default function AuthUI(props: AuthUIProps) {
   const url = useURL();
-  addEventListener("url", (event) => {
-    handleRedirect(event);
-  });
 
-  function handleRedirect(event: { url: string }) {
-    if (Platform.OS === "ios") {
-      console.log("handleRedirect!");
-      props.processURL(event.url);
-    }
-  }
+  useEffect(() => {
+    const handleRedirect = (event: { url: string }) => {
+      if (Platform.OS === "ios") {
+        WebBrowser.dismissAuthSession();
+        props.processURL(event.url);
+      }
+    };
+
+    const listener = addEventListener("url", handleRedirect);
+
+    return () => {
+      listener.remove();
+    };
+  }, [props.processURL]);
 
   useEffect(() => {
     if (url) {
-      console.log("useEffect!");
-
       if (Platform.OS === "web") {
         WebBrowser.maybeCompleteAuthSession();
       }
     }
-  }, [url]); // Add props.startAuth to the dependency array
+  }, [url]);
 
   return <Button title="Auth" onPress={props.startAuth} />;
 }
