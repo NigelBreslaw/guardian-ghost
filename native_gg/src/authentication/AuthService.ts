@@ -95,7 +95,7 @@ class AuthService {
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
     const user = this.currentUserID;
-    console.log("isAuthenticated", user, this.authToken);
+    // console.log("isAuthenticated", user, this.authToken);
     return user && this.authToken ? true : false;
   }
 
