@@ -76,7 +76,7 @@ class AuthService {
                 this.setAuthToken(validatedToken);
                 return resolve(true);
               } catch (error) {
-                console.error(error);
+                console.log(error);
                 return reject(false);
               }
             })
