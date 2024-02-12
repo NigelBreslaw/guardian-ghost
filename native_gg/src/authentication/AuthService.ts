@@ -27,6 +27,7 @@ class AuthService {
   private userObservers: ((setUser: string) => void)[];
   private currentUser: string;
   private stateID: string;
+  private usedAuthCodes: Array<string>;
 
   private constructor() {
     this.dispatch = null;
@@ -34,6 +35,7 @@ class AuthService {
     this.stateID = randomUUID();
     this.authToken = null;
     this.currentUser = "";
+    this.usedAuthCodes = [];
     this.init()
       // .then((result) => {})
       .catch((e) => {
@@ -117,15 +119,21 @@ class AuthService {
   }
 
   async processURL(url: string) {
-    console.log("processURL!!!", url);
     const { queryParams } = parse(url);
     if (queryParams?.code && queryParams?.state === this.stateID) {
       const code = queryParams.code.toString();
-      // props.setToken(code);
+
+      // Ensure the same auth code can never be processed more than once
+      const codeExists = this.usedAuthCodes.some((usedCode) => usedCode === code);
+      if (codeExists) {
+        console.error("!Code already used");
+        return;
+      }
+
+      this.usedAuthCodes.push(code);
 
       const membership_id = await handleAuthCode(code);
       this.setCurrentUser(membership_id);
-      // props.setMembershipID(membership_id);
     } else {
       console.log("Invalid URL", url, this.stateID);
       return;
