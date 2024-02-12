@@ -3,22 +3,11 @@ import { randomUUID } from "expo-crypto";
 import { parse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
-import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 import { clientID, redirectURL } from "../constants/env.ts";
-import { AppAction } from "../state/Actions.ts";
 import { Store } from "../constants/storage.ts";
-
-const refreshTokenSchema = v.object({
-  access_token: v.string(),
-  expires_in: v.number(),
-  membership_id: v.string(),
-  refresh_expires_in: v.number(),
-  refresh_token: v.string(),
-  time_stamp: v.optional(v.string([v.isoTimestamp()])),
-  token_type: v.string(),
-});
-
-type RefreshToken = v.Output<typeof refreshTokenSchema>;
+import { AppAction } from "../state/Actions.ts";
+import { RefreshToken, refreshTokenSchema } from "./Types.ts";
+import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -198,6 +187,10 @@ class AuthService {
     } catch (e) {
       throw new Error("Error removing current user from storage");
     }
+  }
+
+  cleanup() {
+    this.unsubscribe();
   }
 }
 
