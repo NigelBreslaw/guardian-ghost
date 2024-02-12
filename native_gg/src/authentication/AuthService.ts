@@ -123,7 +123,8 @@ class AuthService {
     if (queryParams?.code && queryParams?.state === this.stateID) {
       const code = queryParams.code.toString();
 
-      // Ensure the same auth code can never be processed more than once
+      // Ensure the same auth code can never be processed more than once. If it did the second
+      // would fail with 'invalid_grand'.
       const codeExists = this.usedAuthCodes.some((usedCode) => usedCode === code);
       if (codeExists) {
         console.error("!Code already used");
