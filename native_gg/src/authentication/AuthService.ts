@@ -77,7 +77,7 @@ class AuthService {
                 return resolve(true);
               } catch (error) {
                 console.error(error);
-                return resolve(false);
+                return reject(false);
               }
             })
             .catch((e) => {
