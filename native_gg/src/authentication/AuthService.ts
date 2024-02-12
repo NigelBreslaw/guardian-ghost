@@ -95,6 +95,7 @@ class AuthService {
   // Method to check if user data and auth token exist
   isAuthenticated(): boolean {
     const user = this.currentUserID;
+    console.log("isAuthenticated", user, this.authToken);
     return user && this.authToken ? true : false;
   }
 
@@ -107,6 +108,8 @@ class AuthService {
     this.currentUserID = membership_id;
     if (this.dispatch) {
       this.dispatch({ type: "setCurrentUserID", payload: membership_id });
+    } else {
+      console.error("No dispatch");
     }
   }
 
@@ -114,6 +117,8 @@ class AuthService {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
+    } else {
+      console.error("No dispatch");
     }
   }
 
