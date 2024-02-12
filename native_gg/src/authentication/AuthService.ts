@@ -23,7 +23,7 @@ class AuthService {
   private static instance: AuthService;
   private authToken: RefreshToken | null;
   private dispatch: React.Dispatch<AppAction> | null;
-  private currentUserID: string;
+  private currentUserID: string | null;
   private stateID: string;
   private usedAuthCodes: Array<string>;
 
@@ -109,18 +109,18 @@ class AuthService {
   }
 
   // Method to get current user data
-  getCurrentUser(): string {
+  getCurrentUser(): string | null {
     return this.currentUserID;
   }
 
-  setCurrentUser(membership_id: string) {
+  setCurrentUser(membership_id: string | null) {
     this.currentUserID = membership_id;
-    if (this.dispatch) {
+    if (typeof membership_id === "string" && this.dispatch) {
       this.dispatch({ type: "setCurrentUserID", payload: membership_id });
     }
   }
 
-  setAuthToken(token: RefreshToken) {
+  setAuthToken(token: RefreshToken | null) {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
@@ -190,6 +190,9 @@ class AuthService {
   async logoutCurrentUser() {
     try {
       await AsyncStorage.removeItem("current_user");
+      await AsyncStorage.removeItem(`${this.currentUserID}_refresh_token`);
+      this.setAuthToken(null);
+      this.setCurrentUser(null);
     } catch (e) {
       throw new Error("Error removing current user from storage");
     }
