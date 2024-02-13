@@ -82,6 +82,15 @@ class AuthService {
     });
   }
 
+  static getTokenAsync(): Promise<RefreshToken | null> {
+    return new Promise((resolve, reject) => {
+      if (AuthService.instance.authToken) {
+        return resolve(AuthService.instance.authToken);
+      }
+      reject(AuthService.instance.authToken);
+    });
+  }
+
   // Method to subscribe to auth changes
   subscribe(dispatch: React.Dispatch<AppAction>) {
     this.dispatch = dispatch;
