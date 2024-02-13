@@ -82,6 +82,8 @@ class AuthService {
     });
   }
 
+  // TODO: Make this check the current token if valid and if not get a new one and return that.
+  // This also needs an async queue to handle multiple requests for the token.
   static getTokenAsync(): Promise<RefreshToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.instance.authToken) {
