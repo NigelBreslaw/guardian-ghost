@@ -43,7 +43,7 @@ export default function App() {
     // Unsubscribe when the component unmounts
     return () => {
       if (authServiceRef.current) {
-        authServiceRef.current.unsubscribe();
+        authServiceRef.current.cleanup();
       }
       authServiceRef.current = null;
     };

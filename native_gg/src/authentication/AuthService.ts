@@ -8,6 +8,7 @@ import { Store } from "../constants/storage.ts";
 import { AppAction } from "../state/Actions.ts";
 import { RefreshToken, refreshTokenSchema } from "./Types.ts";
 import { getAccessToken, getRefreshToken } from "./Utilities.ts";
+import { getLinkedProfiles } from "./bungie/User.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -79,6 +80,17 @@ class AuthService {
           console.error(e);
           reject(false);
         });
+    });
+  }
+
+  // TODO: Make this check the current token if valid and if not get a new one and return that.
+  // This also needs an async queue to handle multiple requests for the token.
+  static getTokenAsync(): Promise<RefreshToken | null> {
+    return new Promise((resolve, reject) => {
+      if (AuthService.instance.authToken) {
+        return resolve(AuthService.instance.authToken);
+      }
+      reject(AuthService.instance.authToken);
     });
   }
 
@@ -165,7 +177,10 @@ class AuthService {
         const fullToken = await getAccessToken(validatedToken);
         console.log("save", `${this.currentUserID}${Store._refresh_token}`);
         AsyncStorage.setItem(`${this.currentUserID}${Store._refresh_token}`, JSON.stringify(fullToken))
-          .then(() => this.setAuthToken(fullToken))
+          .then(() => {
+            this.setAuthToken(fullToken);
+            this.buildBungieAccount();
+          })
           .catch((e) => {
             console.error("Failed to save token", e);
           });
@@ -177,6 +192,22 @@ class AuthService {
     } else {
       console.log("Invalid URL", url, this.stateID);
       return;
+    }
+  }
+
+  async buildBungieAccount() {
+    if (this.authToken) {
+      getLinkedProfiles(this.currentUserID, this.authToken.access_token)
+        .then((data) => {
+          console.log("getLinkedProfiles", data);
+        })
+        .catch((e) => {
+          // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
+          // It needs some kind of big alert and then a logout.
+          console.error("Failed to get linked profiles", e);
+        });
+    } else {
+      console.error("No authToken");
     }
   }
 
