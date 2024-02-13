@@ -15,7 +15,10 @@ export async function getLinkedProfiles(membership_id: string, access_token: str
   };
 
   return new Promise((resolve, reject) => {
-    fetch(`https://www.bungie.net/Platform/Destiny2/254/Profile/${membership_id}/LinkedProfiles/`, requestOptions)
+    fetch(
+      `https://www.bungie.net/Platform/Destiny2/254/Profile/${membership_id}/LinkedProfiles/${parameters}`,
+      requestOptions,
+    )
       .then((response) => {
         if (!response.ok) {
           console.error(response);
