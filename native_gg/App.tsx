@@ -6,39 +6,25 @@ import { useEffect, useReducer, useRef } from "react";
 import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/authentication/AuthService.ts";
-import { AppAction, AppState } from "./src/state/Actions.ts";
-
-const initialState: AppState = {
-  authenticated: false,
-  currentAccount: null,
-};
-
-const reducer = (state: AppState, action: AppAction) => {
-  const { authenticated, currentAccount } = state;
-  switch (action.type) {
-    case "setAuthenticated": {
-      return { authenticated: action.payload, currentAccount };
-    }
-    case "setCurrentAccount": {
-      return { authenticated, currentAccount: action.payload };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+import { authReducer, initialAuthState } from "./src/state/Actions.ts";
 
 export default function App() {
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
   const authServiceRef = useRef<AuthService | null>(null);
-  authServiceRef.current = AuthService.getInstance();
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-  authServiceRef.current.subscribe(dispatch);
+  const [state, dispatch] = useReducer(authReducer, initialAuthState);
+
+  const accountAvatar = state.initComplete
+    ? state.currentAccount
+      ? `https://www.bungie.net${state.currentAccount?.iconPath}`
+      : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+    : "";
 
   useEffect(() => {
+    authServiceRef.current = AuthService.getInstance();
+    authServiceRef.current.subscribe(dispatch);
     // Unsubscribe when the component unmounts
     return () => {
       if (authServiceRef.current) {
@@ -56,16 +42,7 @@ export default function App() {
       />
       <Text style={{ color: "#fff" }}>Guardian Ghost</Text>
 
-      <Image
-        style={{ width: 200, height: 200 }}
-        contentFit="contain"
-        transition={300}
-        source={
-          state.currentAccount
-            ? `https://www.bungie.net${state.currentAccount?.iconPath}`
-            : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
-        }
-      />
+      <Image style={{ width: 200, height: 200 }} contentFit="contain" transition={300} source={accountAvatar} />
 
       <AuthUI
         startAuth={() => {
