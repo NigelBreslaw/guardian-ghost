@@ -10,17 +10,17 @@ import { AppAction, AppState } from "./src/state/Actions.ts";
 
 const initialState: AppState = {
   authenticated: false,
-  currentUserID: "",
+  currentAccount: null,
 };
 
 const reducer = (state: AppState, action: AppAction) => {
-  const { authenticated, currentUserID } = state;
+  const { authenticated, currentAccount } = state;
   switch (action.type) {
     case "setAuthenticated": {
-      return { authenticated: action.payload, currentUserID };
+      return { authenticated: action.payload, currentAccount };
     }
-    case "setCurrentUserID": {
-      return { authenticated, currentUserID: action.payload };
+    case "setCurrentAccount": {
+      return { authenticated, currentAccount: action.payload };
     }
     default: {
       return state;
@@ -55,12 +55,18 @@ export default function App() {
         colors={["#232526", "#66686a"]}
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
-      <Text style={{ color: "#fff" }}>Open up App.tsx to start working on your app!</Text>
+      <Text style={{ color: "#fff" }}>Guardian Ghost</Text>
+
       <Image
         style={{ width: 200, height: 200 }}
         contentFit="contain"
-        source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+        source={
+          state.currentAccount
+            ? `https://www.bungie.net${state.currentAccount?.iconPath}`
+            : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+        }
       />
+
       <AuthUI
         startAuth={() => {
           if (authServiceRef.current) {
@@ -75,7 +81,7 @@ export default function App() {
       />
 
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
+        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
