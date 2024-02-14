@@ -1,14 +1,16 @@
+import { BungieUser } from "../account/Account";
+
 export type AppAction =
   | {
       type: "setAuthenticated";
       payload: boolean;
     }
   | {
-      type: "setCurrentUserID";
-      payload: string;
+      type: "setCurrentAccount";
+      payload: BungieUser | null;
     };
 
 export type AppState = {
   authenticated: boolean;
-  currentUserID: string;
+  currentAccount: BungieUser | null;
 };

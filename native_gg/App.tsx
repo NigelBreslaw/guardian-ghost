@@ -10,17 +10,17 @@ import { AppAction, AppState } from "./src/state/Actions.ts";
 
 const initialState: AppState = {
   authenticated: false,
-  currentUserID: "",
+  currentAccount: null,
 };
 
 const reducer = (state: AppState, action: AppAction) => {
-  const { authenticated, currentUserID } = state;
+  const { authenticated, currentAccount } = state;
   switch (action.type) {
     case "setAuthenticated": {
-      return { authenticated: action.payload, currentUserID };
+      return { authenticated: action.payload, currentAccount };
     }
-    case "setCurrentUserID": {
-      return { authenticated, currentUserID: action.payload };
+    case "setCurrentAccount": {
+      return { authenticated, currentAccount: action.payload };
     }
     default: {
       return state;
@@ -75,7 +75,7 @@ export default function App() {
       />
 
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentUserID}</Text>
+        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
       </Text>
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>

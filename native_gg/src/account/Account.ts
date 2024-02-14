@@ -1,5 +1,6 @@
 import * as v from "valibot";
 import { apiKey } from "../constants/env.ts";
+import { RefreshToken } from "../authentication/Types.ts";
 
 const PlatformSilverSchema = v.object({
   itemHash: v.number(),
@@ -50,7 +51,7 @@ export const BnetMembershipSchema = v.object({
   supplementalDisplayName: v.string(),
 });
 
-export const linkedProfilesScheme = v.object({
+export const linkedProfilesSchema = v.object({
   ErrorCode: v.number(),
   ErrorStatus: v.string(),
   Message: v.string(),
@@ -64,13 +65,24 @@ export const linkedProfilesScheme = v.object({
 export type BungieProfile = v.Output<typeof ProfileSchema>;
 export type BnetMembership = v.Output<typeof BnetMembershipSchema>;
 
-export async function getLinkedProfiles(
-  membership_id: string,
-  access_token: string,
-  getAllAccounts = false,
-): Promise<JSON> {
+export type LinkedProfiles = v.Output<typeof linkedProfilesSchema>;
+
+export const BungieUserSchema = v.object({
+  supplementalDisplayName: v.string(),
+  iconPath: v.string(),
+  topLevelAccountMembershipId: v.string(),
+  profile: v.object({
+    membershipId: v.string(),
+    membershipType: v.string(),
+    displayName: v.string(),
+  }),
+});
+
+export type BungieUser = v.Output<typeof BungieUserSchema>;
+
+export async function getLinkedProfiles(authToken: RefreshToken, getAllAccounts = false): Promise<JSON> {
   const headers = new Headers();
-  headers.append("Authorization", `Bearer ${access_token}`);
+  headers.append("Authorization", `Bearer ${authToken.access_token}`);
   headers.append("X-API-Key", apiKey);
 
   const parameters = "?getAllMemberships=true";
@@ -82,7 +94,7 @@ export async function getLinkedProfiles(
 
   return new Promise((resolve, reject) => {
     fetch(
-      `https://www.bungie.net/Platform/Destiny2/254/Profile/${membership_id}/LinkedProfiles/${
+      `https://www.bungie.net/Platform/Destiny2/254/Profile/${authToken.membership_id}/LinkedProfiles/${
         getAllAccounts ? parameters : ""
       }`,
       requestOptions,
@@ -104,20 +116,23 @@ export async function getLinkedProfiles(
   });
 }
 
-export type LinkedProfiles = v.Output<typeof linkedProfilesScheme>;
+export function getBungieUser(linkedProfiles: LinkedProfiles): BungieUser {
+  if (linkedProfiles.Response.profiles[0]) {
+    const bungieProfile: BungieProfile = linkedProfiles.Response.profiles[0];
 
-type BungieUser = {
-  membershipId: string;
-  membershipType: string;
-  displayName: string;
-};
+    return {
+      supplementalDisplayName: linkedProfiles.Response.bnetMembership.supplementalDisplayName,
+      iconPath: linkedProfiles.Response.bnetMembership.iconPath,
+      topLevelAccountMembershipId: linkedProfiles.Response.bnetMembership.membershipId,
+      profile: {
+        membershipId: bungieProfile.membershipId,
+        membershipType: bungieProfile.membershipType.toString(),
+        displayName: bungieProfile.displayName,
+      },
+    };
+  }
 
-export function getBungieUser(profile: BungieProfile): BungieUser {
-  return {
-    membershipId: profile.membershipId,
-    membershipType: profile.membershipType.toString(),
-    displayName: profile.displayName,
-  };
+  throw new Error("Unable to find valid Destiny 2 user");
 }
 // internalBungieUser.membershipId = String(data.profiles[0].membershipId)
 //             internalBungieUser.membershipType = String(data.profiles[0].membershipType)
