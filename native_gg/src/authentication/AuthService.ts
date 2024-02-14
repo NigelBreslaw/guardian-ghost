@@ -6,9 +6,9 @@ import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
 import { AppAction } from "../state/Actions.ts";
-import { RefreshToken, linkedProfilesScheme, refreshTokenSchema } from "./Types.ts";
+import { RefreshToken, refreshTokenSchema } from "./Types.ts";
 import { getAccessToken, getRefreshToken } from "./Utilities.ts";
-import { getLinkedProfiles } from "../account/Account.ts";
+import { BungieProfile, getBungieUser, getLinkedProfiles, linkedProfilesScheme } from "../account/Account.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -205,8 +205,19 @@ class AuthService {
         if (linkedProfiles.Response.profiles.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(this.currentUserID, this.authToken.access_token, true);
           linkedProfiles = v.parse(linkedProfilesScheme, rawLinkedProfiles);
+          console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
-        // if (linkedProfiles.Response.)
+
+        if (linkedProfiles.Response.profiles.length === 0) {
+          console.error("No linked profiles");
+          return;
+        }
+
+        if (linkedProfiles.Response.profiles[0]) {
+          const bungieProfile: BungieProfile = linkedProfiles.Response.profiles[0];
+          const bungieUser = getBungieUser(bungieProfile);
+          console.log("bungieUser", bungieUser);
+        }
       } catch (e) {
         // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
         // It needs some kind of big alert and then a logout.
