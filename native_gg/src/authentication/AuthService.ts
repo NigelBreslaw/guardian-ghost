@@ -67,8 +67,6 @@ class AuthService {
           // Then is there an auth token?
           AsyncStorage.getItem(`${this.currentUserID}${Store._refresh_token}`)
             .then((token) => {
-              console.log("token!", token !== null);
-
               try {
                 const stringToken = v.parse(v.string(), token);
                 const validatedToken = v.parse(refreshTokenSchema, JSON.parse(stringToken));
@@ -196,7 +194,6 @@ class AuthService {
   async buildBungieAccount(authToken: RefreshToken) {
     if (authToken) {
       try {
-        console.log("hello");
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
         let linkedProfiles = v.parse(linkedProfilesSchema, rawLinkedProfiles);
 
