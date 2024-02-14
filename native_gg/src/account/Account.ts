@@ -1,4 +1,4 @@
-import { apiKey } from "../../constants/env.ts";
+import { apiKey } from "../constants/env.ts";
 
 export async function getLinkedProfiles(membership_id: string, access_token: string): Promise<JSON> {
   const headers = new Headers();

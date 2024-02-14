@@ -8,7 +8,7 @@ import { Store } from "../constants/storage.ts";
 import { AppAction } from "../state/Actions.ts";
 import { RefreshToken, refreshTokenSchema } from "./Types.ts";
 import { getAccessToken, getRefreshToken } from "./Utilities.ts";
-import { getLinkedProfiles } from "./bungie/User.ts";
+import { getLinkedProfiles } from "../account/Account.ts";
 
 class AuthService {
   private static instance: AuthService;
