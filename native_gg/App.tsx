@@ -33,13 +33,12 @@ export default function App() {
     console.warn("No .ENV file found. Please create one.");
   }
   const authServiceRef = useRef<AuthService | null>(null);
+  authServiceRef.current = AuthService.getInstance();
+
   const [state, dispatch] = useReducer(reducer, initialState);
+  authServiceRef.current.subscribe(dispatch);
 
   useEffect(() => {
-    authServiceRef.current = AuthService.getInstance();
-    // Subscribe to auth changes
-    authServiceRef.current.subscribe(dispatch);
-
     // Unsubscribe when the component unmounts
     return () => {
       if (authServiceRef.current) {
@@ -60,6 +59,7 @@ export default function App() {
       <Image
         style={{ width: 200, height: 200 }}
         contentFit="contain"
+        transition={300}
         source={
           state.currentAccount
             ? `https://www.bungie.net${state.currentAccount?.iconPath}`
