@@ -9,7 +9,7 @@ updates:
     directory: "/gg-mono" # Location of package manifests
     schedule:
       interval: "daily"
-      time: "07:00"
+      time: "04:00"
     groups:
       vitest:
         patterns:
@@ -27,7 +27,7 @@ updates:
     directory: "/native_gg" # Location react native package.json
     schedule:
       interval: "daily"
-      time: "07:00"
+      time: "04:00"
     groups:
       expo:
         patterns:
@@ -49,4 +49,4 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "07:00"
+      time: "04:00"
