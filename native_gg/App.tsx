@@ -55,12 +55,18 @@ export default function App() {
         colors={["#232526", "#66686a"]}
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
-      <Text style={{ color: "#fff" }}>Open up App.tsx to start working on your app!</Text>
+      <Text style={{ color: "#fff" }}>Guardian Ghost</Text>
+
       <Image
         style={{ width: 200, height: 200 }}
         contentFit="contain"
-        source="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+        source={
+          state.currentAccount
+            ? `https://www.bungie.net${state.currentAccount?.iconPath}`
+            : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+        }
       />
+
       <AuthUI
         startAuth={() => {
           if (authServiceRef.current) {
