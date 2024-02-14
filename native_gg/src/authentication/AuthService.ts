@@ -102,7 +102,7 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  subscribe(dispatch: React.Dispatch<AppAction>) {
+  subscribe(dispatch: React.Dispatch<AuthAction>) {
     this.dispatch = dispatch;
   }
 
