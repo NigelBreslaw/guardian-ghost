@@ -35,7 +35,6 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
 }
 
 export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
-  console.log("getAccessToken");
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("X-API-Key", apiKey);
