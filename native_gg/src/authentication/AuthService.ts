@@ -5,7 +5,6 @@ import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
-import { AppAction } from "../state/Actions.ts";
 import { RefreshToken, refreshTokenSchema } from "./Types.ts";
 import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 import {
@@ -15,11 +14,12 @@ import {
   getLinkedProfiles,
   linkedProfilesSchema,
 } from "../account/Account.ts";
+import { AuthAction } from "../state/Actions.ts";
 
 class AuthService {
   private static instance: AuthService;
   private authToken: RefreshToken | null;
-  private dispatch: React.Dispatch<AppAction> | null;
+  private dispatch: React.Dispatch<AuthAction> | null;
   private stateID: string;
   private usedAuthCodes: Array<string>;
   private currentAccount: BungieUser | null;
@@ -40,6 +40,7 @@ class AuthService {
         console.info("No valid user and auth found");
       })
       .finally(() => {
+        this.setInitComplete();
         const p2 = performance.now();
         console.log("took:", (p2 - p1).toFixed(4), "ms");
       });
@@ -101,7 +102,7 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  subscribe(dispatch: React.Dispatch<AppAction>) {
+  subscribe(dispatch: React.Dispatch<AuthAction>) {
     this.dispatch = dispatch;
   }
 
@@ -141,6 +142,14 @@ class AuthService {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
+    } else {
+      console.error("No dispatch");
+    }
+  }
+
+  setInitComplete() {
+    if (this.dispatch) {
+      this.dispatch({ type: "setInitComplete", payload: true });
     } else {
       console.error("No dispatch");
     }
