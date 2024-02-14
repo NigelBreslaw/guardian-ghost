@@ -1,13 +1,15 @@
 import { apiKey } from "../constants/env.ts";
 
-export async function getLinkedProfiles(membership_id: string, access_token: string): Promise<JSON> {
+export async function getLinkedProfiles(
+  membership_id: string,
+  access_token: string,
+  getAllAccounts = false,
+): Promise<JSON> {
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${access_token}`);
   headers.append("X-API-Key", apiKey);
 
   const parameters = "?getAllMemberships=true";
-
-  console.log("parameters", parameters);
 
   const requestOptions: RequestInit = {
     method: "GET",
@@ -16,7 +18,9 @@ export async function getLinkedProfiles(membership_id: string, access_token: str
 
   return new Promise((resolve, reject) => {
     fetch(
-      `https://www.bungie.net/Platform/Destiny2/254/Profile/${membership_id}/LinkedProfiles/${parameters}`,
+      `https://www.bungie.net/Platform/Destiny2/254/Profile/${membership_id}/LinkedProfiles/${
+        getAllAccounts ? parameters : ""
+      }`,
       requestOptions,
     )
       .then((response) => {

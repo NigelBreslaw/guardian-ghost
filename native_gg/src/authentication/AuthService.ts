@@ -6,7 +6,7 @@ import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
 import { AppAction } from "../state/Actions.ts";
-import { RefreshToken, refreshTokenSchema } from "./Types.ts";
+import { RefreshToken, linkedProfilesScheme, refreshTokenSchema } from "./Types.ts";
 import { getAccessToken, getRefreshToken } from "./Utilities.ts";
 import { getLinkedProfiles } from "../account/Account.ts";
 
@@ -197,17 +197,21 @@ class AuthService {
 
   async buildBungieAccount() {
     if (this.authToken) {
-      getLinkedProfiles(this.currentUserID, this.authToken.access_token)
-        .then((data) => {
-          console.log("getLinkedProfiles", data);
-        })
-        .catch((e) => {
-          // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
-          // It needs some kind of big alert and then a logout.
-          console.error("Failed to get linked profiles", e);
-        });
-    } else {
-      console.error("No authToken");
+      try {
+        console.log("hello");
+        let rawLinkedProfiles = await getLinkedProfiles(this.currentUserID, this.authToken.access_token);
+        let linkedProfiles = v.parse(linkedProfilesScheme, rawLinkedProfiles);
+
+        if (linkedProfiles.Response.profiles.length === 0) {
+          rawLinkedProfiles = await getLinkedProfiles(this.currentUserID, this.authToken.access_token, true);
+          linkedProfiles = v.parse(linkedProfilesScheme, rawLinkedProfiles);
+        }
+        // if (linkedProfiles.Response.)
+      } catch (e) {
+        // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
+        // It needs some kind of big alert and then a logout.
+        console.error("Failed to get linked profiles", e);
+      }
     }
   }
 
