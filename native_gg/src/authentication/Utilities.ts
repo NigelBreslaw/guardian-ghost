@@ -1,7 +1,18 @@
 import * as base64 from "base-64";
 import * as v from "valibot";
 import { apiKey, clientID, clientSecret } from "../constants/env.ts";
-import { RefreshToken, refreshTokenSchema } from "./Types.ts";
+
+export const refreshTokenSchema = v.object({
+  access_token: v.string(),
+  expires_in: v.number(),
+  membership_id: v.string(),
+  refresh_expires_in: v.number(),
+  refresh_token: v.string(),
+  time_stamp: v.optional(v.string([v.isoTimestamp()])),
+  token_type: v.string(),
+});
+
+export type RefreshToken = v.Output<typeof refreshTokenSchema>;
 
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();
