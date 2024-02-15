@@ -23,3 +23,18 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
       });
   });
 }
+
+function updateItemDefinition(language = "en"): Promise<JSON> {
+  return getCustomItemDefinition(language).then((data) => {
+    const itemDefinition = data;
+    console.log("Item Definition", itemDefinition);
+    return itemDefinition;
+  });
+}
+
+export async function testItemDefinition() {
+  const p1 = performance.now();
+  const def = await updateItemDefinition();
+  const p2 = performance.now();
+  console.log("init() took:", (p2 - p1).toFixed(4), "ms");
+}
