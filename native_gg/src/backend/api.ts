@@ -1,12 +1,6 @@
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
-  const headers = new Headers();
-  headers.append("Cache-Control", "no-cache");
-  headers.append("Pragma", "no-cache");
-  headers.append("Content-Type", "application/json");
-
   const requestOptions: RequestInit = {
     method: "GET",
-    headers: headers,
   };
 
   return new Promise((resolve, reject) => {
