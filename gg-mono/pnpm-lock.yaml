@@ -91,8 +91,8 @@ importers:
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
-        specifier: 0.18.0
-        version: 0.18.0(astro@4.3.7)
+        specifier: 0.18.1
+        version: 0.18.1(astro@4.3.7)
       astro:
         specifier: 4.3.7
         version: 4.3.7(typescript@5.3.3)
@@ -284,8 +284,8 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.18.0(astro@4.3.7):
-    resolution: {integrity: sha512-pEYcuSf+t8aHJZQzGKJfgHGQpidrtifDqWE0jZevADpR+JJhyK2LXWhcOYCZiqDUil28FZmVr+/FrA3Dnw8xQQ==}
+  /@astrojs/starlight@0.18.1(astro@4.3.7):
+    resolution: {integrity: sha512-6sM9m52fVsCfu4cR9M9ZIZLwPpbcS0/E6PZPGKaHinXbailzLZTtFQndPzDOEIFBOOPj6KQvGfrgQDby9rNovQ==}
     peerDependencies:
       astro: ^4.2.7
     dependencies:
@@ -300,6 +300,7 @@ packages:
       hast-util-select: 6.0.2
       hastscript: 8.0.0
       mdast-util-directive: 3.0.0
+      mdast-util-to-markdown: 2.1.0
       pagefind: 1.0.4
       rehype: 13.0.1
       remark-directive: 3.0.0
