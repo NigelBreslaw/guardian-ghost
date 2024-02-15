@@ -5,8 +5,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
-import { RefreshToken, refreshTokenSchema } from "./Types.ts";
-import { getAccessToken, getRefreshToken } from "./Utilities.ts";
+import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken } from "./Utilities.ts";
 import {
   BungieUser,
   BungieUserSchema,

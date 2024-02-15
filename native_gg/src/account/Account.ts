@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { apiKey } from "../constants/env.ts";
-import { RefreshToken } from "../authentication/Types.ts";
+import { RefreshToken } from "../authentication/Utilities.ts";
 
 const PlatformSilverSchema = v.object({
   itemHash: v.number(),
