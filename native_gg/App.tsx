@@ -40,10 +40,12 @@ export default function App() {
         colors={["#232526", "#66686a"]}
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
-      <Text style={{ color: "#fff" }}>Guardian Ghost</Text>
+      <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
+      <View style={styles.spacer} />
       <View style={styles.imageContainer}>
         <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
       </View>
+      <View style={styles.spacer} />
       <AuthUI
         startAuth={() => {
           if (authServiceRef.current) {
@@ -57,12 +59,13 @@ export default function App() {
         }}
       />
 
-      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
-      </Text>
+      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
+      <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+
       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
       </Text>
+      <View style={styles.spacer} />
       <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
       <StatusBar style="auto" />
     </View>
@@ -84,40 +87,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
+  spacer: {
+    marginTop: 20,
+  },
 });
-
-//       <Image style={{ width: 200, height: 200 }} contentFit="contain" transition={300} source={accountAvatar} />
-
-//       <AuthUI
-//         startAuth={() => {
-//           if (authServiceRef.current) {
-//             authServiceRef.current.startAuth();
-//           }
-//         }}
-//         processURL={(url) => {
-//           if (authServiceRef.current) {
-//             authServiceRef.current.processURL(url);
-//           }
-//         }}
-//       />
-
-//       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-//         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
-//       </Text>
-//       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-//         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
-//       </Text>
-//       <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
