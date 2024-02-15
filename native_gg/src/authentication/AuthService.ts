@@ -35,14 +35,13 @@ class AuthService {
     const p1 = performance.now();
 
     this.init()
-      // .then((result) => {})
       .catch((e) => {
         console.info("No valid user and auth found");
       })
       .finally(() => {
         this.setInitComplete();
         const p2 = performance.now();
-        console.log("took:", (p2 - p1).toFixed(4), "ms");
+        console.log("init() took:", (p2 - p1).toFixed(4), "ms");
       });
   }
 
