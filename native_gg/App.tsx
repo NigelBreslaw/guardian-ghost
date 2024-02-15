@@ -41,9 +41,9 @@ export default function App() {
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
       <Text style={{ color: "#fff" }}>Guardian Ghost</Text>
-
-      <Image style={{ width: 200, height: 200 }} contentFit="contain" transition={300} source={accountAvatar} />
-
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
+      </View>
       <AuthUI
         startAuth={() => {
           if (authServiceRef.current) {
@@ -76,4 +76,48 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  imageContainer: {
+    borderRadius: 20,
+    overflow: "hidden",
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
 });
+
+//       <Image style={{ width: 200, height: 200 }} contentFit="contain" transition={300} source={accountAvatar} />
+
+//       <AuthUI
+//         startAuth={() => {
+//           if (authServiceRef.current) {
+//             authServiceRef.current.startAuth();
+//           }
+//         }}
+//         processURL={(url) => {
+//           if (authServiceRef.current) {
+//             authServiceRef.current.processURL(url);
+//           }
+//         }}
+//       />
+
+//       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+//         Membership ID: <Text style={{ fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+//       </Text>
+//       <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+//         Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+//       </Text>
+//       <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
+//       <StatusBar style="auto" />
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+// });
