@@ -1,5 +1,9 @@
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   const headers = new Headers();
+  headers.append("Cache-Control", "no-cache");
+  headers.append("Pragma", "no-cache");
+  headers.append("Content-Type", "application/json");
+
   const requestOptions: RequestInit = {
     method: "GET",
     headers: headers,
@@ -27,14 +31,14 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
 function updateItemDefinition(language = "en"): Promise<JSON> {
   return getCustomItemDefinition(language).then((data) => {
     const itemDefinition = data;
-    console.log("Item Definition", itemDefinition);
     return itemDefinition;
   });
 }
 
 export async function testItemDefinition() {
   const p1 = performance.now();
-  const def = await updateItemDefinition();
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const def: any = await updateItemDefinition();
   const p2 = performance.now();
-  console.log("init() took:", (p2 - p1).toFixed(4), "ms");
+  console.log("download) took:", (p2 - p1).toFixed(4), "ms");
 }

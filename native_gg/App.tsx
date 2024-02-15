@@ -69,7 +69,7 @@ export default function App() {
       <View style={styles.spacer} />
       <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
       <View style={styles.spacer} />
-      <Button title="Get Item Definition" onPress={testItemDefinition} />
+      <Button title="Get Item Definition" onPress={() => testItemDefinition()} />
       <StatusBar style="auto" />
     </View>
   );
