@@ -10,7 +10,6 @@ type storageKey = "item_definition" | "accounts";
 
 class StorageGG {
   private static instance: StorageGG;
-  private static isReady = false;
   private nativeStore = new MMKV();
 
   private constructor() {}
@@ -21,8 +20,6 @@ class StorageGG {
     }
     return StorageGG.instance;
   }
-
-  private init() {}
 
   static setData(data: JSON, storageKey: storageKey, errorMessage: string): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -60,12 +57,9 @@ class StorageGG {
 
       openRequest.onsuccess = () => {
         const db = openRequest.result;
-        // Start a transaction
         const tx = db.transaction(Store.storeName, "readwrite");
-        // Get the store
         const store = tx.objectStore(Store.storeName);
 
-        // Add the string to the store
         const request = store.put(data, storageKey);
         request.onsuccess = () => {
           console.log("data added to the store", storageKey);
