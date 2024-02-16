@@ -1,5 +1,4 @@
 import AuthService from "../authentication/AuthService";
-import { RefreshToken } from "../authentication/Utilities";
 import { apiKey } from "../constants/env";
 
 const bungieUrl = "https://www.bungie.net";
@@ -10,9 +9,10 @@ const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshot
 export const profileComponents =
   "Profiles,ProfileInventories,ProfileCurrencies,ProfileProgression,Characters,CharacterInventories,CharacterLoadouts,CharacterProgressions,CharacterActivities,CharacterEquipment,ItemInstances,ItemObjectives,ItemPerks,ItemStats,ItemSockets,ItemTalentGrids,ItemCommonData,ItemPlugObjectives,ItemReusablePlugs,StringVariables,Records";
 
-export async function getProfile(components: string, authToken: RefreshToken): Promise<JSON> {
+export async function getProfile(components: string): Promise<JSON> {
+  const authToken = await AuthService.getTokenAsync();
   const headers = new Headers();
-  headers.append("Authorization", `Bearer ${authToken.access_token}`);
+  headers.append("Authorization", `Bearer ${authToken?.access_token}`);
   headers.append("X-API-Key", apiKey);
 
   const requestOptions: RequestInit = {
