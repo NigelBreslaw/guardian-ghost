@@ -27,16 +27,15 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
 export async function saveItemDefinition() {
   const p1 = performance.now();
   const jsonDefinition = await getCustomItemDefinition();
-  const stringDefinition = JSON.stringify(jsonDefinition);
-  StorageGG.setData(stringDefinition, "item_definition", "saveItemDefinition()");
+  StorageGG.setData(jsonDefinition, "item_definition", "saveItemDefinition()");
   const p2 = performance.now();
   console.log("saveItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
 }
 
 export async function getItemDefinition() {
   const p1 = performance.now();
-  const stringDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
-  const jsonDefinition = JSON.parse(stringDefinition);
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const jsonDefinition: any = await StorageGG.getData("item_definition", "getItemDefinition()");
   const p2 = performance.now();
   console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
   console.log(jsonDefinition["236588"]);
