@@ -8,11 +8,13 @@ import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/authentication/AuthService.ts";
 import { authReducer, initialAuthState } from "./src/state/Actions.ts";
 import { testItemDefinition } from "./src/backend/api.ts";
+import StorageGG from "./src/storage/StorageGG.ts";
 
 export default function App() {
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
     console.warn("No .ENV file found. Please create one.");
   }
+  const storeRef = useRef(StorageGG.getInstance());
   const authServiceRef = useRef<AuthService | null>(null);
 
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
