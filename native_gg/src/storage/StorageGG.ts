@@ -24,16 +24,25 @@ class StorageGG {
 
   private init() {}
 
-  setData(data: string, storageKey: storageKey, errorMessage: string): Promise<void> {
-    if (Platform.OS === "web") {
-      return this.setWebStore(data, storageKey, errorMessage);
-    }
-    return this.setNativeStore(data, storageKey, errorMessage);
+  static setData(data: string, storageKey: storageKey, errorMessage: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (Platform.OS === "web") {
+        return resolve(StorageGG.setWebStore(data, storageKey, errorMessage));
+      }
+      resolve(StorageGG.setNativeStore(data, storageKey, errorMessage));
+    });
   }
 
-  // getString and getJson
+  static getData(storageKey: storageKey, errorMessage: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (Platform.OS === "web") {
+        return resolve(StorageGG.getWebStore(storageKey, errorMessage));
+      }
+      resolve(StorageGG.getNativeStore(storageKey, errorMessage));
+    });
+  }
 
-  private setWebStore(data: string, storageKey: storageKey, errorMessage: string): Promise<void> {
+  private static setWebStore(data: string, storageKey: storageKey, errorMessage: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const openRequest = indexedDB.open(Store.factoryName, 1);
 
@@ -70,7 +79,7 @@ class StorageGG {
     });
   }
 
-  private getWebStore(storageKey: storageKey, errorMessage: string): Promise<string> {
+  private static getWebStore(storageKey: storageKey, errorMessage: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const openRequest = indexedDB.open(Store.factoryName, 1);
 
@@ -105,22 +114,25 @@ class StorageGG {
     });
   }
 
-  setNativeStore(data: string, storageKey: storageKey, errorMessage: string): void {
+  private static setNativeStore(data: string, storageKey: storageKey, errorMessage: string): void {
     try {
-      this.nativeStore.set(storageKey, data);
+      const nativeStore = StorageGG.getInstance().nativeStore;
+      nativeStore.set(storageKey, data);
       console.log("data added to native store", storageKey);
     } catch (e) {
       console.error("setNativeStore Error", errorMessage, e);
     }
   }
 
-  getNativeStore(storageKey: storageKey, errorMessage: string): string {
+  private static getNativeStore(storageKey: storageKey, errorMessage: string): string {
     try {
-      const data = this.nativeStore.getString(storageKey) as string;
+      const nativeStore = StorageGG.getInstance().nativeStore;
+      const data = nativeStore.getString(storageKey) as string;
       console.log("data retrieved from native store", storageKey);
       return data;
     } catch (e) {
       console.error("getNativeStore Error", errorMessage, e);
+      throw new Error(String(e));
     }
   }
 
