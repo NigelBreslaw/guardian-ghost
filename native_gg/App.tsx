@@ -7,7 +7,7 @@ import AuthUI from "./src/authentication/AuthUI.tsx";
 import { clientID } from "./src/constants/env.ts";
 import AuthService from "./src/authentication/AuthService.ts";
 import { authReducer, initialAuthState } from "./src/state/Actions.ts";
-import { testItemDefinition } from "./src/backend/api.ts";
+import { getItemDefinition, saveItemDefinition } from "./src/backend/api.ts";
 import StorageGG from "./src/storage/StorageGG.ts";
 
 export default function App() {
@@ -71,7 +71,8 @@ export default function App() {
       <View style={styles.spacer} />
       <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
       <View style={styles.spacer} />
-      <Button title="Get Item Definition" onPress={() => testItemDefinition()} />
+      <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
+      <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
       <StatusBar style="auto" />
     </View>
   );
