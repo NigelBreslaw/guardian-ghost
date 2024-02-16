@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useReducer, useRef } from "react";
@@ -38,65 +38,77 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.topContainer}>
+      <StatusBar style="light" />
       <LinearGradient
         colors={["#232526", "#66686a"]}
         style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
       />
-      <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
-      <View style={styles.spacer} />
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
-      </View>
-      <View style={styles.spacer} />
-      <AuthUI
-        startAuth={() => {
-          if (authServiceRef.current) {
-            authServiceRef.current.startAuth();
-          }
-        }}
-        processURL={(url) => {
-          if (authServiceRef.current) {
-            authServiceRef.current.processURL(url);
-          }
-        }}
-      />
+      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
+        <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
+        <View style={styles.spacer} />
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
+        </View>
+        <View style={styles.spacer} />
+        <AuthUI
+          startAuth={() => {
+            if (authServiceRef.current) {
+              authServiceRef.current.startAuth();
+            }
+          }}
+          processURL={(url) => {
+            if (authServiceRef.current) {
+              authServiceRef.current.processURL(url);
+            }
+          }}
+        />
 
-      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
-      <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+        <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
+        <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
 
-      <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-        Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
-      </Text>
-      <View style={styles.spacer} />
-      <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
-      <View style={styles.spacer} />
-      <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
-      <View style={styles.spacer} />
-      <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
-      <View style={styles.spacer} />
-      <Button title="getProfile()" onPress={() => getProfileTest()} />
-      <StatusBar style="auto" />
-    </View>
+        <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+          Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+        </Text>
+        <View style={styles.spacer} />
+        <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
+        <View style={styles.spacer} />
+        <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
+        <View style={styles.spacer} />
+        <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
+        <View style={styles.spacer} />
+        <Button title="getProfile()" onPress={() => getProfileTest()} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  topContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
   },
   imageContainer: {
-    borderRadius: 20,
-    overflow: "hidden",
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 3,
   },
   image: {
     width: 200,
     height: 200,
+    borderRadius: 16,
+    overflow: "hidden",
   },
   spacer: {
-    marginTop: 20,
+    marginTop: 10,
   },
 });
