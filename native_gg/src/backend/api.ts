@@ -35,8 +35,9 @@ export async function saveItemDefinition() {
 
 export async function getItemDefinition() {
   const p1 = performance.now();
-  // const jsonDefinition = await getCustomItemDefinition();
   const stringDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
+  const jsonDefinition = JSON.parse(stringDefinition);
   const p2 = performance.now();
   console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
+  console.log(jsonDefinition["236588"]);
 }
