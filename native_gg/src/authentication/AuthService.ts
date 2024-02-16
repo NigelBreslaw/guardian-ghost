@@ -52,7 +52,7 @@ class AuthService {
     return AuthService.instance;
   }
 
-  init(): Promise<boolean> {
+  private init(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // Is there a current user?
       AsyncStorage.getItem(Store._bungie_user)

@@ -1,3 +1,5 @@
+import StorageGG from "../storage/StorageGG";
+
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   const requestOptions: RequestInit = {
     method: "GET",
@@ -22,17 +24,20 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   });
 }
 
-function updateItemDefinition(language = "en"): Promise<JSON> {
-  return getCustomItemDefinition(language).then((data) => {
-    const itemDefinition = data;
-    return itemDefinition;
-  });
+export async function saveItemDefinition() {
+  const p1 = performance.now();
+  const jsonDefinition = await getCustomItemDefinition();
+  const stringDefinition = JSON.stringify(jsonDefinition);
+  StorageGG.setData(stringDefinition, "item_definition", "saveItemDefinition()");
+  const p2 = performance.now();
+  console.log("saveItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
 }
 
-export async function testItemDefinition() {
+export async function getItemDefinition() {
   const p1 = performance.now();
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const def: any = await updateItemDefinition();
+  const stringDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
+  const jsonDefinition = JSON.parse(stringDefinition);
   const p2 = performance.now();
-  console.log("download) took:", (p2 - p1).toFixed(4), "ms");
+  console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
+  console.log(jsonDefinition["236588"]);
 }
