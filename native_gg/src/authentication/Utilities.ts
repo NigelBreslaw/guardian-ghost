@@ -2,7 +2,7 @@ import * as base64 from "base-64";
 import * as v from "valibot";
 import { apiKey, clientID, clientSecret } from "../constants/env.ts";
 
-export const refreshTokenSchema = v.object({
+export const authTokenSchema = v.object({
   access_token: v.string(),
   expires_in: v.number(),
   membership_id: v.string(),
@@ -12,7 +12,7 @@ export const refreshTokenSchema = v.object({
   token_type: v.string(),
 });
 
-export type RefreshToken = v.Output<typeof refreshTokenSchema>;
+export type AuthToken = v.Output<typeof authTokenSchema>;
 
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();
@@ -45,7 +45,7 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
   });
 }
 
-export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
+export function getAccessToken(token: AuthToken): Promise<AuthToken> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("X-API-Key", apiKey);
@@ -71,7 +71,7 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
 
         response.json().then((rawToken) => {
           try {
-            const validatedToken = v.parse(refreshTokenSchema, rawToken);
+            const validatedToken = v.parse(authTokenSchema, rawToken);
             validatedToken.time_stamp = new Date().toISOString();
             resolve(validatedToken);
           } catch (error) {
@@ -86,7 +86,7 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
   });
 }
 
-export function isValidAccessToken(token: RefreshToken): boolean {
+export function isValidAccessToken(token: AuthToken): boolean {
   // Access lasts 3600 seconds (1 hour)
   if (token.time_stamp) {
     const lifeTime = token.expires_in;
@@ -100,7 +100,7 @@ export function isValidAccessToken(token: RefreshToken): boolean {
   return true;
 }
 
-export function isValidRefreshToken(token: RefreshToken): boolean {
+export function isValidRefreshToken(token: AuthToken): boolean {
   // Refresh lasts 7,776,000 seconds (90 days)
   if (token.time_stamp) {
     const lifeTime = token.refresh_expires_in;

@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { apiKey } from "../constants/env.ts";
-import { RefreshToken } from "../authentication/Utilities.ts";
+import { AuthToken } from "../authentication/Utilities.ts";
 
 const PlatformSilverSchema = v.object({
   itemHash: v.number(),
@@ -80,7 +80,7 @@ export const BungieUserSchema = v.object({
 
 export type BungieUser = v.Output<typeof BungieUserSchema>;
 
-export async function getLinkedProfiles(authToken: RefreshToken, getAllAccounts = false): Promise<JSON> {
+export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = false): Promise<JSON> {
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken.access_token}`);
   headers.append("X-API-Key", apiKey);
