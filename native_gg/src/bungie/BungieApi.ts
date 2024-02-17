@@ -20,7 +20,7 @@ export async function getProfile(components: string): Promise<JSON> {
     headers: headers,
   };
 
-  const account = AuthService.getInstance().getCurrentAccount();
+  const account = AuthService.getCurrentAccount();
   const membershipType = account?.profile.membershipType;
   const membershipId = account?.profile.membershipId;
 
