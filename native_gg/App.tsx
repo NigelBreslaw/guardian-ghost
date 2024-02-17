@@ -46,37 +46,39 @@ export default function App() {
           colors={["#232526", "#66686a"]}
           style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
         />
-        <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-          <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
-          <View style={styles.spacer} />
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+            <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
+            <View style={styles.spacer} />
+            <View style={styles.imageContainer}>
+              <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
+            </View>
+            <View style={styles.spacer} />
+            <AuthUI
+              disabled={state.authenticated}
+              startAuth={() => {
+                AuthService.startAuth();
+              }}
+              processURL={(url) => {
+                AuthService.processURL(url);
+              }}
+            />
+
+            <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
+            <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+
+            <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+              Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+            </Text>
+            <View style={styles.spacer} />
+            <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
+            <View style={styles.spacer} />
+            <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
+            <View style={styles.spacer} />
+            <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
+            <View style={styles.spacer} />
+            <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
           </View>
-          <View style={styles.spacer} />
-          <AuthUI
-            disabled={state.authenticated}
-            startAuth={() => {
-              AuthService.startAuth();
-            }}
-            processURL={(url) => {
-              AuthService.processURL(url);
-            }}
-          />
-
-          <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
-
-          <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-            Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
-          </Text>
-          <View style={styles.spacer} />
-          <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
-          <View style={styles.spacer} />
-          <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
-          <View style={styles.spacer} />
-          <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
-          <View style={styles.spacer} />
-          <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  scrollContainer: {},
   imageContainer: {
     borderRadius: 16,
     shadowColor: "#000",
