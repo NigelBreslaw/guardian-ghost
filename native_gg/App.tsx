@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useReducer, useRef } from "react";
@@ -38,45 +39,47 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.topContainer}>
-      <StatusBar style="light" />
-      <LinearGradient
-        colors={["#232526", "#66686a"]}
-        style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
-      />
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-        <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
-        <View style={styles.spacer} />
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
-        </View>
-        <View style={styles.spacer} />
-        <AuthUI
-          disabled={state.authenticated}
-          startAuth={() => {
-            AuthService.startAuth();
-          }}
-          processURL={(url) => {
-            AuthService.processURL(url);
-          }}
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <SafeAreaView style={styles.topContainer}>
+        <StatusBar style="light" />
+        <LinearGradient
+          colors={["#232526", "#66686a"]}
+          style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
         />
+        <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
+          <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
+          <View style={styles.spacer} />
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
+          </View>
+          <View style={styles.spacer} />
+          <AuthUI
+            disabled={state.authenticated}
+            startAuth={() => {
+              AuthService.startAuth();
+            }}
+            processURL={(url) => {
+              AuthService.processURL(url);
+            }}
+          />
 
-        <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
-        <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+          <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
 
-        <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-          Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
-        </Text>
-        <View style={styles.spacer} />
-        <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
-        <View style={styles.spacer} />
-        <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
-        <View style={styles.spacer} />
-        <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
-        <View style={styles.spacer} />
-        <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
-      </ScrollView>
-    </SafeAreaView>
+          <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
+            Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+          </Text>
+          <View style={styles.spacer} />
+          <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
+          <View style={styles.spacer} />
+          <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
+          <View style={styles.spacer} />
+          <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
+          <View style={styles.spacer} />
+          <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
