@@ -145,6 +145,41 @@ class AuthService {
       reject(AuthService.instance.authToken);
     });
   }
+  // This function validates, gets refreshed tokens, saves and sets them.
+  private static validateAndSetToken(token: AuthToken): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let validToken = token;
+
+      const isValidRefresh = isValidRefreshToken(token);
+      if (!isValidRefresh) {
+        // Nothing can be done. The user needs to re-auth.
+        console.error("Refresh token expired");
+        return reject(false);
+      }
+
+      const isValidAccess = isValidAccessToken(token);
+      if (!isValidAccess) {
+        getAccessToken(token)
+          .then((newAuthToken) => {
+            validToken = newAuthToken;
+          })
+          .catch((e) => {
+            return reject(e);
+          });
+      }
+
+      AuthService.saveAndSetToken(validToken);
+
+      return resolve(true);
+    });
+  }
+
+  private static saveAndSetToken(token: AuthToken) {
+    const currentUserID = AuthService.instance.currentUserID;
+    AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
+    AuthService.getInstance().setAuthToken(token);
+  }
+
 
   // Method to subscribe to auth changes
   subscribe(dispatch: React.Dispatch<AuthAction>) {
@@ -183,7 +218,7 @@ class AuthService {
     }
   }
 
-  setAuthToken(token: AuthToken | null) {
+  setAuthToken(token: RefreshToken | null) {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
@@ -231,7 +266,7 @@ class AuthService {
       // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
       const initialJSONToken = await getRefreshToken(code);
       try {
-        const validatedToken = v.parse(authTokenSchema, initialJSONToken);
+        const validatedToken = v.parse(refreshTokenSchema, initialJSONToken);
         const fullToken = await getAccessToken(validatedToken);
         this.buildBungieAccount(fullToken);
       } catch (e) {
@@ -245,7 +280,7 @@ class AuthService {
     }
   }
 
-  async buildBungieAccount(authToken: AuthToken) {
+  async buildBungieAccount(authToken: RefreshToken) {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
