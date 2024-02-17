@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Button, Platform } from "react-native";
 
 type AuthUIProps = {
+  disabled: boolean;
   startAuth: () => void;
   processURL: (url: string) => void;
 };
@@ -34,5 +35,5 @@ export default function AuthUI(props: AuthUIProps) {
     }
   }, [url]);
 
-  return <Button title="Auth" onPress={props.startAuth} />;
+  return <Button disabled={props.disabled} title="Auth" onPress={props.startAuth} />;
 }

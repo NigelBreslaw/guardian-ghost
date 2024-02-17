@@ -52,6 +52,7 @@ export default function App() {
         </View>
         <View style={styles.spacer} />
         <AuthUI
+          disabled={state.authenticated}
           startAuth={() => {
             if (authServiceRef.current) {
               authServiceRef.current.startAuth();
@@ -71,13 +72,13 @@ export default function App() {
           Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
         </Text>
         <View style={styles.spacer} />
-        <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
+        <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
         <View style={styles.spacer} />
         <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
         <View style={styles.spacer} />
         <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
         <View style={styles.spacer} />
-        <Button title="getProfile()" onPress={() => getProfileTest()} />
+        <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
       </ScrollView>
     </SafeAreaView>
   );
