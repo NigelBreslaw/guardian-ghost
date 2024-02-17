@@ -1,4 +1,4 @@
-package com.example.withnewarch
+package com.guardianghost
 
 import android.app.Application
 import android.content.res.Configuration
