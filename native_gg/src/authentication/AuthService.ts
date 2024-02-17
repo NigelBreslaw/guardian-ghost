@@ -76,31 +76,7 @@ class AuthService {
               try {
                 const stringToken = v.parse(v.string(), token);
                 const validatedToken = v.parse(authTokenSchema, JSON.parse(stringToken));
-
-                const isValidRefresh = isValidRefreshToken(validatedToken);
-                if (!isValidRefresh) {
-                  console.error("Refresh token expired");
-                  return reject(false);
-                }
-                console.log("valid refresh token");
-                const isValidAccess = isValidAccessToken(validatedToken);
-                if (!isValidAccess) {
-                  console.log("Access token expired");
-                  getAccessToken(validatedToken)
-                    .then((newAuthToken) => {
-                      console.log("Got new access token");
-                      AsyncStorage.setItem(
-                        `${this.currentUserID}${Store._refresh_token}`,
-                        JSON.stringify(newAuthToken),
-                      );
-                      this.setAuthToken(newAuthToken);
-                      return resolve(true);
-                    })
-                    .catch((e) => {
-                      return reject(e);
-                    });
-                }
-                this.setAuthToken(validatedToken);
+                AuthService.validateAndSetToken(validatedToken);
                 return resolve(true);
               } catch (error) {
                 console.log(error);
@@ -123,27 +99,53 @@ class AuthService {
   static getTokenAsync(): Promise<AuthToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.instance.authToken) {
-        /// is the access token valid?
-        const isValid = isValidAccessToken(AuthService.instance.authToken);
-        if (!isValid) {
-          console.log("Token expired");
-          getAccessToken(AuthService.instance.authToken)
-            .then((authToken) => {
-              const currentUserID = AuthService.instance.currentUserID;
-              AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(authToken));
-              AuthService.instance.setAuthToken(authToken);
-              console.log("Got new token");
-              return resolve(authToken);
-            })
-            .catch((e) => {
-              return reject(e);
-            });
-        }
-
-        return resolve(AuthService.instance.authToken);
+        AuthService.validateAndSetToken(AuthService.instance.authToken)
+          .then(() => {
+            return resolve(AuthService.instance.authToken);
+          })
+          .catch((e) => {
+            console.error("Failed to validate token", e);
+            return reject(null);
+          });
+      } else {
+        return reject(null);
       }
-      reject(AuthService.instance.authToken);
     });
+  }
+
+  // This function validates, gets refreshed tokens, saves and sets them.
+  private static validateAndSetToken(token: AuthToken): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let validToken = token;
+
+      const isValidRefresh = isValidRefreshToken(token);
+      if (!isValidRefresh) {
+        // Nothing can be done. The user needs to re-auth.
+        console.error("Refresh token expired");
+        return reject(false);
+      }
+
+      const isValidAccess = isValidAccessToken(token);
+      if (!isValidAccess) {
+        getAccessToken(token)
+          .then((newAuthToken) => {
+            validToken = newAuthToken;
+          })
+          .catch((e) => {
+            return reject(e);
+          });
+      }
+
+      AuthService.saveAndSetToken(validToken);
+
+      return resolve(true);
+    });
+  }
+
+  private static saveAndSetToken(token: AuthToken) {
+    const currentUserID = AuthService.instance.currentUserID;
+    AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
+    AuthService.getInstance().setAuthToken(token);
   }
 
   // Method to subscribe to auth changes
