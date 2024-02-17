@@ -5,7 +5,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
-import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken, isValidAccess } from "./Utilities.ts";
+import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken, isValidAccessToken } from "./Utilities.ts";
 import {
   BungieUser,
   BungieUserSchema,
@@ -94,7 +94,7 @@ class AuthService {
     return new Promise((resolve, reject) => {
       if (AuthService.instance.authToken) {
         /// is the access token valid?
-        const isValid = isValidAccess(AuthService.instance.authToken);
+        const isValid = isValidAccessToken(AuthService.instance.authToken);
         if (!isValid) {
           console.log("Token expired");
           getAccessToken(AuthService.instance.authToken)

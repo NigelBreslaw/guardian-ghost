@@ -86,7 +86,7 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
   });
 }
 
-export function isValidAccess(token: RefreshToken): boolean {
+export function isValidAccessToken(token: RefreshToken): boolean {
   // Access lasts 3600 seconds (1 hour)
   if (token.time_stamp) {
     const lifeTime = token.expires_in;
@@ -100,7 +100,7 @@ export function isValidAccess(token: RefreshToken): boolean {
   return true;
 }
 
-export function isValidRefresh(token: RefreshToken): boolean {
+export function isValidRefreshToken(token: RefreshToken): boolean {
   // Refresh lasts 7,776,000 seconds (90 days)
   if (token.time_stamp) {
     const lifeTime = token.refresh_expires_in;
