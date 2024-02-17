@@ -5,7 +5,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
-import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken } from "./Utilities.ts";
+import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken, hasAccessExpired } from "./Utilities.ts";
 import {
   BungieUser,
   BungieUserSchema,
@@ -93,6 +93,23 @@ class AuthService {
   static getTokenAsync(): Promise<RefreshToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.instance.authToken) {
+        /// is the access token valid?
+        const hasExpired = hasAccessExpired(AuthService.instance.authToken);
+        if (hasExpired) {
+          console.log("Token expired");
+          getAccessToken(AuthService.instance.authToken)
+            .then((authToken) => {
+              const currentUserID = AuthService.instance.currentUserID;
+              AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(authToken));
+              AuthService.instance.setAuthToken(authToken);
+              console.log("Got new token");
+              return resolve(authToken);
+            })
+            .catch((e) => {
+              return reject(e);
+            });
+        }
+
         return resolve(AuthService.instance.authToken);
       }
       reject(AuthService.instance.authToken);
