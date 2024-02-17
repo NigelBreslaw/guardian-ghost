@@ -54,14 +54,10 @@ export default function App() {
         <AuthUI
           disabled={state.authenticated}
           startAuth={() => {
-            if (authServiceRef.current) {
-              authServiceRef.current.startAuth();
-            }
+            AuthService.startAuth();
           }}
           processURL={(url) => {
-            if (authServiceRef.current) {
-              authServiceRef.current.processURL(url);
-            }
+            AuthService.processURL(url);
           }}
         />
 

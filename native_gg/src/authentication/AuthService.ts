@@ -24,20 +24,14 @@ import { AuthAction } from "../state/Actions.ts";
 
 class AuthService {
   private static instance: AuthService;
-  private authToken: AuthToken | null;
-  private dispatch: React.Dispatch<AuthAction> | null;
-  private stateID: string;
-  private usedAuthCodes: Array<string>;
-  private currentAccount: BungieUser | null;
-  private currentUserID: string;
+  private static authToken: AuthToken | null = null;
+  private static dispatch: React.Dispatch<AuthAction> | null = null;
+  private static stateID = "";
+  private static usedAuthCodes: Array<string> = [];
+  private static currentAccount: BungieUser | null = null;
+  private static currentUserID = "";
 
   private constructor() {
-    this.dispatch = null;
-    this.stateID = "";
-    this.authToken = null;
-    this.usedAuthCodes = [];
-    this.currentAccount = null;
-    this.currentUserID = "";
     const p1 = performance.now();
 
     this.init()
@@ -68,10 +62,10 @@ class AuthService {
             return reject(false);
           }
           const validatedAccount = v.parse(BungieUserSchema, JSON.parse(currentAccount));
-          this.setCurrentAccount(validatedAccount);
+          AuthService.setCurrentAccount(validatedAccount);
 
           // Then is there an auth token?
-          AsyncStorage.getItem(`${this.currentUserID}${Store._refresh_token}`)
+          AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`)
             .then((token) => {
               try {
                 const stringToken = v.parse(v.string(), token);
@@ -98,10 +92,10 @@ class AuthService {
   // TODO: This also needs an async queue to handle multiple requests for the token.
   static getTokenAsync(): Promise<AuthToken | null> {
     return new Promise((resolve, reject) => {
-      if (AuthService.instance.authToken) {
-        AuthService.validateAndSetToken(AuthService.instance.authToken)
+      if (AuthService.authToken) {
+        AuthService.validateAndSetToken(AuthService.authToken)
           .then(() => {
-            return resolve(AuthService.instance.authToken);
+            return resolve(AuthService.authToken);
           })
           .catch((e) => {
             console.error("Failed to validate token", e);
@@ -143,111 +137,111 @@ class AuthService {
   }
 
   private static saveAndSetToken(token: AuthToken) {
-    const currentUserID = AuthService.instance.currentUserID;
+    const currentUserID = AuthService.currentUserID;
     AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
-    AuthService.getInstance().setAuthToken(token);
+    AuthService.setAuthToken(token);
   }
 
   // Method to subscribe to auth changes
   subscribe(dispatch: React.Dispatch<AuthAction>) {
-    this.dispatch = dispatch;
+    AuthService.dispatch = dispatch;
   }
 
   // Method to unsubscribe from auth changes
   unsubscribe() {
-    this.dispatch = null;
+    AuthService.dispatch = null;
   }
 
   // Method to check if user data and auth token exist
-  isAuthenticated(): boolean {
-    const account = this.currentAccount;
+  static isAuthenticated(): boolean {
     // TODO: This is wrong. It should use getTokenAsync so it needs to be async and whatever calls it should await.
-    return account && this.authToken ? true : false;
+    return AuthService.currentAccount && AuthService.authToken ? true : false;
   }
 
   // Method to get current user data
-  getCurrentAccount(): BungieUser | null {
-    return this.currentAccount;
+  static getCurrentAccount(): BungieUser | null {
+    return AuthService.currentAccount;
   }
-
-  setCurrentAccount(bungieUser: BungieUser | null) {
-    this.currentAccount = bungieUser;
+  static setCurrentAccount(bungieUser: BungieUser | null) {
+    AuthService.currentAccount = bungieUser;
     if (bungieUser) {
-      this.currentUserID = bungieUser.profile.membershipId;
+      AuthService.currentUserID = bungieUser.profile.membershipId;
     } else {
-      this.currentUserID = "";
+      AuthService.currentUserID = "";
     }
 
-    if (this.dispatch) {
-      this.dispatch({ type: "setCurrentAccount", payload: bungieUser });
+    if (AuthService.dispatch) {
+      AuthService.dispatch({ type: "setCurrentAccount", payload: bungieUser });
     } else {
       console.error("No dispatch");
     }
   }
 
-  setAuthToken(token: AuthToken | null) {
-    this.authToken = token;
-    if (this.dispatch) {
-      this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
+  private static setAuthToken(token: AuthToken | null) {
+    AuthService.authToken = token;
+
+    const dispatch = AuthService.dispatch;
+    if (dispatch) {
+      dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
     } else {
       console.error("No dispatch");
     }
   }
 
   setInitComplete() {
-    if (this.dispatch) {
-      this.dispatch({ type: "setInitComplete", payload: true });
+    if (AuthService.dispatch) {
+      AuthService.dispatch({ type: "setInitComplete", payload: true });
     } else {
       console.error("No dispatch");
     }
   }
 
-  startAuth(): void {
-    this.stateID = randomUUID();
-    const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${this.stateID}`;
+  static startAuth(): void {
+    AuthService.stateID = randomUUID();
+    const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${AuthService.stateID}`;
 
     WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
       // Used for Web and Android
       if (result.type === "success") {
-        this.processURL(result.url);
+        AuthService.processURL(result.url);
       }
     });
   }
 
-  async processURL(url: string) {
+  static async processURL(url: string) {
     const { queryParams } = parse(url);
 
-    if (queryParams?.code && queryParams?.state === this.stateID) {
+    if (queryParams?.code && queryParams?.state === AuthService.stateID) {
       const code = queryParams.code.toString();
 
       // Ensure the same auth code can never be processed more than once. If it did the second
       // would fail with 'invalid_grand'.
-      const codeExists = this.usedAuthCodes.some((usedCode) => usedCode === code);
+      const codeExists = AuthService.usedAuthCodes.some((usedCode) => usedCode === code);
       if (codeExists) {
         console.error("!Code already used");
         return;
       }
 
-      this.usedAuthCodes.push(code);
+      AuthService.usedAuthCodes.push(code);
 
       // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
       const initialJSONToken = await getRefreshToken(code);
       try {
         const validatedToken = v.parse(authTokenSchema, initialJSONToken);
         const fullToken = await getAccessToken(validatedToken);
-        this.buildBungieAccount(fullToken);
+        AuthService.buildBungieAccount(fullToken);
       } catch (e) {
         console.error("Failed to validate token", e);
       }
 
       // validate the token
     } else {
-      console.log("Invalid URL", url, this.stateID);
+      console.log("Invalid URL", url, AuthService.stateID);
       return;
     }
   }
 
-  async buildBungieAccount(authToken: AuthToken) {
+  static async buildBungieAccount(authToken: AuthToken) {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
@@ -264,10 +258,9 @@ class AuthService {
           return;
         }
         const bungieUser = getBungieUser(linkedProfiles);
-        this.setCurrentAccount(bungieUser);
+        AuthService.setCurrentAccount(bungieUser);
         AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
-        AsyncStorage.setItem(`${this.currentUserID}${Store._refresh_token}`, JSON.stringify(authToken));
-        this.setAuthToken(authToken);
+        AuthService.validateAndSetToken(authToken);
       } catch (e) {
         // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
         // It needs some kind of big alert and then a logout.
@@ -279,12 +272,12 @@ class AuthService {
   // This does not delete everything. Logging out should still leave user data behind for when they log back in.
   // The 'logout' might simply be the app not being used for so long it needs re-authentication.
   static async logoutCurrentUser() {
-    console.log("logoutCurrentUser", AuthService.instance.currentUserID);
+    console.log("logoutCurrentUser", AuthService.currentUserID);
     try {
       await AsyncStorage.removeItem(Store._bungie_user);
-      await AsyncStorage.removeItem(`${AuthService.instance.currentUserID}${Store._refresh_token}`);
-      AuthService.instance.setAuthToken(null);
-      AuthService.instance.setCurrentAccount(null);
+      await AsyncStorage.removeItem(`${AuthService.currentUserID}${Store._refresh_token}`);
+      AuthService.setAuthToken(null);
+      AuthService.setCurrentAccount(null);
     } catch (e) {
       throw new Error("Error removing current user from storage");
     }
