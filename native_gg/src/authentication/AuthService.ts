@@ -5,7 +5,14 @@ import * as WebBrowser from "expo-web-browser";
 import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
-import { RefreshToken, refreshTokenSchema, getAccessToken, getRefreshToken, isValidAccessToken } from "./Utilities.ts";
+import {
+  RefreshToken,
+  refreshTokenSchema,
+  getAccessToken,
+  getRefreshToken,
+  isValidAccessToken,
+  isValidRefreshToken,
+} from "./Utilities.ts";
 import {
   BungieUser,
   BungieUserSchema,
@@ -69,6 +76,30 @@ class AuthService {
               try {
                 const stringToken = v.parse(v.string(), token);
                 const validatedToken = v.parse(refreshTokenSchema, JSON.parse(stringToken));
+
+                const isValidRefresh = isValidRefreshToken(validatedToken);
+                if (!isValidRefresh) {
+                  console.error("Refresh token expired");
+                  return reject(false);
+                }
+                console.log("valid refresh token");
+                const isValidAccess = isValidAccessToken(validatedToken);
+                if (!isValidAccess) {
+                  console.log("Access token expired");
+                  getAccessToken(validatedToken)
+                    .then((newAuthToken) => {
+                      console.log("Got new access token");
+                      AsyncStorage.setItem(
+                        `${this.currentUserID}${Store._refresh_token}`,
+                        JSON.stringify(newAuthToken),
+                      );
+                      this.setAuthToken(newAuthToken);
+                      return resolve(true);
+                    })
+                    .catch((e) => {
+                      return reject(e);
+                    });
+                }
                 this.setAuthToken(validatedToken);
                 return resolve(true);
               } catch (error) {
