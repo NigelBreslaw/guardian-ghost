@@ -86,7 +86,7 @@ export function getAccessToken(token: RefreshToken): Promise<RefreshToken> {
   });
 }
 
-export function hasAccessExpired(token: RefreshToken): boolean {
+export function isValidAccessToken(token: RefreshToken): boolean {
   // Access lasts 3600 seconds (1 hour)
   if (token.time_stamp) {
     const lifeTime = token.expires_in;
@@ -94,13 +94,13 @@ export function hasAccessExpired(token: RefreshToken): boolean {
     const timeThen = new Date(token.time_stamp);
     const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
     // Count anything less than 5 mins (345 seconds) as expired
-    return secondsLeft < 345;
+    return secondsLeft > 345;
   }
 
   return true;
 }
 
-export function hasRefreshExpired(token: RefreshToken): boolean {
+export function isValidRefreshToken(token: RefreshToken): boolean {
   // Refresh lasts 7,776,000 seconds (90 days)
   if (token.time_stamp) {
     const lifeTime = token.refresh_expires_in;
@@ -108,7 +108,7 @@ export function hasRefreshExpired(token: RefreshToken): boolean {
     const timeThen = new Date(token.time_stamp);
     const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
     // Count anything less than 5 mins (345 seconds) as expired
-    return secondsLeft < 345;
+    return secondsLeft > 345;
   }
 
   return true;
