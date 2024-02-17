@@ -6,8 +6,8 @@ import * as v from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
 import {
-  RefreshToken,
-  refreshTokenSchema,
+  AuthToken,
+  authTokenSchema,
   getAccessToken,
   getRefreshToken,
   isValidAccessToken,
@@ -24,7 +24,7 @@ import { AuthAction } from "../state/Actions.ts";
 
 class AuthService {
   private static instance: AuthService;
-  private authToken: RefreshToken | null;
+  private authToken: AuthToken | null;
   private dispatch: React.Dispatch<AuthAction> | null;
   private stateID: string;
   private usedAuthCodes: Array<string>;
@@ -75,7 +75,7 @@ class AuthService {
             .then((token) => {
               try {
                 const stringToken = v.parse(v.string(), token);
-                const validatedToken = v.parse(refreshTokenSchema, JSON.parse(stringToken));
+                const validatedToken = v.parse(authTokenSchema, JSON.parse(stringToken));
 
                 const isValidRefresh = isValidRefreshToken(validatedToken);
                 if (!isValidRefresh) {
@@ -119,9 +119,8 @@ class AuthService {
     });
   }
 
-  // TODO: Make this check the current token if valid and if not get a new one and return that.
-  // This also needs an async queue to handle multiple requests for the token.
-  static getTokenAsync(): Promise<RefreshToken | null> {
+  // TODO: This also needs an async queue to handle multiple requests for the token.
+  static getTokenAsync(): Promise<AuthToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.instance.authToken) {
         /// is the access token valid?
@@ -184,7 +183,7 @@ class AuthService {
     }
   }
 
-  setAuthToken(token: RefreshToken | null) {
+  setAuthToken(token: AuthToken | null) {
     this.authToken = token;
     if (this.dispatch) {
       this.dispatch({ type: "setAuthenticated", payload: this.isAuthenticated() });
@@ -232,7 +231,7 @@ class AuthService {
       // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
       const initialJSONToken = await getRefreshToken(code);
       try {
-        const validatedToken = v.parse(refreshTokenSchema, initialJSONToken);
+        const validatedToken = v.parse(authTokenSchema, initialJSONToken);
         const fullToken = await getAccessToken(validatedToken);
         this.buildBungieAccount(fullToken);
       } catch (e) {
@@ -246,7 +245,7 @@ class AuthService {
     }
   }
 
-  async buildBungieAccount(authToken: RefreshToken) {
+  async buildBungieAccount(authToken: AuthToken) {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
