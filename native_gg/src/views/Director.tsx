@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from "react-native-safe-area-context";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useReducer, useRef } from "react";
 import AuthUI from "../authentication/AuthUI.tsx";
 import AuthService from "../authentication/AuthService.ts";
@@ -38,11 +37,7 @@ export default function Director() {
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <SafeAreaView style={styles.topContainer}>
         <StatusBar style="light" />
-        <LinearGradient
-          colors={["#232526", "#66686a"]}
-          style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
-        />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView>
           <View style={styles.container}>
             <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
             <View style={styles.spacer} />
@@ -60,11 +55,14 @@ export default function Director() {
               }}
             />
 
-            <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>Membership ID:</Text>
-            <Text style={{ fontSize: 22, fontWeight: "bold" }}>{state.currentAccount?.supplementalDisplayName}</Text>
+            <Text style={{ fontSize: 22, marginTop: 15, color: "#F1EDFE" }}>Membership ID:</Text>
+            <Text style={{ fontSize: 22, fontWeight: "bold", color: "#F1EDFE" }}>
+              {state.currentAccount?.supplementalDisplayName}
+            </Text>
 
-            <Text style={{ fontSize: 22, marginTop: 15, color: "#150f63" }}>
-              Authenticated: <Text style={{ fontWeight: "bold" }}>{state.authenticated ? "True" : "False"}</Text>
+            <Text style={{ fontSize: 22, marginTop: 15, color: "#F1EDFE" }}>
+              Authenticated:{" "}
+              <Text style={{ fontWeight: "bold", color: "#F1EDFE" }}>{state.authenticated ? "True" : "False"}</Text>
             </Text>
             <View style={styles.spacer} />
             <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
@@ -84,6 +82,7 @@ export default function Director() {
 const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
+    backgroundColor: "#171321",
   },
   container: {
     flex: 1,
