@@ -15,7 +15,7 @@ export default function Director() {
   const colorScheme = useColorScheme();
 
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
-
+  test;
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
