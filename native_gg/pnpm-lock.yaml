@@ -20,9 +20,6 @@ dependencies:
   '@react-native-async-storage/async-storage':
     specifier: 1.22.0
     version: 1.22.0(react-native@0.73.4)
-  '@react-native-picker/picker':
-    specifier: 2.6.1
-    version: 2.6.1(react-native@0.73.4)(react@18.2.0)
   '@react-navigation/native':
     specifier: 6.1.10
     version: 6.1.10(react-native@0.73.4)(react@18.2.0)
@@ -2441,16 +2438,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  /@react-native-picker/picker@2.6.1(react-native@0.73.4)(react@18.2.0):
-    resolution: {integrity: sha512-oJftvmLOj6Y6/bF4kPcK6L83yNBALGmqNYugf94BzP0FQGpHBwimVN2ygqkQ2Sn2ZU3pGUZMs0jV6+Gku2GyYg==}
-    peerDependencies:
-      react: '>=16'
-      react-native: '>=0.57'
-    dependencies:
-      react: 18.2.0
-      react-native: 0.73.4(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
   /@react-native/assets-registry@0.73.1:
