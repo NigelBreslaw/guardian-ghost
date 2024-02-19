@@ -1,7 +1,12 @@
 on: 
-    push:
-        paths: 
-            - 'native_gg/**'
+  push:
+    paths: 
+      - 'native_gg/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
