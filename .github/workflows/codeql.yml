@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: '43 20 * * 2'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+    
+
 jobs:
   analyze-js-tsc:
     name: Analyze JS/TSC

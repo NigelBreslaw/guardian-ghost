@@ -3,10 +3,15 @@ name: Android Build CI/CD
 
 # Only code merged to main with new release notes can be released as a build.
 on:
-    push:
-        branches: [ main ]
-        paths: 
-          - 'native_gg/**'
+  push:
+    branches: [ main ]
+    paths: 
+      - 'native_gg/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      
 
 jobs:
   android-build:
