@@ -6,7 +6,6 @@ import { useEffect, useReducer, useRef } from "react";
 import AuthUI from "../authentication/AuthUI.tsx";
 import AuthService from "../authentication/AuthService.ts";
 import { authReducer, initialAuthState } from "../state/Actions.ts";
-import { getItemDefinition, getProfileTest, saveItemDefinition } from "../backend/api.ts";
 import StorageGG from "../storage/StorageGG.ts";
 
 export default function Director() {
@@ -68,11 +67,6 @@ export default function Director() {
           <View style={styles.spacer} />
           <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
           <View style={styles.spacer} />
-          <Button title="Download Item Definition" onPress={() => saveItemDefinition()} />
-          <View style={styles.spacer} />
-          <Button title="Get saved Item Definition" onPress={() => getItemDefinition()} />
-          <View style={styles.spacer} />
-          <Button disabled={!state.authenticated} title="getProfile()" onPress={() => getProfileTest()} />
         </View>
       </ScrollView>
     </SafeAreaView>
