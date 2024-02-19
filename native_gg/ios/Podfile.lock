@@ -209,6 +209,8 @@ PODS:
     - SDWebImageWebPCoder (~> 0.13.0)
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
+  - ExpoLinearGradient (12.7.2):
+    - ExpoModulesCore
   - ExpoModulesCore (1.11.9):
     - glog
     - hermes-engine
@@ -1522,6 +1524,7 @@ DEPENDENCIES:
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
@@ -1631,6 +1634,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-image/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  ExpoLinearGradient:
+    :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   ExpoSystemUI:
@@ -1765,6 +1770,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: a9273932e69a9a1e1a8d01b6ba895bb8294bbea2
   ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
+  ExpoLinearGradient: 4ad1449a2408e0435ac959076562b3921f2e32a1
   ExpoModulesCore: ebc4b2034f45f46c0def1c32cecb399f6778058c
   ExpoSystemUI: 40e222dd9d52222fe1bce389724ac52e662158dc
   ExpoWebBrowser: e31c97230ea93b51a2a74c6c2381b0d4fca5698c
