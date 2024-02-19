@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { clientID } from "./src/constants/env.ts";
-import Director from "./src/views/Director.tsx";
+import Director from "./src/screens/Director.tsx";
 
 export default function App() {
   if (process.env.NODE_ENV === "development" && clientID === undefined) {
