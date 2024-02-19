@@ -3,12 +3,12 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXConstants (15.4.5):
     - ExpoModulesCore
-  - EXFont (11.10.2):
+  - EXFont (11.10.3):
     - ExpoModulesCore
   - EXJSONUtils (0.12.3)
   - EXManifests (0.13.2):
     - ExpoModulesCore
-  - Expo (50.0.6):
+  - Expo (50.0.7):
     - ExpoModulesCore
   - expo-dev-client (3.3.8):
     - EXManifests
@@ -197,7 +197,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoCrypto (12.8.0):
+  - ExpoCrypto (12.8.1):
     - ExpoModulesCore
   - ExpoFileSystem (16.0.6):
     - ExpoModulesCore
@@ -209,7 +209,7 @@ PODS:
     - SDWebImageWebPCoder (~> 0.13.0)
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.11.8):
+  - ExpoModulesCore (1.11.9):
     - glog
     - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
@@ -1163,7 +1163,7 @@ PODS:
   - react-native-mmkv (2.12.1):
     - MMKV (>= 1.3.3)
     - React-Core
-  - react-native-safe-area-context (4.8.2):
+  - react-native-safe-area-context (4.9.0):
     - glog
     - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
@@ -1175,8 +1175,8 @@ PODS:
     - React-Fabric
     - React-graphics
     - React-ImageManager
-    - react-native-safe-area-context/common (= 4.8.2)
-    - react-native-safe-area-context/fabric (= 4.8.2)
+    - react-native-safe-area-context/common (= 4.9.0)
+    - react-native-safe-area-context/fabric (= 4.9.0)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1184,7 +1184,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/common (4.8.2):
+  - react-native-safe-area-context/common (4.9.0):
     - glog
     - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
@@ -1203,7 +1203,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/fabric (4.8.2):
+  - react-native-safe-area-context/fabric (4.9.0):
     - glog
     - hermes-engine
     - RCT-Folly (= 2022.05.16.00)
@@ -1748,19 +1748,19 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   EXConstants: 988aa430ca0f76b43cd46b66e7fae3287f9cc2fc
-  EXFont: 21b9c760abd593ce8f0d5386b558ced76018506f
+  EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
   EXJSONUtils: 5c42959e87be238b045ef37cc5268b16a6c0ad4a
   EXManifests: 5e8c29f36c716af768a4ea47ec05e1b89ab93091
-  Expo: fb745b3074989670b6641f9f20463e8ee56a69ca
+  Expo: 1cf3922a9b26262b2556544d4defcecccd37d033
   expo-dev-client: 025dce84f48b04c60c3891547732f001f6aad777
   expo-dev-launcher: 65b6fc1382bf95e1a215bec26b7b0f897cc76432
   expo-dev-menu: e73c9a9637c9935dcefa206e1a2ea3eae3bb7ecd
   expo-dev-menu-interface: 7ba029c9d1a82ac22b9b584c00514860b060553e
-  ExpoCrypto: e2ca148f5c93a0514959df86b34256bb3c50d358
+  ExpoCrypto: b6428f48599c007676dc81a9b5f72c07e62fdccc
   ExpoFileSystem: a9273932e69a9a1e1a8d01b6ba895bb8294bbea2
   ExpoImage: 8cf2d51de3d03b7e984e9b0ba8f19c0c22057001
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
-  ExpoModulesCore: 83dfc98358de225bd0953401ce5b0c14fa8eabd0
+  ExpoModulesCore: ebc4b2034f45f46c0def1c32cecb399f6778058c
   ExpoWebBrowser: e31c97230ea93b51a2a74c6c2381b0d4fca5698c
   EXSplashScreen: 91f8723e444480409e74155bfe08e20e23b3662c
   EXUpdatesInterface: 3e444e2093e25b7ca0999a7d8c16e8392dee70c3
@@ -1798,7 +1798,7 @@ SPEC CHECKSUMS:
   React-logger: 0a57b68dd2aec7ff738195f081f0520724b35dab
   React-Mapbuffer: 63913773ed7f96b814a2521e13e6d010282096ad
   react-native-mmkv: 124b22209aacdcd172b6ac39071b9647080f0411
-  react-native-safe-area-context: e8bdd57d9f8d34cc336f0ee6acb30712a8454446
+  react-native-safe-area-context: fcc79c5200d72786613aa3b0e2830bd6efad4896
   React-nativeconfig: d7af5bae6da70fa15ce44f045621cf99ed24087c
   React-NativeModulesApple: 0123905d5699853ac68519607555a9a4f5c7b3ac
   React-perflogger: 8a1e1af5733004bdd91258dcefbde21e0d1faccd
