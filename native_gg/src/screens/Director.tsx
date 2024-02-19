@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useEffect, useReducer, useRef } from "react";
@@ -12,8 +12,12 @@ import StorageGG from "../storage/StorageGG.ts";
 export default function Director() {
   const storeRef = useRef(StorageGG.getInstance());
   const authServiceRef = useRef<AuthService | null>(null);
+  const colorScheme = useColorScheme();
 
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
+
+  const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
+  const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   const accountAvatar = state.initComplete
     ? state.currentAccount
@@ -34,11 +38,11 @@ export default function Director() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.topContainer}>
+    <SafeAreaView style={themeContainerStyle}>
       <StatusBar />
       <ScrollView>
         <View style={styles.container}>
-          <Text style={{ fontSize: 20, color: "#fff" }}>Guardian Ghost</Text>
+          <Text style={themeTextStyle}>Guardian Ghost</Text>
           <View style={styles.spacer} />
           <View style={styles.imageContainer}>
             <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
@@ -54,14 +58,12 @@ export default function Director() {
             }}
           />
 
-          <Text style={{ fontSize: 22, marginTop: 15, color: "#F1EDFE" }}>Membership ID:</Text>
-          <Text style={{ fontSize: 22, fontWeight: "bold", color: "#F1EDFE" }}>
-            {state.currentAccount?.supplementalDisplayName}
-          </Text>
+          <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
+          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>{state.currentAccount?.supplementalDisplayName}</Text>
 
-          <Text style={{ fontSize: 22, marginTop: 15, color: "#F1EDFE" }}>
+          <Text style={{ marginTop: 15, ...themeTextStyle }}>
             Authenticated:{" "}
-            <Text style={{ fontWeight: "bold", color: "#F1EDFE" }}>{state.authenticated ? "True" : "False"}</Text>
+            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>{state.authenticated ? "True" : "False"}</Text>
           </Text>
           <View style={styles.spacer} />
           <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
@@ -78,9 +80,21 @@ export default function Director() {
 }
 
 const styles = StyleSheet.create({
-  topContainer: {
+  topContainerLight: {
+    flex: 1,
+    backgroundColor: "#8A9BDF",
+  },
+  topContainerDark: {
     flex: 1,
     backgroundColor: "#171321",
+  },
+  textLight: {
+    color: "black",
+    fontSize: 22,
+  },
+  textDark: {
+    color: "#F1EDFE",
+    fontSize: 22,
   },
   container: {
     flex: 1,
