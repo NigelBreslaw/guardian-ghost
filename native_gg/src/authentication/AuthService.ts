@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
-import { parse } from "expo-linking";
+import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import * as v from "valibot";
+import { string, parse } from "valibot";
 import { clientID, redirectURL } from "../constants/env.ts";
 import { Store } from "../constants/storage.ts";
 import {
@@ -61,15 +61,15 @@ class AuthService {
           if (currentAccount === null) {
             return reject(false);
           }
-          const validatedAccount = v.parse(BungieUserSchema, JSON.parse(currentAccount));
+          const validatedAccount = parse(BungieUserSchema, JSON.parse(currentAccount));
           AuthService.setCurrentAccount(validatedAccount);
 
           // Then is there an auth token?
           AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`)
             .then((token) => {
               try {
-                const stringToken = v.parse(v.string(), token);
-                const validatedToken = v.parse(authTokenSchema, JSON.parse(stringToken));
+                const stringToken = parse(string(), token);
+                const validatedToken = parse(authTokenSchema, JSON.parse(stringToken));
                 AuthService.validateAndSetToken(validatedToken);
                 return resolve(true);
               } catch (error) {
@@ -209,7 +209,7 @@ class AuthService {
   }
 
   static async processURL(url: string) {
-    const { queryParams } = parse(url);
+    const { queryParams } = linkingParse(url);
 
     if (queryParams?.code && queryParams?.state === AuthService.stateID) {
       const code = queryParams.code.toString();
@@ -227,7 +227,7 @@ class AuthService {
       // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
       const initialJSONToken = await getRefreshToken(code);
       try {
-        const validatedToken = v.parse(authTokenSchema, initialJSONToken);
+        const validatedToken = parse(authTokenSchema, initialJSONToken);
         const fullToken = await getAccessToken(validatedToken);
         AuthService.buildBungieAccount(fullToken);
       } catch (e) {
@@ -245,11 +245,11 @@ class AuthService {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
-        let linkedProfiles = v.parse(linkedProfilesSchema, rawLinkedProfiles);
+        let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
 
         if (linkedProfiles.Response.profiles.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-          linkedProfiles = v.parse(linkedProfilesSchema, rawLinkedProfiles);
+          linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
           console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
 
