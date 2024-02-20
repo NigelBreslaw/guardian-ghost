@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View, useColorScheme, Appearance, ColorSchemeName } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useEffect, useReducer, useRef } from "react";
@@ -7,6 +7,10 @@ import AuthUI from "../authentication/AuthUI.tsx";
 import AuthService from "../authentication/AuthService.ts";
 import { authReducer, initialAuthState } from "../state/Actions.ts";
 import StorageGG from "../storage/StorageGG.ts";
+import type { SizeTokens } from "tamagui";
+import { Label, RadioGroup, Theme, XStack, YStack } from "tamagui";
+
+type theme = "light" | "dark" | "auto";
 
 export default function Director() {
   const storeRef = useRef(StorageGG.getInstance());
@@ -17,6 +21,7 @@ export default function Director() {
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
+  const themeTamagui = colorScheme === "light" ? "light" : "dark";
 
   const accountAvatar = state.initComplete
     ? state.currentAccount
@@ -67,9 +72,45 @@ export default function Director() {
           <View style={styles.spacer} />
           <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
           <View style={styles.spacer} />
+          <Theme name={themeTamagui}>
+            <RadioGroup
+              aria-labelledby="Select one item"
+              defaultValue="auto"
+              name="form"
+              onValueChange={(value) => {
+                const appearanceValue = value === "auto" ? undefined : (value as ColorSchemeName);
+                Appearance.setColorScheme(appearanceValue);
+              }}
+            >
+              <YStack width={300} alignItems="center" space="$1">
+                <RadioGroupItemWithLabel size="$5" value={"auto"} label="Automatic" />
+                <RadioGroupItemWithLabel size="$5" value="light" label="Light" />
+                <RadioGroupItemWithLabel size="$5" value="dark" label="Dark" />
+              </YStack>
+            </RadioGroup>
+          </Theme>
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export function RadioGroupItemWithLabel(props: {
+  size: SizeTokens;
+  value: string;
+  label: string;
+}) {
+  const id = `radiogroup-${props.value}`;
+  return (
+    <XStack width={300} alignItems="center" space="$4">
+      <RadioGroup.Item value={props.value} id={id} size={props.size}>
+        <RadioGroup.Indicator />
+      </RadioGroup.Item>
+
+      <Label size={props.size} htmlFor={id}>
+        {props.label}
+      </Label>
+    </XStack>
   );
 }
 
