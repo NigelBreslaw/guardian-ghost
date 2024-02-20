@@ -11,8 +11,8 @@
     "analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
     "analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
     "analyze:android": "source-map-explorer 'dist/_expo/static/js/android/*.js' 'dist/_expo/static/js/android/*.js.map'",
-    "lint": "biome lint ./src",
-    "lint:fix": "biome check --apply ./src",
+    "lint": "biome lint ./app",
+    "lint:fix": "biome check --apply ./app",
     "type-check": "time tsc --noEmit"
   },
   "dependencies": {
