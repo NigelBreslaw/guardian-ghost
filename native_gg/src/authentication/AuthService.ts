@@ -3,8 +3,8 @@ import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { string, parse } from "valibot";
-import { clientID, redirectURL } from "../constants/env.ts";
-import { Store } from "../constants/storage.ts";
+import { clientID, redirectURL } from "@/constants/env.ts";
+import { Store } from "@/constants/storage.ts";
 import {
   AuthToken,
   authTokenSchema,
@@ -19,8 +19,8 @@ import {
   getBungieUser,
   getLinkedProfiles,
   linkedProfilesSchema,
-} from "../account/Account.ts";
-import { AuthAction } from "../state/Actions.ts";
+} from "@/account/Account.ts";
+import { AuthAction } from "@/state/Actions.ts";
 
 class AuthService {
   private static instance: AuthService;

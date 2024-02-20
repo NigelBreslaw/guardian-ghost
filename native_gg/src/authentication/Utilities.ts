@@ -1,7 +1,7 @@
 import * as base64 from "base-64";
 import { object, string, number, optional, parse, isoTimestamp } from "valibot";
 import type { Output } from "valibot";
-import { apiKey, clientID, clientSecret } from "../constants/env.ts";
+import { apiKey, clientID, clientSecret } from "@/constants/env.ts";
 
 export const authTokenSchema = object({
   access_token: string(),
