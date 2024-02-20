@@ -3,10 +3,10 @@ import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "reac
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useEffect, useReducer, useRef } from "react";
-import AuthUI from "@/authentication/AuthUI.tsx";
-import AuthService from "@/authentication/AuthService.ts";
-import { authReducer, initialAuthState } from "@/state/Actions.ts";
-import StorageGG from "@/storage/StorageGG.ts";
+import AuthUI from "../authentication/AuthUI";
+import AuthService from "../authentication/AuthService";
+import { authReducer, initialAuthState } from "../state/Actions";
+import StorageGG from "../storage/StorageGG";
 
 type theme = "light" | "dark" | "auto";
 
