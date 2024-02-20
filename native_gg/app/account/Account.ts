@@ -1,7 +1,7 @@
 import { array, boolean, object, string, number, isoTimestamp } from "valibot";
 import type { Output } from "valibot";
-import { apiKey } from "../constants/env";
-import { AuthToken } from "../authentication/Utilities";
+import { apiKey } from "@/constants/env";
+import { AuthToken } from "@/authentication/Utilities";
 
 const PlatformSilverSchema = object({
   itemHash: number(),

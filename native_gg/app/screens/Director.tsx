@@ -4,9 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useEffect, useReducer, useRef } from "react";
 import AuthUI from "../authentication/AuthUI";
-import AuthService from "../authentication/AuthService";
-import { authReducer, initialAuthState } from "../state/Actions";
-import StorageGG from "../storage/StorageGG";
+import AuthService from "@/authentication/AuthService";
+import { authReducer, initialAuthState } from "@/state/Actions";
+import StorageGG from "@/storage/StorageGG";
 
 type theme = "light" | "dark" | "auto";
 
