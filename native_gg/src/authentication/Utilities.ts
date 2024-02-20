@@ -1,18 +1,19 @@
 import * as base64 from "base-64";
-import * as v from "valibot";
+import { object, string, number, optional, parse, isoTimestamp } from "valibot";
+import type { Output } from "valibot";
 import { apiKey, clientID, clientSecret } from "../constants/env.ts";
 
-export const authTokenSchema = v.object({
-  access_token: v.string(),
-  expires_in: v.number(),
-  membership_id: v.string(),
-  refresh_expires_in: v.number(),
-  refresh_token: v.string(),
-  time_stamp: v.optional(v.string([v.isoTimestamp()])),
-  token_type: v.string(),
+export const authTokenSchema = object({
+  access_token: string(),
+  expires_in: number(),
+  membership_id: string(),
+  refresh_expires_in: number(),
+  refresh_token: string(),
+  time_stamp: optional(string([isoTimestamp()])),
+  token_type: string(),
 });
 
-export type AuthToken = v.Output<typeof authTokenSchema>;
+export type AuthToken = Output<typeof authTokenSchema>;
 
 export function getRefreshToken(bungieCode: string): Promise<JSON> {
   const headers = new Headers();
@@ -71,7 +72,7 @@ export function getAccessToken(token: AuthToken): Promise<AuthToken> {
 
         response.json().then((rawToken) => {
           try {
-            const validatedToken = v.parse(authTokenSchema, rawToken);
+            const validatedToken = parse(authTokenSchema, rawToken);
             validatedToken.time_stamp = new Date().toISOString();
             resolve(validatedToken);
           } catch (error) {
