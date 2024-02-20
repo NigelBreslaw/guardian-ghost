@@ -1,34 +1,35 @@
-import * as v from "valibot";
+import { array, boolean, object, string, number, isoTimestamp } from "valibot";
+import type { Output } from "valibot";
 import { apiKey } from "../constants/env.ts";
 import { AuthToken } from "../authentication/Utilities.ts";
 
-const PlatformSilverSchema = v.object({
-  itemHash: v.number(),
-  quantity: v.number(),
-  bindStatus: v.number(),
-  location: v.number(),
-  bucketHash: v.number(),
-  transferStatus: v.number(),
-  lockable: v.boolean(),
-  state: v.number(),
-  dismantlePermission: v.number(),
-  isWrapper: v.boolean(),
+const PlatformSilverSchema = object({
+  itemHash: number(),
+  quantity: number(),
+  bindStatus: number(),
+  location: number(),
+  bucketHash: number(),
+  transferStatus: number(),
+  lockable: boolean(),
+  state: number(),
+  dismantlePermission: number(),
+  isWrapper: boolean(),
 });
 
-const ProfileSchema = v.object({
-  applicableMembershipTypes: v.array(v.number()),
-  bungieGlobalDisplayName: v.string(),
-  bungieGlobalDisplayNameCode: v.number(),
-  crossSaveOverride: v.number(),
-  dateLastPlayed: v.string([v.isoTimestamp()]),
-  displayName: v.string(),
-  isCrossSavePrimary: v.boolean(),
-  isOverridden: v.boolean(),
-  isPublic: v.boolean(),
-  membershipId: v.string(),
-  membershipType: v.number(),
-  platformSilver: v.object({
-    platformSilver: v.object({
+const ProfileSchema = object({
+  applicableMembershipTypes: array(number()),
+  bungieGlobalDisplayName: string(),
+  bungieGlobalDisplayNameCode: number(),
+  crossSaveOverride: number(),
+  dateLastPlayed: string([isoTimestamp()]),
+  displayName: string(),
+  isCrossSavePrimary: boolean(),
+  isOverridden: boolean(),
+  isPublic: boolean(),
+  membershipId: string(),
+  membershipType: number(),
+  platformSilver: object({
+    platformSilver: object({
       BungieNext: PlatformSilverSchema,
       TigerBlizzard: PlatformSilverSchema,
       TigerEgs: PlatformSilverSchema,
@@ -40,45 +41,45 @@ const ProfileSchema = v.object({
   }),
 });
 
-export const BnetMembershipSchema = v.object({
-  bungieGlobalDisplayName: v.string(),
-  bungieGlobalDisplayNameCode: v.number(),
-  displayName: v.string(),
-  iconPath: v.string(),
-  isPublic: v.boolean(),
-  membershipId: v.string(),
-  membershipType: v.number(),
-  supplementalDisplayName: v.string(),
+export const BnetMembershipSchema = object({
+  bungieGlobalDisplayName: string(),
+  bungieGlobalDisplayNameCode: number(),
+  displayName: string(),
+  iconPath: string(),
+  isPublic: boolean(),
+  membershipId: string(),
+  membershipType: number(),
+  supplementalDisplayName: string(),
 });
 
-export const linkedProfilesSchema = v.object({
-  ErrorCode: v.number(),
-  ErrorStatus: v.string(),
-  Message: v.string(),
-  MessageData: v.object({}),
-  Response: v.object({
+export const linkedProfilesSchema = object({
+  ErrorCode: number(),
+  ErrorStatus: string(),
+  Message: string(),
+  MessageData: object({}),
+  Response: object({
     bnetMembership: BnetMembershipSchema,
-    profiles: v.array(ProfileSchema),
+    profiles: array(ProfileSchema),
   }),
 });
 
-export type BungieProfile = v.Output<typeof ProfileSchema>;
-export type BnetMembership = v.Output<typeof BnetMembershipSchema>;
+export type BungieProfile = Output<typeof ProfileSchema>;
+export type BnetMembership = Output<typeof BnetMembershipSchema>;
 
-export type LinkedProfiles = v.Output<typeof linkedProfilesSchema>;
+export type LinkedProfiles = Output<typeof linkedProfilesSchema>;
 
-export const BungieUserSchema = v.object({
-  supplementalDisplayName: v.string(),
-  iconPath: v.string(),
-  topLevelAccountMembershipId: v.string(),
-  profile: v.object({
-    membershipId: v.string(),
-    membershipType: v.string(),
-    displayName: v.string(),
+export const BungieUserSchema = object({
+  supplementalDisplayName: string(),
+  iconPath: string(),
+  topLevelAccountMembershipId: string(),
+  profile: object({
+    membershipId: string(),
+    membershipType: string(),
+    displayName: string(),
   }),
 });
 
-export type BungieUser = v.Output<typeof BungieUserSchema>;
+export type BungieUser = Output<typeof BungieUserSchema>;
 
 export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = false): Promise<JSON> {
   const headers = new Headers();
