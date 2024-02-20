@@ -2,16 +2,21 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "strict": true,
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
+    "strict": true
   },
   "include": [
     "App.tsx",
-    "src"
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ]
 }
