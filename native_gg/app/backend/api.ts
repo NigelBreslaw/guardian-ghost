@@ -1,4 +1,4 @@
-import { getProfile, profileComponents } from "@/bungie/BungieApi";
+import { getProfile, profileComponents } from "../bungie/BungieApi";
 import StorageGG from "@/storage/StorageGG";
 
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {

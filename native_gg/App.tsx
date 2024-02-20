@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
-import { clientID } from "./src/constants/env.ts";
-import Director from "./src/screens/Director.tsx";
+import { clientID } from "./app/constants/env.ts";
+import Director from "./app/screens/Director.tsx";
 
 const Stack = createNativeStackNavigator();
 

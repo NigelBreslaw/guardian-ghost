@@ -19,8 +19,8 @@ import {
   getBungieUser,
   getLinkedProfiles,
   linkedProfilesSchema,
-} from "@/account/Account.ts";
-import { AuthAction } from "@/state/Actions.ts";
+} from "../account/Account.ts";
+import { AuthAction } from "../state/Actions.ts";
 
 class AuthService {
   private static instance: AuthService;
