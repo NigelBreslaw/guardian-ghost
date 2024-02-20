@@ -1,5 +1,5 @@
-import AuthService from "../authentication/AuthService";
-import { apiKey } from "../constants/env";
+import AuthService from "@/authentication/AuthService";
+import { apiKey } from "@/constants/env";
 
 const bungieUrl = "https://www.bungie.net";
 const basePath = "https://www.bungie.net/Platform";

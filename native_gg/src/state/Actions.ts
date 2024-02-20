@@ -1,4 +1,4 @@
-import { BungieUser } from "../account/Account";
+import { BungieUser } from "@/account/Account";
 
 export type AuthState = {
   initComplete: boolean;

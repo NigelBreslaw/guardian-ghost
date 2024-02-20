@@ -4,7 +4,11 @@
     "allowImportingTsExtensions": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
   },
   "include": [
     "App.tsx",
