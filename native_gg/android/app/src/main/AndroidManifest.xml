@@ -27,6 +27,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="com.guardianghost"/>
         <data android:scheme="exp+nativegg"/>
+        <data android:scheme="com.guardianghost.mobile"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
         <action android:name="android.intent.action.VIEW"/>
