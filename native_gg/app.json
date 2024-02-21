@@ -3,6 +3,7 @@
     "name": "Guardian Ghost",
     "slug": "native_gg",
     "scheme": "guardianghost",
+    "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -24,6 +25,10 @@
     },
     "android": {
       "package": "com.guardianghost",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#17101F"
+      },
       "intentFilters": [
         {
           "action": "VIEW",
