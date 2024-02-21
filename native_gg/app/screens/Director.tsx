@@ -11,8 +11,6 @@ import AuthUI from "../authentication/AuthUI";
 type theme = "light" | "dark" | "auto";
 
 export default function Director() {
-  const storeRef = useRef(StorageGG.getInstance());
-  const authServiceRef = useRef<AuthService | null>(null);
   const colorScheme = useColorScheme();
 
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
@@ -27,14 +25,10 @@ export default function Director() {
     : "";
 
   useEffect(() => {
-    authServiceRef.current = AuthService.getInstance();
-    authServiceRef.current.subscribe(dispatch);
+    AuthService.subscribe(dispatch);
     // Unsubscribe when the component unmounts
     return () => {
-      if (authServiceRef.current) {
-        authServiceRef.current.cleanup();
-      }
-      authServiceRef.current = null;
+      AuthService.unsubscribe();
     };
   }, []);
 

@@ -143,12 +143,12 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  subscribe(dispatch: React.Dispatch<AuthAction>) {
+  static subscribe(dispatch: React.Dispatch<AuthAction>) {
     AuthService.dispatch = dispatch;
   }
 
   // Method to unsubscribe from auth changes
-  unsubscribe() {
+  static unsubscribe() {
     AuthService.dispatch = null;
   }
 
@@ -173,7 +173,7 @@ class AuthService {
     if (AuthService.dispatch) {
       AuthService.dispatch({ type: "setCurrentAccount", payload: bungieUser });
     } else {
-      console.error("No dispatch");
+      console.info("No dispatch");
     }
   }
 
@@ -184,7 +184,7 @@ class AuthService {
     if (dispatch) {
       dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
     } else {
-      console.error("No dispatch");
+      console.info("No dispatch");
     }
   }
 
@@ -192,7 +192,7 @@ class AuthService {
     if (AuthService.dispatch) {
       AuthService.dispatch({ type: "setInitComplete", payload: true });
     } else {
-      console.error("No dispatch");
+      console.info("No dispatch");
     }
   }
 
@@ -283,8 +283,8 @@ class AuthService {
     }
   }
 
-  cleanup() {
-    this.unsubscribe();
+  static cleanup() {
+    AuthService.unsubscribe();
   }
 }
 

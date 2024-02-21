@@ -4,7 +4,7 @@ import Director from "./screens/Director";
 // import EditScreenInfo from '@/components/EditScreenInfo';
 // import { Text, View } from '@/components/Themed';
 
-export default function LoginScreen() {
+export default function AuthScreen() {
   return <Director />;
 }
 

@@ -1,11 +1,15 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { clientID } from "@/constants/env";
+import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
+import StorageGG from "./storage/StorageGG";
+import AuthService from "./authentication/AuthService";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -21,10 +25,29 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  if (process.env.NODE_ENV === "development" && clientID === undefined) {
+    console.warn("No .ENV file found. Please create one.");
+  }
+
+  const storeRef = useRef(StorageGG.getInstance());
+  const authServiceRef = useRef<AuthService | null>(null);
+
   const [loaded, error] = useFonts({
     // SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    authServiceRef.current = AuthService.getInstance();
+    // Unsubscribe when the component unmounts
+    return () => {
+      if (authServiceRef.current) {
+        authServiceRef.current.cleanup();
+      }
+      authServiceRef.current = null;
+      storeRef.current.cleanUp();
+    };
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -34,7 +57,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      router.navigate({ pathname: "login", params: { presentation: "modal" } });
+      // router.navigate({ pathname: "auth", params: { presentation: "fullScreenModal" } });
     }
   }, [loaded]);
 
@@ -49,12 +72,13 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        <Stack.Screen name="login" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="auth" options={{ presentation: "fullScreenModal" }} />
+        </Stack>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
