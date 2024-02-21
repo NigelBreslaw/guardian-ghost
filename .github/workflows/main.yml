@@ -10,7 +10,7 @@ jobs:
     env:
       TURBO_URL: ${{ secrets.TURBO_URL }}
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: pnpm/action-setup@v3.0.0
