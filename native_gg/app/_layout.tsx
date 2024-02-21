@@ -1,18 +1,18 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { ErrorBoundaryProps, Stack, router } from "expo-router";
+import { ErrorBoundaryProps, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useReducer, useRef } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import { clientID } from "@/constants/env";
+import { Text, View } from "react-native";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 import AuthService from "./authentication/AuthService";
-import StorageGG from "./storage/StorageGG";
-import { View, Text } from "react-native";
-import { AuthState, authReducer, initialAuthState } from "./state/Actions";
 import { DirectorProps } from "./screens/types";
+import { authReducer, initialAuthState } from "./state/Actions";
+import StorageGG from "./storage/StorageGG";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
   console.log("ErrorBoundary", props);
@@ -84,7 +84,6 @@ export default function RootLayout() {
 
 function RootLayoutNav(props: DirectorProps) {
   const colorScheme = useColorScheme();
-  console.log("ello", props.state.initComplete);
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

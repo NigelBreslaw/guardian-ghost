@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { MMKVLoader } from "react-native-mmkv-storage";
+import { MMKVInstance, MMKVLoader } from "react-native-mmkv-storage";
 
 const Store = {
   factoryName: "gg-data",
@@ -10,9 +10,14 @@ type storageKey = "item_definition" | "accounts";
 
 class StorageGG {
   private static instance: StorageGG;
-  private nativeStore = new MMKVLoader().initialize();
 
-  private constructor() {}
+  private nativeStore: MMKVInstance | null = null;
+
+  private constructor() {
+    if (Platform.OS !== "web") {
+      this.nativeStore = new MMKVLoader().withInstanceID("nativeStore").initialize();
+    }
+  }
 
   public static getInstance(): StorageGG {
     if (!StorageGG.instance) {
@@ -111,8 +116,10 @@ class StorageGG {
   private static setNativeStore(data: JSON, storageKey: storageKey, errorMessage: string): void {
     try {
       const nativeStore = StorageGG.getInstance().nativeStore;
-      nativeStore.set(storageKey, JSON.stringify(data));
-      console.log("data added to native store", storageKey);
+      if (nativeStore) {
+        nativeStore.setItem(storageKey, JSON.stringify(data));
+        console.log("data added to native store", storageKey);
+      }
     } catch (e) {
       console.error("setNativeStore Error", errorMessage, e);
     }
@@ -121,9 +128,12 @@ class StorageGG {
   private static getNativeStore(storageKey: storageKey, errorMessage: string): JSON {
     try {
       const nativeStore = StorageGG.getInstance().nativeStore;
-      const data = nativeStore.getString(storageKey) as string;
-      console.log("data retrieved from native store", storageKey);
-      return JSON.parse(data);
+      if (nativeStore) {
+        const data = nativeStore.getString(storageKey) as string;
+        console.log("data retrieved from native store", storageKey);
+        return JSON.parse(data);
+      }
+      throw new Error(errorMessage);
     } catch (e) {
       console.error("getNativeStore Error", errorMessage, e);
       throw new Error(String(e));

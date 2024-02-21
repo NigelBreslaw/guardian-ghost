@@ -16,7 +16,7 @@ export default function Director(props: DirectorProps) {
 
   const accountAvatar = props.state.initComplete
     ? props.state.currentAccount
-      ? `https://www.bungie.net${state.currentAccount?.iconPath}`
+      ? `https://www.bungie.net${props.state.currentAccount?.iconPath}`
       : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
     : "";
 
