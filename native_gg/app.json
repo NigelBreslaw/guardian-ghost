@@ -29,6 +29,11 @@
       
       
     },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#17101F",
+      "translucent": true
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
