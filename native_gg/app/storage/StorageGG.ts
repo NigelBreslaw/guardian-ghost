@@ -132,7 +132,7 @@ class StorageGG {
     }
   }
 
-  cleanUp() {}
+  static cleanUp() {}
 }
 
 export default StorageGG;
