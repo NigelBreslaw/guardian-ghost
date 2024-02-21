@@ -1,11 +1,9 @@
 import { StyleSheet } from "react-native";
 import Director from "./screens/Director";
+import { DirectorProps } from "./screens/types";
 
-// import EditScreenInfo from '@/components/EditScreenInfo';
-// import { Text, View } from '@/components/Themed';
-
-export default function AuthScreen() {
-  return <Director />;
+export default function AuthScreen(props: DirectorProps) {
+  return <Director state={props.state} />;
 }
 
 const styles = StyleSheet.create({

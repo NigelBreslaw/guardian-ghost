@@ -63,7 +63,7 @@ class AuthService {
           }
           const validatedAccount = parse(BungieUserSchema, JSON.parse(currentAccount));
           AuthService.setCurrentAccount(validatedAccount);
-
+          console.log("Current account", validatedAccount);
           // Then is there an auth token?
           AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`)
             .then((token) => {
