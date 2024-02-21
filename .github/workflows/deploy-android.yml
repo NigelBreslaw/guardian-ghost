@@ -19,7 +19,7 @@ jobs:
     defaults:
       run:
         working-directory: native_gg
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: dorny/paths-filter@v3.0.1
