@@ -1,35 +1,24 @@
 import AuthService from "@/authentication/AuthService";
-import { authReducer, initialAuthState } from "@/state/Actions";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useReducer } from "react";
 import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthUI from "../authentication/AuthUI";
+import { DirectorProps } from "./types";
 
 type theme = "light" | "dark" | "auto";
 
-export default function Director() {
+export default function Director(props: DirectorProps) {
   const colorScheme = useColorScheme();
-
-  const [state, dispatch] = useReducer(authReducer, initialAuthState);
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
-  const accountAvatar = state.initComplete
-    ? state.currentAccount
+  const accountAvatar = props.state.initComplete
+    ? props.state.currentAccount
       ? `https://www.bungie.net${state.currentAccount?.iconPath}`
       : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
     : "";
-
-  useEffect(() => {
-    AuthService.subscribe(dispatch);
-    // Unsubscribe when the component unmounts
-    return () => {
-      AuthService.unsubscribe();
-    };
-  }, []);
 
   return (
     <SafeAreaView style={themeContainerStyle}>
@@ -43,7 +32,7 @@ export default function Director() {
           </View>
           <View style={styles.spacer} />
           <AuthUI
-            disabled={state.authenticated}
+            disabled={props.state.authenticated}
             startAuth={() => {
               AuthService.startAuth();
             }}
@@ -53,14 +42,22 @@ export default function Director() {
           />
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
-          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>{state.currentAccount?.supplementalDisplayName}</Text>
+          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+            {props.state.currentAccount?.supplementalDisplayName}
+          </Text>
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>
             Authenticated:{" "}
-            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>{state.authenticated ? "True" : "False"}</Text>
+            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+              {props.state.authenticated ? "True" : "False"}
+            </Text>
           </Text>
           <View style={styles.spacer} />
-          <Button title="Logout" disabled={!state.authenticated} onPress={() => AuthService.logoutCurrentUser()} />
+          <Button
+            title="Logout"
+            disabled={!props.state.authenticated}
+            onPress={() => AuthService.logoutCurrentUser()}
+          />
           <View style={styles.spacer} />
         </View>
       </ScrollView>

@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { MMKV } from "react-native-mmkv";
+import { MMKVLoader } from "react-native-mmkv-storage";
 
 const Store = {
   factoryName: "gg-data",
@@ -10,9 +10,7 @@ type storageKey = "item_definition" | "accounts";
 
 class StorageGG {
   private static instance: StorageGG;
-  private nativeStore = new MMKV({
-    id: "ggr-storage-id",
-  });
+  private nativeStore = new MMKVLoader().initialize();
 
   private constructor() {}
 

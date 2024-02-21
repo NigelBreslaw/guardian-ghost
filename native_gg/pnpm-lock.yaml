@@ -15,8 +15,8 @@ dependencies:
     specifier: 3.1.3
     version: 3.1.3(react-native@0.73.4)
   '@expo/vector-icons':
-    specifier: 13.0.0
-    version: 13.0.0
+    specifier: 14.0.0
+    version: 14.0.0
   '@expo/webpack-config':
     specifier: 19.0.1
     version: 19.0.1(expo@50.0.7)
@@ -80,9 +80,9 @@ dependencies:
   react-native:
     specifier: 0.73.4
     version: 0.73.4(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
-  react-native-mmkv:
-    specifier: 2.12.1
-    version: 2.12.1(react-native@0.73.4)(react@18.2.0)
+  react-native-mmkv-storage:
+    specifier: 0.9.1
+    version: 0.9.1(react-native@0.73.4)
   react-native-safe-area-context:
     specifier: 4.9.0
     version: 4.9.0(react-native@0.73.4)(react@18.2.0)
@@ -1902,7 +1902,7 @@ packages:
       node-fetch: 2.7.0
       parse-png: 2.1.0
       resolve-from: 5.0.0
-      semver: 7.5.4
+      semver: 7.6.0
       tempy: 0.3.0
     transitivePeerDependencies:
       - encoding
@@ -1919,7 +1919,7 @@ packages:
       node-fetch: 2.7.0
       parse-png: 2.1.0
       resolve-from: 5.0.0
-      semver: 7.5.3
+      semver: 7.6.0
       tempy: 0.3.0
     transitivePeerDependencies:
       - encoding
@@ -1975,7 +1975,7 @@ packages:
     resolution: {integrity: sha512-bOhuFnlRaS7CU33+rFFIWdcET/Vkyn1vsN8BYFwCDEF5P1fVVvYN7bFOsQLTMD3nvi35C1AGmtqUr/Wfv8Xaow==}
     engines: {node: '>=12'}
     dependencies:
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       exec-async: 2.2.0
     dev: false
 
@@ -1983,7 +1983,7 @@ packages:
     resolution: {integrity: sha512-LKdo/6y4W7llZ6ghsg1kdx2CeH/qR/c6QI/JI8oPUvppsZoeIYjSkdflce978fAMfR8IXoi0wt0jA2w0kWpwbg==}
     dependencies:
       '@expo/json-file': 8.3.0
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       ansi-regex: 5.0.1
       chalk: 4.1.2
       find-up: 5.0.0
@@ -2067,10 +2067,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       cross-spawn: 7.0.3
-    dev: false
-
-  /@expo/vector-icons@13.0.0:
-    resolution: {integrity: sha512-TI+l71+5aSKnShYclFa14Kum+hQMZ86b95SH6tQUG3qZEmLTarvWpKwqtTwQKqvlJSJrpFiSFu3eCuZokY6zWA==}
     dev: false
 
   /@expo/vector-icons@14.0.0:
@@ -4337,7 +4333,7 @@ packages:
       postcss-modules-scope: 3.1.1(postcss@8.4.35)
       postcss-modules-values: 4.0.0(postcss@8.4.35)
       postcss-value-parser: 4.2.0
-      semver: 7.5.4
+      semver: 7.6.0
       webpack: 5.90.3
     dev: false
 
@@ -8314,13 +8310,12 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-native-mmkv@2.12.1(react-native@0.73.4)(react@18.2.0):
-    resolution: {integrity: sha512-VB0JQc4JoEmmeK134skkce0wwNNUPPLfjO1eXM3o5NS8oeutv2mbUzoLYM3o/1wSIJkMETmT2t0JT4S378RZzA==}
+  /react-native-mmkv-storage@0.9.1(react-native@0.73.4):
+    resolution: {integrity: sha512-FzSx4PKxK2ocT/OuKGlaVziWZyQYHYLUx9595i1oXY263C5mG19PN5RiBgEGL2S5lK4VGUCzO85GAcsrNPtpOg==}
+    hasBin: true
     peerDependencies:
-      react: '*'
-      react-native: '>=0.71.0'
+      react-native: '*'
     dependencies:
-      react: 18.2.0
       react-native: 0.73.4(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
