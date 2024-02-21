@@ -6,7 +6,6 @@
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
       "backgroundColor": "#17101F"
     },
     "userInterfaceStyle": "automatic",
@@ -14,21 +13,34 @@
       "**/*"
     ],
     "ios": {
+      "associatedDomains": [
+        "applinks:app.guardianghost.com"
+      ],
+      "bundleIdentifier": "com.guardianghost.mobile",
       "config": {
         "usesNonExemptEncryption": false
       },
-      "supportsTablet": true,
-      "bundleIdentifier": "com.guardianghost.mobile",
-      "associatedDomains": [
-        "applinks:app.guardianghost.com"
-      ]
+      "splash": {
+        "image": "./assets/images/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#17101F"
+      },
+      "supportsTablet": true
+      
+      
     },
     "android": {
-      "package": "com.guardianghost",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#17101F"
       },
+      "package": "com.guardianghost",
+      "splash": {
+        "image": "./assets/images/splash.png",
+        "resizeMode": "native",
+        "backgroundColor": "#17101F"
+      },
+      
       "intentFilters": [
         {
           "action": "VIEW",
