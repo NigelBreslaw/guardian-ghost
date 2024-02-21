@@ -10,7 +10,9 @@ type storageKey = "item_definition" | "accounts";
 
 class StorageGG {
   private static instance: StorageGG;
-  private nativeStore = new MMKV();
+  private nativeStore = new MMKV({
+    id: "ggr-storage-id",
+  });
 
   private constructor() {}
 
