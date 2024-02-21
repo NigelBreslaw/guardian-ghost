@@ -283,7 +283,7 @@ class AuthService {
     }
   }
 
-  static cleanup() {
+  static cleanUp() {
     AuthService.unsubscribe();
   }
 }

@@ -8,8 +8,8 @@ import { useEffect, useRef } from "react";
 import { useColorScheme } from "@/components/useColorScheme";
 import { clientID } from "@/constants/env";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
-import StorageGG from "./storage/StorageGG";
 import AuthService from "./authentication/AuthService";
+import StorageGG from "./storage/StorageGG";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -29,7 +29,7 @@ export default function RootLayout() {
     console.warn("No .ENV file found. Please create one.");
   }
 
-  const storeRef = useRef(StorageGG.getInstance());
+  const storeRef = useRef<StorageGG | null>(null);
   const authServiceRef = useRef<AuthService | null>(null);
 
   const [loaded, error] = useFonts({
@@ -39,13 +39,13 @@ export default function RootLayout() {
 
   useEffect(() => {
     authServiceRef.current = AuthService.getInstance();
+    storeRef.current = StorageGG.getInstance();
     // Unsubscribe when the component unmounts
     return () => {
-      if (authServiceRef.current) {
-        authServiceRef.current.cleanup();
-      }
+      AuthService.cleanUp();
       authServiceRef.current = null;
-      storeRef.current.cleanUp();
+      StorageGG.cleanUp();
+      storeRef.current = null;
     };
   }, []);
 
