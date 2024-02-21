@@ -4,16 +4,15 @@
     "allowImportingTsExtensions": true,
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
-    "baseUrl": "app",
     "paths": {
       "@/*": [
-        "./*"
+        "./*",
+        "./app/*"
       ]
     },
     "strict": true
   },
   "include": [
-    "App.tsx",
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",

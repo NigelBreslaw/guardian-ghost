@@ -1,12 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "expo-image";
-import { useEffect, useReducer, useRef } from "react";
-import AuthUI from "../authentication/AuthUI";
 import AuthService from "@/authentication/AuthService";
 import { authReducer, initialAuthState } from "@/state/Actions";
 import StorageGG from "@/storage/StorageGG";
+import { Image } from "expo-image";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useReducer, useRef } from "react";
+import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AuthUI from "../authentication/AuthUI";
 
 type theme = "light" | "dark" | "auto";
 
@@ -40,7 +40,7 @@ export default function Director() {
 
   return (
     <SafeAreaView style={themeContainerStyle}>
-      <StatusBar />
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
       <ScrollView>
         <View style={styles.container}>
           <Text style={themeTextStyle}>Guardian Ghost</Text>

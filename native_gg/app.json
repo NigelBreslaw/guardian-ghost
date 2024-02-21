@@ -2,10 +2,12 @@
   "expo": {
     "name": "Guardian Ghost",
     "slug": "native_gg",
+    "scheme": "guardianghost",
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#17101F"
     },
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
@@ -23,6 +25,10 @@
     },
     "android": {
       "package": "com.guardianghost",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#17101F"
+      },
       "intentFilters": [
         {
           "action": "VIEW",
@@ -41,7 +47,7 @@
     "web": {
       "output": "single",
       "bundler": "metro",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",

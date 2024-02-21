@@ -1,5 +1,5 @@
-import { MMKV } from "react-native-mmkv";
 import { Platform } from "react-native";
+import { MMKV } from "react-native-mmkv";
 
 const Store = {
   factoryName: "gg-data",
