@@ -8,8 +8,8 @@ import { useEffect, useRef } from "react";
 import { useColorScheme } from "@/components/useColorScheme";
 import { clientID } from "@/constants/env";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
-import StorageGG from "./storage/StorageGG";
 import AuthService from "./authentication/AuthService";
+import StorageGG from "./storage/StorageGG";
 
 export {
   // Catch any errors thrown by the Layout component.

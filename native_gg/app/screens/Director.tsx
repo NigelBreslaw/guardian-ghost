@@ -1,9 +1,8 @@
 import AuthService from "@/authentication/AuthService";
 import { authReducer, initialAuthState } from "@/state/Actions";
-import StorageGG from "@/storage/StorageGG";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer } from "react";
 import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthUI from "../authentication/AuthUI";
