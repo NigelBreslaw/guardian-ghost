@@ -7,7 +7,7 @@ set -x
 
 # Xcode cloud could x86 or arm64 architecture. So detect it and install node accordingly.
 arch
-node_version=20.11.0
+node_version=20.11.1
 
 if [ "$ARCHITECTURE" == "arm64" ]; then
     # For arm64 architecture (Apple Silicon)
@@ -39,7 +39,7 @@ echo "============> Installing cocoapods <============"
 brew install cocoapods
 
 # Install yarn
-npm install -g pnpm@8.15.1
+npm install -g pnpm@8.15.3
 pnpm -v
 
 
