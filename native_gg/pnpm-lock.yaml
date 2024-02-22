@@ -74,9 +74,9 @@ dependencies:
   react-native:
     specifier: 0.73.4
     version: 0.73.4(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
-  react-native-mmkv-storage:
-    specifier: 0.9.1
-    version: 0.9.1(react-native@0.73.4)
+  react-native-mmkv:
+    specifier: 2.12.1
+    version: 2.12.1(react-native@0.73.4)(react@18.2.0)
   react-native-safe-area-context:
     specifier: 4.9.0
     version: 4.9.0(react-native@0.73.4)(react@18.2.0)
@@ -8013,12 +8013,13 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-native-mmkv-storage@0.9.1(react-native@0.73.4):
-    resolution: {integrity: sha512-FzSx4PKxK2ocT/OuKGlaVziWZyQYHYLUx9595i1oXY263C5mG19PN5RiBgEGL2S5lK4VGUCzO85GAcsrNPtpOg==}
-    hasBin: true
+  /react-native-mmkv@2.12.1(react-native@0.73.4)(react@18.2.0):
+    resolution: {integrity: sha512-VB0JQc4JoEmmeK134skkce0wwNNUPPLfjO1eXM3o5NS8oeutv2mbUzoLYM3o/1wSIJkMETmT2t0JT4S378RZzA==}
     peerDependencies:
-      react-native: '*'
+      react: '*'
+      react-native: '>=0.71.0'
     dependencies:
+      react: 18.2.0
       react-native: 0.73.4(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
