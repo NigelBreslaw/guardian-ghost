@@ -4,11 +4,7 @@
     "slug": "native_gg",
     "scheme": "guardianghost",
     "icon": "./assets/images/icon.png",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "backgroundColor": "#17101F"
-    },
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "automatic",    
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -23,27 +19,31 @@
       "splash": {
         "image": "./assets/images/splash.png",
         "resizeMode": "contain",
-        "backgroundColor": "#17101F"
+        "backgroundColor": "#F2F5FC",
+        "dark": {
+          "image": "./assets/images/splash_dark.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#17101F"
+        }
       },
       "supportsTablet": true
-      
-      
     },
     "androidStatusBar": {
       "barStyle": "light-content",
-      "backgroundColor": "#17101F",
+      "backgroundColor": "#00000000",
       "translucent": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#17101F"
-      },
       "package": "com.guardianghost",
       "splash": {
         "image": "./assets/images/splash.png",
         "resizeMode": "native",
-        "backgroundColor": "#17101F"
+        "backgroundColor": "#F2F5FC",
+        "dark": {
+          "image": "./assets/images/splash_dark.png",
+          "resizeMode": "native",
+          "backgroundColor": "#17101F"
+        }
       },
       
       "intentFilters": [
