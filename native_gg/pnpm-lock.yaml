@@ -56,9 +56,6 @@ dependencies:
   expo-splash-screen:
     specifier: 0.26.4
     version: 0.26.4(expo-modules-autolinking@1.10.3)(expo@50.0.7)
-  expo-status-bar:
-    specifier: 1.11.1
-    version: 1.11.1
   expo-system-ui:
     specifier: 2.9.3
     version: 2.9.3(expo@50.0.7)
@@ -4972,10 +4969,6 @@ packages:
       - encoding
       - expo-modules-autolinking
       - supports-color
-    dev: false
-
-  /expo-status-bar@1.11.1:
-    resolution: {integrity: sha512-ddQEtCOgYHTLlFUe/yH67dDBIoct5VIULthyT3LRJbEwdpzAgueKsX2FYK02ldh440V87PWKCamh7R9evk1rrg==}
     dev: false
 
   /expo-system-ui@2.9.3(expo@50.0.7):
