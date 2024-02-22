@@ -1,10 +1,9 @@
 import { Image } from "expo-image";
-import { StatusBar } from "expo-status-bar";
-import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useGlobalStateContext } from "../state/GlobalState";
-import AuthUI from "../authentication/AuthUI";
 import AuthService from "../authentication/AuthService";
+import AuthUI from "../authentication/AuthUI";
+import { useGlobalStateContext } from "../state/GlobalState";
 
 type theme = "light" | "dark" | "auto";
 

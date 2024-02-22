@@ -1,6 +1,6 @@
 import React, { useReducer, createContext, useContext } from "react";
-import { GlobalAction, GlobalState } from "./Types";
 import AuthService from "../authentication/AuthService";
+import { GlobalAction, GlobalState } from "./Types";
 
 // Define the context
 const initialState: GlobalState = {

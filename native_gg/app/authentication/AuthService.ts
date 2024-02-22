@@ -12,6 +12,7 @@ import {
   getLinkedProfiles,
   linkedProfilesSchema,
 } from "../account/Account.ts";
+import { GlobalAction } from "../state/Types.ts";
 import {
   AuthToken,
   authTokenSchema,
@@ -20,7 +21,6 @@ import {
   isValidAccessToken,
   isValidRefreshToken,
 } from "./Utilities.ts";
-import { GlobalAction } from "../state/Types.ts";
 
 class AuthService {
   private static instance: AuthService;
