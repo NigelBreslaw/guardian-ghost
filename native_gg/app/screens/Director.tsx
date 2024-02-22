@@ -1,7 +1,10 @@
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
-import { Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useGlobalStateContext } from "../state/GlobalState";
+import AuthUI from "../authentication/AuthUI";
+import AuthService from "../authentication/AuthService";
 
 type theme = "light" | "dark" | "auto";
 
@@ -10,18 +13,16 @@ export default function Director() {
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
+  const globalState = useGlobalStateContext();
 
-  // const accountAvatar = props.state.initComplete
-  //   ? props.state.currentAccount
-  //     ? `https://www.bungie.net${props.state.currentAccount?.iconPath}`
-  //     : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
-  //   : "";
-  const accountAvatar =
-    "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg";
+  const accountAvatar = globalState.appReady
+    ? globalState.currentAccount
+      ? `https://www.bungie.net${globalState.currentAccount.iconPath}`
+      : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+    : "";
 
   return (
     <SafeAreaView style={themeContainerStyle}>
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
       <ScrollView>
         <View style={styles.container}>
           <Text style={themeTextStyle}>Guardian Ghost</Text>
@@ -30,33 +31,33 @@ export default function Director() {
             <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
           </View>
           <View style={styles.spacer} />
-          {/* <AuthUI
-            disabled={props.state.authenticated}
+          <AuthUI
+            disabled={globalState.authenticated}
             startAuth={() => {
               AuthService.startAuth();
             }}
             processURL={(url) => {
               AuthService.processURL(url);
             }}
-          /> */}
+          />
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
-          {/* <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
-            {props.state.currentAccount?.supplementalDisplayName}
-          </Text> */}
+          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+            {globalState.currentAccount?.supplementalDisplayName}
+          </Text>
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>
             Authenticated:{" "}
-            {/* <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
-              {props.state.authenticated ? "True" : "False"}
-            </Text> */}
+            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+              {globalState.authenticated ? "True" : "False"}
+            </Text>
           </Text>
           <View style={styles.spacer} />
-          {/* <Button
+          <Button
             title="Logout"
-            disabled={!props.state.authenticated}
+            disabled={!globalState.authenticated}
             onPress={() => AuthService.logoutCurrentUser()}
-          /> */}
+          />
           <View style={styles.spacer} />
         </View>
       </ScrollView>

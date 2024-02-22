@@ -1,10 +1,13 @@
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 import Director from "./screens/Director";
+import GlobalStateProvider from "./state/GlobalState";
 
 export default function App() {
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <Director />
-    </SafeAreaProvider>
+    <GlobalStateProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <Director />
+      </SafeAreaProvider>
+    </GlobalStateProvider>
   );
 }
