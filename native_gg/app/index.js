@@ -1,3 +1,6 @@
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
+
 import { registerRootComponent } from "expo";
 
 import App from "./App";

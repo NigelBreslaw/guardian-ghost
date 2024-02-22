@@ -1,4 +1,5 @@
-import React, { useReducer, createContext, useContext } from "react";
+import React, { useReducer, createContext, useContext, useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
 import AuthService from "../authentication/AuthService";
 import { GlobalAction, GlobalState } from "./Types";
 
@@ -33,6 +34,13 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(globalReducer, initialState);
   const authService = AuthService.getInstance();
   AuthService.subscribe(dispatch);
+
+  useEffect(() => {
+    if (state.appReady) {
+      console.log("App is ready");
+      SplashScreen.hideAsync();
+    }
+  }, [state.appReady]);
 
   return (
     <StateContext.Provider value={state}>
