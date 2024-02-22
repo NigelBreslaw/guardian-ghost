@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { MMKVInstance, MMKVLoader } from "react-native-mmkv-storage";
+import { MMKV } from "react-native-mmkv";
 
 const Store = {
   factoryName: "gg-data",
@@ -11,11 +11,11 @@ type storageKey = "item_definition" | "accounts";
 class StorageGG {
   private static instance: StorageGG;
 
-  private nativeStore: MMKVInstance | null = null;
+  private nativeStore: MMKV | null = null;
 
   private constructor() {
     if (Platform.OS !== "web") {
-      this.nativeStore = new MMKVLoader().withInstanceID("nativeStore").initialize();
+      this.nativeStore = new MMKV();
     }
   }
 
@@ -117,7 +117,7 @@ class StorageGG {
     try {
       const nativeStore = StorageGG.getInstance().nativeStore;
       if (nativeStore) {
-        nativeStore.setItem(storageKey, JSON.stringify(data));
+        nativeStore.set(storageKey, JSON.stringify(data));
         console.log("data added to native store", storageKey);
       }
     } catch (e) {
