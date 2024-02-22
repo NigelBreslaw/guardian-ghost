@@ -42,11 +42,11 @@
     "lint:fix": "biome check --apply ./src"
   },
   "dependencies": {
-    "@astrojs/sitemap": "3.1.0",
+    "@astrojs/sitemap": "3.1.1",
     "@astrojs/tailwind": "5.1.0",
     "@faker-js/faker": "8.4.1",
     "apexcharts": "3.46.0",
-    "astro": "4.4.1",
+    "astro": "4.4.2",
     "flowbite": "2.3.0",
     "flowbite-typography": "1.0.3",
     "shiki": "1.1.6",
