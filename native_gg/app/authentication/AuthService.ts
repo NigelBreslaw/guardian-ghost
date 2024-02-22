@@ -12,7 +12,7 @@ import {
   getLinkedProfiles,
   linkedProfilesSchema,
 } from "../account/Account.ts";
-import { AuthAction } from "../state/Actions.ts";
+import { GlobalAction } from "../state/Types.ts";
 import {
   AuthToken,
   authTokenSchema,
@@ -25,7 +25,7 @@ import {
 class AuthService {
   private static instance: AuthService;
   private static authToken: AuthToken | null = null;
-  private static dispatch: React.Dispatch<AuthAction> | null = null;
+  private static dispatch: React.Dispatch<GlobalAction> | null = null;
   private static stateID = "";
   private static usedAuthCodes: Array<string> = [];
   private static currentAccount: BungieUser | null = null;
@@ -63,7 +63,6 @@ class AuthService {
           }
           const validatedAccount = parse(BungieUserSchema, JSON.parse(currentAccount));
           AuthService.setCurrentAccount(validatedAccount);
-          console.log("Current account", validatedAccount);
           // Then is there an auth token?
           AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`)
             .then((token) => {
@@ -143,7 +142,7 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  static subscribe(dispatch: React.Dispatch<AuthAction>) {
+  static subscribe(dispatch: React.Dispatch<GlobalAction>) {
     AuthService.dispatch = dispatch;
   }
 
@@ -190,7 +189,7 @@ class AuthService {
 
   setInitComplete() {
     if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setInitComplete", payload: true });
+      AuthService.dispatch({ type: "setAppReady", payload: true });
     } else {
       console.info("No dispatch");
     }
