@@ -1,24 +1,23 @@
-import AuthService from "@/authentication/AuthService";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
-import { Button, Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Platform, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AuthUI from "../authentication/AuthUI";
-import { DirectorProps } from "./types";
 
 type theme = "light" | "dark" | "auto";
 
-export default function Director(props: DirectorProps) {
+export default function Director() {
   const colorScheme = useColorScheme();
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
-  const accountAvatar = props.state.initComplete
-    ? props.state.currentAccount
-      ? `https://www.bungie.net${props.state.currentAccount?.iconPath}`
-      : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
-    : "";
+  // const accountAvatar = props.state.initComplete
+  //   ? props.state.currentAccount
+  //     ? `https://www.bungie.net${props.state.currentAccount?.iconPath}`
+  //     : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
+  //   : "";
+  const accountAvatar =
+    "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg";
 
   return (
     <SafeAreaView style={themeContainerStyle}>
@@ -31,7 +30,7 @@ export default function Director(props: DirectorProps) {
             <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
           </View>
           <View style={styles.spacer} />
-          <AuthUI
+          {/* <AuthUI
             disabled={props.state.authenticated}
             startAuth={() => {
               AuthService.startAuth();
@@ -39,25 +38,25 @@ export default function Director(props: DirectorProps) {
             processURL={(url) => {
               AuthService.processURL(url);
             }}
-          />
+          /> */}
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
-          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+          {/* <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
             {props.state.currentAccount?.supplementalDisplayName}
-          </Text>
+          </Text> */}
 
           <Text style={{ marginTop: 15, ...themeTextStyle }}>
             Authenticated:{" "}
-            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
+            {/* <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
               {props.state.authenticated ? "True" : "False"}
-            </Text>
+            </Text> */}
           </Text>
           <View style={styles.spacer} />
-          <Button
+          {/* <Button
             title="Logout"
             disabled={!props.state.authenticated}
             onPress={() => AuthService.logoutCurrentUser()}
-          />
+          /> */}
           <View style={styles.spacer} />
         </View>
       </ScrollView>

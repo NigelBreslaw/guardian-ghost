@@ -55,7 +55,7 @@
     "source-map-explorer": "2.5.3",
     "typescript": "5.3.3"
   },
-  "main": "expo-router/entry",
+  "main": "./app/index.js",
   "name": "native_gg",
   "version": "1.0.0",
   "private": true,
