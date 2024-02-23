@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button, Text, View, useColorScheme, StyleSheet } from "react-native";
+import { Text, View, useColorScheme, StyleSheet } from "react-native";
+import { Button, ButtonText } from "@gluestack-ui/themed";
 import { useGlobalStateContext } from "./state/GlobalState";
 import Login from "./screens/Login";
 import { useEffect } from "react";
@@ -9,28 +10,35 @@ import AuthService from "./authentication/AuthService";
 function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
 
-  const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
+  const themeColor = colorScheme === "light" ? "#F2F5FC" : "#171321";
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
+  const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
+
   return (
-    <View style={{ ...themeContainerStyle, justifyContent: "center" }}>
+    <View style={{ ...styles.topContainer, backgroundColor: themeColor }}>
       <Text style={{ ...themeTextStyle, fontSize: 30 }}>This is the home screen!</Text>
-      <Button title="Logout" onPress={() => AuthService.logoutCurrentUser()} />
+      <Button
+        size="xl"
+        variant="outline"
+        action="primary"
+        isFocusVisible={false}
+        onPress={() => {
+          AuthService.logoutCurrentUser();
+        }}
+        style={{ alignSelf: "stretch", borderColor: buttonColor }}
+      >
+        <ButtonText color={buttonColor}>Logout</ButtonText>
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  topContainerLight: {
+  topContainer: {
     flex: 1,
-    backgroundColor: "#F2F5FC",
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  topContainerDark: {
-    flex: 1,
-    backgroundColor: "#171321",
-    marginLeft: 20,
-    marginRight: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    justifyContent: "center",
   },
   textLight: {
     color: "black",
