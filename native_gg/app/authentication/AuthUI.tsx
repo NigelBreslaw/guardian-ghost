@@ -13,7 +13,6 @@ type AuthUIProps = {
 export default function AuthUI(props: AuthUIProps) {
   const url = useURL();
   const colorScheme = useColorScheme();
-
   const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
 
   const [loginInProgress, setLoginInProgress] = useState(false);
