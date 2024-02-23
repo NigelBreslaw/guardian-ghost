@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NavigationProp } from "@react-navigation/native";
 import AuthService from "../authentication/AuthService";
@@ -22,35 +22,25 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
 
   return (
     <SafeAreaView style={themeContainerStyle}>
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={themeTextStyle}>Login View</Text>
-          <View style={styles.spacer} />
-          <View style={styles.spacer} />
-          <AuthUI
-            disabled={globalState.authenticated}
-            startAuth={() => {
-              AuthService.startAuth();
-            }}
-            processURL={(url) => {
-              AuthService.processURL(url);
-            }}
-          />
-
-          <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
-          <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
-            {globalState.currentAccount?.supplementalDisplayName}
-          </Text>
-
-          <Text style={{ marginTop: 15, ...themeTextStyle }}>
-            Authenticated:{" "}
-            <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
-              {globalState.authenticated ? "True" : "False"}
-            </Text>
-          </Text>
-          <View style={styles.spacer} />
-        </View>
-      </ScrollView>
+      <View style={styles.container}>
+        <View style={{ marginTop: 100 }} />
+        <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
+          Welcome to Guardian Ghost
+        </Text>
+        <View style={{ marginTop: 40 }} />
+        <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
+        <View style={{ marginTop: 20 }} />
+        <AuthUI
+          disabled={globalState.authenticated}
+          startAuth={() => {
+            AuthService.startAuth();
+          }}
+          processURL={(url) => {
+            AuthService.processURL(url);
+          }}
+        />
+        <View style={styles.spacer} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -74,7 +64,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
+    marginLeft: 20,
+    marginRight: 20,
   },
   imageContainer: {
     borderRadius: 16,

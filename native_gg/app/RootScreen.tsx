@@ -23,10 +23,14 @@ const styles = StyleSheet.create({
   topContainerLight: {
     flex: 1,
     backgroundColor: "#F2F5FC",
+    marginLeft: 20,
+    marginRight: 20,
   },
   topContainerDark: {
     flex: 1,
     backgroundColor: "#171321",
+    marginLeft: 20,
+    marginRight: 20,
   },
   textLight: {
     color: "black",
