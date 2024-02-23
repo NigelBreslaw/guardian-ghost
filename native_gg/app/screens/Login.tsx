@@ -6,8 +6,6 @@ import AuthUI from "../authentication/AuthUI";
 import { useGlobalStateContext } from "../state/GlobalState";
 import { useEffect } from "react";
 
-type theme = "light" | "dark" | "auto";
-
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
   const globalState = useGlobalStateContext();
@@ -60,7 +58,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
 const styles = StyleSheet.create({
   topContainerLight: {
     flex: 1,
-    backgroundColor: "#8A9BDF",
+    backgroundColor: "#F2F5FC",
   },
   topContainerDark: {
     flex: 1,
@@ -78,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  scrollContainer: {},
   imageContainer: {
     borderRadius: 16,
     shadowColor: "#000",
