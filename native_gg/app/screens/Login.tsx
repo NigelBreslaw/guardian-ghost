@@ -1,17 +1,26 @@
 import { ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import type { NavigationProp } from "@react-navigation/native";
 import AuthService from "../authentication/AuthService";
 import AuthUI from "../authentication/AuthUI";
 import { useGlobalStateContext } from "../state/GlobalState";
+import { useEffect } from "react";
 
 type theme = "light" | "dark" | "auto";
 
-export default function Director() {
+export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
+  const globalState = useGlobalStateContext();
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
-  const globalState = useGlobalStateContext();
+
+  useEffect(() => {
+    if (globalState.appReady && globalState.authenticated) {
+      console.log("authenticated so dismiss login view");
+      navigation.goBack();
+    }
+  }, [globalState.appReady, globalState.authenticated, navigation]);
 
   return (
     <SafeAreaView style={themeContainerStyle}>

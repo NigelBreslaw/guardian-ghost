@@ -1,31 +1,14 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button, Text, View } from "react-native";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
-import Director from "./screens/Director";
 import GlobalStateProvider from "./state/GlobalState";
-
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-function HomeScreen({ navigation }: { navigation: any }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-      <Button title="Go to Director" onPress={() => navigation.navigate("Director")} />
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
+import RootScreen from "./RootScreen";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
     <GlobalStateProvider>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Director" component={Director} />
-          </Stack.Navigator>
+          <RootScreen />
         </NavigationContainer>
       </SafeAreaProvider>
     </GlobalStateProvider>
