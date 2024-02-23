@@ -35,10 +35,6 @@ jobs:
         with:
             distribution: 'temurin' # See 'Supported distributions' for available options
             java-version: '17'
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2.12
-        with:
-          create-symlink: true
       
       - name: install dependencies
         run: pnpm install --frozen-lockfile
@@ -59,7 +55,8 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
       - run: cd android && ./gradlew bundleRelease --scan
-      - run: ccache -s
+
+        
         
       - name: Sign ABB
         uses: r0adkll/sign-android-release@v1
