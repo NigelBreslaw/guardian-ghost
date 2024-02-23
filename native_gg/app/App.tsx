@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Button, Text, View } from "react-native";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 import Director from "./screens/Director";
 import GlobalStateProvider from "./state/GlobalState";
-import { View, Text, Button } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function HomeScreen({ navigation }: { navigation: any }) {

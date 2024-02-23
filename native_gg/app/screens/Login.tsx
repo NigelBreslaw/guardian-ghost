@@ -1,5 +1,4 @@
-import { Image } from "expo-image";
-import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthService from "../authentication/AuthService";
 import AuthUI from "../authentication/AuthUI";
