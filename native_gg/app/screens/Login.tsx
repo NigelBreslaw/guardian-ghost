@@ -1,5 +1,4 @@
-import { Image } from "expo-image";
-import { Button, ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { ScrollView, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthService from "../authentication/AuthService";
 import AuthUI from "../authentication/AuthUI";
@@ -14,21 +13,12 @@ export default function Director() {
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
   const globalState = useGlobalStateContext();
 
-  const accountAvatar = globalState.appReady
-    ? globalState.currentAccount
-      ? `https://www.bungie.net${globalState.currentAccount.iconPath}`
-      : "https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg"
-    : "";
-
   return (
     <SafeAreaView style={themeContainerStyle}>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={themeTextStyle}>Guardian Ghost</Text>
+          <Text style={themeTextStyle}>Login View</Text>
           <View style={styles.spacer} />
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
-          </View>
           <View style={styles.spacer} />
           <AuthUI
             disabled={globalState.authenticated}
@@ -52,12 +42,6 @@ export default function Director() {
             </Text>
           </Text>
           <View style={styles.spacer} />
-          <Button
-            title="Logout"
-            disabled={!globalState.authenticated}
-            onPress={() => AuthService.logoutCurrentUser()}
-          />
-          <View style={styles.spacer} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -67,7 +51,7 @@ export default function Director() {
 const styles = StyleSheet.create({
   topContainerLight: {
     flex: 1,
-    backgroundColor: "#F2F5FC",
+    backgroundColor: "#8A9BDF",
   },
   topContainerDark: {
     flex: 1,

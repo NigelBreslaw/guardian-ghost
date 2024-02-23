@@ -1,5 +1,5 @@
-import React, { useReducer, createContext, useContext, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import React, { useReducer, createContext, useContext, useEffect } from "react";
 import AuthService from "../authentication/AuthService";
 import { GlobalAction, GlobalState } from "./Types";
 
