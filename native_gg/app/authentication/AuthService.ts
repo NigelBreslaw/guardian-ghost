@@ -195,7 +195,7 @@ class AuthService {
     }
   }
 
-  private static setLoggingIn(loggingIn: boolean) {
+  static setLoggingIn(loggingIn: boolean) {
     if (AuthService.dispatch) {
       AuthService.dispatch({ type: "setLoggingIn", payload: loggingIn });
     } else {
@@ -213,6 +213,8 @@ class AuthService {
         // Used for Web and Android
         if (result.type === "success") {
           AuthService.processURL(result.url);
+        } else if (result.type === "dismiss") {
+          // iOS only on universal link callback
         } else {
           // Used for all platforms
           console.info("Failed to open auth session", result);
@@ -288,7 +290,7 @@ class AuthService {
   // This does not delete everything. Logging out should still leave user data behind for when they log back in.
   // The 'logout' might simply be the app not being used for so long it needs re-authentication.
   static async logoutCurrentUser() {
-    console.log("logoutCurrentUser", AuthService.currentUserID);
+    console.info("logoutCurrentUser");
     try {
       await AsyncStorage.removeItem(Store._bungie_user);
       await AsyncStorage.removeItem(`${AuthService.currentUserID}${Store._refresh_token}`);
