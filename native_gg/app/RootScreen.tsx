@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import AuthService from "./authentication/AuthService";
 
 function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const globalState = useGlobalStateContext();
   const colorScheme = useColorScheme();
 
   const themeColor = colorScheme === "light" ? "#F2F5FC" : "#171321";
@@ -16,7 +17,10 @@ function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation
 
   return (
     <View style={{ ...styles.topContainer, backgroundColor: themeColor }}>
-      <Text style={{ ...themeTextStyle, fontSize: 30 }}>This is the home screen!</Text>
+      <View style={{ marginTop: 100 }} />
+      <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
+        Home Screen
+      </Text>
       <Button
         size="xl"
         variant="outline"
@@ -29,6 +33,13 @@ function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation
       >
         <ButtonText color={buttonColor}>Logout</ButtonText>
       </Button>
+      {globalState.loggingIn && (
+        <View>
+          <Text style={{ ...themeTextStyle, fontSize: 30 }}>
+            {`Account Status: ${globalState.currentAccount !== null ? "Yes" : "Waiting..."}`}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -38,7 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
   },
   textLight: {
     color: "black",

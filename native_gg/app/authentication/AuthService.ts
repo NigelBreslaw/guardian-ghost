@@ -277,8 +277,8 @@ class AuthService {
         }
         const bungieUser = getBungieUser(linkedProfiles);
         AuthService.setCurrentAccount(bungieUser);
-        AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
-        AuthService.validateAndSetToken(authToken);
+        await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
+        AuthService.setLoggingIn(false);
       } catch (e) {
         // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
         // It needs some kind of big alert and then a logout.
