@@ -15,7 +15,7 @@ export const authTokenSchema = object({
 
 export type AuthToken = Output<typeof authTokenSchema>;
 
-export function getRefreshToken(bungieCode: string): Promise<JSON> {
+export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -36,8 +36,15 @@ export function getRefreshToken(bungieCode: string): Promise<JSON> {
         }
         return response.json();
       })
-      .then((data) => {
-        resolve(data);
+      .then((rawToken) => {
+        try {
+          const validatedToken = parse(authTokenSchema, rawToken);
+          validatedToken.time_stamp = new Date().toISOString();
+          return resolve(validatedToken);
+        } catch (error) {
+          console.error("went wrong here");
+          return reject(error);
+        }
       })
       .catch((error) => {
         console.error("getRefreshToken", error);
@@ -65,21 +72,23 @@ export function getAccessToken(token: AuthToken): Promise<AuthToken> {
   return new Promise((resolve, reject) => {
     fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
       .then((response) => {
+        console.log("got the token");
         if (!response.ok) {
           console.error(response);
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        response.json().then((rawToken) => {
-          try {
-            const validatedToken = parse(authTokenSchema, rawToken);
-            validatedToken.time_stamp = new Date().toISOString();
-            resolve(validatedToken);
-          } catch (error) {
-            console.error("went wrong here");
-            return reject(error);
-          }
-        });
+        return response.json();
+      })
+      .then((rawToken) => {
+        try {
+          const validatedToken = parse(authTokenSchema, rawToken);
+          validatedToken.time_stamp = new Date().toISOString();
+          return resolve(validatedToken);
+        } catch (error) {
+          console.error("went wrong here");
+          return reject(error);
+        }
       })
       .catch((error) => {
         reject(error);

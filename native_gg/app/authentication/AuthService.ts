@@ -154,7 +154,7 @@ class AuthService {
   // Method to check if user data and auth token exist
   static isAuthenticated(): boolean {
     // TODO: This is wrong. It should use getTokenAsync so it needs to be async and whatever calls it should await.
-    return AuthService.currentAccount && AuthService.authToken ? true : false;
+    return AuthService.authToken ? true : false;
   }
 
   // Method to get current user data
@@ -179,9 +179,8 @@ class AuthService {
   private static setAuthToken(token: AuthToken | null) {
     AuthService.authToken = token;
 
-    const dispatch = AuthService.dispatch;
-    if (dispatch) {
-      dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
+    if (AuthService.dispatch) {
+      AuthService.dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
     } else {
       console.info("setAuthToken: No dispatch");
     }
@@ -247,6 +246,7 @@ class AuthService {
       try {
         const validatedToken = parse(authTokenSchema, initialJSONToken);
         const fullToken = await getAccessToken(validatedToken);
+        AuthService.saveAndSetToken(fullToken);
         AuthService.buildBungieAccount(fullToken);
       } catch (e) {
         console.error("Failed to validate token", e);
