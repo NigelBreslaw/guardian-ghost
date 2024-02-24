@@ -1,23 +1,52 @@
-import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import { useEffect } from "react";
+import { Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NavigationProp } from "@react-navigation/native";
-import AuthUI from "../authentication/AuthUI";
+import * as WebBrowser from "expo-web-browser";
+import { addEventListener, useURL } from "expo-linking";
+import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
 import { useGlobalStateContext } from "../state/GlobalState";
-import { useEffect } from "react";
+import AuthService from "../authentication/AuthService";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
   const globalState = useGlobalStateContext();
+  const url = useURL();
 
+  const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
     if (globalState.appReady && globalState.authenticated) {
-      console.log("authenticated so dismiss login view");
       navigation.goBack();
     }
   }, [globalState.appReady, globalState.authenticated, navigation]);
+
+  useEffect(() => {
+    const handleRedirect = (event: { url: string }) => {
+      if (Platform.OS === "ios") {
+        WebBrowser.dismissAuthSession();
+        AuthService.processURL(event.url);
+      }
+    };
+    // If this view is being constructed then ensure the login button can be pressed
+    AuthService.setLoggingIn(false);
+
+    const listener = addEventListener("url", handleRedirect);
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (url) {
+      if (Platform.OS === "web") {
+        WebBrowser.maybeCompleteAuthSession();
+      }
+    }
+  }, [url]);
 
   return (
     <SafeAreaView style={themeContainerStyle}>
@@ -29,7 +58,20 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        <AuthUI />
+        <Button
+          size="xl"
+          variant="outline"
+          action="primary"
+          isDisabled={globalState.loggingIn}
+          isFocusVisible={false}
+          onPress={() => {
+            AuthService.startAuth();
+          }}
+          style={{ alignSelf: "stretch", borderColor: buttonColor }}
+        >
+          {globalState.loggingIn && <ButtonSpinner mr="$1" />}
+          <ButtonText color={buttonColor}>Login</ButtonText>
+        </Button>
         <View style={styles.spacer} />
       </View>
     </SafeAreaView>
