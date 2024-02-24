@@ -1,5 +1,5 @@
 import StorageGG from "@/storage/StorageGG";
-import { getProfile, profileComponents } from "../bungie/BungieApi";
+import { getProfile, profileComponents } from "@/bungie/BungieApi.ts";
 
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   const requestOptions: RequestInit = {

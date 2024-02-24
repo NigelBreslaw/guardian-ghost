@@ -5,8 +5,8 @@ import type { NavigationProp } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
 import { addEventListener, useURL } from "expo-linking";
 import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
-import { useGlobalStateContext } from "../state/GlobalState";
-import AuthService from "../authentication/AuthService";
+import { useGlobalStateContext } from "@/state/GlobalState.tsx";
+import AuthService from "@/authentication/AuthService.ts";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();

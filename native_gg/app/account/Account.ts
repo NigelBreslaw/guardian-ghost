@@ -1,5 +1,5 @@
-import { AuthToken } from "@/authentication/Utilities";
-import { apiKey } from "@/constants/env";
+import { AuthToken } from "@/authentication/Utilities.ts";
+import { apiKey } from "@/constants/env.ts";
 import { array, boolean, isoTimestamp, number, object, string } from "valibot";
 import type { Output } from "valibot";
 

@@ -1,4 +1,4 @@
-import { BungieUser } from "../account/Account";
+import { BungieUser } from "@/account/Account.ts";
 
 export type GlobalState = {
   appReady: boolean;

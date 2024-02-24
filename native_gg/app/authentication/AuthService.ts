@@ -3,8 +3,8 @@ import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { parse, string } from "valibot";
-import { clientID, redirectURL } from "../../constants/env.ts";
-import { Store } from "../../constants/storage.ts";
+import { clientID, redirectURL } from "@/constants/env.ts";
+import { Store } from "@/constants/storage.ts";
 import {
   BungieUser,
   BungieUserSchema,
