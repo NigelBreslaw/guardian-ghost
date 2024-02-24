@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NavigationProp } from "@react-navigation/native";
-import AuthService from "../authentication/AuthService";
 import AuthUI from "../authentication/AuthUI";
 import { useGlobalStateContext } from "../state/GlobalState";
 import { useEffect } from "react";
