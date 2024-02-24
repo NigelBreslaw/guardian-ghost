@@ -172,7 +172,7 @@ class AuthService {
     if (AuthService.dispatch) {
       AuthService.dispatch({ type: "setCurrentAccount", payload: bungieUser });
     } else {
-      console.info("No dispatch");
+      console.info("setCurrentAccount: No dispatch");
     }
   }
 
@@ -183,7 +183,7 @@ class AuthService {
     if (dispatch) {
       dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
     } else {
-      console.info("No dispatch");
+      console.info("setAuthToken: No dispatch");
     }
   }
 
@@ -191,20 +191,37 @@ class AuthService {
     if (AuthService.dispatch) {
       AuthService.dispatch({ type: "setAppReady", payload: true });
     } else {
-      console.info("No dispatch");
+      console.info("setInitComplete: No dispatch");
+    }
+  }
+
+  private static setLoggingIn(loggingIn: boolean) {
+    if (AuthService.dispatch) {
+      AuthService.dispatch({ type: "setLoggingIn", payload: loggingIn });
+    } else {
+      console.info("setLoggingIn: No dispatch");
     }
   }
 
   static startAuth(): void {
+    AuthService.setLoggingIn(true);
     AuthService.stateID = randomUUID();
     const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${AuthService.stateID}`;
 
-    WebBrowser.openAuthSessionAsync(authURL, redirectURL).then((result) => {
-      // Used for Web and Android
-      if (result.type === "success") {
-        AuthService.processURL(result.url);
-      }
-    });
+    WebBrowser.openAuthSessionAsync(authURL, redirectURL)
+      .then((result) => {
+        // Used for Web and Android
+        if (result.type === "success") {
+          AuthService.processURL(result.url);
+        } else {
+          // Used for all platforms
+          console.info("Failed to open auth session", result);
+          AuthService.setLoggingIn(false);
+        }
+      })
+      .catch((e) => {
+        console.error("login issue?", e);
+      });
   }
 
   static async processURL(url: string) {

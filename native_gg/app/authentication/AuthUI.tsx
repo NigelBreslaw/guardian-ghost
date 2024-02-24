@@ -1,27 +1,22 @@
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Platform, useColorScheme } from "react-native";
 import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
+import AuthService from "./AuthService";
+import { useGlobalStateContext } from "../state/GlobalState";
 
-type AuthUIProps = {
-  disabled: boolean;
-  startAuth: () => void;
-  processURL: (url: string) => void;
-};
-
-export default function AuthUI(props: AuthUIProps) {
+export default function AuthUI() {
+  const globalState = useGlobalStateContext();
   const url = useURL();
   const colorScheme = useColorScheme();
   const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
-
-  const [loginInProgress, setLoginInProgress] = useState(false);
 
   useEffect(() => {
     const handleRedirect = (event: { url: string }) => {
       if (Platform.OS === "ios") {
         WebBrowser.dismissAuthSession();
-        props.processURL(event.url);
+        AuthService.processURL(event.url);
       }
     };
 
@@ -30,7 +25,7 @@ export default function AuthUI(props: AuthUIProps) {
     return () => {
       listener.remove();
     };
-  }, [props.processURL]);
+  }, []);
 
   useEffect(() => {
     if (url) {
@@ -45,15 +40,14 @@ export default function AuthUI(props: AuthUIProps) {
       size="xl"
       variant="outline"
       action="primary"
-      isDisabled={loginInProgress}
+      isDisabled={globalState.loggingIn}
       isFocusVisible={false}
       onPress={() => {
-        setLoginInProgress(true);
-        props.startAuth();
+        AuthService.startAuth();
       }}
       style={{ alignSelf: "stretch", borderColor: buttonColor }}
     >
-      {loginInProgress && <ButtonSpinner mr="$1" />}
+      {globalState.loggingIn && <ButtonSpinner mr="$1" />}
       <ButtonText color={buttonColor}>Login</ButtonText>
     </Button>
   );

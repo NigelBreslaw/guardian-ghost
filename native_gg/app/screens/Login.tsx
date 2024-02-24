@@ -30,15 +30,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        <AuthUI
-          disabled={globalState.authenticated}
-          startAuth={() => {
-            AuthService.startAuth();
-          }}
-          processURL={(url) => {
-            AuthService.processURL(url);
-          }}
-        />
+        <AuthUI />
         <View style={styles.spacer} />
       </View>
     </SafeAreaView>

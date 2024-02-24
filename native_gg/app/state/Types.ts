@@ -2,6 +2,7 @@ import { BungieUser } from "../account/Account";
 
 export type GlobalState = {
   appReady: boolean;
+  loggingIn: boolean;
   authenticated: boolean;
   currentAccount: BungieUser | null;
 };
@@ -9,6 +10,10 @@ export type GlobalState = {
 export type GlobalAction =
   | {
       type: "setAppReady";
+      payload: boolean;
+    }
+  | {
+      type: "setLoggingIn";
       payload: boolean;
     }
   | {
