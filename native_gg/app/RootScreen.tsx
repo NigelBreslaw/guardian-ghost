@@ -5,7 +5,7 @@ import { Button, ButtonText } from "@gluestack-ui/themed";
 import { useGlobalStateContext } from "./state/GlobalState.tsx";
 import Login from "@/screens/Login.tsx";
 import { useEffect } from "react";
-import AuthService from "@/authentication/AuthService.tsx";
+import AuthService from "@/authentication/AuthService.ts";
 
 function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();
