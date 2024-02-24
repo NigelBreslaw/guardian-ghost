@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NavigationProp } from "@react-navigation/native";
-import AuthService from "../authentication/AuthService";
 import AuthUI from "../authentication/AuthUI";
 import { useGlobalStateContext } from "../state/GlobalState";
 import { useEffect } from "react";
@@ -30,15 +29,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        <AuthUI
-          disabled={globalState.authenticated}
-          startAuth={() => {
-            AuthService.startAuth();
-          }}
-          processURL={(url) => {
-            AuthService.processURL(url);
-          }}
-        />
+        <AuthUI />
         <View style={styles.spacer} />
       </View>
     </SafeAreaView>

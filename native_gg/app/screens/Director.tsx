@@ -30,16 +30,7 @@ export default function Director() {
             <Image style={styles.image} contentFit="contain" transition={300} source={accountAvatar} />
           </View>
           <View style={styles.spacer} />
-          <AuthUI
-            disabled={globalState.authenticated}
-            startAuth={() => {
-              AuthService.startAuth();
-            }}
-            processURL={(url) => {
-              AuthService.processURL(url);
-            }}
-          />
-
+          <AuthUI />
           <Text style={{ marginTop: 15, ...themeTextStyle }}>Membership ID:</Text>
           <Text style={{ fontWeight: "bold", ...themeTextStyle }}>
             {globalState.currentAccount?.supplementalDisplayName}

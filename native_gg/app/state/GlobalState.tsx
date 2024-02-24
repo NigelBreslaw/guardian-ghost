@@ -6,6 +6,7 @@ import { GlobalAction, GlobalState } from "./Types";
 // Define the context
 const initialState: GlobalState = {
   appReady: false,
+  loggingIn: false,
   authenticated: false,
   currentAccount: null,
 };
@@ -23,6 +24,9 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
     }
     case "setCurrentAccount": {
       return { ...state, currentAccount: action.payload };
+    }
+    case "setLoggingIn": {
+      return { ...state, loggingIn: action.payload };
     }
     default: {
       return state;
