@@ -72,7 +72,6 @@ export function getAccessToken(token: AuthToken): Promise<AuthToken> {
   return new Promise((resolve, reject) => {
     fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
       .then((response) => {
-        console.log("got the token");
         if (!response.ok) {
           console.error(response);
           throw new Error(`HTTP error! Status: ${response.status}`);
