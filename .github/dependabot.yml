@@ -42,7 +42,7 @@ updates:
           - "@react-native*"
       react-navigation:
         patterns:
-          - "@react-navigation"
+          - "@react-navigation*"
       babel:
         patterns:
           - "@babel*"
