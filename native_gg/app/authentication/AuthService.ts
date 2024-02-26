@@ -90,11 +90,11 @@ class AuthService {
     return new Promise((resolve, reject) => {
       // Function to add a new request to the queue
       const enqueue = () => {
+        console.log("getTokenAsync queue length:", AuthService.queue.length);
         AuthService.queue.push(async () => {
           try {
             const result = await AuthService.getTokenInternal(errorMessage);
 
-            console.log("got result?");
             resolve(result);
           } catch (error) {
             reject(null);
@@ -116,7 +116,7 @@ class AuthService {
           AuthService.isProcessing = false;
         }
       };
-      console.log("getTokenAsync queue length:", AuthService.queue.length);
+
       enqueue(); // Enqueue the current request
     });
   }
@@ -158,23 +158,28 @@ class AuthService {
 
       const isValidAccess = isValidAccessToken(token);
       if (!isValidAccess) {
+        console.info("Access token expired");
         getAccessToken(token)
           .then((newAuthToken) => {
+            console.info("Retrieved new token");
             validToken = newAuthToken;
+            AuthService.saveAndSetToken(validToken);
+
+            return resolve(true);
           })
           .catch((e) => {
             return reject(e);
           });
+      } else {
+        console.info("Access token valid");
+        AuthService.saveAndSetToken(validToken);
+
+        return resolve(true);
       }
-
-      AuthService.saveAndSetToken(validToken);
-
-      return resolve(true);
     });
   }
 
   private static saveAndSetToken(token: AuthToken) {
-    console.log("saveAndSetToken");
     const currentUserID = AuthService.currentUserID;
     AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
     AuthService.setAuthToken(token);
