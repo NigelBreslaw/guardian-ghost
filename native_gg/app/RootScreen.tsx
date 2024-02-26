@@ -65,7 +65,6 @@ const RootStack = createStackNavigator();
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
   const navigation = useNavigation();
-
   const colorScheme = useColorScheme();
 
   const themeBackgroundColor = colorScheme === "light" ? "white" : "#171321";
@@ -73,7 +72,6 @@ export default function RootScreen() {
 
   useEffect(() => {
     if (globalState.appReady && !globalState.authenticated) {
-      console.log("not authenticated so opening login");
       navigation.navigate("Login" as never);
     }
   }, [globalState.authenticated, globalState.appReady, navigation]);
@@ -96,7 +94,7 @@ export default function RootScreen() {
         />
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
-        <RootStack.Screen name="Login" component={Login} />
+        <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );
