@@ -25,6 +25,8 @@ class AuthService {
   private static usedAuthCodes: Array<string> = [];
   private static currentAccount: BungieUser | null = null;
   private static currentUserID = "";
+  private static queue: (() => Promise<void>)[] = [];
+  private static isProcessing = false;
 
   private constructor() {
     const p1 = performance.now();
@@ -83,13 +85,53 @@ class AuthService {
     });
   }
 
-  // TODO: This also needs an async queue to handle multiple requests for the token.
-  static getTokenAsync(errorMessage: string): Promise<AuthToken | null> {
+  // Your async function that retrieves queued results
+  public static getTokenAsync(errorMessage: string): Promise<AuthToken | null> {
+    return new Promise((resolve, reject) => {
+      // Function to add a new request to the queue
+      const enqueue = () => {
+        AuthService.queue.push(async () => {
+          try {
+            const result = await AuthService.getTokenInternal(errorMessage);
+
+            console.log("got result?");
+            resolve(result);
+          } catch (error) {
+            reject(null);
+          } finally {
+            processNext();
+          }
+        });
+        if (!AuthService.isProcessing) {
+          processNext();
+        }
+      };
+
+      const processNext = () => {
+        if (AuthService.queue.length > 0) {
+          AuthService.isProcessing = true;
+          const next = AuthService.queue.shift();
+          next?.();
+        } else {
+          AuthService.isProcessing = false;
+        }
+      };
+      console.log("getTokenAsync queue length:", AuthService.queue.length);
+      enqueue(); // Enqueue the current request
+    });
+  }
+
+  private static getTokenInternal(errorMessage: string): Promise<AuthToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.authToken) {
         AuthService.validateAndSetToken(AuthService.authToken)
           .then(() => {
-            return resolve(AuthService.authToken);
+            const token = AuthService.authToken;
+            if (token) {
+              resolve(token);
+            } else {
+              reject(null);
+            }
           })
           .catch((e) => {
             console.error("Failed to validate token", errorMessage, e);
@@ -132,6 +174,7 @@ class AuthService {
   }
 
   private static saveAndSetToken(token: AuthToken) {
+    console.log("saveAndSetToken");
     const currentUserID = AuthService.currentUserID;
     AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
     AuthService.setAuthToken(token);

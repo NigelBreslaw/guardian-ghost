@@ -91,6 +91,27 @@ export type BungieUser = Output<typeof BungieUserSchema>;
 export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
-    Response: object({}),
+    Response: object({
+      characterActivities: object({}),
+      characterEquipment: object({}),
+      characterInventories: object({}),
+      characterLoadouts: object({}),
+      characterPlugSets: object({}),
+      characterProgressions: object({}),
+      characterRecords: object({}),
+      characterStringVariables: object({}),
+      characterUninstancedItemComponents: object({}),
+      characters: object({}),
+      itemComponents: object({}),
+      profile: object({}),
+      profileCurrencies: object({}),
+      profileInventory: object({}),
+      profilePlugSets: object({}),
+      profileProgression: object({}),
+      profileRecords: object({}),
+      profileStringVariables: object({}),
+      responseMintedTimestamp: string([isoTimestamp()]),
+      secondaryComponentsMintedTimestamp: string([isoTimestamp()]),
+    }),
   }),
 ]);
