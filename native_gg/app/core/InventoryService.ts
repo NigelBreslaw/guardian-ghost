@@ -1,5 +1,3 @@
-import { getProfile } from "../bungie/BungieApi";
-
 class InventoryService {
   private static instance: InventoryService;
 
@@ -14,8 +12,13 @@ class InventoryService {
   }
 
   public static async getInventory() {
-    const profile = await getProfile();
-    // console.log("profile", profile);
+    // const profile = await getProfile();
+    // try {
+    //   const validatedProfile = parse(getProfileSchema, profile);
+    //   console.log("validatedProfile", validatedProfile);
+    // } catch (e) {
+    //   console.error("Failed to validate profile", e);
+    // }
   }
 }
 

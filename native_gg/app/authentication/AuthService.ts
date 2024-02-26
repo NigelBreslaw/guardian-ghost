@@ -84,7 +84,7 @@ class AuthService {
   }
 
   // TODO: This also needs an async queue to handle multiple requests for the token.
-  static getTokenAsync(): Promise<AuthToken | null> {
+  static getTokenAsync(errorMessage: string): Promise<AuthToken | null> {
     return new Promise((resolve, reject) => {
       if (AuthService.authToken) {
         AuthService.validateAndSetToken(AuthService.authToken)
@@ -92,7 +92,8 @@ class AuthService {
             return resolve(AuthService.authToken);
           })
           .catch((e) => {
-            console.error("Failed to validate token", e);
+            console.error("Failed to validate token", errorMessage, e);
+
             return reject(null);
           });
       } else {

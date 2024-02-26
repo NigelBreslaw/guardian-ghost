@@ -10,7 +10,7 @@ export const profileComponents =
   "Profiles,ProfileInventories,ProfileCurrencies,ProfileProgression,Characters,CharacterInventories,CharacterLoadouts,CharacterProgressions,CharacterActivities,CharacterEquipment,ItemInstances,ItemObjectives,ItemPerks,ItemStats,ItemSockets,ItemTalentGrids,ItemCommonData,ItemPlugObjectives,ItemReusablePlugs,StringVariables,Records";
 
 export async function getProfile(): Promise<JSON> {
-  const authToken = await AuthService.getTokenAsync();
+  const authToken = await AuthService.getTokenAsync("getProfile");
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken?.access_token}`);
   headers.append("X-API-Key", apiKey);

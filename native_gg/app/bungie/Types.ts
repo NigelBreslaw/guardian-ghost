@@ -87,3 +87,10 @@ export const BungieUserSchema = object({
 });
 
 export type BungieUser = Output<typeof BungieUserSchema>;
+
+export const getProfileSchema = merge([
+  bungieResponseSchema,
+  object({
+    Response: object({}),
+  }),
+]);

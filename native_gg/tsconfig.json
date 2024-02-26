@@ -4,6 +4,7 @@
     "allowImportingTsExtensions": true,
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*",
