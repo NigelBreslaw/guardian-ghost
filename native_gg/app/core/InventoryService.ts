@@ -1,3 +1,7 @@
+import { getProfile } from "@/app/bungie/BungieApi.ts";
+import { getProfileSchema } from "@/app/bungie/Types.ts";
+import { parse } from "valibot";
+
 class InventoryService {
   private static instance: InventoryService;
 
@@ -12,13 +16,13 @@ class InventoryService {
   }
 
   public static async getInventory() {
-    // const profile = await getProfile();
-    // try {
-    //   const validatedProfile = parse(getProfileSchema, profile);
-    //   console.log("validatedProfile", validatedProfile);
-    // } catch (e) {
-    //   console.error("Failed to validate profile", e);
-    // }
+    try {
+      const profile = await getProfile();
+      const validatedProfile = parse(getProfileSchema, profile);
+      console.log("response", validatedProfile);
+    } catch (e) {
+      console.error("Failed to validate profile", e);
+    }
   }
 }
 
