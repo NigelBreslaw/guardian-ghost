@@ -1,3 +1,5 @@
+import { getProfile } from "../bungie/BungieApi";
+
 class InventoryService {
   private static instance: InventoryService;
 
@@ -12,7 +14,7 @@ class InventoryService {
   }
 
   public static async getInventory() {
-    // const profile = await getProfile();
+    const profile = await getProfile();
     // console.log("profile", profile);
   }
 }
