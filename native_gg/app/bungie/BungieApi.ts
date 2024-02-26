@@ -34,6 +34,7 @@ export async function getProfile(): Promise<JSON> {
       .then((response) => {
         if (!response.ok) {
           console.error(response);
+
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();

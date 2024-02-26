@@ -1,4 +1,4 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, string } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
 export const bungieResponseSchema = object({
@@ -101,7 +101,7 @@ export const getProfileSchema = merge([
       characterRecords: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
-      characters: object({}),
+      characters: unknown(),
       itemComponents: object({}),
       profile: object({}),
       profileCurrencies: object({}),
