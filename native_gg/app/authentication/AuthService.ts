@@ -5,13 +5,8 @@ import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { parse, string } from "valibot";
-import {
-  BungieUser,
-  BungieUserSchema,
-  bungieResponseSchema,
-  getBungieUser,
-  getLinkedProfiles,
-} from "../bungie/Account.ts";
+import { getBungieUser, getLinkedProfiles } from "../bungie/Account.ts";
+import { BungieUser, BungieUserSchema, linkedProfilesSchema } from "../bungie/Types.ts";
 import { GlobalAction } from "../state/Types.ts";
 import {
   AuthToken,
@@ -263,11 +258,11 @@ class AuthService {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
-        let linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
+        let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
 
         if (linkedProfiles.Response.profiles.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-          linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
+          linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
           console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
 
