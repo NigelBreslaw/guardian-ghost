@@ -55,10 +55,10 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
     <SafeAreaView style={themeContainerStyle}>
       <View style={styles.container}>
         <View style={{ marginTop: 40 }} />
-        <Image source={logoSource} style={{ width: 200, height: 200, alignSelf: "center" }} />
-        <View style={{ marginTop: 40 }} />
+        <Image source={logoSource} style={{ width: 100, height: 100 }} />
+        <View style={{ marginTop: 20 }} />
         <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
-          Welcome to Guardian Ghost
+          {"Welcome to Guardian Ghost"}
         </Text>
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
