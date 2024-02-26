@@ -2,6 +2,7 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useReducer, createContext, useContext, useEffect } from "react";
 import AuthService from "@/authentication/AuthService.ts";
 import { GlobalAction, GlobalState } from "./Types.ts";
+import InventoryService from "../core/InventoryService.ts";
 
 // Define the context
 const initialState: GlobalState = {
@@ -44,7 +45,11 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log("App is ready");
       SplashScreen.hideAsync();
     }
-  }, [state.appReady]);
+    if (state.appReady && state.authenticated && state.currentAccount) {
+      console.log("trigger: download getProfile()");
+      InventoryService.getInventory();
+    }
+  }, [state.appReady, state.authenticated, state.currentAccount]);
 
   return (
     <StateContext.Provider value={state}>

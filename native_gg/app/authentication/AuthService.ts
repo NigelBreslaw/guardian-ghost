@@ -10,8 +10,8 @@ import {
   BungieUserSchema,
   getBungieUser,
   getLinkedProfiles,
-  linkedProfilesSchema,
-} from "../account/Account.ts";
+  bungieResponseSchema,
+} from "../bungie/Account.ts";
 import { GlobalAction } from "../state/Types.ts";
 import {
   AuthToken,
@@ -263,11 +263,11 @@ class AuthService {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
-        let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
+        let linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
 
         if (linkedProfiles.Response.profiles.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-          linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
+          linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
           console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
 
