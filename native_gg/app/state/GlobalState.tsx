@@ -1,8 +1,8 @@
+import AuthService from "@/authentication/AuthService.ts";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useReducer, createContext, useContext, useEffect } from "react";
-import AuthService from "@/authentication/AuthService.ts";
-import { GlobalAction, GlobalState } from "./Types.ts";
 import InventoryService from "../core/InventoryService.ts";
+import { GlobalAction, GlobalState } from "./Types.ts";
 
 // Define the context
 const initialState: GlobalState = {

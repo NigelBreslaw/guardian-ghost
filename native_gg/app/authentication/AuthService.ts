@@ -1,16 +1,16 @@
+import { clientID, redirectURL } from "@/constants/env.ts";
+import { Store } from "@/constants/storage.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { parse, string } from "valibot";
-import { clientID, redirectURL } from "@/constants/env.ts";
-import { Store } from "@/constants/storage.ts";
 import {
   BungieUser,
   BungieUserSchema,
+  bungieResponseSchema,
   getBungieUser,
   getLinkedProfiles,
-  bungieResponseSchema,
 } from "../bungie/Account.ts";
 import { GlobalAction } from "../state/Types.ts";
 import {

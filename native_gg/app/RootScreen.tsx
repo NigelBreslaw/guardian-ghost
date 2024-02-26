@@ -1,11 +1,11 @@
+import AuthService from "@/authentication/AuthService.ts";
+import Login from "@/screens/Login.tsx";
+import { Button, ButtonText } from "@gluestack-ui/themed";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Text, View, useColorScheme, StyleSheet } from "react-native";
-import { Button, ButtonText } from "@gluestack-ui/themed";
-import { useGlobalStateContext } from "./state/GlobalState.tsx";
-import Login from "@/screens/Login.tsx";
 import { useEffect } from "react";
-import AuthService from "@/authentication/AuthService.ts";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import { useGlobalStateContext } from "./state/GlobalState.tsx";
 
 function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();

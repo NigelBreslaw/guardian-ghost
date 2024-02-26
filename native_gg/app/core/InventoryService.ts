@@ -1,5 +1,3 @@
-import { getProfile } from "../bungie/BungieApi";
-
 class InventoryService {
   private static instance: InventoryService;
 

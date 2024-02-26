@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { Platform, StyleSheet, Image, Text, View, useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import type { NavigationProp } from "@react-navigation/native";
-import * as WebBrowser from "expo-web-browser";
-import { addEventListener, useURL } from "expo-linking";
-import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
-import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import AuthService from "@/authentication/AuthService.ts";
+import { useGlobalStateContext } from "@/state/GlobalState.tsx";
+import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
+import type { NavigationProp } from "@react-navigation/native";
+import { addEventListener, useURL } from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+import { useEffect } from "react";
+import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();

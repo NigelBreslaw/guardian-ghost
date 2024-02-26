@@ -9,7 +9,7 @@ const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshot
 export const profileComponents =
   "Profiles,ProfileInventories,ProfileCurrencies,ProfileProgression,Characters,CharacterInventories,CharacterLoadouts,CharacterProgressions,CharacterActivities,CharacterEquipment,ItemInstances,ItemObjectives,ItemPerks,ItemStats,ItemSockets,ItemTalentGrids,ItemCommonData,ItemPlugObjectives,ItemReusablePlugs,StringVariables,Records";
 
-export async function getProfile(components: string): Promise<JSON> {
+export async function getProfile(): Promise<JSON> {
   const authToken = await AuthService.getTokenAsync();
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken?.access_token}`);
@@ -27,7 +27,7 @@ export async function getProfile(components: string): Promise<JSON> {
   const endPoint = `${basePath}/Destiny2/${membershipType}/Profile/${membershipId}/`;
 
   // TODO: Feed in dynamic language later when this is supported
-  const parameters = `?lc=en&components=${components}`;
+  const parameters = `?lc=en&components=${profileComponents}`;
 
   return new Promise((resolve, reject) => {
     fetch(`${endPoint}${parameters}`, requestOptions)

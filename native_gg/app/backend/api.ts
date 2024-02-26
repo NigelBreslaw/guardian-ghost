@@ -1,5 +1,4 @@
 import StorageGG from "@/storage/StorageGG";
-import { getProfile, profileComponents } from "@/bungie/BungieApi.ts";
 
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   const requestOptions: RequestInit = {
@@ -40,13 +39,4 @@ export async function getItemDefinition() {
   const p2 = performance.now();
   console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
   console.log(jsonDefinition["236588"]);
-}
-
-export async function getProfileTest() {
-  const p1 = performance.now();
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const jsonDefinition: any = await getProfile(profileComponents);
-  const p2 = performance.now();
-  console.log("getProfileTest) took:", (p2 - p1).toFixed(4), "ms");
-  console.log(jsonDefinition);
 }
