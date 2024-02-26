@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Platform, StyleSheet, Image, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NavigationProp } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
@@ -14,6 +14,9 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const url = useURL();
 
   const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
+  const logoSource =
+    colorScheme === "light" ? require("../../images/gg-logo-light.webp") : require("../../images/gg-logo-dark.webp");
+
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
@@ -51,7 +54,9 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   return (
     <SafeAreaView style={themeContainerStyle}>
       <View style={styles.container}>
-        <View style={{ marginTop: 100 }} />
+        <View style={{ marginTop: 40 }} />
+        <Image source={logoSource} style={{ width: 200, height: 200, alignSelf: "center" }} />
+        <View style={{ marginTop: 40 }} />
         <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
           Welcome to Guardian Ghost
         </Text>
