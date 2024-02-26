@@ -1,17 +1,17 @@
+import { clientID, redirectURL } from "@/constants/env.ts";
+import { Store } from "@/constants/storage.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { parse, string } from "valibot";
-import { clientID, redirectURL } from "@/constants/env.ts";
-import { Store } from "@/constants/storage.ts";
 import {
   BungieUser,
   BungieUserSchema,
+  bungieResponseSchema,
   getBungieUser,
   getLinkedProfiles,
-  linkedProfilesSchema,
-} from "../account/Account.ts";
+} from "../bungie/Account.ts";
 import { GlobalAction } from "../state/Types.ts";
 import {
   AuthToken,
@@ -263,11 +263,11 @@ class AuthService {
     if (authToken) {
       try {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
-        let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
+        let linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
 
         if (linkedProfiles.Response.profiles.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-          linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
+          linkedProfiles = parse(bungieResponseSchema, rawLinkedProfiles);
           console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
 

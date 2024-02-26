@@ -1,6 +1,6 @@
 import { AuthToken } from "@/authentication/Utilities.ts";
 import { apiKey } from "@/constants/env.ts";
-import { array, boolean, isoTimestamp, number, object, string } from "valibot";
+import { array, boolean, isoTimestamp, number, object, optional, string } from "valibot";
 import type { Output } from "valibot";
 
 const PlatformSilverSchema = object({
@@ -52,7 +52,7 @@ export const BnetMembershipSchema = object({
   supplementalDisplayName: string(),
 });
 
-export const linkedProfilesSchema = object({
+export const bungieResponseSchema = object({
   ErrorCode: number(),
   ErrorStatus: string(),
   Message: string(),
@@ -61,12 +61,13 @@ export const linkedProfilesSchema = object({
     bnetMembership: BnetMembershipSchema,
     profiles: array(ProfileSchema),
   }),
+  ThrottleSeconds: optional(number()),
 });
 
 export type BungieProfile = Output<typeof ProfileSchema>;
 export type BnetMembership = Output<typeof BnetMembershipSchema>;
 
-export type LinkedProfiles = Output<typeof linkedProfilesSchema>;
+export type LinkedProfiles = Output<typeof bungieResponseSchema>;
 
 export const BungieUserSchema = object({
   supplementalDisplayName: string(),
