@@ -4,7 +4,7 @@ on:
     push:
 
 jobs:
-
+  name: main-ci-job
   build:
     runs-on: ubuntu-latest
     env:
