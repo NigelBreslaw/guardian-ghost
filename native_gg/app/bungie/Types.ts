@@ -1,4 +1,4 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, string, unknown } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, string, record } from "valibot";
 import type { Output } from "valibot";
 
 export const bungieResponseSchema = object({
@@ -88,6 +88,19 @@ export const BungieUserSchema = object({
 
 export type BungieUser = Output<typeof BungieUserSchema>;
 
+export const CharactersSchema = object({
+  membershipId: string(),
+  membershipType: number(),
+  characterId: string(),
+  dateLastPlayed: string([isoTimestamp()]),
+  minutesPlayedThisSession: string(),
+  minutesPlayedTotal: string(),
+  light: number(),
+  stats: record(string(), number()),
+  raceHash: number(),
+  genderHash: number(),
+});
+
 export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
@@ -101,7 +114,9 @@ export const getProfileSchema = merge([
       characterRecords: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
-      characters: unknown(),
+      characters: object({
+        data: record(string(), CharactersSchema),
+      }),
       itemComponents: object({}),
       profile: object({}),
       profileCurrencies: object({}),
