@@ -1,4 +1,4 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, string, record, never } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, string, record } from "valibot";
 import type { Output } from "valibot";
 
 export const bungieResponseSchema = object({
