@@ -88,32 +88,16 @@ export const BungieUserSchema = object({
 
 export type BungieUser = Output<typeof BungieUserSchema>;
 
-export const CharacterEquipmentSchema = array(
-  object({
-    bindStatus: number(),
-    bucketHash: number(),
-    dismantlePermission: number(),
-    isWrapper: boolean(),
-    itemHash: number(),
-    itemInstanceId: string(),
-    location: number(),
-    lockable: boolean(),
-    quantity: number(),
-    state: number(),
-    tooltipNotificationIndexes: array(number()),
-    transferStatus: number(),
-    versionNumber: optional(number()),
-  }),
-);
-
 export const ProfileInventorySchema = array(
   object({
     bindStatus: number(),
     bucketHash: number(),
     dismantlePermission: number(),
+    expirationDate: optional(string([isoTimestamp()])),
     isWrapper: boolean(),
     itemHash: number(),
     itemInstanceId: optional(string()),
+    itemValueVisibility: optional(array(boolean())),
     location: number(),
     lockable: boolean(),
     overrideStyleItemHash: optional(number()),
@@ -126,16 +110,40 @@ export const ProfileInventorySchema = array(
 );
 
 export const CharactersSchema = object({
+  baseCharacterLevel: number(),
+  characterId: string(),
+  classHash: number(),
+  classType: number(),
+  dateLastPlayed: string([isoTimestamp()]),
+  emblemBackgroundPath: string(),
+  emblemColor: object({}),
+  emblemHash: number(),
+  emblemPath: string(),
+  genderHash: number(),
+  genderType: number(),
+  levelProgression: object({
+    currentProgress: number(),
+    dailyLimit: number(),
+    dailyProgress: number(),
+    level: number(),
+    levelCap: number(),
+    nextLevelAt: number(),
+    progressToNextLevel: number(),
+    progressionHash: number(),
+    stepIndex: number(),
+    weeklyLimit: number(),
+    weeklyProgress: number(),
+  }),
+  light: number(),
   membershipId: string(),
   membershipType: number(),
-  characterId: string(),
-  dateLastPlayed: string([isoTimestamp()]),
   minutesPlayedThisSession: string(),
   minutesPlayedTotal: string(),
-  light: number(),
-  stats: record(string(), number()),
+  percentToNextLevel: number(),
   raceHash: number(),
-  genderHash: number(),
+  raceType: number(),
+  stats: record(string(), number()),
+  titleRecordHash: number(),
 });
 
 export const getProfileSchema = merge([
@@ -144,10 +152,12 @@ export const getProfileSchema = merge([
     Response: object({
       characterActivities: object({}),
       characterEquipment: object({
-        data: record(string(), object({ items: CharacterEquipmentSchema })),
+        data: record(string(), object({ items: ProfileInventorySchema })),
         privacy: number(),
       }),
-      characterInventories: object({}),
+      characterInventories: object({
+        data: record(string(), object({ items: ProfileInventorySchema })),
+      }),
       characterLoadouts: object({}),
       characterPlugSets: object({}),
       characterProgressions: object({}),
