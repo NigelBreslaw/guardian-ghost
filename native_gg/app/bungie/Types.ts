@@ -106,6 +106,25 @@ export const CharacterEquipmentSchema = array(
   }),
 );
 
+export const ProfileInventorySchema = array(
+  object({
+    bindStatus: number(),
+    bucketHash: number(),
+    dismantlePermission: number(),
+    isWrapper: boolean(),
+    itemHash: number(),
+    itemInstanceId: optional(string()),
+    location: number(),
+    lockable: boolean(),
+    overrideStyleItemHash: optional(number()),
+    quantity: number(),
+    state: number(),
+    tooltipNotificationIndexes: optional(array(number())),
+    transferStatus: number(),
+    versionNumber: optional(number()),
+  }),
+);
+
 export const CharactersSchema = object({
   membershipId: string(),
   membershipType: number(),
@@ -141,7 +160,9 @@ export const getProfileSchema = merge([
       itemComponents: object({}),
       profile: object({}),
       profileCurrencies: object({}),
-      profileInventory: object({}),
+      profileInventory: object({
+        data: object({ items: ProfileInventorySchema }),
+      }),
       profilePlugSets: object({}),
       profileProgression: object({}),
       profileRecords: object({}),

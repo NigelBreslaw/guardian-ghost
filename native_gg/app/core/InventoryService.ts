@@ -24,6 +24,7 @@ class InventoryService {
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
       console.log("response", validatedProfile);
+      console.log("raw", profile);
     } catch (e) {
       console.error("Failed to validate profile", e);
     }
