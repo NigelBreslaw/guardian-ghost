@@ -27,3 +27,4 @@ class InventoryService {
 }
 
 export default InventoryService;
+      console.log("raw response", profile);
