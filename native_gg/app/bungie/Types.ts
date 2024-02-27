@@ -88,6 +88,24 @@ export const BungieUserSchema = object({
 
 export type BungieUser = Output<typeof BungieUserSchema>;
 
+export const CharacterEquipmentSchema = array(
+  object({
+    bindStatus: number(),
+    bucketHash: number(),
+    dismantlePermission: number(),
+    isWrapper: boolean(),
+    itemHash: number(),
+    itemInstanceId: string(),
+    location: number(),
+    lockable: boolean(),
+    quantity: number(),
+    state: number(),
+    tooltipNotificationIndexes: array(number()),
+    transferStatus: number(),
+    versionNumber: optional(number()),
+  }),
+);
+
 export const CharactersSchema = object({
   membershipId: string(),
   membershipType: number(),
@@ -106,7 +124,10 @@ export const getProfileSchema = merge([
   object({
     Response: object({
       characterActivities: object({}),
-      characterEquipment: object({}),
+      characterEquipment: object({
+        data: record(string(), object({ items: CharacterEquipmentSchema })),
+        privacy: number(),
+      }),
       characterInventories: object({}),
       characterLoadouts: object({}),
       characterPlugSets: object({}),
