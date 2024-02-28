@@ -21,8 +21,8 @@ dependencies:
     specifier: 1.0.48
     version: 1.0.48
   '@gluestack-ui/config':
-    specifier: 1.1.8
-    version: 1.1.8(@gluestack-style/react@1.0.48)(@gluestack-ui/themed@1.1.8)
+    specifier: 1.1.10
+    version: 1.1.10(@gluestack-style/react@1.0.48)(@gluestack-ui/themed@1.1.8)
   '@gluestack-ui/themed':
     specifier: 1.1.8
     version: 1.1.8(@gluestack-style/react@1.0.48)(@types/react-native@0.73.0)(nativewind@2.0.11)(react-dom@18.2.0)(react-native-svg@15.0.0)(react-native-web@0.19.10)(react-native@0.73.4)(react@18.2.0)
@@ -2330,11 +2330,11 @@ packages:
       - react-native
     dev: false
 
-  /@gluestack-ui/config@1.1.8(@gluestack-style/react@1.0.48)(@gluestack-ui/themed@1.1.8):
-    resolution: {integrity: sha512-HJbJzIVOxR5S7Vy58glvGv2ElxMBO0bfN6VYN89OnI8wp6TU/4aa/1XLGAkBD5Xa/6jYI1G/bxopJXQMOGRO6Q==}
+  /@gluestack-ui/config@1.1.10(@gluestack-style/react@1.0.48)(@gluestack-ui/themed@1.1.8):
+    resolution: {integrity: sha512-qwHp2Xgre40YQQMg44a1jShdds6EpirfqwHVpal+VDC3qfxJLbqzmZJXM3OOj7+Ntd7jTX3u6Dm5E5eLdZPRJw==}
     peerDependencies:
       '@gluestack-style/react': '>=1.0'
-      '@gluestack-ui/themed': '>=1.1.0'
+      '@gluestack-ui/themed': '>=1.1'
     dependencies:
       '@gluestack-style/react': 1.0.48
       '@gluestack-ui/themed': 1.1.8(@gluestack-style/react@1.0.48)(@types/react-native@0.73.0)(nativewind@2.0.11)(react-dom@18.2.0)(react-native-svg@15.0.0)(react-native-web@0.19.10)(react-native@0.73.4)(react@18.2.0)
