@@ -18,8 +18,8 @@ dependencies:
     specifier: 19.0.1
     version: 19.0.1(expo@50.0.7)
   '@react-native-async-storage/async-storage':
-    specifier: 1.22.2
-    version: 1.22.2(react-native@0.73.5)
+    specifier: 1.22.3
+    version: 1.22.3(react-native@0.73.5)
   '@react-navigation/native':
     specifier: 6.1.12
     version: 6.1.12(react-native@0.73.5)(react@18.2.0)
@@ -2285,8 +2285,8 @@ packages:
       rimraf: 3.0.2
     dev: false
 
-  /@react-native-async-storage/async-storage@1.22.2(react-native@0.73.5):
-    resolution: {integrity: sha512-nZpzT4Wz1OkVdQaZP/awpDCTKiPzdmG0PYmRF37ZeJlfwlwOg55in0TP2YUOW0MhOCRiNMomWWLojDLv5j2OIw==}
+  /@react-native-async-storage/async-storage@1.22.3(react-native@0.73.5):
+    resolution: {integrity: sha512-Ov3wjuqxHd62tLYfgTjxj77YRYWra3A4Fi8uICIPcePgNO2WkS5B0ADXt9e/JLzSCNqVlXCq4Fir/gHmZTU9ww==}
     peerDependencies:
       react-native: ^0.0.0-0 || >=0.60 <1.0
     dependencies:
