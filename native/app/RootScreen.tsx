@@ -1,6 +1,4 @@
-import AuthService from "@/authentication/AuthService.ts";
 import Login from "@/screens/Login.tsx";
-import { Button, ButtonText } from "@gluestack-ui/themed";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
@@ -21,7 +19,7 @@ function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation
       <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
         Home Screen
       </Text>
-      <Button
+      {/* <Button
         size="xl"
         variant="outline"
         action="primary"
@@ -32,7 +30,7 @@ function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation
         style={{ alignSelf: "stretch", borderColor: buttonColor }}
       >
         <ButtonText color={buttonColor}>Logout</ButtonText>
-      </Button>
+      </Button> */}
       {globalState.loggingIn && (
         <View>
           <Text style={{ ...themeTextStyle, fontSize: 30 }}>

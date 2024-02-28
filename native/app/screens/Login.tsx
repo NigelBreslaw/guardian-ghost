@@ -1,6 +1,5 @@
 import AuthService from "@/authentication/AuthService.ts";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
-import { Button, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
@@ -63,7 +62,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        <Button
+        {/* <Button
           size="xl"
           variant="outline"
           action="primary"
@@ -76,7 +75,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         >
           {globalState.loggingIn && <ButtonSpinner mr="$1" />}
           <ButtonText color={buttonColor}>Login</ButtonText>
-        </Button>
+        </Button> */}
         <View style={styles.spacer} />
       </View>
     </SafeAreaView>
