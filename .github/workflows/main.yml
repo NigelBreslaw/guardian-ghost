@@ -4,15 +4,15 @@ on:
   push:
 
 jobs:
-  main-ci-job:
-    name: Main CI
+  main-ci-mono:
+    name: Main CI Mono
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    
+
     env:
       TURBO_URL: ${{ secrets.TURBO_URL }}
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
-      
+
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: pnpm/action-setup@v3.0.0
@@ -26,6 +26,17 @@ jobs:
         run: cd gg-mono && pnpm format:check
       - name: build
         run: cd gg-mono && pnpm build:ci
+
+  main-ci-native:
+    name: Main CI native
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8.15.3
       - name: install dependencies
         run: cd native_gg && pnpm install --frozen-lockfile
       - name: lint
@@ -34,4 +45,3 @@ jobs:
         run: cd native_gg && pnpm format:check
       - name: type check
         run: cd native_gg && pnpm type-check
-        
