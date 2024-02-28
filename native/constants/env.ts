@@ -1,5 +1,9 @@
 import { Platform } from "react-native";
 
+if (process.env.EXPO_PUBLIC_API_KEY === undefined) {
+  console.warn("Missing env file!");
+}
+
 // @ts-ignore
 export const apiKey: string = process.env.EXPO_PUBLIC_API_KEY;
 // @ts-ignore
