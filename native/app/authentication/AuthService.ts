@@ -63,7 +63,7 @@ class AuthService {
       if (savedToken) {
         const stringToken = parse(string(), savedToken);
         const validatedToken = parse(authTokenSchema, JSON.parse(stringToken));
-        AuthService.validateAndSetToken(validatedToken);
+        await AuthService.validateAndSetToken(validatedToken);
         const p2 = performance.now();
         console.log("init() took:", (p2 - p1).toFixed(4), "ms");
         return true;
