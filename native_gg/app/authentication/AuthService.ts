@@ -29,16 +29,13 @@ class AuthService {
   private static isProcessing = false;
 
   private constructor() {
-    const p1 = performance.now();
-
     this.init()
+      .then(() => {
+        this.setInitComplete();
+      })
       .catch((e) => {
         console.info("No valid user and auth found");
-      })
-      .finally(() => {
         this.setInitComplete();
-        const p2 = performance.now();
-        console.log("init() took:", (p2 - p1).toFixed(4), "ms");
       });
   }
 
@@ -50,39 +47,33 @@ class AuthService {
     return AuthService.instance;
   }
 
-  private init(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      // Is there a current user?
-      AsyncStorage.getItem(Store._bungie_user)
-        .then((currentAccount) => {
-          if (currentAccount === null) {
-            return reject(false);
-          }
-          const validatedAccount = parse(BungieUserSchema, JSON.parse(currentAccount));
-          AuthService.setCurrentAccount(validatedAccount);
-          // Then is there an auth token?
-          AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`)
-            .then((token) => {
-              try {
-                const stringToken = parse(string(), token);
-                const validatedToken = parse(authTokenSchema, JSON.parse(stringToken));
-                AuthService.validateAndSetToken(validatedToken);
-                return resolve(true);
-              } catch (error) {
-                console.log(error);
-                return reject(false);
-              }
-            })
-            .catch((e) => {
-              console.error(e);
-              reject(false);
-            });
-        })
-        .catch((e) => {
-          console.error(e);
-          reject(false);
-        });
-    });
+  private async init(): Promise<boolean> {
+    try {
+      const p1 = performance.now();
+
+      const savedAccount = await AsyncStorage.getItem(Store._bungie_user);
+      if (savedAccount) {
+        const validatedAccount = parse(BungieUserSchema, JSON.parse(savedAccount));
+        AuthService.setCurrentAccount(validatedAccount);
+      } else {
+        return false;
+      }
+
+      const savedToken = await AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`);
+      if (savedToken) {
+        const stringToken = parse(string(), savedToken);
+        const validatedToken = parse(authTokenSchema, JSON.parse(stringToken));
+        AuthService.validateAndSetToken(validatedToken);
+        const p2 = performance.now();
+        console.log("init() took:", (p2 - p1).toFixed(4), "ms");
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 
   // Your async function that retrieves queued results
