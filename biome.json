@@ -7,19 +7,11 @@
     "indentWidth": 2,
     "indentStyle": "space",
     "lineWidth": 120,
-    "ignore": [
-      "./expo-env.d.ts",
-      "dist/**",
-      "ios/**",
-      "android/**",
-      "node_modules/**",
-      ".expo/**",
-      "app.json",
-      "eas.json"
-    ]
+    "ignore": ["dist/**", "ios/**", "android/**", "node_modules/**", ".expo/**", "app.json", "eas.json"]
   },
   "linter": {
     "enabled": true,
+    "ignore": ["./babel.config.js"],
     "rules": {
       "recommended": true,
       "style": {
