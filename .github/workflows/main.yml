@@ -38,10 +38,10 @@ jobs:
         with:
           version: 8.15.3
       - name: install dependencies
-        run: cd native_gg && pnpm install --frozen-lockfile
+        run: cd native && pnpm install --frozen-lockfile
       - name: lint
-        run: cd native_gg && pnpm lint
+        run: cd native && pnpm lint
       - name: format
-        run: cd native_gg && pnpm format:check
+        run: cd native && pnpm format:check
       - name: type check
-        run: cd native_gg && pnpm type-check
+        run: cd native && pnpm type-check

@@ -31,4 +31,4 @@ Currently Xcode Cloud is pretty bare bones and has limited caching. A build take
 
 #### Xcode Cloud Tips
 
-Xcode cloud is slow and the project is currently only set to create a build on pushes to 'Main' that also include updated release notes. If you want to enhance the script you should create a new Xcode Cloud workflow that triggers on every push from your working branch. Get everything working. Then delete that workflow. The script you are looking to update lives at ``` native_gg/ios/ci_post_clone.sh```. If in the future it becomes possible to cache the cocoa-pods (maybe it already is?) the build time could be potentially halved.
+Xcode cloud is slow and the project is currently only set to create a build on pushes to 'Main' that also include updated release notes. If you want to enhance the script you should create a new Xcode Cloud workflow that triggers on every push from your working branch. Get everything working. Then delete that workflow. The script you are looking to update lives at ``` native/ios/ci_post_clone.sh```. If in the future it becomes possible to cache the cocoa-pods (maybe it already is?) the build time could be potentially halved.
