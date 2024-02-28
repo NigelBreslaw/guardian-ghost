@@ -146,6 +146,13 @@ export const CharactersSchema = object({
   titleRecordHash: number(),
 });
 
+type CharacterData = Output<typeof CharactersSchema>;
+
+// create a new type that starts with CharacterData and adds several new properties
+export type Character = CharacterData & {
+  className: string;
+};
+
 export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
