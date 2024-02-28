@@ -24,7 +24,7 @@ updates:
           - "solid-js*"
           - "vite-plugin-solid"
   - package-ecosystem: "npm"
-    directory: "/native_gg" # Location react native package.json
+    directory: "/native" # Location react native package.json
     schedule:
       interval: "daily"
       time: "04:00"

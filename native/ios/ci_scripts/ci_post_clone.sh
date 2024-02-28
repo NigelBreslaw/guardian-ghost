@@ -46,7 +46,7 @@ pnpm -v
 # move to the react native project.
 echo "=====> Moving to build directory"
 pwd
-cd $CI_PRIMARY_REPOSITORY_PATH/native_gg
+cd $CI_PRIMARY_REPOSITORY_PATH/native
 pwd
 
 

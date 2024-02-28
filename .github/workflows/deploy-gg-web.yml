@@ -1,8 +1,8 @@
-on: 
+on:
   push:
-    branches: [ main ]
-    paths: 
-      - 'native_gg/**'
+    branches: [main]
+    paths:
+      - "native/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -16,27 +16,27 @@ jobs:
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
     defaults:
       run:
-        working-directory: native_gg
+        working-directory: native
     permissions:
-        contents: read
-        deployments: write
+      contents: read
+      deployments: write
     name: Deploy
     steps:
-        - uses: actions/checkout@v4.1.1
-        - uses: pnpm/action-setup@v3.0.0
-          with:
-            version: 8.15.3
-        - name: install dependencies
-          run: pnpm install --frozen-lockfile
-        - name: add .env file
-          run: echo '${{ secrets.CLIENT_SECRETS }}' > .env
-        - name: build
-          run: pnpm expo export -p web 
-        - name: deploy website
-          uses: cloudflare/pages-action@v1.5.0
-          with:
-            apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-            accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-            projectName: gg-app
-            directory: native_gg/dist
-            gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8.15.3
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: add .env file
+        run: echo '${{ secrets.CLIENT_SECRETS }}' > .env
+      - name: build
+        run: pnpm expo export -p web
+      - name: deploy website
+        uses: cloudflare/pages-action@v1.5.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: gg-app
+          directory: native/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
