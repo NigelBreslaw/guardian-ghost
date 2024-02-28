@@ -6,6 +6,7 @@ import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button } from "react-native-paper";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
@@ -62,20 +63,17 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        {/* <Button
-          size="xl"
-          variant="outline"
-          action="primary"
-          isDisabled={globalState.loggingIn}
-          isFocusVisible={false}
+        <Button
+          mode="contained"
+          disabled={globalState.loggingIn}
           onPress={() => {
             AuthService.startAuth();
           }}
-          style={{ alignSelf: "stretch", borderColor: buttonColor }}
+          style={{ alignSelf: "stretch" }}
+          loading={globalState.loggingIn}
         >
-          {globalState.loggingIn && <ButtonSpinner mr="$1" />}
-          <ButtonText color={buttonColor}>Login</ButtonText>
-        </Button> */}
+          Login
+        </Button>
         <View style={styles.spacer} />
       </View>
     </SafeAreaView>

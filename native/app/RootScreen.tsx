@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
 import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { useGlobalStateContext } from "./state/GlobalState.tsx";
+import { Button } from "react-native-paper";
+import AuthService from "./authentication/AuthService.ts";
 
 function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();
@@ -19,18 +21,16 @@ function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation
       <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
         Home Screen
       </Text>
-      {/* <Button
-        size="xl"
-        variant="outline"
-        action="primary"
-        isFocusVisible={false}
+      <Button
+        mode="contained"
+        disabled={globalState.loggingIn}
         onPress={() => {
           AuthService.logoutCurrentUser();
         }}
-        style={{ alignSelf: "stretch", borderColor: buttonColor }}
+        style={{ alignSelf: "stretch" }}
       >
-        <ButtonText color={buttonColor}>Logout</ButtonText>
-      </Button> */}
+        Logout
+      </Button>
       {globalState.loggingIn && (
         <View>
           <Text style={{ ...themeTextStyle, fontSize: 30 }}>
