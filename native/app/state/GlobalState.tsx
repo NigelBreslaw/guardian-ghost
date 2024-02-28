@@ -1,8 +1,8 @@
 import AuthService from "@/authentication/AuthService.ts";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useReducer, createContext, useContext, useEffect } from "react";
-import InventoryService from "../core/InventoryService.ts";
 import { GlobalAction, GlobalState } from "./Types.ts";
+import DataService from "@/core/DataService.ts";
 
 // Define the context
 const initialState: GlobalState = {
@@ -47,7 +47,7 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     if (state.appReady && state.authenticated && state.currentAccount) {
       console.log("trigger: download getProfile()");
-      InventoryService.getInventory();
+      DataService.getInventory();
     }
   }, [state.appReady, state.authenticated, state.currentAccount]);
 
