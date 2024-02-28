@@ -1,10 +1,14 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { Character, getProfileSchema } from "@/app/bungie/Types.ts";
+import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
+import type { CharactersAndVault } from "@/app/bungie/Types.ts";
 import { parse } from "valibot";
 
 class DataService {
   private static instance: DataService;
-  private static characters: Character[] = [];
+  private static charactersAndVault: CharactersAndVault = {
+    vault: null,
+    characters: {},
+  };
 
   private constructor() {}
 
@@ -26,9 +30,22 @@ class DataService {
       // console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
       // console.log("response", validatedProfile);
       // console.log("raw", profile);
+      DataService.processProfile(validatedProfile);
     } catch (e) {
       console.error("Failed to validate profile", e);
     }
+  }
+
+  private static processProfile(profile: ProfileData) {
+    const characters = profile.Response.characters.data;
+    for (const character in characters) {
+      const characterData = characters[character];
+
+      if (characterData) {
+        DataService.charactersAndVault.characters[character] = characterData;
+      }
+    }
+    console.log(Object.keys(DataService.charactersAndVault.characters));
   }
 }
 

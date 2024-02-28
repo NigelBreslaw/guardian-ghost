@@ -1,6 +1,11 @@
 import { array, boolean, isoTimestamp, merge, number, object, optional, string, record } from "valibot";
 import type { Output } from "valibot";
 
+export type CharactersAndVault = {
+  vault: Character | null;
+  characters: Record<string, Character>;
+};
+
 export const bungieResponseSchema = object({
   ErrorCode: number(),
   ErrorStatus: string(),
@@ -150,7 +155,7 @@ type CharacterData = Output<typeof CharactersSchema>;
 
 // create a new type that starts with CharacterData and adds several new properties
 export type Character = CharacterData & {
-  className: string;
+  className?: string;
 };
 
 export const getProfileSchema = merge([
@@ -189,3 +194,5 @@ export const getProfileSchema = merge([
     }),
   }),
 ]);
+
+export type ProfileData = Output<typeof getProfileSchema>;

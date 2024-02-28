@@ -119,10 +119,10 @@ class AuthService {
           .then(() => {
             const token = AuthService.authToken;
             if (token) {
-              resolve(token);
-            } else {
-              reject(null);
+              return resolve(token);
             }
+
+            return reject(null);
           })
           .catch((e) => {
             console.error("Failed to validate token", errorMessage, e);
