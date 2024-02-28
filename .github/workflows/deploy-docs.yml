@@ -1,7 +1,7 @@
-on: 
+on:
   push:
-    paths: 
-      - 'gg-mono/docs/**'
+    paths:
+      - "mono/docs/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,25 +15,25 @@ jobs:
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
     defaults:
       run:
-        working-directory: gg-mono
+        working-directory: mono
     permissions:
-        contents: read
-        deployments: write
+      contents: read
+      deployments: write
     name: Deploy
     steps:
-        - uses: actions/checkout@v4.1.1
-        - uses: pnpm/action-setup@v3.0.0
-          with:
-            version: 8.15.3
-        - name: install dependencies
-          run: pnpm install --frozen-lockfile
-        - name: build
-          run: cd docs/starlight && pnpm build:ci
-        - name: publish docs
-          uses: cloudflare/pages-action@v1.5.0
-          with:
-            apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-            accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-            projectName: gg-docs
-            directory: gg-mono/docs/starlight/dist # e.g. 'dist'
-            gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 8.15.3
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: build
+        run: cd docs/starlight && pnpm build:ci
+      - name: publish docs
+        uses: cloudflare/pages-action@v1.5.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: gg-docs
+          directory: mono/docs/starlight/dist # e.g. 'dist'
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/gg-mono" # Location of package manifests
+    directory: "/mono" # Location of package manifests
     schedule:
       interval: "daily"
       time: "04:00"

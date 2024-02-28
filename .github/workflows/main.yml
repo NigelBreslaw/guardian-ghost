@@ -19,13 +19,13 @@ jobs:
         with:
           version: 8.15.3
       - name: install dependencies
-        run: cd gg-mono && pnpm install --frozen-lockfile
+        run: cd mono && pnpm install --frozen-lockfile
       - name: lint
-        run: cd gg-mono && pnpm lint
+        run: cd mono && pnpm lint
       - name: format
-        run: cd gg-mono && pnpm format:check
+        run: cd mono && pnpm format:check
       - name: build
-        run: cd gg-mono && pnpm build:ci
+        run: cd mono && pnpm build:ci
 
   main-ci-native:
     name: Main CI native
