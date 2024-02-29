@@ -37,8 +37,16 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
 
 const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
-  const authService = AuthService.getInstance();
-  AuthService.subscribe(dispatch);
+
+  useEffect(() => {
+    const authService = AuthService.getInstance();
+    AuthService.subscribe(dispatch);
+    const dataService = DataService.getInstance();
+
+    return () => {
+      AuthService.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (state.appReady) {
