@@ -29,7 +29,7 @@ const PlatformSilverSchema = object({
   isWrapper: boolean(),
 });
 
-const ProfileSchema = object({
+const BungieProfileSchema = object({
   applicableMembershipTypes: array(number()),
   bungieGlobalDisplayName: string(),
   bungieGlobalDisplayNameCode: number(),
@@ -54,6 +54,8 @@ const ProfileSchema = object({
   }),
 });
 
+export type BungieProfile = Output<typeof BungieProfileSchema>;
+
 export const BnetMembershipSchema = object({
   bungieGlobalDisplayName: string(),
   bungieGlobalDisplayNameCode: number(),
@@ -65,20 +67,19 @@ export const BnetMembershipSchema = object({
   supplementalDisplayName: string(),
 });
 
+export type BnetMembership = Output<typeof BnetMembershipSchema>;
+
 export const linkedProfilesSchema = merge([
   bungieResponseSchema,
   object({
     Response: object({
       bnetMembership: BnetMembershipSchema,
-      profiles: array(ProfileSchema),
+      profiles: array(BungieProfileSchema),
     }),
   }),
 ]);
 
 export type LinkedProfiles = Output<typeof linkedProfilesSchema>;
-
-export type BungieProfile = Output<typeof ProfileSchema>;
-export type BnetMembership = Output<typeof BnetMembershipSchema>;
 
 export const BungieUserSchema = object({
   supplementalDisplayName: string(),
@@ -152,11 +153,6 @@ export const CharactersSchema = object({
 });
 
 type CharacterData = Output<typeof CharactersSchema>;
-
-// create a new type that starts with CharacterData and adds several new properties
-export type Character = CharacterData & {
-  className?: string;
-};
 
 export const getProfileSchema = merge([
   bungieResponseSchema,
