@@ -3,13 +3,24 @@ import HomeScreen from "@/screens/Home";
 import { Button } from "react-native-paper";
 import AuthService from "@/authentication/AuthService.ts";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View>
-      <View style={{ marginTop: 100 }} />
+    <View
+      style={{
+        paddingTop: insets.top + 20,
+        paddingBottom: insets.bottom + 20,
+        paddingLeft: insets.left + 20,
+        paddingRight: insets.right + 20,
+        flex: 1,
+        flexDirection: "column-reverse",
+      }}
+    >
       <Button
         mode="contained"
         // disabled={globalState.loggingIn}
