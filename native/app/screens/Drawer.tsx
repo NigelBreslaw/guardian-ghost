@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "@/screens/Home";
 import { Button } from "react-native-paper";
 import AuthService from "@/authentication/AuthService.ts";
@@ -6,7 +6,7 @@ import { View } from "react-native";
 
 const Drawer = createDrawerNavigator();
 
-const drawerContent = () => {
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <View>
       <View style={{ marginTop: 100 }} />
@@ -14,6 +14,7 @@ const drawerContent = () => {
         mode="contained"
         // disabled={globalState.loggingIn}
         onPress={() => {
+          props.navigation.closeDrawer();
           AuthService.logoutCurrentUser();
         }}
         style={{ alignSelf: "stretch" }}
@@ -24,10 +25,10 @@ const drawerContent = () => {
   );
 };
 
-export function MyDrawer() {
+export default function MainDrawer() {
   return (
     <Drawer.Navigator
-      drawerContent={drawerContent}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         swipeEdgeWidth: 0,
       }}

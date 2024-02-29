@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
-import { MyDrawer } from "./screens/Drawer";
+import MainDrawer from "./screens/Drawer";
 
 const RootStack = createStackNavigator();
 
@@ -27,7 +27,7 @@ export default function RootScreen() {
       <RootStack.Group>
         <RootStack.Screen
           name="Root"
-          component={MyDrawer}
+          component={MainDrawer}
           options={{
             headerShown: false,
           }}
