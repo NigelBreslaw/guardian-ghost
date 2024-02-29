@@ -55,7 +55,7 @@ class DataService {
       }
     }
     const p2 = performance.now();
-    console.log("processProfile() took:", (p2 - p1).toFixed(4), "ms");
+    console.log("processProfile() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   private static processCharacterInventory(profile: ProfileData) {
@@ -77,7 +77,7 @@ class DataService {
       }
     }
     const p2 = performance.now();
-    console.log("processCharacterInventory() took:", (p2 - p1).toFixed(4), "ms");
+    console.log("processCharacterInventory() took:", (p2 - p1).toFixed(5), "ms");
   }
 }
 
