@@ -3,7 +3,12 @@ import type { Output } from "valibot";
 
 export type CharactersAndVault = {
   vault: VaultData;
-  characters: Record<string, CharacterData>;
+  characters: Record<string, Character>;
+};
+
+export type Character = {
+  data: CharacterData;
+  inventory: Array<DestinyItem>;
 };
 
 export const bungieResponseSchema = object({
@@ -94,26 +99,26 @@ export const BungieUserSchema = object({
 
 export type BungieUser = Output<typeof BungieUserSchema>;
 
-export const ProfileInventorySchema = array(
-  object({
-    bindStatus: number(),
-    bucketHash: number(),
-    dismantlePermission: number(),
-    expirationDate: optional(string([isoTimestamp()])),
-    isWrapper: boolean(),
-    itemHash: number(),
-    itemInstanceId: optional(string()),
-    itemValueVisibility: optional(array(boolean())),
-    location: number(),
-    lockable: boolean(),
-    overrideStyleItemHash: optional(number()),
-    quantity: number(),
-    state: number(),
-    tooltipNotificationIndexes: optional(array(number())),
-    transferStatus: number(),
-    versionNumber: optional(number()),
-  }),
-);
+export const ItemSchema = object({
+  bindStatus: number(),
+  bucketHash: number(),
+  dismantlePermission: number(),
+  expirationDate: optional(string([isoTimestamp()])),
+  isWrapper: boolean(),
+  itemHash: number(),
+  itemInstanceId: optional(string()),
+  itemValueVisibility: optional(array(boolean())),
+  location: number(),
+  lockable: boolean(),
+  overrideStyleItemHash: optional(number()),
+  quantity: number(),
+  state: number(),
+  tooltipNotificationIndexes: optional(array(number())),
+  transferStatus: number(),
+  versionNumber: optional(number()),
+});
+
+export type DestinyItem = Output<typeof ItemSchema>;
 
 export const CharactersSchema = object({
   baseCharacterLevel: number(),
@@ -165,11 +170,11 @@ export const getProfileSchema = merge([
     Response: object({
       characterActivities: object({}),
       characterEquipment: object({
-        data: record(string(), object({ items: ProfileInventorySchema })),
+        data: record(string(), object({ items: array(ItemSchema) })),
         privacy: number(),
       }),
       characterInventories: object({
-        data: record(string(), object({ items: ProfileInventorySchema })),
+        data: record(string(), object({ items: array(ItemSchema) })),
       }),
       characterLoadouts: object({}),
       characterPlugSets: object({}),
@@ -184,7 +189,7 @@ export const getProfileSchema = merge([
       profile: object({}),
       profileCurrencies: object({}),
       profileInventory: object({
-        data: object({ items: ProfileInventorySchema }),
+        data: object({ items: array(ItemSchema) }),
       }),
       profilePlugSets: object({}),
       profileProgression: object({}),
