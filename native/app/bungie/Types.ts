@@ -2,7 +2,7 @@ import { array, boolean, isoTimestamp, merge, number, object, optional, string, 
 import type { Output } from "valibot";
 
 export type CharactersAndVault = {
-  vault: CharacterData | null;
+  vault: VaultData;
   characters: Record<string, CharacterData>;
 };
 
@@ -153,6 +153,11 @@ export const CharactersSchema = object({
 });
 
 type CharacterData = Output<typeof CharactersSchema>;
+
+export type VaultData = {
+  characterId: string;
+  emblemBackgroundPath: string;
+};
 
 export const getProfileSchema = merge([
   bungieResponseSchema,
