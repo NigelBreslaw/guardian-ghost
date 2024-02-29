@@ -2,8 +2,8 @@ import { array, boolean, isoTimestamp, merge, number, object, optional, string, 
 import type { Output } from "valibot";
 
 export type CharactersAndVault = {
-  vault: Character | null;
-  characters: Record<string, Character>;
+  vault: CharacterData | null;
+  characters: Record<string, CharacterData>;
 };
 
 export const bungieResponseSchema = object({
