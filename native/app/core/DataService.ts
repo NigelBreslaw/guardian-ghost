@@ -6,7 +6,10 @@ import { parse } from "valibot";
 class DataService {
   private static instance: DataService;
   private static charactersAndVault: CharactersAndVault = {
-    vault: null,
+    vault: {
+      characterId: "VAULT",
+      emblemBackgroundPath: "",
+    },
     characters: {},
   };
 
