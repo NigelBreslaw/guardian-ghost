@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import { Dimensions, StyleSheet, View, Text, ImageBackground } from "react-native";
+import { Dimensions, StyleSheet, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
@@ -32,21 +32,25 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   const renderItem = ({ item }: { item: rItem }) => (
     <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10 }}>
-      <View style={{ width: 50, height: 50, borderRadius: 10, overflow: "hidden", borderWidth: 2 }}>
+      <View
+        style={{ width: 50, height: 50, borderRadius: 10, overflow: "hidden", borderWidth: 2, borderColor: "gray" }}
+      >
         <View style={{ width: 46, height: 46 }}>
-          <ImageBackground
+          <Image
+            cachePolicy="memory-disk"
             source={{
               uri: "https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg",
             }}
             style={{ flex: 1 }}
           >
             <Image
+              cachePolicy="memory-disk"
               source={{
                 uri: "https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png",
               }}
               style={{ flex: 1 }}
             />
-          </ImageBackground>
+          </Image>
         </View>
       </View>
 
@@ -54,7 +58,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
         style={{
           width: 35,
           height: 15,
-          borderRadius: 5,
+          borderRadius: 4,
           backgroundColor: "#010121",
           zIndex: 100,
           position: "absolute",
@@ -68,20 +72,22 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       </View>
       <View
         style={{
-          width: 15,
-          height: 15,
-          borderRadius: 5,
+          width: 14,
+          height: 14,
+          borderRadius: 4,
           backgroundColor: "#010121",
-          zIndex: 1500,
           position: "absolute",
-          bottom: 15,
-          left: 60,
+          bottom: 28,
+          left: 62,
           justifyContent: "center",
           alignItems: "center",
+          borderWidth: 0.5,
+          borderColor: "black",
         }}
       >
         <Image
-          style={{ width: 12, height: 12 }}
+          cachePolicy="memory-disk"
+          style={{ width: 10, height: 10 }}
           source={{
             uri: "https://www.bungie.net/common/destiny2_content/icons/DestinyDamageTypeDefinition_2a1773e10968f2d088b97c22b22bba9e.png",
           }}
@@ -89,19 +95,20 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       </View>
       <View
         style={{
-          width: 15,
-          height: 15,
-          borderRadius: 5,
+          width: 14,
+          height: 14,
+          borderRadius: 4,
           backgroundColor: "#010121",
           zIndex: 1500,
           position: "absolute",
-          bottom: 35,
-          left: 60,
+          bottom: 12,
+          left: 62,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         <Image
+          cachePolicy="memory-disk"
           style={{ width: 15, height: 15 }}
           source={{
             uri: "https://bray.tech/static/images/extracts/ui/overrides/kinetic.png",
