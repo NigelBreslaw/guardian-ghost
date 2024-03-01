@@ -3,9 +3,11 @@ import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
 import type { CharactersAndVault, DestinyItem } from "@/app/bungie/Types.ts";
 import { parse } from "valibot";
 import { characterBuckets } from "@/bungie/Hashes.ts";
+import type { GlobalAction } from "@/app/state/Types.ts";
 
 class DataService {
   private static instance: DataService;
+  private static dispatch: React.Dispatch<GlobalAction>;
   private static charactersAndVault: CharactersAndVault = {
     vault: {
       characterId: "VAULT",
@@ -14,11 +16,13 @@ class DataService {
     characters: {},
   };
 
-  private constructor() {}
+  private constructor(dispatch: React.Dispatch<GlobalAction>) {
+    DataService.dispatch = dispatch;
+  }
 
-  public static getInstance(): DataService {
+  public static getInstance(dispatch: React.Dispatch<GlobalAction>): DataService {
     if (!DataService.instance) {
-      DataService.instance = new DataService();
+      DataService.instance = new DataService(dispatch);
     }
 
     return DataService.instance;
@@ -32,11 +36,12 @@ class DataService {
       const validatedProfile = parse(getProfileSchema, profile);
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
-      console.log("response", validatedProfile);
+      // console.log("response", validatedProfile);
       // console.log("raw", profile);
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
+      DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
       console.error("Failed to validate profile", e);
     }

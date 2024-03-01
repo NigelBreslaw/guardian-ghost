@@ -32,11 +32,17 @@ export async function saveItemDefinition() {
   console.log("saveItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
 }
 
-export async function getItemDefinition() {
-  const p1 = performance.now();
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const jsonDefinition: any = await StorageGG.getData("item_definition", "getItemDefinition()");
-  const p2 = performance.now();
-  console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
-  console.log(jsonDefinition["236588"]);
+export async function getItemDefinition(): Promise<JSON> {
+  try {
+    const p1 = performance.now();
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const jsonDefinition: any = await StorageGG.getData("item_definition", "getItemDefinition()");
+
+    const p2 = performance.now();
+    console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
+    return jsonDefinition;
+  } catch (e) {
+    console.error("Failed to get custom Item Definition", e);
+    throw e;
+  }
 }
