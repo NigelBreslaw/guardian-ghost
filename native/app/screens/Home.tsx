@@ -3,13 +3,20 @@ import { Dimensions, StyleSheet, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
+import { getItemDefinition } from "@/app/backend/api.ts";
+import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 
 const p1 = performance.now();
 const data = [...Array(100).keys()].map((i) => ({ id: i }));
 const p2 = performance.now();
 console.log("data took:", (p2 - p1).toFixed(5), "ms");
 
+async function createUI() {
+  const defintion = await getItemDefinition();
+}
+
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const globalState = useGlobalStateContext();
   const { width } = Dimensions.get("window");
   const ITEM_WIDTH = width;
   const ITEM_SIZE = 60;
@@ -35,7 +42,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   type rItem = { id: number };
 
   const renderItem = ({ item }: { item: rItem }) => (
-    <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10 }}>
+    <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10, flexDirection: "row" }}>
       <View
         style={{
           width: 50,

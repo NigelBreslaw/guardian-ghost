@@ -10,6 +10,7 @@ const initialState: GlobalState = {
   loggingIn: false,
   authenticated: false,
   currentAccount: null,
+  dataIsReady: false,
 };
 
 export const StateContext = createContext<GlobalState | null>(null);
@@ -29,6 +30,9 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
     case "setLoggingIn": {
       return { ...state, loggingIn: action.payload };
     }
+    case "setDataIsReady": {
+      return { ...state, dataIsReady: action.payload };
+    }
     default: {
       return state;
     }
@@ -41,7 +45,7 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const authService = AuthService.getInstance();
     AuthService.subscribe(dispatch);
-    const dataService = DataService.getInstance();
+    const dataService = DataService.getInstance(dispatch);
 
     return () => {
       AuthService.unsubscribe();
