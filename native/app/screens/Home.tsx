@@ -4,12 +4,16 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 
-const data = [...Array(100).keys()].map((i) => ({ id: i, color: i % 2 === 0 ? "white" : "black" }));
+const p1 = performance.now();
+const data = [...Array(100).keys()].map((i) => ({ id: i }));
+const p2 = performance.now();
+console.log("data took:", (p2 - p1).toFixed(5), "ms");
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const { width } = Dimensions.get("window");
   const ITEM_WIDTH = width;
   const ITEM_SIZE = 60;
+  const DEFAULT_BORDER_COLOR = "#3E3D45";
 
   const styles = StyleSheet.create({
     scrollViewContainer: {
@@ -28,12 +32,19 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     },
   });
 
-  type rItem = { id: number; color: string };
+  type rItem = { id: number };
 
   const renderItem = ({ item }: { item: rItem }) => (
     <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10 }}>
       <View
-        style={{ width: 50, height: 50, borderRadius: 10, overflow: "hidden", borderWidth: 2, borderColor: "gray" }}
+        style={{
+          width: 50,
+          height: 50,
+          borderRadius: 10,
+          overflow: "hidden",
+          borderWidth: 2,
+          borderColor: "#555555",
+        }}
       >
         <View style={{ width: 46, height: 46 }}>
           <Image
@@ -59,11 +70,11 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           width: 35,
           height: 15,
           borderRadius: 4,
-          backgroundColor: "#010121",
+          backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 100,
           position: "absolute",
           bottom: -5,
-          left: 40,
+          left: 42,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -75,14 +86,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           width: 14,
           height: 14,
           borderRadius: 4,
-          backgroundColor: "#010121",
+          backgroundColor: DEFAULT_BORDER_COLOR,
           position: "absolute",
           bottom: 28,
-          left: 62,
+          left: 63,
           justifyContent: "center",
           alignItems: "center",
-          borderWidth: 0.5,
-          borderColor: "black",
         }}
       >
         <Image
@@ -98,11 +107,11 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           width: 14,
           height: 14,
           borderRadius: 4,
-          backgroundColor: "#010121",
+          backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 1500,
           position: "absolute",
           bottom: 12,
-          left: 62,
+          left: 63,
           justifyContent: "center",
           alignItems: "center",
         }}
