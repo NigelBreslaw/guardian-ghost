@@ -14,35 +14,13 @@ console.log("data took:", (p2 - p1).toFixed(5), "ms");
 async function createUI() {
   const defintion = await getItemDefinition();
 }
-
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
-  const globalState = useGlobalStateContext();
-  const { width } = Dimensions.get("window");
-  const ITEM_WIDTH = width;
-  const ITEM_SIZE = 60;
+type dProps = {
+  iconUri: string;
+};
+function DestinyCell(props: dProps) {
   const DEFAULT_BORDER_COLOR = "#3E3D45";
-
-  const styles = StyleSheet.create({
-    scrollViewContainer: {
-      flexGrow: 1,
-    },
-    page: {
-      width: ITEM_WIDTH,
-      height: "100%",
-    },
-    item: {
-      width: ITEM_WIDTH,
-      height: ITEM_SIZE,
-    },
-    flatList: {
-      width: ITEM_WIDTH,
-    },
-  });
-
-  type rItem = { id: number };
-
-  const renderItem = ({ item }: { item: rItem }) => (
-    <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10, flexDirection: "row" }}>
+  return (
+    <View style={{ width: 50, height: 50 }}>
       <View
         style={{
           width: 50,
@@ -57,7 +35,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           <Image
             cachePolicy="memory-disk"
             source={{
-              uri: "https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg",
+              uri: props.iconUri,
             }}
             style={{ flex: 1 }}
           >
@@ -71,7 +49,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           </Image>
         </View>
       </View>
-
       <View
         style={{
           width: 35,
@@ -80,8 +57,8 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 100,
           position: "absolute",
-          bottom: -5,
-          left: 42,
+          bottom: -6,
+          right: -6,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -95,8 +72,9 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           borderRadius: 4,
           backgroundColor: DEFAULT_BORDER_COLOR,
           position: "absolute",
-          bottom: 28,
-          left: 63,
+          zIndex: 100,
+          bottom: 11,
+          right: -6,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -117,8 +95,8 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 1500,
           position: "absolute",
-          bottom: 12,
-          left: 63,
+          bottom: 27,
+          right: -6,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -133,9 +111,49 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       </View>
     </View>
   );
+}
+
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const globalState = useGlobalStateContext();
+  const { width } = Dimensions.get("window");
+  const ITEM_WIDTH = width;
+  const ITEM_SIZE = 70;
+  const DEFAULT_BORDER_COLOR = "#3E3D45";
+
+  const styles = StyleSheet.create({
+    scrollViewContainer: {
+      flexGrow: 1,
+    },
+    page: {
+      width: ITEM_WIDTH,
+      height: "100%",
+    },
+    item: {
+      width: 300,
+      height: ITEM_SIZE,
+    },
+    flatList: {
+      width: ITEM_WIDTH,
+    },
+  });
+
+  type rItem = { id: number };
+
+  const renderItem = ({ item }: { item: rItem }) => (
+    <View style={{ ...styles.item, paddingLeft: 20, paddingTop: 10, flexDirection: "row" }}>
+      <View style={{ flex: 1, backgroundColor: "transparent", alignItems: "center" }}>
+        <DestinyCell iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg" />
+      </View>
+      <View style={{ flex: 3, justifyContent: "space-around", flexDirection: "row" }}>
+        <DestinyCell iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg" />
+        <DestinyCell iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg" />
+        <DestinyCell iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg" />
+      </View>
+    </View>
+  );
 
   return (
-    <ScrollView horizontal pagingEnabled>
+    <ScrollView horizontal pagingEnabled style={{ backgroundColor: "#17101F" }}>
       {[0, 1, 2].map((page) => (
         <View key={page} style={[styles.page]}>
           <FlashList

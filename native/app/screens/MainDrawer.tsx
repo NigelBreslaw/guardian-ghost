@@ -44,7 +44,16 @@ export default function MainDrawer() {
         swipeEdgeWidth: 0,
       }}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#17101F",
+          },
+          headerTintColor: "white",
+        }}
+      />
     </Drawer.Navigator>
   );
 }
