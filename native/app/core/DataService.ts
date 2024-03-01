@@ -31,7 +31,7 @@ class DataService {
       const validatedProfile = parse(getProfileSchema, profile);
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
-      // console.log("response", validatedProfile);
+      console.log("response", validatedProfile);
       // console.log("raw", profile);
       DataService.processProfile(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
