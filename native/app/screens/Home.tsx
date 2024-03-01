@@ -19,69 +19,69 @@ type dProps = {
 };
 function DestinyCell(props: dProps) {
   const DEFAULT_BORDER_COLOR = "#3E3D45";
+  const MINI_ICON_SIZE = 18;
   return (
-    <View style={{ width: 50, height: 50 }}>
+    <View style={{ width: 68, height: 68 }}>
       <View
         style={{
-          width: 50,
-          height: 50,
+          width: 68,
+          height: 68,
           borderRadius: 10,
           overflow: "hidden",
-          borderWidth: 2,
+          borderWidth: 3,
           borderColor: "#555555",
         }}
       >
-        <View style={{ width: 46, height: 46 }}>
+        <View style={{ width: 62, height: 62 }}>
           <Image
             cachePolicy="memory-disk"
             source={{
               uri: props.iconUri,
             }}
-            style={{ flex: 1 }}
-          >
-            <Image
-              cachePolicy="memory-disk"
-              source={{
-                uri: "https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png",
-              }}
-              style={{ flex: 1 }}
-            />
-          </Image>
+            style={{ width: 62, height: 62, position: "absolute" }}
+          />
+          <Image
+            cachePolicy="memory-disk"
+            source={{
+              uri: "https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png",
+            }}
+            style={{ width: 46, height: 46, position: "absolute" }}
+          />
         </View>
       </View>
       <View
         style={{
-          width: 35,
-          height: 15,
+          width: 40,
+          height: 20,
           borderRadius: 4,
           backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 100,
           position: "absolute",
-          bottom: -6,
-          right: -6,
+          bottom: -9,
+          right: -9,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "white", fontSize: 11, fontWeight: "bold" }}>1804</Text>
+        <Text style={{ color: "white", fontSize: 14, fontWeight: "bold" }}>1804</Text>
       </View>
       <View
         style={{
-          width: 14,
-          height: 14,
+          width: MINI_ICON_SIZE,
+          height: MINI_ICON_SIZE,
           borderRadius: 4,
           backgroundColor: DEFAULT_BORDER_COLOR,
           position: "absolute",
           zIndex: 100,
-          bottom: 11,
-          right: -6,
+          bottom: 15,
+          right: -9,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         <Image
           cachePolicy="memory-disk"
-          style={{ width: 10, height: 10 }}
+          style={{ width: 13, height: 13 }}
           source={{
             uri: "https://www.bungie.net/common/destiny2_content/icons/DestinyDamageTypeDefinition_2a1773e10968f2d088b97c22b22bba9e.png",
           }}
@@ -89,14 +89,14 @@ function DestinyCell(props: dProps) {
       </View>
       <View
         style={{
-          width: 14,
-          height: 14,
+          width: MINI_ICON_SIZE,
+          height: MINI_ICON_SIZE,
           borderRadius: 4,
           backgroundColor: DEFAULT_BORDER_COLOR,
           zIndex: 1500,
           position: "absolute",
-          bottom: 27,
-          right: -6,
+          bottom: 37,
+          right: -9,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   const globalState = useGlobalStateContext();
   const { width } = Dimensions.get("window");
   const ITEM_WIDTH = width;
-  const ITEM_SIZE = 70;
+  const ITEM_SIZE = 90;
   const DEFAULT_BORDER_COLOR = "#3E3D45";
 
   const styles = StyleSheet.create({
@@ -129,7 +129,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       height: "100%",
     },
     item: {
-      width: 300,
+      width: 380,
       height: ITEM_SIZE,
     },
     flatList: {
@@ -154,7 +154,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   return (
     <ScrollView horizontal pagingEnabled style={{ backgroundColor: "#17101F" }}>
-      {[0, 1, 2].map((page) => (
+      {[0].map((page) => (
         <View key={page} style={[styles.page]}>
           <FlashList
             estimatedItemSize={ITEM_SIZE}
