@@ -1,7 +1,8 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
-import type { CharactersAndVault } from "@/app/bungie/Types.ts";
+import type { CharactersAndVault, DestinyItem } from "@/app/bungie/Types.ts";
 import { parse } from "valibot";
+import { characterBuckets } from "@/bungie/Hashes.ts";
 
 class DataService {
   private static instance: DataService;
@@ -31,10 +32,10 @@ class DataService {
       const validatedProfile = parse(getProfileSchema, profile);
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
-      console.log("response", validatedProfile);
+      // console.log("response", validatedProfile);
       // console.log("raw", profile);
       DataService.processProfile(validatedProfile);
-      DataService.processCharacterInventory(validatedProfile);
+      DataService.processCharacterEquipment(validatedProfile);
     } catch (e) {
       console.error("Failed to validate profile", e);
     }
@@ -47,35 +48,40 @@ class DataService {
       const characterData = characters[character];
 
       if (characterData) {
-        const c = {
+        const initialCharacterData = {
           data: characterData,
-          inventory: [],
+          items: {} as { [key: number]: { equipped: DestinyItem | null; inventory: Array<DestinyItem> } },
         };
-        DataService.charactersAndVault.characters[character] = c;
+
+        // Now create all the buckets
+        for (const bucket of characterBuckets) {
+          initialCharacterData.items[bucket] = { equipped: null, inventory: [] };
+        }
+
+        DataService.charactersAndVault.characters[character] = initialCharacterData;
       }
     }
     const p2 = performance.now();
     console.log("processProfile() took:", (p2 - p1).toFixed(5), "ms");
   }
 
-  private static processCharacterInventory(profile: ProfileData) {
+  private static processCharacterEquipment(profile: ProfileData) {
     const p1 = performance.now();
     const charactersEquipment = profile.Response.characterEquipment.data;
     for (const character in charactersEquipment) {
       const characterEquipment = charactersEquipment[character];
 
       if (characterEquipment) {
-        const equipment = [];
         for (const item of characterEquipment.items) {
-          equipment.push(item);
-        }
-
-        const c = DataService.charactersAndVault.characters[character];
-        if (c) {
-          c.inventory = equipment;
+          const characterItems = DataService.charactersAndVault.characters[character];
+          if (characterItems) {
+            characterItems.items[item.bucketHash] = { equipped: item, inventory: [] };
+          }
         }
       }
+      break;
     }
+
     const p2 = performance.now();
     console.log("processCharacterInventory() took:", (p2 - p1).toFixed(5), "ms");
   }

@@ -8,7 +8,7 @@ export type CharactersAndVault = {
 
 export type Character = {
   data: CharacterData;
-  inventory: Array<DestinyItem>;
+  items: Record<number, { equipped: DestinyItem | null; inventory: Array<DestinyItem> }>;
 };
 
 export const bungieResponseSchema = object({
