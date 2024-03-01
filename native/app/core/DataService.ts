@@ -32,10 +32,11 @@ class DataService {
       const validatedProfile = parse(getProfileSchema, profile);
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
-      // console.log("response", validatedProfile);
+      console.log("response", validatedProfile);
       // console.log("raw", profile);
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
+      DataService.processCharacterInventory(validatedProfile);
     } catch (e) {
       console.error("Failed to validate profile", e);
     }
@@ -72,14 +73,37 @@ class DataService {
       const characterEquipment = charactersEquipment[character];
 
       if (characterEquipment) {
+        const characterItems = DataService.charactersAndVault.characters[character];
         for (const item of characterEquipment.items) {
-          const characterItems = DataService.charactersAndVault.characters[character];
           if (characterItems) {
             characterItems.items[item.bucketHash] = { equipped: item, inventory: [] };
           }
         }
       }
-      break;
+    }
+
+    const p2 = performance.now();
+    console.log("processCharacterEquipment() took:", (p2 - p1).toFixed(5), "ms");
+  }
+
+  private static processCharacterInventory(profile: ProfileData) {
+    const p1 = performance.now();
+    const charactersInventory = profile.Response.characterInventories.data;
+    for (const character in charactersInventory) {
+      const characterInventory = charactersInventory[character];
+
+      if (characterInventory) {
+        const characterItems = DataService.charactersAndVault.characters[character];
+        for (const item of characterInventory.items) {
+          if (characterItems) {
+            const hasBucket = Object.hasOwn(characterItems.items, item.bucketHash);
+            if (!hasBucket) {
+              characterItems.items[item.bucketHash] = { equipped: null, inventory: [] };
+            }
+            characterItems.items[item.bucketHash]?.inventory.push(item);
+          }
+        }
+      }
     }
 
     const p2 = performance.now();
