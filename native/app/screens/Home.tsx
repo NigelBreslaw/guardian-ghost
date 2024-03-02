@@ -112,12 +112,12 @@ const styles = StyleSheet.create({
     height: 68,
   },
   innerFrameSize: {
-    width: 62,
-    height: 62,
+    width: 63,
+    height: 63,
   },
   innerFrameOverlaySize: {
-    width: 62,
-    height: 62,
+    width: 63,
+    height: 63,
     position: "absolute",
   },
 });
@@ -168,10 +168,8 @@ const DestinyCell = React.memo((props: dProps) => {
   );
 });
 
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
-  type rItem = { id: string };
-
-  const renderItem = ({ item }: { item: rItem }) => (
+const MemoItem = React.memo(() => {
+  return (
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
         <DestinyCell
@@ -195,10 +193,16 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       </View>
     </View>
   );
+});
+
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  type rItem = { id: string };
+
+  const renderItem = ({ item }: { item: rItem }) => <MemoItem />;
 
   return (
-    <ScrollView horizontal pagingEnabled style={{ backgroundColor: "#17101F" }}>
-      {[0].map((page) => (
+    <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={{ backgroundColor: "#17101F" }}>
+      {[0, 1, 2, 4].map((page) => (
         <View key={page} style={[styles.page]}>
           <FlashList
             estimatedItemSize={ITEM_SIZE}
