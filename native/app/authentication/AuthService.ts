@@ -16,6 +16,7 @@ import {
   isValidAccessToken,
   isValidRefreshToken,
 } from "./Utilities.ts";
+import { Platform } from "react-native";
 
 class AuthService {
   private static instance: AuthService;
@@ -249,6 +250,11 @@ class AuthService {
           AuthService.processURL(result.url);
         } else if (result.type === "dismiss") {
           // iOS only on universal link callback
+          if (Platform.OS === "android") {
+            // User probably went back from the login webview without completing auth flow
+            console.info("Failed to complete auth session", result);
+            AuthService.setLoggingIn(false);
+          }
         } else {
           // Used for all platforms
           console.info("Failed to open auth session", result);
