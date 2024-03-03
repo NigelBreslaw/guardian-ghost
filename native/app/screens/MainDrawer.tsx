@@ -2,7 +2,7 @@ import { DrawerContentComponentProps, createDrawerNavigator } from "@react-navig
 import HomeScreen from "@/screens/Home";
 import { Button } from "react-native-paper";
 import AuthService from "@/authentication/AuthService.ts";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Drawer = createDrawerNavigator();
@@ -10,20 +10,21 @@ const Drawer = createDrawerNavigator();
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const insets = useSafeAreaInsets();
 
+  const styles = StyleSheet.create({
+    drawerContainer: {
+      paddingTop: insets.top + 20,
+      paddingBottom: insets.bottom + 20,
+      paddingLeft: insets.left + 20,
+      paddingRight: insets.right + 20,
+      flex: 1,
+      flexDirection: "column-reverse",
+    },
+  });
+
   return (
-    <View
-      style={{
-        paddingTop: insets.top + 20,
-        paddingBottom: insets.bottom + 20,
-        paddingLeft: insets.left + 20,
-        paddingRight: insets.right + 20,
-        flex: 1,
-        flexDirection: "column-reverse",
-      }}
-    >
+    <View style={styles.drawerContainer}>
       <Button
         mode="contained"
-        // disabled={globalState.loggingIn}
         onPress={() => {
           props.navigation.closeDrawer();
           AuthService.logoutCurrentUser();
