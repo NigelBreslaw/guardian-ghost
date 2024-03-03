@@ -4,7 +4,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { getItemDefinition } from "@/app/backend/api.ts";
-import React, { useMemo } from "react";
+import { memo } from "react";
 
 const p1 = performance.now();
 const data = [...Array(100).keys()].map((i) => ({ id: i.toString() }));
@@ -131,44 +131,29 @@ const DAMAGE_TYPE_ICON_URI =
   "https://www.bungie.net/common/destiny2_content/icons/DestinyDamageTypeDefinition_2a1773e10968f2d088b97c22b22bba9e.png";
 const KINETIC_ICON_URI = "https://bray.tech/static/images/extracts/ui/overrides/kinetic.png";
 
-const DestinyCell = React.memo((props: dProps) => {
-  const iconSource = useMemo(() => ({ uri: props.iconUri }), [props.iconUri]);
-  const versionSource = useMemo(() => ({ uri: props.versionUri }), [props.versionUri]);
-
+const DestinyCell = memo((props: dProps) => {
   return (
     <View style={styles.frameSize}>
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
-          <Image cachePolicy="memory-disk" source={iconSource} style={styles.innerFrameSize} />
-          <Image cachePolicy="memory-disk" source={versionSource} style={styles.innerFrameOverlaySize} />
+          <Image source={props.iconUri} style={styles.innerFrameSize} />
+          <Image source={props.versionUri} style={styles.innerFrameOverlaySize} />
         </View>
       </View>
       <View style={styles.powerLevel}>
         <Text style={styles.powerLevelText}>1804</Text>
       </View>
       <View style={styles.miniIconBurn}>
-        <Image
-          cachePolicy="memory-disk"
-          style={styles.miniIconBurnSize}
-          source={{
-            uri: DAMAGE_TYPE_ICON_URI,
-          }}
-        />
+        <Image style={styles.miniIconBurnSize} source={DAMAGE_TYPE_ICON_URI} />
       </View>
       <View style={styles.miniIconAmmo}>
-        <Image
-          cachePolicy="memory-disk"
-          style={styles.miniIconAmmonSize}
-          source={{
-            uri: KINETIC_ICON_URI,
-          }}
-        />
+        <Image style={styles.miniIconAmmonSize} source={KINETIC_ICON_URI} />
       </View>
     </View>
   );
 });
 
-const MemoItem = React.memo(() => {
+const MemoItem = memo(() => {
   return (
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
@@ -195,9 +180,9 @@ const MemoItem = React.memo(() => {
   );
 });
 
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
-  type rItem = { id: string };
+type rItem = { id: string };
 
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const renderItem = ({ item }: { item: rItem }) => <MemoItem />;
 
   return (
