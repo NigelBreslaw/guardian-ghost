@@ -49,6 +49,7 @@ export default function MainDrawer() {
         name="Home"
         component={HomeScreen}
         options={{
+          drawerType: "back",
           headerStyle: {
             backgroundColor: "#17101F",
           },
