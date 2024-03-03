@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontWeight: "bold",
+    alignContent: "center",
+    includeFontPadding: false,
   },
   powerLevel: {
     width: 40,
