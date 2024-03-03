@@ -1,10 +1,11 @@
 import { NavigationProp } from "@react-navigation/native";
-import { Dimensions, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { getItemDefinition } from "@/app/backend/api.ts";
 import { memo } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const p1 = performance.now();
 const data = [...Array(100).keys()].map((i) => ({ id: i.toString() }));
@@ -14,21 +15,14 @@ console.log("data took:", (p2 - p1).toFixed(5), "ms");
 async function createUI() {
   const defintion = await getItemDefinition();
 }
-
-const { width } = Dimensions.get("window");
-const ITEM_WIDTH = width;
 const ITEM_SIZE = 90;
 const DEFAULT_BORDER_COLOR = "#3E3D45";
-const MINI_ICON_SIZE = 18;
+const MINI_ICON_SIZE = 16;
 const RIGHT_ALIGNMENT = -9;
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
-  },
-  page: {
-    width: ITEM_WIDTH,
-    height: "100%",
   },
   item: {
     width: 380,
@@ -36,9 +30,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 10,
     flexDirection: "row",
-  },
-  flatList: {
-    width: ITEM_WIDTH,
   },
   sectionEquipped: {
     flex: 1,
@@ -51,8 +42,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   miniIconAmmonSize: {
-    width: 15,
-    height: 15,
+    width: 14,
+    height: 14,
   },
   miniIconAmmo: {
     width: MINI_ICON_SIZE,
@@ -61,14 +52,14 @@ const styles = StyleSheet.create({
     backgroundColor: DEFAULT_BORDER_COLOR,
     zIndex: 150,
     position: "absolute",
-    bottom: 37,
+    bottom: 32,
     right: RIGHT_ALIGNMENT,
     justifyContent: "center",
     alignItems: "center",
   },
   miniIconBurnSize: {
-    width: 13,
-    height: 13,
+    width: 12,
+    height: 12,
   },
   miniIconBurn: {
     width: MINI_ICON_SIZE,
@@ -77,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: DEFAULT_BORDER_COLOR,
     position: "absolute",
     zIndex: 100,
-    bottom: 15,
+    bottom: 13,
     right: RIGHT_ALIGNMENT,
     justifyContent: "center",
     alignItems: "center",
@@ -89,13 +80,13 @@ const styles = StyleSheet.create({
   },
   powerLevel: {
     width: 40,
-    height: 20,
+    height: 18,
     borderRadius: 4,
     backgroundColor: DEFAULT_BORDER_COLOR,
     zIndex: 100,
     position: "absolute",
-    bottom: -9,
-    right: -9,
+    bottom: -8,
+    right: -8,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -183,12 +174,26 @@ const MemoItem = memo(() => {
 type rItem = { id: string };
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const insets = useSafeAreaInsets();
+  const { height, width } = useWindowDimensions();
+  const HOME_WIDTH = width;
   const renderItem = ({ item }: { item: rItem }) => <MemoItem />;
 
+  const homeStyles = StyleSheet.create({
+    homeContainer: {
+      paddingBottom: insets.bottom,
+      backgroundColor: "#17101F",
+    },
+    page: {
+      width: HOME_WIDTH,
+      height: "100%",
+    },
+  });
+
   return (
-    <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={{ backgroundColor: "#17101F" }}>
+    <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={homeStyles.homeContainer}>
       {[0, 1, 2, 4].map((page) => (
-        <View key={page} style={[styles.page]}>
+        <View key={page} style={[homeStyles.page]}>
           <FlashList
             estimatedItemSize={ITEM_SIZE}
             data={data}
