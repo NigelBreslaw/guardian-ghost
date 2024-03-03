@@ -11,6 +11,7 @@ const initialState: GlobalState = {
   authenticated: false,
   currentAccount: null,
   dataIsReady: false,
+  definitionsReady: false,
 };
 
 export const StateContext = createContext<GlobalState | null>(null);
@@ -32,6 +33,9 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
     }
     case "setDataIsReady": {
       return { ...state, dataIsReady: action.payload };
+    }
+    case "setDefinitionsReady": {
+      return { ...state, definitionsReady: action.payload };
     }
     default: {
       return state;
@@ -57,11 +61,11 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log("App is ready");
       SplashScreen.hideAsync();
     }
-    if (state.appReady && state.authenticated && state.currentAccount) {
+    if (state.appReady && state.authenticated && state.currentAccount && state.definitionsReady) {
       console.log("trigger: download getProfile()");
       DataService.getInventory();
     }
-  }, [state.appReady, state.authenticated, state.currentAccount]);
+  }, [state.appReady, state.authenticated, state.currentAccount, state.definitionsReady]);
 
   return (
     <StateContext.Provider value={state}>

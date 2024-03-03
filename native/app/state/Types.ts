@@ -6,6 +6,7 @@ export type GlobalState = {
   authenticated: boolean;
   currentAccount: BungieUser | null;
   dataIsReady: boolean;
+  definitionsReady: boolean;
 };
 
 export type GlobalAction =
@@ -27,5 +28,9 @@ export type GlobalAction =
     }
   | {
       type: "setDataIsReady";
+      payload: boolean;
+    }
+  | {
+      type: "setDefinitionsReady";
       payload: boolean;
     };

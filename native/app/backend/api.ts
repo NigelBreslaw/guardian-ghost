@@ -42,7 +42,7 @@ export async function getItemDefinition(): Promise<JSON> {
     console.log("getItemDefinition) took:", (p2 - p1).toFixed(4), "ms");
     return jsonDefinition;
   } catch (e) {
-    console.error("Failed to get custom Item Definition", e);
+    console.error(e);
     throw e;
   }
 }

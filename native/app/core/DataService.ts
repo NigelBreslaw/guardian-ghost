@@ -1,9 +1,11 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
 import type { CharactersAndVault, DestinyItem } from "@/app/bungie/Types.ts";
-import { parse } from "valibot";
+import { parse, array, number, safeParse } from "valibot";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
+import { getCustomItemDefinition } from "@/app/backend/api.ts";
+import StorageGG from "@/app/storage/StorageGG.ts";
 
 class DataService {
   private static instance: DataService;
@@ -12,12 +14,45 @@ class DataService {
     vault: {
       characterId: "VAULT",
       emblemBackgroundPath: "",
+      items: {
+        138197802: [],
+        1469714392: [],
+        3313201758: [],
+      },
     },
     characters: {},
   };
+  private static itemDefinition: JSON;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
     DataService.dispatch = dispatch;
+    DataService.setupItemDefinition();
+  }
+
+  private static async setupItemDefinition() {
+    const p1 = performance.now();
+
+    // Is there a saved definition?
+    try {
+      const savedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
+      DataService.itemDefinition = savedDefinition;
+      DataService.dispatch({ type: "setDefinitionsReady", payload: true });
+      const p2 = performance.now();
+      console.log("setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+      return;
+    } catch (e) {
+      console.error("No saved itemDefinition. Downloading new version...", e);
+    }
+
+    try {
+      const downloadedDefinition = await getCustomItemDefinition();
+      await StorageGG.setData(downloadedDefinition, "item_definition", "setupItemDefinition()");
+      DataService.dispatch({ type: "setDefinitionsReady", payload: true });
+    } catch (e) {
+      console.error("Failed to download and save itemDefinition", e);
+    }
+    const p2 = performance.now();
+    console.log("setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   public static getInstance(dispatch: React.Dispatch<GlobalAction>): DataService {
@@ -36,11 +71,11 @@ class DataService {
       const validatedProfile = parse(getProfileSchema, profile);
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
-      // console.log("response", validatedProfile);
-      // console.log("raw", profile);
+
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
+      DataService.processVaultInventory(validatedProfile);
       DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
       console.error("Failed to validate profile", e);
@@ -48,6 +83,7 @@ class DataService {
   }
 
   private static processProfile(profile: ProfileData) {
+    console.log("processProfile()");
     const p1 = performance.now();
     const characters = profile.Response.characters.data;
     for (const character in characters) {
@@ -113,6 +149,36 @@ class DataService {
 
     const p2 = performance.now();
     console.log("processCharacterInventory() took:", (p2 - p1).toFixed(5), "ms");
+  }
+
+  private static processVaultInventory(profile: ProfileData) {
+    const p1 = performance.now();
+    const vaultInventory = profile.Response.profileInventory.data.items;
+
+    if (vaultInventory) {
+      const vaultItems = DataService.charactersAndVault.vault.items;
+      // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition["BucketTypeHash"]);
+
+      if (!bucketTypeHash.success) {
+        console.error("Failed to parse bucketTypeHash", bucketTypeHash.issues);
+        return;
+      }
+
+      for (const item of vaultInventory) {
+        const itemHash = item.itemHash.toString();
+        const data = DataService.itemDefinition[itemHash];
+        const definitionBucketHash = bucketTypeHash.output[data.b];
+        const hasBucket = Object.hasOwn(vaultItems[item.bucketHash], definitionBucketHash);
+        if (!hasBucket) {
+          vaultItems[item.bucketHash][definitionBucketHash] = { inventory: [] };
+        }
+
+        vaultItems[item.bucketHash][definitionBucketHash]?.inventory.push(item);
+      }
+    }
+    const p2 = performance.now();
+    console.log("processVaultInventory() took:", (p2 - p1).toFixed(5), "ms");
   }
 }
 

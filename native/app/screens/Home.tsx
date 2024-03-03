@@ -1,7 +1,7 @@
 import { NavigationProp } from "@react-navigation/native";
 import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { FlashList } from "@shopify/flash-list";
+// import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { getItemDefinition } from "@/app/backend/api.ts";
 import { memo } from "react";
@@ -13,7 +13,7 @@ const p2 = performance.now();
 console.log("data took:", (p2 - p1).toFixed(5), "ms");
 
 async function createUI() {
-  const defintion = await getItemDefinition();
+  const definition = await getItemDefinition();
 }
 const ITEM_SIZE = 90;
 const DEFAULT_BORDER_COLOR = "#3E3D45";
@@ -190,7 +190,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   return (
     <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={homeStyles.homeContainer}>
-      {[0, 1, 2, 4].map((page) => (
+      {/* {[0, 1, 2, 4].map((page) => (
         <View key={page} style={[homeStyles.page]}>
           <FlashList
             estimatedItemSize={ITEM_SIZE}
@@ -199,7 +199,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
             keyExtractor={(item) => item.id}
           />
         </View>
-      ))}
+      ))} */}
     </ScrollView>
   );
 }

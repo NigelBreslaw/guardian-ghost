@@ -11,6 +11,16 @@ export type Character = {
   items: Record<number, { equipped: DestinyItem | null; inventory: Array<DestinyItem> }>;
 };
 
+export type VaultData = {
+  characterId: string;
+  emblemBackgroundPath: string;
+  items: {
+    138197802: Array<DestinyItem>;
+    1469714392: Array<DestinyItem>;
+    3313201758: Array<DestinyItem>;
+  };
+};
+
 export const bungieResponseSchema = object({
   ErrorCode: number(),
   ErrorStatus: string(),
@@ -158,11 +168,6 @@ export const CharactersSchema = object({
 });
 
 type CharacterData = Output<typeof CharactersSchema>;
-
-export type VaultData = {
-  characterId: string;
-  emblemBackgroundPath: string;
-};
 
 export const getProfileSchema = merge([
   bungieResponseSchema,
