@@ -129,8 +129,8 @@ const DestinyCell = memo((props: dProps) => {
     <View style={styles.frameSize}>
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
-          <Image source={props.iconUri} style={styles.innerFrameSize} />
-          <Image source={props.versionUri} style={styles.innerFrameOverlaySize} />
+          <Image source={props.iconUri} style={styles.innerFrameSize} recyclingKey={props.iconUri} />
+          <Image source={props.versionUri} style={styles.innerFrameOverlaySize} recyclingKey={props.versionUri} />
         </View>
       </View>
       <View style={styles.powerLevel}>
@@ -146,8 +146,13 @@ const DestinyCell = memo((props: dProps) => {
   );
 });
 
-const MemoItem = memo(() => {
-  return (
+type rItem = { id: string };
+
+export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const insets = useSafeAreaInsets();
+  const { height, width } = useWindowDimensions();
+  const HOME_WIDTH = width;
+  const renderItem = ({ item }: { item: rItem }) => (
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
         <DestinyCell
@@ -171,15 +176,6 @@ const MemoItem = memo(() => {
       </View>
     </View>
   );
-});
-
-type rItem = { id: string };
-
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
-  const insets = useSafeAreaInsets();
-  const { height, width } = useWindowDimensions();
-  const HOME_WIDTH = width;
-  const renderItem = ({ item }: { item: rItem }) => <MemoItem />;
 
   const homeStyles = StyleSheet.create({
     homeContainer: {
