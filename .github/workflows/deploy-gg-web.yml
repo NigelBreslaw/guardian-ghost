@@ -3,7 +3,7 @@ on:
     branches: [main]
     paths:
       - "native/**"
-      - "minify/**"
+      - "minifier/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -24,9 +24,9 @@ jobs:
       - uses: actions/checkout@v4.1.1
       - uses: oven-sh/setup-bun@v1.1.1
       - name: bun install
-        run: cd minify && bun start
+        run: cd minifier && bun start
       - name: copy json definitions
-        run: cd minify && mv json  ../native/public
+        run: cd minifier && mv json  ../native/public
       - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8.15.3
