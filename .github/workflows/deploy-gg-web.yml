@@ -25,6 +25,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1.1.1
       - name: bun install
         run: cd minifier && bun start
+        shell: bash {0}
       - name: copy json definitions
         run: cd minifier && mv json  ../native/public
       - uses: pnpm/action-setup@v3.0.0
