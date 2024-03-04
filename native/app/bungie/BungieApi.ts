@@ -11,7 +11,6 @@ export const profileComponents =
 
 export async function getProfile(): Promise<JSON> {
   const authToken = await AuthService.getTokenAsync("getProfile");
-  console.log("getProfile() got authToken");
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken?.access_token}`);
   headers.append("X-API-Key", apiKey);
