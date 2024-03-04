@@ -6,7 +6,7 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   };
 
   return new Promise((resolve, reject) => {
-    fetch(`https://ishtar-commander.com/json/${language}.json`, requestOptions)
+    fetch(`https://app.guardianghost.com/json/${language}.json`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           console.error(response);
