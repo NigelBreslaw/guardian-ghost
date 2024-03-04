@@ -686,24 +686,6 @@ async function saveToJsonFile(data: any, filePath: string): Promise<void> {
   }
 }
 
-function loadJsonFile(path: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, "utf8", (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      try {
-        const jsonData = JSON.parse(data);
-        resolve(jsonData);
-      } catch (parseError) {
-        reject(parseError);
-      }
-    });
-  });
-}
-
 async function useContentPaths(jsonWorldComponentContentPaths: any): Promise<void> {
   const promises: Promise<void>[] = [];
 
@@ -717,46 +699,6 @@ async function useContentPaths(jsonWorldComponentContentPaths: any): Promise<voi
   await Promise.all(promises);
 }
 
-// Used when investigating. This downloads and saves the original bungieItemDef files which are huge.
-async function getFullDefinitions(): Promise<void> {
-  const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
-  const jsonManifest = await downloadJsonFile(manifestUrl);
-
-  const jsonWorldComponentContentPaths = jsonManifest.Response.jsonWorldComponentContentPaths;
-
-  const promises: Promise<void>[] = [];
-
-  for (const key in jsonWorldComponentContentPaths) {
-    const definitionUrl = "https://bungie.com" + jsonWorldComponentContentPaths[key].DestinyInventoryItemDefinition;
-
-    const jsonData = await downloadJsonFile(definitionUrl);
-    await saveToJsonFile(jsonData, `full-sized-def-${key}.json`);
-  }
-
-  // Wait for all promises to resolve in parallel
-  await Promise.all(promises);
-}
-
-async function getAllBungieDefinitions(): Promise<void> {
-  const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
-  const jsonManifest = await downloadJsonFile(manifestUrl);
-
-  const promises: Promise<void>[] = [];
-
-  const enumNames = Object.keys(NeededDefinitions).filter((key) =>
-    isNaN(Number(key)),
-  ) as (keyof typeof NeededDefinitions)[];
-
-  // Iterate over the enum names
-  for (const enumName of enumNames) {
-    const defUrl = jsonManifest.Response.jsonWorldComponentContentPaths.en[`${enumName}`];
-    const definitionUrl = "https://bungie.com" + defUrl;
-
-    const jsonData = await downloadJsonFile(definitionUrl);
-    await saveToJsonFile(jsonData, `${enumName}.json`);
-  }
-}
-
 async function downloadAndMinifyDefinition(definitionUrl: string, key: string): Promise<void> {
   console.time(`${key} download-json`);
   const jsonData = await downloadJsonFile(definitionUrl);
@@ -766,7 +708,7 @@ async function downloadAndMinifyDefinition(definitionUrl: string, key: string): 
   const processedData = createMiniDefinition(jsonData);
   console.timeEnd(`${key} parse-took:`);
 
-  const outputFilePath = path.join(__dirname, `../../frontend/public/json/${key}.json`);
+  const outputFilePath = path.join(__dirname, `json/${key}.json`);
 
   console.time(`${key} save-took:`);
   await saveToJsonFile(processedData, outputFilePath);
@@ -775,47 +717,29 @@ async function downloadAndMinifyDefinition(definitionUrl: string, key: string): 
   console.log("");
 }
 
-async function isNewManifest(jsonManifest: JSON): Promise<boolean> {
-  try {
-    const manifestPath = path.join(__dirname, "../runner/bungieManifest.json");
-    const oldJson = await loadJsonFile(manifestPath);
-
-    return JSON.stringify(jsonManifest) !== JSON.stringify(oldJson);
-  } catch (error) {
-    console.error("Error comparing JSON files:", error);
-    return false;
-  }
-}
-
 async function main() {
+  // make directory called json
+  const jsonPath = path.join(__dirname, `json`);
+  if (!fs.existsSync(jsonPath)) {
+    fs.mkdirSync(jsonPath);
+  }
   try {
     console.time("download-manifest");
 
     const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+
     const jsonManifest = await downloadJsonFile(manifestUrl);
+    console.timeEnd("download-manifest");
 
-    const isNew = await isNewManifest(jsonManifest);
+    const jsonWorldComponentContentPaths = jsonManifest.Response.jsonWorldComponentContentPaths;
+    console.time("total-json-parse");
+    await useContentPaths(jsonWorldComponentContentPaths);
+    console.timeEnd("total-json-parse");
 
-    if (isNew) {
-      const jsonManifest = await downloadJsonFile(manifestUrl);
-      console.timeEnd("download-manifest");
-
-      const jsonWorldComponentContentPaths = jsonManifest.Response.jsonWorldComponentContentPaths;
-      console.time("total-json-parse");
-      await useContentPaths(jsonWorldComponentContentPaths);
-      console.timeEnd("total-json-parse");
-
-      const time = new Date().toISOString();
-      const manifest = { version: time };
-      const savePath = path.join(__dirname, `../../frontend/public/json/manifest.json`);
-      await saveToJsonFile(manifest, savePath);
-
-      const manifestSavePath = path.join(__dirname, "../runner/bungieManifest.json");
-      await saveToJsonFile(jsonManifest, manifestSavePath);
-    } else {
-      console.log("No new manifest detected");
-      process.exit(1);
-    }
+    const time = new Date().toISOString();
+    const manifest = { version: time };
+    const savePath = path.join(__dirname, `json/manifest.json`);
+    await saveToJsonFile(manifest, savePath);
   } catch (error) {
     console.error(error);
   }
