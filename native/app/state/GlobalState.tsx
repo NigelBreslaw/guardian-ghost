@@ -3,6 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useReducer, createContext, useContext, useEffect } from "react";
 import { GlobalAction, GlobalState } from "./Types.ts";
 import DataService from "@/core/DataService.ts";
+import StorageGG from "@/app/storage/StorageGG.ts";
 
 // Define the context
 const initialState: GlobalState = {
@@ -47,6 +48,7 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   useEffect(() => {
+    const storageService = StorageGG.getInstance();
     const authService = AuthService.getInstance();
     AuthService.subscribe(dispatch);
     const dataService = DataService.getInstance(dispatch);

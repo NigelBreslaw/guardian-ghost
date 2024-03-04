@@ -1,9 +1,10 @@
 import { Platform } from "react-native";
-import { MMKV } from "react-native-mmkv";
+import * as SQLite from "expo-sqlite";
 
 const Store = {
   factoryName: "gg-data",
   storeName: "key-values",
+  databaseName: "ggDataBase.db",
 };
 
 type storageKey = "item_definition" | "accounts";
@@ -11,11 +12,23 @@ type storageKey = "item_definition" | "accounts";
 class StorageGG {
   private static instance: StorageGG;
 
-  private nativeStore: MMKV | null = null;
+  private nativeStore: SQLite.SQLiteDatabase | null = null;
 
   private constructor() {
     if (Platform.OS !== "web") {
-      this.nativeStore = new MMKV();
+      this.nativeStore = SQLite.openDatabase(Store.databaseName);
+      this.nativeStore.transaction((tx) => {
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
+          [],
+          () => console.log("Table created successfully"),
+          (_, error) => {
+            console.log("Error occurred while creating the table");
+            console.log(error);
+            return true;
+          },
+        );
+      });
     }
   }
 
@@ -113,31 +126,53 @@ class StorageGG {
     });
   }
 
-  private static setNativeStore(data: JSON, storageKey: storageKey, errorMessage: string): void {
-    try {
-      const nativeStore = StorageGG.getInstance().nativeStore;
-      if (nativeStore) {
-        nativeStore.set(storageKey, JSON.stringify(data));
-        console.log("data added to native store", storageKey);
-      }
-    } catch (e) {
-      console.error("setNativeStore Error", errorMessage, e);
-    }
+  // Function to set JSON to the database
+  private static async setNativeStore(json: object, key: string, errorMessage: string) {
+    // Convert JSON to string
+    const jsonString = JSON.stringify(json);
+    const nativeStore = StorageGG.getInstance().nativeStore;
+    // Execute SQL to insert JSON string into the database
+    nativeStore.transaction((tx) => {
+      tx.executeSql(
+        "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
+        [key, jsonString],
+        (_, resultSet) => console.log("JSON set successfully"),
+        (_, error) => {
+          console.log("Error occurred while setting JSON", errorMessage);
+          console.log(error);
+          return true;
+        },
+      );
+    });
   }
 
-  private static getNativeStore(storageKey: storageKey, errorMessage: string): JSON {
-    try {
+  // Function to get JSON from the database
+  private static async getNativeStore(key: string, errorMessage: string): Promise<JSON> {
+    return new Promise((resolve, reject) => {
       const nativeStore = StorageGG.getInstance().nativeStore;
-      if (nativeStore) {
-        const data = nativeStore.getString(storageKey) as string;
-        console.log("data retrieved from native store", storageKey);
-        return JSON.parse(data);
-      }
-      throw new Error(errorMessage);
-    } catch (e) {
-      console.error("getNativeStore Error", errorMessage, e);
-      throw new Error(String(e));
-    }
+
+      nativeStore.transaction((tx) => {
+        tx.executeSql(
+          "SELECT value FROM json_table WHERE key = ?;",
+          [key],
+          (_, resultSet) => {
+            if (resultSet.rows.length > 0) {
+              // Convert string back to JSON
+              const json = JSON.parse(resultSet.rows.item(0).value);
+              console.log("JSON retrieved successfully");
+              resolve(json);
+            }
+            console.log("No JSON found for the provided key", errorMessage);
+            reject(new Error(errorMessage));
+          },
+          (_, error) => {
+            console.log("Error occurred while getting JSON", errorMessage);
+            console.log(error);
+            throw new Error(errorMessage);
+          },
+        );
+      });
+    });
   }
 
   static cleanUp() {}
