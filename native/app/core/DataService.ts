@@ -22,7 +22,8 @@ class DataService {
     },
     characters: {},
   };
-  private static itemDefinition: JSON;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  private static itemDefinition: { items: any; helpers: any };
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
     DataService.dispatch = dispatch;
@@ -35,7 +36,8 @@ class DataService {
     // Is there a saved definition?
     try {
       const savedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
-      DataService.itemDefinition = savedDefinition;
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      DataService.itemDefinition = savedDefinition as unknown as { items: any; helpers: any };
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
       console.log("saved setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
@@ -148,7 +150,7 @@ class DataService {
     if (vaultInventory) {
       const vaultItems = DataService.charactersAndVault.vault.items;
       // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition["BucketTypeHash"]);
+      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition.helpers["BucketTypeHash"]);
 
       if (!bucketTypeHash.success) {
         console.error("Failed to parse bucketTypeHash", bucketTypeHash.issues);
@@ -157,7 +159,7 @@ class DataService {
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
-        const data = DataService.itemDefinition[itemHash];
+        const data = DataService.itemDefinition.items[itemHash];
         const definitionBucketHash = bucketTypeHash.output[data.b];
         const hasBucket = Object.hasOwn(vaultItems[item.bucketHash], definitionBucketHash);
         if (!hasBucket) {
