@@ -6,6 +6,7 @@ import { characterBuckets } from "@/bungie/Hashes.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import { getCustomItemDefinition } from "@/app/backend/api.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
+import { ItemDefinitionSchema, type ItemDefinition } from "@/app/core/Types.ts";
 
 class DataService {
   private static instance: DataService;
@@ -22,7 +23,7 @@ class DataService {
     },
     characters: {},
   };
-  private static itemDefinition: JSON;
+  private static itemDefinition: ItemDefinition;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
     DataService.dispatch = dispatch;
@@ -34,11 +35,15 @@ class DataService {
 
     // Is there a saved definition?
     try {
-      const savedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
-      DataService.itemDefinition = savedDefinition;
+      const loadedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
+      const p3 = performance.now();
+      const itemDefinition = parse(ItemDefinitionSchema, loadedDefinition);
+      const p4 = performance.now();
+      console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
+      DataService.itemDefinition = itemDefinition;
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
-      console.log("saved setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+      console.log("loaded setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
       return;
     } catch (e) {
       console.error("No saved itemDefinition. Downloading new version...", e);
@@ -46,7 +51,9 @@ class DataService {
 
     try {
       const downloadedDefinition = await getCustomItemDefinition();
-      await StorageGG.setData(downloadedDefinition, "item_definition", "setupItemDefinition()");
+      const itemDefinition = parse(ItemDefinitionSchema, downloadedDefinition);
+      await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
+      DataService.itemDefinition = itemDefinition;
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
@@ -144,11 +151,9 @@ class DataService {
 
   private static processVaultInventory(profile: ProfileData) {
     const vaultInventory = profile.Response.profileInventory.data.items;
-
     if (vaultInventory) {
       const vaultItems = DataService.charactersAndVault.vault.items;
-      // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition["BucketTypeHash"]);
+      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
 
       if (!bucketTypeHash.success) {
         console.error("Failed to parse bucketTypeHash", bucketTypeHash.issues);
@@ -157,7 +162,7 @@ class DataService {
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
-        const data = DataService.itemDefinition[itemHash];
+        const data = DataService.itemDefinition.items[itemHash];
         const definitionBucketHash = bucketTypeHash.output[data.b];
         const hasBucket = Object.hasOwn(vaultItems[item.bucketHash], definitionBucketHash);
         if (!hasBucket) {

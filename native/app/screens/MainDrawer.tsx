@@ -4,6 +4,7 @@ import { Button } from "react-native-paper";
 import AuthService from "@/authentication/AuthService.ts";
 import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import StorageGG from "@/app/storage/StorageGG.ts";
 
 const Drawer = createDrawerNavigator();
 
@@ -32,6 +33,18 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         style={{ alignSelf: "stretch" }}
       >
         Logout
+      </Button>
+      <View style={{ marginTop: 40 }} />
+      <Button
+        mode="contained"
+        onPress={() => {
+          props.navigation.closeDrawer();
+          const j = JSON.parse(null);
+          StorageGG.setData(j, "item_definition", "deleteDb");
+        }}
+        style={{ alignSelf: "stretch" }}
+      >
+        Delete DB
       </Button>
     </View>
   );
