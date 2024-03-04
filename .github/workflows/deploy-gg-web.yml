@@ -14,24 +14,27 @@ jobs:
     env:
       TURBO_URL: ${{ secrets.TURBO_URL }}
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
-    defaults:
-      run:
-        working-directory: native
+
     permissions:
       contents: read
       deployments: write
     name: Deploy
     steps:
       - uses: actions/checkout@v4.1.1
+      - uses: oven-sh/setup-bun@v1.1.1
+      - name: bun install
+        run: cd minify && bun start
+      - name: copy json definitions
+        run: cd minify && mv json  ../native/public
       - uses: pnpm/action-setup@v3.0.0
         with:
           version: 8.15.3
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: cd native && pnpm install --frozen-lockfile
       - name: add .env file
-        run: echo '${{ secrets.CLIENT_SECRETS }}' > .env
+        run: cd native && echo '${{ secrets.CLIENT_SECRETS }}' > .env
       - name: build
-        run: pnpm expo export -p web
+        run: cd native && pnpm expo export -p web
       - name: deploy website
         uses: cloudflare/pages-action@v1.5.0
         with:
