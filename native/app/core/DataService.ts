@@ -38,7 +38,7 @@ class DataService {
       DataService.itemDefinition = savedDefinition;
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
-      console.log("setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+      console.log("saved setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
       return;
     } catch (e) {
       console.error("No saved itemDefinition. Downloading new version...", e);
@@ -52,7 +52,7 @@ class DataService {
       console.error("Failed to download and save itemDefinition", e);
     }
     const p2 = performance.now();
-    console.log("setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+    console.log("downloadedsetupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   public static getInstance(dispatch: React.Dispatch<GlobalAction>): DataService {
@@ -72,10 +72,13 @@ class DataService {
       const p2 = performance.now();
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
 
+      const p3 = performance.now();
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
+      const p4 = performance.now();
+      console.log("processing all profile data took:", (p4 - p3).toFixed(5), "ms");
       DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
       console.error("Failed to validate profile", e);
@@ -83,8 +86,6 @@ class DataService {
   }
 
   private static processProfile(profile: ProfileData) {
-    console.log("processProfile()");
-    const p1 = performance.now();
     const characters = profile.Response.characters.data;
     for (const character in characters) {
       const characterData = characters[character];
@@ -103,12 +104,9 @@ class DataService {
         DataService.charactersAndVault.characters[character] = initialCharacterData;
       }
     }
-    const p2 = performance.now();
-    console.log("processProfile() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   private static processCharacterEquipment(profile: ProfileData) {
-    const p1 = performance.now();
     const charactersEquipment = profile.Response.characterEquipment.data;
     for (const character in charactersEquipment) {
       const characterEquipment = charactersEquipment[character];
@@ -122,13 +120,9 @@ class DataService {
         }
       }
     }
-
-    const p2 = performance.now();
-    console.log("processCharacterEquipment() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   private static processCharacterInventory(profile: ProfileData) {
-    const p1 = performance.now();
     const charactersInventory = profile.Response.characterInventories.data;
     for (const character in charactersInventory) {
       const characterInventory = charactersInventory[character];
@@ -146,13 +140,9 @@ class DataService {
         }
       }
     }
-
-    const p2 = performance.now();
-    console.log("processCharacterInventory() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   private static processVaultInventory(profile: ProfileData) {
-    const p1 = performance.now();
     const vaultInventory = profile.Response.profileInventory.data.items;
 
     if (vaultInventory) {
@@ -177,8 +167,6 @@ class DataService {
         vaultItems[item.bucketHash][definitionBucketHash]?.inventory.push(item);
       }
     }
-    const p2 = performance.now();
-    console.log("processVaultInventory() took:", (p2 - p1).toFixed(5), "ms");
   }
 }
 

@@ -21,7 +21,9 @@ class StorageGG {
         tx.executeSql(
           "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
           [],
-          () => console.log("Table created successfully"),
+          () => {
+            // console.log("Table created successfully")
+          },
           (_, error) => {
             console.log("Error occurred while creating the table");
             console.log(error);
@@ -126,12 +128,10 @@ class StorageGG {
     });
   }
 
-  // Function to set JSON to the database
   private static async setNativeStore(json: object, key: string, errorMessage: string) {
-    // Convert JSON to string
     const jsonString = JSON.stringify(json);
     const nativeStore = StorageGG.getInstance().nativeStore;
-    // Execute SQL to insert JSON string into the database
+
     nativeStore.transaction((tx) => {
       tx.executeSql(
         "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
@@ -146,7 +146,6 @@ class StorageGG {
     });
   }
 
-  // Function to get JSON from the database
   private static async getNativeStore(key: string, errorMessage: string): Promise<JSON> {
     return new Promise((resolve, reject) => {
       const nativeStore = StorageGG.getInstance().nativeStore;
@@ -157,10 +156,9 @@ class StorageGG {
           [key],
           (_, resultSet) => {
             if (resultSet.rows.length > 0) {
-              // Convert string back to JSON
               const json = JSON.parse(resultSet.rows.item(0).value);
-              console.log("JSON retrieved successfully");
-              resolve(json);
+              // console.log("JSON retrieved successfully");
+              return resolve(json);
             }
             console.log("No JSON found for the provided key", errorMessage);
             reject(new Error(errorMessage));
