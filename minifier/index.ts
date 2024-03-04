@@ -33,39 +33,6 @@ enum RepeatStringsName {
   TalentGridHash = "TalentGridHash",
 }
 
-// These are the definition Ishtar downloads and uses as they are.
-// Copied here so they can be downloaded to see if any are getting too large
-enum NeededDefinitions {
-  DestinyVendorDefinition = 0,
-  DestinyVendorGroupDefinition = 1,
-  DestinyItemCategoryDefinition = 2,
-  DestinyClassDefinition = 3,
-  DestinyRaceDefinition = 4,
-  DestinyItemTierTypeDefinition = 5,
-  DestinyObjectiveDefinition = 6,
-  DestinySandboxPerkDefinition = 7,
-  DestinySocketCategoryDefinition = 8,
-  DestinySocketTypeDefinition = 9,
-  DestinyProgressionDefinition = 10,
-  DestinyActivityModifierDefinition = 11,
-  DestinyArtifactDefinition = 12,
-  DestinyFactionDefinition = 13,
-  DestinyInventoryBucketDefinition = 14,
-  DestinyMaterialRequirementSetDefinition = 15,
-  DestinyMilestoneDefinition = 16,
-  DestinyStatDefinition = 17,
-  DestinyInventoryItemLiteDefinition = 18,
-  DestinyPowerCapDefinition = 19,
-  DestinySeasonDefinition = 20,
-  DestinySeasonPassDefinition = 21,
-  DestinyCollectibleDefinition = 22,
-  DestinyPresentationNodeDefinition = 23,
-  DestinyPlugSetDefinition = 24,
-  DestinyRecordDefinition = 25,
-  DestinyLoreDefinition = 26,
-  DestinyDamageTypeDefinition = 27,
-}
-
 // Interface (Schema) for the DestinyItemDefinition
 interface JsonData {
   [key: string]: {
@@ -144,7 +111,12 @@ async function downloadJsonFile(url: string): Promise<any> {
   }
 }
 
-function createMiniDefinition(jsonData: JsonData): JSON {
+type ProcessedData = {
+  helpers: { [key: string]: any };
+  items: { [key: string]: any };
+};
+
+function createMiniDefinition(jsonData: JsonData): ProcessedData {
   // Dictionary of the repeat string arrays
   const repeatStrings: Record<RepeatStringsName, string[]> = {
     [RepeatStringsName.Descriptions]: [],
@@ -188,7 +160,7 @@ function createMiniDefinition(jsonData: JsonData): JSON {
     return index;
   }
 
-  const processedData: { [key: string]: any } = {};
+  const processedData: ProcessedData = { helpers: {}, items: {} };
 
   const sortedDataKeys = Object.keys(jsonData).sort((a, b) => parseFloat(a) - parseFloat(b));
 
@@ -657,7 +629,7 @@ function createMiniDefinition(jsonData: JsonData): JSON {
     }
     // Only add items with data
     if (Object.keys(item).length > 0) {
-      processedData[key] = item; // Assign 'item' directly to the key
+      processedData.items[key] = item; // Assign 'item' directly to the key
     }
   }
 
@@ -670,10 +642,10 @@ function createMiniDefinition(jsonData: JsonData): JSON {
   // Iterate over the enum names
   for (const enumName of enumNames) {
     const stringArray = repeatStrings[RepeatStringsName[enumName]];
-    processedData[enumName] = stringArray;
+    processedData.helpers[enumName] = stringArray;
   }
 
-  return processedData as JSON;
+  return processedData;
 }
 
 async function saveToJsonFile(data: any, filePath: string): Promise<void> {
@@ -736,10 +708,10 @@ async function main() {
     await useContentPaths(jsonWorldComponentContentPaths);
     console.timeEnd("total-json-parse");
 
-    const time = new Date().toISOString();
-    const manifest = { version: time };
+    const uniqueJsonManifest =
+      jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition;
     const savePath = path.join(__dirname, `json/manifest.json`);
-    await saveToJsonFile(manifest, savePath);
+    await saveToJsonFile(uniqueJsonManifest, savePath);
   } catch (error) {
     console.error(error);
   }
