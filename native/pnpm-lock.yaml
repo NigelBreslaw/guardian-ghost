@@ -83,9 +83,6 @@ dependencies:
   react-native-gesture-handler:
     specifier: 2.15.0
     version: 2.15.0(react-native@0.73.5)(react@18.2.0)
-  react-native-mmkv:
-    specifier: 2.12.1
-    version: 2.12.1(react-native@0.73.5)(react@18.2.0)
   react-native-paper:
     specifier: 5.12.3
     version: 5.12.3(react-native-safe-area-context@4.9.0)(react-native-vector-icons@10.0.3)(react-native@0.73.5)(react@18.2.0)
@@ -2011,7 +2008,7 @@ packages:
     resolution: {integrity: sha512-bOhuFnlRaS7CU33+rFFIWdcET/Vkyn1vsN8BYFwCDEF5P1fVVvYN7bFOsQLTMD3nvi35C1AGmtqUr/Wfv8Xaow==}
     engines: {node: '>=12'}
     dependencies:
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       exec-async: 2.2.0
     dev: false
 
@@ -2019,7 +2016,7 @@ packages:
     resolution: {integrity: sha512-LKdo/6y4W7llZ6ghsg1kdx2CeH/qR/c6QI/JI8oPUvppsZoeIYjSkdflce978fAMfR8IXoi0wt0jA2w0kWpwbg==}
     dependencies:
       '@expo/json-file': 8.3.0
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       ansi-regex: 5.0.1
       chalk: 4.1.2
       find-up: 5.0.0
@@ -8195,16 +8192,6 @@ packages:
       invariant: 2.2.4
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 18.2.0
-      react-native: 0.73.5(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(react@18.2.0)
-    dev: false
-
-  /react-native-mmkv@2.12.1(react-native@0.73.5)(react@18.2.0):
-    resolution: {integrity: sha512-VB0JQc4JoEmmeK134skkce0wwNNUPPLfjO1eXM3o5NS8oeutv2mbUzoLYM3o/1wSIJkMETmT2t0JT4S378RZzA==}
-    peerDependencies:
-      react: '*'
-      react-native: '>=0.71.0'
-    dependencies:
       react: 18.2.0
       react-native: 0.73.5(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(react@18.2.0)
     dev: false
