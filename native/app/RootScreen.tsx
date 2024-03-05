@@ -17,10 +17,10 @@ export default function RootScreen() {
   const themeTextColor = colorScheme === "light" ? "black" : "white";
 
   useEffect(() => {
-    if (globalState.appReady && !globalState.authenticated) {
+    if (globalState.initComplete && !globalState.authenticated) {
       navigation.navigate("Login" as never);
     }
-  }, [globalState.authenticated, globalState.appReady, navigation]);
+  }, [globalState.authenticated, globalState.initComplete, navigation]);
 
   return (
     <RootStack.Navigator>

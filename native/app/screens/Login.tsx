@@ -21,10 +21,10 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (globalState.appReady && globalState.authenticated) {
+    if (globalState.initComplete && globalState.authenticated) {
       navigation.goBack();
     }
-  }, [globalState.appReady, globalState.authenticated, navigation]);
+  }, [globalState.initComplete, globalState.authenticated, navigation]);
 
   useEffect(() => {
     const handleRedirect = (event: { url: string }) => {

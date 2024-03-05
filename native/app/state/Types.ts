@@ -1,7 +1,7 @@
 import { BungieUser } from "@/bungie/Types.ts";
 
 export type GlobalState = {
-  appReady: boolean;
+  initComplete: boolean;
   loggingIn: boolean;
   authenticated: boolean;
   currentAccount: BungieUser | null;
@@ -11,7 +11,7 @@ export type GlobalState = {
 
 export type GlobalAction =
   | {
-      type: "setAppReady";
+      type: "setInitComplete";
       payload: boolean;
     }
   | {

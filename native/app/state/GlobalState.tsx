@@ -7,7 +7,7 @@ import StorageGG from "@/app/storage/StorageGG.ts";
 
 // Define the context
 const initialState: GlobalState = {
-  appReady: false,
+  initComplete: false,
   loggingIn: false,
   authenticated: false,
   currentAccount: null,
@@ -20,8 +20,8 @@ export const StateDispatchContext = createContext<React.Dispatch<GlobalAction> |
 
 const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
-    case "setAppReady": {
-      return { ...state, appReady: action.payload };
+    case "setInitComplete": {
+      return { ...state, initComplete: action.payload };
     }
     case "setAuthenticated": {
       return { ...state, authenticated: action.payload };
@@ -59,15 +59,17 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    if (state.appReady) {
-      console.log("App is ready");
+    if (state.initComplete) {
       SplashScreen.hideAsync();
     }
-    if (state.appReady && state.authenticated && state.currentAccount && state.definitionsReady) {
+  }, [state.initComplete]);
+
+  useEffect(() => {
+    if (state.authenticated && state.currentAccount && state.definitionsReady) {
       console.log("trigger: download getProfile()");
       DataService.getInventory();
     }
-  }, [state.appReady, state.authenticated, state.currentAccount, state.definitionsReady]);
+  }, [state.authenticated, state.currentAccount, state.definitionsReady]);
 
   return (
     <StateContext.Provider value={state}>

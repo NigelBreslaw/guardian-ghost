@@ -224,7 +224,7 @@ class AuthService {
 
   setInitComplete() {
     if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setAppReady", payload: true });
+      AuthService.dispatch({ type: "setInitComplete", payload: true });
     } else {
       console.info("setInitComplete: No dispatch");
     }
