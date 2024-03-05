@@ -1,4 +1,4 @@
-import type { CharacterGear } from "@/app/bungie/Types.ts";
+import type { CharacterGear, DestinyItem } from "@/app/bungie/Types.ts";
 import DataService from "@/app/core/DataService.ts";
 import {
   weaponsPageBuckets,
@@ -61,16 +61,22 @@ export function buildUIData(): Array<Array<UiRow>> {
 function returnEquippedData(characterGear: CharacterGear): DestinyIconData | null {
   const equipped = characterGear.equipped;
   if (equipped) {
-    const definition = DataService.itemDefinition.items[equipped.itemHash];
-
-    const iconData: DestinyIconData = {
-      itemHash: equipped.itemHash,
-      itemInstanceId: equipped.itemInstanceId,
-      icon: definition.i,
-    };
-    return iconData;
+    return returnDestinyIconData(equipped);
   }
   return null;
+}
+
+function returnDestinyIconData(item: DestinyItem): DestinyIconData {
+  const definition = DataService.itemDefinition.items[item.itemHash];
+  const itemComponent = DataService.profileData.Response.itemComponents.instances.data[item.itemInstanceId];
+
+  const iconData: DestinyIconData = {
+    itemHash: item.itemHash,
+    itemInstanceId: item.itemInstanceId,
+    icon: definition.i,
+    primaryStat: itemComponent.primaryStat?.value || 0,
+  };
+  return iconData;
 }
 
 function returnInventoryRow(characterGear: CharacterGear, column: number, rowWidth = 3): Array<DestinyIconData> {
@@ -82,13 +88,7 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
   for (let i = startIndex; i < endIndex; i++) {
     const item = characterGear.inventory[i];
     if (item) {
-      const definition = DataService.itemDefinition.items[item.itemHash];
-
-      const iconData: DestinyIconData = {
-        itemHash: item.itemHash,
-        itemInstanceId: item.itemInstanceId,
-        icon: definition.i,
-      };
+      const iconData = returnDestinyIconData(item);
       rowData.push(iconData);
     } else {
       const frame: DestinyIconData = {
