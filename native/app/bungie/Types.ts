@@ -8,7 +8,12 @@ export type CharactersAndVault = {
 
 export type Character = {
   data: CharacterData;
-  items: Record<number, { equipped: DestinyItem | null; inventory: Array<DestinyItem> }>;
+  items: Record<number, CharacterGear>;
+};
+
+export type CharacterGear = {
+  equipped: DestinyItem | null;
+  inventory: Array<DestinyItem>;
 };
 
 export type VaultData = {

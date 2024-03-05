@@ -7,6 +7,8 @@ import { memo, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import DataService from "@/app/core/DataService.ts";
+import type { DestinyIconData } from "@/app/destinyItem/Types.ts";
+import type { CharacterGear } from "@/app/bungie/Types.ts";
 
 const p1 = performance.now();
 
@@ -149,12 +151,100 @@ const weaponsPageBuckets = [
   1506418338, // artifact
 ];
 
+enum UiRowType {
+  CharacterEquipped = 0,
+  CharacterInventory = 1,
+}
+
+type CharacterEquippedRow = {
+  equipped: DestinyIconData | null;
+  inventory: Array<DestinyIconData>;
+  type: UiRowType.CharacterEquipped;
+};
+
+type CharacterInventoryRow = {
+  inventory: Array<DestinyIconData>;
+  type: UiRowType.CharacterInventory;
+};
+
+type UiRow = CharacterEquippedRow | CharacterInventoryRow;
+
+const UiRowItem = ({ item }: { item: UiRow }) => {
+  switch (item.type) {
+    case UiRowType.CharacterEquipped:
+      return <Text />;
+    case UiRowType.CharacterInventory:
+      return <Image />;
+  }
+};
+
+function returnEquippedData(characterGear: CharacterGear): DestinyIconData | null {
+  const equipped = characterGear.equipped;
+  if (equipped) {
+    const definition = DataService.itemDefinition.items[equipped.itemHash];
+
+    const iconData: DestinyIconData = {
+      itemHash: equipped.itemHash,
+      icon: definition.i,
+    };
+    return iconData;
+  }
+  return null;
+}
+
+function returnInventoryRow(characterGear: CharacterGear, column: number, rowWidth = 3): Array<DestinyIconData> {
+  const rowData: Array<DestinyIconData> = [];
+
+  const startIndex = column * rowWidth;
+  const endIndex = startIndex + rowWidth;
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const item = characterGear.inventory[i];
+    if (item) {
+      const definition = DataService.itemDefinition.items[item.itemHash];
+
+      const iconData: DestinyIconData = {
+        itemHash: item.itemHash,
+        icon: definition.i,
+      };
+      rowData.push(iconData);
+    }
+  }
+
+  return rowData;
+}
+
 function buildUIData() {
   const p1 = performance.now();
+  const dataArray: Array<UiRow> = [];
+
   for (const character in DataService.charactersAndVault.characters) {
     const characterData = DataService.charactersAndVault.characters[character];
     for (const bucket of weaponsPageBuckets) {
       const bucketItems = characterData.items[bucket];
+
+      const equipItem = returnEquippedData(bucketItems);
+      const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
+      const equippedRow = {
+        equipped: equipItem,
+        inventory: inventoryRowData0,
+        type: UiRowType.CharacterEquipped,
+      };
+      dataArray.push(equippedRow);
+
+      const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
+      const inventoryRow1: CharacterInventoryRow = {
+        inventory: inventoryRow1Data,
+        type: UiRowType.CharacterInventory,
+      };
+      dataArray.push(inventoryRow1);
+
+      const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
+      const inventoryRow2: CharacterInventoryRow = {
+        inventory: inventoryRow2Data,
+        type: UiRowType.CharacterInventory,
+      };
+      dataArray.push(inventoryRow2);
     }
   }
   const p2 = performance.now();

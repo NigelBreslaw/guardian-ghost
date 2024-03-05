@@ -23,7 +23,7 @@ class DataService {
     },
     characters: {},
   };
-  private static itemDefinition: ItemDefinition;
+  static itemDefinition: ItemDefinition;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
     DataService.dispatch = dispatch;
