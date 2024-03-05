@@ -1,9 +1,9 @@
 import { NavigationProp } from "@react-navigation/native";
 import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-// import { FlashList } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import DataService from "@/app/core/DataService.ts";
@@ -20,6 +20,9 @@ const RIGHT_ALIGNMENT = -9;
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+  },
+  header: {
+    height: 45,
   },
   item: {
     width: 380,
@@ -119,7 +122,6 @@ type dProps = {
 
 const DAMAGE_TYPE_ICON_URI =
   "https://www.bungie.net/common/destiny2_content/icons/DestinyDamageTypeDefinition_2a1773e10968f2d088b97c22b22bba9e.png";
-const KINETIC_ICON_URI = "https://bray.tech/static/images/extracts/ui/overrides/kinetic.png";
 
 const DestinyCell = memo((props: dProps) => {
   return (
@@ -136,12 +138,17 @@ const DestinyCell = memo((props: dProps) => {
       <View style={styles.miniIconBurn}>
         <Image style={styles.miniIconBurnSize} source={DAMAGE_TYPE_ICON_URI} />
       </View>
-      <View style={styles.miniIconAmmo}>
-        <Image style={styles.miniIconAmmonSize} source={KINETIC_ICON_URI} />
-      </View>
     </View>
   );
 });
+
+function EmptyCell() {
+  return (
+    <View style={styles.frameSize}>
+      <View style={styles.icon} />
+    </View>
+  );
+}
 
 const weaponsPageBuckets = [
   1498876634, // kinetic weapons
@@ -152,31 +159,105 @@ const weaponsPageBuckets = [
 ];
 
 enum UiRowType {
-  CharacterEquipped = 0,
-  CharacterInventory = 1,
+  Header = 0,
+  CharacterEquipped = 1,
+  CharacterInventory = 2,
 }
 
 type CharacterEquippedRow = {
+  id: string;
   equipped: DestinyIconData | null;
   inventory: Array<DestinyIconData>;
   type: UiRowType.CharacterEquipped;
 };
 
 type CharacterInventoryRow = {
+  id: string;
   inventory: Array<DestinyIconData>;
   type: UiRowType.CharacterInventory;
 };
 
-type UiRow = CharacterEquippedRow | CharacterInventoryRow;
+type HeaderRow = {
+  id: string;
+  type: UiRowType.Header;
+};
 
-const UiRowItem = ({ item }: { item: UiRow }) => {
+type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow;
+
+const UiRowRenderItem = ({ item }: { item: UiRow }) => {
   switch (item.type) {
     case UiRowType.CharacterEquipped:
-      return <Text />;
+      return <EquippedRowUiItem id={item.id} equipped={item.equipped} inventory={item.inventory} type={item.type} />;
     case UiRowType.CharacterInventory:
-      return <Image />;
+      return <InventoryRowUiItem id={item.id} inventory={item.inventory} type={item.type} />;
+    case UiRowType.Header:
+      return <HeaderRowUiItem id={item.id} type={item.type} />;
   }
 };
+
+function HeaderRowUiItem(itemData: HeaderRow) {
+  const data = useMemo(() => {
+    return itemData;
+  }, [itemData]);
+
+  return <View key={itemData.id} style={styles.header} />;
+}
+function EquippedRowUiItem(itemData: CharacterEquippedRow) {
+  const data = useMemo(() => {
+    return itemData;
+  }, [itemData]);
+
+  return (
+    <View style={styles.item}>
+      <View style={styles.sectionEquipped}>
+        <DestinyCell
+          iconUri={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.icon}`}
+          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+        />
+      </View>
+      <View style={styles.sectionInventory}>
+        {data.inventory.map((item) => {
+          if (item.itemHash !== -1) {
+            return (
+              <DestinyCell
+                key={item.itemInstanceId}
+                iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
+                versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+              />
+            );
+          }
+        })}
+      </View>
+    </View>
+  );
+}
+
+function InventoryRowUiItem(itemData: CharacterInventoryRow) {
+  const data = useMemo(() => {
+    return itemData;
+  }, [itemData]);
+
+  return (
+    <View style={styles.item}>
+      <View style={styles.sectionEquipped} />
+      <View style={styles.sectionInventory}>
+        {data.inventory.map((item) => {
+          if (item.itemHash !== -1) {
+            return (
+              <DestinyCell
+                key={item.itemInstanceId}
+                iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
+                versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+              />
+            );
+          }
+          const id = Math.random();
+          return <EmptyCell key={id} />;
+        })}
+      </View>
+    </View>
+  );
+}
 
 function returnEquippedData(characterGear: CharacterGear): DestinyIconData | null {
   const equipped = characterGear.equipped;
@@ -185,6 +266,7 @@ function returnEquippedData(characterGear: CharacterGear): DestinyIconData | nul
 
     const iconData: DestinyIconData = {
       itemHash: equipped.itemHash,
+      itemInstanceId: equipped.itemInstanceId,
       icon: definition.i,
     };
     return iconData;
@@ -205,27 +287,42 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
 
       const iconData: DestinyIconData = {
         itemHash: item.itemHash,
+        itemInstanceId: item.itemInstanceId,
         icon: definition.i,
       };
       rowData.push(iconData);
+    } else {
+      const frame: DestinyIconData = {
+        itemHash: -1,
+        icon: "",
+      };
+      rowData.push(frame);
     }
   }
 
   return rowData;
 }
 
-function buildUIData() {
+function buildUIData(): Array<Array<UiRow>> {
   const p1 = performance.now();
-  const dataArray: Array<UiRow> = [];
+  const characterDataArray: Array<Array<UiRow>> = [];
 
   for (const character in DataService.charactersAndVault.characters) {
     const characterData = DataService.charactersAndVault.characters[character];
+    const dataArray: Array<UiRow> = [];
+
     for (const bucket of weaponsPageBuckets) {
+      const header: HeaderRow = {
+        id: `${bucket}_header`,
+        type: UiRowType.Header,
+      };
+      dataArray.push(header);
       const bucketItems = characterData.items[bucket];
 
       const equipItem = returnEquippedData(bucketItems);
       const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
       const equippedRow = {
+        id: `${bucket}_equipped`,
         equipped: equipItem,
         inventory: inventoryRowData0,
         type: UiRowType.CharacterEquipped,
@@ -234,6 +331,7 @@ function buildUIData() {
 
       const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
       const inventoryRow1: CharacterInventoryRow = {
+        id: `${bucket}_row1`,
         inventory: inventoryRow1Data,
         type: UiRowType.CharacterInventory,
       };
@@ -241,14 +339,17 @@ function buildUIData() {
 
       const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
       const inventoryRow2: CharacterInventoryRow = {
+        id: `${bucket}_row2`,
         inventory: inventoryRow2Data,
         type: UiRowType.CharacterInventory,
       };
       dataArray.push(inventoryRow2);
     }
+    characterDataArray.push(dataArray);
   }
   const p2 = performance.now();
   console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
+  return characterDataArray;
 }
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
@@ -263,31 +364,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     }
   }, [globalState.dataIsReady]);
 
-  // const renderItem = ({ item }: { item: rItem }) => (
-  //   <View style={styles.item}>
-  //     <View style={styles.sectionEquipped}>
-  //       <DestinyCell
-  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg"
-  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-  //       />
-  //     </View>
-  //     <View style={styles.sectionInventory}>
-  //       <DestinyCell
-  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg"
-  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-  //       />
-  //       <DestinyCell
-  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg"
-  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-  //       />
-  //       <DestinyCell
-  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg"
-  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-  //       />
-  //     </View>
-  //   </View>
-  // );
-
   const homeStyles = StyleSheet.create({
     homeContainer: {
       paddingBottom: insets.bottom,
@@ -301,16 +377,17 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   return (
     <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={homeStyles.homeContainer}>
-      {/* {[0, 1, 2, 4].map((page) => (
-        <View key={page} style={[homeStyles.page]}>
+      {buildUIData().map((dataArray, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        <View key={index} style={[homeStyles.page]}>
           <FlashList
             estimatedItemSize={ITEM_SIZE}
-            data={data}
-            renderItem={renderItem}
+            data={dataArray}
+            renderItem={UiRowRenderItem}
             keyExtractor={(item) => item.id}
           />
         </View>
-      ))} */}
+      ))}
     </ScrollView>
   );
 }
