@@ -11,7 +11,7 @@ import { ItemDefinitionSchema, type ItemDefinition } from "@/app/core/Types.ts";
 class DataService {
   private static instance: DataService;
   private static dispatch: React.Dispatch<GlobalAction>;
-  private static charactersAndVault: CharactersAndVault = {
+  static charactersAndVault: CharactersAndVault = {
     vault: {
       characterId: "VAULT",
       emblemBackgroundPath: "",

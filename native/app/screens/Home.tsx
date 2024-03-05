@@ -3,18 +3,13 @@ import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 // import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
-import { getItemDefinition } from "@/app/backend/api.ts";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import DataService from "@/app/core/DataService.ts";
 
 const p1 = performance.now();
-const data = [...Array(100).keys()].map((i) => ({ id: i.toString() }));
-const p2 = performance.now();
-console.log("data took:", (p2 - p1).toFixed(5), "ms");
 
-async function createUI() {
-  const definition = await getItemDefinition();
-}
 const ITEM_SIZE = 90;
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 16;
