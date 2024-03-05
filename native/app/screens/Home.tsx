@@ -3,18 +3,15 @@ import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 // import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
-import { getItemDefinition } from "@/app/backend/api.ts";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import DataService from "@/app/core/DataService.ts";
+import type { DestinyIconData } from "@/app/destinyItem/Types.ts";
+import type { CharacterGear } from "@/app/bungie/Types.ts";
 
 const p1 = performance.now();
-const data = [...Array(100).keys()].map((i) => ({ id: i.toString() }));
-const p2 = performance.now();
-console.log("data took:", (p2 - p1).toFixed(5), "ms");
 
-async function createUI() {
-  const definition = await getItemDefinition();
-}
 const ITEM_SIZE = 90;
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 16;
@@ -146,36 +143,153 @@ const DestinyCell = memo((props: dProps) => {
   );
 });
 
-type rItem = { id: string };
+const weaponsPageBuckets = [
+  1498876634, // kinetic weapons
+  2465295065, // energy weapons
+  953998645, // power weapons
+  4023194814, // ghost
+  1506418338, // artifact
+];
+
+enum UiRowType {
+  CharacterEquipped = 0,
+  CharacterInventory = 1,
+}
+
+type CharacterEquippedRow = {
+  equipped: DestinyIconData | null;
+  inventory: Array<DestinyIconData>;
+  type: UiRowType.CharacterEquipped;
+};
+
+type CharacterInventoryRow = {
+  inventory: Array<DestinyIconData>;
+  type: UiRowType.CharacterInventory;
+};
+
+type UiRow = CharacterEquippedRow | CharacterInventoryRow;
+
+const UiRowItem = ({ item }: { item: UiRow }) => {
+  switch (item.type) {
+    case UiRowType.CharacterEquipped:
+      return <Text />;
+    case UiRowType.CharacterInventory:
+      return <Image />;
+  }
+};
+
+function returnEquippedData(characterGear: CharacterGear): DestinyIconData | null {
+  const equipped = characterGear.equipped;
+  if (equipped) {
+    const definition = DataService.itemDefinition.items[equipped.itemHash];
+
+    const iconData: DestinyIconData = {
+      itemHash: equipped.itemHash,
+      icon: definition.i,
+    };
+    return iconData;
+  }
+  return null;
+}
+
+function returnInventoryRow(characterGear: CharacterGear, column: number, rowWidth = 3): Array<DestinyIconData> {
+  const rowData: Array<DestinyIconData> = [];
+
+  const startIndex = column * rowWidth;
+  const endIndex = startIndex + rowWidth;
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const item = characterGear.inventory[i];
+    if (item) {
+      const definition = DataService.itemDefinition.items[item.itemHash];
+
+      const iconData: DestinyIconData = {
+        itemHash: item.itemHash,
+        icon: definition.i,
+      };
+      rowData.push(iconData);
+    }
+  }
+
+  return rowData;
+}
+
+function buildUIData() {
+  const p1 = performance.now();
+  const dataArray: Array<UiRow> = [];
+
+  for (const character in DataService.charactersAndVault.characters) {
+    const characterData = DataService.charactersAndVault.characters[character];
+    for (const bucket of weaponsPageBuckets) {
+      const bucketItems = characterData.items[bucket];
+
+      const equipItem = returnEquippedData(bucketItems);
+      const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
+      const equippedRow = {
+        equipped: equipItem,
+        inventory: inventoryRowData0,
+        type: UiRowType.CharacterEquipped,
+      };
+      dataArray.push(equippedRow);
+
+      const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
+      const inventoryRow1: CharacterInventoryRow = {
+        inventory: inventoryRow1Data,
+        type: UiRowType.CharacterInventory,
+      };
+      dataArray.push(inventoryRow1);
+
+      const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
+      const inventoryRow2: CharacterInventoryRow = {
+        inventory: inventoryRow2Data,
+        type: UiRowType.CharacterInventory,
+      };
+      dataArray.push(inventoryRow2);
+    }
+  }
+  const p2 = performance.now();
+  console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
+}
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const globalState = useGlobalStateContext();
   const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();
   const HOME_WIDTH = width;
-  const renderItem = ({ item }: { item: rItem }) => (
-    <View style={styles.item}>
-      <View style={styles.sectionEquipped}>
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-      </View>
-      <View style={styles.sectionInventory}>
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-      </View>
-    </View>
-  );
+
+  useEffect(() => {
+    if (globalState.dataIsReady) {
+      const p3 = performance.now();
+      console.log("dataIsReady took:", (p3 - p1).toFixed(4), "ms");
+
+      buildUIData();
+    }
+  }, [globalState.dataIsReady]);
+
+  // const renderItem = ({ item }: { item: rItem }) => (
+  //   <View style={styles.item}>
+  //     <View style={styles.sectionEquipped}>
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //     </View>
+  //     <View style={styles.sectionInventory}>
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //     </View>
+  //   </View>
+  // );
 
   const homeStyles = StyleSheet.create({
     homeContainer: {
