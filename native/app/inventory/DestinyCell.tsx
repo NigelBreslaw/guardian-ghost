@@ -70,7 +70,7 @@ type dProps = {
   versionUri: string;
 };
 
-const SOLAR_MINI_ICON_URI = require("../../../images/solar_mini.webp");
+const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../images/void_mini.webp");
 const ARC_MINI_ICON_URI = require("../../images/arc_mini.webp");
 const KINETIC_MINI_ICON_URI = require("../../images/kinetic_mini.webp");
@@ -82,19 +82,15 @@ const DestinyCell = (props: dProps) => {
     <View style={styles.frameSize}>
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
-          <Image source={{ uri: props.iconUri }} style={styles.innerFrameSize} recyclingKey={props.iconUri} />
-          <Image
-            source={{ uri: props.versionUri }}
-            style={styles.innerFrameOverlaySize}
-            recyclingKey={props.versionUri}
-          />
+          <Image source={{ uri: props.iconUri }} cachePolicy="memory-disk" style={styles.innerFrameSize} />
+          <Image source={{ uri: props.versionUri }} cachePolicy="memory-disk" style={styles.innerFrameOverlaySize} />
         </View>
       </View>
       <View style={styles.powerLevel}>
         <Text style={styles.powerLevelText}>1804</Text>
       </View>
       <View style={styles.miniIconBurn}>
-        <Image style={styles.miniIconBurnSize} source={{ uri: SOLAR_MINI_ICON_URI }} />
+        <Image style={styles.miniIconBurnSize} source={KINETIC_MINI_ICON_URI} cachePolicy="memory" />
       </View>
     </View>
   );
