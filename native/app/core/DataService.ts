@@ -72,7 +72,10 @@ class DataService {
 
   public static async getInventory() {
     try {
+      const pa1 = performance.now();
       const profile = await getProfile();
+      const pa2 = performance.now();
+      console.log("getProfile() took:", (pa2 - pa1).toFixed(4), "ms");
       const p1 = performance.now();
 
       const validatedProfile = parse(getProfileSchema, profile);
