@@ -116,8 +116,8 @@ devDependencies:
     specifier: 1.0.2
     version: 1.0.2
   '@types/react':
-    specifier: 18.2.61
-    version: 18.2.61
+    specifier: 18.2.62
+    version: 18.2.62
   source-map-explorer:
     specifier: 2.5.3
     version: 2.5.3
@@ -2990,8 +2990,8 @@ packages:
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
     dev: false
 
-  /@types/react@18.2.61:
-    resolution: {integrity: sha512-NURTN0qNnJa7O/k4XUkEW2yfygA+NxS0V5h1+kp9jPwhzZy95q3ADoGMP0+JypMhrZBTTgjKAUlTctde1zzeQA==}
+  /@types/react@18.2.62:
+    resolution: {integrity: sha512-l3f57BbaEKP0xcFzf+5qRG8/PXykZiuVM6eEoPtqBPCp6dxO3HhDkLIgIyXPhPKNAeXn3KO2pEaNgzaEo/asaw==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
