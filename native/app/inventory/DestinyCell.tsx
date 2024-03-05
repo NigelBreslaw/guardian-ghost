@@ -1,4 +1,4 @@
-import { memo } from "react";
+// import { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
