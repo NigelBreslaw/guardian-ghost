@@ -259,9 +259,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   useEffect(() => {
     if (globalState.dataIsReady) {
-      const p3 = performance.now();
-      console.log("dataIsReady took:", (p3 - p1).toFixed(4), "ms");
-
       buildUIData();
     }
   }, [globalState.dataIsReady]);
