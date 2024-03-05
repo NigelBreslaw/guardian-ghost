@@ -141,36 +141,65 @@ const DestinyCell = memo((props: dProps) => {
   );
 });
 
-type rItem = { id: string };
+const weaponsPageBuckets = [
+  1498876634, // kinetic weapons
+  2465295065, // energy weapons
+  953998645, // power weapons
+  4023194814, // ghost
+  1506418338, // artifact
+];
+
+function buildUIData() {
+  const p1 = performance.now();
+  for (const character in DataService.charactersAndVault.characters) {
+    const characterData = DataService.charactersAndVault.characters[character];
+    for (const bucket of weaponsPageBuckets) {
+      const bucketItems = characterData.items[bucket];
+    }
+  }
+  const p2 = performance.now();
+  console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
+}
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+  const globalState = useGlobalStateContext();
   const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();
   const HOME_WIDTH = width;
-  const renderItem = ({ item }: { item: rItem }) => (
-    <View style={styles.item}>
-      <View style={styles.sectionEquipped}>
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-      </View>
-      <View style={styles.sectionInventory}>
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-        <DestinyCell
-          iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg"
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
-        />
-      </View>
-    </View>
-  );
+
+  useEffect(() => {
+    if (globalState.dataIsReady) {
+      const p3 = performance.now();
+      console.log("dataIsReady took:", (p3 - p1).toFixed(4), "ms");
+
+      buildUIData();
+    }
+  }, [globalState.dataIsReady]);
+
+  // const renderItem = ({ item }: { item: rItem }) => (
+  //   <View style={styles.item}>
+  //     <View style={styles.sectionEquipped}>
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/77bff899a4de6d0ddd6711867b576b6c.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //     </View>
+  //     <View style={styles.sectionInventory}>
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/7393c216e3b437571e64f78a613dc181.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/42120a6f2e1f43dd7f67bedffc42d0d2.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //       <DestinyCell
+  //         iconUri="https://www.bungie.net/common/destiny2_content/icons/f805d81b5d20407ef668588121a97706.jpg"
+  //         versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+  //       />
+  //     </View>
+  //   </View>
+  // );
 
   const homeStyles = StyleSheet.create({
     homeContainer: {
