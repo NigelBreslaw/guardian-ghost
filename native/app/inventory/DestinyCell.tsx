@@ -1,4 +1,4 @@
-import { memo } from "react";
+// import { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
@@ -70,26 +70,30 @@ type dProps = {
   versionUri: string;
 };
 
-const DAMAGE_TYPE_ICON_URI =
-  "https://www.bungie.net/common/destiny2_content/icons/DestinyDamageTypeDefinition_2a1773e10968f2d088b97c22b22bba9e.png";
+const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
+const VOID_MINI_ICON_URI = require("../../images/void_mini.webp");
+const ARC_MINI_ICON_URI = require("../../images/arc_mini.webp");
+const KINETIC_MINI_ICON_URI = require("../../images/kinetic_mini.webp");
+const STASIS_MINI_ICON_URI = require("../../images/stasis_mini.webp");
+const STRAND_MINI_ICON_URI = require("../../images/strand_mini.webp");
 
-const DestinyCell = memo((props: dProps) => {
+const DestinyCell = (props: dProps) => {
   return (
     <View style={styles.frameSize}>
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
-          <Image source={props.iconUri} style={styles.innerFrameSize} recyclingKey={props.iconUri} />
-          <Image source={props.versionUri} style={styles.innerFrameOverlaySize} recyclingKey={props.versionUri} />
+          <Image source={{ uri: props.iconUri }} cachePolicy="memory-disk" style={styles.innerFrameSize} />
+          <Image source={{ uri: props.versionUri }} cachePolicy="memory-disk" style={styles.innerFrameOverlaySize} />
         </View>
       </View>
       <View style={styles.powerLevel}>
         <Text style={styles.powerLevelText}>1804</Text>
       </View>
       <View style={styles.miniIconBurn}>
-        <Image style={styles.miniIconBurnSize} source={DAMAGE_TYPE_ICON_URI} />
+        <Image style={styles.miniIconBurnSize} source={KINETIC_MINI_ICON_URI} cachePolicy="memory" />
       </View>
     </View>
   );
-});
+};
 
 export default DestinyCell;
