@@ -1,4 +1,4 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, string, record } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, string, record, unknown, never } from "valibot";
 import type { Output } from "valibot";
 
 export type CharactersAndVault = {
@@ -195,7 +195,40 @@ export const getProfileSchema = merge([
       characters: object({
         data: record(string(), CharactersSchema),
       }),
-      itemComponents: object({}),
+
+      itemComponents: object({
+        instances: object({
+          data: record(
+            string(),
+            object({
+              canEquip: boolean(),
+              cannotEquipReason: number(),
+              damageType: number(),
+              damageTypeHash: optional(number()),
+              energy: optional(
+                object({
+                  energyCapacity: number(),
+                  energyType: number(),
+                  energyTypeHash: number(),
+                  energyUnused: number(),
+                  energyUsed: number(),
+                }),
+              ),
+              equipRequiredLevel: number(),
+              isEquipped: boolean(),
+              itemLevel: number(),
+              primaryStat: optional(
+                object({
+                  statHash: number(),
+                  value: number(),
+                }),
+              ),
+              quality: number(),
+              unlockHashesRequiredToEquip: array(number()),
+            }),
+          ),
+        }),
+      }),
       profile: object({}),
       profileCurrencies: object({}),
       profileInventory: object({
