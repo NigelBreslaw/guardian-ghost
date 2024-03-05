@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 type dProps = {
   iconUri: string;
   versionUri: string;
+  primaryStat: number;
 };
 
 const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
@@ -86,9 +87,12 @@ const DestinyCell = (props: dProps) => {
           <Image source={{ uri: props.versionUri }} cachePolicy="memory-disk" style={styles.innerFrameOverlaySize} />
         </View>
       </View>
-      <View style={styles.powerLevel}>
-        <Text style={styles.powerLevelText}>1804</Text>
-      </View>
+      {props.primaryStat > 0 && (
+        <View style={styles.powerLevel}>
+          <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
+        </View>
+      )}
+
       <View style={styles.miniIconBurn}>
         <Image style={styles.miniIconBurnSize} source={KINETIC_MINI_ICON_URI} cachePolicy="memory" />
       </View>
@@ -97,3 +101,7 @@ const DestinyCell = (props: dProps) => {
 };
 
 export default DestinyCell;
+
+// <View style={styles.powerLevel}>
+//   <Text style={styles.powerLevelText}>1804</Text>
+// </View>

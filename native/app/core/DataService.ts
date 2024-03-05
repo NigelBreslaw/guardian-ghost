@@ -24,6 +24,7 @@ class DataService {
     characters: {},
   };
   static itemDefinition: ItemDefinition;
+  static profileData: ProfileData;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
     DataService.dispatch = dispatch;
@@ -84,6 +85,7 @@ class DataService {
       console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
 
       const p3 = performance.now();
+      DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);

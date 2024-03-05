@@ -50,6 +50,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
         <DestinyCell
+          primaryStat={itemData.equipped?.primaryStat}
           iconUri={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.icon}`}
           versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
         />
@@ -60,6 +61,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
             return (
               <DestinyCell
                 key={item.itemInstanceId}
+                primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
                 versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
               />
@@ -85,6 +87,7 @@ function InventoryRowUiItem(itemData: CharacterInventoryRow) {
             return (
               <DestinyCell
                 key={item.itemInstanceId}
+                primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
                 versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
               />

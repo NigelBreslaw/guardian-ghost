@@ -23,6 +23,7 @@ export type DestinyIconData = {
   icon: string;
   watermark?: string;
   damageType?: DamageType;
+  primaryStat?: number;
 };
 
 export enum UiRowType {
