@@ -12,7 +12,7 @@ export enum DamageType {
 export type DestinyIconData = {
   itemHash: number;
   itemInstanceId?: string;
-  icon: URL;
-  watermark?: URL;
+  icon: string;
+  watermark?: string;
   damageType?: DamageType;
 };
