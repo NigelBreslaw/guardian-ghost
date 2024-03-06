@@ -20,9 +20,15 @@ export type VaultData = {
   characterId: string;
   emblemBackgroundPath: string;
   items: {
-    138197802: Array<DestinyItem>;
-    1469714392: Array<DestinyItem>;
-    3313201758: Array<DestinyItem>;
+    138197802: {
+      items: Record<number, CharacterGear>;
+    };
+    1469714392: {
+      items: Record<number, CharacterGear>;
+    };
+    3313201758: {
+      items: Record<number, CharacterGear>;
+    };
   };
 };
 

@@ -16,9 +16,15 @@ class DataService {
       characterId: "VAULT",
       emblemBackgroundPath: "",
       items: {
-        138197802: [],
-        1469714392: [],
-        3313201758: [],
+        138197802: {
+          items: {},
+        },
+        1469714392: {
+          items: {},
+        },
+        3313201758: {
+          items: {},
+        },
       },
     },
     characters: {},
@@ -159,20 +165,21 @@ class DataService {
     const vaultInventory = profile.Response.profileInventory.data.items;
     if (vaultInventory) {
       const vaultItems = DataService.charactersAndVault.vault.items;
-      const bucketTypeHash = safeParse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
+      // TODO: This is being done twice. When this class initialises it should be done once.
+      const bucketTypeHashArray = safeParse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
 
-      if (!bucketTypeHash.success) {
-        console.error("Failed to parse bucketTypeHash", bucketTypeHash.issues);
+      if (!bucketTypeHashArray.success) {
+        console.error("Failed to parse bucketTypeHash", bucketTypeHashArray.issues);
         return;
       }
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
         const data = DataService.itemDefinition.items[itemHash];
-        const definitionBucketHash = bucketTypeHash.output[data.b];
+        const definitionBucketHash = bucketTypeHashArray.output[data.b];
         const hasBucket = Object.hasOwn(vaultItems[item.bucketHash], definitionBucketHash);
         if (!hasBucket) {
-          vaultItems[item.bucketHash][definitionBucketHash] = { inventory: [] };
+          vaultItems[item.bucketHash][definitionBucketHash] = { equipped: null, inventory: [] };
         }
 
         vaultItems[item.bucketHash][definitionBucketHash]?.inventory.push(item);
