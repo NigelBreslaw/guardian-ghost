@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "row",
   },
+  vaultItem: {
+    height: ITEM_SIZE,
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingTop: 10,
+    flexDirection: "row",
+  },
   sectionVault: {
     flex: 1,
     justifyContent: "space-around",
@@ -113,8 +120,8 @@ function VaultRowUiItem(itemData: VaultInventoryRow) {
   }, [itemData]);
 
   return (
-    <View style={styles.item}>
-      <View style={styles.sectionInventory}>
+    <View style={styles.vaultItem}>
+      <View style={styles.sectionVault}>
         {data.inventory.map((item) => {
           if (item.itemHash !== -1) {
             return (
