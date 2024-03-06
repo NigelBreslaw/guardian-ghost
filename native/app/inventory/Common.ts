@@ -30,6 +30,7 @@ export enum UiRowType {
   Header = 0,
   CharacterEquipped = 1,
   CharacterInventory = 2,
+  VaultInventory = 3,
 }
 
 export type CharacterEquippedRow = {
@@ -45,11 +46,17 @@ export type CharacterInventoryRow = {
   type: UiRowType.CharacterInventory;
 };
 
+export type VaultInventoryRow = {
+  id: string;
+  inventory: Array<DestinyIconData>;
+  type: UiRowType.VaultInventory;
+};
+
 export type HeaderRow = {
   id: string;
   type: UiRowType.Header;
 };
 
-export type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow;
+export type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow | VaultInventoryRow;
 
 export const ITEM_SIZE = 90;

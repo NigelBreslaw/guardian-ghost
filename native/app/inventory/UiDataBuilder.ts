@@ -7,7 +7,8 @@ import {
   UiRowType,
   type DestinyIconData,
   type CharacterInventoryRow,
-} from "@/app/inventory/Common";
+  type VaultInventoryRow,
+} from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiRow>> {
   const p1 = performance.now();
@@ -25,7 +26,11 @@ export function buildUIData(): Array<Array<UiRow>> {
       dataArray.push(header);
       const bucketItems = characterData.items[bucket];
 
-      const equipItem = returnEquippedData(bucketItems);
+      const equipped = bucketItems.equipped;
+      let equipItem: DestinyIconData | null = null;
+      if (equipped) {
+        equipItem = returnDestinyIconData(equipped);
+      }
       const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
       const equippedRow = {
         id: `${bucket}_equipped`,
@@ -53,17 +58,47 @@ export function buildUIData(): Array<Array<UiRow>> {
     }
     characterDataArray.push(dataArray);
   }
+
+  // Now build the vault data
+  const vaultData = returnVaultData();
+  characterDataArray.push(vaultData);
+
   const p2 = performance.now();
   console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
   return characterDataArray;
 }
 
-function returnEquippedData(characterGear: CharacterGear): DestinyIconData | null {
-  const equipped = characterGear.equipped;
-  if (equipped) {
-    return returnDestinyIconData(equipped);
+function returnVaultData(): Array<UiRow> {
+  const p1 = performance.now();
+
+  const vaultData = DataService.charactersAndVault.vault;
+  const dataArray: Array<UiRow> = [];
+
+  for (const bucket of weaponsPageBuckets) {
+    const header: HeaderRow = {
+      id: `${bucket}_header`,
+      type: UiRowType.Header,
+    };
+    dataArray.push(header);
+
+    const bucketItems = vaultData.items[138197802][bucket];
+    if (bucketItems) {
+      const totalRows = Math.ceil(bucketItems.length / 5);
+
+      for (let i = 0; i < totalRows; i++) {
+        const rowData = returnInventoryRow(bucketItems, i, 5);
+        const vaultRow: VaultInventoryRow = {
+          id: `${bucket}_row_${i}`,
+          inventory: rowData,
+          type: UiRowType.VaultInventory,
+        };
+        dataArray.push(vaultRow);
+      }
+    }
   }
-  return null;
+  const p2 = performance.now();
+  console.log("returnVaultData took:", (p2 - p1).toFixed(4), "ms");
+  return dataArray;
 }
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
