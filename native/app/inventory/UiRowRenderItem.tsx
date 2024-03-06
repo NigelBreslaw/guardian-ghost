@@ -54,31 +54,28 @@ function HeaderRowUiItem(itemData: HeaderRow) {
 
   return <View style={styles.header} />;
 }
-function EquippedRowUiItem(itemData: CharacterEquippedRow) {
-  const data = useMemo(() => {
-    return itemData;
-  }, [itemData]);
 
+function EquippedRowUiItem(itemData: CharacterEquippedRow) {
   return (
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
         <DestinyCell
           primaryStat={itemData.equipped.primaryStat}
-          iconUri={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.icon}`}
-          calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.calculatedWaterMark}`}
+          iconUri={itemData.equipped.icon}
+          calculatedWaterMark={itemData.equipped.calculatedWaterMark}
           damageType={itemData.equipped.damageType}
         />
       </View>
       <View style={styles.sectionInventory}>
-        {data.inventory.map((item, index) => {
+        {itemData.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
                 // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
                 key={index}
                 primaryStat={item.primaryStat}
-                iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
+                iconUri={item.icon}
+                calculatedWaterMark={item.calculatedWaterMark}
                 damageType={item.damageType}
               />
             );
@@ -92,23 +89,19 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
 }
 
 function InventoryRowUiItem(itemData: CharacterInventoryRow) {
-  const data = useMemo(() => {
-    return itemData;
-  }, [itemData]);
-
   return (
     <View style={styles.item}>
       <View style={styles.sectionEquipped} />
       <View style={styles.sectionInventory}>
-        {data.inventory.map((item, index) => {
+        {itemData.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
                 // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
                 key={index}
                 primaryStat={item.primaryStat}
-                iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
+                iconUri={item.icon}
+                calculatedWaterMark={item.calculatedWaterMark}
                 damageType={item.damageType}
               />
             );
@@ -122,22 +115,18 @@ function InventoryRowUiItem(itemData: CharacterInventoryRow) {
 }
 
 function VaultRowUiItem(itemData: VaultInventoryRow) {
-  const data = useMemo(() => {
-    return itemData;
-  }, [itemData]);
-
   return (
     <View style={styles.vaultItem}>
       <View style={styles.sectionVault}>
-        {data.inventory.map((item, index) => {
+        {itemData.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
                 // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
                 key={index}
                 primaryStat={item.primaryStat}
-                iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
+                iconUri={item.icon}
+                calculatedWaterMark={item.calculatedWaterMark}
                 damageType={item.damageType}
               />
             );

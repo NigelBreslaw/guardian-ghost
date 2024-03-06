@@ -107,11 +107,17 @@ const DestinyCell = (props: dProps) => {
     <View style={styles.frameSize}>
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
-          <Image source={{ uri: props.iconUri }} cachePolicy="memory-disk" style={styles.innerFrameSize} />
+          <Image
+            source={{ uri: props.iconUri }}
+            cachePolicy="memory-disk"
+            style={styles.innerFrameSize}
+            recyclingKey={props.iconUri}
+          />
           <Image
             source={{ uri: props.calculatedWaterMark }}
             cachePolicy="memory-disk"
             style={styles.innerFrameOverlaySize}
+            recyclingKey={props.calculatedWaterMark}
           />
         </View>
       </View>

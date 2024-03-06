@@ -117,10 +117,14 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     }
   }
 
+  if (watermark) {
+    watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
+  }
+
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
-    icon: definition.i,
+    icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
     primaryStat: itemComponent.primaryStat?.value || 0,
     damageType: itemComponent?.damageType || 0,
     calculatedWaterMark: watermark,
