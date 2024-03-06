@@ -177,12 +177,12 @@ class DataService {
         const itemHash = item.itemHash.toString();
         const data = DataService.itemDefinition.items[itemHash];
         const definitionBucketHash = bucketTypeHashArray.output[data.b];
-        const hasBucket = Object.hasOwn(vaultItems[item.bucketHash], definitionBucketHash);
+        const hasBucket = Object.hasOwn(vaultItems[item.bucketHash].items, definitionBucketHash);
         if (!hasBucket) {
-          vaultItems[item.bucketHash][definitionBucketHash] = { equipped: null, inventory: [] };
+          vaultItems[item.bucketHash].items[definitionBucketHash] = { equipped: null, inventory: [] };
         }
 
-        vaultItems[item.bucketHash][definitionBucketHash]?.inventory.push(item);
+        vaultItems[item.bucketHash].items[definitionBucketHash]?.inventory.push(item);
       }
     }
   }

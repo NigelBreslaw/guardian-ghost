@@ -69,8 +69,6 @@ export function buildUIData(): Array<Array<UiRow>> {
 }
 
 function returnVaultData(): Array<UiRow> {
-  const p1 = performance.now();
-
   const vaultData = DataService.charactersAndVault.vault;
   const dataArray: Array<UiRow> = [];
 
@@ -81,9 +79,9 @@ function returnVaultData(): Array<UiRow> {
     };
     dataArray.push(header);
 
-    const bucketItems = vaultData.items[138197802][bucket];
+    const bucketItems = vaultData.items[138197802].items[bucket];
     if (bucketItems) {
-      const totalRows = Math.ceil(bucketItems.length / 5);
+      const totalRows = Math.ceil(bucketItems.inventory.length / 5);
 
       for (let i = 0; i < totalRows; i++) {
         const rowData = returnInventoryRow(bucketItems, i, 5);
@@ -96,8 +94,7 @@ function returnVaultData(): Array<UiRow> {
       }
     }
   }
-  const p2 = performance.now();
-  console.log("returnVaultData took:", (p2 - p1).toFixed(4), "ms");
+
   return dataArray;
 }
 
