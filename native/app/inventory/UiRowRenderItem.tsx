@@ -9,7 +9,6 @@ import {
   ITEM_SIZE,
   type VaultInventoryRow,
 } from "@/app/inventory/Common.ts";
-import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -48,10 +47,6 @@ const styles = StyleSheet.create({
 });
 
 function HeaderRowUiItem(itemData: HeaderRow) {
-  const data = useMemo(() => {
-    return itemData;
-  }, [itemData]);
-
   return <View style={styles.header} />;
 }
 

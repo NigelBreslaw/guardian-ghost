@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { DamageType } from "@/app/inventory/Common.ts";
 import { useMemo } from "react";
+import React from "react";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 17;
@@ -135,4 +136,4 @@ const DestinyCell = (props: dProps) => {
   );
 };
 
-export default DestinyCell;
+export default React.memo(DestinyCell);
