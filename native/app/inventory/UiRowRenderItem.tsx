@@ -52,7 +52,7 @@ function HeaderRowUiItem(itemData: HeaderRow) {
     return itemData;
   }, [itemData]);
 
-  return <View key={itemData.id} style={styles.header} />;
+  return <View style={styles.header} />;
 }
 function EquippedRowUiItem(itemData: CharacterEquippedRow) {
   const data = useMemo(() => {
@@ -69,11 +69,12 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
         />
       </View>
       <View style={styles.sectionInventory}>
-        {data.inventory.map((item) => {
+        {data.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
-                key={item.itemInstanceId}
+                // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
+                key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
                 versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
@@ -95,11 +96,12 @@ function InventoryRowUiItem(itemData: CharacterInventoryRow) {
     <View style={styles.item}>
       <View style={styles.sectionEquipped} />
       <View style={styles.sectionInventory}>
-        {data.inventory.map((item) => {
+        {data.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
-                key={item.itemInstanceId}
+                // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
+                key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
                 versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
@@ -122,19 +124,20 @@ function VaultRowUiItem(itemData: VaultInventoryRow) {
   return (
     <View style={styles.vaultItem}>
       <View style={styles.sectionVault}>
-        {data.inventory.map((item) => {
+        {data.inventory.map((item, index) => {
           if (item.itemHash !== -1) {
             return (
               <DestinyCell
-                key={item.itemInstanceId}
+                // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
+                key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
                 versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
               />
             );
           }
-          const id = Math.random();
-          return <EmptyCell key={id} />;
+          // biome-ignore lint/suspicious/noArrayIndexKey: <FlashList either needs no key or a value that does not change>
+          return <EmptyCell key={index} />;
         })}
       </View>
     </View>
