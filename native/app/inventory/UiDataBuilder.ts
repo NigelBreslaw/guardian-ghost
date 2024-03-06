@@ -107,6 +107,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     itemInstanceId: item.itemInstanceId,
     icon: definition.i,
     primaryStat: itemComponent.primaryStat?.value || 0,
+    damageType: itemComponent?.damageType || 0,
   };
   return iconData;
 }
