@@ -399,13 +399,7 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
         if (displayVersionWatermarkIcons) {
           const dvwi: any[] = [];
 
-          const sortedWatermarkKeys = Object.keys(displayVersionWatermarkIcons).sort(
-            (a, b) => parseFloat(a) - parseFloat(b),
-          );
-          for (const watermark of sortedWatermarkKeys) {
-            if (!watermark) {
-              continue;
-            }
+          for (const watermark of displayVersionWatermarkIcons) {
             dvwi.push(getRepeatStringIndex(RepeatStringsName.IconWaterMark, stripImageUrl(watermark)));
           }
 
