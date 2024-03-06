@@ -65,7 +65,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
         <DestinyCell
           primaryStat={itemData.equipped.primaryStat}
           iconUri={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.icon}`}
-          versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+          calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${data.equipped.calculatedWaterMark}`}
           damageType={itemData.equipped.damageType}
         />
       </View>
@@ -78,7 +78,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
                 key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
                 damageType={item.damageType}
               />
             );
@@ -108,7 +108,7 @@ function InventoryRowUiItem(itemData: CharacterInventoryRow) {
                 key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
                 damageType={item.damageType}
               />
             );
@@ -137,7 +137,7 @@ function VaultRowUiItem(itemData: VaultInventoryRow) {
                 key={index}
                 primaryStat={item.primaryStat}
                 iconUri={`https://www.bungie.net/common/destiny2_content/icons/${item.icon}`}
-                versionUri="https://www.bungie.net/common/destiny2_content/icons/1b6c8b94cec61ea42edb1e2cb6b45a31.png"
+                calculatedWaterMark={`https://www.bungie.net/common/destiny2_content/icons/${item.calculatedWaterMark}`}
                 damageType={item.damageType}
               />
             );

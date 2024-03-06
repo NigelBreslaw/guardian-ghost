@@ -32,6 +32,7 @@ export type DestinyIconData = {
   damageType?: DamageType;
   breakerType?: BreakerType;
   primaryStat?: number;
+  calculatedWaterMark: string;
 };
 
 export enum UiRowType {
