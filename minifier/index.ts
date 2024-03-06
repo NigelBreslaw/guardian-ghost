@@ -400,6 +400,9 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
           const dvwi: any[] = [];
 
           for (const watermark of displayVersionWatermarkIcons) {
+            if (!watermark) {
+              continue;
+            }
             dvwi.push(getRepeatStringIndex(RepeatStringsName.IconWaterMark, stripImageUrl(watermark)));
           }
 
