@@ -102,12 +102,28 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const definition = DataService.itemDefinition.items[item.itemHash];
   const itemComponent = DataService.profileData.Response.itemComponents.instances.data[item.itemInstanceId];
 
+  // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
+  const versionNumber: number | null = item?.versionNumber;
+  let watermark: string | null = null;
+  if (versionNumber !== undefined) {
+    const dvwi = definition.dvwi;
+    if (dvwi) {
+      watermark = DataService.IconWaterMarks[dvwi[versionNumber]];
+    }
+  } else {
+    const iconWatermark = definition.iw;
+    if (iconWatermark) {
+      watermark = DataService.IconWaterMarks[iconWatermark];
+    }
+  }
+
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
     icon: definition.i,
     primaryStat: itemComponent.primaryStat?.value || 0,
     damageType: itemComponent?.damageType || 0,
+    calculatedWaterMark: watermark,
   };
   return iconData;
 }
@@ -127,6 +143,7 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
       const frame: DestinyIconData = {
         itemHash: -1,
         icon: "",
+        calculatedWaterMark: "",
       };
       rowData.push(frame);
     }

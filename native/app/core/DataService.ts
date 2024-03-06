@@ -1,7 +1,7 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
 import type { CharactersAndVault, DestinyItem } from "@/app/bungie/Types.ts";
-import { parse, array, number, safeParse } from "valibot";
+import { parse, array, number, string } from "valibot";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import { getCustomItemDefinition } from "@/app/backend/api.ts";
@@ -30,6 +30,8 @@ class DataService {
     characters: {},
   };
   static itemDefinition: ItemDefinition;
+  static bucketTypeHashArray: Array<number>;
+  static IconWaterMarks: Array<string>;
   static profileData: ProfileData;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
@@ -48,6 +50,7 @@ class DataService {
       const p4 = performance.now();
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
       DataService.itemDefinition = itemDefinition;
+      DataService.setUpItemDefinition();
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
       console.log("loaded setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
@@ -61,6 +64,7 @@ class DataService {
       const itemDefinition = parse(ItemDefinitionSchema, downloadedDefinition);
       await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
+      DataService.setUpItemDefinition();
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
@@ -75,6 +79,18 @@ class DataService {
     }
 
     return DataService.instance;
+  }
+
+  static setUpItemDefinition() {
+    const p1 = performance.now();
+    try {
+      const parsedBucketTypeHash = parse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
+      DataService.bucketTypeHashArray = parsedBucketTypeHash;
+      const IconWaterMarks = parse(array(string()), DataService.itemDefinition.helpers.IconWaterMark);
+      DataService.IconWaterMarks = IconWaterMarks;
+    } catch (e) {
+      console.error("Failed to setUpItemDefinition", e);
+    }
   }
 
   public static async getInventory() {
@@ -165,18 +181,11 @@ class DataService {
     const vaultInventory = profile.Response.profileInventory.data.items;
     if (vaultInventory) {
       const vaultItems = DataService.charactersAndVault.vault.items;
-      // TODO: This is being done twice. When this class initialises it should be done once.
-      const bucketTypeHashArray = safeParse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
-
-      if (!bucketTypeHashArray.success) {
-        console.error("Failed to parse bucketTypeHash", bucketTypeHashArray.issues);
-        return;
-      }
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
         const data = DataService.itemDefinition.items[itemHash];
-        const definitionBucketHash = bucketTypeHashArray.output[data.b];
+        const definitionBucketHash = DataService.bucketTypeHashArray[data.b];
         const hasBucket = Object.hasOwn(vaultItems[item.bucketHash].items, definitionBucketHash);
         if (!hasBucket) {
           vaultItems[item.bucketHash].items[definitionBucketHash] = { equipped: null, inventory: [] };

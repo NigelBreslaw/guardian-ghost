@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
 
 type dProps = {
   iconUri: string;
-  versionUri: string;
   primaryStat: number;
   damageType: DamageType;
+  calculatedWaterMark: string;
 };
 
 const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
@@ -108,7 +108,11 @@ const DestinyCell = (props: dProps) => {
       <View style={styles.icon}>
         <View style={styles.innerFrameSize}>
           <Image source={{ uri: props.iconUri }} cachePolicy="memory-disk" style={styles.innerFrameSize} />
-          <Image source={{ uri: props.versionUri }} cachePolicy="memory-disk" style={styles.innerFrameOverlaySize} />
+          <Image
+            source={{ uri: props.calculatedWaterMark }}
+            cachePolicy="memory-disk"
+            style={styles.innerFrameOverlaySize}
+          />
         </View>
       </View>
       {props.primaryStat > 0 && (
