@@ -17,12 +17,20 @@ export enum DamageType {
   Strand = 7,
 }
 
+export enum BreakerType {
+  None = 0,
+  ShieldPiercing = 1,
+  Disruption = 2,
+  Stagger = 3,
+}
+
 export type DestinyIconData = {
   itemHash: number;
   itemInstanceId?: string;
   icon: string;
   watermark?: string;
   damageType?: DamageType;
+  breakerType?: BreakerType;
   primaryStat?: number;
 };
 

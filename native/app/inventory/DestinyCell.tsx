@@ -1,9 +1,11 @@
 // import { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import { DamageType } from "@/app/inventory/Common.ts";
+import { useMemo } from "react";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
-const MINI_ICON_SIZE = 16;
+const MINI_ICON_SIZE = 17;
 const RIGHT_ALIGNMENT = -9;
 
 const styles = StyleSheet.create({
@@ -48,8 +50,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   miniIconBurnSize: {
-    width: 12,
-    height: 12,
+    width: 13,
+    height: 13,
   },
   miniIconBurn: {
     width: MINI_ICON_SIZE,
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: DEFAULT_BORDER_COLOR,
     position: "absolute",
     zIndex: 100,
-    bottom: 13,
+    bottom: 14,
     right: RIGHT_ALIGNMENT,
     justifyContent: "center",
     alignItems: "center",
@@ -69,6 +71,7 @@ type dProps = {
   iconUri: string;
   versionUri: string;
   primaryStat: number;
+  damageType: DamageType;
 };
 
 const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
@@ -78,7 +81,28 @@ const KINETIC_MINI_ICON_URI = require("../../images/kinetic_mini.webp");
 const STASIS_MINI_ICON_URI = require("../../images/stasis_mini.webp");
 const STRAND_MINI_ICON_URI = require("../../images/strand_mini.webp");
 
+function getDamagetypeIconUri(damageType: DamageType): string {
+  switch (damageType) {
+    case DamageType.Kinetic:
+      return KINETIC_MINI_ICON_URI;
+    case DamageType.Solar:
+      return SOLAR_MINI_ICON_URI;
+    case DamageType.Arc:
+      return ARC_MINI_ICON_URI;
+    case DamageType.Void:
+      return VOID_MINI_ICON_URI;
+    case DamageType.Stasis:
+      return STASIS_MINI_ICON_URI;
+    case DamageType.Strand:
+      return STRAND_MINI_ICON_URI;
+    default:
+      return "";
+  }
+}
+
 const DestinyCell = (props: dProps) => {
+  const damageTypeIconUri = useMemo(() => getDamagetypeIconUri(props.damageType), [props.damageType]);
+
   return (
     <View style={styles.frameSize}>
       <View style={styles.icon}>
@@ -92,16 +116,13 @@ const DestinyCell = (props: dProps) => {
           <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
         </View>
       )}
-
-      <View style={styles.miniIconBurn}>
-        <Image style={styles.miniIconBurnSize} source={KINETIC_MINI_ICON_URI} cachePolicy="memory" />
-      </View>
+      {props.damageType > 1 && (
+        <View style={styles.miniIconBurn}>
+          <Image style={styles.miniIconBurnSize} source={damageTypeIconUri} cachePolicy="memory" />
+        </View>
+      )}
     </View>
   );
 };
 
 export default DestinyCell;
-
-// <View style={styles.powerLevel}>
-//   <Text style={styles.powerLevelText}>1804</Text>
-// </View>
