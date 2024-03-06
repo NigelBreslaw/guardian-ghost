@@ -20,12 +20,15 @@ export type VaultData = {
   characterId: string;
   emblemBackgroundPath: string;
   items: {
+    // general: vault
     138197802: {
       items: Record<number, CharacterGear>;
     };
+    // consumables: global space
     1469714392: {
       items: Record<number, CharacterGear>;
     };
+    // mods: global space
     3313201758: {
       items: Record<number, CharacterGear>;
     };

@@ -7,7 +7,8 @@ import {
   UiRowType,
   type DestinyIconData,
   type CharacterInventoryRow,
-} from "@/app/inventory/Common";
+  type VaultInventoryRow,
+} from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiRow>> {
   const p1 = performance.now();
@@ -59,6 +60,8 @@ export function buildUIData(): Array<Array<UiRow>> {
   }
 
   // Now build the vault data
+  const vaultData = returnVaultData();
+  characterDataArray.push(vaultData);
 
   const p2 = performance.now();
   console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
@@ -78,11 +81,19 @@ function returnVaultData(): Array<UiRow> {
     };
     dataArray.push(header);
 
-    const bucketItems = vaultData.items[bucket];
-    const totalRows = Math.ceil(bucketItems.length / 5);
+    const bucketItems = vaultData.items[138197802][bucket];
+    if (bucketItems) {
+      const totalRows = Math.ceil(bucketItems.length / 5);
 
-    for (let i = 0; i < totalRows; i++) {
-      const rowData: Array<DestinyIconData> = [];
+      for (let i = 0; i < totalRows; i++) {
+        const rowData = returnInventoryRow(bucketItems, i, 5);
+        const vaultRow: VaultInventoryRow = {
+          id: `${bucket}_row_${i}`,
+          inventory: rowData,
+          type: UiRowType.VaultInventory,
+        };
+        dataArray.push(vaultRow);
+      }
     }
   }
   const p2 = performance.now();
