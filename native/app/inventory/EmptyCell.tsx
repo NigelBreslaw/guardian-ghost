@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 const ICON_SIZE = 68;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function EmptyCell() {
+function EmptyCell() {
   return (
     <View style={styles.square}>
       <View style={[styles.corner, styles.topLeft]} />
@@ -58,3 +59,5 @@ export default function EmptyCell() {
     </View>
   );
 }
+
+export default React.memo(EmptyCell);
