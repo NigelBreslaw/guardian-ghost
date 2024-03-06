@@ -44,9 +44,10 @@ interface JsonData {
     preview: any;
     traitIds: any;
     stats: any;
-    displayVersionWatermarkIcons: any;
+
     quality?: {
       versions?: any[];
+      displayVersionWatermarkIcons: any;
     };
     iconWatermark?: any;
     uiItemDisplayStyle?: any;
@@ -394,7 +395,7 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
           }
         }
 
-        const displayVersionWatermarkIcons = jsonData[key].displayVersionWatermarkIcons;
+        const displayVersionWatermarkIcons = quality.displayVersionWatermarkIcons;
         if (displayVersionWatermarkIcons) {
           const dvwi: any[] = [];
 
