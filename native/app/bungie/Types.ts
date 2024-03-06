@@ -187,7 +187,6 @@ export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
     Response: object({
-      characterActivities: object({}),
       characterEquipment: object({
         data: record(string(), object({ items: array(ItemSchema) })),
         privacy: number(),
@@ -198,7 +197,6 @@ export const getProfileSchema = merge([
       characterLoadouts: object({}),
       characterPlugSets: object({}),
       characterProgressions: object({}),
-      characterRecords: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
       characters: object({
@@ -245,7 +243,6 @@ export const getProfileSchema = merge([
       }),
       profilePlugSets: object({}),
       profileProgression: object({}),
-      profileRecords: object({}),
       profileStringVariables: object({}),
       responseMintedTimestamp: string([isoTimestamp()]),
       secondaryComponentsMintedTimestamp: string([isoTimestamp()]),
