@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
           <View key={index} style={[homeStyles.page]}>
             <FlashList
-              estimatedItemSize={ITEM_SIZE}
+              estimatedItemSize={80}
               data={dataArray}
               renderItem={UiRowRenderItem}
               keyExtractor={(item) => item.id}
