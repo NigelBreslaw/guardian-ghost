@@ -16,49 +16,51 @@ export function buildUIData(): Array<Array<UiRow>> {
 
   for (const character in DataService.charactersAndVault.characters) {
     const characterData = DataService.charactersAndVault.characters[character];
-    const dataArray: Array<UiRow> = [];
+    if (characterData) {
+      const dataArray: Array<UiRow> = [];
 
-    for (const bucket of weaponsPageBuckets) {
-      const header: HeaderRow = {
-        id: `${bucket}_header`,
-        type: UiRowType.Header,
-      };
-      dataArray.push(header);
-      const bucketItems = characterData.items[bucket];
+      for (const bucket of weaponsPageBuckets) {
+        const header: HeaderRow = {
+          id: `${bucket}_header`,
+          type: UiRowType.Header,
+        };
+        dataArray.push(header);
+        const bucketItems = characterData.items[bucket];
+        if (bucketItems) {
+          const equipped = bucketItems.equipped;
+          let equipItem: DestinyIconData | null = null;
+          if (equipped) {
+            equipItem = returnDestinyIconData(equipped);
+          }
+          const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
+          const equippedRow = {
+            id: `${bucket}_equipped`,
+            equipped: equipItem,
+            inventory: inventoryRowData0,
+            type: UiRowType.CharacterEquipped,
+          };
+          dataArray.push(equippedRow);
 
-      const equipped = bucketItems.equipped;
-      let equipItem: DestinyIconData | null = null;
-      if (equipped) {
-        equipItem = returnDestinyIconData(equipped);
+          const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
+          const inventoryRow1: CharacterInventoryRow = {
+            id: `${bucket}_row1`,
+            inventory: inventoryRow1Data,
+            type: UiRowType.CharacterInventory,
+          };
+          dataArray.push(inventoryRow1);
+
+          const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
+          const inventoryRow2: CharacterInventoryRow = {
+            id: `${bucket}_row2`,
+            inventory: inventoryRow2Data,
+            type: UiRowType.CharacterInventory,
+          };
+          dataArray.push(inventoryRow2);
+        }
       }
-      const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
-      const equippedRow = {
-        id: `${bucket}_equipped`,
-        equipped: equipItem,
-        inventory: inventoryRowData0,
-        type: UiRowType.CharacterEquipped,
-      };
-      dataArray.push(equippedRow);
-
-      const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
-      const inventoryRow1: CharacterInventoryRow = {
-        id: `${bucket}_row1`,
-        inventory: inventoryRow1Data,
-        type: UiRowType.CharacterInventory,
-      };
-      dataArray.push(inventoryRow1);
-
-      const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
-      const inventoryRow2: CharacterInventoryRow = {
-        id: `${bucket}_row2`,
-        inventory: inventoryRow2Data,
-        type: UiRowType.CharacterInventory,
-      };
-      dataArray.push(inventoryRow2);
+      characterDataArray.push(dataArray);
     }
-    characterDataArray.push(dataArray);
   }
-
   // Now build the vault data
   const vaultData = returnVaultData();
   characterDataArray.push(vaultData);
@@ -100,11 +102,12 @@ function returnVaultData(): Array<UiRow> {
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const definition = DataService.itemDefinition.items[item.itemHash];
+
   const itemComponent = DataService.profileData.Response.itemComponents.instances.data[item.itemInstanceId];
 
   // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
-  const versionNumber: number | null = item?.versionNumber;
-  let watermark: string | null = null;
+  const versionNumber: number | undefined = item?.versionNumber;
+  let watermark: string | undefined = undefined;
   if (versionNumber !== undefined) {
     const dvwi = definition.dvwi;
     if (dvwi) {
@@ -148,6 +151,7 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
         itemHash: -1,
         icon: "",
         calculatedWaterMark: "",
+        primaryStat: 0,
       };
       rowData.push(frame);
     }

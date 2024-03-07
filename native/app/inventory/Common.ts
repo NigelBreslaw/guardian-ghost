@@ -28,11 +28,10 @@ export type DestinyIconData = {
   itemHash: number;
   itemInstanceId?: string;
   icon: string;
-  watermark?: string;
   damageType?: DamageType;
   breakerType?: BreakerType;
-  primaryStat?: number;
-  calculatedWaterMark: string;
+  primaryStat: number;
+  calculatedWaterMark: string | undefined;
 };
 
 export enum UiRowType {
