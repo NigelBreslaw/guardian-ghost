@@ -11,6 +11,10 @@ updates:
       interval: "daily"
       time: "04:00"
     groups:
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
       vitest:
         patterns:
           - "vitest*"
