@@ -15,6 +15,7 @@ export type CharacterGear = {
   equipped: DestinyItem | null;
   inventory: Array<DestinyItem>;
 };
+export type VaultBucketHash = 138197802 | 1469714392 | 3313201758;
 
 export type VaultData = {
   characterId: string;

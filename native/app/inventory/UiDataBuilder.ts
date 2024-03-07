@@ -1,5 +1,6 @@
 import type { CharacterGear, DestinyItem } from "@/app/bungie/Types.ts";
 import DataService from "@/app/core/DataService.ts";
+import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
   weaponsPageBuckets,
   type UiRow,
@@ -8,6 +9,7 @@ import {
   type DestinyIconData,
   type CharacterInventoryRow,
   type VaultInventoryRow,
+  DamageType,
 } from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiRow>> {
@@ -101,17 +103,23 @@ function returnVaultData(): Array<UiRow> {
 }
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
-  const definition = DataService.itemDefinition.items[item.itemHash];
+  const definition = DataService.itemDefinition.items[item.itemHash] as SingleItemDefinition;
+  const itemInstanceId = item?.itemInstanceId || "";
 
-  const itemComponent = DataService.profileData.Response.itemComponents.instances.data[item.itemInstanceId];
-
+  const itemComponent = DataService.profileData.Response.itemComponents.instances.data[itemInstanceId];
+  if (!itemComponent) {
+    throw new Error("No itemComponent found for item");
+  }
   // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
-  const versionNumber: number | undefined = item?.versionNumber;
+  const versionNumber = item.versionNumber;
   let watermark: string | undefined = undefined;
-  if (versionNumber !== undefined) {
+  if (versionNumber) {
     const dvwi = definition.dvwi;
     if (dvwi) {
-      watermark = DataService.IconWaterMarks[dvwi[versionNumber]];
+      const index = dvwi[versionNumber];
+      if (index) {
+        watermark = DataService.IconWaterMarks[index];
+      }
     }
   } else {
     const iconWatermark = definition.iw;
@@ -129,7 +137,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     itemInstanceId: item.itemInstanceId,
     icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
     primaryStat: itemComponent.primaryStat?.value || 0,
-    damageType: itemComponent?.damageType || 0,
+    damageType: itemComponent.damageType || 0,
     calculatedWaterMark: watermark,
   };
   return iconData;
@@ -152,6 +160,7 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
         icon: "",
         calculatedWaterMark: "",
         primaryStat: 0,
+        damageType: DamageType.None,
       };
       rowData.push(frame);
     }

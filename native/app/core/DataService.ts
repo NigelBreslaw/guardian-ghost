@@ -1,12 +1,12 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
-import type { CharactersAndVault, DestinyItem } from "@/app/bungie/Types.ts";
+import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
 import { parse, array, number, string } from "valibot";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import { getCustomItemDefinition } from "@/app/backend/api.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
-import { ItemDefinitionSchema, type ItemDefinition } from "@/app/core/Types.ts";
+import { ItemDefinitionSchema, type ItemDefinition, type SingleItemDefinition } from "@/app/core/Types.ts";
 
 class DataService {
   private static instance: DataService;
@@ -184,14 +184,23 @@ class DataService {
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
-        const data = DataService.itemDefinition.items[itemHash];
-        const definitionBucketHash = DataService.bucketTypeHashArray[data.b];
-        const hasBucket = Object.hasOwn(vaultItems[item.bucketHash].items, definitionBucketHash);
-        if (!hasBucket) {
-          vaultItems[item.bucketHash].items[definitionBucketHash] = { equipped: null, inventory: [] };
-        }
+        const data = DataService.itemDefinition.items[itemHash] as SingleItemDefinition;
+        const bucketHashIndex = data.b;
+        if (bucketHashIndex) {
+          const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
 
-        vaultItems[item.bucketHash].items[definitionBucketHash]?.inventory.push(item);
+          if (definitionBucketHash) {
+            const hasBucket = Object.hasOwn(vaultItems[item.bucketHash as VaultBucketHash].items, definitionBucketHash);
+            if (!hasBucket) {
+              vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash] = {
+                equipped: null,
+                inventory: [],
+              };
+            }
+
+            vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash]?.inventory.push(item);
+          }
+        }
       }
     }
   }
