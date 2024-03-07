@@ -39,7 +39,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         mode="contained"
         onPress={() => {
           props.navigation.closeDrawer();
-          const j = JSON.parse(null);
+          const j = JSON.parse("undefined");
           StorageGG.setData(j, "item_definition", "deleteDb");
         }}
         style={{ alignSelf: "stretch" }}

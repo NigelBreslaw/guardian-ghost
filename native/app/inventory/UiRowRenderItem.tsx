@@ -55,10 +55,10 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
     <View style={styles.item}>
       <View style={styles.sectionEquipped}>
         <DestinyCell
-          primaryStat={itemData.equipped.primaryStat}
-          iconUri={itemData.equipped.icon}
-          calculatedWaterMark={itemData.equipped.calculatedWaterMark}
-          damageType={itemData.equipped.damageType}
+          primaryStat={itemData.equipped?.primaryStat || 0}
+          iconUri={itemData.equipped?.icon || ""}
+          calculatedWaterMark={itemData.equipped?.calculatedWaterMark || undefined}
+          damageType={itemData.equipped?.damageType || 0}
         />
       </View>
       <View style={styles.sectionInventory}>

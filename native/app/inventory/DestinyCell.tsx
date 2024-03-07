@@ -72,7 +72,7 @@ type dProps = {
   iconUri: string;
   primaryStat: number;
   damageType: DamageType;
-  calculatedWaterMark: string;
+  calculatedWaterMark: string | undefined;
 };
 
 const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");

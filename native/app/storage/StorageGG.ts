@@ -132,44 +132,48 @@ class StorageGG {
     const jsonString = JSON.stringify(json);
     const nativeStore = StorageGG.getInstance().nativeStore;
 
-    nativeStore.transaction((tx) => {
-      tx.executeSql(
-        "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
-        [key, jsonString],
-        (_, resultSet) => console.log("JSON set successfully"),
-        (_, error) => {
-          console.log("Error occurred while setting JSON", errorMessage);
-          console.log(error);
-          return true;
-        },
-      );
-    });
+    if (nativeStore) {
+      nativeStore.transaction((tx) => {
+        tx.executeSql(
+          "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
+          [key, jsonString],
+          (_, resultSet) => console.log("JSON set successfully"),
+          (_, error) => {
+            console.log("Error occurred while setting JSON", errorMessage);
+            console.log(error);
+            return true;
+          },
+        );
+      });
+    }
   }
 
   private static async getNativeStore(key: string, errorMessage: string): Promise<JSON> {
     return new Promise((resolve, reject) => {
       const nativeStore = StorageGG.getInstance().nativeStore;
 
-      nativeStore.transaction((tx) => {
-        tx.executeSql(
-          "SELECT value FROM json_table WHERE key = ?;",
-          [key],
-          (_, resultSet) => {
-            if (resultSet.rows.length > 0) {
-              const json = JSON.parse(resultSet.rows.item(0).value);
-              // console.log("JSON retrieved successfully");
-              return resolve(json);
-            }
-            console.log("No JSON found for the provided key", errorMessage);
-            reject(new Error(errorMessage));
-          },
-          (_, error) => {
-            console.log("Error occurred while getting JSON", errorMessage);
-            console.log(error);
-            throw new Error(errorMessage);
-          },
-        );
-      });
+      if (nativeStore) {
+        nativeStore.transaction((tx) => {
+          tx.executeSql(
+            "SELECT value FROM json_table WHERE key = ?;",
+            [key],
+            (_, resultSet) => {
+              if (resultSet.rows.length > 0) {
+                const json = JSON.parse(resultSet.rows.item(0).value);
+                // console.log("JSON retrieved successfully");
+                return resolve(json);
+              }
+              console.log("No JSON found for the provided key", errorMessage);
+              reject(new Error(errorMessage));
+            },
+            (_, error) => {
+              console.log("Error occurred while getting JSON", errorMessage);
+              console.log(error);
+              throw new Error(errorMessage);
+            },
+          );
+        });
+      }
     });
   }
 

@@ -28,8 +28,7 @@ export type DestinyIconData = {
   itemHash: number;
   itemInstanceId?: string;
   icon: string;
-  damageType?: DamageType;
-  breakerType?: BreakerType;
+  damageType: DamageType;
   primaryStat: number;
   calculatedWaterMark: string | undefined;
 };
