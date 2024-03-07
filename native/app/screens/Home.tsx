@@ -56,7 +56,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   }, [globalState.dataIsReady]);
 
   return (
-    <ScrollView removeClippedSubviews={true} horizontal pagingEnabled style={homeStyles.homeContainer}>
+    <ScrollView horizontal pagingEnabled style={homeStyles.homeContainer}>
       {listData.map((dataArray, index) => {
         const listSize = listSizeRef.current[index] || 2000;
         return (
@@ -69,7 +69,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               keyExtractor={(item) => item.id}
               getItemType={(item) => item.type}
               estimatedListSize={{ width: HOME_WIDTH, height: listSize }}
-              drawDistance={2000}
             />
           </View>
         );
