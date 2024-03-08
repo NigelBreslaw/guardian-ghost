@@ -6,7 +6,7 @@ import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { type UiCell } from "@/app/inventory/Common.ts";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const pageColumns = [4, 4, 4, 4];
 
@@ -18,20 +18,16 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
 
   const [listData, setListData] = useState<Array<Array<UiCell>>>([]);
 
-  const homeStyles = StyleSheet.create({
+  const styles = StyleSheet.create({
+    container: {},
     homeContainer: {
-      paddingBottom: insets.bottom,
-      backgroundColor: "#17101F",
+      marginBottom: insets.bottom,
     },
     page: {
       width: HOME_WIDTH,
       height: "100%",
     },
   });
-
-  const onLoadListener = useCallback((info: { elapsedTimeInMs: number }) => {
-    console.log("onLoadListener", info.elapsedTimeInMs);
-  }, []);
 
   useEffect(() => {
     if (globalState.dataIsReady) {
@@ -41,21 +37,22 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   }, [globalState.dataIsReady]);
 
   return (
-    <ScrollView horizontal pagingEnabled style={homeStyles.homeContainer}>
-      {listData.map((list, index) => {
-        return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-          <View key={index} style={homeStyles.page}>
-            <FlatList
-              style={{ overflow: "hidden" }}
-              data={list}
-              renderItem={UiCellRenderItem}
-              keyExtractor={(item) => item.id}
-              numColumns={pageColumns[index]}
-            />
-          </View>
-        );
-      })}
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView horizontal pagingEnabled style={styles.homeContainer}>
+        {listData.map((list, index) => {
+          return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
+            <View key={index} style={styles.page}>
+              <FlatList
+                data={list}
+                renderItem={UiCellRenderItem}
+                keyExtractor={(item) => item.id}
+                numColumns={pageColumns[index]}
+              />
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
