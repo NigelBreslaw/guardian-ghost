@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
 type dProps = {
   iconUri: string;
-  primaryStat: number;
+  primaryStat: string;
   damageTypeIconUri: number | null;
   calculatedWaterMark: string | undefined;
 };
@@ -99,7 +99,7 @@ const DestinyCell = (props: dProps) => {
             />
           </View>
         </View>
-        {props.primaryStat > 0 && (
+        {props.primaryStat !== "" && (
           <View style={styles.powerLevel}>
             <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
           </View>

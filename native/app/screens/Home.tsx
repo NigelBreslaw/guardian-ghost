@@ -9,7 +9,8 @@ import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { type UiCell } from "@/app/inventory/Common.ts";
 import { useCallback, useEffect, useState } from "react";
 
-const pageColumns = [4, 4, 4, 5];
+const pageColumns = [4, 4, 4, 4];
+const pageEstimatedItemSize = [80, 80, 80, 89];
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();
@@ -26,6 +27,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     },
     page: {
       width: HOME_WIDTH,
+      height: "100%",
     },
   });
 
@@ -45,10 +47,10 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       {listData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-          <View key={index} style={[homeStyles.page]}>
+          <View key={index} style={homeStyles.page}>
             <FlashList
-              estimatedItemSize={90}
               data={list}
+              estimatedItemSize={pageEstimatedItemSize[index]}
               renderItem={UiCellRenderItem}
               keyExtractor={(item) => item.id}
               getItemType={(item) => item.type}
