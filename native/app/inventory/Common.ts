@@ -29,7 +29,7 @@ export type DestinyIconData = {
   itemInstanceId?: string;
   icon: string;
   damageTypeIconUri: number | null;
-  primaryStat: number;
+  primaryStat: string;
   calculatedWaterMark: string | undefined;
 };
 
@@ -55,7 +55,7 @@ export type DestinyCell = {
   id: string;
   type: UiCellType.DestinyCell;
   icon: string;
-  primaryStat: number;
+  primaryStat: string;
   calculatedWaterMark: string | undefined;
   damageTypeIconUri: number | null;
 };

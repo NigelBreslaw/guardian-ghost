@@ -53,6 +53,11 @@ export function buildUIData(): Array<Array<UiCell>> {
             dataArray.push(emptyCell);
           }
 
+          // If artifact (1506418338) don't add any more items.
+          if (bucket === 1506418338) {
+            continue;
+          }
+
           const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
 
           for (let i = 0; i < columns - 1; i++) {
@@ -141,7 +146,7 @@ export function buildUIData(): Array<Array<UiCell>> {
 function returnVaultData(): Array<UiCell> {
   const vaultData = DataService.charactersAndVault.vault;
   const dataArray: Array<UiCell> = [];
-  const columns = 5;
+  const columns = 4;
 
   for (const bucket of weaponsPageBuckets) {
     for (let i = 0; i < columns; i++) {
@@ -216,7 +221,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
     icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
-    primaryStat: itemComponent.primaryStat?.value || 0,
+    primaryStat: itemComponent.primaryStat?.value.toString() || "",
     calculatedWaterMark: watermark,
     damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
   };
