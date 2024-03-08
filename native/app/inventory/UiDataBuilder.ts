@@ -9,7 +9,7 @@ import {
   type DestinyIconData,
   type CharacterInventoryRow,
   type VaultInventoryRow,
-  DamageType,
+  getDamagetypeIconUri,
 } from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiRow>> {
@@ -137,8 +137,8 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     itemInstanceId: item.itemInstanceId,
     icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
     primaryStat: itemComponent.primaryStat?.value || 0,
-    damageType: itemComponent.damageType || 0,
     calculatedWaterMark: watermark,
+    damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
   };
   return iconData;
 }
@@ -160,7 +160,7 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
         icon: "",
         calculatedWaterMark: "",
         primaryStat: 0,
-        damageType: DamageType.None,
+        damageTypeIconUri: null,
       };
       rowData.push(frame);
     }
