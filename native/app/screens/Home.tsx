@@ -26,7 +26,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     page: {
       width: HOME_WIDTH,
       height: "100%",
-      overflow: "hidden",
     },
   });
 
@@ -46,7 +45,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       {listData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-          <View key={index} style={homeStyles.page} removeClippedSubviews={true}>
+          <View key={index} style={homeStyles.page}>
             <FlatList
               style={{ overflow: "hidden" }}
               data={list}
