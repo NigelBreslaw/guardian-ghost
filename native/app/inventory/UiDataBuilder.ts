@@ -14,6 +14,7 @@ import {
   UiCellType,
   type EmptyCell,
   type BlankCell,
+  type SeparatorCell,
 } from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiCell>> {
@@ -133,24 +134,27 @@ export function buildUIData(): Array<Array<UiCell>> {
     }
   }
   // Now build the vault data
-  // const vaultData = returnVaultData();
-  // characterDataArray.push(vaultData);
+  const vaultData = returnVaultData();
+  characterDataArray.push(vaultData);
 
   const p2 = performance.now();
   console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
   return characterDataArray;
 }
 
-function returnVaultData(): Array<UiRow> {
+function returnVaultData(): Array<UiCell> {
   const vaultData = DataService.charactersAndVault.vault;
-  const dataArray: Array<UiRow> = [];
+  const dataArray: Array<UiCell> = [];
+  const columns = 5;
 
   for (const bucket of weaponsPageBuckets) {
-    const header: HeaderRow = {
-      id: `${bucket}_header`,
-      type: UiRowType.Header,
-    };
-    dataArray.push(header);
+    for (let i = 0; i < columns; i++) {
+      const separator: SeparatorCell = {
+        id: `${bucket}_separator_${i}`,
+        type: UiCellType.Separator,
+      };
+      dataArray.push(separator);
+    }
 
     const bucketItems = vaultData.items[138197802].items[bucket];
     if (bucketItems) {
@@ -158,12 +162,23 @@ function returnVaultData(): Array<UiRow> {
 
       for (let i = 0; i < totalRows; i++) {
         const rowData = returnInventoryRow(bucketItems, i, 5);
-        const vaultRow: VaultInventoryRow = {
-          id: `${bucket}_row_${i}`,
-          inventory: rowData,
-          type: UiRowType.VaultInventory,
-        };
-        dataArray.push(vaultRow);
+        for (let j = 0; j < columns; j++) {
+          const item = rowData[j];
+          if (item) {
+            const destinyCell: DestinyCell = {
+              ...item,
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.DestinyCell,
+            };
+            dataArray.push(destinyCell);
+          } else {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
+          }
+        }
       }
     }
   }
