@@ -1,8 +1,5 @@
-// import { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
-import { DamageType } from "@/app/inventory/Common.ts";
-import { useMemo } from "react";
 import React from "react";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
@@ -71,39 +68,11 @@ const styles = StyleSheet.create({
 type dProps = {
   iconUri: string;
   primaryStat: number;
-  damageType: DamageType;
+  damageTypeIconUri: number | null;
   calculatedWaterMark: string | undefined;
 };
 
-const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
-const VOID_MINI_ICON_URI = require("../../images/void_mini.webp");
-const ARC_MINI_ICON_URI = require("../../images/arc_mini.webp");
-const KINETIC_MINI_ICON_URI = require("../../images/kinetic_mini.webp");
-const STASIS_MINI_ICON_URI = require("../../images/stasis_mini.webp");
-const STRAND_MINI_ICON_URI = require("../../images/strand_mini.webp");
-
-function getDamagetypeIconUri(damageType: DamageType): string {
-  switch (damageType) {
-    case DamageType.Kinetic:
-      return KINETIC_MINI_ICON_URI;
-    case DamageType.Solar:
-      return SOLAR_MINI_ICON_URI;
-    case DamageType.Arc:
-      return ARC_MINI_ICON_URI;
-    case DamageType.Void:
-      return VOID_MINI_ICON_URI;
-    case DamageType.Stasis:
-      return STASIS_MINI_ICON_URI;
-    case DamageType.Strand:
-      return STRAND_MINI_ICON_URI;
-    default:
-      return "";
-  }
-}
-
 const DestinyCell = (props: dProps) => {
-  const damageTypeIconUri = useMemo(() => getDamagetypeIconUri(props.damageType), [props.damageType]);
-
   return (
     <View style={styles.frameSize}>
       <View style={styles.icon}>
@@ -127,9 +96,9 @@ const DestinyCell = (props: dProps) => {
           <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
         </View>
       )}
-      {props.damageType > 1 && (
+      {props.damageTypeIconUri && (
         <View style={styles.miniIconBurn}>
-          <Image style={styles.miniIconBurnSize} source={damageTypeIconUri} cachePolicy="memory" />
+          <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
         </View>
       )}
     </View>

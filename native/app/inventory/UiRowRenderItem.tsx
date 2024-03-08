@@ -59,7 +59,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
           primaryStat={itemData.equipped?.primaryStat || 0}
           iconUri={itemData.equipped?.icon || ""}
           calculatedWaterMark={itemData.equipped?.calculatedWaterMark || undefined}
-          damageType={itemData.equipped?.damageType || 0}
+          damageTypeIconUri={itemData.equipped?.damageTypeIconUri || null}
         />
       </View>
       <View style={styles.sectionInventory}>
@@ -72,7 +72,7 @@ function EquippedRowUiItem(itemData: CharacterEquippedRow) {
                 primaryStat={item.primaryStat}
                 iconUri={item.icon}
                 calculatedWaterMark={item.calculatedWaterMark}
-                damageType={item.damageType}
+                damageTypeIconUri={item.damageTypeIconUri}
               />
             );
           }
@@ -98,7 +98,7 @@ function InventoryRowUiItem(itemData: CharacterInventoryRow) {
                 primaryStat={item.primaryStat}
                 iconUri={item.icon}
                 calculatedWaterMark={item.calculatedWaterMark}
-                damageType={item.damageType}
+                damageTypeIconUri={item.damageTypeIconUri}
               />
             );
           }
@@ -123,7 +123,7 @@ function VaultRowUiItem(itemData: VaultInventoryRow) {
                 primaryStat={item.primaryStat}
                 iconUri={item.icon}
                 calculatedWaterMark={item.calculatedWaterMark}
-                damageType={item.damageType}
+                damageTypeIconUri={item.damageTypeIconUri}
               />
             );
           }
