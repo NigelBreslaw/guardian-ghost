@@ -63,10 +63,17 @@ export default function MainDrawer() {
         component={HomeScreen}
         options={{
           drawerType: "back",
+          drawerStyle: {
+            backgroundColor: "darkgrey",
+          },
+          sceneContainerStyle: {
+            backgroundColor: "#17101F",
+          },
           headerStyle: {
             backgroundColor: "#17101F",
           },
           headerTintColor: "white",
+          drawerActiveBackgroundColor: "blue",
         }}
       />
     </Drawer.Navigator>
