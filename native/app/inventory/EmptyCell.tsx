@@ -1,3 +1,4 @@
+import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -9,8 +10,8 @@ const BORDER_WIDTH = 3;
 
 const styles = StyleSheet.create({
   square: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
     position: "relative",
   },
   corner: {
@@ -20,29 +21,29 @@ const styles = StyleSheet.create({
     borderColor: BORDER_COLOR,
   },
   topLeft: {
-    top: 0,
-    left: 0,
+    top: 11,
+    left: 11,
     borderTopWidth: BORDER_WIDTH,
     borderLeftWidth: BORDER_WIDTH,
     borderTopLeftRadius: BORDER_RADIUS,
   },
   topRight: {
-    top: 0,
-    right: 0,
+    top: 11,
+    right: 11,
     borderTopWidth: BORDER_WIDTH,
     borderRightWidth: BORDER_WIDTH,
     borderTopRightRadius: BORDER_RADIUS,
   },
   bottomLeft: {
-    bottom: 0,
-    left: 0,
+    bottom: 11,
+    left: 11,
     borderBottomWidth: BORDER_WIDTH,
     borderLeftWidth: BORDER_WIDTH,
     borderBottomLeftRadius: BORDER_RADIUS,
   },
   bottomRight: {
-    bottom: 0,
-    right: 0,
+    bottom: 11,
+    right: 11,
     borderBottomWidth: BORDER_WIDTH,
     borderRightWidth: BORDER_WIDTH,
     borderBottomRightRadius: BORDER_RADIUS,

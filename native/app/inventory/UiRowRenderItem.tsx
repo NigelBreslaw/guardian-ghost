@@ -9,8 +9,12 @@ import {
   ITEM_SIZE,
   type VaultInventoryRow,
   SEPARATOR_SIZE,
+  type UiCell,
+  UiCellType,
 } from "@/app/inventory/Common.ts";
 import { View, StyleSheet } from "react-native";
+import SeparatorCell from "@/app/inventory/SeparatorCell.tsx";
+import BlankCell from "@/app/inventory/BlankCell.tsx";
 
 const styles = StyleSheet.create({
   header: {
@@ -145,5 +149,25 @@ export const UiRowRenderItem = ({ item }: { item: UiRow }) => {
       return <VaultRowUiItem id={item.id} inventory={item.inventory} type={item.type} />;
     case UiRowType.Header:
       return <HeaderRowUiItem id={item.id} type={item.type} />;
+  }
+};
+
+export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
+  switch (item.type) {
+    case UiCellType.Separator:
+      return <SeparatorCell />;
+    case UiCellType.EmptyCell:
+      return <EmptyCell />;
+    case UiCellType.BlankCell:
+      return <BlankCell />;
+    case UiCellType.DestinyCell:
+      return (
+        <DestinyCell
+          iconUri={item.icon}
+          primaryStat={item.primaryStat}
+          calculatedWaterMark={item.calculatedWaterMark}
+          damageTypeIconUri={item.damageTypeIconUri}
+        />
+      );
   }
 };

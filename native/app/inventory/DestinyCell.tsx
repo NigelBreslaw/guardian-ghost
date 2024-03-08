@@ -1,12 +1,19 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import React from "react";
+import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 17;
 const RIGHT_ALIGNMENT = -9;
 
 const styles = StyleSheet.create({
+  container: {
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   powerLevelText: {
     color: "white",
     fontSize: 14,
@@ -74,33 +81,35 @@ type dProps = {
 
 const DestinyCell = (props: dProps) => {
   return (
-    <View style={styles.frameSize}>
-      <View style={styles.icon}>
-        <View style={styles.innerFrameSize}>
-          <Image
-            source={{ uri: props.iconUri }}
-            cachePolicy="memory-disk"
-            style={styles.innerFrameSize}
-            recyclingKey={props.iconUri}
-          />
-          <Image
-            source={{ uri: props.calculatedWaterMark }}
-            cachePolicy="memory-disk"
-            style={styles.innerFrameOverlaySize}
-            recyclingKey={props.calculatedWaterMark}
-          />
+    <View style={styles.container}>
+      <View style={styles.frameSize}>
+        <View style={styles.icon}>
+          <View style={styles.innerFrameSize}>
+            <Image
+              source={{ uri: props.iconUri }}
+              cachePolicy="memory-disk"
+              style={styles.innerFrameSize}
+              recyclingKey={props.iconUri}
+            />
+            <Image
+              source={{ uri: props.calculatedWaterMark }}
+              cachePolicy="memory-disk"
+              style={styles.innerFrameOverlaySize}
+              recyclingKey={props.calculatedWaterMark}
+            />
+          </View>
         </View>
+        {props.primaryStat > 0 && (
+          <View style={styles.powerLevel}>
+            <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
+          </View>
+        )}
+        {props.damageTypeIconUri && (
+          <View style={styles.miniIconBurn}>
+            <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
+          </View>
+        )}
       </View>
-      {props.primaryStat > 0 && (
-        <View style={styles.powerLevel}>
-          <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
-        </View>
-      )}
-      {props.damageTypeIconUri && (
-        <View style={styles.miniIconBurn}>
-          <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
-        </View>
-      )}
     </View>
   );
 };

@@ -39,6 +39,38 @@ export enum UiRowType {
   CharacterInventory = 2,
   VaultInventory = 3,
 }
+export enum UiCellType {
+  Separator = 0,
+  EmptyCell = 1,
+  BlankCell = 2,
+  DestinyCell = 3,
+}
+
+export type SeparatorCell = {
+  id: string;
+  type: UiCellType.Separator;
+};
+
+export type DestinyCell = {
+  id: string;
+  type: UiCellType.DestinyCell;
+  icon: string;
+  primaryStat: number;
+  calculatedWaterMark: string | undefined;
+  damageTypeIconUri: number | null;
+};
+
+export type EmptyCell = {
+  id: string;
+  type: UiCellType.EmptyCell;
+};
+
+export type BlankCell = {
+  id: string;
+  type: UiCellType.BlankCell;
+};
+
+export type UiCell = SeparatorCell | DestinyCell | EmptyCell | BlankCell;
 
 export type CharacterEquippedRow = {
   id: string;

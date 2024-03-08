@@ -3,61 +3,127 @@ import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
   weaponsPageBuckets,
-  type UiRow,
-  type HeaderRow,
-  UiRowType,
   type DestinyIconData,
-  type CharacterInventoryRow,
-  type VaultInventoryRow,
   getDamagetypeIconUri,
+  type UiCell,
+  type DestinyCell,
+  UiCellType,
+  type EmptyCell,
+  type BlankCell,
+  type SeparatorCell,
 } from "@/app/inventory/Common.ts";
 
-export function buildUIData(): Array<Array<UiRow>> {
+export function buildUIData(): Array<Array<UiCell>> {
   const p1 = performance.now();
-  const characterDataArray: Array<Array<UiRow>> = [];
+  const characterDataArray: Array<Array<UiCell>> = [];
+  const columns = 4;
 
   for (const character in DataService.charactersAndVault.characters) {
     const characterData = DataService.charactersAndVault.characters[character];
     if (characterData) {
-      const dataArray: Array<UiRow> = [];
+      const dataArray: Array<UiCell> = [];
 
       for (const bucket of weaponsPageBuckets) {
-        const header: HeaderRow = {
-          id: `${bucket}_header`,
-          type: UiRowType.Header,
-        };
-        dataArray.push(header);
+        // create section separators
+        for (let i = 0; i < columns; i++) {
+          const separator: SeparatorCell = {
+            id: `${bucket}_separator_${i}`,
+            type: UiCellType.Separator,
+          };
+          dataArray.push(separator);
+        }
+
         const bucketItems = characterData.items[bucket];
         if (bucketItems) {
           const equipped = bucketItems.equipped;
           let equipItem: DestinyIconData | null = null;
           if (equipped) {
             equipItem = returnDestinyIconData(equipped);
+            const equippedCell: DestinyCell = {
+              ...equipItem,
+              id: `${bucket}_equipped`,
+              type: UiCellType.DestinyCell,
+            };
+            dataArray.push(equippedCell);
+          } else {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_equipped`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
           }
+
           const inventoryRowData0 = returnInventoryRow(bucketItems, 0);
-          const equippedRow = {
-            id: `${bucket}_equipped`,
-            equipped: equipItem,
-            inventory: inventoryRowData0,
-            type: UiRowType.CharacterEquipped,
-          };
-          dataArray.push(equippedRow);
 
-          const inventoryRow1Data = returnInventoryRow(bucketItems, 1);
-          const inventoryRow1: CharacterInventoryRow = {
-            id: `${bucket}_row1`,
-            inventory: inventoryRow1Data,
-            type: UiRowType.CharacterInventory,
-          };
-          dataArray.push(inventoryRow1);
+          for (let i = 0; i < columns - 1; i++) {
+            const item = inventoryRowData0[i];
+            if (item) {
+              const destinyCell: DestinyCell = {
+                ...item,
+                id: `${bucket}_row0_${i}`,
+                type: UiCellType.DestinyCell,
+              };
+              dataArray.push(destinyCell);
+            } else {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row0_${i}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+          }
 
-          const inventoryRow2Data = returnInventoryRow(bucketItems, 2);
-          const inventoryRow2: CharacterInventoryRow = {
-            id: `${bucket}_row2`,
-            inventory: inventoryRow2Data,
-            type: UiRowType.CharacterInventory,
+          const inventoryRowData1 = returnInventoryRow(bucketItems, 1);
+
+          const blankCell1: BlankCell = {
+            id: `${bucket}_row1_blank`,
+            type: UiCellType.BlankCell,
           };
-          dataArray.push(inventoryRow2);
+          dataArray.push(blankCell1);
+
+          for (let i = 0; i < columns - 1; i++) {
+            const item = inventoryRowData1[i];
+            if (item) {
+              const destinyCell: DestinyCell = {
+                ...item,
+                id: `${bucket}_row1_${i}`,
+                type: UiCellType.DestinyCell,
+              };
+              dataArray.push(destinyCell);
+            } else {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row1_${i}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+          }
+
+          const inventoryRowData2 = returnInventoryRow(bucketItems, 2);
+
+          const blankCell2: BlankCell = {
+            id: `${bucket}_row2_blank`,
+            type: UiCellType.BlankCell,
+          };
+          dataArray.push(blankCell2);
+
+          for (let i = 0; i < columns - 1; i++) {
+            const item = inventoryRowData2[i];
+            if (item) {
+              const destinyCell: DestinyCell = {
+                ...item,
+                id: `${bucket}_row2_${i}`,
+                type: UiCellType.DestinyCell,
+              };
+              dataArray.push(destinyCell);
+            } else {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row2_${i}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+          }
         }
       }
       characterDataArray.push(dataArray);
@@ -72,16 +138,19 @@ export function buildUIData(): Array<Array<UiRow>> {
   return characterDataArray;
 }
 
-function returnVaultData(): Array<UiRow> {
+function returnVaultData(): Array<UiCell> {
   const vaultData = DataService.charactersAndVault.vault;
-  const dataArray: Array<UiRow> = [];
+  const dataArray: Array<UiCell> = [];
+  const columns = 5;
 
   for (const bucket of weaponsPageBuckets) {
-    const header: HeaderRow = {
-      id: `${bucket}_header`,
-      type: UiRowType.Header,
-    };
-    dataArray.push(header);
+    for (let i = 0; i < columns; i++) {
+      const separator: SeparatorCell = {
+        id: `${bucket}_separator_${i}`,
+        type: UiCellType.Separator,
+      };
+      dataArray.push(separator);
+    }
 
     const bucketItems = vaultData.items[138197802].items[bucket];
     if (bucketItems) {
@@ -89,12 +158,23 @@ function returnVaultData(): Array<UiRow> {
 
       for (let i = 0; i < totalRows; i++) {
         const rowData = returnInventoryRow(bucketItems, i, 5);
-        const vaultRow: VaultInventoryRow = {
-          id: `${bucket}_row_${i}`,
-          inventory: rowData,
-          type: UiRowType.VaultInventory,
-        };
-        dataArray.push(vaultRow);
+        for (let j = 0; j < columns; j++) {
+          const item = rowData[j];
+          if (item) {
+            const destinyCell: DestinyCell = {
+              ...item,
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.DestinyCell,
+            };
+            dataArray.push(destinyCell);
+          } else {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
+          }
+        }
       }
     }
   }
@@ -154,15 +234,6 @@ function returnInventoryRow(characterGear: CharacterGear, column: number, rowWid
     if (item) {
       const iconData = returnDestinyIconData(item);
       rowData.push(iconData);
-    } else {
-      const frame: DestinyIconData = {
-        itemHash: -1,
-        icon: "",
-        calculatedWaterMark: "",
-        primaryStat: 0,
-        damageTypeIconUri: null,
-      };
-      rowData.push(frame);
     }
   }
 
