@@ -70,6 +70,19 @@
       "eas": {
         "projectId": "aa838362-0c4a-434d-b70b-d67f764a5d32"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "newArchEnabled": true
+          },
+          "android": {
+            "newArchEnabled": true
+          }
+        }
+      ]
+    ]
   }
 }
