@@ -8,13 +8,13 @@ import {
   type CharacterInventoryRow,
   ITEM_SIZE,
   type VaultInventoryRow,
-  HEADER_SIZE,
+  SEPARATOR_SIZE,
 } from "@/app/inventory/Common.ts";
 import { View, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   header: {
-    height: HEADER_SIZE,
+    height: SEPARATOR_SIZE,
   },
   item: {
     width: 380,

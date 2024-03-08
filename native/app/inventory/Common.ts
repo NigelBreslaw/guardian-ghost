@@ -67,4 +67,4 @@ export type HeaderRow = {
 export type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow | VaultInventoryRow;
 
 export const ITEM_SIZE = 90;
-export const HEADER_SIZE = 45;
+export const SEPARATOR_SIZE = 45;
