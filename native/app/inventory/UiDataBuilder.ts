@@ -3,11 +3,7 @@ import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
   weaponsPageBuckets,
-  type UiRow,
-  type HeaderRow,
-  UiRowType,
   type DestinyIconData,
-  type VaultInventoryRow,
   getDamagetypeIconUri,
   type UiCell,
   type DestinyCell,
