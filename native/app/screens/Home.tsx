@@ -1,7 +1,6 @@
 import { NavigationProp } from "@react-navigation/native";
-import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { FlashList } from "@shopify/flash-list";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
@@ -10,7 +9,6 @@ import { type UiCell } from "@/app/inventory/Common.ts";
 import { useCallback, useEffect, useState } from "react";
 
 const pageColumns = [4, 4, 4, 4];
-const pageEstimatedItemSize = [80, 80, 80, 89];
 
 export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();
@@ -28,6 +26,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
     page: {
       width: HOME_WIDTH,
       height: "100%",
+      overflow: "hidden",
     },
   });
 
@@ -47,13 +46,12 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       {listData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-          <View key={index} style={homeStyles.page}>
-            <FlashList
+          <View key={index} style={homeStyles.page} removeClippedSubviews={true}>
+            <FlatList
+              style={{ overflow: "hidden" }}
               data={list}
-              estimatedItemSize={pageEstimatedItemSize[index]}
               renderItem={UiCellRenderItem}
               keyExtractor={(item) => item.id}
-              getItemType={(item) => item.type}
               numColumns={pageColumns[index]}
             />
           </View>
