@@ -49,13 +49,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const topLeft = StyleSheet.flatten([styles.topLeft, styles.corner]);
+const topRight = StyleSheet.flatten([styles.topRight, styles.corner]);
+const bottomLeft = StyleSheet.flatten([styles.bottomLeft, styles.corner]);
+const bottomRight = StyleSheet.flatten([styles.bottomRight, styles.corner]);
+
 function EmptyCell() {
   return (
     <View style={styles.square}>
-      <View style={[styles.corner, styles.topLeft]} />
-      <View style={[styles.corner, styles.topRight]} />
-      <View style={[styles.corner, styles.bottomLeft]} />
-      <View style={[styles.corner, styles.bottomRight]} />
+      <View style={topLeft} />
+      <View style={topRight} />
+      <View style={bottomLeft} />
+      <View style={bottomRight} />
     </View>
   );
 }
