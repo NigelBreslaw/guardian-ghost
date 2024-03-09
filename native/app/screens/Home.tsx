@@ -6,7 +6,7 @@ import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { type UiCell } from "@/app/inventory/Common.ts";
-import { createRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const pageColumns = [4, 4, 4, 4];
 
