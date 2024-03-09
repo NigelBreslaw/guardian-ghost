@@ -24,8 +24,8 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       marginBottom: insets.bottom,
     },
     page: {
+      flex: 1,
       width: HOME_WIDTH,
-      height: "100%",
     },
   });
 
@@ -37,22 +37,20 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
   }, [globalState.dataIsReady]);
 
   return (
-    <View style={styles.container}>
-      <ScrollView horizontal pagingEnabled style={styles.homeContainer}>
-        {listData.map((list, index) => {
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-            <View key={index} style={styles.page}>
-              <FlatList
-                data={list}
-                renderItem={UiCellRenderItem}
-                keyExtractor={(item) => item.id}
-                numColumns={pageColumns[index]}
-              />
-            </View>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <ScrollView horizontal pagingEnabled style={styles.homeContainer}>
+      {listData.map((list, index) => {
+        return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
+          <View key={index} style={styles.page}>
+            <FlatList
+              data={list}
+              renderItem={UiCellRenderItem}
+              keyExtractor={(item) => item.id}
+              numColumns={pageColumns[index]}
+            />
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 }
