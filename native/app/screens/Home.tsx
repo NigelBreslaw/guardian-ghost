@@ -45,7 +45,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
       style={styles.homeContainer}
       scrollEventThrottle={0}
       onScroll={(e) => {
-        // iterate over the listRefs -1
+        // Don't tell the vault to change position. Its always the last ref in the array.
         for (let i = 0; i < listRefs.current.length - 1; i++) {
           const lRef = listRefs.current[i];
           if (lRef) {
@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               renderItem={UiCellRenderItem}
               keyExtractor={(item) => item.id}
               numColumns={pageColumns[index]}
-              scrollEventThrottle={33}
+              scrollEventThrottle={34}
               onScroll={(e) => {
                 if (index < listData.length - 1) {
                   setCharacterScrollPosition(e.nativeEvent.contentOffset.y);
