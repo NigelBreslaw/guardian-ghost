@@ -66,8 +66,6 @@ export default function HomeScreen({ navigation }: { navigation: NavigationProp<
               renderItem={UiCellRenderItem}
               keyExtractor={(item) => item.id}
               numColumns={pageColumns[index]}
-              onMomentumScrollEnd={(e) => console.log("onMomentumScrollEnd", e)}
-              onScrollAnimationEnd={() => console.log("onScrollAnimationEnd")}
               scrollEventThrottle={33}
               onScroll={(e) => {
                 if (index < listData.length - 1) {
