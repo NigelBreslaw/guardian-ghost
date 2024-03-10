@@ -3,10 +3,10 @@ import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, TextInput } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
@@ -51,8 +51,6 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
     }
   }, [url]);
 
-  const [text, setText] = useState("");
-
   return (
     <SafeAreaView style={themeContainerStyle}>
       <View style={styles.container}>
@@ -76,16 +74,6 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         >
           Login
         </Button>
-        <TextInput
-          label="Email"
-          value={text}
-          onChangeText={(text) => {
-            setText(text);
-          }}
-        />
-        <View style={styles.spacer} />
-        <Button onPress={() => AuthService.processURL(text)}>secret login</Button>
-        <View style={styles.spacer} />
       </View>
     </SafeAreaView>
   );
