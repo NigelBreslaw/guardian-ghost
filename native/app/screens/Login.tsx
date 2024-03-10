@@ -3,10 +3,10 @@ import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, TextInput } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
