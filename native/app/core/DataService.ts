@@ -46,6 +46,7 @@ class DataService {
     try {
       const loadedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
       const p3 = performance.now();
+      console.log("loaded setupItemDefinition() took:", (p3 - p1).toFixed(5), "ms");
       const itemDefinition = parse(ItemDefinitionSchema, loadedDefinition);
       const p4 = performance.now();
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
@@ -53,7 +54,7 @@ class DataService {
       DataService.setUpItemDefinition();
       DataService.dispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
-      console.log("loaded setupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+      console.log("Full itemDef ready took:", (p2 - p1).toFixed(5), "ms");
       return;
     } catch (e) {
       console.error("No saved itemDefinition. Downloading new version...", e);
