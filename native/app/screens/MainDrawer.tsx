@@ -5,15 +5,38 @@ import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import Inventory from "@/app/screens/Inventory.tsx";
+import InventoryPage from "@/app/screens/Inventory.tsx";
+import { armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
 
 const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
   return (
     <Tab.Navigator shifting={true}>
-      <Tab.Screen name="Weapons" component={Inventory} />
-      {/* <Tab.Screen name="Messages" component={Messages} /> */}
+      <Tab.Screen
+        name="Weapons"
+        options={{
+          tabBarIcon: "pistol",
+        }}
+      >
+        {(props) => <InventoryPage {...props} itemBuckets={weaponsPageBuckets} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Armor"
+        options={{
+          tabBarIcon: "tshirt-crew-outline",
+        }}
+      >
+        {(props) => <InventoryPage {...props} itemBuckets={armorPageBuckets} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Inventory"
+        options={{
+          tabBarIcon: "diamond-stone",
+        }}
+      >
+        {(props) => <InventoryPage {...props} itemBuckets={inventoryPageBuckets} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
