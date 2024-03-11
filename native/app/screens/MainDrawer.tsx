@@ -5,14 +5,22 @@ import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import InventoryPage from "@/app/screens/Inventory.tsx";
+import InventoryPage from "@/app/screens/InventoryPage.tsx";
 import { armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
 
 const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <Tab.Navigator shifting={true}>
+    <Tab.Navigator
+      shifting={true}
+      activeColor="white"
+      activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
+      inactiveColor="grey"
+      barStyle={{ backgroundColor: "black", height: insets.bottom + 50, borderTopColor: "grey", borderTopWidth: 1 }}
+    >
       <Tab.Screen
         name="Weapons"
         options={{
