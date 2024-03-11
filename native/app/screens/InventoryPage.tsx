@@ -25,9 +25,6 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const styles = StyleSheet.create({
     container: {},
-    homeContainer: {
-      marginBottom: insets.bottom,
-    },
     page: {
       flex: 1,
       width: HOME_WIDTH,
@@ -45,7 +42,6 @@ export default function InventoryPage(props: InventoryPageProps) {
     <ScrollView
       horizontal
       pagingEnabled
-      style={styles.homeContainer}
       scrollEventThrottle={0}
       onScroll={(e) => {
         // Don't tell the vault to change position. Its always the last ref in the array.
