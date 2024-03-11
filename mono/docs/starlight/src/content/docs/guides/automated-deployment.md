@@ -23,6 +23,17 @@ Then go the 'gg-new' or whatever dashboard on cloudflare and set the custom doma
 
 That's it! There is a global api and account token. The action just needs to know the new project name and what files to upload.
 
+NOTE: The cloudflare github action won't upload anything in a node_modules folder. This breaks the react native expo web build that has several icons in a folder called 'node_modules'. The github action has a bashscript to workaround this.
+
+```yaml
+- name: build # Plus workaround cloudflare not uploading the node_modules folder
+    run: |
+    cd native 
+    pnpm expo export -p web
+    mv dist/assets/node_modules/* dist/assets/
+    find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
+```
+
 ### Xcode Cloud
 
 While all the other deployments are automated and run on Github actions, iOS does not. Instead it runs on Xcode Cloud which has been linked with the Github repo. The reasons for this are cost, ease of deployment and security. The standard apple developer account comes with 1500 minutes a month of Xcode Cloud build time for free. It's fully integrated with Apple's developer system so all the app certificate management and signing 'just works'. Finally the entire certificate system is managed by Apple so there are no security concerns or extra setup needed to protect these items for a project hosted in a public github repo. They don't even need to be added as github secrets.
