@@ -2,7 +2,6 @@ import type { UiCell } from "@/app/inventory/Common.ts";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
-import type { NavigationProp } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -10,7 +9,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const pageColumns = [4, 4, 4, 4];
 
-export default function Inventory({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+type InventoryPageProps = {
+  itemBuckets: Array<number>;
+};
+
+export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
   const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();
@@ -33,10 +36,10 @@ export default function Inventory({ navigation }: { navigation: NavigationProp<R
 
   useEffect(() => {
     if (globalState.dataIsReady) {
-      const UiData = buildUIData();
+      const UiData = buildUIData(props.itemBuckets);
       setListData(UiData);
     }
-  }, [globalState.dataIsReady]);
+  }, [globalState.dataIsReady, props.itemBuckets]);
 
   return (
     <ScrollView

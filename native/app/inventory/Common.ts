@@ -6,6 +6,25 @@ export const weaponsPageBuckets = [
   1506418338, // artifact
 ];
 
+export const armorPageBuckets = [
+  3284755031, // Subclass
+  3448274439, // Helmet
+  3551918588, // Gauntlets
+  14239492, // ChestArmor
+  20886954, // LegArmor
+  1585787867, // ClassArmor undefined //1626737477 undefined //1801258597
+];
+
+export const inventoryPageBuckets = [
+  375726501, // Engrams undefined 444348033 undefined 497170007
+  // 215593132, // LostItems
+  4274335291, // Emblems
+  284967655, // Ships
+  2025709351, // Vehicle
+  3683254069, // Finisher
+  3054419239, // Emotes
+];
+
 export enum DamageType {
   None = 0,
   Kinetic = 1,

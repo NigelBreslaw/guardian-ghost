@@ -10,10 +10,9 @@ import {
   type UiCell,
   UiCellType,
   getDamagetypeIconUri,
-  weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 
-export function buildUIData(): Array<Array<UiCell>> {
+export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
   const p1 = performance.now();
   const characterDataArray: Array<Array<UiCell>> = [];
   const columns = 4;
@@ -23,7 +22,7 @@ export function buildUIData(): Array<Array<UiCell>> {
     if (characterData) {
       const dataArray: Array<UiCell> = [];
 
-      for (const bucket of weaponsPageBuckets) {
+      for (const bucket of itemBuckets) {
         // create section separators
         for (let i = 0; i < columns; i++) {
           const separator: SeparatorCell = {
@@ -135,7 +134,7 @@ export function buildUIData(): Array<Array<UiCell>> {
     }
   }
   // Now build the vault data
-  const vaultData = returnVaultData();
+  const vaultData = returnVaultData(itemBuckets);
   characterDataArray.push(vaultData);
 
   const p2 = performance.now();
@@ -143,12 +142,12 @@ export function buildUIData(): Array<Array<UiCell>> {
   return characterDataArray;
 }
 
-function returnVaultData(): Array<UiCell> {
+function returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
   const vaultData = DataService.charactersAndVault.vault;
   const dataArray: Array<UiCell> = [];
   const columns = 4;
 
-  for (const bucket of weaponsPageBuckets) {
+  for (const bucket of itemBuckets) {
     for (let i = 0; i < columns; i++) {
       const separator: SeparatorCell = {
         id: `${bucket}_separator_${i}`,
