@@ -35,8 +35,12 @@ jobs:
         run: cd native && pnpm install --frozen-lockfile
       - name: add .env file
         run: cd native && echo '${{ secrets.CLIENT_SECRETS }}' > .env
-      - name: build
-        run: cd native && pnpm expo export -p web
+      - name: build # Plus workaround cloudflare not uploading the node_modules folder
+        run: |
+          cd native 
+          pnpm expo export -p web
+          mv dist/assets/node_modules/* dist/assets/
+          find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
       - name: deploy website
         uses: cloudflare/pages-action@v1.5.0
         with:
