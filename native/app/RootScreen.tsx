@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme } from "react-native";
-import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
+import { useGlobalStateContext } from "@/state/GlobalState.tsx";
+import { useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useEffect } from "react";
+import { useColorScheme } from "react-native";
 
 const RootStack = createStackNavigator();
 

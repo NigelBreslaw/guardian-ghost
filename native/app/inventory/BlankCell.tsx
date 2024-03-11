@@ -1,6 +1,6 @@
+import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 
 const styles = StyleSheet.create({
   square: {

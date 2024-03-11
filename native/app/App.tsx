@@ -1,7 +1,7 @@
-import { PaperProvider } from "react-native-paper";
-import GlobalStateProvider from "@/state/GlobalState.tsx";
 import RootScreen from "@/RootScreen.tsx";
+import GlobalStateProvider from "@/state/GlobalState.tsx";
 import { NavigationContainer } from "@react-navigation/native";
+import { PaperProvider } from "react-native-paper";
 
 // If the them is not set a white background keeps showing during screen rotation
 export default function App() {

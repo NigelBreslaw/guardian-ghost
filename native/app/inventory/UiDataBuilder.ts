@@ -2,15 +2,15 @@ import type { CharacterGear, DestinyItem } from "@/app/bungie/Types.ts";
 import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
-  weaponsPageBuckets,
-  type DestinyIconData,
-  getDamagetypeIconUri,
-  type UiCell,
-  type DestinyCell,
-  UiCellType,
-  type EmptyCell,
   type BlankCell,
+  type DestinyCell,
+  type DestinyIconData,
+  type EmptyCell,
   type SeparatorCell,
+  type UiCell,
+  UiCellType,
+  getDamagetypeIconUri,
+  weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 
 export function buildUIData(): Array<Array<UiCell>> {

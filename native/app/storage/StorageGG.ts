@@ -1,5 +1,5 @@
-import { Platform } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { Platform } from "react-native";
 
 const Store = {
   factoryName: "gg-data",

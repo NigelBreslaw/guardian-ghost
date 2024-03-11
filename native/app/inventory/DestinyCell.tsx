@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 import { Image } from "expo-image";
 import React from "react";
-import { ITEM_SIZE } from "@/app/inventory/Common.ts";
+import { StyleSheet, Text, View } from "react-native";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 17;

@@ -1,4 +1,4 @@
-import { BungieUser } from "@/bungie/Types.ts";
+import type { BungieUser } from "@/bungie/Types.ts";
 
 export type GlobalState = {
   initComplete: boolean;

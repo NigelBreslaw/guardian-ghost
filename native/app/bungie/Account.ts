@@ -1,6 +1,6 @@
-import { AuthToken } from "@/authentication/Utilities.ts";
+import type { AuthToken } from "@/authentication/Utilities.ts";
 import { apiKey } from "@/constants/env.ts";
-import { BungieProfile, BungieUser, LinkedProfiles } from "./Types.ts";
+import type { BungieProfile, BungieUser, LinkedProfiles } from "./Types.ts";
 
 export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = false): Promise<JSON> {
   const headers = new Headers();
