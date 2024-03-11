@@ -115,6 +115,7 @@ async function downloadJsonFile(url: string): Promise<any> {
 type ProcessedData = {
   helpers: { [key: string]: any };
   items: { [key: string]: any };
+  version: number;
 };
 
 function createMiniDefinition(jsonData: JsonData): ProcessedData {
@@ -642,6 +643,8 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
     const stringArray = repeatStrings[RepeatStringsName[enumName]];
     processedData.helpers[enumName] = stringArray;
   }
+
+  processedData.version = 2;
 
   return processedData;
 }
