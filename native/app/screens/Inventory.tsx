@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const pageColumns = [4, 4, 4, 4];
 
-export default function HomeScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+export default function Inventory({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const globalState = useGlobalStateContext();
   const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();

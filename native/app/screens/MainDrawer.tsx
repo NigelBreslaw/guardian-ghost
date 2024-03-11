@@ -1,10 +1,22 @@
 import StorageGG from "@/app/storage/StorageGG.ts";
 import AuthService from "@/authentication/AuthService.ts";
-import HomeScreen from "@/screens/Home";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Inventory from "@/app/screens/Inventory.tsx";
+
+const Tab = createMaterialBottomTabNavigator();
+
+function HomeScreen() {
+  return (
+    <Tab.Navigator shifting={true}>
+      <Tab.Screen name="Weapons" component={Inventory} />
+      {/* <Tab.Screen name="Messages" component={Messages} /> */}
+    </Tab.Navigator>
+  );
+}
 
 const Drawer = createDrawerNavigator();
 
