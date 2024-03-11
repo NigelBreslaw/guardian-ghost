@@ -1,10 +1,10 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { fetchData } from '../lib/data.js';
-import NavPagination from '../components/NavPagination.astro';
+import { fetchData } from "../lib/data.js";
+import NavPagination from "../components/NavPagination.astro";
 
-const products = await fetchData('products');
+const products = await fetchData("products");
 ---
 
 <entities-crud type="products">
