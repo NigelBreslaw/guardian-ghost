@@ -4,19 +4,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import { Platform } from "react-native";
 import { parse, string } from "valibot";
 import { getBungieUser, getLinkedProfiles } from "../bungie/Account.ts";
-import { BungieUser, BungieUserSchema, linkedProfilesSchema } from "../bungie/Types.ts";
-import { GlobalAction } from "../state/Types.ts";
+import { type BungieUser, BungieUserSchema, linkedProfilesSchema } from "../bungie/Types.ts";
+import type { GlobalAction } from "../state/Types.ts";
 import {
-  AuthToken,
+  type AuthToken,
   authTokenSchema,
   getAccessToken,
   getRefreshToken,
   isValidAccessToken,
   isValidRefreshToken,
 } from "./Utilities.ts";
-import { Platform } from "react-native";
 
 class AuthService {
   private static instance: AuthService;

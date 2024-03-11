@@ -1,8 +1,8 @@
+import BlankCell from "@/app/inventory/BlankCell.tsx";
+import { type UiCell, UiCellType } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
-import { type UiCell, UiCellType } from "@/app/inventory/Common.ts";
 import SeparatorCell from "@/app/inventory/SeparatorCell.tsx";
-import BlankCell from "@/app/inventory/BlankCell.tsx";
 
 export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
   switch (item.type) {

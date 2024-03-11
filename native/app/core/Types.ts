@@ -1,4 +1,4 @@
-import { array, number, object, unknown, string, record, optional } from "valibot";
+import { array, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
 const itemSchema = object({

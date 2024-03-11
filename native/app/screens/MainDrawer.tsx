@@ -1,10 +1,10 @@
-import { DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
-import HomeScreen from "@/screens/Home";
-import { Button } from "react-native-paper";
-import AuthService from "@/authentication/AuthService.ts";
-import { View, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import StorageGG from "@/app/storage/StorageGG.ts";
+import AuthService from "@/authentication/AuthService.ts";
+import HomeScreen from "@/screens/Home";
+import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
+import { StyleSheet, View } from "react-native";
+import { Button } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Drawer = createDrawerNavigator();
 

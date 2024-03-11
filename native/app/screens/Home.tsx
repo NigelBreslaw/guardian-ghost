@@ -1,12 +1,12 @@
-import { NavigationProp } from "@react-navigation/native";
+import type { UiCell } from "@/app/inventory/Common.ts";
+import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
+import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
+import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import type { NavigationProp } from "@react-navigation/native";
+import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
-import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
-import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { type UiCell } from "@/app/inventory/Common.ts";
-import { useEffect, useRef, useState } from "react";
 
 const pageColumns = [4, 4, 4, 4];
 

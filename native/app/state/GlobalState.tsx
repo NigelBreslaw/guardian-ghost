@@ -1,9 +1,10 @@
-import AuthService from "@/authentication/AuthService.ts";
-import * as SplashScreen from "expo-splash-screen";
-import React, { useReducer, createContext, useContext, useEffect } from "react";
-import { GlobalAction, GlobalState } from "./Types.ts";
-import DataService from "@/core/DataService.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
+import AuthService from "@/authentication/AuthService.ts";
+import DataService from "@/core/DataService.ts";
+import * as SplashScreen from "expo-splash-screen";
+import type React from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import type { GlobalAction, GlobalState } from "./Types.ts";
 
 // Define the context
 const initialState: GlobalState = {

@@ -2,7 +2,6 @@ import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-const ICON_SIZE = 68;
 const BORDER_COLOR = "#555555";
 const BORDER_RADIUS = 10;
 const BORDER_SIZE = 15;

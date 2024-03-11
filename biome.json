@@ -11,13 +11,13 @@
   },
   "linter": {
     "enabled": true,
-    "ignore": ["./babel.config.js", "minifier/index.ts"],
+    "ignore": ["./babel.config.js", "minifier/index.ts", "**/*.astro"],
     "rules": {
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off"
       },
-      "nursery": {
+      "correctness": {
         "noUnusedImports": "error"
       }
     }

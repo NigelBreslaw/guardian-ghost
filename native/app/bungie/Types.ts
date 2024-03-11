@@ -1,4 +1,4 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, string, record } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
 export type CharactersAndVault = {

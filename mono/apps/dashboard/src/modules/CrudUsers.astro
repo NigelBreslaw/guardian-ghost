@@ -1,11 +1,11 @@
 ---
 /* eslint max-lines: 'off' */
 
-import NavPagination from '../components/NavPagination.astro';
-import { asset, fetchData } from '../lib/data.js';
+import NavPagination from "../components/NavPagination.astro";
+import { asset, fetchData } from "../lib/data.js";
 
 const { class: clazz } = Astro.props;
-const users = await fetchData('users');
+const users = await fetchData("users");
 ---
 
 <entities-crud

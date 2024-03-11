@@ -6,15 +6,9 @@
     "noErrorTruncation": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*",
-        "./app/*"
-      ]
+      "@/*": ["./*", "./app/*"]
     },
     "strict": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

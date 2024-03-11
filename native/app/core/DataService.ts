@@ -1,12 +1,12 @@
-import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
-import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
-import { parse, array, number, string } from "valibot";
-import { characterBuckets } from "@/bungie/Hashes.ts";
-import type { GlobalAction } from "@/app/state/Types.ts";
 import { getCustomItemDefinition } from "@/app/backend/api.ts";
+import { getProfile } from "@/app/bungie/BungieApi.ts";
+import { type ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
+import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
+import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
+import type { GlobalAction } from "@/app/state/Types.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
-import { ItemDefinitionSchema, type ItemDefinition, type SingleItemDefinition } from "@/app/core/Types.ts";
+import { characterBuckets } from "@/bungie/Hashes.ts";
+import { array, number, parse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
@@ -83,7 +83,6 @@ class DataService {
   }
 
   static setUpItemDefinition() {
-    const p1 = performance.now();
     try {
       const parsedBucketTypeHash = parse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
       DataService.bucketTypeHashArray = parsedBucketTypeHash;
@@ -96,25 +95,25 @@ class DataService {
 
   public static async getInventory() {
     try {
-      const pa1 = performance.now();
-      const profile = await getProfile();
-      const pa2 = performance.now();
-
-      console.log("getProfile() took:", (pa2 - pa1).toFixed(4), "ms");
       const p1 = performance.now();
+      const profile = await getProfile();
+      const p2 = performance.now();
+
+      console.log("getProfile() took:", (p2 - p1).toFixed(4), "ms");
+      const p3 = performance.now();
 
       const validatedProfile = parse(getProfileSchema, profile);
-      const p2 = performance.now();
-      console.log("parse() took:", (p2 - p1).toFixed(4), "ms");
+      const p4 = performance.now();
+      console.log("parse() took:", (p4 - p3).toFixed(4), "ms");
 
-      const p3 = performance.now();
+      const p5 = performance.now();
       DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
-      const p4 = performance.now();
-      console.log("processing all profile data took:", (p4 - p3).toFixed(5), "ms");
+      const p6 = performance.now();
+      console.log("processing all profile data took:", (p6 - p5).toFixed(5), "ms");
       DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
       console.error("Failed to validate profile", e);
