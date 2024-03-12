@@ -156,13 +156,18 @@ class AuthService {
             if (parsedToken.success) {
               console.info("Retrieved new token");
               AuthService.saveAndSetToken(parsedToken.output);
-
+              if (AuthService.dispatch) {
+                AuthService.dispatch({ type: "setSystemDisabled", payload: false });
+              }
               return resolve(true);
             }
             // {"error": "server_error", "error_description": "SystemDisabled"}
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");
+              if (AuthService.dispatch) {
+                AuthService.dispatch({ type: "setSystemDisabled", payload: true });
+              }
               return resolve(true);
             }
             // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
