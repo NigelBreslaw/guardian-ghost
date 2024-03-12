@@ -1,7 +1,7 @@
 import StorageGG from "@/app/storage/StorageGG.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -13,18 +13,29 @@ const Tab = createMaterialBottomTabNavigator();
 function HomeScreen() {
   const insets = useSafeAreaInsets();
 
+  const styles = StyleSheet.create({
+    bar: {
+      backgroundColor: "black",
+      borderTopColor: "#2A1D38",
+      borderTopWidth: StyleSheet.hairlineWidth,
+      ...Platform.select({
+        ios: {
+          height: insets.bottom + 50,
+        },
+        default: {
+          height: insets.bottom + 70,
+        },
+      }),
+    },
+  });
+
   return (
     <Tab.Navigator
       shifting={true}
       activeColor="white"
       activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
       inactiveColor="grey"
-      barStyle={{
-        backgroundColor: "black",
-        height: insets.bottom + 70,
-        borderTopColor: "#2A1D38",
-        borderTopWidth: StyleSheet.hairlineWidth,
-      }}
+      barStyle={styles.bar}
     >
       <Tab.Screen
         name="tab-weapons"
