@@ -1,5 +1,7 @@
-import { array, number, object, optional, record, string, unknown } from "valibot";
+import { array, number, object, optional, record, string, unknown, value } from "valibot";
 import type { Output } from "valibot";
+
+const MINI_ITEM_DEFINITION_VERSION = 2;
 
 const itemSchema = object({
   a: optional(number()),
@@ -93,6 +95,7 @@ export const ItemDefinitionSchema = object({
   ),
 
   items: record(string(), unknown()),
+  version: number([value(2)]),
 });
 
 export type ItemDefinition = Output<typeof ItemDefinitionSchema>;
