@@ -53,7 +53,7 @@ export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
   });
 }
 
-export function getAccessToken(token: AuthToken): Promise<AuthToken> {
+export function getAccessToken(token: AuthToken): Promise<JSON> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("X-API-Key", apiKey);
@@ -72,23 +72,9 @@ export function getAccessToken(token: AuthToken): Promise<AuthToken> {
   return new Promise((resolve, reject) => {
     fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
       .then((response) => {
-        if (!response.ok) {
-          console.error(response);
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        return resolve(response.json());
+      })
 
-        return response.json();
-      })
-      .then((rawToken) => {
-        try {
-          const validatedToken = parse(authTokenSchema, rawToken);
-          validatedToken.time_stamp = new Date().toISOString();
-          return resolve(validatedToken);
-        } catch (error) {
-          console.error("went wrong here");
-          return reject(error);
-        }
-      })
       .catch((error) => {
         reject(error);
       });
