@@ -6,6 +6,8 @@
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
     "lib": [
+      "DOM",
+      "ESNext",
       "es2019",
       "es2020.bigint",
       "es2020.date",
@@ -20,7 +22,6 @@
       "es2022.object",
       "es2022.string"
     ],
-    "jsx": "react-native",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*", "./app/*"]
