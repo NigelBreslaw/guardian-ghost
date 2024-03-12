@@ -5,10 +5,10 @@ import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
-import { parse, string } from "valibot";
+import { object, parse, safeParse, string } from "valibot";
 import { getBungieUser, getLinkedProfiles } from "../bungie/Account.ts";
 import { type BungieUser, BungieUserSchema, linkedProfilesSchema } from "../bungie/Types.ts";
-import type { GlobalAction } from "../state/Types.ts";
+import type { GlobalAction } from "@/state/Types.ts";
 import {
   type AuthToken,
   authTokenSchema,
@@ -139,8 +139,6 @@ class AuthService {
   // This function validates, gets refreshed tokens, saves and sets them.
   private static validateAndSetToken(token: AuthToken): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      let validToken = token;
-
       const isValidRefresh = isValidRefreshToken(token);
       if (!isValidRefresh) {
         // Nothing can be done. The user needs to re-auth.
@@ -153,18 +151,30 @@ class AuthService {
         console.info("Access token expired");
         getAccessToken(token)
           .then((newAuthToken) => {
-            console.info("Retrieved new token");
-            validToken = newAuthToken;
-            AuthService.saveAndSetToken(validToken);
+            const parsedToken = safeParse(authTokenSchema, newAuthToken);
 
-            return resolve(true);
+            if (parsedToken.success) {
+              console.info("Retrieved new token");
+              AuthService.saveAndSetToken(parsedToken.output);
+
+              return resolve(true);
+            }
+            // {"error": "server_error", "error_description": "SystemDisabled"}
+            const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
+            if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
+              console.warn("System disabled");
+              return resolve(true);
+            }
+            // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
+            console.error("Failed to validate token", newAuthToken);
+            return reject(false);
           })
           .catch((e) => {
             return reject(e);
           });
       } else {
         console.info("Access token valid");
-        AuthService.saveAndSetToken(validToken);
+        AuthService.saveAndSetToken(token);
 
         return resolve(true);
       }
@@ -283,12 +293,28 @@ class AuthService {
       AuthService.usedAuthCodes.push(code);
 
       // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
-      const initialJSONToken = await getRefreshToken(code);
+
       try {
-        const validatedToken = parse(authTokenSchema, initialJSONToken);
-        const fullToken = await getAccessToken(validatedToken);
-        AuthService.saveAndSetToken(fullToken);
-        AuthService.buildBungieAccount(fullToken);
+        const initialJSONToken = await getRefreshToken(code);
+        // const validatedToken = parse(authTokenSchema, initialJSONToken);
+        // const tokenJson = await getAccessToken(validatedToken);
+        // const validatedToken = safeParse(authTokenSchema, tokenJson)
+
+        // if (validatedToken.)
+
+        // .then((rawToken) => {
+        //   try {
+        //     const validatedToken = parse(authTokenSchema, rawToken);
+        //     validatedToken.time_stamp = new Date().toISOString();
+        //     return resolve(validatedToken);
+        //   } catch (error) {
+        //     console.error("went wrong here");
+        //     return reject(error);
+        //   }
+        // })
+
+        AuthService.saveAndSetToken(initialJSONToken);
+        AuthService.buildBungieAccount(initialJSONToken);
       } catch (e) {
         console.error("Failed to validate token", e);
       }
