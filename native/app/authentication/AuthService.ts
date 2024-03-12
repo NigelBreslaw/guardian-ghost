@@ -306,13 +306,13 @@ class AuthService {
         let rawLinkedProfiles = await getLinkedProfiles(authToken);
         let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
 
-        if (linkedProfiles.Response.profiles.length === 0) {
+        if (linkedProfiles.Response.profiles?.length === 0) {
           rawLinkedProfiles = await getLinkedProfiles(authToken, true);
           linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
           console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
         }
 
-        if (linkedProfiles.Response.profiles.length === 0) {
+        if (linkedProfiles.Response.profiles?.length === 0) {
           console.error("No linked profiles");
           return;
         }
@@ -324,6 +324,7 @@ class AuthService {
         // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
         // It needs some kind of big alert and then a logout.
         console.error("Error in buildBungieAccount", e);
+        AuthService.setLoggingIn(false);
       }
     }
   }

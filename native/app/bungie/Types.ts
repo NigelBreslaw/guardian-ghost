@@ -59,7 +59,7 @@ const PlatformSilverSchema = object({
   isWrapper: boolean(),
 });
 
-const BungieProfileSchema = object({
+export const BungieProfileSchema = object({
   applicableMembershipTypes: array(number()),
   bungieGlobalDisplayName: string(),
   bungieGlobalDisplayNameCode: number(),
@@ -104,7 +104,7 @@ export const linkedProfilesSchema = merge([
   object({
     Response: object({
       bnetMembership: BnetMembershipSchema,
-      profiles: array(BungieProfileSchema),
+      profiles: optional(array(BungieProfileSchema)),
     }),
   }),
 ]);
