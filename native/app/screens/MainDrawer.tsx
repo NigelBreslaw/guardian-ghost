@@ -19,27 +19,35 @@ function HomeScreen() {
       activeColor="white"
       activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
       inactiveColor="grey"
-      barStyle={{ backgroundColor: "black", height: insets.bottom + 50, borderTopColor: "grey", borderTopWidth: 1 }}
+      barStyle={{
+        backgroundColor: "black",
+        height: insets.bottom + 70,
+        borderTopColor: "#2A1D38",
+        borderTopWidth: StyleSheet.hairlineWidth,
+      }}
     >
       <Tab.Screen
-        name="Weapons"
+        name="tab-weapons"
         options={{
+          tabBarLabel: "Weapons",
           tabBarIcon: "pistol",
         }}
       >
         {(props) => <InventoryPage {...props} itemBuckets={weaponsPageBuckets} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Armor"
+        name="tab-armor"
         options={{
+          tabBarLabel: "Armor",
           tabBarIcon: "tshirt-crew-outline",
         }}
       >
         {(props) => <InventoryPage {...props} itemBuckets={armorPageBuckets} />}
       </Tab.Screen>
       <Tab.Screen
-        name="Inventory"
+        name="tab-inventory"
         options={{
+          tabBarLabel: "Inventory",
           tabBarIcon: "diamond-stone",
         }}
       >
@@ -102,7 +110,7 @@ export default function MainDrawer() {
       }}
     >
       <Drawer.Screen
-        name="Home"
+        name="Inventory"
         component={HomeScreen}
         options={{
           drawerType: "back",
@@ -114,6 +122,8 @@ export default function MainDrawer() {
           },
           headerStyle: {
             backgroundColor: "#17101F",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderBottomColor: "#2A1D38",
           },
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
