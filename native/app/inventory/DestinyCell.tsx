@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
   innerFrameSize: {
     width: 63,
     height: 63,
+    position: "absolute",
+    top: -0.5,
+    left: -0.5,
   },
   innerFrameOverlaySize: {
     width: 63,
