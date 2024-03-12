@@ -4,9 +4,20 @@ export type GlobalState = {
   initComplete: boolean;
   loggingIn: boolean;
   authenticated: boolean;
+  systemDisabled: boolean;
   currentAccount: BungieUser | null;
   dataIsReady: boolean;
   definitionsReady: boolean;
+};
+
+export const initialGlobalState: GlobalState = {
+  initComplete: false,
+  loggingIn: false,
+  authenticated: false,
+  systemDisabled: false,
+  currentAccount: null,
+  dataIsReady: false,
+  definitionsReady: false,
 };
 
 export type GlobalAction =
@@ -32,5 +43,9 @@ export type GlobalAction =
     }
   | {
       type: "setDefinitionsReady";
+      payload: boolean;
+    }
+  | {
+      type: "setSystemDisabled";
       payload: boolean;
     };

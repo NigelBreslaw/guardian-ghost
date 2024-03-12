@@ -4,17 +4,7 @@ import DataService from "@/core/DataService.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type React from "react";
 import { createContext, useContext, useEffect, useReducer } from "react";
-import type { GlobalAction, GlobalState } from "./Types.ts";
-
-// Define the context
-const initialState: GlobalState = {
-  initComplete: false,
-  loggingIn: false,
-  authenticated: false,
-  currentAccount: null,
-  dataIsReady: false,
-  definitionsReady: false,
-};
+import { initialGlobalState, type GlobalAction, type GlobalState } from "./Types.ts";
 
 export const StateContext = createContext<GlobalState | null>(null);
 export const StateDispatchContext = createContext<React.Dispatch<GlobalAction> | null>(null);
@@ -39,6 +29,9 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
     case "setDefinitionsReady": {
       return { ...state, definitionsReady: action.payload };
     }
+    case "setSystemDisabled": {
+      return { ...state, systemDisabled: action.payload };
+    }
     default: {
       return state;
     }
@@ -46,7 +39,7 @@ const globalReducer = (state: GlobalState, action: GlobalAction) => {
 };
 
 const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(globalReducer, initialState);
+  const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
 
   useEffect(() => {
     const storageService = StorageGG.getInstance();
