@@ -62,14 +62,16 @@ class AuthService {
 
       const savedToken = await AsyncStorage.getItem(`${AuthService.currentUserID}${Store._refresh_token}`);
       if (savedToken) {
-        const stringToken = parse(string(), savedToken);
-        const validatedToken = parse(authTokenSchema, JSON.parse(stringToken));
-        await AuthService.validateAndSetToken(validatedToken);
-        const p2 = performance.now();
-        console.log("init() took:", (p2 - p1).toFixed(4), "ms");
-        return true;
+        const tokenParse = safeParse(authTokenSchema, JSON.parse(savedToken));
+        if (tokenParse.success) {
+          await AuthService.validateAndSetToken(tokenParse.output);
+          const p2 = performance.now();
+          console.log("init() took:", (p2 - p1).toFixed(4), "ms");
+          return true;
+        }
       }
-
+      // Logout as the saved token is invalid
+      AuthService.logoutCurrentUser();
       return false;
     } catch (e) {
       console.error(e);
@@ -142,6 +144,7 @@ class AuthService {
       const isValidRefresh = isValidRefreshToken(token);
       if (!isValidRefresh) {
         // Nothing can be done. The user needs to re-auth.
+        // TODO: Log out the user
         console.error("Refresh token expired");
         return reject(false);
       }
@@ -187,9 +190,16 @@ class AuthService {
   }
 
   private static saveAndSetToken(token: AuthToken) {
-    const currentUserID = AuthService.currentUserID;
-    AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
-    AuthService.setAuthToken(token);
+    const parsedToken = safeParse(authTokenSchema, token);
+
+    if (parsedToken.success) {
+      const currentUserID = AuthService.currentUserID;
+      console.info("currentUserID", currentUserID);
+      AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
+      AuthService.setAuthToken(token);
+    } else {
+      console.error("Failed to save token. Token is invalid");
+    }
   }
 
   // Method to subscribe to auth changes
@@ -301,24 +311,6 @@ class AuthService {
 
       try {
         const initialJSONToken = await getRefreshToken(code);
-        // const validatedToken = parse(authTokenSchema, initialJSONToken);
-        // const tokenJson = await getAccessToken(validatedToken);
-        // const validatedToken = safeParse(authTokenSchema, tokenJson)
-
-        // if (validatedToken.)
-
-        // .then((rawToken) => {
-        //   try {
-        //     const validatedToken = parse(authTokenSchema, rawToken);
-        //     validatedToken.time_stamp = new Date().toISOString();
-        //     return resolve(validatedToken);
-        //   } catch (error) {
-        //     console.error("went wrong here");
-        //     return reject(error);
-        //   }
-        // })
-
-        AuthService.saveAndSetToken(initialJSONToken);
         AuthService.buildBungieAccount(initialJSONToken);
       } catch (e) {
         console.error("Failed to validate token", e);
@@ -333,30 +325,32 @@ class AuthService {
 
   static async buildBungieAccount(authToken: AuthToken) {
     if (authToken) {
-      try {
-        let rawLinkedProfiles = await getLinkedProfiles(authToken);
-        let linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
+      let rawLinkedProfiles = await getLinkedProfiles(authToken);
+      let parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
 
-        if (linkedProfiles.Response.profiles?.length === 0) {
-          rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-          linkedProfiles = parse(linkedProfilesSchema, rawLinkedProfiles);
-          console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
-        }
+      if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
+        rawLinkedProfiles = await getLinkedProfiles(authToken, true);
+        parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
+        console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
+      }
 
-        if (linkedProfiles.Response.profiles?.length === 0) {
-          console.error("No linked profiles");
-          return;
-        }
-        const bungieUser = getBungieUser(linkedProfiles);
+      if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
+        console.error("No linked profiles");
+        return;
+      }
+
+      if (parsedProfiles.success) {
+        const bungieUser = getBungieUser(parsedProfiles.output);
         AuthService.setCurrentAccount(bungieUser);
         await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
+        AuthService.saveAndSetToken(authToken);
         AuthService.setLoggingIn(false);
-      } catch (e) {
-        // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
-        // It needs some kind of big alert and then a logout.
-        console.error("Error in buildBungieAccount", e);
-        AuthService.setLoggingIn(false);
+        return;
       }
+      // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
+      // It needs some kind of big alert and then a logout.
+      console.error("Error in buildBungieAccount", parsedProfiles.output);
+      AuthService.setLoggingIn(false);
     }
   }
 

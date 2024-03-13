@@ -1,6 +1,6 @@
 import { apiKey, clientID, clientSecret } from "@/constants/env.ts";
 import * as base64 from "base-64";
-import { isoTimestamp, number, object, optional, parse, string } from "valibot";
+import { isoTimestamp, number, object, parse, string } from "valibot";
 import type { Output } from "valibot";
 
 export const authTokenSchema = object({
@@ -9,7 +9,7 @@ export const authTokenSchema = object({
   membership_id: string(),
   refresh_expires_in: number(),
   refresh_token: string(),
-  time_stamp: optional(string([isoTimestamp()])),
+  time_stamp: string([isoTimestamp()]),
   token_type: string(),
 });
 
@@ -38,8 +38,10 @@ export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
       })
       .then((rawToken) => {
         try {
+          // Add the time_stamp or the validation will fail.
+          rawToken.time_stamp = new Date().toISOString();
           const validatedToken = parse(authTokenSchema, rawToken);
-          validatedToken.time_stamp = new Date().toISOString();
+
           return resolve(validatedToken);
         } catch (error) {
           console.error("went wrong here");
