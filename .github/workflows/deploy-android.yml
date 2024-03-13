@@ -14,12 +14,14 @@ concurrency:
 jobs:
   android-build:
     runs-on: ubuntu-latest
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     defaults:
       run:
         working-directory: native
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.1
       - uses: dorny/paths-filter@v3.0.2
         id: changes
         with:
