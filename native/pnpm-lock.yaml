@@ -36,8 +36,8 @@ dependencies:
     specifier: 6.3.27
     version: 6.3.27(@react-navigation/native@6.1.15)(react-native-gesture-handler@2.15.0)(react-native-safe-area-context@4.9.0)(react-native-screens@3.29.0)(react-native@0.73.6)(react@18.2.0)
   '@sentry/react-native':
-    specifier: 5.19.1
-    version: 5.19.1(expo@50.0.11)(react-native@0.73.6)(react@18.2.0)
+    specifier: 5.19.2
+    version: 5.19.2(expo@50.0.11)(react-native@0.73.6)(react@18.2.0)
   base-64:
     specifier: 1.0.0
     version: 1.0.0
@@ -2963,8 +2963,8 @@ packages:
       localforage: 1.10.0
     dev: false
 
-  /@sentry/react-native@5.19.1(expo@50.0.11)(react-native@0.73.6)(react@18.2.0):
-    resolution: {integrity: sha512-i2vfbvTkohsXvvMMCozeVOrwS07zVtvwYsvooEZOvQIgq/c41QQ4LmbZK7efLrfUsxkk3MsISwMVma+MncqTHA==}
+  /@sentry/react-native@5.19.2(expo@50.0.11)(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-XVkDTySw7b4Oz74+EhOVMiRYcSNbS5W1b20Ljt5LhlwKHX9Zd+DTGDb6hpDerRLBqqfKbF1uzyYhpj6TxI9nRA==}
     hasBin: true
     peerDependencies:
       expo: '>=49.0.0'
