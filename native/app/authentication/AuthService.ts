@@ -146,6 +146,7 @@ class AuthService {
         // Nothing can be done. The user needs to re-auth.
         // TODO: Log out the user
         console.error("Refresh token expired");
+        AuthService.logoutCurrentUser();
         return reject(false);
       }
 
@@ -194,9 +195,13 @@ class AuthService {
 
     if (parsedToken.success) {
       const currentUserID = AuthService.currentUserID;
-      console.info("currentUserID", currentUserID);
-      AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
-      AuthService.setAuthToken(token);
+      if (currentUserID === "") {
+        console.error("No currentUserID!!!");
+      } else {
+        console.info("currentUserID", currentUserID);
+        AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
+        AuthService.setAuthToken(token);
+      }
     } else {
       console.error("Failed to save token. Token is invalid");
     }
@@ -363,6 +368,7 @@ class AuthService {
       await AsyncStorage.removeItem(`${AuthService.currentUserID}${Store._refresh_token}`);
       AuthService.setAuthToken(null);
       AuthService.setCurrentAccount(null);
+      AuthService.currentUserID = "";
     } catch (e) {
       throw new Error("Error removing current user from storage");
     }
