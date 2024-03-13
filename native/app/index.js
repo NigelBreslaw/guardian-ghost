@@ -1,11 +1,17 @@
-import * as SplashScreen from "expo-splash-screen";
-import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
-SplashScreen.preventAutoHideAsync();
+import * as Sentry from "@sentry/react-native";
 import { registerRootComponent } from "expo";
+import App from "./App.tsx";
 
-import App from "./App";
+Sentry.init({
+  dsn: "https://7db2c06ee6ea56cae40a5bd963bad76b:7d7182201a659982c7b30a4512d4ad7a@o4506899216728065.ingest.us.sentry.io/4506899221970944",
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(App);
+registerRootComponent(Sentry.wrap(App));
