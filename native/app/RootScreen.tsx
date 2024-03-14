@@ -7,7 +7,7 @@ import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 
 const RootStack = createStackNavigator();
 
@@ -52,7 +52,15 @@ export default function RootScreen() {
       <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
         <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
       </RootStack.Group>
-      <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
+      <RootStack.Group
+        screenOptions={{
+          presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
+          headerShown: false,
+          cardStyle: {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
         <RootStack.Screen name="BottomSheet" component={BottomSheet} />
       </RootStack.Group>
     </RootStack.Navigator>
