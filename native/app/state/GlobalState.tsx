@@ -48,6 +48,7 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const dataService = DataService.getInstance(dispatch);
 
     return () => {
+      dispatch({ type: "setInitComplete", payload: false });
       AuthService.unsubscribe();
     };
   }, []);
@@ -57,13 +58,6 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
       SplashScreen.hideAsync();
     }
   }, [state.initComplete]);
-
-  useEffect(() => {
-    if (state.authenticated && state.currentAccount && state.definitionsReady) {
-      console.log("trigger: download getProfile()");
-      DataService.getInventory();
-    }
-  }, [state.authenticated, state.currentAccount, state.definitionsReady]);
 
   return (
     <StateContext.Provider value={state}>

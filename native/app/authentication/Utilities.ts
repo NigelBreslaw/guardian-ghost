@@ -55,6 +55,8 @@ export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
   });
 }
 
+// This returns JSON instead of an auth token so the system being disabled can be handled.
+// This also returns JSON with an error message inside it. This is handled later on.
 export function getAccessToken(token: AuthToken): Promise<JSON> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -74,9 +76,12 @@ export function getAccessToken(token: AuthToken): Promise<JSON> {
   return new Promise((resolve, reject) => {
     fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
       .then((response) => {
-        return resolve(response.json());
+        return response.json();
       })
-
+      .then((responseJson) => {
+        responseJson.time_stamp = new Date().toISOString();
+        return resolve(responseJson);
+      })
       .catch((error) => {
         reject(error);
       });

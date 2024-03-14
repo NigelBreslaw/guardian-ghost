@@ -111,7 +111,7 @@ class AuthService {
         }
       };
 
-      enqueue(); // Enqueue the current request
+      enqueue();
     });
   }
 
@@ -165,7 +165,7 @@ class AuthService {
               }
               return resolve(true);
             }
-            // {"error": "server_error", "error_description": "SystemDisabled"}
+
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");

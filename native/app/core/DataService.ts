@@ -116,7 +116,7 @@ class DataService {
       console.log("processing all profile data took:", (p6 - p5).toFixed(5), "ms");
       DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
-      console.error("Failed to validate profile", e);
+      console.error("Failed to validate profile!", e);
     }
   }
 

@@ -1,3 +1,6 @@
+import AuthService from "@/app/authentication/AuthService.ts";
+import DataService from "@/app/core/DataService.ts";
+import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
@@ -22,6 +25,19 @@ export default function RootScreen() {
     }
   }, [globalState.authenticated, globalState.initComplete, globalState.systemDisabled, navigation]);
 
+  useEffect(() => {
+    if (
+      globalState.initComplete &&
+      globalState.authenticated &&
+      globalState.currentAccount &&
+      globalState.definitionsReady &&
+      AuthService.isAuthenticated()
+    ) {
+      console.log("trigger: download getProfile()");
+      DataService.getInventory();
+    }
+  }, [globalState.authenticated, globalState.currentAccount, globalState.definitionsReady, globalState.initComplete]);
+
   return (
     <RootStack.Navigator>
       <RootStack.Group>
@@ -35,6 +51,9 @@ export default function RootScreen() {
       </RootStack.Group>
       <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
         <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
+      </RootStack.Group>
+      <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
+        <RootStack.Screen name="BottomSheet" component={BottomSheet} />
       </RootStack.Group>
     </RootStack.Navigator>
   );
