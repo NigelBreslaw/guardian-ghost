@@ -15,7 +15,8 @@ export type CharacterGear = {
   equipped: DestinyItem | null;
   inventory: Array<DestinyItem>;
 };
-export type VaultBucketHash = 138197802 | 1469714392 | 3313201758;
+export type VaultBucketHash = 138197802 | 1469714392 | 3313201758 | 1367666825;
+export const vaultBucketHashes = [138197802, 1469714392, 3313201758, 1367666825];
 
 export type VaultData = {
   characterId: string;
@@ -31,6 +32,10 @@ export type VaultData = {
     };
     // mods: global space
     3313201758: {
+      items: Record<number, CharacterGear>;
+    };
+    // special orders:
+    1367666825: {
       items: Record<number, CharacterGear>;
     };
   };
