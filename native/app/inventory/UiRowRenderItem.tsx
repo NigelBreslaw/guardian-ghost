@@ -15,6 +15,7 @@ export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
     case UiCellType.DestinyCell:
       return (
         <DestinyCell
+          itemInstanceId={item.itemInstanceId}
           iconUri={item.icon}
           primaryStat={item.primaryStat}
           calculatedWaterMark={item.calculatedWaterMark}

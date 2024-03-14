@@ -188,43 +188,58 @@ function returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const definition = DataService.itemDefinition.items[item.itemHash] as SingleItemDefinition;
-  const itemInstanceId = item?.itemInstanceId || "";
+  const itemInstanceId = item?.itemInstanceId;
 
-  const itemComponent = DataService.profileData.Response.itemComponents.instances.data[itemInstanceId];
-  if (!itemComponent) {
-    throw new Error("No itemComponent found for item");
-  }
-  // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
-  const versionNumber = item.versionNumber;
-  let watermark: string | undefined = undefined;
-  if (versionNumber) {
-    const dvwi = definition.dvwi;
-    if (dvwi) {
-      const index = dvwi[versionNumber];
-      if (index) {
-        watermark = DataService.IconWaterMarks[index];
+  if (itemInstanceId) {
+    const itemComponent = DataService.profileData.Response.itemComponents.instances.data[itemInstanceId];
+    if (itemComponent) {
+      // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
+      const versionNumber = item.versionNumber;
+      let watermark: string | undefined = undefined;
+      if (versionNumber) {
+        const dvwi = definition.dvwi;
+        if (dvwi) {
+          const index = dvwi[versionNumber];
+          if (index) {
+            watermark = DataService.IconWaterMarks[index];
+          }
+        }
+      } else {
+        const iconWatermark = definition.iw;
+        if (iconWatermark) {
+          watermark = DataService.IconWaterMarks[iconWatermark];
+        }
       }
+
+      if (watermark) {
+        watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
+      }
+
+      const iconData: DestinyIconData = {
+        itemHash: item.itemHash,
+        itemInstanceId: item.itemInstanceId,
+        icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
+        primaryStat: itemComponent.primaryStat?.value.toString() || "",
+        calculatedWaterMark: watermark,
+        damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
+      };
+      return iconData;
     }
-  } else {
-    const iconWatermark = definition.iw;
-    if (iconWatermark) {
-      watermark = DataService.IconWaterMarks[iconWatermark];
-    }
+
+    console.error("No itemComponent found for item", item);
   }
 
-  if (watermark) {
-    watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
-  }
-
-  const iconData: DestinyIconData = {
+  const emptyData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
-    icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
-    primaryStat: itemComponent.primaryStat?.value.toString() || "",
-    calculatedWaterMark: watermark,
-    damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
+    icon: "",
+    primaryStat: "",
+    calculatedWaterMark: "",
+    damageTypeIconUri: 0,
   };
-  return iconData;
+
+  console.error("returnDestinyIconData() error", item);
+  return emptyData;
 }
 
 function returnInventoryRow(characterGear: CharacterGear, column: number, rowWidth = 3): Array<DestinyIconData> {
