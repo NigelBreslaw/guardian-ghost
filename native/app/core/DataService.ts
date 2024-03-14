@@ -196,6 +196,7 @@ class DataService {
 
           if (definitionBucketHash) {
             console.log("Found bucket", definitionBucketHash);
+            console.log("item.bucketHash", item.bucketHash);
             const hasBucket = Object.hasOwn(vaultItems[item.bucketHash as VaultBucketHash].items, definitionBucketHash);
             if (!hasBucket) {
               vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash] = {
