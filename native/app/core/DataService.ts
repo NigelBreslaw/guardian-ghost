@@ -1,6 +1,6 @@
 import { getCustomItemDefinition } from "@/app/backend/api.ts";
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { type ProfileData, getProfileSchema } from "@/app/bungie/Types.ts";
+import { type ProfileData, getProfileSchema, vaultBucketHashes } from "@/app/bungie/Types.ts";
 import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
@@ -26,6 +26,10 @@ class DataService {
         },
         // mods
         3313201758: {
+          items: {},
+        },
+        // special orders:
+        1367666825: {
           items: {},
         },
       },
@@ -187,7 +191,6 @@ class DataService {
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
-        console.log("itemHash", itemHash);
         const data = DataService.itemDefinition.items[itemHash] as SingleItemDefinition;
 
         const bucketHashIndex = data.b;
@@ -195,15 +198,16 @@ class DataService {
           const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
 
           if (definitionBucketHash) {
-            console.log("Found bucket", definitionBucketHash);
-            console.log("item.bucketHash", item.bucketHash);
+            if (!vaultBucketHashes.includes(item.bucketHash)) {
+              console.error("item.bucketHash not in vaultBucketHashes", item.bucketHash);
+              continue;
+            }
             const hasBucket = Object.hasOwn(vaultItems[item.bucketHash as VaultBucketHash].items, definitionBucketHash);
             if (!hasBucket) {
               vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash] = {
                 equipped: null,
                 inventory: [],
               };
-              console.log("Added new bucket", item.bucketHash, definitionBucketHash);
             }
 
             vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash]?.inventory.push(item);
