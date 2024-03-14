@@ -2,7 +2,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "native/ios/TestFlight/**"
+      - "native/WhatsNew/**"
       - "minifier/**"
 
 concurrency:
