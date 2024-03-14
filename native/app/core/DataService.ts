@@ -187,18 +187,22 @@ class DataService {
 
       for (const item of vaultInventory) {
         const itemHash = item.itemHash.toString();
+        console.log("itemHash", itemHash);
         const data = DataService.itemDefinition.items[itemHash] as SingleItemDefinition;
+
         const bucketHashIndex = data.b;
         if (bucketHashIndex) {
           const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
 
           if (definitionBucketHash) {
+            console.log("Found bucket", definitionBucketHash);
             const hasBucket = Object.hasOwn(vaultItems[item.bucketHash as VaultBucketHash].items, definitionBucketHash);
             if (!hasBucket) {
               vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash] = {
                 equipped: null,
                 inventory: [],
               };
+              console.log("Added new bucket", item.bucketHash, definitionBucketHash);
             }
 
             vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash]?.inventory.push(item);
