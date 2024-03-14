@@ -1,12 +1,11 @@
-import StorageGG from "@/app/storage/StorageGG.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View, Image, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
-import { armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
+import { LOGO_DARK, armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -80,34 +79,38 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       paddingLeft: insets.left + 20,
       paddingRight: insets.right + 20,
       flex: 1,
+    },
+    bottomContainer: {
+      flex: 1,
       flexDirection: "column-reverse",
+    },
+    textDark: {
+      color: "#F1EDFE",
+      fontSize: 50,
+      fontWeight: "bold",
+      letterSpacing: -2,
+      lineHeight: 48,
     },
   });
 
   return (
     <View style={styles.drawerContainer}>
-      <Button
-        mode="contained"
-        onPress={() => {
-          props.navigation.closeDrawer();
-          AuthService.logoutCurrentUser();
-        }}
-        style={{ alignSelf: "stretch" }}
-      >
-        Logout
-      </Button>
-      <View style={{ marginTop: 40 }} />
-      <Button
-        mode="contained"
-        onPress={() => {
-          props.navigation.closeDrawer();
-          const j = JSON.parse("{}");
-          StorageGG.setData(j, "item_definition", "deleteDb");
-        }}
-        style={{ alignSelf: "stretch" }}
-      >
-        Delete DB
-      </Button>
+      <View style={{ flex: 4 }}>
+        <Image source={LOGO_DARK} style={{ width: 100, height: 100 }} />
+        <Text style={styles.textDark}>Guardian Ghost</Text>
+      </View>
+      <View style={styles.bottomContainer}>
+        <Button
+          mode="contained"
+          onPress={() => {
+            props.navigation.closeDrawer();
+            AuthService.logoutCurrentUser();
+          }}
+          style={{ alignSelf: "stretch" }}
+        >
+          Logout
+        </Button>
+      </View>
     </View>
   );
 };
@@ -126,7 +129,7 @@ export default function MainDrawer() {
         options={{
           drawerType: "back",
           drawerStyle: {
-            backgroundColor: "darkgrey",
+            backgroundColor: "black",
           },
           sceneContainerStyle: {
             backgroundColor: "#17101F",

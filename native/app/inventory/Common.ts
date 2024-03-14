@@ -144,3 +144,6 @@ export function getDamagetypeIconUri(damageType: DamageType): number | null {
       return null;
   }
 }
+
+export const LOGO_DARK = require("../../images/gg-logo-dark.webp");
+export const LOGO_LIGHT = require("../../images/gg-logo-light.webp");

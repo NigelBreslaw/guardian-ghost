@@ -1,3 +1,4 @@
+import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import type { NavigationProp } from "@react-navigation/native";
@@ -14,8 +15,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const url = useURL();
 
   const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
-  const logoSource =
-    colorScheme === "light" ? require("../../images/gg-logo-light.webp") : require("../../images/gg-logo-dark.webp");
+  const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
