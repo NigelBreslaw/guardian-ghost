@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  gesture: {
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
+    position: "absolute",
+  },
   powerLevelText: {
     color: "white",
     fontSize: 14,
@@ -76,52 +81,68 @@ const styles = StyleSheet.create({
   },
 });
 
-type dProps = {
+type VisualProps = {
   iconUri: string;
   primaryStat: string;
   damageTypeIconUri: number | null;
   calculatedWaterMark: string | undefined;
 };
 
-const DestinyCell = (props: dProps) => {
+const VisualCell = React.memo((props: VisualProps) => {
+  return (
+    <View style={styles.frameSize}>
+      <View style={styles.icon}>
+        <View style={styles.innerFrameSize}>
+          <Image
+            source={{ uri: props.iconUri }}
+            cachePolicy="memory-disk"
+            style={styles.innerFrameSize}
+            recyclingKey={props.iconUri}
+          />
+          <Image
+            source={{ uri: props.calculatedWaterMark }}
+            cachePolicy="memory-disk"
+            style={styles.innerFrameOverlaySize}
+            recyclingKey={props.calculatedWaterMark}
+          />
+        </View>
+      </View>
+      {props.primaryStat !== "" && (
+        <View style={styles.powerLevel}>
+          <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
+        </View>
+      )}
+      {props.damageTypeIconUri && (
+        <View style={styles.miniIconBurn}>
+          <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
+        </View>
+      )}
+    </View>
+  );
+});
+
+type DestinyCellProps = VisualProps & {
+  itemInstanceId: string | undefined;
+};
+
+const DestinyCell = (props: DestinyCellProps) => {
   const tap = Gesture.Tap().onEnd(() => {
-    console.log(props.iconUri);
+    console.log(props.itemInstanceId);
   });
 
   return (
-    <GestureDetector gesture={tap}>
-      <View style={styles.container}>
-        <View style={styles.frameSize}>
-          <View style={styles.icon}>
-            <View style={styles.innerFrameSize}>
-              <Image
-                source={{ uri: props.iconUri }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameSize}
-                recyclingKey={props.iconUri}
-              />
-              <Image
-                source={{ uri: props.calculatedWaterMark }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameOverlaySize}
-                recyclingKey={props.calculatedWaterMark}
-              />
-            </View>
-          </View>
-          {props.primaryStat !== "" && (
-            <View style={styles.powerLevel}>
-              <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
-            </View>
-          )}
-          {props.damageTypeIconUri && (
-            <View style={styles.miniIconBurn}>
-              <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
-            </View>
-          )}
-        </View>
-      </View>
-    </GestureDetector>
+    <View style={styles.container}>
+      <VisualCell
+        iconUri={props.iconUri}
+        primaryStat={props.primaryStat}
+        damageTypeIconUri={props.damageTypeIconUri}
+        calculatedWaterMark={props.calculatedWaterMark}
+      />
+      <GestureDetector gesture={tap}>
+        <View style={styles.gesture} />
+      </GestureDetector>
+    </View>
   );
 };
 
-export default React.memo(DestinyCell);
+export default DestinyCell;

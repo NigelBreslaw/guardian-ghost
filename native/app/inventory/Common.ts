@@ -45,7 +45,7 @@ export enum BreakerType {
 
 export type DestinyIconData = {
   itemHash: number;
-  itemInstanceId?: string;
+  itemInstanceId: string | undefined;
   icon: string;
   damageTypeIconUri: number | null;
   primaryStat: string;
@@ -74,6 +74,7 @@ export type DestinyCell = {
   id: string;
   type: UiCellType.DestinyCell;
   icon: string;
+  itemInstanceId: string | undefined;
   primaryStat: string;
   calculatedWaterMark: string | undefined;
   damageTypeIconUri: number | null;
