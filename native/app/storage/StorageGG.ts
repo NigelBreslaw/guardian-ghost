@@ -160,7 +160,6 @@ class StorageGG {
             (_, resultSet) => {
               if (resultSet.rows.length > 0) {
                 const json = JSON.parse(resultSet.rows.item(0).value);
-                // console.log("JSON retrieved successfully");
                 return resolve(json);
               }
               console.log("No JSON found for the provided key", errorMessage);
