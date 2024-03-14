@@ -65,13 +65,18 @@ export enum UiCellType {
   DestinyCell = 3,
 }
 
-export type SeparatorCell = {
+export type BaseCell = {
   id: string;
+  type: UiCellType;
+  itemHash?: number;
+  itemInstanceId?: string;
+};
+
+export type SeparatorCell = BaseCell & {
   type: UiCellType.Separator;
 };
 
-export type DestinyCell = {
-  id: string;
+export type DestinyCell = BaseCell & {
   type: UiCellType.DestinyCell;
   icon: string;
   itemInstanceId: string | undefined;
@@ -80,13 +85,11 @@ export type DestinyCell = {
   damageTypeIconUri: number | null;
 };
 
-export type EmptyCell = {
-  id: string;
+export type EmptyCell = BaseCell & {
   type: UiCellType.EmptyCell;
 };
 
-export type BlankCell = {
-  id: string;
+export type BlankCell = BaseCell & {
   type: UiCellType.BlankCell;
 };
 

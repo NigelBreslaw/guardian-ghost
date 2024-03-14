@@ -3,24 +3,36 @@ import { type UiCell, UiCellType } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import SeparatorCell from "@/app/inventory/SeparatorCell.tsx";
+import { TouchableOpacity } from "react-native";
 
-export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
-  switch (item.type) {
-    case UiCellType.Separator:
-      return <SeparatorCell />;
-    case UiCellType.EmptyCell:
-      return <EmptyCell />;
-    case UiCellType.BlankCell:
-      return <BlankCell />;
-    case UiCellType.DestinyCell:
-      return (
-        <DestinyCell
-          itemInstanceId={item.itemInstanceId}
-          iconUri={item.icon}
-          primaryStat={item.primaryStat}
-          calculatedWaterMark={item.calculatedWaterMark}
-          damageTypeIconUri={item.damageTypeIconUri}
-        />
-      );
-  }
+export const UiCellRenderItem = ({ item }: { item: UiCell }, handlePress: (itemInstanceId: string) => void) => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        if (item.itemInstanceId) {
+          handlePress(item.itemInstanceId);
+        }
+      }}
+    >
+      {(() => {
+        switch (item.type) {
+          case UiCellType.Separator:
+            return <SeparatorCell />;
+          case UiCellType.EmptyCell:
+            return <EmptyCell />;
+          case UiCellType.BlankCell:
+            return <BlankCell />;
+          case UiCellType.DestinyCell:
+            return (
+              <DestinyCell
+                iconUri={item.icon}
+                primaryStat={item.primaryStat}
+                calculatedWaterMark={item.calculatedWaterMark}
+                damageTypeIconUri={item.damageTypeIconUri}
+              />
+            );
+        }
+      })()}
+    </TouchableOpacity>
+  );
 };

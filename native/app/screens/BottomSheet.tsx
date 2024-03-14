@@ -1,9 +1,17 @@
-import { useRef } from "react";
-import { View, Button } from "react-native";
+import type { NavigationProp } from "@react-navigation/native";
+import { useEffect, useRef } from "react";
+import { View } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-export default function BottomSheet() {
+export default function BottomSheet({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const refRBSheet = useRef<RBSheet | null>();
+
+  useEffect(() => {
+    if (refRBSheet.current) {
+      refRBSheet.current.open();
+    }
+  }, []);
+
   return (
     <View
       style={{
@@ -13,20 +21,13 @@ export default function BottomSheet() {
         backgroundColor: "transparent",
       }}
     >
-      <Button
-        title="OPEN BOTTOM SHEET"
-        onPress={() => {
-          if (refRBSheet.current) {
-            refRBSheet.current.open();
-          }
-        }}
-      />
       <RBSheet
         ref={(ref) => {
           refRBSheet.current = ref;
         }}
         closeOnDragDown={true}
-        closeOnPressMask={false}
+        closeOnPressMask={true}
+        onClose={() => navigation.goBack()}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent",

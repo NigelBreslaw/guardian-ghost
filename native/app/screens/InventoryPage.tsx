@@ -2,6 +2,7 @@ import type { UiCell } from "@/app/inventory/Common.ts";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -15,6 +16,7 @@ type InventoryPageProps = {
 
 export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
+  const navigator = useNavigation();
   const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();
   const HOME_WIDTH = width;
@@ -37,6 +39,11 @@ export default function InventoryPage(props: InventoryPageProps) {
       setListData(UiData);
     }
   }, [globalState.dataIsReady, props.itemBuckets]);
+
+  function activateSheet(itemInstanceId: string) {
+    console.log("activateSheet", itemInstanceId);
+    navigator.navigate("BottomSheet" as never);
+  }
 
   return (
     <ScrollView
@@ -62,7 +69,7 @@ export default function InventoryPage(props: InventoryPageProps) {
                 listRefs.current[index] = ref;
               }}
               data={list}
-              renderItem={UiCellRenderItem}
+              renderItem={({ item }) => UiCellRenderItem({ item }, activateSheet)}
               keyExtractor={(item) => item.id}
               numColumns={pageColumns[index]}
               scrollEventThrottle={34}
