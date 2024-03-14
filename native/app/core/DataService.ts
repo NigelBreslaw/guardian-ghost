@@ -16,12 +16,15 @@ class DataService {
       characterId: "VAULT",
       emblemBackgroundPath: "",
       items: {
+        // general
         138197802: {
           items: {},
         },
+        // consumables
         1469714392: {
           items: {},
         },
+        // mods
         3313201758: {
           items: {},
         },
