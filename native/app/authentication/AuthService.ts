@@ -198,7 +198,6 @@ class AuthService {
       if (currentUserID === "") {
         console.error("No currentUserID!!!");
       } else {
-        console.info("currentUserID", currentUserID);
         AsyncStorage.setItem(`${currentUserID}${Store._refresh_token}`, JSON.stringify(token));
         AuthService.setAuthToken(token);
       }
