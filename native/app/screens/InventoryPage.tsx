@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const pageColumns = [4, 4, 4, 4];
 
@@ -17,7 +16,6 @@ type InventoryPageProps = {
 export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
   const navigator = useNavigation();
-  const insets = useSafeAreaInsets();
   const { height, width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
@@ -40,9 +38,8 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [globalState.dataIsReady, props.itemBuckets]);
 
-  function activateSheet(itemInstanceId: string) {
-    console.log("activateSheet", itemInstanceId);
-    navigator.navigate("BottomSheet" as never);
+  function activateSheet(itemInstanceIdArg: string) {
+    navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg });
   }
 
   return (
