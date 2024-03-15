@@ -9,7 +9,19 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
 import { Platform, useColorScheme } from "react-native";
 
-const RootStack = createStackNavigator();
+export type RootStackParamList = {
+  Login: undefined;
+  Root: undefined;
+  BottomSheet: { itemInstanceId: string };
+};
+
+const RootStack = createStackNavigator<RootStackParamList>();
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
@@ -61,7 +73,7 @@ export default function RootScreen() {
           },
         }}
       >
-        <RootStack.Screen name="BottomSheet" component={BottomSheet} />
+        <RootStack.Screen name="BottomSheet" component={BottomSheet} initialParams={{ itemInstanceId: "" }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

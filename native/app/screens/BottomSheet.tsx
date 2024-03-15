@@ -1,10 +1,17 @@
-import type { NavigationProp } from "@react-navigation/native";
+import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-export default function BottomSheet({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+export default function BottomSheet({
+  navigation,
+  route,
+}: {
+  navigation: NavigationProp<ReactNavigation.RootParamList>;
+  route: RouteProp<ReactNavigation.RootParamList, "BottomSheet">;
+}) {
   const refRBSheet = useRef<RBSheet | null>();
+  const { itemInstanceId } = route.params;
 
   useEffect(() => {
     if (refRBSheet.current) {
@@ -37,7 +44,7 @@ export default function BottomSheet({ navigation }: { navigation: NavigationProp
           },
         }}
       >
-        {/* <YourOwnComponent /> */}
+        <Text>{itemInstanceId}</Text>
       </RBSheet>
     </View>
   );
