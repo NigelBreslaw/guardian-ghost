@@ -95,6 +95,7 @@ export default function BottomSheet({
           }}
         >
           <Image
+            transition={200}
             style={[
               {
                 width: "100%",
