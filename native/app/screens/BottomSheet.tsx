@@ -1,6 +1,6 @@
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
-import { View, Text, useWindowDimensions, StyleSheet } from "react-native";
+import { View, Text, useWindowDimensions, StyleSheet, StatusBar } from "react-native";
 import { Image } from "expo-image";
 import RBSheet from "react-native-raw-bottom-sheet";
 import DataService from "@/app/core/DataService.ts";
@@ -67,6 +67,7 @@ export default function BottomSheet({
         backgroundColor: "transparent",
       }}
     >
+      <StatusBar barStyle="light-content" />
       <RBSheet
         ref={(ref) => {
           refRBSheet.current = ref;
