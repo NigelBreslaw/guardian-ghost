@@ -5,12 +5,15 @@ import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import SeparatorCell from "@/app/inventory/SeparatorCell.tsx";
 import { TouchableOpacity } from "react-native";
 
-export const UiCellRenderItem = ({ item }: { item: UiCell }, handlePress: (itemInstanceId: string) => void) => {
+export const UiCellRenderItem = (
+  { item }: { item: UiCell },
+  handlePress: (itemInstanceId: string, itemHash: number) => void,
+) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        if (item.itemInstanceId) {
-          handlePress(item.itemInstanceId);
+        if (item.itemInstanceId && item.itemHash) {
+          handlePress(item.itemInstanceId, item.itemHash);
         }
       }}
     >

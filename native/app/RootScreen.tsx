@@ -12,7 +12,7 @@ import { Platform, useColorScheme } from "react-native";
 export type RootStackParamList = {
   Login: undefined;
   Root: undefined;
-  BottomSheet: { itemInstanceId: string };
+  BottomSheet: { itemInstanceId: string; itemHash: number };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
