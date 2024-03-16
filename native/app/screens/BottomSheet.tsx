@@ -9,6 +9,7 @@ import { itemSchema } from "@/app/core/Types.ts";
 
 type ViewData = {
   itemInstanceId: string;
+  itemTypeDisplayName: string;
   screenshot: string;
   name: string;
 };
@@ -19,11 +20,13 @@ function buildViewData(itemInstanceId: string, itemHash: number): ViewData {
   if (itemDef.success) {
     const screenshot = itemDef.output.s;
     const name = itemDef.output.n;
+    const itd = itemDef.output.itd;
 
     const viewData: ViewData = {
       itemInstanceId,
       screenshot: screenshot ? `https://www.bungie.net/common/destiny2_content/screenshots/${screenshot}` : "",
       name: name ? name.toLocaleUpperCase() : "",
+      itemTypeDisplayName: itd ? DataService.ItemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
     };
 
     const p2 = performance.now();
@@ -36,6 +39,7 @@ function buildViewData(itemInstanceId: string, itemHash: number): ViewData {
     itemInstanceId,
     screenshot: "",
     name: "",
+    itemTypeDisplayName: "",
   };
 }
 
@@ -106,12 +110,35 @@ export default function BottomSheet({
             source={{ uri: viewData.screenshot }}
           />
           <View style={{ flex: 2 }} />
-          <View style={{ flex: 2, flexDirection: "row" }}>
+          <View style={{ flex: 4, flexDirection: "row" }}>
             <View style={{ flex: 1 }} />
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>{viewData.name}</Text>
-            <View style={{ flex: 20 }} />
+            <View style={{ flex: 18 }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "white",
+                  fontFamily: "Helvetica",
+                  includeFontPadding: false,
+                  lineHeight: 20,
+                }}
+              >
+                {viewData.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "white",
+                  opacity: 0.6,
+                  includeFontPadding: false,
+                  transform: [{ translateY: -4 }],
+                }}
+              >
+                {viewData.itemTypeDisplayName}
+              </Text>
+            </View>
           </View>
-          <View style={{ flex: 18 }} />
+          <View style={{ flex: 15 }} />
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
           </View>

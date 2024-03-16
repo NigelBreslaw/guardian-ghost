@@ -39,6 +39,7 @@ class DataService {
   static itemDefinition: ItemDefinition;
   static bucketTypeHashArray: Array<number>;
   static IconWaterMarks: Array<string>;
+  static ItemTypeDisplayName: Array<string>;
   static profileData: ProfileData;
 
   private constructor(dispatch: React.Dispatch<GlobalAction>) {
@@ -95,6 +96,8 @@ class DataService {
       DataService.bucketTypeHashArray = parsedBucketTypeHash;
       const IconWaterMarks = parse(array(string()), DataService.itemDefinition.helpers.IconWaterMark);
       DataService.IconWaterMarks = IconWaterMarks;
+      const ItemTypeDisplayName = parse(array(string()), DataService.itemDefinition.helpers.ItemTypeDisplayName);
+      DataService.ItemTypeDisplayName = ItemTypeDisplayName;
     } catch (e) {
       console.error("Failed to setUpItemDefinition", e);
     }
