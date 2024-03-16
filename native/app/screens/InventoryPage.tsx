@@ -16,7 +16,7 @@ type InventoryPageProps = {
 export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
   const navigator = useNavigation();
-  const { height, width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const HOME_WIDTH = width;
 
   const [listData, setListData] = useState<Array<Array<UiCell>>>([]);
@@ -38,8 +38,8 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [globalState.dataIsReady, props.itemBuckets]);
 
-  function activateSheet(itemInstanceIdArg: string) {
-    navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg });
+  function activateSheet(itemInstanceIdArg: string, itemHashArg: number) {
+    navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg, itemHash: itemHashArg });
   }
 
   return (

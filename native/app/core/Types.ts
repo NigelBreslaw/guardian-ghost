@@ -3,7 +3,7 @@ import type { Output } from "valibot";
 
 const MINI_ITEM_DEFINITION_VERSION = 2;
 
-const itemSchema = object({
+export const itemSchema = object({
   a: optional(number()),
   at: optional(number()),
   b: optional(number()),
