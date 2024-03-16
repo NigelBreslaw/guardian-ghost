@@ -197,7 +197,7 @@ class DataService {
         const data = DataService.itemDefinition.items[itemHash] as SingleItemDefinition;
 
         const bucketHashIndex = data.b;
-        if (bucketHashIndex) {
+        if (bucketHashIndex !== undefined) {
           const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
 
           if (definitionBucketHash) {

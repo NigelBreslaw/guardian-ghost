@@ -195,12 +195,14 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     if (itemComponent) {
       // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
       const versionNumber = item.versionNumber;
+
       let watermark: string | undefined = undefined;
-      if (versionNumber) {
+      if (versionNumber !== undefined) {
         const dvwi = definition.dvwi;
+
         if (dvwi) {
           const index = dvwi[versionNumber];
-          if (index) {
+          if (index !== undefined) {
             watermark = DataService.IconWaterMarks[index];
           }
         }
