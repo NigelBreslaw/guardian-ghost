@@ -12,8 +12,6 @@ export const debounce = (func: Function, delay = 0) => {
   };
 };
 
-import StorageGG from "@/storage/StorageGG";
-
 export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   const requestOptions: RequestInit = {
     method: "GET",
