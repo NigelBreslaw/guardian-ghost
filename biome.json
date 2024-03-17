@@ -18,7 +18,8 @@
         "noNonNullAssertion": "off"
       },
       "correctness": {
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "useExhaustiveDependencies": "warn"
       }
     }
   }
