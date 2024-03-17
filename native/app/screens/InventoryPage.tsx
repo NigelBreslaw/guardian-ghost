@@ -86,7 +86,6 @@ export default function InventoryPage(props: InventoryPageProps) {
     if (posX > 0) {
       index = Math.floor(posX / LIST_WIDTH);
     }
-    console.log("calcCurrentListIndex", index, globalState.currentListIndex);
     globalDispatch({ type: "setCurrentListIndex", payload: index });
   };
 
