@@ -1,8 +1,8 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
-import { useNavigation } from "@react-navigation/native";
+import { useGlobalDispatchContext, useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -16,12 +16,17 @@ type InventoryPageProps = {
 
 export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
+  const globalDispatch = useGlobalDispatchContext();
   const navigator = useNavigation();
   const { width, height } = useWindowDimensions();
   const HOME_WIDTH = width;
 
   const [listData, setListData] = useState<Array<Array<UiCell>>>([]);
   const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
+  const pagedScrollRef = useRef<ScrollView>(null);
+
+  const isFocused = useIsFocused();
+  const route = useRoute();
 
   const styles = StyleSheet.create({
     container: {},
@@ -31,12 +36,24 @@ export default function InventoryPage(props: InventoryPageProps) {
     },
   });
 
+  const jumpToCharacter = () => {
+    const posX = HOME_WIDTH * globalState.currentListIndex;
+    pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
+  };
+
   useEffect(() => {
     if (globalState.dataIsReady) {
       const UiData = buildUIData(props.itemBuckets);
       setListData(UiData);
     }
   }, [globalState.dataIsReady, props.itemBuckets]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <This should only run when the view is focus>
+  useEffect(() => {
+    if (isFocused) {
+      jumpToCharacter();
+    }
+  }, [isFocused]);
 
   function activateSheet(itemInstanceIdArg: string | undefined, itemHashArg: number) {
     navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg, itemHash: itemHashArg });
@@ -63,8 +80,26 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedMove = debounce(listMoved, 100);
 
+  const calcCurrentListIndex = (posX: number) => {
+    const LIST_WIDTH = HOME_WIDTH;
+    let index = 0;
+    if (posX > 0) {
+      index = Math.floor(posX / LIST_WIDTH);
+    }
+    console.log("calcCurrentListIndex", index, globalState.currentListIndex);
+    globalDispatch({ type: "setCurrentListIndex", payload: index });
+  };
+
+  const debouncedCalcCurrentListIndex = debounce(calcCurrentListIndex, 100);
+
   return (
-    <ScrollView horizontal pagingEnabled>
+    <ScrollView
+      horizontal
+      pagingEnabled
+      scrollEventThrottle={32}
+      onScroll={(e) => debouncedCalcCurrentListIndex(e.nativeEvent.contentOffset.x)}
+      ref={pagedScrollRef}
+    >
       {listData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
