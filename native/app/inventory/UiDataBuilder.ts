@@ -148,16 +148,16 @@ function returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
   const columns = 4;
 
   for (const bucket of itemBuckets) {
-    for (let i = 0; i < columns; i++) {
-      const separator: SeparatorCell = {
-        id: `${bucket}_separator_${i}`,
-        type: UiCellType.Separator,
-      };
-      dataArray.push(separator);
-    }
-
     const bucketItems = vaultData.items[138197802].items[bucket];
     if (bucketItems) {
+      for (let i = 0; i < columns; i++) {
+        const separator: SeparatorCell = {
+          id: `${bucket}_separator_${i}`,
+          type: UiCellType.Separator,
+        };
+        dataArray.push(separator);
+      }
+
       const totalRows = Math.ceil(bucketItems.inventory.length / 5);
 
       for (let i = 0; i < totalRows; i++) {
