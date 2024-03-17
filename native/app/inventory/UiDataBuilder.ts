@@ -36,6 +36,7 @@ export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
         if (bucketItems) {
           const equipped = bucketItems.equipped;
           let equipItem: DestinyIconData | null = null;
+
           if (equipped) {
             equipItem = returnDestinyIconData(equipped);
             const equippedCell: DestinyCell = {

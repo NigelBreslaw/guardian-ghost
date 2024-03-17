@@ -8,13 +8,13 @@ import { safeParse } from "valibot";
 import { itemSchema } from "@/app/core/Types.ts";
 
 type ViewData = {
-  itemInstanceId: string;
+  itemInstanceId: string | undefined;
   itemTypeDisplayName: string;
   screenshot: string;
   name: string;
 };
 
-function buildViewData(itemInstanceId: string, itemHash: number): ViewData {
+function buildViewData(itemInstanceId: string | undefined, itemHash: number): ViewData {
   const p1 = performance.now();
   const itemDef = safeParse(itemSchema, DataService.itemDefinition.items[itemHash]);
   if (itemDef.success) {
