@@ -260,13 +260,26 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     console.error("No itemComponent found for item", item);
   }
 
+  if (definition) {
+    const nonInstancedItem: DestinyIconData = {
+      itemHash: item.itemHash,
+      itemInstanceId: undefined,
+      icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
+      primaryStat: "",
+      calculatedWaterMark: "",
+      damageTypeIconUri: null,
+    };
+
+    return nonInstancedItem;
+  }
+
   const emptyData: DestinyIconData = {
     itemHash: item.itemHash,
-    itemInstanceId: item.itemInstanceId,
+    itemInstanceId: undefined,
     icon: "",
     primaryStat: "",
     calculatedWaterMark: "",
-    damageTypeIconUri: 0,
+    damageTypeIconUri: null,
   };
 
   console.error("returnDestinyIconData() error", item);
