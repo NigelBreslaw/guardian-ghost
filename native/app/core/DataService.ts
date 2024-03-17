@@ -1,4 +1,4 @@
-import { getCustomItemDefinition } from "@/app/backend/api.ts";
+import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { type ProfileData, getProfileSchema, vaultBucketHashes } from "@/app/bungie/Types.ts";
 import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
