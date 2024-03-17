@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { debounce } from "@/app/utilities/Helpers.ts";
 
 const pageColumns = [4, 4, 4, 4];
 
@@ -20,7 +21,6 @@ export default function InventoryPage(props: InventoryPageProps) {
   const HOME_WIDTH = width;
 
   const [listData, setListData] = useState<Array<Array<UiCell>>>([]);
-  const [characterScrollPosition, setCharacterScrollPosition] = useState<number>(0);
   const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
 
   const styles = StyleSheet.create({
@@ -42,21 +42,29 @@ export default function InventoryPage(props: InventoryPageProps) {
     navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg, itemHash: itemHashArg });
   }
 
+  // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
+  // when you horizontally scroll to guardian 2 you will see it's energy weapons too.
+  function listMoved(index: number, toY: number) {
+    if (index === listData.length - 1) {
+      return;
+    }
+
+    for (let i = 0; i < listRefs.current.length; i++) {
+      if (i === index) {
+        continue;
+      }
+
+      const lRef = listRefs.current[i];
+      if (lRef) {
+        lRef.scrollToOffset({ offset: toY, animated: false });
+      }
+    }
+  }
+
+  const debouncedMove = debounce(listMoved, 100);
+
   return (
-    <ScrollView
-      horizontal
-      pagingEnabled
-      scrollEventThrottle={0}
-      onScroll={(e) => {
-        // Don't tell the vault to change position. Its always the last ref in the array.
-        for (let i = 0; i < listRefs.current.length - 1; i++) {
-          const lRef = listRefs.current[i];
-          if (lRef) {
-            lRef.scrollToOffset({ offset: characterScrollPosition, animated: false });
-          }
-        }
-      }}
-    >
+    <ScrollView horizontal pagingEnabled>
       {listData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
@@ -69,10 +77,10 @@ export default function InventoryPage(props: InventoryPageProps) {
               renderItem={({ item }) => UiCellRenderItem({ item }, activateSheet)}
               keyExtractor={(item) => item.id}
               numColumns={pageColumns[index]}
-              scrollEventThrottle={34}
+              scrollEventThrottle={32}
               onScroll={(e) => {
                 if (index < listData.length - 1) {
-                  setCharacterScrollPosition(e.nativeEvent.contentOffset.y);
+                  debouncedMove(index, e.nativeEvent.contentOffset.y);
                 }
               }}
             />
