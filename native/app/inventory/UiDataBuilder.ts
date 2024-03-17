@@ -128,6 +128,35 @@ export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
               dataArray.push(emptyCell);
             }
           }
+        } else {
+          const emptyCell: EmptyCell = {
+            id: `${bucket}_equipped`,
+            type: UiCellType.EmptyCell,
+          };
+          dataArray.push(emptyCell);
+          for (let i = 0; i < columns - 1; i++) {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_row1_${i}`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
+          }
+
+          // Create tow more rows of empty cells
+          for (let r = 0; r < 2; r++) {
+            const blankCell1: BlankCell = {
+              id: `${bucket}_row${r + 1}_blank`,
+              type: UiCellType.BlankCell,
+            };
+            dataArray.push(blankCell1);
+            for (let i = 0; i < columns - 1; i++) {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row${r + 1}_${i}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+          }
         }
       }
       characterDataArray.push(dataArray);
