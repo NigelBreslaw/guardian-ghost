@@ -17,12 +17,11 @@ export const armorPageBuckets = [
 
 export const inventoryPageBuckets = [
   375726501, // Engrams undefined 444348033 undefined 497170007
-  // 215593132, // LostItems
+  215593132, // LostItems
   4274335291, // Emblems
   284967655, // Ships
   2025709351, // Vehicle
   3683254069, // Finisher
-  3054419239, // Emotes
 ];
 
 export enum DamageType {

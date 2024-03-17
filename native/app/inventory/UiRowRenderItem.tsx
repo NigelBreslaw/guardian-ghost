@@ -7,12 +7,12 @@ import { TouchableOpacity } from "react-native";
 
 export const UiCellRenderItem = (
   { item }: { item: UiCell },
-  handlePress: (itemInstanceId: string, itemHash: number) => void,
+  handlePress: (itemInstanceId: string | undefined, itemHash: number) => void,
 ) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        if (item.itemInstanceId && item.itemHash) {
+        if (item.itemHash) {
           handlePress(item.itemInstanceId, item.itemHash);
         }
       }}

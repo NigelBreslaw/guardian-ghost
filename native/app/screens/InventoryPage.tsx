@@ -38,7 +38,7 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [globalState.dataIsReady, props.itemBuckets]);
 
-  function activateSheet(itemInstanceIdArg: string, itemHashArg: number) {
+  function activateSheet(itemInstanceIdArg: string | undefined, itemHashArg: number) {
     navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg, itemHash: itemHashArg });
   }
 
