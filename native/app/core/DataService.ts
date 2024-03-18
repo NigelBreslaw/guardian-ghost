@@ -147,7 +147,7 @@ class DataService {
           initialCharacterData.items[bucket] = { equipped: null, inventory: [] };
         }
 
-        DataService.charactersAndVault.characters[character] = initialCharacterData;
+        DataService.charactersAndVault.guardians[character] = initialCharacterData;
       }
     }
   }
@@ -158,7 +158,7 @@ class DataService {
       const characterEquipment = charactersEquipment[character];
 
       if (characterEquipment) {
-        const characterItems = DataService.charactersAndVault.characters[character];
+        const characterItems = DataService.charactersAndVault.guardians[character];
         for (const item of characterEquipment.items) {
           if (characterItems) {
             characterItems.items[item.bucketHash] = { equipped: item, inventory: [] };
