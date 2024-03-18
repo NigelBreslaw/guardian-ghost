@@ -1,17 +1,17 @@
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
-export type CharactersAndVault = {
+export type GuardiansAndVault = {
   vault: VaultData;
-  characters: Record<string, Character>;
+  guardians: Record<string, Guardian>;
 };
 
-export type Character = {
-  data: CharacterData;
-  items: Record<number, CharacterGear>;
+export type Guardian = {
+  data: GuardianData;
+  items: Record<number, GuardianGear>;
 };
 
-export type CharacterGear = {
+export type GuardianGear = {
   equipped: DestinyItem | null;
   inventory: Array<DestinyItem>;
 };
@@ -24,19 +24,19 @@ export type VaultData = {
   items: {
     // general: vault
     138197802: {
-      items: Record<number, CharacterGear>;
+      items: Record<number, GuardianGear>;
     };
     // consumables: global space
     1469714392: {
-      items: Record<number, CharacterGear>;
+      items: Record<number, GuardianGear>;
     };
     // mods: global space
     3313201758: {
-      items: Record<number, CharacterGear>;
+      items: Record<number, GuardianGear>;
     };
     // special orders:
     1367666825: {
-      items: Record<number, CharacterGear>;
+      items: Record<number, GuardianGear>;
     };
   };
 };
@@ -150,7 +150,7 @@ export const ItemSchema = object({
 
 export type DestinyItem = Output<typeof ItemSchema>;
 
-export const CharactersSchema = object({
+export const GuardiansSchema = object({
   baseCharacterLevel: number(),
   characterId: string(),
   classHash: number(),
@@ -187,7 +187,7 @@ export const CharactersSchema = object({
   titleRecordHash: number(),
 });
 
-type CharacterData = Output<typeof CharactersSchema>;
+export type GuardianData = Output<typeof GuardiansSchema>;
 
 export const getProfileSchema = merge([
   bungieResponseSchema,
@@ -206,7 +206,7 @@ export const getProfileSchema = merge([
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
       characters: object({
-        data: record(string(), CharactersSchema),
+        data: record(string(), GuardiansSchema),
       }),
 
       itemComponents: object({
