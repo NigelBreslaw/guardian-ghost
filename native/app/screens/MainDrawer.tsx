@@ -1,11 +1,11 @@
+import { LOGO_DARK, armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
+import InventoryPage from "@/app/screens/InventoryPage.tsx";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
-import { Platform, StyleSheet, View, Image, Text } from "react-native";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import InventoryPage from "@/app/screens/InventoryPage.tsx";
-import { LOGO_DARK, armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
 
 const Tab = createMaterialBottomTabNavigator();
 

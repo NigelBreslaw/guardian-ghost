@@ -1,4 +1,4 @@
-import type { CharacterGear, DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardianGear } from "@/app/bungie/Types.ts";
 import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
@@ -17,8 +17,8 @@ export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
   const characterDataArray: Array<Array<UiCell>> = [];
   const columns = 4;
 
-  for (const character in DataService.charactersAndVault.characters) {
-    const characterData = DataService.charactersAndVault.characters[character];
+  for (const character in DataService.charactersAndVault.guardians) {
+    const characterData = DataService.charactersAndVault.guardians[character];
     if (characterData) {
       const dataArray: Array<UiCell> = [];
 
@@ -287,7 +287,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   return emptyData;
 }
 
-function returnInventoryRow(characterGear: CharacterGear, column: number, rowWidth = 3): Array<DestinyIconData> {
+function returnInventoryRow(characterGear: GuardianGear, column: number, rowWidth = 3): Array<DestinyIconData> {
   const rowData: Array<DestinyIconData> = [];
 
   const startIndex = column * rowWidth;

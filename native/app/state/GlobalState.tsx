@@ -4,7 +4,7 @@ import DataService from "@/core/DataService.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type React from "react";
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { initialGlobalState, type GlobalAction, type GlobalState } from "./Types.ts";
+import { type GlobalAction, type GlobalState, initialGlobalState } from "./Types.ts";
 
 export const StateContext = createContext<GlobalState | null>(null);
 export const StateDispatchContext = createContext<React.Dispatch<GlobalAction> | null>(null);

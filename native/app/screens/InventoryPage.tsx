@@ -2,11 +2,11 @@ import type { UiCell } from "@/app/inventory/Common.ts";
 import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGlobalDispatchContext, useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { debounce } from "@/app/utilities/Helpers.ts";
 
 const pageColumns = [4, 4, 4, 5];
 

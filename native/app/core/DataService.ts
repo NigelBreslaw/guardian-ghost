@@ -1,17 +1,18 @@
-import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { type ProfileData, getProfileSchema, vaultBucketHashes } from "@/app/bungie/Types.ts";
-import type { CharactersAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardiansAndVault, VaultBucketHash } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
+// @refresh reset
+import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
   private static dispatch: React.Dispatch<GlobalAction>;
-  static charactersAndVault: CharactersAndVault = {
+  static charactersAndVault: GuardiansAndVault = {
     vault: {
       characterId: "VAULT",
       emblemBackgroundPath: "",
@@ -34,7 +35,7 @@ class DataService {
         },
       },
     },
-    characters: {},
+    guardians: {},
   };
   static itemDefinition: ItemDefinition;
   static bucketTypeHashArray: Array<number>;
@@ -146,7 +147,7 @@ class DataService {
           initialCharacterData.items[bucket] = { equipped: null, inventory: [] };
         }
 
-        DataService.charactersAndVault.characters[character] = initialCharacterData;
+        DataService.charactersAndVault.guardians[character] = initialCharacterData;
       }
     }
   }
@@ -157,7 +158,7 @@ class DataService {
       const characterEquipment = charactersEquipment[character];
 
       if (characterEquipment) {
-        const characterItems = DataService.charactersAndVault.characters[character];
+        const characterItems = DataService.charactersAndVault.guardians[character];
         for (const item of characterEquipment.items) {
           if (characterItems) {
             characterItems.items[item.bucketHash] = { equipped: item, inventory: [] };
@@ -173,7 +174,7 @@ class DataService {
       const characterInventory = charactersInventory[character];
 
       if (characterInventory) {
-        const characterItems = DataService.charactersAndVault.characters[character];
+        const characterItems = DataService.charactersAndVault.guardians[character];
         for (const item of characterInventory.items) {
           if (characterItems) {
             const hasBucket = Object.hasOwn(characterItems.items, item.bucketHash);
