@@ -1,5 +1,5 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { type ProfileData, getProfileSchema, vaultBucketHashes } from "@/app/bungie/Types.ts";
+import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema } from "@/app/bungie/Types.ts";
 import type { DestinyItem, GuardiansAndVault, VaultBucketHash } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
@@ -7,7 +7,7 @@ import StorageGG from "@/app/storage/StorageGG.ts";
 // @refresh reset
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
-import { array, number, parse, string } from "valibot";
+import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
@@ -120,6 +120,7 @@ class DataService {
       const p5 = performance.now();
       DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
+      DataService.defineCharactersAndVault();
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
@@ -150,6 +151,27 @@ class DataService {
         DataService.charactersAndVault.guardians[character] = initialCharacterData;
       }
     }
+  }
+
+  private static defineCharactersAndVault() {
+    // First flesh out the guardians
+    const characters = DataService.charactersAndVault.guardians;
+
+    for (const character in characters) {
+      const fullCharacter = characters[character]?.data;
+
+      if (fullCharacter) {
+        const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
+        // console.log("defineCharactersAndVault", d);
+        if (parseCharacter.success) {
+          // DataService.addCharacterDefinition(parseCharacter.output);
+        }
+      }
+    }
+  }
+
+  private static addCharacterDefinition(characterData: CharacterData) {
+    console.log("addCharacterDefinition", characterData);
   }
 
   private static processCharacterEquipment(profile: ProfileData) {
