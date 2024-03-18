@@ -8,7 +8,7 @@ import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { debounce } from "@/app/utilities/Helpers.ts";
 
-const pageColumns = [4, 4, 4, 4];
+const pageColumns = [4, 4, 4, 5];
 
 type InventoryPageProps = {
   itemBuckets: Array<number>;

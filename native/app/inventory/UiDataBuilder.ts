@@ -175,7 +175,7 @@ export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
 function returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
   const vaultData = DataService.charactersAndVault.vault;
   const dataArray: Array<UiCell> = [];
-  const columns = 4;
+  const columns = 5;
 
   for (const bucket of itemBuckets) {
     const bucketItems = vaultData.items[138197802].items[bucket];
@@ -188,10 +188,10 @@ function returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
         dataArray.push(separator);
       }
 
-      const totalRows = Math.ceil(bucketItems.inventory.length / 5);
+      const totalRows = Math.ceil(bucketItems.inventory.length / columns);
 
       for (let i = 0; i < totalRows; i++) {
-        const rowData = returnInventoryRow(bucketItems, i, 5);
+        const rowData = returnInventoryRow(bucketItems, i, columns);
         for (let j = 0; j < columns; j++) {
           const item = rowData[j];
           if (item) {
