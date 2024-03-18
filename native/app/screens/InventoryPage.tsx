@@ -91,6 +91,12 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedCalcCurrentListIndex = debounce(calcCurrentListIndex, 100);
 
+  const renderItem = ({ item }: { item: UiCell }) => {
+    return UiCellRenderItem({ item }, activateSheet);
+  };
+
+  const keyExtractor = (item: UiCell) => item.id;
+
   return (
     <ScrollView
       horizontal
@@ -108,9 +114,11 @@ export default function InventoryPage(props: InventoryPageProps) {
                 listRefs.current[index] = ref;
               }}
               data={list}
-              renderItem={({ item }) => UiCellRenderItem({ item }, activateSheet)}
-              keyExtractor={(item) => item.id}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
               numColumns={pageColumns[index]}
+              removeClippedSubviews={true}
+              maxToRenderPerBatch={40}
               scrollEventThrottle={32}
               onScroll={(e) => {
                 if (index < listData.length - 1) {
