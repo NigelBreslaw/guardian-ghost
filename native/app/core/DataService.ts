@@ -1,13 +1,13 @@
-// @refresh reset
-import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema } from "@/app/bungie/Types.ts";
-import type { Guardian, GuardiansAndVault, DestinyItem, VaultBucketHash } from "@/app/bungie/Types.ts";
+import { type ProfileData, getProfileSchema, vaultBucketHashes } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardiansAndVault, VaultBucketHash } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
+// @refresh reset
+import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
-import { array, number, parse, safeParse, string } from "valibot";
+import { array, number, parse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;

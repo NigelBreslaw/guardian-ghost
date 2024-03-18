@@ -1,4 +1,4 @@
-import type { GuardianGear, DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardianGear } from "@/app/bungie/Types.ts";
 import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {

@@ -1,5 +1,6 @@
 import { clientID, redirectURL } from "@/constants/env.ts";
 import { Store } from "@/constants/storage.ts";
+import type { GlobalAction } from "@/state/Types.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
@@ -8,7 +9,6 @@ import { Platform } from "react-native";
 import { object, parse, safeParse, string } from "valibot";
 import { getBungieUser, getLinkedProfiles } from "../bungie/Account.ts";
 import { type BungieUser, BungieUserSchema, linkedProfilesSchema } from "../bungie/Types.ts";
-import type { GlobalAction } from "@/state/Types.ts";
 import {
   type AuthToken,
   authTokenSchema,
