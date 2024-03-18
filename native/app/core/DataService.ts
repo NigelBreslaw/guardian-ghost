@@ -120,6 +120,7 @@ class DataService {
       const p5 = performance.now();
       DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
+      DataService.defineCharactersAndVault();
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
@@ -150,6 +151,27 @@ class DataService {
         DataService.charactersAndVault.guardians[character] = initialCharacterData;
       }
     }
+  }
+
+  private static defineCharactersAndVault() {
+    // First flesh out the guardians
+    const characters = DataService.charactersAndVault.guardians;
+
+    for (const character in characters) {
+      const fullCharacter = characters[character]?.data;
+
+      if (fullCharacter) {
+        const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
+        // console.log("defineCharactersAndVault", d);
+        if (parseCharacter.success) {
+          // DataService.addCharacterDefinition(parseCharacter.output);
+        }
+      }
+    }
+  }
+
+  private static addCharacterDefinition(characterData: CharacterData) {
+    console.log("addCharacterDefinition", characterData);
   }
 
   private static processCharacterEquipment(profile: ProfileData) {
