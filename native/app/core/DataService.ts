@@ -1,12 +1,19 @@
+// @refresh reset
+
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema } from "@/app/bungie/Types.ts";
-import type { DestinyItem, GuardiansAndVault, VaultBucketHash } from "@/app/bungie/Types.ts";
+import type {
+  DestinyItem,
+  GuardianData,
+  GuardianUiData,
+  GuardiansAndVault,
+  VaultBucketHash,
+} from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import type { GlobalAction } from "@/app/state/Types.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
-// @refresh reset
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
-import { characterBuckets } from "@/bungie/Hashes.ts";
+import { GuardianRaceType, characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
@@ -162,16 +169,21 @@ class DataService {
 
       if (fullCharacter) {
         const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
-        // console.log("defineCharactersAndVault", d);
         if (parseCharacter.success) {
-          // DataService.addCharacterDefinition(parseCharacter.output);
+          DataService.addCharacterDefinition(parseCharacter.output);
         }
       }
     }
   }
 
-  private static addCharacterDefinition(characterData: CharacterData) {
-    console.log("addCharacterDefinition", characterData);
+  private static addCharacterDefinition(guardianData: GuardianData) {
+    const data: GuardianUiData = {
+      characterId: guardianData.characterId,
+      guardianClassType: guardianData.classType,
+      genderType: guardianData.genderType,
+      raceType: guardianData.raceType,
+    };
+    console.log("addCharacterDefinition", GuardianRaceType[data.raceType]);
   }
 
   private static processCharacterEquipment(profile: ProfileData) {

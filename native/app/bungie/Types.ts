@@ -1,3 +1,4 @@
+import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -257,3 +258,10 @@ export const getProfileSchema = merge([
 ]);
 
 export type ProfileData = Output<typeof getProfileSchema>;
+
+export type GuardianUiData = {
+  characterId: string;
+  guardianClassType: GuardianClassType;
+  genderType: GuardianGenderType;
+  raceType: GuardianRaceType;
+};

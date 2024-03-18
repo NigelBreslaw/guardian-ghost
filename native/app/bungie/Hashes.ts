@@ -55,3 +55,23 @@ export const characterBuckets = [
   1107761855, // emotes
   1506418338, // artifact
 ];
+
+export enum GuardianClassType {
+  Titan = 0,
+  Hunter = 1,
+  Warlock = 2,
+  Unknown = 3,
+}
+
+export enum GuardianGenderType {
+  Male = 0,
+  Female = 1,
+  Unknown = 2,
+}
+
+export enum GuardianRaceType {
+  Human = 0,
+  Awoken = 1,
+  Exo = 2,
+  Unknown = 3,
+}
