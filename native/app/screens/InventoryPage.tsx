@@ -119,6 +119,7 @@ export default function InventoryPage(props: InventoryPageProps) {
               numColumns={pageColumns[index]}
               removeClippedSubviews={true}
               maxToRenderPerBatch={40}
+              windowSize={11}
               scrollEventThrottle={32}
               onScroll={(e) => {
                 if (index < listData.length - 1) {
