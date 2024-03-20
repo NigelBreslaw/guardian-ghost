@@ -1,13 +1,32 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
 import AuthService from "@/authentication/AuthService.ts";
+import { isLocalWeb } from "@/constants/env.ts";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+function LocalWebLogin() {
+  const [localWebLoginText, setLocalWebLoginText] = useState("");
+
+  return (
+    <>
+      <TextInput
+        label="Paste URL"
+        value={localWebLoginText}
+        onChangeText={(localWebLoginText) => {
+          setLocalWebLoginText(localWebLoginText);
+        }}
+      />
+      <View style={styles.spacer} />
+      <Button onPress={() => AuthService.processURL(localWebLoginText)}>secret login</Button>
+    </>
+  );
+}
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
@@ -74,6 +93,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         >
           Login
         </Button>
+        {isLocalWeb && <LocalWebLogin />}
       </View>
     </SafeAreaView>
   );
