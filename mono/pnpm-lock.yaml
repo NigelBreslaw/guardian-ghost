@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  follow-redirects@<=1.15.5: '>=1.15.6'
-
 importers:
 
   .:
@@ -30,8 +27,8 @@ importers:
         specifier: 8.4.1
         version: 8.4.1
       apexcharts:
-        specifier: 3.47.0
-        version: 3.47.0
+        specifier: 3.48.0
+        version: 3.48.0
       astro:
         specifier: 4.5.6
         version: 4.5.6(typescript@5.4.2)
@@ -82,8 +79,8 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
       vite-plugin-mkcert:
-        specifier: 1.17.4
-        version: 1.17.4(vite@5.1.6)
+        specifier: 1.17.5
+        version: 1.17.5(vite@5.1.6)
       vitest:
         specifier: 1.4.0
         version: 1.4.0
@@ -1941,8 +1938,8 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  /apexcharts@3.47.0:
-    resolution: {integrity: sha512-s/fgNCA69b8lJdhI3R7Z+/Df47RPplLyHwuvttecR+aaZ3/Pm6wHYPiAGjqDNbVsMGXhuA9mcOpIYU5ZWeSdeg==}
+  /apexcharts@3.48.0:
+    resolution: {integrity: sha512-Lhpj1Ij6lKlrUke8gf+P+SE6uGUn+Pe1TnCJ+zqrY0YMvbqM3LMb1lY+eybbTczUyk0RmMZomlTa2NgX2EUs4Q==}
     dependencies:
       '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
@@ -2101,8 +2098,8 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /axios@1.6.5(debug@4.3.4):
-    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
+  /axios@1.6.8(debug@4.3.4):
+    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0
@@ -6050,14 +6047,14 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-mkcert@1.17.4(vite@5.1.6):
-    resolution: {integrity: sha512-P/B/tXhsUdpFO4Go1f2obu8WL3xxA3lbsbz4YzflbWfqWl15uwFiXaiCCBztJu1f4WnilrdXYihGrGT9jU743A==}
+  /vite-plugin-mkcert@1.17.5(vite@5.1.6):
+    resolution: {integrity: sha512-KKGY3iHx/9zb7ow8JJ+nLN2HiNIBuPBwj34fJ+jAJT89/8qfk7msO7G7qipR8VDEm9xMCys0xT11QOJbZcg3/Q==}
     engines: {node: '>=v16.7.0'}
     peerDependencies:
       vite: '>=3'
     dependencies:
       '@octokit/rest': 20.0.2
-      axios: 1.6.5(debug@4.3.4)
+      axios: 1.6.8(debug@4.3.4)
       debug: 4.3.4
       picocolors: 1.0.0
       vite: 5.1.6

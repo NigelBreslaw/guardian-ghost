@@ -3,7 +3,7 @@ name: main-ci-native
 on:
   push:
     paths:
-    - "native/**"
+      - "native/**"
 
 jobs:
 
