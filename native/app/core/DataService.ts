@@ -10,7 +10,7 @@ import type {
   VaultBucketHash,
 } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
-import type { GlobalAction } from "@/app/state/Types.ts";
+import type { GlobalAction } from "@/app/state/Helpers";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { GuardianRaceType, characterBuckets } from "@/bungie/Hashes.ts";
