@@ -16,9 +16,7 @@ function RefreshButton(props: RefreshButtonProps) {
     <IconButton
       icon={"refresh"}
       iconColor={"white"}
-      size={24}
       loading={props.refreshing}
-      animated={true}
       onPress={() => {
         console.log("Refreshing!");
       }}

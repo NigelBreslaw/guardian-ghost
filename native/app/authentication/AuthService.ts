@@ -1,6 +1,6 @@
 import { clientID, redirectURL } from "@/constants/env.ts";
 import { Store } from "@/constants/storage.ts";
-import type { GlobalAction } from "@/state/Types.ts";
+import type { GlobalAction } from "@/app/state/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
