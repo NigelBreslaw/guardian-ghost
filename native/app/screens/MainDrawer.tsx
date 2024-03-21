@@ -4,8 +4,27 @@ import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+type RefreshButtonProps = {
+  refreshing?: boolean;
+};
+
+function RefreshButton(props: RefreshButtonProps) {
+  return (
+    <IconButton
+      icon={"refresh"}
+      iconColor={"white"}
+      size={24}
+      loading={props.refreshing}
+      animated={true}
+      onPress={() => {
+        console.log("Refreshing!");
+      }}
+    />
+  );
+}
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -141,6 +160,7 @@ export default function MainDrawer() {
           },
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
+          headerRight: () => <RefreshButton />,
         }}
       />
     </Drawer.Navigator>
