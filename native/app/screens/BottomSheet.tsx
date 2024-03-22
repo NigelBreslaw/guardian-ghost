@@ -50,7 +50,7 @@ export default function BottomSheet({
   navigation: NavigationProp<ReactNavigation.RootParamList>;
   route: RouteProp<ReactNavigation.RootParamList, "BottomSheet">;
 }) {
-  const refRBSheet = useRef<RBSheet | null>();
+  const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
   const { itemInstanceId, itemHash } = route.params;
@@ -73,9 +73,7 @@ export default function BottomSheet({
     >
       <StatusBar barStyle="light-content" />
       <RBSheet
-        ref={(ref) => {
-          refRBSheet.current = ref;
-        }}
+        ref={refRBSheet}
         closeOnDragDown={true}
         closeOnPressMask={true}
         onClose={() => navigation.goBack()}
