@@ -30,6 +30,10 @@ class AuthService {
   private static isProcessing = false;
 
   private constructor() {
+    if (process.env.EXPO_PUBLIC_API_KEY === undefined) {
+      console.warn("Missing env file!");
+      return;
+    }
     this.init()
       .then(() => {
         this.setInitComplete();
