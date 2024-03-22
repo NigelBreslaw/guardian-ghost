@@ -1,9 +1,5 @@
 import { Platform } from "react-native";
 
-if (process.env.EXPO_PUBLIC_API_KEY === undefined) {
-  console.warn("Missing env file!");
-}
-
 export const isLocalWeb = process.env.NODE_ENV === "development" && Platform.OS === "web";
 // @ts-ignore
 export const apiKey: string = !isLocalWeb ? process.env.EXPO_PUBLIC_API_KEY : process.env.EXPO_PUBLIC_API_KEY_WEB;
