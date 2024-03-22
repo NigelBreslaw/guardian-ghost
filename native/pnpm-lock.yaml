@@ -87,8 +87,8 @@ dependencies:
     specifier: 5.12.3
     version: 5.12.3(react-native-safe-area-context@4.9.0)(react-native-vector-icons@10.0.3)(react-native@0.73.6)(react@18.2.0)
   react-native-raw-bottom-sheet:
-    specifier: 2.2.1
-    version: 2.2.1
+    specifier: 3.0.0
+    version: 3.0.0
   react-native-reanimated:
     specifier: 3.8.1
     version: 3.8.1(@babel/core@7.24.3)(react-native@0.73.6)(react@18.2.0)
@@ -6773,8 +6773,8 @@ packages:
       use-latest-callback: 0.1.9(react@18.2.0)
     dev: false
 
-  /react-native-raw-bottom-sheet@2.2.1:
-    resolution: {integrity: sha512-9MkumyiXEmtSx01cTYOzauUXPRckLSQP1DrRc9zq7TMqtcKk0n67tMyzy8qsrgEPLs63+Kjr/eJc6PlaSgpZ5g==}
+  /react-native-raw-bottom-sheet@3.0.0:
+    resolution: {integrity: sha512-kHR7j2ExCLqf/AO3MECozMJXi48O1+YxUYSRgRo/5Ftm7mEcrxJEzvjqMmqUbVhhKlfk5hLCGFnEQ5Z9OHCUtg==}
     dev: false
 
   /react-native-reanimated@3.8.1(@babel/core@7.24.3)(react-native@0.73.6)(react@18.2.0):
