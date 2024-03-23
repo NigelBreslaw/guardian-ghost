@@ -262,11 +262,7 @@ class AuthService {
   }
 
   static setLoggingIn(loggingIn: boolean) {
-    if (AuthService.globalDispatch) {
-      AuthService.globalDispatch({ type: "setLoggingIn", payload: loggingIn });
-    } else {
-      console.info("setLoggingIn: No dispatch");
-    }
+    useAuthenticationStore.setState({ loggingIn });
   }
 
   static startAuth(): void {
