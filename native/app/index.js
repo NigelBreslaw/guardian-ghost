@@ -2,6 +2,10 @@ import * as Sentry from "@sentry/react-native";
 import { registerRootComponent } from "expo";
 import App from "./App.tsx";
 
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
+  enableTimeToInitialDisplay: true,
+});
+
 Sentry.init({
   dsn: "https://7db2c06ee6ea56cae40a5bd963bad76b:7d7182201a659982c7b30a4512d4ad7a@o4506899216728065.ingest.us.sentry.io/4506899221970944",
 
@@ -10,6 +14,7 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
   enabled: process.env.NODE_ENV !== "development",
+  integrations: [new Sentry.ReactNativeTracing({ routingInstrumentation })],
 });
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
