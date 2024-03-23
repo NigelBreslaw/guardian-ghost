@@ -4,7 +4,6 @@ SplashScreen.preventAutoHideAsync();
 import RootScreen from "@/RootScreen.tsx";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
-import InventoryStateProvider from "@/app/state/InventoryState.tsx";
 import { useEffect } from "react";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import AuthService from "@/app/authentication/AuthService.ts";
@@ -20,23 +19,21 @@ function App() {
 
   return (
     <PaperProvider>
-      <InventoryStateProvider>
-        <NavigationContainer
-          theme={{
-            colors: {
-              primary: "#17101F",
-              background: "#17101F",
-              card: "#17101F",
-              text: "#17101F",
-              border: "#17101F",
-              notification: "#17101F",
-            },
-            dark: false,
-          }}
-        >
-          <RootScreen />
-        </NavigationContainer>
-      </InventoryStateProvider>
+      <NavigationContainer
+        theme={{
+          colors: {
+            primary: "#17101F",
+            background: "#17101F",
+            card: "#17101F",
+            text: "#17101F",
+            border: "#17101F",
+            notification: "#17101F",
+          },
+          dark: false,
+        }}
+      >
+        <RootScreen />
+      </NavigationContainer>
     </PaperProvider>
   );
 }
