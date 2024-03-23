@@ -13,7 +13,6 @@ import {
 } from "@/app/inventory/Common.ts";
 
 export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
-  const p1 = performance.now();
   const characterDataArray: Array<Array<UiCell>> = [];
   const columns = 4;
 
@@ -167,8 +166,6 @@ export function buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
   const vaultData = returnVaultData(itemBuckets);
   characterDataArray.push(vaultData);
 
-  const p2 = performance.now();
-  console.log("buildUIData took:", (p2 - p1).toFixed(4), "ms");
   return characterDataArray;
 }
 
