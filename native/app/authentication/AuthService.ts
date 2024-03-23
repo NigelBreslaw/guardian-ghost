@@ -17,6 +17,7 @@ import {
   isValidAccessToken,
   isValidRefreshToken,
 } from "./Utilities.ts";
+import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -248,11 +249,8 @@ class AuthService {
   private static setAuthToken(token: AuthToken | null) {
     AuthService.authToken = token;
 
-    if (AuthService.globalDispatch) {
-      AuthService.globalDispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
-    } else {
-      console.info("setAuthToken: No dispatch");
-    }
+    const isAuthenticated = AuthService.isAuthenticated();
+    useAuthenticationStore.setState({ authenticated: isAuthenticated });
   }
 
   setInitComplete() {

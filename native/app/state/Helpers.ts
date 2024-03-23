@@ -2,9 +2,6 @@ import type { BungieUser } from "@/bungie/Types.ts";
 
 export const globalReducer = (state: GlobalState, action: GlobalAction) => {
   switch (action.type) {
-    case "setAuthenticated": {
-      return { ...state, authenticated: action.payload };
-    }
     case "setCurrentAccount": {
       return { ...state, currentAccount: action.payload };
     }
@@ -30,7 +27,6 @@ export const globalReducer = (state: GlobalState, action: GlobalAction) => {
 };
 
 export type GlobalState = {
-  authenticated: boolean;
   currentAccount: BungieUser | null;
   currentListIndex: number;
   definitionsReady: boolean;
@@ -40,7 +36,6 @@ export type GlobalState = {
 };
 
 export const initialGlobalState: GlobalState = {
-  authenticated: false,
   currentAccount: null,
   currentListIndex: 0,
   definitionsReady: false,
@@ -50,10 +45,6 @@ export const initialGlobalState: GlobalState = {
 };
 
 export type GlobalAction =
-  | {
-      type: "setAuthenticated";
-      payload: boolean;
-    }
   | {
       type: "setCurrentAccount";
       payload: BungieUser | null;

@@ -1,4 +1,5 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
+import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { isLocalWeb } from "@/constants/env.ts";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
@@ -31,6 +32,7 @@ function LocalWebLogin() {
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
   const globalState = useGlobalStateContext();
+  const authenticated = useAuthenticationStore((state) => state.authenticated);
   const url = useURL();
 
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
@@ -39,10 +41,10 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (globalState.initComplete && globalState.authenticated) {
+    if (globalState.initComplete && authenticated) {
       navigation.goBack();
     }
-  }, [globalState.initComplete, globalState.authenticated, navigation]);
+  }, [globalState.initComplete, authenticated, navigation]);
 
   useEffect(() => {
     const handleRedirect = (event: { url: string }) => {
