@@ -7,7 +7,8 @@ Lean towards kebab case for most file names. If you see an exception such as the
 
 Most coding conventions are applied by the Biome linter and formatter. You can find the 'biome.json' config file in the root of the repo.
 
-import FileTree from '../../../components/file-tree.astro';
+import { FileTree } from '@astrojs/starlight/components';
+
 
 <FileTree>
   - .github/
