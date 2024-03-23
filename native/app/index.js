@@ -15,6 +15,11 @@ Sentry.init({
   tracesSampleRate: 1.0,
   enabled: process.env.NODE_ENV !== "development",
   integrations: [new Sentry.ReactNativeTracing({ routingInstrumentation })],
+  _experiments: {
+    // profilesSampleRate is relative to tracesSampleRate.
+    // Here, we'll capture profiles for 100% of transactions.
+    profilesSampleRate: 1.0,
+  },
 });
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
