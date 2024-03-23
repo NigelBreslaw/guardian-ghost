@@ -2,6 +2,7 @@ import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
+import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
@@ -26,14 +27,15 @@ declare global {
 
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
+  const systemDisabled = useGlobalStateStore((state) => state.systemDisabled);
   const navigation = useNavigation();
   const authenticated = useAuthenticationStore((state) => state.authenticated);
 
   useEffect(() => {
-    if (globalState.initComplete && !authenticated && !globalState.systemDisabled) {
+    if (globalState.initComplete && !authenticated && !systemDisabled) {
       navigation.navigate("Login" as never);
     }
-  }, [authenticated, globalState.initComplete, globalState.systemDisabled, navigation]);
+  }, [authenticated, globalState.initComplete, systemDisabled, navigation]);
 
   useEffect(() => {
     if (
