@@ -33,6 +33,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const colorScheme = useColorScheme();
   const globalState = useGlobalStateContext();
   const authenticated = useAuthenticationStore((state) => state.authenticated);
+  const loggingIn = useAuthenticationStore((state) => state.loggingIn);
   const url = useURL();
 
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
@@ -85,12 +86,12 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 20 }} />
         <Button
           mode="contained"
-          disabled={globalState.loggingIn}
+          disabled={loggingIn}
           onPress={() => {
             AuthService.startAuth();
           }}
           style={{ alignSelf: "stretch" }}
-          loading={globalState.loggingIn}
+          loading={loggingIn}
         >
           Login
         </Button>

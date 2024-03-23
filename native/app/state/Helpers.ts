@@ -14,9 +14,6 @@ export const globalReducer = (state: GlobalState, action: GlobalAction) => {
     case "setInitComplete": {
       return { ...state, initComplete: action.payload };
     }
-    case "setLoggingIn": {
-      return { ...state, loggingIn: action.payload };
-    }
     case "setSystemDisabled": {
       return { ...state, systemDisabled: action.payload };
     }
@@ -31,7 +28,6 @@ export type GlobalState = {
   currentListIndex: number;
   definitionsReady: boolean;
   initComplete: boolean;
-  loggingIn: boolean;
   systemDisabled: boolean;
 };
 
@@ -40,7 +36,6 @@ export const initialGlobalState: GlobalState = {
   currentListIndex: 0,
   definitionsReady: false,
   initComplete: false,
-  loggingIn: false,
   systemDisabled: false,
 };
 
@@ -59,10 +54,6 @@ export type GlobalAction =
     }
   | {
       type: "setInitComplete";
-      payload: boolean;
-    }
-  | {
-      type: "setLoggingIn";
       payload: boolean;
     }
   | {
