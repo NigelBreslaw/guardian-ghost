@@ -3,13 +3,25 @@ import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema 
 import type {
   DestinyItem,
   GuardianData,
+  GuardianGear,
   GuardianUiData,
   GuardiansAndVault,
   VaultBucketHash,
 } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
-import { armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
-import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
+import {
+  armorPageBuckets,
+  inventoryPageBuckets,
+  weaponsPageBuckets,
+  type UiCell,
+  type SeparatorCell,
+  UiCellType,
+  type DestinyIconData,
+  getDamagetypeIconUri,
+  type DestinyCell,
+  type EmptyCell,
+  type BlankCell,
+} from "@/app/inventory/Common.ts";
 import type { GlobalAction } from "@/app/state/Helpers";
 import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
@@ -270,9 +282,9 @@ class DataService {
 
   private static buildInventoryTabData() {
     const p1 = performance.now();
-    const weaponsPageData = buildUIData(weaponsPageBuckets);
-    const armorPageData = buildUIData(armorPageBuckets);
-    const inventoryPageData = buildUIData(inventoryPageBuckets);
+    const weaponsPageData = DataService.buildUIData(weaponsPageBuckets);
+    const armorPageData = DataService.buildUIData(armorPageBuckets);
+    const inventoryPageData = DataService.buildUIData(inventoryPageBuckets);
     const p2 = performance.now();
     console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
 
@@ -281,6 +293,295 @@ class DataService {
     DataService.inventoryDispatch({ type: "setInventoryPageData", payload: inventoryPageData });
     const p3 = performance.now();
     console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
+  }
+
+  private static buildUIData(itemBuckets: Array<number>): Array<Array<UiCell>> {
+    const characterDataArray: Array<Array<UiCell>> = [];
+    const columns = 4;
+
+    for (const character in DataService.charactersAndVault.guardians) {
+      const characterData = DataService.charactersAndVault.guardians[character];
+      if (characterData) {
+        const dataArray: Array<UiCell> = [];
+
+        for (const bucket of itemBuckets) {
+          // create section separators
+          for (let i = 0; i < columns; i++) {
+            const separator: SeparatorCell = {
+              id: `${bucket}_separator_${i}`,
+              type: UiCellType.Separator,
+            };
+            dataArray.push(separator);
+          }
+
+          const bucketItems = characterData.items[bucket];
+          if (bucketItems) {
+            const equipped = bucketItems.equipped;
+            let equipItem: DestinyIconData | null = null;
+
+            if (equipped) {
+              equipItem = DataService.returnDestinyIconData(equipped);
+              const equippedCell: DestinyCell = {
+                ...equipItem,
+                id: `${bucket}_equipped`,
+                type: UiCellType.DestinyCell,
+              };
+              dataArray.push(equippedCell);
+            } else {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_equipped`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+
+            // If artifact (1506418338) don't add any more items.
+            if (bucket === 1506418338) {
+              continue;
+            }
+
+            const inventoryRowData0 = DataService.returnInventoryRow(bucketItems, 0);
+
+            for (let i = 0; i < columns - 1; i++) {
+              const item = inventoryRowData0[i];
+              if (item) {
+                const destinyCell: DestinyCell = {
+                  ...item,
+                  id: `${bucket}_row0_${i}`,
+                  type: UiCellType.DestinyCell,
+                };
+                dataArray.push(destinyCell);
+              } else {
+                const emptyCell: EmptyCell = {
+                  id: `${bucket}_row0_${i}`,
+                  type: UiCellType.EmptyCell,
+                };
+                dataArray.push(emptyCell);
+              }
+            }
+
+            const inventoryRowData1 = DataService.returnInventoryRow(bucketItems, 1);
+
+            const blankCell1: BlankCell = {
+              id: `${bucket}_row1_blank`,
+              type: UiCellType.BlankCell,
+            };
+            dataArray.push(blankCell1);
+
+            for (let i = 0; i < columns - 1; i++) {
+              const item = inventoryRowData1[i];
+              if (item) {
+                const destinyCell: DestinyCell = {
+                  ...item,
+                  id: `${bucket}_row1_${i}`,
+                  type: UiCellType.DestinyCell,
+                };
+                dataArray.push(destinyCell);
+              } else {
+                const emptyCell: EmptyCell = {
+                  id: `${bucket}_row1_${i}`,
+                  type: UiCellType.EmptyCell,
+                };
+                dataArray.push(emptyCell);
+              }
+            }
+
+            const inventoryRowData2 = DataService.returnInventoryRow(bucketItems, 2);
+
+            const blankCell2: BlankCell = {
+              id: `${bucket}_row2_blank`,
+              type: UiCellType.BlankCell,
+            };
+            dataArray.push(blankCell2);
+
+            for (let i = 0; i < columns - 1; i++) {
+              const item = inventoryRowData2[i];
+              if (item) {
+                const destinyCell: DestinyCell = {
+                  ...item,
+                  id: `${bucket}_row2_${i}`,
+                  type: UiCellType.DestinyCell,
+                };
+                dataArray.push(destinyCell);
+              } else {
+                const emptyCell: EmptyCell = {
+                  id: `${bucket}_row2_${i}`,
+                  type: UiCellType.EmptyCell,
+                };
+                dataArray.push(emptyCell);
+              }
+            }
+          } else {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_equipped`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
+            for (let i = 0; i < columns - 1; i++) {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row1_${i}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+
+            // Create tow more rows of empty cells
+            for (let r = 0; r < 2; r++) {
+              const blankCell1: BlankCell = {
+                id: `${bucket}_row${r + 1}_blank`,
+                type: UiCellType.BlankCell,
+              };
+              dataArray.push(blankCell1);
+              for (let i = 0; i < columns - 1; i++) {
+                const emptyCell: EmptyCell = {
+                  id: `${bucket}_row${r + 1}_${i}`,
+                  type: UiCellType.EmptyCell,
+                };
+                dataArray.push(emptyCell);
+              }
+            }
+          }
+        }
+        characterDataArray.push(dataArray);
+      }
+    }
+    // Now build the vault data
+    const vaultData = DataService.returnVaultData(itemBuckets);
+    characterDataArray.push(vaultData);
+
+    return characterDataArray;
+  }
+
+  private static returnVaultData(itemBuckets: Array<number>): Array<UiCell> {
+    const vaultData = DataService.charactersAndVault.vault;
+    const dataArray: Array<UiCell> = [];
+    const columns = 5;
+
+    for (const bucket of itemBuckets) {
+      const bucketItems = vaultData.items[138197802].items[bucket];
+      if (bucketItems) {
+        for (let i = 0; i < columns; i++) {
+          const separator: SeparatorCell = {
+            id: `${bucket}_separator_${i}`,
+            type: UiCellType.Separator,
+          };
+          dataArray.push(separator);
+        }
+
+        const totalRows = Math.ceil(bucketItems.inventory.length / columns);
+
+        for (let i = 0; i < totalRows; i++) {
+          const rowData = DataService.returnInventoryRow(bucketItems, i, columns);
+          for (let j = 0; j < columns; j++) {
+            const item = rowData[j];
+            if (item) {
+              const destinyCell: DestinyCell = {
+                ...item,
+                id: `${bucket}_row1_${i}_${j}`,
+                type: UiCellType.DestinyCell,
+              };
+              dataArray.push(destinyCell);
+            } else {
+              const emptyCell: EmptyCell = {
+                id: `${bucket}_row1_${i}_${j}`,
+                type: UiCellType.EmptyCell,
+              };
+              dataArray.push(emptyCell);
+            }
+          }
+        }
+      }
+    }
+
+    return dataArray;
+  }
+
+  private static returnDestinyIconData(item: DestinyItem): DestinyIconData {
+    const definition = DataService.itemDefinition.items[item.itemHash] as SingleItemDefinition;
+    const itemInstanceId = item?.itemInstanceId;
+
+    if (itemInstanceId) {
+      const itemComponent = DataService.profileData.Response.itemComponents.instances.data[itemInstanceId];
+      if (itemComponent) {
+        // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
+        const versionNumber = item.versionNumber;
+
+        let watermark: string | undefined = undefined;
+        if (versionNumber !== undefined) {
+          const dvwi = definition.dvwi;
+
+          if (dvwi) {
+            const index = dvwi[versionNumber];
+            if (index !== undefined) {
+              watermark = DataService.IconWaterMarks[index];
+            }
+          }
+        } else {
+          const iconWatermark = definition.iw;
+          if (iconWatermark) {
+            watermark = DataService.IconWaterMarks[iconWatermark];
+          }
+        }
+
+        if (watermark) {
+          watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
+        }
+
+        const iconData: DestinyIconData = {
+          itemHash: item.itemHash,
+          itemInstanceId: item.itemInstanceId,
+          icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
+          primaryStat: itemComponent.primaryStat?.value.toString() || "",
+          calculatedWaterMark: watermark,
+          damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
+        };
+        return iconData;
+      }
+
+      console.error("No itemComponent found for item", item);
+    }
+
+    if (definition) {
+      const nonInstancedItem: DestinyIconData = {
+        itemHash: item.itemHash,
+        itemInstanceId: undefined,
+        icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
+        primaryStat: "",
+        calculatedWaterMark: "",
+        damageTypeIconUri: null,
+      };
+
+      return nonInstancedItem;
+    }
+
+    const emptyData: DestinyIconData = {
+      itemHash: item.itemHash,
+      itemInstanceId: undefined,
+      icon: "",
+      primaryStat: "",
+      calculatedWaterMark: "",
+      damageTypeIconUri: null,
+    };
+
+    console.error("returnDestinyIconData() error", item);
+    return emptyData;
+  }
+
+  private static returnInventoryRow(characterGear: GuardianGear, column: number, rowWidth = 3): Array<DestinyIconData> {
+    const rowData: Array<DestinyIconData> = [];
+
+    const startIndex = column * rowWidth;
+    const endIndex = startIndex + rowWidth;
+
+    for (let i = startIndex; i < endIndex; i++) {
+      const item = characterGear.inventory[i];
+      if (item) {
+        const iconData = DataService.returnDestinyIconData(item);
+        rowData.push(iconData);
+      }
+    }
+
+    return rowData;
   }
 }
 
