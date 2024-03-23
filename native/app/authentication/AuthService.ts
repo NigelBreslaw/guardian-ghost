@@ -19,6 +19,7 @@ import {
 } from "./Utilities.ts";
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
+import { useAccountStore } from "@/app/store/AccountStore.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -228,6 +229,7 @@ class AuthService {
   static getCurrentAccount(): BungieUser | null {
     return AuthService.currentAccount;
   }
+
   static setCurrentAccount(bungieUser: BungieUser | null) {
     AuthService.currentAccount = bungieUser;
     if (bungieUser) {
@@ -236,11 +238,7 @@ class AuthService {
       AuthService.currentUserID = "";
     }
 
-    if (AuthService.globalDispatch) {
-      AuthService.globalDispatch({ type: "setCurrentAccount", payload: bungieUser });
-    } else {
-      console.info("setCurrentAccount: No dispatch");
-    }
+    useAccountStore.setState({ currentAccount: bungieUser });
   }
 
   private static setAuthToken(token: AuthToken | null) {
