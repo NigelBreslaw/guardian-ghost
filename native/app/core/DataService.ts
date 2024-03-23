@@ -19,7 +19,7 @@ import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
-  private static dispatch: React.Dispatch<GlobalAction>;
+  private static globalDispatch: React.Dispatch<GlobalAction>;
   private static inventoryDispatch: React.Dispatch<InventoryAction>;
   static charactersAndVault: GuardiansAndVault = {
     vault: {
@@ -52,8 +52,7 @@ class DataService {
   static ItemTypeDisplayName: Array<string>;
   static profileData: ProfileData;
 
-  private constructor(dispatch: React.Dispatch<GlobalAction>) {
-    DataService.dispatch = dispatch;
+  private constructor() {
     DataService.setupItemDefinition();
   }
 
@@ -69,7 +68,7 @@ class DataService {
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      DataService.dispatch({ type: "setDefinitionsReady", payload: true });
+      DataService.globalDispatch({ type: "setDefinitionsReady", payload: true });
       const p2 = performance.now();
       console.log("Full itemDef ready took:", (p2 - p1).toFixed(5), "ms");
       return;
@@ -83,7 +82,7 @@ class DataService {
       await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      DataService.dispatch({ type: "setDefinitionsReady", payload: true });
+      DataService.globalDispatch({ type: "setDefinitionsReady", payload: true });
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
     }
@@ -91,9 +90,9 @@ class DataService {
     console.log("downloadedsetupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
   }
 
-  public static getInstance(dispatch: React.Dispatch<GlobalAction>): DataService {
+  public static getInstance(): DataService {
     if (!DataService.instance) {
-      DataService.instance = new DataService(dispatch);
+      DataService.instance = new DataService();
     }
 
     return DataService.instance;
@@ -101,6 +100,10 @@ class DataService {
 
   static setInventoryDispatch(inventoryDispatch: React.Dispatch<InventoryAction>) {
     DataService.inventoryDispatch = inventoryDispatch;
+  }
+
+  static setGlobalDispatch(globalDispatch: React.Dispatch<GlobalAction>) {
+    DataService.globalDispatch = globalDispatch;
   }
 
   static setUpItemDefinition() {
@@ -117,7 +120,7 @@ class DataService {
   }
 
   public static async getInventory() {
-    DataService.dispatch({ type: "setRefreshing", payload: true });
+    DataService.globalDispatch({ type: "setRefreshing", payload: true });
     try {
       const p1 = performance.now();
       const profile = await getProfile();
@@ -143,7 +146,7 @@ class DataService {
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
-      DataService.dispatch({ type: "setRefreshing", payload: false });
+      DataService.globalDispatch({ type: "setRefreshing", payload: false });
     }
   }
 

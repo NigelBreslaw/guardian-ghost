@@ -15,8 +15,9 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const _storageService = StorageGG.getInstance();
     const _authService = AuthService.getInstance();
-    AuthService.subscribe(dispatch);
-    const _dataService = DataService.getInstance(dispatch);
+    const _dataService = DataService.getInstance();
+    AuthService.setGlobalDispatch(dispatch);
+    DataService.setGlobalDispatch(dispatch);
 
     return () => {
       dispatch({ type: "setInitComplete", payload: false });
