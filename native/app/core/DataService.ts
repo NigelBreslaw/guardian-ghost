@@ -14,7 +14,7 @@ import type { GlobalAction } from "@/app/state/Helpers";
 import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
-import { GuardianRaceType, characterBuckets } from "@/bungie/Hashes.ts";
+import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
