@@ -99,7 +99,7 @@ class DataService {
       console.error("Failed to download and save itemDefinition", e);
     }
     const p2 = performance.now();
-    console.log("downloadedsetupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
+    console.log("downloadedSetupItemDefinition() took:", (p2 - p1).toFixed(5), "ms");
   }
 
   public static getInstance(): DataService {
