@@ -15,5 +15,7 @@ export const useGlobalStateStore = create<GlobalStateStore>((set) => ({
   systemDisabled: false,
   setSystemDisabled: (systemDisabled: boolean) => set({ systemDisabled }),
   initComplete: false,
-  setInitComplete: (initComplete: boolean) => set({ initComplete }),
+  setInitComplete: (initComplete: boolean) => {
+    set({ initComplete });
+  },
 }));
