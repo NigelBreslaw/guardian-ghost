@@ -22,7 +22,6 @@ import {
   type EmptyCell,
   type BlankCell,
 } from "@/app/inventory/Common.ts";
-import type { GlobalAction } from "@/app/state/Helpers";
 import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { useDefinitionsStore } from "@/app/store/DefinitionsStore.ts";
@@ -33,7 +32,6 @@ import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
-  private static globalDispatch: React.Dispatch<GlobalAction>;
   private static inventoryDispatch: React.Dispatch<InventoryAction>;
   static charactersAndVault: GuardiansAndVault = {
     vault: {
@@ -114,10 +112,6 @@ class DataService {
 
   static setInventoryDispatch(inventoryDispatch: React.Dispatch<InventoryAction>) {
     DataService.inventoryDispatch = inventoryDispatch;
-  }
-
-  static setGlobalDispatch(globalDispatch: React.Dispatch<GlobalAction>) {
-    DataService.globalDispatch = globalDispatch;
   }
 
   static setUpItemDefinition() {

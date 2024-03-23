@@ -1,6 +1,5 @@
 import { clientID, redirectURL } from "@/constants/env.ts";
 import { Store } from "@/constants/storage.ts";
-import type { GlobalAction } from "@/app/state/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { randomUUID } from "expo-crypto";
 import { parse as linkingParse } from "expo-linking";
@@ -20,11 +19,11 @@ import {
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import { useAccountStore } from "@/app/store/AccountStore.ts";
+import * as SplashScreen from "expo-splash-screen";
 
 class AuthService {
   private static instance: AuthService;
   private static authToken: AuthToken | null = null;
-  private static globalDispatch: React.Dispatch<GlobalAction> | null = null;
   private static stateID = "";
   private static usedAuthCodes: Array<string> = [];
   private static currentAccount: BungieUser | null = null;
@@ -39,11 +38,11 @@ class AuthService {
     }
     this.init()
       .then(() => {
-        this.setInitComplete();
+        AuthService.setInitComplete();
       })
       .catch((e) => {
         console.info("No valid user and auth found", e);
-        this.setInitComplete();
+        AuthService.setInitComplete();
       });
   }
 
@@ -209,16 +208,6 @@ class AuthService {
     }
   }
 
-  // Method to subscribe to auth changes
-  static setGlobalDispatch(dispatch: React.Dispatch<GlobalAction>) {
-    AuthService.globalDispatch = dispatch;
-  }
-
-  // Method to unsubscribe from auth changes
-  static unsubscribe() {
-    AuthService.globalDispatch = null;
-  }
-
   // Method to check if user data and auth token exist
   static isAuthenticated(): boolean {
     // TODO: This is wrong. It should use getTokenAsync so it needs to be async and whatever calls it should await.
@@ -248,8 +237,9 @@ class AuthService {
     useAuthenticationStore.setState({ authenticated: isAuthenticated });
   }
 
-  setInitComplete() {
+  static setInitComplete() {
     useGlobalStateStore.setState({ initComplete: true });
+    SplashScreen.hideAsync();
   }
 
   static setLoggingIn(loggingIn: boolean) {
@@ -360,10 +350,6 @@ class AuthService {
     } catch {
       throw new Error("Error removing current user from storage");
     }
-  }
-
-  static cleanUp() {
-    AuthService.unsubscribe();
   }
 }
 
