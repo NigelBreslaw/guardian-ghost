@@ -28,18 +28,19 @@ declare global {
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
   const systemDisabled = useGlobalStateStore((state) => state.systemDisabled);
+  const initComplete = useGlobalStateStore((state) => state.initComplete);
   const navigation = useNavigation();
   const authenticated = useAuthenticationStore((state) => state.authenticated);
 
   useEffect(() => {
-    if (globalState.initComplete && !authenticated && !systemDisabled) {
+    if (initComplete && !authenticated && !systemDisabled) {
       navigation.navigate("Login" as never);
     }
-  }, [authenticated, globalState.initComplete, systemDisabled, navigation]);
+  }, [authenticated, initComplete, systemDisabled, navigation]);
 
   useEffect(() => {
     if (
-      globalState.initComplete &&
+      initComplete &&
       authenticated &&
       globalState.currentAccount &&
       globalState.definitionsReady &&
@@ -48,7 +49,7 @@ export default function RootScreen() {
       console.log("trigger: download getProfile()");
       DataService.getInventory();
     }
-  }, [authenticated, globalState.currentAccount, globalState.definitionsReady, globalState.initComplete]);
+  }, [authenticated, globalState.currentAccount, globalState.definitionsReady, initComplete]);
 
   return (
     <RootStack.Navigator>

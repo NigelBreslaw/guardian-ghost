@@ -1,8 +1,8 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
+import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { isLocalWeb } from "@/constants/env.ts";
-import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
@@ -31,7 +31,7 @@ function LocalWebLogin() {
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
-  const globalState = useGlobalStateContext();
+  const initComplete = useGlobalStateStore((state) => state.initComplete);
   const authenticated = useAuthenticationStore((state) => state.authenticated);
   const loggingIn = useAuthenticationStore((state) => state.loggingIn);
   const url = useURL();
@@ -42,10 +42,10 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (globalState.initComplete && authenticated) {
+    if (initComplete && authenticated) {
       navigation.goBack();
     }
-  }, [globalState.initComplete, authenticated, navigation]);
+  }, [initComplete, authenticated, navigation]);
 
   useEffect(() => {
     const handleRedirect = (event: { url: string }) => {
