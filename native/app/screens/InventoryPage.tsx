@@ -1,6 +1,6 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { useGlobalDispatchContext, useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import { useInventoryStore } from "@/app/store/InventoryStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
@@ -14,8 +14,8 @@ type InventoryPageProps = {
 };
 
 export default function InventoryPage(props: InventoryPageProps) {
-  const globalState = useGlobalStateContext();
-  const globalDispatch = useGlobalDispatchContext();
+  const currentListIndex = useInventoryStore((state) => state.currentListIndex);
+  const setCurrentListIndex = useInventoryStore((state) => state.setCurrentListIndex);
   const navigator = useNavigation();
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
@@ -34,7 +34,7 @@ export default function InventoryPage(props: InventoryPageProps) {
   });
 
   const jumpToCharacter = () => {
-    const posX = HOME_WIDTH * globalState.currentListIndex;
+    const posX = HOME_WIDTH * currentListIndex;
     pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
   };
 
@@ -76,7 +76,7 @@ export default function InventoryPage(props: InventoryPageProps) {
     if (posX > 0) {
       index = Math.floor(posX / LIST_WIDTH);
     }
-    globalDispatch({ type: "setCurrentListIndex", payload: index });
+    setCurrentListIndex(index);
   };
 
   const debouncedCalcCurrentListIndex = debounce(calcCurrentListIndex, 100);
