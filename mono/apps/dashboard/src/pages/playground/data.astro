@@ -3,7 +3,8 @@
 
 import Code from "astro/components/Code.astro";
 import LayoutSidebar from "../../app/LayoutSidebar.astro";
-import { getUsers, getProducts } from "../../services/index.js";
+import { getProducts } from "../../services/products.ts";
+import { getUsers } from "../../services/users.ts";
 
 const products = JSON.stringify(getProducts(), null, 2);
 
