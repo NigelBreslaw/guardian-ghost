@@ -1,5 +1,3 @@
-// @refresh reset
-
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema } from "@/app/bungie/Types.ts";
 import type {
@@ -10,7 +8,10 @@ import type {
   VaultBucketHash,
 } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
+import { armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
+import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import type { GlobalAction } from "@/app/state/Helpers";
+import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { GuardianRaceType, characterBuckets } from "@/bungie/Hashes.ts";
@@ -19,6 +20,7 @@ import { array, number, parse, safeParse, string } from "valibot";
 class DataService {
   private static instance: DataService;
   private static dispatch: React.Dispatch<GlobalAction>;
+  private static inventoryDispatch: React.Dispatch<InventoryAction>;
   static charactersAndVault: GuardiansAndVault = {
     vault: {
       characterId: "VAULT",
@@ -57,7 +59,6 @@ class DataService {
 
   private static async setupItemDefinition() {
     const p1 = performance.now();
-
     // Is there a saved definition?
     try {
       const loadedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
@@ -98,6 +99,10 @@ class DataService {
     return DataService.instance;
   }
 
+  static setInventoryDispatch(inventoryDispatch: React.Dispatch<InventoryAction>) {
+    DataService.inventoryDispatch = inventoryDispatch;
+  }
+
   static setUpItemDefinition() {
     try {
       const parsedBucketTypeHash = parse(array(number()), DataService.itemDefinition.helpers.BucketTypeHash);
@@ -132,6 +137,7 @@ class DataService {
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
+      DataService.buildInventoryTabData();
       const p6 = performance.now();
       console.log("processing all profile data took:", (p6 - p5).toFixed(5), "ms");
       DataService.dispatch({ type: "setDataIsReady", payload: true });
@@ -186,7 +192,7 @@ class DataService {
       genderType: guardianData.genderType,
       raceType: guardianData.raceType,
     };
-    console.log("addCharacterDefinition", GuardianRaceType[data.raceType]);
+    // console.log("addCharacterDefinition", GuardianRaceType[data.raceType]);
   }
 
   private static processCharacterEquipment(profile: ProfileData) {
@@ -256,6 +262,21 @@ class DataService {
         }
       }
     }
+  }
+
+  private static buildInventoryTabData() {
+    const p1 = performance.now();
+    const weaponsPageData = buildUIData(weaponsPageBuckets);
+    const armorPageData = buildUIData(armorPageBuckets);
+    const inventoryPageData = buildUIData(inventoryPageBuckets);
+    const p2 = performance.now();
+    console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
+
+    DataService.inventoryDispatch({ type: "setWeaponsPageData", payload: weaponsPageData });
+    DataService.inventoryDispatch({ type: "setArmorPageData", payload: armorPageData });
+    DataService.inventoryDispatch({ type: "setInventoryPageData", payload: inventoryPageData });
+    const p3 = performance.now();
+    console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
   }
 }
 

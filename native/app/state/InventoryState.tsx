@@ -1,6 +1,7 @@
 import type React from "react";
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import type { UiCell } from "@/app/inventory/Common.ts";
+import DataService from "@/app/core/DataService.ts";
 
 type InventoryState = {
   weaponsPageData: Array<Array<UiCell>>;
@@ -14,7 +15,7 @@ const initialInventoryState: InventoryState = {
   inventoryPageData: [],
 };
 
-type InventoryAction =
+export type InventoryAction =
   | {
       type: "setWeaponsPageData";
       payload: Array<Array<UiCell>>;
@@ -66,6 +67,10 @@ export const useInventoryDispatchContext = () => {
 
 const InventoryStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(inventoryReducer, initialInventoryState);
+
+  useEffect(() => {
+    DataService.setInventoryDispatch(dispatch);
+  }, []);
 
   return (
     <StateContext.Provider value={state}>

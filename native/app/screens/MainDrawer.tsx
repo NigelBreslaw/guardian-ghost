@@ -1,7 +1,8 @@
 import DataService from "@/app/core/DataService.ts";
-import { LOGO_DARK, armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
+import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
 import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
+import { useInventoryStateContext } from "@/app/state/InventoryState.tsx";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -28,6 +29,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const inventoryState = useInventoryStateContext();
 
   const styles = StyleSheet.create({
     bar: {
@@ -60,7 +62,7 @@ function HomeScreen() {
           tabBarIcon: "pistol",
         }}
       >
-        {(props) => <InventoryPage {...props} itemBuckets={weaponsPageBuckets} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.weaponsPageData} />}
       </Tab.Screen>
       <Tab.Screen
         name="tab-armor"
@@ -69,7 +71,7 @@ function HomeScreen() {
           tabBarIcon: "tshirt-crew-outline",
         }}
       >
-        {(props) => <InventoryPage {...props} itemBuckets={armorPageBuckets} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.armorPageData} />}
       </Tab.Screen>
       <Tab.Screen
         name="tab-inventory"
@@ -78,7 +80,7 @@ function HomeScreen() {
           tabBarIcon: "diamond-stone",
         }}
       >
-        {(props) => <InventoryPage {...props} itemBuckets={inventoryPageBuckets} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.inventoryPageData} />}
       </Tab.Screen>
     </Tab.Navigator>
   );

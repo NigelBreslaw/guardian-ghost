@@ -1,17 +1,16 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
-import { buildUIData } from "@/app/inventory/UiDataBuilder.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGlobalDispatchContext, useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 const pageColumns = [4, 4, 4, 5];
 
 type InventoryPageProps = {
-  itemBuckets: Array<number>;
+  inventoryPageData: Array<Array<UiCell>>;
 };
 
 export default function InventoryPage(props: InventoryPageProps) {
@@ -21,7 +20,6 @@ export default function InventoryPage(props: InventoryPageProps) {
   const { width, height } = useWindowDimensions();
   const HOME_WIDTH = width;
 
-  const [listData, setListData] = useState<Array<Array<UiCell>>>([]);
   const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
 
@@ -41,13 +39,6 @@ export default function InventoryPage(props: InventoryPageProps) {
     pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
   };
 
-  useEffect(() => {
-    if (globalState.dataIsReady) {
-      const UiData = buildUIData(props.itemBuckets);
-      setListData(UiData);
-    }
-  }, [globalState.dataIsReady, props.itemBuckets]);
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: <This should only run when the view is focus>
   useEffect(() => {
     if (isFocused) {
@@ -62,7 +53,7 @@ export default function InventoryPage(props: InventoryPageProps) {
   // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
   // when you horizontally scroll to guardian 2 you will see it's energy weapons too.
   function listMoved(index: number, toY: number) {
-    if (index === listData.length - 1) {
+    if (index === props.inventoryPageData.length - 1) {
       return;
     }
 
@@ -105,7 +96,7 @@ export default function InventoryPage(props: InventoryPageProps) {
       onScroll={(e) => debouncedCalcCurrentListIndex(e.nativeEvent.contentOffset.x)}
       ref={pagedScrollRef}
     >
-      {listData.map((list, index) => {
+      {props.inventoryPageData.map((list, index) => {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
           <View key={index} style={styles.page}>
@@ -120,7 +111,7 @@ export default function InventoryPage(props: InventoryPageProps) {
               removeClippedSubviews={true}
               scrollEventThrottle={32}
               onScroll={(e) => {
-                if (index < listData.length - 1) {
+                if (index < props.inventoryPageData.length - 1) {
                   debouncedMove(index, e.nativeEvent.contentOffset.y);
                 }
               }}
