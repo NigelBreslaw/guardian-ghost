@@ -33,7 +33,6 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const globalState = useGlobalStateContext();
   const url = useURL();
 
-  const buttonColor = colorScheme === "light" ? "#3375de" : "#B4B4EA";
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
 
   const themeContainerStyle = colorScheme === "light" ? styles.topContainerLight : styles.topContainerDark;

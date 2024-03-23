@@ -95,7 +95,7 @@ export const ItemDefinitionSchema = object({
   ),
 
   items: record(string(), unknown()),
-  version: number([value(2)]),
+  version: number([value(MINI_ITEM_DEFINITION_VERSION)]),
 });
 
 export type ItemDefinition = Output<typeof ItemDefinitionSchema>;

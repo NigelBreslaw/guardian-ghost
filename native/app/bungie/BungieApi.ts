@@ -1,10 +1,10 @@
 import AuthService from "@/authentication/AuthService.ts";
 import { apiKey } from "@/constants/env.ts";
 
-const bungieUrl = "https://www.bungie.net";
+const _bungieUrl = "https://www.bungie.net";
 const basePath = "https://www.bungie.net/Platform";
-const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
-const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
+const _iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
+const _screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 

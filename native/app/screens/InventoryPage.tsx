@@ -2,7 +2,7 @@ import type { UiCell } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGlobalDispatchContext, useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import { debounce } from "@/app/utilities/Helpers.ts";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
 import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -17,14 +17,13 @@ export default function InventoryPage(props: InventoryPageProps) {
   const globalState = useGlobalStateContext();
   const globalDispatch = useGlobalDispatchContext();
   const navigator = useNavigation();
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
   const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
 
   const isFocused = useIsFocused();
-  const route = useRoute();
 
   const styles = StyleSheet.create({
     container: {},

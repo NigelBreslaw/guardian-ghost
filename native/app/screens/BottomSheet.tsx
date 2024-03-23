@@ -54,7 +54,7 @@ export default function BottomSheet({
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
   const { itemInstanceId, itemHash } = route.params;
-  const [viewData, setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
+  const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
 
   useEffect(() => {
     if (refRBSheet.current) {

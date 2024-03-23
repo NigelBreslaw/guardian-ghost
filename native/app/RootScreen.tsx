@@ -7,7 +7,7 @@ import { useGlobalStateContext } from "@/state/GlobalState.tsx";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
-import { Platform, useColorScheme } from "react-native";
+import { Platform } from "react-native";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -26,10 +26,6 @@ declare global {
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
   const navigation = useNavigation();
-  const colorScheme = useColorScheme();
-
-  const themeBackgroundColor = colorScheme === "light" ? "white" : "#171321";
-  const themeTextColor = colorScheme === "light" ? "black" : "white";
 
   useEffect(() => {
     if (globalState.initComplete && !globalState.authenticated && !globalState.systemDisabled) {

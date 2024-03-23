@@ -13,10 +13,10 @@ const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
 
   useEffect(() => {
-    const storageService = StorageGG.getInstance();
-    const authService = AuthService.getInstance();
+    const _storageService = StorageGG.getInstance();
+    const _authService = AuthService.getInstance();
     AuthService.subscribe(dispatch);
-    const dataService = DataService.getInstance(dispatch);
+    const _dataService = DataService.getInstance(dispatch);
 
     return () => {
       dispatch({ type: "setInitComplete", payload: false });
