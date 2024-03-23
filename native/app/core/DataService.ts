@@ -112,6 +112,7 @@ class DataService {
   }
 
   public static async getInventory() {
+    DataService.dispatch({ type: "setRefreshing", payload: true });
     try {
       const p1 = performance.now();
       const profile = await getProfile();
@@ -136,6 +137,8 @@ class DataService {
       DataService.dispatch({ type: "setDataIsReady", payload: true });
     } catch (e) {
       console.error("Failed to validate profile!", e);
+    } finally {
+      DataService.dispatch({ type: "setRefreshing", payload: false });
     }
   }
 
