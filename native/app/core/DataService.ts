@@ -184,13 +184,15 @@ class DataService {
     }
   }
 
-  private static addCharacterDefinition(guardianData: GuardianData) {
+  private static addCharacterDefinition(guardianData: GuardianData): GuardianUiData {
     const data: GuardianUiData = {
       characterId: guardianData.characterId,
       guardianClassType: guardianData.classType,
       genderType: guardianData.genderType,
       raceType: guardianData.raceType,
     };
+
+    return data;
     // console.log("addCharacterDefinition", GuardianRaceType[data.raceType]);
   }
 

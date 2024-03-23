@@ -42,7 +42,7 @@ class StorageGG {
   }
 
   static setData(data: JSON, storageKey: storageKey, errorMessage: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       if (Platform.OS === "web") {
         return resolve(StorageGG.setWebStore(data, storageKey, errorMessage));
       }
@@ -51,7 +51,7 @@ class StorageGG {
   }
 
   static getData(storageKey: storageKey, errorMessage: string): Promise<JSON> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       if (Platform.OS === "web") {
         return resolve(StorageGG.getWebStore(storageKey, errorMessage));
       }
@@ -137,7 +137,7 @@ class StorageGG {
         tx.executeSql(
           "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
           [key, jsonString],
-          (_, resultSet) => console.log("JSON set successfully"),
+          (_) => console.log("JSON set successfully"),
           (_, error) => {
             console.log("Error occurred while setting JSON", errorMessage);
             console.log(error);

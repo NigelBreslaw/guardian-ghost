@@ -39,7 +39,7 @@ class AuthService {
         this.setInitComplete();
       })
       .catch((e) => {
-        console.info("No valid user and auth found");
+        console.info("No valid user and auth found", e);
         this.setInitComplete();
       });
   }
@@ -94,7 +94,7 @@ class AuthService {
             const result = await AuthService.getTokenInternal(errorMessage);
 
             resolve(result);
-          } catch (error) {
+          } catch {
             reject(null);
           } finally {
             processNext();
@@ -372,7 +372,7 @@ class AuthService {
       AuthService.setAuthToken(null);
       AuthService.setCurrentAccount(null);
       AuthService.currentUserID = "";
-    } catch (e) {
+    } catch {
       throw new Error("Error removing current user from storage");
     }
   }
