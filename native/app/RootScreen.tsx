@@ -1,6 +1,7 @@
 import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
+import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
 import { useGlobalStateContext } from "@/state/GlobalState.tsx";
@@ -26,17 +27,18 @@ declare global {
 export default function RootScreen() {
   const globalState = useGlobalStateContext();
   const navigation = useNavigation();
+  const authenticated = useAuthenticationStore((state) => state.authenticated);
 
   useEffect(() => {
-    if (globalState.initComplete && !globalState.authenticated && !globalState.systemDisabled) {
+    if (globalState.initComplete && !authenticated && !globalState.systemDisabled) {
       navigation.navigate("Login" as never);
     }
-  }, [globalState.authenticated, globalState.initComplete, globalState.systemDisabled, navigation]);
+  }, [authenticated, globalState.initComplete, globalState.systemDisabled, navigation]);
 
   useEffect(() => {
     if (
       globalState.initComplete &&
-      globalState.authenticated &&
+      authenticated &&
       globalState.currentAccount &&
       globalState.definitionsReady &&
       AuthService.isAuthenticated()
@@ -44,7 +46,7 @@ export default function RootScreen() {
       console.log("trigger: download getProfile()");
       DataService.getInventory();
     }
-  }, [globalState.authenticated, globalState.currentAccount, globalState.definitionsReady, globalState.initComplete]);
+  }, [authenticated, globalState.currentAccount, globalState.definitionsReady, globalState.initComplete]);
 
   return (
     <RootStack.Navigator>
