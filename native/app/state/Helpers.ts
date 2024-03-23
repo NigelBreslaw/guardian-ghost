@@ -11,9 +11,6 @@ export const globalReducer = (state: GlobalState, action: GlobalAction) => {
     case "setCurrentListIndex": {
       return { ...state, currentListIndex: action.payload };
     }
-    case "setDataIsReady": {
-      return { ...state, dataIsReady: action.payload };
-    }
     case "setDefinitionsReady": {
       return { ...state, definitionsReady: action.payload };
     }
@@ -39,7 +36,6 @@ export type GlobalState = {
   authenticated: boolean;
   currentAccount: BungieUser | null;
   currentListIndex: number;
-  dataIsReady: boolean;
   definitionsReady: boolean;
   initComplete: boolean;
   loggingIn: boolean;
@@ -51,7 +47,6 @@ export const initialGlobalState: GlobalState = {
   authenticated: false,
   currentAccount: null,
   currentListIndex: 0,
-  dataIsReady: false,
   definitionsReady: false,
   initComplete: false,
   loggingIn: false,
@@ -71,10 +66,6 @@ export type GlobalAction =
   | {
       type: "setCurrentListIndex";
       payload: number;
-    }
-  | {
-      type: "setDataIsReady";
-      payload: boolean;
     }
   | {
       type: "setDefinitionsReady";
