@@ -1,6 +1,7 @@
 import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
+import { useAccountStore } from "@/app/store/AccountStore.ts";
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import Login from "@/screens/Login.tsx";
@@ -29,6 +30,7 @@ export default function RootScreen() {
   const globalState = useGlobalStateContext();
   const systemDisabled = useGlobalStateStore((state) => state.systemDisabled);
   const initComplete = useGlobalStateStore((state) => state.initComplete);
+  const currentAccount = useAccountStore((state) => state.currentAccount);
   const navigation = useNavigation();
   const authenticated = useAuthenticationStore((state) => state.authenticated);
 
@@ -42,14 +44,14 @@ export default function RootScreen() {
     if (
       initComplete &&
       authenticated &&
-      globalState.currentAccount &&
+      currentAccount &&
       globalState.definitionsReady &&
       AuthService.isAuthenticated()
     ) {
       console.log("trigger: download getProfile()");
       DataService.getInventory();
     }
-  }, [authenticated, globalState.currentAccount, globalState.definitionsReady, initComplete]);
+  }, [authenticated, currentAccount, globalState.definitionsReady, initComplete]);
 
   return (
     <RootStack.Navigator>
