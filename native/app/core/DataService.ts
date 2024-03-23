@@ -133,7 +133,7 @@ class DataService {
   }
 
   public static async getInventory() {
-    useGlobalStateStore.setState({ refreshing: false });
+    useGlobalStateStore.setState({ refreshing: true });
     try {
       const p1 = performance.now();
       const profile = await getProfile();
