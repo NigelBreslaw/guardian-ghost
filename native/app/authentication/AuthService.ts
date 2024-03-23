@@ -18,6 +18,7 @@ import {
   isValidRefreshToken,
 } from "./Utilities.ts";
 import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
+import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 
 class AuthService {
   private static instance: AuthService;
@@ -165,18 +166,14 @@ class AuthService {
             if (parsedToken.success) {
               console.info("Retrieved new token");
               AuthService.saveAndSetToken(parsedToken.output);
-              if (AuthService.globalDispatch) {
-                AuthService.globalDispatch({ type: "setSystemDisabled", payload: false });
-              }
+              useGlobalStateStore.setState({ systemDisabled: false });
               return resolve(true);
             }
 
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");
-              if (AuthService.globalDispatch) {
-                AuthService.globalDispatch({ type: "setSystemDisabled", payload: true });
-              }
+              useGlobalStateStore.setState({ systemDisabled: true });
               return resolve(true);
             }
             // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
