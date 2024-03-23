@@ -22,17 +22,16 @@ import {
   type EmptyCell,
   type BlankCell,
 } from "@/app/inventory/Common.ts";
-import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { useDefinitionsStore } from "@/app/store/DefinitionsStore.ts";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
+import { useInventoryStore } from "@/app/store/InventoryStore.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
-  private static inventoryDispatch: React.Dispatch<InventoryAction>;
   static charactersAndVault: GuardiansAndVault = {
     vault: {
       characterId: "VAULT",
@@ -108,10 +107,6 @@ class DataService {
     }
 
     return DataService.instance;
-  }
-
-  static setInventoryDispatch(inventoryDispatch: React.Dispatch<InventoryAction>) {
-    DataService.inventoryDispatch = inventoryDispatch;
   }
 
   static setUpItemDefinition() {
@@ -284,9 +279,7 @@ class DataService {
     const p2 = performance.now();
     console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
 
-    DataService.inventoryDispatch({ type: "setWeaponsPageData", payload: weaponsPageData });
-    DataService.inventoryDispatch({ type: "setArmorPageData", payload: armorPageData });
-    DataService.inventoryDispatch({ type: "setInventoryPageData", payload: inventoryPageData });
+    useInventoryStore.setState({ weaponsPageData, armorPageData, inventoryPageData });
     const p3 = performance.now();
     console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
   }

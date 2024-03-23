@@ -1,8 +1,8 @@
 import DataService from "@/app/core/DataService.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
-import { useInventoryStateContext } from "@/app/state/InventoryState.tsx";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
+import { useInventoryStore } from "@/app/store/InventoryStore.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -29,7 +29,9 @@ const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const inventoryState = useInventoryStateContext();
+  const weaponsPageData = useInventoryStore((state) => state.weaponsPageData);
+  const armorPageData = useInventoryStore((state) => state.armorPageData);
+  const inventoryPageData = useInventoryStore((state) => state.inventoryPageData);
 
   const styles = StyleSheet.create({
     bar: {
@@ -62,7 +64,7 @@ function HomeScreen() {
           tabBarIcon: "pistol",
         }}
       >
-        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.weaponsPageData} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={weaponsPageData} />}
       </Tab.Screen>
       <Tab.Screen
         name="tab-armor"
@@ -71,7 +73,7 @@ function HomeScreen() {
           tabBarIcon: "tshirt-crew-outline",
         }}
       >
-        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.armorPageData} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={armorPageData} />}
       </Tab.Screen>
       <Tab.Screen
         name="tab-inventory"
@@ -80,7 +82,7 @@ function HomeScreen() {
           tabBarIcon: "diamond-stone",
         }}
       >
-        {(props) => <InventoryPage {...props} inventoryPageData={inventoryState.inventoryPageData} />}
+        {(props) => <InventoryPage {...props} inventoryPageData={inventoryPageData} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
