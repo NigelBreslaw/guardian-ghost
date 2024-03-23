@@ -21,7 +21,7 @@ import {
 class AuthService {
   private static instance: AuthService;
   private static authToken: AuthToken | null = null;
-  private static dispatch: React.Dispatch<GlobalAction> | null = null;
+  private static globalDispatch: React.Dispatch<GlobalAction> | null = null;
   private static stateID = "";
   private static usedAuthCodes: Array<string> = [];
   private static currentAccount: BungieUser | null = null;
@@ -164,8 +164,8 @@ class AuthService {
             if (parsedToken.success) {
               console.info("Retrieved new token");
               AuthService.saveAndSetToken(parsedToken.output);
-              if (AuthService.dispatch) {
-                AuthService.dispatch({ type: "setSystemDisabled", payload: false });
+              if (AuthService.globalDispatch) {
+                AuthService.globalDispatch({ type: "setSystemDisabled", payload: false });
               }
               return resolve(true);
             }
@@ -173,8 +173,8 @@ class AuthService {
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");
-              if (AuthService.dispatch) {
-                AuthService.dispatch({ type: "setSystemDisabled", payload: true });
+              if (AuthService.globalDispatch) {
+                AuthService.globalDispatch({ type: "setSystemDisabled", payload: true });
               }
               return resolve(true);
             }
@@ -211,13 +211,13 @@ class AuthService {
   }
 
   // Method to subscribe to auth changes
-  static subscribe(dispatch: React.Dispatch<GlobalAction>) {
-    AuthService.dispatch = dispatch;
+  static setGlobalDispatch(dispatch: React.Dispatch<GlobalAction>) {
+    AuthService.globalDispatch = dispatch;
   }
 
   // Method to unsubscribe from auth changes
   static unsubscribe() {
-    AuthService.dispatch = null;
+    AuthService.globalDispatch = null;
   }
 
   // Method to check if user data and auth token exist
@@ -238,8 +238,8 @@ class AuthService {
       AuthService.currentUserID = "";
     }
 
-    if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setCurrentAccount", payload: bungieUser });
+    if (AuthService.globalDispatch) {
+      AuthService.globalDispatch({ type: "setCurrentAccount", payload: bungieUser });
     } else {
       console.info("setCurrentAccount: No dispatch");
     }
@@ -248,24 +248,24 @@ class AuthService {
   private static setAuthToken(token: AuthToken | null) {
     AuthService.authToken = token;
 
-    if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
+    if (AuthService.globalDispatch) {
+      AuthService.globalDispatch({ type: "setAuthenticated", payload: AuthService.isAuthenticated() });
     } else {
       console.info("setAuthToken: No dispatch");
     }
   }
 
   setInitComplete() {
-    if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setInitComplete", payload: true });
+    if (AuthService.globalDispatch) {
+      AuthService.globalDispatch({ type: "setInitComplete", payload: true });
     } else {
       console.info("setInitComplete: No dispatch");
     }
   }
 
   static setLoggingIn(loggingIn: boolean) {
-    if (AuthService.dispatch) {
-      AuthService.dispatch({ type: "setLoggingIn", payload: loggingIn });
+    if (AuthService.globalDispatch) {
+      AuthService.globalDispatch({ type: "setLoggingIn", payload: loggingIn });
     } else {
       console.info("setLoggingIn: No dispatch");
     }
