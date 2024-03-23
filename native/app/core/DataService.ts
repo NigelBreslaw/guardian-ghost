@@ -25,6 +25,7 @@ import {
 import type { GlobalAction } from "@/app/state/Helpers";
 import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
+import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
@@ -132,7 +133,7 @@ class DataService {
   }
 
   public static async getInventory() {
-    DataService.globalDispatch({ type: "setRefreshing", payload: true });
+    useGlobalStateStore.setState({ refreshing: false });
     try {
       const p1 = performance.now();
       const profile = await getProfile();
@@ -158,7 +159,7 @@ class DataService {
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
-      DataService.globalDispatch({ type: "setRefreshing", payload: false });
+      useGlobalStateStore.setState({ refreshing: false });
     }
   }
 
