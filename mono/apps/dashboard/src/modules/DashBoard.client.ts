@@ -350,67 +350,6 @@ if (document.getElementById("sales-by-category")) {
   chart.render();
 }
 
-const getVisitorsChartOptions = () => {
-  let visitorsChartColors = {};
-
-  if (document.documentElement.classList.contains("dark")) {
-    visitorsChartColors = {
-      fillGradientShade: "dark",
-      fillGradientShadeIntensity: 0.45,
-    };
-  } else {
-    visitorsChartColors = {
-      fillGradientShade: "light",
-      fillGradientShadeIntensity: 1,
-    };
-  }
-
-  return {
-    series: [
-      {
-        name: "Visitors",
-        data: [500, 590, 600, 520, 610, 550, 600],
-      },
-    ],
-    labels: ["01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb"],
-    chart: {
-      type: "area",
-      height: "305px",
-      fontFamily: "Inter, sans-serif",
-      sparkline: {
-        enabled: true,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: visitorsChartColors.fillGradientShade,
-        shadeIntensity: visitorsChartColors.fillGradientShadeIntensity,
-      },
-    },
-    plotOptions: {
-      area: {
-        fillTo: "end",
-      },
-    },
-    theme: {
-      monochrome: {
-        enabled: true,
-        color: "#1A56DB",
-      },
-    },
-    tooltip: {
-      style: {
-        fontSize: "14px",
-        fontFamily: "Inter, sans-serif",
-      },
-    },
-  };
-};
-
 const getSignupsChartOptions = () => {
   let signupsChartColors = {};
 
