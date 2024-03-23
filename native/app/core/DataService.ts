@@ -25,6 +25,7 @@ import {
 import type { GlobalAction } from "@/app/state/Helpers";
 import type { InventoryAction } from "@/app/state/InventoryState.tsx";
 import StorageGG from "@/app/storage/StorageGG.ts";
+import { useDefinitionsStore } from "@/app/store/DefinitionsStore.ts";
 import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
@@ -81,7 +82,7 @@ class DataService {
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      DataService.globalDispatch({ type: "setDefinitionsReady", payload: true });
+      useDefinitionsStore.setState({ definitionsReady: true });
       const p2 = performance.now();
       console.log("Full itemDef ready took:", (p2 - p1).toFixed(5), "ms");
       return;
@@ -95,7 +96,7 @@ class DataService {
       await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      DataService.globalDispatch({ type: "setDefinitionsReady", payload: true });
+      useDefinitionsStore.setState({ definitionsReady: true });
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
     }
