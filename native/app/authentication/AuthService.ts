@@ -251,11 +251,7 @@ class AuthService {
   }
 
   setInitComplete() {
-    if (AuthService.globalDispatch) {
-      AuthService.globalDispatch({ type: "setInitComplete", payload: true });
-    } else {
-      console.info("setInitComplete: No dispatch");
-    }
+    useGlobalStateStore.setState({ initComplete: true });
   }
 
   static setLoggingIn(loggingIn: boolean) {
