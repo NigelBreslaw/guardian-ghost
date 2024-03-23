@@ -1,5 +1,7 @@
+import DataService from "@/app/core/DataService.ts";
 import { LOGO_DARK, armorPageBuckets, inventoryPageBuckets, weaponsPageBuckets } from "@/app/inventory/Common.ts";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
+import { useGlobalStateContext } from "@/app/state/GlobalState.tsx";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -7,18 +9,16 @@ import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type RefreshButtonProps = {
-  refreshing?: boolean;
-};
+function RefreshButton() {
+  const globalState = useGlobalStateContext();
 
-function RefreshButton(props: RefreshButtonProps) {
   return (
     <IconButton
       icon={"refresh"}
       iconColor={"white"}
-      loading={props.refreshing}
+      loading={globalState.refreshing}
       onPress={() => {
-        console.log("Refreshing!");
+        DataService.getInventory();
       }}
     />
   );
