@@ -1,6 +1,5 @@
 import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
-import type { UiCell } from "@/app/inventory/Common.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
@@ -14,7 +13,6 @@ export type RootStackParamList = {
   Login: undefined;
   Root: undefined;
   BottomSheet: { itemInstanceId: string | undefined; itemHash: number };
-  InventoryPage: { inventoryPageData: Array<Array<UiCell>> };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
