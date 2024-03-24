@@ -259,9 +259,17 @@ export const getProfileSchema = merge([
 
 export type ProfileData = Output<typeof getProfileSchema>;
 
-export type GuardianUiData = {
+export enum GGCharacterType {
+  Guardian = 0,
+  Vault = 1,
+}
+
+export type GGCharacterUiData = {
   characterId: string;
   guardianClassType: GuardianClassType;
   genderType: GuardianGenderType;
   raceType: GuardianRaceType;
+  emblem: string;
+  lastActiveCharacter: boolean;
+  ggCharacterType: GGCharacterType;
 };

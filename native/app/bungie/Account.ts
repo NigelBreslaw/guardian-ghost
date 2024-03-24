@@ -2,7 +2,6 @@ import type { AuthToken } from "@/authentication/Utilities.ts";
 import { apiKey } from "@/constants/env.ts";
 import type { BungieProfile, BungieUser, LinkedProfiles } from "./Types.ts";
 import { BungieProfileSchema } from "./Types.ts";
-
 import { parse } from "valibot";
 
 export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = false): Promise<JSON> {
