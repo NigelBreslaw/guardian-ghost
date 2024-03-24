@@ -1,6 +1,8 @@
 import DataService from "@/app/core/DataService.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
-import InventoryPage from "@/app/screens/InventoryPage.tsx";
+import ArmorPage from "@/app/screens/ArmorPage.tsx";
+import GeneralPage from "@/app/screens/GeneralPage.tsx";
+import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
@@ -26,27 +28,21 @@ function RefreshButton() {
 
 const Tab = createMaterialBottomTabNavigator();
 
+const styles = StyleSheet.create({
+  bar: {
+    backgroundColor: "black",
+    borderTopColor: "#2A1D38",
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
+});
+
 function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const weaponsPageData = useGGStore((state) => state.weaponsPageData);
-  const armorPageData = useGGStore((state) => state.armorPageData);
-  const inventoryPageData = useGGStore((state) => state.inventoryPageData);
 
-  const styles = StyleSheet.create({
-    bar: {
-      backgroundColor: "black",
-      borderTopColor: "#2A1D38",
-      borderTopWidth: StyleSheet.hairlineWidth,
-      ...Platform.select({
-        ios: {
-          height: insets.bottom + 50,
-        },
-        default: {
-          height: insets.bottom + 70,
-        },
-      }),
-    },
-  });
+  const barStyle = {
+    ...styles.bar,
+    height: insets.bottom + (Platform.OS === "ios" ? 50 : 70),
+  };
 
   return (
     <Tab.Navigator
@@ -54,7 +50,7 @@ function HomeScreen() {
       activeColor="white"
       activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
       inactiveColor="grey"
-      barStyle={styles.bar}
+      barStyle={barStyle}
     >
       <Tab.Screen
         name="tab-weapons"
@@ -62,27 +58,24 @@ function HomeScreen() {
           tabBarLabel: "Weapons",
           tabBarIcon: "pistol",
         }}
-      >
-        {(props) => <InventoryPage {...props} inventoryPageData={weaponsPageData} />}
-      </Tab.Screen>
+        component={WeaponsPage}
+      />
       <Tab.Screen
         name="tab-armor"
         options={{
           tabBarLabel: "Armor",
           tabBarIcon: "tshirt-crew-outline",
         }}
-      >
-        {(props) => <InventoryPage {...props} inventoryPageData={armorPageData} />}
-      </Tab.Screen>
+        component={ArmorPage}
+      />
       <Tab.Screen
         name="tab-inventory"
         options={{
           tabBarLabel: "Inventory",
           tabBarIcon: "diamond-stone",
         }}
-      >
-        {(props) => <InventoryPage {...props} inventoryPageData={inventoryPageData} />}
-      </Tab.Screen>
+        component={GeneralPage}
+      />
     </Tab.Navigator>
   );
 }
