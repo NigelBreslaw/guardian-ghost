@@ -1,12 +1,12 @@
 import type { BungieUser } from "@/app/bungie/Types.ts";
-import { create } from "zustand";
+import type { StateCreator } from "zustand";
 
-type AccountStore = {
+export interface AccountSlice {
   currentAccount: BungieUser | null;
   setCurrentAccount: (currentAccount: BungieUser | null) => void;
-};
+}
 
-export const useAccountStore = create<AccountStore>((set) => ({
+export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
   currentAccount: null,
   setCurrentAccount: (currentAccount: BungieUser | null) => set({ currentAccount }),
-}));
+});
