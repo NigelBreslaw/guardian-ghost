@@ -1,6 +1,6 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { useInventoryStore } from "@/app/store/InventoryStore.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
@@ -14,8 +14,8 @@ type InventoryPageProps = {
 };
 
 export default function InventoryPage(props: InventoryPageProps) {
-  const currentListIndex = useInventoryStore((state) => state.currentListIndex);
-  const setCurrentListIndex = useInventoryStore((state) => state.setCurrentListIndex);
+  const currentListIndex = useGGStore((state) => state.currentListIndex);
+  const setCurrentListIndex = useGGStore((state) => state.setCurrentListIndex);
   const navigator = useNavigation();
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;

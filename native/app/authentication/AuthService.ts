@@ -16,9 +16,7 @@ import {
   isValidAccessToken,
   isValidRefreshToken,
 } from "./Utilities.ts";
-import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
-import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
-import { useAccountStore } from "@/app/store/AccountStore.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import * as SplashScreen from "expo-splash-screen";
 
 class AuthService {
@@ -166,14 +164,14 @@ class AuthService {
             if (parsedToken.success) {
               console.info("Retrieved new token");
               AuthService.saveAndSetToken(parsedToken.output);
-              useGlobalStateStore.setState({ systemDisabled: false });
+              useGGStore.setState({ systemDisabled: false });
               return resolve(true);
             }
 
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");
-              useGlobalStateStore.setState({ systemDisabled: true });
+              useGGStore.setState({ systemDisabled: true });
               return resolve(true);
             }
             // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
@@ -227,23 +225,23 @@ class AuthService {
       AuthService.currentUserID = "";
     }
 
-    useAccountStore.setState({ currentAccount: bungieUser });
+    useGGStore.setState({ currentAccount: bungieUser });
   }
 
   private static setAuthToken(token: AuthToken | null) {
     AuthService.authToken = token;
 
     const isAuthenticated = AuthService.isAuthenticated();
-    useAuthenticationStore.setState({ authenticated: isAuthenticated });
+    useGGStore.setState({ authenticated: isAuthenticated });
   }
 
   static setInitComplete() {
-    useGlobalStateStore.setState({ initComplete: true });
+    useGGStore.setState({ initComplete: true });
     SplashScreen.hideAsync();
   }
 
   static setLoggingIn(loggingIn: boolean) {
-    useAuthenticationStore.setState({ loggingIn });
+    useGGStore.setState({ loggingIn });
   }
 
   static startAuth(): void {
