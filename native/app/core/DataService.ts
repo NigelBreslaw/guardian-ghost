@@ -77,7 +77,7 @@ class DataService {
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      useGGStore.setState({ definitionsReady: true });
+      useGGStore.getState().setDefinitionsReady(true);
       const p2 = performance.now();
       console.log("Full itemDef ready took:", (p2 - p1).toFixed(5), "ms");
       return;
@@ -91,7 +91,7 @@ class DataService {
       await StorageGG.setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      useGGStore.setState({ definitionsReady: true });
+      useGGStore.getState().setDefinitionsReady(true);
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
     }
@@ -121,7 +121,7 @@ class DataService {
   }
 
   public static async getInventory() {
-    useGGStore.setState({ refreshing: true });
+    useGGStore.getState().setRefreshing(true);
     try {
       const p1 = performance.now();
       const profile = await getProfile();
@@ -147,7 +147,7 @@ class DataService {
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
-      useGGStore.setState({ refreshing: false });
+      useGGStore.getState().setRefreshing(false);
     }
   }
 
@@ -276,8 +276,7 @@ class DataService {
     const inventoryPageData = DataService.buildUIData(inventoryPageBuckets);
     const p2 = performance.now();
     console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
-
-    useGGStore.setState({ weaponsPageData, armorPageData, inventoryPageData });
+    useGGStore.getState().setAllInventoryPageData(weaponsPageData, armorPageData, inventoryPageData);
     const p3 = performance.now();
     console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
   }

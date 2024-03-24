@@ -10,15 +10,27 @@ export interface InventorySlice {
   setArmorPageData: (payload: Array<Array<UiCell>>) => void;
   inventoryPageData: Array<Array<UiCell>>;
   setInventoryPageData: (payload: Array<Array<UiCell>>) => void;
+  setAllInventoryPageData: (
+    weaponPage: Array<Array<UiCell>>,
+    armorPage: Array<Array<UiCell>>,
+    inventoryPage: Array<Array<UiCell>>,
+  ) => void;
 }
 
 export const createInventorySlice: StateCreator<InventorySlice> = (set) => ({
   currentListIndex: 0,
-  setCurrentListIndex: (currentListIndex: number) => set({ currentListIndex }),
+  setCurrentListIndex: (currentListIndex: number) => {
+    set({ currentListIndex });
+  },
   weaponsPageData: [],
   armorPageData: [],
   inventoryPageData: [],
   setWeaponsPageData: (weaponsPageData: Array<Array<UiCell>>) => set({ weaponsPageData }),
   setArmorPageData: (armorPageData: Array<Array<UiCell>>) => set({ armorPageData }),
   setInventoryPageData: (inventoryPageData: Array<Array<UiCell>>) => set({ inventoryPageData }),
+  setAllInventoryPageData: (
+    weaponPage: Array<Array<UiCell>>,
+    armorPage: Array<Array<UiCell>>,
+    inventoryPage: Array<Array<UiCell>>,
+  ) => set({ weaponsPageData: weaponPage, armorPageData: armorPage, inventoryPageData: inventoryPage }),
 });

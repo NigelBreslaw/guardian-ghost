@@ -1,5 +1,6 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
+import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
@@ -15,7 +16,6 @@ type InventoryPageProps = {
 
 export default function InventoryPage(props: InventoryPageProps) {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
-  const setCurrentListIndex = useGGStore((state) => state.setCurrentListIndex);
   const navigator = useNavigation();
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
@@ -68,17 +68,6 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedMove = debounce(listMoved, 60);
 
-  const calcCurrentListIndex = (posX: number) => {
-    const LIST_WIDTH = HOME_WIDTH;
-    let index = 0;
-    if (posX > 0) {
-      index = Math.floor(posX / LIST_WIDTH);
-    }
-    setCurrentListIndex(index);
-  };
-
-  const debouncedCalcCurrentListIndex = debounce(calcCurrentListIndex, 100);
-
   const renderItem = ({ item }: { item: UiCell }) => {
     return UiCellRenderItem({ item }, activateSheet);
   };
@@ -90,7 +79,7 @@ export default function InventoryPage(props: InventoryPageProps) {
       horizontal
       pagingEnabled
       scrollEventThrottle={32}
-      onScroll={(e) => debouncedCalcCurrentListIndex(e.nativeEvent.contentOffset.x)}
+      onScroll={(e) => calcCurrentListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
       ref={pagedScrollRef}
     >
       {props.inventoryPageData.map((list, index) => {
