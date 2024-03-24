@@ -69,7 +69,7 @@ class DataService {
     const p1 = performance.now();
     // Is there a saved definition?
     try {
-      const loadedDefinition = await StorageGG.getData("item_definition", "getItemDefinition()");
+      const loadedDefinition = await StorageGG.getData("ITEM_DEFINITION", "getItemDefinition()");
       const p3 = performance.now();
       console.log("loaded setupItemDefinition() took:", (p3 - p1).toFixed(5), "ms");
       const itemDefinition = parse(ItemDefinitionSchema, loadedDefinition);
@@ -88,7 +88,7 @@ class DataService {
     try {
       const downloadedDefinition = await getCustomItemDefinition();
       const itemDefinition = parse(ItemDefinitionSchema, downloadedDefinition);
-      await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
+      await StorageGG.setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
       useGGStore.setState({ definitionsReady: true });
