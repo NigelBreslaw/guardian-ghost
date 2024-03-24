@@ -7,7 +7,7 @@ import { createInventorySlice, type InventorySlice } from "./InventorySlice.ts";
 
 interface IStore extends AccountSlice, AuthenticationSlice, DefinitionsSlice, GlobalStateSlice, InventorySlice {}
 
-export const useGGStore = create<IStore>((...a) => ({
+export const useGGStore = create<IStore>()((...a) => ({
   ...createAccountSlice(...a),
   ...createAuthenticationSlice(...a),
   ...createDefinitionsSlice(...a),
