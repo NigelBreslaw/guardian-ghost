@@ -1,6 +1,5 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
-import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
-import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
+import { useGGStore } from "@/app/store/GGStore";
 import AuthService from "@/authentication/AuthService.ts";
 import { isLocalWeb } from "@/constants/env.ts";
 import type { NavigationProp } from "@react-navigation/native";
@@ -31,9 +30,9 @@ function LocalWebLogin() {
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
-  const initComplete = useGlobalStateStore((state) => state.initComplete);
-  const authenticated = useAuthenticationStore((state) => state.authenticated);
-  const loggingIn = useAuthenticationStore((state) => state.loggingIn);
+  const initComplete = useGGStore((state) => state.initComplete);
+  const authenticated = useGGStore((state) => state.authenticated);
+  const loggingIn = useGGStore((state) => state.loggingIn);
   const url = useURL();
 
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;

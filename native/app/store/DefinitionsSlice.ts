@@ -1,11 +1,11 @@
-import { create } from "zustand";
+import type { StateCreator } from "zustand";
 
-type DefinitionsStore = {
+export interface DefinitionsSlice {
   definitionsReady: boolean;
   setDefinitionsReady: (definitionsReady: boolean) => void;
-};
+}
 
-export const useDefinitionsStore = create<DefinitionsStore>((set) => ({
+export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => ({
   definitionsReady: false,
   setDefinitionsReady: (definitionsReady: boolean) => set({ definitionsReady }),
-}));
+});

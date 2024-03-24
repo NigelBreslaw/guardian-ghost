@@ -1,7 +1,7 @@
 import type { UiCell } from "@/app/inventory/Common.ts";
-import { create } from "zustand";
+import type { StateCreator } from "zustand";
 
-type InventoryStore = {
+export interface InventorySlice {
   currentListIndex: number;
   setCurrentListIndex: (payload: number) => void;
   weaponsPageData: Array<Array<UiCell>>;
@@ -10,9 +10,9 @@ type InventoryStore = {
   setArmorPageData: (payload: Array<Array<UiCell>>) => void;
   inventoryPageData: Array<Array<UiCell>>;
   setInventoryPageData: (payload: Array<Array<UiCell>>) => void;
-};
+}
 
-export const useInventoryStore = create<InventoryStore>((set) => ({
+export const createInventorySlice: StateCreator<InventorySlice> = (set) => ({
   currentListIndex: 0,
   setCurrentListIndex: (currentListIndex: number) => set({ currentListIndex }),
   weaponsPageData: [],
@@ -21,4 +21,4 @@ export const useInventoryStore = create<InventoryStore>((set) => ({
   setWeaponsPageData: (weaponsPageData: Array<Array<UiCell>>) => set({ weaponsPageData }),
   setArmorPageData: (armorPageData: Array<Array<UiCell>>) => set({ armorPageData }),
   setInventoryPageData: (inventoryPageData: Array<Array<UiCell>>) => set({ inventoryPageData }),
-}));
+});

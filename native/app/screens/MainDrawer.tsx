@@ -1,8 +1,7 @@
 import DataService from "@/app/core/DataService.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
-import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
-import { useInventoryStore } from "@/app/store/InventoryStore.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import AuthService from "@/authentication/AuthService.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -11,7 +10,7 @@ import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function RefreshButton() {
-  const refreshing = useGlobalStateStore((state) => state.refreshing);
+  const refreshing = useGGStore((state) => state.refreshing);
 
   return (
     <IconButton
@@ -29,9 +28,9 @@ const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const weaponsPageData = useInventoryStore((state) => state.weaponsPageData);
-  const armorPageData = useInventoryStore((state) => state.armorPageData);
-  const inventoryPageData = useInventoryStore((state) => state.inventoryPageData);
+  const weaponsPageData = useGGStore((state) => state.weaponsPageData);
+  const armorPageData = useGGStore((state) => state.armorPageData);
+  const inventoryPageData = useGGStore((state) => state.inventoryPageData);
 
   const styles = StyleSheet.create({
     bar: {

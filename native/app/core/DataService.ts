@@ -23,9 +23,7 @@ import {
   type BlankCell,
 } from "@/app/inventory/Common.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
-import { useDefinitionsStore } from "@/app/store/DefinitionsStore.ts";
-import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
-import { useInventoryStore } from "@/app/store/InventoryStore.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
@@ -79,7 +77,7 @@ class DataService {
       console.log("parse itemDef() took:", (p4 - p3).toFixed(4), "ms");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      useDefinitionsStore.setState({ definitionsReady: true });
+      useGGStore.setState({ definitionsReady: true });
       const p2 = performance.now();
       console.log("Full itemDef ready took:", (p2 - p1).toFixed(5), "ms");
       return;
@@ -93,7 +91,7 @@ class DataService {
       await StorageGG.setData(itemDefinition as unknown as JSON, "item_definition", "setupItemDefinition()");
       DataService.itemDefinition = itemDefinition;
       DataService.setUpItemDefinition();
-      useDefinitionsStore.setState({ definitionsReady: true });
+      useGGStore.setState({ definitionsReady: true });
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
     }
@@ -123,7 +121,7 @@ class DataService {
   }
 
   public static async getInventory() {
-    useGlobalStateStore.setState({ refreshing: true });
+    useGGStore.setState({ refreshing: true });
     try {
       const p1 = performance.now();
       const profile = await getProfile();
@@ -149,7 +147,7 @@ class DataService {
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
-      useGlobalStateStore.setState({ refreshing: false });
+      useGGStore.setState({ refreshing: false });
     }
   }
 
@@ -279,7 +277,7 @@ class DataService {
     const p2 = performance.now();
     console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
 
-    useInventoryStore.setState({ weaponsPageData, armorPageData, inventoryPageData });
+    useGGStore.setState({ weaponsPageData, armorPageData, inventoryPageData });
     const p3 = performance.now();
     console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
   }

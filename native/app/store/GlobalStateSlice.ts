@@ -1,15 +1,15 @@
-import { create } from "zustand";
+import type { StateCreator } from "zustand";
 
-type GlobalStateStore = {
+export interface GlobalStateSlice {
   refreshing: boolean;
   setRefreshing: (refreshing: boolean) => void;
   systemDisabled: boolean;
   setSystemDisabled: (systemDisabled: boolean) => void;
   initComplete: boolean;
   setInitComplete: (initComplete: boolean) => void;
-};
+}
 
-export const useGlobalStateStore = create<GlobalStateStore>((set) => ({
+export const createGlobalStateSlice: StateCreator<GlobalStateSlice> = (set) => ({
   refreshing: false,
   setRefreshing: (refreshing: boolean) => set({ refreshing }),
   systemDisabled: false,
@@ -18,4 +18,4 @@ export const useGlobalStateStore = create<GlobalStateStore>((set) => ({
   setInitComplete: (initComplete: boolean) => {
     set({ initComplete });
   },
-}));
+});

@@ -1,10 +1,7 @@
 import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-import { useAccountStore } from "@/app/store/AccountStore.ts";
-import { useAuthenticationStore } from "@/app/store/AuthenticationStore.ts";
-import { useDefinitionsStore } from "@/app/store/DefinitionsStore.ts";
-import { useGlobalStateStore } from "@/app/store/GlobalStateStore.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
 import { useNavigation } from "@react-navigation/native";
@@ -27,12 +24,12 @@ declare global {
 }
 
 export default function RootScreen() {
-  const systemDisabled = useGlobalStateStore((state) => state.systemDisabled);
-  const initComplete = useGlobalStateStore((state) => state.initComplete);
-  const currentAccount = useAccountStore((state) => state.currentAccount);
-  const definitionsReady = useDefinitionsStore((state) => state.definitionsReady);
+  const systemDisabled = useGGStore((state) => state.systemDisabled);
+  const initComplete = useGGStore((state) => state.initComplete);
+  const currentAccount = useGGStore((state) => state.currentAccount);
+  const definitionsReady = useGGStore((state) => state.definitionsReady);
+  const authenticated = useGGStore((state) => state.authenticated);
   const navigation = useNavigation();
-  const authenticated = useAuthenticationStore((state) => state.authenticated);
 
   useEffect(() => {
     if (initComplete && !authenticated && !systemDisabled) {
