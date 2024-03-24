@@ -5,6 +5,7 @@ export interface AuthenticationSlice {
   setAuthenticated: () => void;
   setNotAuthenticated: () => void;
   loggingIn: boolean;
+  setLoggingIn: (loggingIn: boolean) => void;
 }
 
 export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set) => ({

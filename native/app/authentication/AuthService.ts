@@ -164,14 +164,14 @@ class AuthService {
             if (parsedToken.success) {
               console.info("Retrieved new token");
               AuthService.saveAndSetToken(parsedToken.output);
-              useGGStore.setState({ systemDisabled: false });
+              useGGStore.getState().setSystemDisabled(false);
               return resolve(true);
             }
 
             const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
             if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
               console.warn("System disabled");
-              useGGStore.setState({ systemDisabled: true });
+              useGGStore.getState().setSystemDisabled(true);
               return resolve(true);
             }
             // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
@@ -225,23 +225,27 @@ class AuthService {
       AuthService.currentUserID = "";
     }
 
-    useGGStore.setState({ currentAccount: bungieUser });
+    useGGStore.getState().setCurrentAccount(bungieUser);
   }
 
   private static setAuthToken(token: AuthToken | null) {
     AuthService.authToken = token;
 
     const isAuthenticated = AuthService.isAuthenticated();
-    useGGStore.setState({ authenticated: isAuthenticated });
+    if (isAuthenticated) {
+      useGGStore.getState().setAuthenticated();
+    } else {
+      useGGStore.getState().setNotAuthenticated();
+    }
   }
 
   static setInitComplete() {
-    useGGStore.setState({ initComplete: true });
+    useGGStore.getState().setInitComplete(true);
     SplashScreen.hideAsync();
   }
 
   static setLoggingIn(loggingIn: boolean) {
-    useGGStore.setState({ loggingIn });
+    useGGStore.getState().setLoggingIn(loggingIn);
   }
 
   static startAuth(): void {
