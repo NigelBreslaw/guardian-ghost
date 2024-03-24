@@ -1,10 +1,16 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { type ProfileData, getProfileSchema, vaultBucketHashes, GuardiansSchema } from "@/app/bungie/Types.ts";
+import {
+  type ProfileData,
+  getProfileSchema,
+  vaultBucketHashes,
+  GuardiansSchema,
+  GGCharacterType,
+} from "@/app/bungie/Types.ts";
 import type {
   DestinyItem,
+  GGCharacterUiData,
   GuardianData,
   GuardianGear,
-  GuardianUiData,
   GuardiansAndVault,
   VaultBucketHash,
 } from "@/app/bungie/Types.ts";
@@ -188,16 +194,18 @@ class DataService {
     }
   }
 
-  private static addCharacterDefinition(guardianData: GuardianData): GuardianUiData {
-    const data: GuardianUiData = {
+  private static addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
+    const data: GGCharacterUiData = {
       characterId: guardianData.characterId,
       guardianClassType: guardianData.classType,
       genderType: guardianData.genderType,
       raceType: guardianData.raceType,
+      emblem: "",
+      lastActiveCharacter: false,
+      ggCharacterType: GGCharacterType.Guardian,
     };
 
     return data;
-    // console.log("addCharacterDefinition", GuardianRaceType[data.raceType]);
   }
 
   private static processCharacterEquipment(profile: ProfileData) {
