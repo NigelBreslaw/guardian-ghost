@@ -15,7 +15,7 @@ export const armorPageBuckets = [
   1585787867, // ClassArmor undefined //1626737477 undefined //1801258597
 ];
 
-export const inventoryPageBuckets = [
+export const generalPageBuckets = [
   375726501, // Engrams undefined 444348033 undefined 497170007
   215593132, // LostItems
   4274335291, // Emblems

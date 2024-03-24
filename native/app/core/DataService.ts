@@ -11,7 +11,7 @@ import type {
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import {
   armorPageBuckets,
-  inventoryPageBuckets,
+  generalPageBuckets,
   weaponsPageBuckets,
   type UiCell,
   type SeparatorCell,
@@ -273,10 +273,10 @@ class DataService {
     const p1 = performance.now();
     const weaponsPageData = DataService.buildUIData(weaponsPageBuckets);
     const armorPageData = DataService.buildUIData(armorPageBuckets);
-    const inventoryPageData = DataService.buildUIData(inventoryPageBuckets);
+    const generalPageData = DataService.buildUIData(generalPageBuckets);
     const p2 = performance.now();
     console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
-    useGGStore.getState().setAllInventoryPageData(weaponsPageData, armorPageData, inventoryPageData);
+    useGGStore.getState().setAllInventoryPageData(weaponsPageData, armorPageData, generalPageData);
     const p3 = performance.now();
     console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
   }
