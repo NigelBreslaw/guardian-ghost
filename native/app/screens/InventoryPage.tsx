@@ -22,7 +22,6 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
-
   const isFocused = useIsFocused();
 
   const styles = StyleSheet.create({
@@ -51,16 +50,15 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
   // when you horizontally scroll to guardian 2 you will see it's energy weapons too.
-  function listMoved(index: number, toY: number) {
-    if (index === props.inventoryPageData.length - 1) {
+  function listMoved(toY: number) {
+    if (currentListIndex === props.inventoryPageData.length - 1) {
       return;
     }
 
     for (let i = 0; i < listRefs.current.length; i++) {
-      if (i === index) {
+      if (i === currentListIndex) {
         continue;
       }
-
       const lRef = listRefs.current[i];
       if (lRef) {
         lRef.scrollToOffset({ offset: toY, animated: false });
@@ -68,7 +66,7 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }
 
-  const debouncedMove = debounce(listMoved, 100);
+  const debouncedMove = debounce(listMoved, 60);
 
   const calcCurrentListIndex = (posX: number) => {
     const LIST_WIDTH = HOME_WIDTH;
@@ -108,10 +106,10 @@ export default function InventoryPage(props: InventoryPageProps) {
               keyExtractor={keyExtractor}
               numColumns={pageColumns[index]}
               removeClippedSubviews={true}
-              scrollEventThrottle={32}
+              scrollEventThrottle={50}
               onScroll={(e) => {
-                if (index < props.inventoryPageData.length - 1) {
-                  debouncedMove(index, e.nativeEvent.contentOffset.y);
+                if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
+                  debouncedMove(e.nativeEvent.contentOffset.y);
                 }
               }}
             />
