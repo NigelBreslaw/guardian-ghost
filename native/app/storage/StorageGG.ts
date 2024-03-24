@@ -7,7 +7,7 @@ const Store = {
   databaseName: "ggDataBase.db",
 };
 
-type storageKey = "item_definition" | "accounts";
+type storageKey = "ITEM_DEFINITION" | "ACCOUNTS";
 
 class StorageGG {
   private static instance: StorageGG;
@@ -66,7 +66,7 @@ class StorageGG {
       openRequest.onupgradeneeded = () => {
         const db = openRequest.result;
         if (!db.objectStoreNames.contains(Store.storeName)) {
-          db.createObjectStore(Store.storeName); // create it
+          db.createObjectStore(Store.storeName);
         }
       };
 
@@ -175,8 +175,6 @@ class StorageGG {
       }
     });
   }
-
-  static cleanUp() {}
 }
 
 export default StorageGG;
