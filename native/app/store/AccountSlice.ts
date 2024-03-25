@@ -1,4 +1,4 @@
-import type { BungieUser, GGCharacterUiData, ProfileData } from "@/app/bungie/Types.ts";
+import type { BungieUser, GGCharacterUiData } from "@/app/bungie/Types.ts";
 import type { UiCell } from "@/app/inventory/Common.ts";
 import type { StateCreator } from "zustand";
 
