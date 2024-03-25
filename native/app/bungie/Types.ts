@@ -16,30 +16,14 @@ export type GuardianGear = {
   equipped: DestinyItem | null;
   inventory: Array<DestinyItem>;
 };
-export type VaultBucketHash = 138197802 | 1469714392 | 3313201758 | 1367666825;
-export const vaultBucketHashes = [138197802, 1469714392, 3313201758, 1367666825];
 
+type SectionItems = {
+  items: Record<number, GuardianGear>;
+};
 export type VaultData = {
   characterId: string;
   emblemBackgroundPath: string;
-  items: {
-    // general: vault
-    138197802: {
-      items: Record<number, GuardianGear>;
-    };
-    // consumables: global space
-    1469714392: {
-      items: Record<number, GuardianGear>;
-    };
-    // mods: global space
-    3313201758: {
-      items: Record<number, GuardianGear>;
-    };
-    // special orders:
-    1367666825: {
-      items: Record<number, GuardianGear>;
-    };
-  };
+  items: Record<number, SectionItems>;
 };
 
 export const bungieResponseSchema = object({
