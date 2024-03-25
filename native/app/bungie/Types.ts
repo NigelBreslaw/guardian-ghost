@@ -17,7 +17,7 @@ export type GuardianGear = {
   inventory: Array<DestinyItem>;
 };
 
-type SectionItems = {
+export type SectionItems = {
   items: Record<number, GuardianGear>;
 };
 export type VaultData = {
