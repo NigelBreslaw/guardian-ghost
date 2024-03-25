@@ -7,5 +7,5 @@ export interface DefinitionsSlice {
 
 export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => ({
   definitionsReady: false,
-  setDefinitionsReady: (definitionsReady: boolean) => set({ definitionsReady }),
+  setDefinitionsReady: (definitionsReady) => set({ definitionsReady }),
 });

@@ -11,11 +11,11 @@ export interface GlobalStateSlice {
 
 export const createGlobalStateSlice: StateCreator<GlobalStateSlice> = (set) => ({
   refreshing: false,
-  setRefreshing: (refreshing: boolean) => set({ refreshing }),
+  setRefreshing: (refreshing) => set({ refreshing }),
   systemDisabled: false,
-  setSystemDisabled: (systemDisabled: boolean) => set({ systemDisabled }),
+  setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
   initComplete: false,
-  setInitComplete: (initComplete: boolean) => {
+  setInitComplete: (initComplete) => {
     set({ initComplete });
   },
 });
