@@ -77,17 +77,18 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
       const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
       const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
       const vaultItems = processVaultInventory(profile);
+      const vaultData = {
+        ...state.vault,
+        items: vaultItems,
+      };
 
-      const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory);
-      const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory);
-      const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory);
+      const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
+      const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
+      const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, vaultData);
       return {
         rawProfileData: profile,
         guardians: guardiansWithInventory,
-        vault: {
-          ...state.vault,
-          items: vaultItems,
-        },
+        vault: vaultData,
         weaponsPageData,
         armorPageData,
         generalPageData,
@@ -217,6 +218,7 @@ function buildUIData(
   profile: ProfileData,
   itemBuckets: Array<number>,
   guardians: Record<string, Guardian>,
+  vaultData: VaultData,
 ): Array<Array<UiCell>> {
   const characterDataArray: Array<Array<UiCell>> = [];
   const columns = 4;
@@ -368,8 +370,8 @@ function buildUIData(
     }
   }
   // Now build the vault data
-  // const vaultData = DataService.returnVaultData(itemBuckets);
-  // characterDataArray.push(vaultData);
+  const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
+  characterDataArray.push(vaultUiData);
 
   return characterDataArray;
 }
@@ -465,4 +467,47 @@ function returnInventoryRow(
   }
 
   return rowData;
+}
+
+function returnVaultUiData(profile: ProfileData, itemBuckets: Array<number>, vaultData: VaultData): Array<UiCell> {
+  const dataArray: Array<UiCell> = [];
+  const columns = 5;
+
+  for (const bucket of itemBuckets) {
+    const bucketItems = vaultData.items[138197802]?.items[bucket];
+    if (bucketItems) {
+      for (let i = 0; i < columns; i++) {
+        const separator: SeparatorCell = {
+          id: `${bucket}_separator_${i}`,
+          type: UiCellType.Separator,
+        };
+        dataArray.push(separator);
+      }
+
+      const totalRows = Math.ceil(bucketItems.inventory.length / columns);
+
+      for (let i = 0; i < totalRows; i++) {
+        const rowData = returnInventoryRow(profile, bucketItems, i, columns);
+        for (let j = 0; j < columns; j++) {
+          const item = rowData[j];
+          if (item) {
+            const destinyCell: DestinyCell = {
+              ...item,
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.DestinyCell,
+            };
+            dataArray.push(destinyCell);
+          } else {
+            const emptyCell: EmptyCell = {
+              id: `${bucket}_row1_${i}_${j}`,
+              type: UiCellType.EmptyCell,
+            };
+            dataArray.push(emptyCell);
+          }
+        }
+      }
+    }
+  }
+
+  return dataArray;
 }
