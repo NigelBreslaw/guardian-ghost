@@ -35,3 +35,21 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
       });
   });
 }
+
+// biome-ignore lint/suspicious/noExplicitAny: <Generic function>
+export function benchmark<T extends any[], R>(func: (...args: T) => R, ...args: T): R {
+  const start = performance.now();
+  const result = func(...args);
+  const end = performance.now();
+  console.log(`${func.name}() took: ${(end - start).toFixed(4)} ms`);
+  return result;
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: <Generic function>
+export async function benchmarkAsync<T extends any[], R>(func: (...args: T) => Promise<R>, ...args: T): Promise<R> {
+  const start = performance.now();
+  const result = await func(...args);
+  const end = performance.now();
+  console.log(`${func.name}() took: ${(end - start).toFixed(4)} ms`);
+  return result;
+}

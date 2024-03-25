@@ -23,7 +23,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
+import { benchmark, benchmarkAsync, getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { characterBuckets } from "@/bungie/Hashes.ts";
 import { array, number, parse, safeParse, string } from "valibot";
 
@@ -105,16 +105,8 @@ class DataService {
   public static async getInventory() {
     useGGStore.getState().setRefreshing(true);
     try {
-      const p1 = performance.now();
-      const profile = await getProfile();
-      const p2 = performance.now();
-
-      console.log("getProfile() took:", (p2 - p1).toFixed(4), "ms");
-      const p3 = performance.now();
-
-      const validatedProfile = parse(getProfileSchema, profile);
-      const p4 = performance.now();
-      console.log("parse() took:", (p4 - p3).toFixed(4), "ms");
+      const profile = await benchmarkAsync(getProfile);
+      const validatedProfile = benchmark(parse, getProfileSchema, profile);
 
       const p5 = performance.now();
       DataService.profileData = validatedProfile;
@@ -123,9 +115,9 @@ class DataService {
       DataService.processCharacterEquipment(validatedProfile);
       DataService.processCharacterInventory(validatedProfile);
       DataService.processVaultInventory(validatedProfile);
-      DataService.buildInventoryTabData();
       const p6 = performance.now();
       console.log("processing all profile data took:", (p6 - p5).toFixed(5), "ms");
+      DataService.buildInventoryTabData();
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
