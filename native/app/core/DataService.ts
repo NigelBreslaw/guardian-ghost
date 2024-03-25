@@ -111,16 +111,6 @@ class DataService {
       useGGStore.getState().updateProfile(validatedProfile);
       const p2 = performance.now();
       console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
-      const p5 = performance.now();
-      DataService.profileData = validatedProfile;
-      DataService.processProfile(validatedProfile);
-      DataService.defineCharactersAndVault();
-      DataService.processCharacterEquipment(validatedProfile);
-      DataService.processCharacterInventory(validatedProfile);
-      DataService.processVaultInventory(validatedProfile);
-      const p6 = performance.now();
-      console.log("processing all profile data took:", (p6 - p5).toFixed(5), "ms");
-      DataService.buildInventoryTabData();
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
