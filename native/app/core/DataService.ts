@@ -1,27 +1,18 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import { type ProfileData, getProfileSchema, GuardiansSchema, GGCharacterType } from "@/app/bungie/Types.ts";
-import type { GGCharacterUiData, GuardianData, GuardiansAndVault } from "@/app/bungie/Types.ts";
+import { getProfileSchema } from "@/app/bungie/Types.ts";
+("@/app/bungie/Types.ts");
 import { type ItemDefinition, ItemDefinitionSchema } from "@/app/core/Types.ts";
 import StorageGG from "@/app/storage/StorageGG.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { benchmark, benchmarkAsync, getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
-import { array, number, parse, safeParse, string } from "valibot";
+import { array, number, parse, string } from "valibot";
 
 class DataService {
   private static instance: DataService;
-  static charactersAndVault: GuardiansAndVault = {
-    vault: {
-      characterId: "VAULT",
-      emblemBackgroundPath: "",
-      items: {},
-    },
-    guardians: {},
-  };
   static itemDefinition: ItemDefinition;
   static bucketTypeHashArray: Array<number>;
   static IconWaterMarks: Array<string>;
   static ItemTypeDisplayName: Array<string>;
-  static profileData: ProfileData;
 
   private constructor() {
     DataService.setupItemDefinition();
@@ -96,36 +87,6 @@ class DataService {
     } finally {
       useGGStore.getState().setRefreshing(false);
     }
-  }
-
-  private static defineCharactersAndVault() {
-    // First flesh out the guardians
-    const characters = DataService.charactersAndVault.guardians;
-
-    for (const character in characters) {
-      const fullCharacter = characters[character]?.data;
-
-      if (fullCharacter) {
-        const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
-        if (parseCharacter.success) {
-          DataService.addCharacterDefinition(parseCharacter.output);
-        }
-      }
-    }
-  }
-
-  private static addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
-    const data: GGCharacterUiData = {
-      characterId: guardianData.characterId,
-      guardianClassType: guardianData.classType,
-      genderType: guardianData.genderType,
-      raceType: guardianData.raceType,
-      emblem: "",
-      lastActiveCharacter: false,
-      ggCharacterType: GGCharacterType.Guardian,
-    };
-
-    return data;
   }
 }
 
