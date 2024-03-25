@@ -1,5 +1,5 @@
-import DataService from "@/app/core/DataService.ts";
 import { itemSchema } from "@/app/core/Types.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -16,7 +16,7 @@ type ViewData = {
 
 function buildViewData(itemInstanceId: string | undefined, itemHash: number): ViewData {
   const p1 = performance.now();
-  const itemDef = safeParse(itemSchema, DataService.itemDefinition.items[itemHash]);
+  const itemDef = safeParse(itemSchema, useGGStore.getState().itemDefinition?.items[itemHash]);
   if (itemDef.success) {
     const screenshot = itemDef.output.s;
     const name = itemDef.output.n;
@@ -26,7 +26,7 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
       itemInstanceId,
       screenshot: screenshot ? `https://www.bungie.net/common/destiny2_content/screenshots/${screenshot}` : "",
       name: name ? name.toLocaleUpperCase() : "",
-      itemTypeDisplayName: itd ? DataService.ItemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
+      itemTypeDisplayName: itd ? useGGStore.getState().itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
     };
 
     const p2 = performance.now();

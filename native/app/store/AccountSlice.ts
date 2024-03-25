@@ -1,15 +1,16 @@
+import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
-import type {
-  BungieUser,
-  DestinyItem,
-  GGCharacterUiData,
-  Guardian,
-  GuardianGear,
-  ProfileData,
-  SectionItems,
-  VaultData,
+import {
+  getProfileSchema,
+  type BungieUser,
+  type DestinyItem,
+  type GGCharacterUiData,
+  type Guardian,
+  type GuardianGear,
+  type ProfileData,
+  type SectionItems,
+  type VaultData,
 } from "@/app/bungie/Types.ts";
-import DataService from "@/app/core/DataService.ts";
 import type { SingleItemDefinition } from "@/app/core/Types.ts";
 import {
   UiCellType,
@@ -24,6 +25,9 @@ import {
   generalPageBuckets,
   armorPageBuckets,
 } from "@/app/inventory/Common.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { benchmark, benchmarkAsync } from "@/app/utilities/Helpers.ts";
+import { parse } from "valibot";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
   currentAccount: BungieUser | null;
@@ -46,6 +50,7 @@ export interface AccountSlice {
   guardians: Record<string, Guardian>;
   vault: VaultData;
   updateProfile: (profile: ProfileData) => void;
+  getProfile: () => Promise<void>;
 }
 
 export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
@@ -94,6 +99,21 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
         generalPageData,
       };
     }),
+  getProfile: async () => {
+    useGGStore.getState().setRefreshing(true);
+    try {
+      const profile = await benchmarkAsync(getProfile);
+      const validatedProfile = benchmark(parse, getProfileSchema, profile);
+      const p1 = performance.now();
+      useGGStore.getState().updateProfile(validatedProfile);
+      const p2 = performance.now();
+      console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
+    } catch (e) {
+      console.error("Failed to validate profile!", e);
+    } finally {
+      useGGStore.getState().setRefreshing(false);
+    }
+  },
 });
 
 function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
@@ -171,11 +191,11 @@ function processVaultInventory(profile: ProfileData): Record<number, SectionItem
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
-      const data = DataService.itemDefinition.items[itemHash] as SingleItemDefinition;
+      const data = useGGStore.getState().itemDefinition?.items[itemHash] as SingleItemDefinition;
 
       const bucketHashIndex = data.b;
       if (bucketHashIndex !== undefined) {
-        const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
+        const definitionBucketHash = useGGStore.getState().bucketTypeHashArray[bucketHashIndex];
 
         if (definitionBucketHash) {
           const hasBaseBucket = Object.hasOwn(vaultItems, item.bucketHash);
@@ -201,18 +221,6 @@ function processVaultInventory(profile: ProfileData): Record<number, SectionItem
   }
   return vaultItems;
 }
-
-// buildInventoryTabData() {
-//   const p1 = performance.now();
-//   const weaponsPageData = DataService.buildUIData(weaponsPageBuckets);
-//   const armorPageData = DataService.buildUIData(armorPageBuckets);
-//   const generalPageData = DataService.buildUIData(generalPageBuckets);
-//   const p2 = performance.now();
-//   console.log("buildInventoryTabData took:", (p2 - p1).toFixed(4), "ms");
-//   useGGStore.getState().setAllInventoryPageData(weaponsPageData, armorPageData, generalPageData);
-//   const p3 = performance.now();
-//   console.log("setInventoryTabData took:", (p3 - p2).toFixed(4), "ms");
-// }
 
 function buildUIData(
   profile: ProfileData,
@@ -377,7 +385,7 @@ function buildUIData(
 }
 
 function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
-  const definition = DataService.itemDefinition.items[item.itemHash] as SingleItemDefinition;
+  const definition = useGGStore.getState().itemDefinition?.items[item.itemHash] as SingleItemDefinition;
   const itemInstanceId = item?.itemInstanceId;
 
   if (itemInstanceId) {
@@ -393,13 +401,13 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
         if (dvwi) {
           const index = dvwi[versionNumber];
           if (index !== undefined) {
-            watermark = DataService.IconWaterMarks[index];
+            watermark = useGGStore.getState().iconWaterMarks[index];
           }
         }
       } else {
         const iconWatermark = definition.iw;
         if (iconWatermark) {
-          watermark = DataService.IconWaterMarks[iconWatermark];
+          watermark = useGGStore.getState().iconWaterMarks[iconWatermark];
         }
       }
 
