@@ -5,7 +5,7 @@ import RootScreen from "@/RootScreen.tsx";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import { useEffect } from "react";
-import StorageGG from "@/app/storage/StorageGG.ts";
+import StorageGG from "@/app/store/StorageGG.ts";
 import AuthService from "@/app/authentication/AuthService.ts";
 import DataService from "@/app/core/DataService.ts";
 

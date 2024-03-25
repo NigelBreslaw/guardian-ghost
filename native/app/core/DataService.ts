@@ -2,7 +2,7 @@ import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { getProfileSchema } from "@/app/bungie/Types.ts";
 ("@/app/bungie/Types.ts");
 import { type ItemDefinition, ItemDefinitionSchema } from "@/app/core/Types.ts";
-import StorageGG from "@/app/storage/StorageGG.ts";
+import StorageGG from "@/app/store/StorageGG.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { benchmark, benchmarkAsync, getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { array, number, parse, string } from "valibot";
