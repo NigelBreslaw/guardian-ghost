@@ -13,5 +13,5 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
   loggingIn: false,
   setAuthenticated: () => set({ authenticated: true }),
   setNotAuthenticated: () => set({ authenticated: false }),
-  setLoggingIn: (payload: boolean) => set({ loggingIn: payload }),
+  setLoggingIn: (payload) => set({ loggingIn: payload }),
 });

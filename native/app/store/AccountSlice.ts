@@ -1,4 +1,4 @@
-import type { BungieUser, GGCharacterUiData } from "@/app/bungie/Types.ts";
+import type { BungieUser, GGCharacterUiData, ProfileData } from "@/app/bungie/Types.ts";
 import type { UiCell } from "@/app/inventory/Common.ts";
 import type { StateCreator } from "zustand";
 
@@ -23,21 +23,18 @@ export interface AccountSlice {
 
 export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
   currentAccount: null,
-  setCurrentAccount: (currentAccount: BungieUser | null) => set({ currentAccount }),
+  setCurrentAccount: (currentAccount) => set({ currentAccount }),
   ggCharacters: [],
-  setGGCharacters: (ggCharacters: GGCharacterUiData[]) => set({ ggCharacters }),
+  setGGCharacters: (ggCharacters) => set({ ggCharacters }),
 
   // Inventory
   currentListIndex: 0,
-  setCurrentListIndex: (currentListIndex: number) => {
+  setCurrentListIndex: (currentListIndex) => {
     set({ currentListIndex });
   },
   weaponsPageData: [],
   armorPageData: [],
   generalPageData: [],
-  setAllInventoryPageData: (
-    weaponPage: Array<Array<UiCell>>,
-    armorPage: Array<Array<UiCell>>,
-    generalPage: Array<Array<UiCell>>,
-  ) => set({ weaponsPageData: weaponPage, armorPageData: armorPage, generalPageData: generalPage }),
+  setAllInventoryPageData: (weaponPage, armorPage, generalPage) =>
+    set({ weaponsPageData: weaponPage, armorPageData: armorPage, generalPageData: generalPage }),
 });

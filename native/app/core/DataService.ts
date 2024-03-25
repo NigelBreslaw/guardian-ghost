@@ -107,7 +107,6 @@ class DataService {
     try {
       const profile = await benchmarkAsync(getProfile);
       const validatedProfile = benchmark(parse, getProfileSchema, profile);
-
       const p5 = performance.now();
       DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
