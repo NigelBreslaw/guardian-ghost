@@ -107,6 +107,10 @@ class DataService {
     try {
       const profile = await benchmarkAsync(getProfile);
       const validatedProfile = benchmark(parse, getProfileSchema, profile);
+      const p1 = performance.now();
+      useGGStore.getState().updateProfile(validatedProfile);
+      const p2 = performance.now();
+      console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
       const p5 = performance.now();
       DataService.profileData = validatedProfile;
       DataService.processProfile(validatedProfile);
