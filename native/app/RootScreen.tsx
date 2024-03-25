@@ -1,5 +1,4 @@
 import AuthService from "@/app/authentication/AuthService.ts";
-import DataService from "@/app/core/DataService.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
@@ -40,7 +39,7 @@ export default function RootScreen() {
   useEffect(() => {
     if (initComplete && authenticated && currentAccount && definitionsReady && AuthService.isAuthenticated()) {
       console.log("trigger: download getProfile()");
-      DataService.getInventory();
+      useGGStore.getState().getProfile();
     }
   }, [authenticated, currentAccount, definitionsReady, initComplete]);
 

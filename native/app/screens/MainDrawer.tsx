@@ -1,4 +1,3 @@
-import DataService from "@/app/core/DataService.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import ArmorPage from "@/app/screens/ArmorPage.tsx";
 import GeneralPage from "@/app/screens/GeneralPage.tsx";
@@ -20,7 +19,7 @@ function RefreshButton() {
       iconColor={"white"}
       loading={refreshing}
       onPress={() => {
-        DataService.getInventory();
+        useGGStore.getState().getProfile();
       }}
     />
   );
