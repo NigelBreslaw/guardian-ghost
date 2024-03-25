@@ -5,10 +5,12 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { FlashList } from "@shopify/flash-list";
 
 const pageColumns = [4, 4, 4, 5];
+const pageEstimatedFlashListItemSize = [77, 77, 77, 89];
 
 type InventoryPageProps = {
   inventoryPageData: Array<Array<UiCell>>;
@@ -20,7 +22,7 @@ export default function InventoryPage(props: InventoryPageProps) {
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
-  const listRefs = useRef<(FlatList<UiCell> | null)[]>([]);
+  const listRefs = useRef<(FlashList<UiCell> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
   const isFocused = useIsFocused();
 
@@ -86,7 +88,7 @@ export default function InventoryPage(props: InventoryPageProps) {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
           <View key={index} style={styles.page}>
-            <FlatList
+            <FlashList
               ref={(ref) => {
                 listRefs.current[index] = ref;
               }}
@@ -94,7 +96,7 @@ export default function InventoryPage(props: InventoryPageProps) {
               renderItem={renderItem}
               keyExtractor={keyExtractor}
               numColumns={pageColumns[index]}
-              removeClippedSubviews={true}
+              estimatedItemSize={pageEstimatedFlashListItemSize[index]}
               scrollEventThrottle={50}
               onScroll={(e) => {
                 if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
