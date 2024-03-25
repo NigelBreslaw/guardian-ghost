@@ -1,18 +1,11 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
-import {
-  type ProfileData,
-  getProfileSchema,
-  vaultBucketHashes,
-  GuardiansSchema,
-  GGCharacterType,
-} from "@/app/bungie/Types.ts";
+import { type ProfileData, getProfileSchema, GuardiansSchema, GGCharacterType } from "@/app/bungie/Types.ts";
 import type {
   DestinyItem,
   GGCharacterUiData,
   GuardianData,
   GuardianGear,
   GuardiansAndVault,
-  VaultBucketHash,
 } from "@/app/bungie/Types.ts";
 import { type ItemDefinition, ItemDefinitionSchema, type SingleItemDefinition } from "@/app/core/Types.ts";
 import {
@@ -40,24 +33,7 @@ class DataService {
     vault: {
       characterId: "VAULT",
       emblemBackgroundPath: "",
-      items: {
-        // general
-        138197802: {
-          items: {},
-        },
-        // consumables
-        1469714392: {
-          items: {},
-        },
-        // mods
-        3313201758: {
-          items: {},
-        },
-        // special orders:
-        1367666825: {
-          items: {},
-        },
-      },
+      items: {},
     },
     guardians: {},
   };
@@ -258,19 +234,23 @@ class DataService {
           const definitionBucketHash = DataService.bucketTypeHashArray[bucketHashIndex];
 
           if (definitionBucketHash) {
-            if (!vaultBucketHashes.includes(item.bucketHash)) {
-              console.error("item.bucketHash not in vaultBucketHashes", item.bucketHash);
-              continue;
-            }
-            const hasBucket = Object.hasOwn(vaultItems[item.bucketHash as VaultBucketHash].items, definitionBucketHash);
-            if (!hasBucket) {
-              vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash] = {
-                equipped: null,
-                inventory: [],
-              };
+            const hasBaseBucket = Object.hasOwn(vaultItems, item.bucketHash);
+            if (!hasBaseBucket) {
+              vaultItems[item.bucketHash] = { items: {} };
             }
 
-            vaultItems[item.bucketHash as VaultBucketHash].items[definitionBucketHash]?.inventory.push(item);
+            const items = vaultItems[item.bucketHash]?.items;
+            if (items) {
+              const hasBucket = Object.hasOwn(items, definitionBucketHash);
+              if (!hasBucket) {
+                items[definitionBucketHash] = {
+                  equipped: null,
+                  inventory: [],
+                };
+              }
+
+              items[definitionBucketHash]?.inventory.push(item);
+            }
           }
         }
       }
@@ -452,7 +432,7 @@ class DataService {
     const columns = 5;
 
     for (const bucket of itemBuckets) {
-      const bucketItems = vaultData.items[138197802].items[bucket];
+      const bucketItems = vaultData.items[138197802]?.items[bucket];
       if (bucketItems) {
         for (let i = 0; i < columns; i++) {
           const separator: SeparatorCell = {
