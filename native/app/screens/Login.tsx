@@ -1,6 +1,6 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
+import { processURL, startAuth } from "@/app/store/AuthenticationSlice.ts";
 import { useGGStore } from "@/app/store/GGStore";
-import AuthService from "@/authentication/AuthService.ts";
 import { isLocalWeb } from "@/constants/env.ts";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
@@ -23,7 +23,7 @@ function LocalWebLogin() {
         }}
       />
       <View style={styles.spacer} />
-      <Button onPress={() => AuthService.processURL(localWebLoginText)}>secret login</Button>
+      <Button onPress={() => processURL(localWebLoginText)}>secret login</Button>
     </>
   );
 }
@@ -50,11 +50,11 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
     const handleRedirect = (event: { url: string }) => {
       if (Platform.OS === "ios") {
         WebBrowser.dismissAuthSession();
-        AuthService.processURL(event.url);
+        processURL(event.url);
       }
     };
     // If this view is being constructed then ensure the login button can be pressed
-    AuthService.setLoggingIn(false);
+    useGGStore.getState().setLoggingIn(false);
 
     const listener = addEventListener("url", handleRedirect);
 
@@ -87,7 +87,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
           mode="contained"
           disabled={loggingIn}
           onPress={() => {
-            AuthService.startAuth();
+            startAuth();
           }}
           style={{ alignSelf: "stretch" }}
           loading={loggingIn}

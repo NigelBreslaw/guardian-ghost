@@ -2,17 +2,16 @@ import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 SplashScreen.preventAutoHideAsync();
 import RootScreen from "@/RootScreen.tsx";
-import { NavigationContainer } from "@react-navigation/native";
-import { PaperProvider } from "react-native-paper";
-import { useEffect } from "react";
-import AuthService from "@/app/authentication/AuthService.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { NavigationContainer } from "@react-navigation/native";
+import { useEffect } from "react";
+import { PaperProvider } from "react-native-paper";
 
 // If the them is not set a white background keeps showing during screen rotation
 function App() {
   useEffect(() => {
-    const _authService = AuthService.getInstance();
     useGGStore.getState().initDefinitions();
+    useGGStore.getState().initAuthentication();
   }, []);
 
   return (

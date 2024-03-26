@@ -1,10 +1,10 @@
-import { ItemDefinitionSchema, type ItemDefinition, Store } from "@/app/store/Types";
+import { type ItemDefinition, ItemDefinitionSchema, Store } from "@/app/store/Types";
+import type { StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
+import * as SQLite from "expo-sqlite";
+import { Platform } from "react-native";
 import { array, number, parse, string } from "valibot";
 import type { StateCreator } from "zustand";
-import type { StorageKey } from "@/app/store/Types";
-import { Platform } from "react-native";
-import * as SQLite from "expo-sqlite";
 
 export interface DefinitionsSlice {
   definitionsReady: boolean;

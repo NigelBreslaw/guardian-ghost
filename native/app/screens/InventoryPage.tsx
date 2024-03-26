@@ -4,10 +4,10 @@ import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { FlashList } from "@shopify/flash-list";
 import { useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { FlashList } from "@shopify/flash-list";
 
 const pageColumns = [4, 4, 4, 5];
 const pageEstimatedFlashListItemSize = [77, 77, 77, 89];

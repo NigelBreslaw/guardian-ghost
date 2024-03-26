@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { createAccountSlice, type AccountSlice } from "./AccountSlice.ts";
-import { createAuthenticationSlice, type AuthenticationSlice } from "./AuthenticationSlice.ts";
-import { createDefinitionsSlice, type DefinitionsSlice } from "./DefinitionsSlice.ts";
-import { createGlobalStateSlice, type GlobalStateSlice } from "./GlobalStateSlice.ts";
+import { type AccountSlice, createAccountSlice } from "./AccountSlice.ts";
+import { type AuthenticationSlice, createAuthenticationSlice } from "./AuthenticationSlice.ts";
+import { type DefinitionsSlice, createDefinitionsSlice } from "./DefinitionsSlice.ts";
+import { type GlobalStateSlice, createGlobalStateSlice } from "./GlobalStateSlice.ts";
 
 interface IStore extends AccountSlice, AuthenticationSlice, DefinitionsSlice, GlobalStateSlice {}
 
