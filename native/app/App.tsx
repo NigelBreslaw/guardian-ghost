@@ -4,21 +4,12 @@ import RootScreen from "@/RootScreen.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
-import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 useGGStore.getState().initDefinitions();
 useGGStore.getState().initAuthentication();
 // If the them is not set a white background keeps showing during screen rotation
 function App() {
-  const initComplete = useGGStore((state) => state.initComplete);
-
-  useEffect(() => {
-    if (initComplete) {
-      SplashScreen.hideAsync();
-    }
-  }, [initComplete]);
-
   return (
     <PaperProvider>
       <NavigationContainer
