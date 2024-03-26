@@ -5,8 +5,6 @@ export interface GlobalStateSlice {
   setRefreshing: (refreshing: boolean) => void;
   systemDisabled: boolean;
   setSystemDisabled: (systemDisabled: boolean) => void;
-  initComplete: boolean;
-  setInitComplete: (initComplete: boolean) => void;
 }
 
 export const createGlobalStateSlice: StateCreator<GlobalStateSlice> = (set) => ({
@@ -14,8 +12,4 @@ export const createGlobalStateSlice: StateCreator<GlobalStateSlice> = (set) => (
   setRefreshing: (refreshing) => set({ refreshing }),
   systemDisabled: false,
   setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
-  initComplete: false,
-  setInitComplete: (initComplete) => {
-    set({ initComplete });
-  },
 });

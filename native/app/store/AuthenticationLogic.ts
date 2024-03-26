@@ -11,7 +11,6 @@ import {
 import { Store } from "@/constants/storage.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { object, parse, safeParse, string } from "valibot";
-import * as SplashScreen from "expo-splash-screen";
 import { parse as linkingParse } from "expo-linking";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
@@ -52,9 +51,6 @@ export async function initAuthentication(): Promise<void> {
     logoutCurrentUser();
   } catch (e) {
     console.error(e);
-  } finally {
-    useGGStore.getState().setInitComplete(true);
-    SplashScreen.hideAsync();
   }
 }
 
