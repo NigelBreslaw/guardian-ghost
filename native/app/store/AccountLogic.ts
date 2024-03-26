@@ -1,9 +1,9 @@
 import {
-  GuardiansSchema,
-  type Guardian,
-  type GGCharacterUiData,
-  type GuardianData,
   GGCharacterType,
+  type GGCharacterUiData,
+  type Guardian,
+  type GuardianData,
+  GuardiansSchema,
 } from "@/app/bungie/Types.ts";
 import { safeParse } from "valibot";
 

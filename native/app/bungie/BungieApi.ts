@@ -1,4 +1,4 @@
-import AuthService from "@/authentication/AuthService.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
 
 const _bungieUrl = "https://www.bungie.net";
@@ -9,7 +9,7 @@ const _screenshotUrl = "https://www.bungie.net/common/destiny2_content/screensho
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 
 export async function getProfile(): Promise<JSON> {
-  const authToken = await AuthService.getTokenAsync("getProfile");
+  const authToken = await useGGStore.getState().getTokenAsync("getProfile");
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken?.access_token}`);
   headers.append("X-API-Key", apiKey);
@@ -19,7 +19,7 @@ export async function getProfile(): Promise<JSON> {
     headers: headers,
   };
 
-  const account = AuthService.getCurrentAccount();
+  const account = useGGStore.getState().currentAccount;
   const membershipType = account?.profile.membershipType;
   const membershipId = account?.profile.membershipId;
 

@@ -1,7 +1,6 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import {
-  getProfileSchema,
   type BungieUser,
   type DestinyItem,
   type GGCharacterUiData,
@@ -10,22 +9,23 @@ import {
   type ProfileData,
   type SectionItems,
   type VaultData,
+  getProfileSchema,
 } from "@/app/bungie/Types.ts";
-import type { SingleItemDefinition } from "@/app/store/Types";
 import {
-  UiCellType,
+  type BlankCell,
+  type DestinyCell,
+  type DestinyIconData,
+  type EmptyCell,
   type SeparatorCell,
   type UiCell,
-  type DestinyIconData,
-  getDamagetypeIconUri,
-  type BlankCell,
-  type EmptyCell,
-  type DestinyCell,
-  weaponsPageBuckets,
-  generalPageBuckets,
+  UiCellType,
   armorPageBuckets,
+  generalPageBuckets,
+  getDamagetypeIconUri,
+  weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import type { SingleItemDefinition } from "@/app/store/Types";
 import { benchmark, benchmarkAsync } from "@/app/utilities/Helpers.ts";
 import { parse } from "valibot";
 import type { StateCreator } from "zustand";
