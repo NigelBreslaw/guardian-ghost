@@ -1,5 +1,5 @@
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-import { isAuthenticated } from "@/app/store/AuthenticationSlice.ts";
+import { isAuthenticated } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
@@ -25,7 +25,7 @@ declare global {
 export default function RootScreen() {
   const systemDisabled = useGGStore((state) => state.systemDisabled);
   const initComplete = useGGStore((state) => state.initComplete);
-  const currentAccount = useGGStore((state) => state.currentAccount);
+  const currentAccount = useGGStore((state) => state.bungieUser);
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigation = useNavigation();

@@ -1,7 +1,6 @@
 import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import {
-  type BungieUser,
   type DestinyItem,
   type GGCharacterUiData,
   type Guardian,
@@ -30,8 +29,6 @@ import { benchmark, benchmarkAsync } from "@/app/utilities/Helpers.ts";
 import { parse } from "valibot";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
-  currentAccount: BungieUser | null;
-  setCurrentAccount: (currentAccount: BungieUser | null) => void;
   ggCharacters: GGCharacterUiData[];
   setGGCharacters: (ggCharacters: GGCharacterUiData[]) => void;
 
@@ -54,8 +51,6 @@ export interface AccountSlice {
 }
 
 export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
-  currentAccount: null,
-  setCurrentAccount: (currentAccount) => set({ currentAccount }),
   ggCharacters: [],
   setGGCharacters: (ggCharacters) => set({ ggCharacters }),
 
@@ -117,7 +112,6 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
 });
 
 function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
-  const p1 = performance.now();
   const characters = profile.Response.characters.data;
   const guardians: Record<string, Guardian> = {};
   for (const character in characters) {
@@ -136,8 +130,6 @@ function createInitialGuardiansData(profile: ProfileData): Record<string, Guardi
       guardians[character] = initialCharacterData;
     }
   }
-  const p2 = performance.now();
-  console.log("Initializing guardians took", (p2 - p1).toFixed(5), "ms");
   return guardians;
 }
 
