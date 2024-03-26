@@ -52,9 +52,6 @@ export async function initAuthentication(): Promise<void> {
     logoutCurrentUser();
   } catch (e) {
     console.error(e);
-  } finally {
-    useGGStore.getState().setInitComplete(true);
-    SplashScreen.hideAsync();
   }
 }
 
