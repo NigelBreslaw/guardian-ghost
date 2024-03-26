@@ -1,4 +1,4 @@
-import { itemSchema } from "@/app/core/Types.ts";
+import { itemSchema } from "@/app/store/Types";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";

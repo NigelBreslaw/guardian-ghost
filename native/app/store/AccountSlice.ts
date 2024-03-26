@@ -11,7 +11,7 @@ import {
   type SectionItems,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import type { SingleItemDefinition } from "@/app/core/Types.ts";
+import type { SingleItemDefinition } from "@/app/store/Types";
 import {
   UiCellType,
   type SeparatorCell,

@@ -1,6 +1,13 @@
 import { array, number, object, optional, record, string, unknown, value } from "valibot";
 import type { Output } from "valibot";
 
+export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
+export const Store = {
+  factoryName: "gg-data",
+  storeName: "key-values",
+  databaseName: "ggDataBase.db",
+};
+
 const MINI_ITEM_DEFINITION_VERSION = 2;
 
 export const itemSchema = object({

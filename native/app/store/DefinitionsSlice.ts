@@ -1,8 +1,10 @@
-import { ItemDefinitionSchema, type ItemDefinition } from "@/app/core/Types.ts";
-import StorageGG from "@/app/store/StorageGG.ts";
+import { ItemDefinitionSchema, type ItemDefinition, Store } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import { array, number, parse, string } from "valibot";
 import type { StateCreator } from "zustand";
+import type { StorageKey } from "@/app/store/Types";
+import { Platform } from "react-native";
+import * as SQLite from "expo-sqlite";
 
 export interface DefinitionsSlice {
   definitionsReady: boolean;
@@ -21,7 +23,7 @@ export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => (
   itemTypeDisplayName: [],
   initDefinitions: async () => {
     try {
-      const loadedDefinition = await StorageGG.getData("ITEM_DEFINITION", "getItemDefinition()");
+      const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
       const itemDefinition = parse(ItemDefinitionSchema, loadedDefinition);
       return set(parseAndSet(itemDefinition));
     } catch (e) {
@@ -31,7 +33,7 @@ export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => (
     try {
       const downloadedDefinition = await getCustomItemDefinition();
       const itemDefinition = parse(ItemDefinitionSchema, downloadedDefinition);
-      await StorageGG.setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
+      await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
       return set(parseAndSet(itemDefinition));
     } catch (e) {
       console.error("Failed to download and save itemDefinition", e);
@@ -44,4 +46,166 @@ function parseAndSet(itemDefinition: ItemDefinition) {
   const iconWaterMarks = parse(array(string()), itemDefinition.helpers.IconWaterMark);
   const itemTypeDisplayName = parse(array(string()), itemDefinition.helpers.ItemTypeDisplayName);
   return { itemDefinition, bucketTypeHashArray, iconWaterMarks, itemTypeDisplayName, definitionsReady: true };
+}
+
+function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
+  return new Promise((resolve, _reject) => {
+    if (Platform.OS === "web") {
+      return resolve(getWebStore(storageKey, errorMessage));
+    }
+    resolve(getNativeStore(storageKey, errorMessage));
+  });
+}
+
+function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
+  return new Promise((resolve, reject) => {
+    const openRequest = indexedDB.open(Store.factoryName, 1);
+
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result;
+      if (!db.objectStoreNames.contains(Store.storeName)) {
+        db.createObjectStore(Store.storeName);
+      }
+    };
+
+    openRequest.onerror = () => {
+      console.error("setWebStore Error", errorMessage, openRequest.error);
+      reject(errorMessage);
+    };
+
+    openRequest.onsuccess = () => {
+      const db = openRequest.result;
+      const tx = db.transaction(Store.storeName, "readwrite");
+      const store = tx.objectStore(Store.storeName);
+
+      const getRequest = store.get(storageKey);
+
+      getRequest.onsuccess = () => {
+        console.log("data retrieved from store", storageKey);
+        resolve(getRequest.result);
+      };
+
+      getRequest.onerror = () => {
+        console.error("Error", getRequest.error);
+      };
+    };
+  });
+}
+
+function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
+  return new Promise((resolve, reject) => {
+    const nativeStore = SQLite.openDatabase(Store.databaseName);
+    nativeStore.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
+        [],
+        () => {
+          // console.log("Table created successfully")
+        },
+        (_, error) => {
+          console.log("Error occurred while creating the table");
+          console.log(error);
+          return true;
+        },
+      );
+    });
+
+    if (nativeStore) {
+      nativeStore.transaction((tx) => {
+        tx.executeSql(
+          "SELECT value FROM json_table WHERE key = ?;",
+          [key],
+          (_, resultSet) => {
+            if (resultSet.rows.length > 0) {
+              const json = JSON.parse(resultSet.rows.item(0).value);
+              return resolve(json);
+            }
+            console.log("No JSON found for the provided key", errorMessage);
+            reject(new Error(errorMessage));
+          },
+          (_, error) => {
+            console.log("Error occurred while getting JSON", errorMessage);
+            console.log(error);
+            throw new Error(errorMessage);
+          },
+        );
+      });
+    }
+  });
+}
+
+function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
+  return new Promise((resolve, _reject) => {
+    if (Platform.OS === "web") {
+      return resolve(setWebStore(data, storageKey, errorMessage));
+    }
+    resolve(setNativeStore(data, storageKey, errorMessage));
+  });
+}
+
+function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const openRequest = indexedDB.open(Store.factoryName, 1);
+
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result;
+      if (!db.objectStoreNames.contains(Store.storeName)) {
+        db.createObjectStore(Store.storeName);
+      }
+    };
+
+    openRequest.onerror = () => {
+      console.error("setWebStore Error", errorMessage, openRequest.error);
+      reject(errorMessage);
+    };
+
+    openRequest.onsuccess = () => {
+      const db = openRequest.result;
+      const tx = db.transaction(Store.storeName, "readwrite");
+      const store = tx.objectStore(Store.storeName);
+
+      const request = store.put(data, storageKey);
+      request.onsuccess = () => {
+        console.log("data added to the store", storageKey);
+        resolve();
+      };
+      request.onerror = () => {
+        console.error("Error", request.error);
+        reject(errorMessage);
+      };
+    };
+  });
+}
+
+async function setNativeStore(json: object, key: string, errorMessage: string) {
+  const nativeStore = SQLite.openDatabase(Store.databaseName);
+  nativeStore.transaction((tx) => {
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
+      [],
+      () => {
+        // console.log("Table created successfully")
+      },
+      (_, error) => {
+        console.log("Error occurred while creating the table");
+        console.log(error);
+        return true;
+      },
+    );
+  });
+
+  const jsonString = JSON.stringify(json);
+
+  nativeStore.transaction((tx) => {
+    tx.executeSql(
+      "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
+      [key, jsonString],
+      (_) => console.log("JSON set successfully"),
+      (_, error) => {
+        console.log("Error occurred while setting JSON", errorMessage);
+        console.log(error);
+        return true;
+      },
+    );
+  });
 }
