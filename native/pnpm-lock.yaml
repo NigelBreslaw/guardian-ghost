@@ -112,7 +112,7 @@ dependencies:
     version: 0.30.0
   zustand:
     specifier: 4.5.2
-    version: 4.5.2(@types/react@18.2.69)(react@18.2.0)
+    version: 4.5.2(@types/react@18.2.70)(react@18.2.0)
 
 devDependencies:
   '@babel/core':
@@ -125,8 +125,8 @@ devDependencies:
     specifier: 1.0.2
     version: 1.0.2
   '@types/react':
-    specifier: 18.2.69
-    version: 18.2.69
+    specifier: 18.2.70
+    version: 18.2.70
   source-map-explorer:
     specifier: 2.5.3
     version: 2.5.3
@@ -3098,8 +3098,8 @@ packages:
   /@types/prop-types@15.7.11:
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
 
-  /@types/react@18.2.69:
-    resolution: {integrity: sha512-W1HOMUWY/1Yyw0ba5TkCV+oqynRjG7BnteBB+B7JmAK7iw3l2SW+VGOxL+akPweix6jk2NNJtyJKpn4TkpfK3Q==}
+  /@types/react@18.2.70:
+    resolution: {integrity: sha512-hjlM2hho2vqklPhopNkXkdkeq6Lv8WSZTpr7956zY+3WS5cfYUewtCzsJLsbW5dEv3lfSeQ4W14ZFeKC437JRQ==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
@@ -8208,7 +8208,7 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /zustand@4.5.2(@types/react@18.2.69)(react@18.2.0):
+  /zustand@4.5.2(@types/react@18.2.70)(react@18.2.0):
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -8223,7 +8223,7 @@ packages:
       react:
         optional: true
     dependencies:
-      '@types/react': 18.2.69
+      '@types/react': 18.2.70
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
