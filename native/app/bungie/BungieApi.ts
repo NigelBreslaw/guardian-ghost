@@ -19,7 +19,7 @@ export async function getProfile(): Promise<JSON> {
     headers: headers,
   };
 
-  const account = useGGStore.getState().currentAccount;
+  const account = useGGStore.getState().bungieUser;
   const membershipType = account?.profile.membershipType;
   const membershipId = account?.profile.membershipId;
 

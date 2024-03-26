@@ -1,5 +1,5 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
-import { processURL, startAuth } from "@/app/store/AuthenticationSlice.ts";
+import { processURL, startAuth } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore";
 import { isLocalWeb } from "@/constants/env.ts";
 import type { NavigationProp } from "@react-navigation/native";
