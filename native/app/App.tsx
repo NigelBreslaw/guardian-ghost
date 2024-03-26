@@ -5,14 +5,12 @@ import RootScreen from "@/RootScreen.tsx";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import { useEffect } from "react";
-import StorageGG from "@/app/store/StorageGG.ts";
 import AuthService from "@/app/authentication/AuthService.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 
 // If the them is not set a white background keeps showing during screen rotation
 function App() {
   useEffect(() => {
-    const _storageService = StorageGG.getInstance();
     const _authService = AuthService.getInstance();
     useGGStore.getState().initDefinitions();
   }, []);
