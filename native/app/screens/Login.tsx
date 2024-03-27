@@ -40,7 +40,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (initComplete && authenticated) {
+    if (initComplete && authenticated === "AUTHENTICATED") {
       navigation.goBack();
     }
   }, [initComplete, authenticated, navigation]);
