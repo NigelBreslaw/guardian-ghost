@@ -2,7 +2,6 @@ import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import ArmorPage from "@/app/screens/ArmorPage.tsx";
 import GeneralPage from "@/app/screens/GeneralPage.tsx";
 import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
-import { logoutCurrentUser } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -83,6 +82,7 @@ const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const insets = useSafeAreaInsets();
+  const logoutCurrentUser = useGGStore((state) => state.logoutCurrentUser);
 
   const styles = StyleSheet.create({
     drawerContainer: {
@@ -116,8 +116,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           mode="contained"
           onPress={() => {
             props.navigation.closeDrawer();
-            const membershipId = useGGStore((state) => state.bungieUser?.profile.membershipId);
-            logoutCurrentUser(membershipId as string);
+            logoutCurrentUser();
           }}
           style={{ alignSelf: "stretch" }}
         >

@@ -31,8 +31,6 @@ export async function loadBungieUser(): Promise<BungieUser | null> {
       return validatedAccount.output;
     }
     throw new Error("Validation failed");
-    // Logout as the saved token is invalid
-    // logoutCurrentUser();
   }
   throw new Error("No saved account found");
 }
@@ -57,7 +55,7 @@ function validateAndSetToken(token: AuthToken, membershipId: string): Promise<bo
       // Nothing can be done. The user needs to re-auth.
       // TODO: Log out the user
       console.error("Refresh token expired");
-      logoutCurrentUser(membershipId);
+      // logoutCurrentUser(membershipId);
       return reject(false);
     }
 
@@ -70,7 +68,7 @@ function validateAndSetToken(token: AuthToken, membershipId: string): Promise<bo
 
           if (parsedToken.success) {
             console.info("Retrieved new token");
-            saveAndSetToken(parsedToken.output, membershipId);
+            saveToken(parsedToken.output, membershipId);
             return resolve(true);
           }
 
@@ -88,25 +86,28 @@ function validateAndSetToken(token: AuthToken, membershipId: string): Promise<bo
         });
     } else {
       console.info("Access token valid");
-      saveAndSetToken(token, membershipId);
+      saveToken(token, membershipId);
 
       return resolve(true);
     }
   });
 }
 
-// TODO: Async and needs error handling?
-function saveAndSetToken(token: AuthToken, membershipId: string) {
+async function saveToken(token: AuthToken, membershipId: string): Promise<void> {
   if (membershipId === "") {
     console.error("No membershipId !!!!!");
-    return;
+    throw new Error("No membershipId");
   }
 
   const parsedToken = safeParse(authTokenSchema, token);
 
   if (parsedToken.success) {
-    AsyncStorage.setItem(`${membershipId}${Store._refresh_token}`, JSON.stringify(token));
-    // setAuthToken(token);
+    try {
+      AsyncStorage.setItem(`${membershipId}${Store._refresh_token}`, JSON.stringify(token));
+    } catch (error: unknown) {
+      console.error("Failed to save token", error);
+      throw new Error("Failed to save token");
+    }
   }
 }
 
@@ -176,7 +177,7 @@ function getTokenInternal(
   });
 }
 
-export async function logoutCurrentUser(membershipId: string) {
+export async function deleteUserData(membershipId: string) {
   if (membershipId === "") {
     console.error("No membershipId !!!!!");
   }
@@ -220,6 +221,76 @@ export async function processURL(url: string) {
   }
 }
 
+export async function urlToToken(url: string): Promise<AuthToken> {
+  const { queryParams } = linkingParse(url);
+
+  if (queryParams?.code && queryParams?.state === stateID) {
+    const code = queryParams.code.toString();
+
+    // Ensure the same auth code can never be processed more than once. If it did the second
+    // would fail with 'invalid_grand'.
+    const codeExists = usedAuthCodes.some((usedCode) => usedCode === code);
+    if (codeExists) {
+      console.error("!Code already used");
+      throw new Error("Code already used");
+    }
+
+    usedAuthCodes.push(code);
+
+    try {
+      const initialJSONToken = await getRefreshToken(code);
+      return initialJSONToken;
+    } catch (e) {
+      console.error("Failed to validate token", e);
+      throw new Error("Failed to validate token");
+    }
+  }
+  throw new Error("Invalid URL");
+}
+
+// export function urlToToken(url: string): Promise<AuthToken> {
+//   new Promise((resolve, reject) => {
+//   const { queryParams } = linkingParse(url);
+
+//     if (queryParams?.code && queryParams?.state === stateID) {
+//       const code = queryParams.code.toString();
+
+//       // Ensure the same auth code can never be processed more than once. If it did the second
+//       // would fail with 'invalid_grand'.
+//       const codeExists = usedAuthCodes.some((usedCode) => usedCode === code);
+//       if (codeExists) {
+//         console.error("!Code already used");
+//         reject("Code already used");
+//       }
+
+//       usedAuthCodes.push(code);
+
+//       try {
+//         const initialJSONToken = await getRefreshToken(code);
+//         return resolve(initialJSONToken);
+//       } catch (e) {
+//         console.error("Failed to validate token", e);
+//         reject(e);
+//       }
+//     }
+//     reject("Invalid URL");
+//   }
+
+// If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
+
+//       buildBungieAccount(initialJSONToken);
+//     } catch (e) {
+//       console.error("Failed to validate token", e);
+//     }
+
+//     // validate the token
+//   } else {
+//     console.log("Invalid URL", url, stateID);
+//     return;
+//   }
+// }
+
+// TODO: Just build the account and return it
 async function buildBungieAccount(authToken: AuthToken) {
   if (authToken) {
     let rawLinkedProfiles = await getLinkedProfiles(authToken);
@@ -239,8 +310,8 @@ async function buildBungieAccount(authToken: AuthToken) {
     if (parsedProfiles.success) {
       const bungieUser = getBungieUser(parsedProfiles.output);
       // setCurrentAccount(bungieUser);
-      await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
-      saveAndSetToken(authToken, bungieUser.profile.membershipId);
+      saveBungieUser(bungieUser);
+      saveToken(authToken, bungieUser.profile.membershipId);
       // useGGStore.getState().setLoggingIn(false);
       return;
     }
@@ -249,6 +320,19 @@ async function buildBungieAccount(authToken: AuthToken) {
     console.error("Error in buildBungieAccount", parsedProfiles.output);
     // useGGStore.getState().setLoggingIn(false);
   }
+}
+
+function saveBungieUser(bungieUser: BungieUser): Promise<void> {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser))
+      .then(() => {
+        resolve();
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to save bungie user", error);
+        reject(error as string);
+      });
+  });
 }
 
 export function startAuth(): void {

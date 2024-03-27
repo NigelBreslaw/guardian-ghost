@@ -20,8 +20,8 @@ export async function getProfile(): Promise<JSON> {
   };
 
   const account = useGGStore.getState().bungieUser;
-  const membershipType = account?.profile.membershipType;
-  const membershipId = account?.profile.membershipId;
+  const membershipType = account.profile.membershipType;
+  const membershipId = account.profile.membershipId;
 
   const endPoint = `${basePath}/Destiny2/${membershipType}/Profile/${membershipId}/`;
 
