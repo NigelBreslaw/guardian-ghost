@@ -1,5 +1,14 @@
 import type { BungieUser } from "@/app/bungie/Types.ts";
-import { deleteUserData, getTokenAsync, loadBungieUser, loadToken } from "@/app/store/AuthenticationLogic.ts";
+import {
+  deleteUserData,
+  getBungieAccount,
+  getTokenAsync,
+  loadBungieUser,
+  loadToken,
+  saveBungieUser,
+  saveToken,
+  urlToToken,
+} from "@/app/store/AuthenticationLogic.ts";
 import type { AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
 import * as SplashScreen from "expo-splash-screen";
@@ -25,6 +34,8 @@ export interface AuthenticationSlice {
   setBungieUser: (bungieUser: BungieUser) => void;
   setSystemDisabled: (systemDisabled: boolean) => void;
   logoutCurrentUser: () => void;
+  createAuthenticatedAccount: (url: string) => Promise<void>;
+  cancelLogin: () => void;
 }
 
 export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set, get) => ({
@@ -73,5 +84,20 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
     const membershipId = get().bungieUser.profile.membershipId;
     deleteUserData(membershipId);
     set({ bungieUser: initialBungieUser, authToken: null, authenticated: "NO-AUTHENTICATION" });
+  },
+  createAuthenticatedAccount: async (url: string) => {
+    try {
+      const authToken = await urlToToken(url);
+      const bungieUser = await getBungieAccount(authToken);
+      set({ bungieUser, authToken, authenticated: "AUTHENTICATED" });
+      saveToken(authToken, bungieUser.profile.membershipId);
+      saveBungieUser(bungieUser);
+    } catch (error) {
+      console.error("Failed to create authenticated account", error);
+      set({ authenticated: "NO-AUTHENTICATION" });
+    }
+  },
+  cancelLogin: () => {
+    set({ authenticated: "NO-AUTHENTICATION" });
   },
 });

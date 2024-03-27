@@ -1,7 +1,7 @@
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
-import { processURL, startAuth } from "@/app/store/AuthenticationLogic.ts";
+import { stateID } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore";
-import { isLocalWeb } from "@/constants/env.ts";
+import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
@@ -10,8 +10,39 @@ import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-n
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+function startAuth(): void {
+  function cancelLogin() {
+    console.info("Failed to complete auth session");
+    useGGStore.getState().cancelLogin();
+  }
+
+  const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${stateID}`;
+
+  WebBrowser.openAuthSessionAsync(authURL, redirectURL)
+    .then((result) => {
+      if (result.type === "success") {
+        // Used for Web and Android
+        useGGStore.getState().createAuthenticatedAccount(result.url);
+      } else if (result.type === "dismiss") {
+        // iOS only on universal link callback
+        if (Platform.OS === "android") {
+          // User probably went back from the login webview without completing auth flow
+          cancelLogin();
+        }
+      } else {
+        // Used for all platforms
+        cancelLogin();
+      }
+    })
+    .catch((e) => {
+      console.error("login issue?", e);
+      cancelLogin();
+    });
+}
+
 function LocalWebLogin() {
   const [localWebLoginText, setLocalWebLoginText] = useState("");
+  const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);
 
   return (
     <>
@@ -23,15 +54,15 @@ function LocalWebLogin() {
         }}
       />
       <View style={styles.spacer} />
-      <Button onPress={() => processURL(localWebLoginText)}>secret login</Button>
+      <Button onPress={() => createAuthenticatedAccount(localWebLoginText)}>secret login</Button>
     </>
   );
 }
 
 export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
-  const initComplete = useGGStore((state) => state.initComplete);
   const authenticated = useGGStore((state) => state.authenticated);
+  const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);
   const url = useURL();
 
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
@@ -40,16 +71,16 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (initComplete && authenticated === "AUTHENTICATED") {
+    if (authenticated === "AUTHENTICATED") {
       navigation.goBack();
     }
-  }, [initComplete, authenticated, navigation]);
+  }, [authenticated, navigation]);
 
   useEffect(() => {
     const handleRedirect = (event: { url: string }) => {
       if (Platform.OS === "ios") {
         WebBrowser.dismissAuthSession();
-        processURL(event.url);
+        createAuthenticatedAccount(event.url);
       }
     };
 
@@ -58,7 +89,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
     return () => {
       listener.remove();
     };
-  }, []);
+  }, [createAuthenticatedAccount]);
 
   useEffect(() => {
     if (url) {

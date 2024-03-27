@@ -14,13 +14,9 @@ import { object, safeParse, string } from "valibot";
 import { parse as linkingParse } from "expo-linking";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
-import * as WebBrowser from "expo-web-browser";
-import { clientID, redirectURL } from "@/constants/env.ts";
-import { Platform } from "react-native";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;
-let stateID = "";
 const usedAuthCodes: Array<string> = [];
 
 export async function loadBungieUser(): Promise<BungieUser | null> {
@@ -91,24 +87,6 @@ function validateAndSetToken(token: AuthToken, membershipId: string): Promise<bo
       return resolve(true);
     }
   });
-}
-
-async function saveToken(token: AuthToken, membershipId: string): Promise<void> {
-  if (membershipId === "") {
-    console.error("No membershipId !!!!!");
-    throw new Error("No membershipId");
-  }
-
-  const parsedToken = safeParse(authTokenSchema, token);
-
-  if (parsedToken.success) {
-    try {
-      AsyncStorage.setItem(`${membershipId}${Store._refresh_token}`, JSON.stringify(token));
-    } catch (error: unknown) {
-      console.error("Failed to save token", error);
-      throw new Error("Failed to save token");
-    }
-  }
 }
 
 export function getTokenAsync(
@@ -189,37 +167,7 @@ export async function deleteUserData(membershipId: string) {
   }
 }
 
-export async function processURL(url: string) {
-  const { queryParams } = linkingParse(url);
-
-  if (queryParams?.code && queryParams?.state === stateID) {
-    const code = queryParams.code.toString();
-
-    // Ensure the same auth code can never be processed more than once. If it did the second
-    // would fail with 'invalid_grand'.
-    const codeExists = usedAuthCodes.some((usedCode) => usedCode === code);
-    if (codeExists) {
-      console.error("!Code already used");
-      return;
-    }
-
-    usedAuthCodes.push(code);
-
-    // If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
-
-    try {
-      const initialJSONToken = await getRefreshToken(code);
-      buildBungieAccount(initialJSONToken);
-    } catch (e) {
-      console.error("Failed to validate token", e);
-    }
-
-    // validate the token
-  } else {
-    console.log("Invalid URL", url, stateID);
-    return;
-  }
-}
+export const stateID = randomUUID();
 
 export async function urlToToken(url: string): Promise<AuthToken> {
   const { queryParams } = linkingParse(url);
@@ -248,114 +196,61 @@ export async function urlToToken(url: string): Promise<AuthToken> {
   throw new Error("Invalid URL");
 }
 
-// export function urlToToken(url: string): Promise<AuthToken> {
-//   new Promise((resolve, reject) => {
-//   const { queryParams } = linkingParse(url);
+export async function getBungieAccount(authToken: AuthToken): Promise<BungieUser> {
+  let rawLinkedProfiles = await getLinkedProfiles(authToken);
+  let parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
 
-//     if (queryParams?.code && queryParams?.state === stateID) {
-//       const code = queryParams.code.toString();
+  if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
+    rawLinkedProfiles = await getLinkedProfiles(authToken, true);
+    parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
+    console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
+  }
 
-//       // Ensure the same auth code can never be processed more than once. If it did the second
-//       // would fail with 'invalid_grand'.
-//       const codeExists = usedAuthCodes.some((usedCode) => usedCode === code);
-//       if (codeExists) {
-//         console.error("!Code already used");
-//         reject("Code already used");
-//       }
+  if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
+    console.error("No linked profiles");
+    throw new Error("Unable to find valid Destiny 2 user");
+  }
 
-//       usedAuthCodes.push(code);
+  if (parsedProfiles.success) {
+    const bungieUser = getBungieUser(parsedProfiles.output);
+    return bungieUser;
+  }
+  // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
+  // It needs some kind of big alert and then a logout.
+  console.error("Error in buildBungieAccount", parsedProfiles.output);
+  throw new Error("Unable to find valid Destiny 2 user");
+}
 
-//       try {
-//         const initialJSONToken = await getRefreshToken(code);
-//         return resolve(initialJSONToken);
-//       } catch (e) {
-//         console.error("Failed to validate token", e);
-//         reject(e);
-//       }
-//     }
-//     reject("Invalid URL");
-//   }
+export async function saveToken(token: AuthToken, membershipId: string): Promise<void> {
+  if (membershipId === "") {
+    console.error("No membershipId !!!!!");
+    throw new Error("No membershipId");
+  }
+  const parsedToken = safeParse(authTokenSchema, token);
 
-// If this fails the user needs to auth again. It isn't safe to retry as it can result in 'invalid_grand'.
-
-//       buildBungieAccount(initialJSONToken);
-//     } catch (e) {
-//       console.error("Failed to validate token", e);
-//     }
-
-//     // validate the token
-//   } else {
-//     console.log("Invalid URL", url, stateID);
-//     return;
-//   }
-// }
-
-// TODO: Just build the account and return it
-async function buildBungieAccount(authToken: AuthToken) {
-  if (authToken) {
-    let rawLinkedProfiles = await getLinkedProfiles(authToken);
-    let parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
-
-    if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
-      rawLinkedProfiles = await getLinkedProfiles(authToken, true);
-      parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
-      console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
+  if (parsedToken.success) {
+    try {
+      await AsyncStorage.setItem(`${membershipId}${Store._refresh_token}`, JSON.stringify(token));
+    } catch (error: unknown) {
+      console.error("Failed to save token", error);
+      throw new Error("Failed to save token");
     }
-
-    if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
-      console.error("No linked profiles");
-      return;
-    }
-
-    if (parsedProfiles.success) {
-      const bungieUser = getBungieUser(parsedProfiles.output);
-      // setCurrentAccount(bungieUser);
-      saveBungieUser(bungieUser);
-      saveToken(authToken, bungieUser.profile.membershipId);
-      // useGGStore.getState().setLoggingIn(false);
-      return;
-    }
-    // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
-    // It needs some kind of big alert and then a logout.
-    console.error("Error in buildBungieAccount", parsedProfiles.output);
-    // useGGStore.getState().setLoggingIn(false);
+  } else {
+    throw new Error("Token did not parse!");
   }
 }
 
-function saveBungieUser(bungieUser: BungieUser): Promise<void> {
-  return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser))
-      .then(() => {
-        resolve();
-      })
-      .catch((error: unknown) => {
-        console.error("Failed to save bungie user", error);
-        reject(error as string);
-      });
-  });
-}
+export async function saveBungieUser(bungieUser: BungieUser): Promise<void> {
+  const parsedAccount = safeParse(BungieUserSchema, bungieUser);
 
-export function startAuth(): void {
-  stateID = randomUUID();
-  const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${stateID}`;
-
-  WebBrowser.openAuthSessionAsync(authURL, redirectURL)
-    .then((result) => {
-      // Used for Web and Android
-      if (result.type === "success") {
-        processURL(result.url);
-      } else if (result.type === "dismiss") {
-        // iOS only on universal link callback
-        if (Platform.OS === "android") {
-          // User probably went back from the login webview without completing auth flow
-          console.info("Failed to complete auth session", result);
-        }
-      } else {
-        // Used for all platforms
-        console.info("Failed to open auth session", result);
-      }
-    })
-    .catch((e) => {
-      console.error("login issue?", e);
-    });
+  if (parsedAccount.success) {
+    try {
+      await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
+    } catch (error: unknown) {
+      console.error("Failed to save bungie user", error);
+      throw new Error("Failed to save bungie user");
+    }
+  } else {
+    throw new Error("BungieUser did not parse!");
+  }
 }
