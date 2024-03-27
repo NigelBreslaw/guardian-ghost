@@ -9,7 +9,7 @@ import {
   saveToken,
   urlToToken,
 } from "@/app/store/AuthenticationLogic.ts";
-import type { AuthToken } from "@/app/store/Utilities.ts";
+import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -46,12 +46,24 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
   systemDisabled: false,
 
   getTokenAsync: async (errorMessage) => {
-    const membershipId = get().bungieUser.profile.membershipId;
+    const authToken = get().authToken;
 
-    const authToken = await getTokenAsync(get().authToken, membershipId, errorMessage);
     if (authToken) {
-      set({ authToken, systemDisabled: false });
-      return authToken;
+      const alreadyValid = isValidAccessToken(authToken);
+      if (alreadyValid) {
+        // Save time by quickly returning an already valid token
+        return authToken;
+      }
+
+      // TODO: Handle system disabled
+      // TODO: Handle "Refresh token expired"
+      const validToken = await getTokenAsync(authToken, errorMessage);
+      if (validToken) {
+        const membershipId = get().bungieUser.profile.membershipId;
+        saveToken(validToken, membershipId);
+        set({ authToken: validToken, systemDisabled: false });
+        return authToken;
+      }
     }
 
     throw new Error("Catastrophic error in getTokenAsync");
