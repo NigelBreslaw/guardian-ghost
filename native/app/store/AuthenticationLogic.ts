@@ -176,7 +176,7 @@ function getTokenInternal(
   });
 }
 
-export async function logoutCurrentUser(membershipId: string) {
+export async function deleteUserData(membershipId: string) {
   if (membershipId === "") {
     console.error("No membershipId !!!!!");
   }
