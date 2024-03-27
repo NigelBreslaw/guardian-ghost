@@ -239,8 +239,8 @@ async function buildBungieAccount(authToken: AuthToken) {
     if (parsedProfiles.success) {
       const bungieUser = getBungieUser(parsedProfiles.output);
       // setCurrentAccount(bungieUser);
-      await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
-      saveAndSetToken(authToken, bungieUser.profile.membershipId);
+      saveBungieUser(bungieUser);
+      saveToken(authToken, bungieUser.profile.membershipId);
       // useGGStore.getState().setLoggingIn(false);
       return;
     }
@@ -249,6 +249,19 @@ async function buildBungieAccount(authToken: AuthToken) {
     console.error("Error in buildBungieAccount", parsedProfiles.output);
     // useGGStore.getState().setLoggingIn(false);
   }
+}
+
+function saveBungieUser(bungieUser: BungieUser): Promise<void> {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser))
+      .then(() => {
+        resolve();
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to save bungie user", error);
+        reject(error as string);
+      });
+  });
 }
 
 export function startAuth(): void {
