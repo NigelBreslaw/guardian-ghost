@@ -32,7 +32,6 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const colorScheme = useColorScheme();
   const initComplete = useGGStore((state) => state.initComplete);
   const authenticated = useGGStore((state) => state.authenticated);
-  const loggingIn = useGGStore((state) => state.loggingIn);
   const url = useURL();
 
   const logoSource = colorScheme === "light" ? LOGO_LIGHT : LOGO_DARK;
@@ -53,8 +52,6 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         processURL(event.url);
       }
     };
-    // If this view is being constructed then ensure the login button can be pressed
-    useGGStore.getState().setLoggingIn(false);
 
     const listener = addEventListener("url", handleRedirect);
 
@@ -85,12 +82,12 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 20 }} />
         <Button
           mode="contained"
-          disabled={loggingIn}
+          // disabled={loggingIn}
           onPress={() => {
             startAuth();
           }}
           style={{ alignSelf: "stretch" }}
-          loading={loggingIn}
+          // loading={loggingIn}
         >
           Login
         </Button>

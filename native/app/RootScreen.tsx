@@ -1,5 +1,4 @@
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-import { isAuthenticated } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
 import MainDrawer from "@/screens/MainDrawer.tsx";
@@ -24,24 +23,22 @@ declare global {
 
 export default function RootScreen() {
   const systemDisabled = useGGStore((state) => state.systemDisabled);
-  const initComplete = useGGStore((state) => state.initComplete);
-  const currentAccount = useGGStore((state) => state.bungieUser);
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (initComplete && !authenticated && !systemDisabled) {
+    if (authenticated === "NO-AUTHENTICATION" && !systemDisabled) {
       navigation.navigate("Login" as never);
     }
-  }, [authenticated, initComplete, systemDisabled, navigation]);
+  }, [authenticated, systemDisabled, navigation]);
 
   useEffect(() => {
-    if (initComplete && authenticated && currentAccount && definitionsReady && isAuthenticated()) {
+    if (authenticated === "AUTHENTICATED" && definitionsReady) {
       console.log("trigger: download getProfile()");
       useGGStore.getState().getProfile();
     }
-  }, [authenticated, currentAccount, definitionsReady, initComplete]);
+  }, [authenticated, definitionsReady]);
 
   return (
     <RootStack.Navigator>

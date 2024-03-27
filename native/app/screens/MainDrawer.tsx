@@ -116,7 +116,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           mode="contained"
           onPress={() => {
             props.navigation.closeDrawer();
-            logoutCurrentUser();
+            const membershipId = useGGStore((state) => state.bungieUser?.profile.membershipId);
+            logoutCurrentUser(membershipId as string);
           }}
           style={{ alignSelf: "stretch" }}
         >
