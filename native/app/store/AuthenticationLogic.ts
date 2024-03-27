@@ -44,63 +44,47 @@ export async function loadToken(membershipId: string): Promise<AuthToken | null>
   throw new Error("No saved token found");
 }
 
-function validateAndSetToken(token: AuthToken, membershipId: string): Promise<boolean> {
-  return new Promise((resolve, reject) => {
-    const isValidRefresh = isValidRefreshToken(token);
-    if (!isValidRefresh) {
-      // Nothing can be done. The user needs to re-auth.
-      // TODO: Log out the user
-      console.error("Refresh token expired");
-      // logoutCurrentUser(membershipId);
-      return reject(false);
+async function getUpdatedAccessToken(token: AuthToken): Promise<AuthToken> {
+  const isValidRefresh = isValidRefreshToken(token);
+  if (!isValidRefresh) {
+    // Nothing can be done. The user needs to re-auth.
+    // TODO: Log out the user
+    console.error("Refresh token expired");
+    throw new Error("Refresh token expired");
+  }
+
+  const isValidAccess = isValidAccessToken(token);
+  if (!isValidAccess) {
+    console.info("Access token expired");
+    try {
+      const updateToken = await getAccessToken(token);
+      const parsedToken = safeParse(authTokenSchema, updateToken);
+      if (parsedToken.success) {
+        return parsedToken.output;
+      }
+
+      // check for system disabled
+      const parsedError = safeParse(object({ error: string(), error_description: string() }), updateToken);
+      if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
+        throw new Error("System disabled");
+      }
+      throw new Error("Validation failed");
+    } catch (e) {
+      throw new Error("Failed to validate token", e as Error);
     }
+  }
 
-    const isValidAccess = isValidAccessToken(token);
-    if (!isValidAccess) {
-      console.info("Access token expired");
-      getAccessToken(token)
-        .then((newAuthToken) => {
-          const parsedToken = safeParse(authTokenSchema, newAuthToken);
-
-          if (parsedToken.success) {
-            console.info("Retrieved new token");
-            saveToken(parsedToken.output, membershipId);
-            return resolve(true);
-          }
-
-          const parsedError = safeParse(object({ error: string(), error_description: string() }), newAuthToken);
-          if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
-            console.warn("System disabled");
-            return resolve(true);
-          }
-          // Don't log the user out, but maybe show an error and give them a chance to logout and back in again?
-          console.error("Failed to validate token", newAuthToken);
-          return reject(false);
-        })
-        .catch((e) => {
-          return reject(e);
-        });
-    } else {
-      console.info("Access token valid");
-      saveToken(token, membershipId);
-
-      return resolve(true);
-    }
-  });
+  return token;
 }
 
-export function getTokenAsync(
-  authToken: AuthToken | null,
-  membershipId: string,
-  errorMessage: string,
-): Promise<AuthToken | null> {
+export function getTokenAsync(authToken: AuthToken, errorMessage: string): Promise<AuthToken> {
   return new Promise((resolve, reject) => {
     // Function to add a new request to the queue
     const enqueue = () => {
       console.log("getTokenAsync queue length:", queue.length);
       queue.push(async () => {
         try {
-          const result = await getTokenInternal(authToken, membershipId, errorMessage);
+          const result = await getTokenInternal(authToken, errorMessage);
 
           resolve(result);
         } catch {
@@ -128,31 +112,14 @@ export function getTokenAsync(
   });
 }
 
-function getTokenInternal(
-  authToken: AuthToken | null,
-  membershipId: string,
-  errorMessage: string,
-): Promise<AuthToken | null> {
-  return new Promise((resolve, reject) => {
-    if (authToken) {
-      validateAndSetToken(authToken, membershipId)
-        .then(() => {
-          const token = authToken;
-          if (token) {
-            return resolve(token);
-          }
-
-          return reject(null);
-        })
-        .catch((e) => {
-          console.error("Failed to validate token", errorMessage, e);
-
-          return reject(null);
-        });
-    } else {
-      return reject(null);
-    }
-  });
+async function getTokenInternal(authToken: AuthToken, errorMessage: string): Promise<AuthToken> {
+  try {
+    const updatedToken = await getUpdatedAccessToken(authToken);
+    return updatedToken;
+  } catch (e) {
+    console.error("Failed to validate token", errorMessage, e);
+    throw new Error("Failed to validate token");
+  }
 }
 
 export async function deleteUserData(membershipId: string) {

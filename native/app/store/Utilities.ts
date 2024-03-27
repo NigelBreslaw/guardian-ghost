@@ -90,16 +90,12 @@ export function getAccessToken(token: AuthToken): Promise<JSON> {
 
 export function isValidAccessToken(token: AuthToken): boolean {
   // Access lasts 3600 seconds (1 hour)
-  if (token.time_stamp) {
-    const lifeTime = token.expires_in;
-    const timeNow = new Date();
-    const timeThen = new Date(token.time_stamp);
-    const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
-    // Count anything less than 5 mins (345 seconds) as expired
-    return secondsLeft > 345;
-  }
-
-  return true;
+  const lifeTime = token.expires_in;
+  const timeNow = new Date();
+  const timeThen = new Date(token.time_stamp);
+  const secondsLeft = lifeTime - (timeNow.getTime() - timeThen.getTime()) / 1000;
+  // Count anything less than 5 mins (345 seconds) as expired
+  return secondsLeft > 345;
 }
 
 export function isValidRefreshToken(token: AuthToken): boolean {
