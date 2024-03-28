@@ -1,5 +1,8 @@
+import { getProfileSchema } from "@/app/bungie/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { benchmark } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
+import { parse } from "valibot";
 
 const _bungieUrl = "https://www.bungie.net";
 const basePath = "https://www.bungie.net/Platform";
@@ -8,7 +11,23 @@ const _screenshotUrl = "https://www.bungie.net/common/destiny2_content/screensho
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 
-export async function getProfile(): Promise<JSON> {
+export async function getFullProfile() {
+  useGGStore.getState().setRefreshing(true);
+  try {
+    const profile = await getProfile();
+    const validatedProfile = benchmark(parse, getProfileSchema, profile);
+    const p1 = performance.now();
+    useGGStore.getState().updateProfile(validatedProfile);
+    const p2 = performance.now();
+    console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
+  } catch (e) {
+    console.error("Failed to validate profile!", e);
+  } finally {
+    useGGStore.getState().setRefreshing(false);
+  }
+}
+
+async function getProfile(): Promise<JSON> {
   const authToken = await useGGStore.getState().getTokenAsync("getProfile");
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${authToken?.access_token}`);
