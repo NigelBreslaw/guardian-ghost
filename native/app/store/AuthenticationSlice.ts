@@ -100,7 +100,14 @@ export const createAuthenticationSlice: StateCreator<
   logoutCurrentUser: () => {
     const membershipId = get().bungieUser.profile.membershipId;
     deleteUserData(membershipId);
-    set({ bungieUser: initialBungieUser, authToken: null, authenticated: "NO-AUTHENTICATION" });
+    set({
+      bungieUser: initialBungieUser,
+      authToken: null,
+      authenticated: "NO-AUTHENTICATION",
+      armorPageData: [],
+      generalPageData: [],
+      weaponsPageData: [],
+    });
   },
   createAuthenticatedAccount: async (url: string) => {
     try {
