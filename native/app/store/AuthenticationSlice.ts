@@ -12,6 +12,8 @@ import {
 import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
 import * as SplashScreen from "expo-splash-screen";
+import type { AccountSlice } from "@/app/store/AccountSlice.ts";
+import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 
 const initialBungieUser = {
   supplementalDisplayName: "",
@@ -38,7 +40,12 @@ export interface AuthenticationSlice {
   startedLoginFlow: () => void;
 }
 
-export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set, get) => ({
+export const createAuthenticationSlice: StateCreator<
+  AccountSlice & AuthenticationSlice & DefinitionsSlice,
+  [],
+  [],
+  AuthenticationSlice
+> = (set, get) => ({
   authenticated: "INITIALIZING",
   authToken: null,
   bungieUser: initialBungieUser,
