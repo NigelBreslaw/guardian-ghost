@@ -1,3 +1,4 @@
+import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Login from "@/screens/Login.tsx";
@@ -36,7 +37,7 @@ export default function RootScreen() {
   useEffect(() => {
     if (authenticated === "AUTHENTICATED" && definitionsReady) {
       console.log("trigger: download getProfile()");
-      useGGStore.getState().getProfile();
+      getFullProfile();
     }
   }, [authenticated, definitionsReady]);
 

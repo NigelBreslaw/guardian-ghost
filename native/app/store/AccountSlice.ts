@@ -1,14 +1,12 @@
-import { getProfile } from "@/app/bungie/BungieApi.ts";
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
-import {
-  type DestinyItem,
-  type GGCharacterUiData,
-  type Guardian,
-  type GuardianGear,
-  type ProfileData,
-  type SectionItems,
-  type VaultData,
-  getProfileSchema,
+import type {
+  DestinyItem,
+  GGCharacterUiData,
+  Guardian,
+  GuardianGear,
+  ProfileData,
+  SectionItems,
+  VaultData,
 } from "@/app/bungie/Types.ts";
 import {
   type BlankCell,
@@ -24,49 +22,45 @@ import {
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
-import { benchmark } from "@/app/utilities/Helpers.ts";
-import { parse } from "valibot";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
-  ggCharacters: GGCharacterUiData[];
-  setGGCharacters: (ggCharacters: GGCharacterUiData[]) => void;
-
-  // Inventory
+  refreshing: boolean;
   currentListIndex: number;
-  setCurrentListIndex: (payload: number) => void;
-  weaponsPageData: Array<Array<UiCell>>;
+
+  ggCharacters: GGCharacterUiData[];
+
   armorPageData: Array<Array<UiCell>>;
   generalPageData: Array<Array<UiCell>>;
+  weaponsPageData: Array<Array<UiCell>>;
+
+  rawProfileData: ProfileData | null;
+  guardians: Record<string, Guardian>;
+  vault: VaultData;
+
+  setRefreshing: (refreshing: boolean) => void;
+  setCurrentListIndex: (payload: number) => void;
+
+  setGGCharacters: (ggCharacters: GGCharacterUiData[]) => void;
+
   setAllInventoryPageData: (
     weaponPage: Array<Array<UiCell>>,
     armorPage: Array<Array<UiCell>>,
     generalPage: Array<Array<UiCell>>,
   ) => void;
-  rawProfileData: ProfileData | null;
-  guardians: Record<string, Guardian>;
-  vault: VaultData;
+
   updateProfile: (profile: ProfileData) => void;
-  getProfile: () => Promise<void>;
-  refreshing: boolean;
-  setRefreshing: (refreshing: boolean) => void;
 }
 
-export const createAccountSlice: StateCreator<AccountSlice> = (set, get) => ({
+export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
   refreshing: false,
-  setRefreshing: (refreshing) => set({ refreshing }),
-  ggCharacters: [],
-  setGGCharacters: (ggCharacters) => set({ ggCharacters }),
-
-  // Inventory
   currentListIndex: 0,
-  setCurrentListIndex: (currentListIndex) => {
-    set({ currentListIndex });
-  },
-  weaponsPageData: [],
+
+  ggCharacters: [],
+
   armorPageData: [],
   generalPageData: [],
-  setAllInventoryPageData: (weaponPage, armorPage, generalPage) =>
-    set({ weaponsPageData: weaponPage, armorPageData: armorPage, generalPageData: generalPage }),
+  weaponsPageData: [],
+
   rawProfileData: null,
   guardians: {},
   vault: {
@@ -74,6 +68,17 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set, get) => ({
     emblemBackgroundPath: "",
     items: {},
   },
+
+  setRefreshing: (refreshing) => set({ refreshing }),
+  setGGCharacters: (ggCharacters) => set({ ggCharacters }),
+
+  setCurrentListIndex: (currentListIndex) => {
+    set({ currentListIndex });
+  },
+
+  setAllInventoryPageData: (weaponPage, armorPage, generalPage) =>
+    set({ weaponsPageData: weaponPage, armorPageData: armorPage, generalPageData: generalPage }),
+
   updateProfile: (profile) =>
     set((state) => {
       const basicGuardians = createInitialGuardiansData(profile);
@@ -97,21 +102,6 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set, get) => ({
         generalPageData,
       };
     }),
-  getProfile: async () => {
-    get().setRefreshing(true);
-    try {
-      const profile = await getProfile();
-      const validatedProfile = benchmark(parse, getProfileSchema, profile);
-      const p1 = performance.now();
-      get().updateProfile(validatedProfile);
-      const p2 = performance.now();
-      console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
-    } catch (e) {
-      console.error("Failed to validate profile!", e);
-    } finally {
-      get().setRefreshing(false);
-    }
-  },
 });
 
 function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
