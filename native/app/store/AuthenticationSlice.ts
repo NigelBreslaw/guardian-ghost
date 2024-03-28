@@ -20,7 +20,7 @@ const initialBungieUser = {
   profile: { membershipId: "", membershipType: "", displayName: "" },
 };
 
-type Authenticating = "INITIALIZING" | "AUTHENTICATED" | "NO-AUTHENTICATION";
+type Authenticating = "INITIALIZING" | "LOGIN-FLOW" | "AUTHENTICATED" | "NO-AUTHENTICATION";
 
 export interface AuthenticationSlice {
   authenticated: Authenticating;
@@ -35,6 +35,7 @@ export interface AuthenticationSlice {
   logoutCurrentUser: () => void;
   createAuthenticatedAccount: (url: string) => Promise<void>;
   cancelLogin: () => void;
+  startedLoginFlow: () => void;
 }
 
 export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set, get) => ({
@@ -109,4 +110,5 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
   cancelLogin: () => {
     set({ authenticated: "NO-AUTHENTICATION" });
   },
+  startedLoginFlow: () => set({ authenticated: "LOGIN-FLOW" }),
 });
