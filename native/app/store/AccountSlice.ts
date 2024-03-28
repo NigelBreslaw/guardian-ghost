@@ -21,7 +21,9 @@ import {
   getDamagetypeIconUri,
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
+import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
+import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
   refreshing: boolean;
@@ -51,7 +53,12 @@ export interface AccountSlice {
   updateProfile: (profile: ProfileData) => void;
 }
 
-export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
+export const createAccountSlice: StateCreator<
+  AccountSlice & AuthenticationSlice & DefinitionsSlice,
+  [],
+  [],
+  AccountSlice
+> = (set) => ({
   refreshing: false,
   currentListIndex: 0,
 

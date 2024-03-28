@@ -1,3 +1,5 @@
+import type { AccountSlice } from "@/app/store/AccountSlice.ts";
+import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import {
   setItemDefinition,
   type ItemsDefinition,
@@ -18,7 +20,12 @@ export interface DefinitionsSlice {
   initDefinitions: () => Promise<void>;
 }
 
-export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => ({
+export const createDefinitionsSlice: StateCreator<
+  AccountSlice & AuthenticationSlice & DefinitionsSlice,
+  [],
+  [],
+  DefinitionsSlice
+> = (set) => ({
   definitionsReady: false,
   initDefinitions: async () => {
     try {
