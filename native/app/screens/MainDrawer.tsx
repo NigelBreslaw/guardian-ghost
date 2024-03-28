@@ -6,8 +6,6 @@ import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -131,15 +129,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 };
 
 export default function MainDrawer() {
-  const navigation = useNavigation();
-  const systemDisabled = useGGStore((state) => state.systemDisabled);
-  const authenticated = useGGStore((state) => state.authenticated);
-
-  useEffect(() => {
-    if (authenticated === "NO-AUTHENTICATION" && !systemDisabled) {
-      navigation.navigate("Login" as never);
-    }
-  }, [authenticated, systemDisabled, navigation]);
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
