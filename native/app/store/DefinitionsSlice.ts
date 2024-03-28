@@ -1,30 +1,29 @@
-import { type ItemDefinition, ItemDefinitionSchema, Store } from "@/app/store/Types";
+import {
+  setItemDefinition,
+  type ItemsDefinition,
+  setBucketTypeHashArray,
+  setIconWaterMarks,
+  setItemTypeDisplayName,
+} from "@/app/store/Definitions.ts";
+import { type ItemResponse, ItemResponseSchema, Store } from "@/app/store/Types";
 import type { StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import * as SQLite from "expo-sqlite";
 import { Platform } from "react-native";
-import { array, number, parse, string } from "valibot";
+import { parse } from "valibot";
 import type { StateCreator } from "zustand";
 
 export interface DefinitionsSlice {
   definitionsReady: boolean;
-  itemDefinition: ItemDefinition | null;
-  bucketTypeHashArray: Array<number>;
-  iconWaterMarks: Array<string>;
-  itemTypeDisplayName: Array<string>;
   initDefinitions: () => Promise<void>;
 }
 
 export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => ({
   definitionsReady: false,
-  itemDefinition: null,
-  bucketTypeHashArray: [],
-  iconWaterMarks: [],
-  itemTypeDisplayName: [],
   initDefinitions: async () => {
     try {
       const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
-      const itemDefinition = parse(ItemDefinitionSchema, loadedDefinition);
+      const itemDefinition = parse(ItemResponseSchema, loadedDefinition);
       return set(parseAndSet(itemDefinition));
     } catch (e) {
       console.error("No saved itemDefinition. Downloading new version...", e);
@@ -32,7 +31,7 @@ export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => (
 
     try {
       const downloadedDefinition = await getCustomItemDefinition();
-      const itemDefinition = parse(ItemDefinitionSchema, downloadedDefinition);
+      const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
       await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
       return set(parseAndSet(itemDefinition));
     } catch (e) {
@@ -41,11 +40,12 @@ export const createDefinitionsSlice: StateCreator<DefinitionsSlice> = (set) => (
   },
 });
 
-function parseAndSet(itemDefinition: ItemDefinition) {
-  const bucketTypeHashArray = parse(array(number()), itemDefinition.helpers.BucketTypeHash);
-  const iconWaterMarks = parse(array(string()), itemDefinition.helpers.IconWaterMark);
-  const itemTypeDisplayName = parse(array(string()), itemDefinition.helpers.ItemTypeDisplayName);
-  return { itemDefinition, bucketTypeHashArray, iconWaterMarks, itemTypeDisplayName, definitionsReady: true };
+function parseAndSet(itemDefinition: ItemResponse) {
+  setItemDefinition(itemDefinition.items as ItemsDefinition);
+  setBucketTypeHashArray(itemDefinition.helpers.BucketTypeHash);
+  setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
+  setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
+  return { definitionsReady: true };
 }
 
 function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
