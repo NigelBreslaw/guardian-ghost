@@ -1,4 +1,4 @@
-import { useGGStore } from "@/app/store/GGStore.ts";
+import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { itemSchema } from "@/app/store/Types";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
@@ -16,7 +16,7 @@ type ViewData = {
 
 function buildViewData(itemInstanceId: string | undefined, itemHash: number): ViewData {
   const p1 = performance.now();
-  const itemDef = safeParse(itemSchema, useGGStore.getState().itemDefinition?.items[itemHash]);
+  const itemDef = safeParse(itemSchema, itemsDefinition[itemHash]);
   if (itemDef.success) {
     const screenshot = itemDef.output.s;
     const name = itemDef.output.n;
@@ -26,7 +26,7 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
       itemInstanceId,
       screenshot: screenshot ? `https://www.bungie.net/common/destiny2_content/screenshots/${screenshot}` : "",
       name: name ? name.toLocaleUpperCase() : "",
-      itemTypeDisplayName: itd ? useGGStore.getState().itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
+      itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
     };
 
     const p2 = performance.now();

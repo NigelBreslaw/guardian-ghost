@@ -66,7 +66,7 @@ export const itemSchema = object({
 
 export type SingleItemDefinition = Output<typeof itemSchema>;
 
-export const ItemDefinitionSchema = object({
+export const ItemResponseSchema = object({
   helpers: object(
     {
       BucketTypeHash: array(number()),
@@ -105,4 +105,4 @@ export const ItemDefinitionSchema = object({
   version: number([value(MINI_ITEM_DEFINITION_VERSION)]),
 });
 
-export type ItemDefinition = Output<typeof ItemDefinitionSchema>;
+export type ItemResponse = Output<typeof ItemResponseSchema>;

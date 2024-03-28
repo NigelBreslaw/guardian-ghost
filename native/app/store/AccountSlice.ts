@@ -23,8 +23,7 @@ import {
   getDamagetypeIconUri,
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
-import type { SingleItemDefinition } from "@/app/store/Types";
+import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
 import { benchmark } from "@/app/utilities/Helpers.ts";
 import { parse } from "valibot";
 import type { StateCreator } from "zustand";
@@ -187,29 +186,31 @@ function processVaultInventory(profile: ProfileData): Record<number, SectionItem
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
-      const data = useGGStore.getState().itemDefinition?.items[itemHash] as SingleItemDefinition;
+      const data = itemsDefinition[itemHash];
 
-      const bucketHashIndex = data.b;
-      if (bucketHashIndex !== undefined) {
-        const definitionBucketHash = useGGStore.getState().bucketTypeHashArray[bucketHashIndex];
+      if (data) {
+        const bucketHashIndex = data.b;
+        if (bucketHashIndex !== undefined) {
+          const definitionBucketHash = bucketTypeHashArray[bucketHashIndex];
 
-        if (definitionBucketHash) {
-          const hasBaseBucket = Object.hasOwn(vaultItems, item.bucketHash);
-          if (!hasBaseBucket) {
-            vaultItems[item.bucketHash] = { items: {} };
-          }
-
-          const items = vaultItems[item.bucketHash]?.items;
-          if (items) {
-            const hasBucket = Object.hasOwn(items, definitionBucketHash);
-            if (!hasBucket) {
-              items[definitionBucketHash] = {
-                equipped: null,
-                inventory: [],
-              };
+          if (definitionBucketHash) {
+            const hasBaseBucket = Object.hasOwn(vaultItems, item.bucketHash);
+            if (!hasBaseBucket) {
+              vaultItems[item.bucketHash] = { items: {} };
             }
 
-            items[definitionBucketHash]?.inventory.push(item);
+            const items = vaultItems[item.bucketHash]?.items;
+            if (items) {
+              const hasBucket = Object.hasOwn(items, definitionBucketHash);
+              if (!hasBucket) {
+                items[definitionBucketHash] = {
+                  equipped: null,
+                  inventory: [],
+                };
+              }
+
+              items[definitionBucketHash]?.inventory.push(item);
+            }
           }
         }
       }
@@ -381,12 +382,12 @@ function buildUIData(
 }
 
 function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
-  const definition = useGGStore.getState().itemDefinition?.items[item.itemHash] as SingleItemDefinition;
+  const definition = itemsDefinition[item.itemHash];
   const itemInstanceId = item?.itemInstanceId;
 
   if (itemInstanceId) {
     const itemComponent = profile.Response.itemComponents.instances.data[itemInstanceId];
-    if (itemComponent) {
+    if (itemComponent && definition) {
       // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
       const versionNumber = item.versionNumber;
 
@@ -397,13 +398,13 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
         if (dvwi) {
           const index = dvwi[versionNumber];
           if (index !== undefined) {
-            watermark = useGGStore.getState().iconWaterMarks[index];
+            watermark = iconWaterMarks[index];
           }
         }
       } else {
         const iconWatermark = definition.iw;
         if (iconWatermark) {
-          watermark = useGGStore.getState().iconWaterMarks[iconWatermark];
+          watermark = iconWaterMarks[iconWatermark];
         }
       }
 
