@@ -25,7 +25,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import type { SingleItemDefinition } from "@/app/store/Types";
-import { benchmark, benchmarkAsync } from "@/app/utilities/Helpers.ts";
+import { benchmark } from "@/app/utilities/Helpers.ts";
 import { parse } from "valibot";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
@@ -48,9 +48,13 @@ export interface AccountSlice {
   vault: VaultData;
   updateProfile: (profile: ProfileData) => void;
   getProfile: () => Promise<void>;
+  refreshing: boolean;
+  setRefreshing: (refreshing: boolean) => void;
 }
 
-export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
+export const createAccountSlice: StateCreator<AccountSlice> = (set, get) => ({
+  refreshing: false,
+  setRefreshing: (refreshing) => set({ refreshing }),
   ggCharacters: [],
   setGGCharacters: (ggCharacters) => set({ ggCharacters }),
 
@@ -95,18 +99,18 @@ export const createAccountSlice: StateCreator<AccountSlice> = (set) => ({
       };
     }),
   getProfile: async () => {
-    useGGStore.getState().setRefreshing(true);
+    get().setRefreshing(true);
     try {
-      const profile = await benchmarkAsync(getProfile);
+      const profile = await getProfile();
       const validatedProfile = benchmark(parse, getProfileSchema, profile);
       const p1 = performance.now();
-      useGGStore.getState().updateProfile(validatedProfile);
+      get().updateProfile(validatedProfile);
       const p2 = performance.now();
       console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
     } catch (e) {
       console.error("Failed to validate profile!", e);
     } finally {
-      useGGStore.getState().setRefreshing(false);
+      get().setRefreshing(false);
     }
   },
 });
