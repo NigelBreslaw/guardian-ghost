@@ -10,7 +10,8 @@ import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-export type RootStackParamList = {
+
+type RootStackParamList = {
   Login: undefined;
   Root: undefined;
   BottomSheet: { itemInstanceId: string | undefined; itemHash: number };
@@ -47,7 +48,7 @@ function App() {
 
   useEffect(() => {
     if (authenticated === "NO-AUTHENTICATION") {
-      navigationRef.current?.navigate("Login" as never);
+      navigationRef.current?.navigate("Login");
     } else if (authenticated === "AUTHENTICATED" && definitionsReady) {
       console.log("trigger: download getProfile()");
       getFullProfile();
