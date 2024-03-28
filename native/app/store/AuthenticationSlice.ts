@@ -60,7 +60,7 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
         const membershipId = get().bungieUser.profile.membershipId;
         saveToken(validToken, membershipId);
         set({ authToken: validToken, systemDisabled: false });
-        return authToken;
+        return validToken;
       }
     }
 
