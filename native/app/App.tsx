@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { NavigationContainer, useNavigation, type Theme } from "@react-navigation/native";
+import { NavigationContainer, type Theme } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect } from "react";
