@@ -26,7 +26,6 @@ export interface AuthenticationSlice {
   authenticated: Authenticating;
   authToken: AuthToken | null;
   bungieUser: BungieUser;
-  initComplete: boolean;
   systemDisabled: boolean;
 
   getTokenAsync: (errorMessage: string) => Promise<AuthToken | null>;
@@ -42,7 +41,6 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
   authenticated: "INITIALIZING",
   authToken: null,
   bungieUser: initialBungieUser,
-  initComplete: false,
   systemDisabled: false,
 
   getTokenAsync: async (errorMessage) => {
@@ -87,7 +85,6 @@ export const createAuthenticationSlice: StateCreator<AuthenticationSlice> = (set
       set({ authenticated: "NO-AUTHENTICATION" });
     } finally {
       SplashScreen.hideAsync();
-      set({ initComplete: true });
     }
   },
   setBungieUser: (bungieUser) => set({ bungieUser }),
