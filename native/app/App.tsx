@@ -1,10 +1,10 @@
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { NavigationContainer, type Theme } from "@react-navigation/native";
+import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
@@ -43,9 +43,12 @@ const navigationContainerTheme: Theme = {
 function App() {
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
+  const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
 
   useEffect(() => {
-    if (authenticated === "AUTHENTICATED" && definitionsReady) {
+    if (authenticated === "NO-AUTHENTICATION") {
+      navigationRef.current?.navigate("Login" as never);
+    } else if (authenticated === "AUTHENTICATED" && definitionsReady) {
       console.log("trigger: download getProfile()");
       getFullProfile();
     }
@@ -53,7 +56,7 @@ function App() {
 
   return (
     <PaperProvider>
-      <NavigationContainer theme={navigationContainerTheme}>
+      <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <RootStack.Navigator>
           <RootStack.Group>
             <RootStack.Screen
