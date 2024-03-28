@@ -18,6 +18,8 @@ function startAuth(): void {
 
   const authURL = `https://www.bungie.net/en/oauth/authorize?client_id=${clientID}&response_type=code&reauth=true&state=${stateID}`;
 
+  useGGStore.getState().startedLoginFlow();
+
   WebBrowser.openAuthSessionAsync(authURL, redirectURL)
     .then((result) => {
       if (result.type === "success") {
@@ -113,12 +115,12 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 20 }} />
         <Button
           mode="contained"
-          // disabled={loggingIn}
+          disabled={authenticated === "LOGIN-FLOW"}
           onPress={() => {
             startAuth();
           }}
           style={{ alignSelf: "stretch" }}
-          // loading={loggingIn}
+          loading={authenticated === "LOGIN-FLOW"}
         >
           Login
         </Button>
