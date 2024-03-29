@@ -35,6 +35,8 @@ export interface AccountSlice {
   generalPageData: Array<Array<UiCell>>;
   weaponsPageData: Array<Array<UiCell>>;
 
+  responseMintedTimestamp: Date;
+  secondaryComponentsMintedTimestamp: Date;
   rawProfileData: ProfileData | null;
   guardians: Record<string, Guardian>;
   vault: VaultData;
@@ -51,6 +53,8 @@ export interface AccountSlice {
   ) => void;
 
   updateProfile: (profile: ProfileData) => void;
+
+  setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
 }
 
 export const createAccountSlice: StateCreator<
@@ -58,7 +62,7 @@ export const createAccountSlice: StateCreator<
   [],
   [],
   AccountSlice
-> = (set) => ({
+> = (set, get) => ({
   refreshing: false,
   currentListIndex: 0,
 
@@ -68,6 +72,8 @@ export const createAccountSlice: StateCreator<
   generalPageData: [],
   weaponsPageData: [],
 
+  responseMintedTimestamp: new Date(1977),
+  secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
   guardians: {},
   vault: {
@@ -88,6 +94,10 @@ export const createAccountSlice: StateCreator<
 
   updateProfile: (profile) =>
     set((state) => {
+      get().setTimestamps(
+        profile.Response.responseMintedTimestamp,
+        profile.Response.secondaryComponentsMintedTimestamp,
+      );
       const basicGuardians = createInitialGuardiansData(profile);
       const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
       const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
@@ -108,6 +118,26 @@ export const createAccountSlice: StateCreator<
         armorPageData,
         generalPageData,
       };
+    }),
+  setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
+    set((state) => {
+      const rmTimestamp = new Date(responseMintedTimestamp);
+      const scmTimestamp = new Date(secondaryComponentsMintedTimestamp);
+      const previousResponseMintedTimestamp = state.responseMintedTimestamp;
+      const previousSecondaryComponentsMintedTimestamp = state.secondaryComponentsMintedTimestamp;
+
+      // check new are newer than previous
+      if (
+        rmTimestamp.getTime() > previousResponseMintedTimestamp.getTime() &&
+        scmTimestamp.getTime() > previousSecondaryComponentsMintedTimestamp.getTime()
+      ) {
+        return { responseMintedTimestamp: rmTimestamp, secondaryComponentsMintedTimestamp: scmTimestamp };
+      }
+
+      console.log("No new timestamps", rmTimestamp, previousResponseMintedTimestamp);
+      console.log("No new timestamps", scmTimestamp, previousSecondaryComponentsMintedTimestamp);
+      // Should be impossible as BungieApi.ts -> getFullProfile() already did this check.
+      throw new Error("No new timestamps");
     }),
 });
 
