@@ -18,7 +18,7 @@ import {
   UiCellType,
   armorPageBuckets,
   generalPageBuckets,
-  getDamagetypeIconUri,
+  getDamageTypeIconUri,
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
@@ -110,6 +110,7 @@ export const createAccountSlice: StateCreator<
       const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
       const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
       const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, vaultData);
+      console.info("inventory pages updated");
       return {
         rawProfileData: profile,
         guardians: guardiansWithInventory,
@@ -445,7 +446,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
         icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
         primaryStat: itemComponent.primaryStat?.value.toString() || "",
         calculatedWaterMark: watermark,
-        damageTypeIconUri: getDamagetypeIconUri(itemComponent.damageType),
+        damageTypeIconUri: getDamageTypeIconUri(itemComponent.damageType),
       };
       return iconData;
     }
