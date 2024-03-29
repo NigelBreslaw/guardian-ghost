@@ -1,8 +1,7 @@
-import { getProfileSchema } from "@/app/bungie/Types.ts";
+import { getProfileSchema, type ProfileData } from "@/app/bungie/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { benchmark } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
-import { parse } from "valibot";
+import { isoTimestamp, parse, safeParse, string } from "valibot";
 
 const _bungieUrl = "https://www.bungie.net";
 const basePath = "https://www.bungie.net/Platform";
@@ -14,17 +13,47 @@ export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,30
 export async function getFullProfile() {
   useGGStore.getState().setRefreshing(true);
   try {
-    const profile = await getProfile();
-    const validatedProfile = benchmark(parse, getProfileSchema, profile);
-    const p1 = performance.now();
-    useGGStore.getState().updateProfile(validatedProfile);
-    const p2 = performance.now();
-    console.info("NEW updateProfile() took:", (p2 - p1).toFixed(5), "ms");
+    const profile = (await getProfile()) as unknown as ProfileData;
+
+    // The returned data is often old and won't reflect recent transfers. This check ensures the data
+    // has a newer timestamp than the previous data.
+    const isNewer = isProfileNewer(profile);
+    if (isNewer) {
+      const validatedProfile = parse(getProfileSchema, profile);
+      useGGStore.getState().updateProfile(validatedProfile);
+    } else {
+      console.log("No new profile");
+    }
   } catch (e) {
     console.error("Failed to validate profile!", e);
   } finally {
     useGGStore.getState().setRefreshing(false);
   }
+}
+
+function isProfileNewer(profile: ProfileData): boolean {
+  const responseMintedTimestamp = safeParse(string([isoTimestamp()]), profile.Response.responseMintedTimestamp);
+  const secondaryComponentsMintedTimestamp = safeParse(
+    string([isoTimestamp()]),
+    profile.Response.secondaryComponentsMintedTimestamp,
+  );
+
+  if (responseMintedTimestamp.success && secondaryComponentsMintedTimestamp.success) {
+    const rmTimestamp = new Date(responseMintedTimestamp.output);
+    const scmTimestamp = new Date(secondaryComponentsMintedTimestamp.output);
+
+    const previousResponseMintedTimestamp = useGGStore.getState().responseMintedTimestamp;
+    const previousSecondaryComponentsMintedTimestamp = useGGStore.getState().secondaryComponentsMintedTimestamp;
+
+    if (
+      rmTimestamp.getTime() > previousResponseMintedTimestamp.getTime() &&
+      scmTimestamp.getTime() > previousSecondaryComponentsMintedTimestamp.getTime()
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 async function getProfile(): Promise<JSON> {
