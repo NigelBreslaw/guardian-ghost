@@ -125,7 +125,7 @@ function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
           (_, resultSet) => {
             if (resultSet.rows.length > 0) {
               const json = JSON.parse(resultSet.rows.item(0).value);
-              return resolve(json);
+              return resolve(json as JSON);
             }
             console.log("No JSON found for the provided key", errorMessage);
             reject(new Error(errorMessage));
