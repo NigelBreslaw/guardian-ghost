@@ -86,7 +86,7 @@ async function getProfile(): Promise<JSON> {
         return response.json();
       })
       .then((data) => {
-        resolve(data);
+        resolve(data as JSON);
       })
       .catch((error) => {
         console.error("getProfile", error);
