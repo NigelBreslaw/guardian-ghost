@@ -31,9 +31,9 @@ export interface AccountSlice {
 
   ggCharacters: GGCharacterUiData[];
 
-  armorPageData: Array<Array<UiCell>>;
-  generalPageData: Array<Array<UiCell>>;
-  weaponsPageData: Array<Array<UiCell>>;
+  armorPageData: UiCell[][];
+  generalPageData: UiCell[][];
+  weaponsPageData: UiCell[][];
 
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
@@ -46,11 +46,7 @@ export interface AccountSlice {
 
   setGGCharacters: (ggCharacters: GGCharacterUiData[]) => void;
 
-  setAllInventoryPageData: (
-    weaponPage: Array<Array<UiCell>>,
-    armorPage: Array<Array<UiCell>>,
-    generalPage: Array<Array<UiCell>>,
-  ) => void;
+  setAllInventoryPageData: (weaponPage: UiCell[][], armorPage: UiCell[][], generalPage: UiCell[][]) => void;
 
   updateProfile: (profile: ProfileData) => void;
 
@@ -151,7 +147,7 @@ function createInitialGuardiansData(profile: ProfileData): Record<string, Guardi
     if (characterData) {
       const initialCharacterData = {
         data: characterData,
-        items: {} as { [key: number]: { equipped: DestinyItem | null; inventory: Array<DestinyItem> } },
+        items: {} as { [key: number]: { equipped: DestinyItem | null; inventory: DestinyItem[] } },
       };
 
       for (const bucket of characterBuckets) {
@@ -249,17 +245,17 @@ function processVaultInventory(profile: ProfileData): Record<number, SectionItem
 
 function buildUIData(
   profile: ProfileData,
-  itemBuckets: Array<number>,
+  itemBuckets: number[],
   guardians: Record<string, Guardian>,
   vaultData: VaultData,
-): Array<Array<UiCell>> {
-  const characterDataArray: Array<Array<UiCell>> = [];
+): UiCell[][] {
+  const characterDataArray: UiCell[][] = [];
   const columns = 4;
 
   for (const character in guardians) {
     const characterData = guardians[character];
     if (characterData) {
-      const dataArray: Array<UiCell> = [];
+      const dataArray: UiCell[] = [];
 
       for (const bucket of itemBuckets) {
         // create section separators
@@ -485,8 +481,8 @@ function returnInventoryRow(
   characterGear: GuardianGear,
   column: number,
   rowWidth = 3,
-): Array<DestinyIconData> {
-  const rowData: Array<DestinyIconData> = [];
+): DestinyIconData[] {
+  const rowData: DestinyIconData[] = [];
 
   const startIndex = column * rowWidth;
   const endIndex = startIndex + rowWidth;
@@ -502,8 +498,8 @@ function returnInventoryRow(
   return rowData;
 }
 
-function returnVaultUiData(profile: ProfileData, itemBuckets: Array<number>, vaultData: VaultData): Array<UiCell> {
-  const dataArray: Array<UiCell> = [];
+function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
+  const dataArray: UiCell[] = [];
   const columns = 5;
 
   for (const bucket of itemBuckets) {

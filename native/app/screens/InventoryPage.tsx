@@ -13,7 +13,7 @@ const pageColumns = [4, 4, 4, 5];
 const pageEstimatedFlashListItemSize = [77, 77, 77, 89];
 
 type InventoryPageProps = {
-  inventoryPageData: Array<Array<UiCell>>;
+  inventoryPageData: UiCell[][];
 };
 
 export default function InventoryPage(props: InventoryPageProps) {

@@ -14,7 +14,7 @@ export type Guardian = {
 
 export type GuardianGear = {
   equipped: DestinyItem | null;
-  inventory: Array<DestinyItem>;
+  inventory: DestinyItem[];
 };
 
 export type SectionItems = {
