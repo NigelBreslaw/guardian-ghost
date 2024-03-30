@@ -48,9 +48,12 @@ function App() {
 
   useEffect(() => {
     if (authenticated === "NO-AUTHENTICATION") {
-      navigationRef.current?.navigate("Login");
+      if (navigationRef.current) {
+        navigationRef.current.navigate("Login");
+      } else {
+        console.error("No navigationRef");
+      }
     } else if (authenticated === "AUTHENTICATED" && definitionsReady) {
-      console.log("trigger: download getProfile()");
       getFullProfile();
     }
   }, [authenticated, definitionsReady]);

@@ -81,7 +81,9 @@ export function getTokenAsync(authToken: AuthToken, errorMessage: string): Promi
   return new Promise((resolve, reject) => {
     // Function to add a new request to the queue
     const enqueue = () => {
-      console.log("getTokenAsync queue length:", queue.length);
+      if (queue.length > 0) {
+        console.log("getTokenAsync queue length:", queue.length);
+      }
       queue.push(async () => {
         try {
           const result = await getTokenInternal(authToken, errorMessage);

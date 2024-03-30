@@ -22,7 +22,7 @@ export async function getFullProfile() {
       const validatedProfile = parse(getProfileSchema, profile);
       useGGStore.getState().updateProfile(validatedProfile);
     } else {
-      console.log("No new profile");
+      console.info("No new profile");
     }
   } catch (e) {
     console.error("Failed to validate profile!", e);
