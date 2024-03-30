@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Haptics from "expo-haptics";
 
 function startAuth(): void {
   function cancelLogin() {
@@ -116,6 +117,9 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <Button
           mode="contained"
           disabled={authenticated === "LOGIN-FLOW"}
+          onPressIn={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
           onPress={() => {
             startAuth();
           }}
