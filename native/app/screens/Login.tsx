@@ -117,8 +117,10 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <Button
           mode="contained"
           disabled={authenticated === "LOGIN-FLOW"}
-          onPress={() => {
+          onPressIn={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
+          onPress={() => {
             startAuth();
           }}
           style={{ alignSelf: "stretch" }}
