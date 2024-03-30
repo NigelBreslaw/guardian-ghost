@@ -14,6 +14,4 @@ Landing/Marketing page [guardianghost.com](https://guardianghost.com)
 
 Web app site [app.guardianghost.com](https://app.guardianghost.com)
 
-Stats dashboard [dashboard.guardianghost.com](https://dashboard.guardianghost.com)
-
 Documentation [docs.guardianghost.com](https://docs.guardianghost.com)
