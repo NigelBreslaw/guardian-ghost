@@ -17,7 +17,7 @@ import { randomUUID } from "expo-crypto";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;
-const usedAuthCodes: Array<string> = [];
+const usedAuthCodes: string[] = [];
 
 export async function loadBungieUser(): Promise<BungieUser | null> {
   const savedAccount = await AsyncStorage.getItem(Store._bungie_user);

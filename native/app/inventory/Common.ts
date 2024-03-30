@@ -97,19 +97,19 @@ export type UiCell = SeparatorCell | DestinyCell | EmptyCell | BlankCell;
 export type CharacterEquippedRow = {
   id: string;
   equipped: DestinyIconData | null;
-  inventory: Array<DestinyIconData>;
+  inventory: DestinyIconData[];
   type: UiRowType.CharacterEquipped;
 };
 
 export type CharacterInventoryRow = {
   id: string;
-  inventory: Array<DestinyIconData>;
+  inventory: DestinyIconData[];
   type: UiRowType.CharacterInventory;
 };
 
 export type VaultInventoryRow = {
   id: string;
-  inventory: Array<DestinyIconData>;
+  inventory: DestinyIconData[];
   type: UiRowType.VaultInventory;
 };
 
