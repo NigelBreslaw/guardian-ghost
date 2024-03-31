@@ -7,17 +7,22 @@ import {
 } from "@/app/bungie/Types.ts";
 import { safeParse } from "valibot";
 
-export function defineCharactersAndVault(guardians: Record<string, Guardian>) {
+export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
+  const ggCharacters: GGCharacterUiData[] = [];
+
   for (const guardian in guardians) {
     const fullCharacter = guardians[guardian]?.data;
 
     if (fullCharacter) {
       const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
       if (parseCharacter.success) {
-        addCharacterDefinition(parseCharacter.output);
+        const ggCharacter = addCharacterDefinition(parseCharacter.output);
+        ggCharacters.push(ggCharacter);
       }
     }
   }
+
+  return ggCharacters;
 }
 
 function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
@@ -26,7 +31,8 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
     guardianClassType: guardianData.classType,
     genderType: guardianData.genderType,
     raceType: guardianData.raceType,
-    emblem: "",
+    emblemPath: guardianData.emblemPath,
+    emblemBackgroundPath: guardianData.emblemBackgroundPath,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Guardian,
   };
