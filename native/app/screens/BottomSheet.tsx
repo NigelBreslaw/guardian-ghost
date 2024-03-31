@@ -1,4 +1,3 @@
-import { bungieUrl } from "@/app/bungie/BungieApi.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
@@ -53,8 +52,6 @@ function TransferEquipButtons() {
   const borderRadius = 15;
 
   for (const ggCharacter of ggCharacters) {
-    const emblemBackgroundPath = ggCharacter.emblemBackgroundPath;
-    const fullEmblemPath = `${bungieUrl}${emblemBackgroundPath}`;
     rectangles.push(
       <View key={ggCharacter.characterId} style={{ width, height, borderRadius, overflow: "hidden" }}>
         <View
@@ -66,7 +63,7 @@ function TransferEquipButtons() {
             transform: [{ scale: scale }],
           }}
         >
-          <Image source={fullEmblemPath} style={{ width: 474, height: 96 }}>
+          <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }}>
             <Text>Character: {ggCharacter.characterId}</Text>
           </Image>
         </View>
@@ -123,7 +120,7 @@ export default function BottomSheet({
         closeOnDragDown={true}
         closeOnPressMask={true}
         onClose={() => navigation.goBack()}
-        height={500}
+        height={600}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent",

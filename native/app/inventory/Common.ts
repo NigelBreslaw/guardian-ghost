@@ -1,3 +1,8 @@
+export const bungieUrl = "https://www.bungie.net";
+export const basePath = "https://www.bungie.net/Platform";
+export const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
+export const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
+
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
   2465295065, // energy weapons

@@ -1,3 +1,4 @@
+import { GuardianClassType } from "@/app/bungie/Hashes.ts";
 import {
   GGCharacterType,
   type GGCharacterUiData,
@@ -5,6 +6,7 @@ import {
   type GuardianData,
   GuardiansSchema,
 } from "@/app/bungie/Types.ts";
+import { bungieUrl } from "@/app/inventory/Common.ts";
 import { safeParse } from "valibot";
 
 export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
@@ -22,17 +24,36 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     }
   }
 
+  const vaultEmblemBackgroundPath = require("../../images/vaultEmblemBackground.webp");
+
+  const vaultData: GGCharacterUiData = {
+    characterId: "VAULT",
+    guardianClassType: GuardianClassType.Unknown,
+    genderType: 0,
+    raceType: 0,
+    emblemPath: "",
+    emblemBackgroundPath: vaultEmblemBackgroundPath,
+    lastActiveCharacter: false,
+    ggCharacterType: GGCharacterType.Vault,
+  };
+  ggCharacters.push(vaultData);
+
   return ggCharacters;
 }
 
 function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
+  const emblemBackgroundPath = guardianData.emblemBackgroundPath;
+  const emblemPath = guardianData.emblemPath;
+  const fullBackgroundEmblemPath = `${bungieUrl}${emblemBackgroundPath}`;
+  const fullEmblemPath = `${bungieUrl}${emblemPath}`;
+
   const data: GGCharacterUiData = {
     characterId: guardianData.characterId,
     guardianClassType: guardianData.classType,
     genderType: guardianData.genderType,
     raceType: guardianData.raceType,
-    emblemPath: guardianData.emblemPath,
-    emblemBackgroundPath: guardianData.emblemBackgroundPath,
+    emblemPath: fullEmblemPath,
+    emblemBackgroundPath: fullBackgroundEmblemPath,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Guardian,
   };
