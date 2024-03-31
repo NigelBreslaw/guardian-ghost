@@ -253,7 +253,8 @@ export type GGCharacterUiData = {
   guardianClassType: GuardianClassType;
   genderType: GuardianGenderType;
   raceType: GuardianRaceType;
-  emblem: string;
+  emblemPath: string;
+  emblemBackgroundPath: string;
   lastActiveCharacter: boolean;
   ggCharacterType: GGCharacterType;
 };

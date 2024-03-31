@@ -3,10 +3,10 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
 import { isoTimestamp, parse, safeParse, string } from "valibot";
 
-const _bungieUrl = "https://www.bungie.net";
-const basePath = "https://www.bungie.net/Platform";
-const _iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
-const _screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
+export const bungieUrl = "https://www.bungie.net";
+export const basePath = "https://www.bungie.net/Platform";
+export const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
+export const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 

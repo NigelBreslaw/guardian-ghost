@@ -1,4 +1,6 @@
+import { bungieUrl } from "@/app/bungie/BungieApi.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
@@ -15,7 +17,6 @@ type ViewData = {
 };
 
 function buildViewData(itemInstanceId: string | undefined, itemHash: number): ViewData {
-  const p1 = performance.now();
   const itemDef = safeParse(itemSchema, itemsDefinition[itemHash]);
   if (itemDef.success) {
     const screenshot = itemDef.output.s;
@@ -28,9 +29,6 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
       name: name ? name.toLocaleUpperCase() : "",
       itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
     };
-
-    const p2 = performance.now();
-    console.log("buildViewData took:", (p2 - p1).toFixed(4), "ms");
     return viewData;
   }
 
@@ -41,6 +39,54 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
     name: "",
     itemTypeDisplayName: "",
   };
+}
+
+function TransferEquipButtons() {
+  const rectangles = [];
+
+  const ggCharacters = useGGStore((state) => state.ggCharacters);
+  const scale = 0.6;
+  const originalWidth = 350;
+  const originalHeight = 96;
+  const width = originalWidth * scale;
+  const height = originalHeight * scale;
+  const borderRadius = 15;
+
+  for (const ggCharacter of ggCharacters) {
+    const emblemBackgroundPath = ggCharacter.emblemBackgroundPath;
+    const fullEmblemPath = `${bungieUrl}${emblemBackgroundPath}`;
+    rectangles.push(
+      <View key={ggCharacter.characterId} style={{ width, height, borderRadius, overflow: "hidden" }}>
+        <View
+          style={{
+            width: originalWidth,
+
+            overflow: "hidden",
+            transformOrigin: "top left",
+            transform: [{ scale: scale }],
+          }}
+        >
+          <Image source={fullEmblemPath} style={{ width: 474, height: 96 }}>
+            <Text>Character: {ggCharacter.characterId}</Text>
+          </Image>
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderRadius,
+            borderWidth: 1,
+            borderColor: "grey",
+          }}
+        />
+      </View>,
+    );
+  }
+
+  return rectangles;
 }
 
 export default function BottomSheet({
@@ -140,6 +186,9 @@ export default function BottomSheet({
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
           </View>
+        </View>
+        <View>
+          <TransferEquipButtons />
         </View>
       </RBSheet>
     </View>

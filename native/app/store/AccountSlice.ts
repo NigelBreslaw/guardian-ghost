@@ -21,6 +21,7 @@ import {
   getDamageTypeIconUri,
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
+import { getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
 import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
@@ -29,6 +30,8 @@ export interface AccountSlice {
   refreshing: boolean;
   currentListIndex: number;
 
+  // The characters live in an object. This array does duplicate some of this data, but it's order
+  // dictates
   ggCharacters: GGCharacterUiData[];
 
   armorPageData: UiCell[][];
@@ -43,8 +46,6 @@ export interface AccountSlice {
 
   setRefreshing: (refreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
-
-  setGGCharacters: (ggCharacters: GGCharacterUiData[]) => void;
 
   setAllInventoryPageData: (weaponPage: UiCell[][], armorPage: UiCell[][], generalPage: UiCell[][]) => void;
 
@@ -79,7 +80,6 @@ export const createAccountSlice: StateCreator<
   },
 
   setRefreshing: (refreshing) => set({ refreshing }),
-  setGGCharacters: (ggCharacters) => set({ ggCharacters }),
 
   setCurrentListIndex: (currentListIndex) => {
     set({ currentListIndex });
@@ -102,6 +102,7 @@ export const createAccountSlice: StateCreator<
         ...state.vault,
         items: vaultItems,
       };
+      const ggCharacters = getCharactersAndVault(basicGuardians);
 
       const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
       const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
@@ -114,6 +115,7 @@ export const createAccountSlice: StateCreator<
         weaponsPageData,
         armorPageData,
         generalPageData,
+        ggCharacters,
       };
     }),
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
