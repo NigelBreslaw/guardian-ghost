@@ -61,6 +61,7 @@ export enum GuardianClassType {
   Hunter = 1,
   Warlock = 2,
   Unknown = 3,
+  Vault = 100,
 }
 
 export enum GuardianGenderType {
