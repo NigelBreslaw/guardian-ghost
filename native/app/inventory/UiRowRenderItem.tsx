@@ -9,7 +9,7 @@ export const UiCellRenderItem = ({ item }: { item: UiCell }, handlePress: (item:
   return (
     <TouchableOpacity
       onPress={() => {
-        if (item.itemHash) {
+        if (item.type === UiCellType.DestinyCell && item.itemHash) {
           handlePress(item);
         }
       }}

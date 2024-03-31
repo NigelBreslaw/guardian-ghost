@@ -1,3 +1,4 @@
+import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
@@ -112,7 +113,7 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash, equipped } = route.params.item;
+  const { itemInstanceId, itemHash, equipped } = route.params.item as DestinyCell;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
 
   useEffect(() => {
