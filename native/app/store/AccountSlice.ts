@@ -278,6 +278,7 @@ function buildUIData(
             equipItem = returnDestinyIconData(profile, equipped);
             const equippedCell: DestinyCell = {
               ...equipItem,
+              equipped: true,
               id: `${bucket}_equipped`,
               type: UiCellType.DestinyCell,
             };
@@ -302,6 +303,7 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
+                equipped: false,
                 id: `${bucket}_row0_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -328,6 +330,7 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
+                equipped: false,
                 id: `${bucket}_row1_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -354,6 +357,7 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
+                equipped: false,
                 id: `${bucket}_row2_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -524,6 +528,7 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
           if (item) {
             const destinyCell: DestinyCell = {
               ...item,
+              equipped: false,
               id: `${bucket}_row1_${i}_${j}`,
               type: UiCellType.DestinyCell,
             };

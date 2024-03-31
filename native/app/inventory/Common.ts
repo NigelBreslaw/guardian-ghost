@@ -72,8 +72,6 @@ export enum UiCellType {
 export type BaseCell = {
   id: string;
   type: UiCellType;
-  itemHash?: number;
-  itemInstanceId?: string;
 };
 
 export type SeparatorCell = BaseCell & {
@@ -83,10 +81,12 @@ export type SeparatorCell = BaseCell & {
 export type DestinyCell = BaseCell & {
   type: UiCellType.DestinyCell;
   icon: string;
-  itemInstanceId: string | undefined;
   primaryStat: string;
   calculatedWaterMark: string | undefined;
   damageTypeIconUri: number | null;
+  itemHash: number;
+  itemInstanceId: string | undefined;
+  equipped: boolean;
 };
 
 export type EmptyCell = BaseCell & {

@@ -46,8 +46,8 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [isFocused]);
 
-  function activateSheet(itemInstanceIdArg: string | undefined, itemHashArg: number) {
-    navigator.navigate("BottomSheet", { itemInstanceId: itemInstanceIdArg, itemHash: itemHashArg });
+  function activateSheet(item: UiCell) {
+    navigator.navigate("BottomSheet", { item });
   }
 
   // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
