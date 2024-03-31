@@ -67,7 +67,19 @@ export function myFunction() {
 // Not valid
 export * from './my-file';
 ```
-TODO: When Biome [supports](https://biomejs.dev/linter/rules/no-re-export-all) it, add a rule to enforce this.
+The Biome linter enforces this rule.
+
+### TypeScript
+
+To avoid TSX parsing issues with < > arrays are declared as `any[]` and not `Array<T>`.
+
+```ts
+// Valid
+const myArray: any[] = [];
+
+// Not valid
+const myArray: Array<T> = [];
+```
 
 # Semantic Commit Messages
 
