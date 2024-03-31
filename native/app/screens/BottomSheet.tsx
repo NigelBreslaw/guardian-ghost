@@ -1,6 +1,7 @@
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
+import type { TransferItem } from "@/app/transfer/TransferLogic.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -44,6 +45,7 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
 
 type TransferEquipButtonsProps = {
   close: () => void;
+  startTransfer: (toCharacterId: string, quantity: number, equipOnTarget: boolean) => void;
 };
 
 function TransferEquipButtons(props: TransferEquipButtonsProps) {
@@ -60,6 +62,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   for (const ggCharacter of ggCharacters) {
     const tap = Gesture.Tap().onBegin(() => {
       console.log(ggCharacter.characterId);
+      runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
       runOnJS(props.close)();
     });
 
@@ -109,7 +112,7 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash } = route.params;
+  const { itemInstanceId, itemHash, equipped } = route.params.item;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
 
   useEffect(() => {
@@ -117,6 +120,30 @@ export default function BottomSheet({
       refRBSheet.current.open();
     }
   }, []);
+
+  function transferItem(
+    toCharacterId: string,
+    itemInstanceId: string | undefined,
+    itemHash: number,
+    quantity = 1,
+    equipOnTarget = false,
+  ) {
+    const transferItem: TransferItem = {
+      itemInstanceId,
+      itemHash,
+      currentCharacterId: "",
+      finalTargetId: toCharacterId,
+      inventorySection: 0,
+      equipOnTarget,
+      currentlyEquipped: equipped,
+      quantity,
+    };
+    console.log("transferItem", transferItem);
+  }
+
+  function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
+    transferItem(targetId, itemInstanceId, itemHash, quantity, equipOnTarget);
+  }
 
   return (
     <View
@@ -204,6 +231,7 @@ export default function BottomSheet({
                 refRBSheet.current.close();
               }
             }}
+            startTransfer={startTransfer}
           />
         </View>
       </RBSheet>

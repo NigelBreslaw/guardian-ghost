@@ -10,11 +10,12 @@ import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
+import type { UiCell } from "@/app/inventory/Common.ts";
 
 type RootStackParamList = {
   Login: undefined;
   Root: undefined;
-  BottomSheet: { itemInstanceId: string | undefined; itemHash: number };
+  BottomSheet: { item: UiCell };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -83,7 +84,7 @@ function App() {
               },
             }}
           >
-            <RootStack.Screen name="BottomSheet" component={BottomSheet} initialParams={{ itemInstanceId: "" }} />
+            <RootStack.Screen name="BottomSheet" component={BottomSheet} />
           </RootStack.Group>
         </RootStack.Navigator>
       </NavigationContainer>
