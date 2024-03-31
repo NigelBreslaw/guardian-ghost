@@ -5,7 +5,9 @@ import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
+import { runOnJS } from "react-native-reanimated";
 import { safeParse } from "valibot";
 
 type ViewData = {
@@ -40,7 +42,11 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
   };
 }
 
-function TransferEquipButtons() {
+type TransferEquipButtonsProps = {
+  close: () => void;
+};
+
+function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const rectangles = [];
 
   const ggCharacters = useGGStore((state) => state.ggCharacters);
@@ -52,34 +58,41 @@ function TransferEquipButtons() {
   const borderRadius = 15;
 
   for (const ggCharacter of ggCharacters) {
-    rectangles.push(
-      <View key={ggCharacter.characterId} style={{ width, height, borderRadius, overflow: "hidden" }}>
-        <View
-          style={{
-            width: originalWidth,
+    const tap = Gesture.Tap().onBegin(() => {
+      console.log(ggCharacter.characterId);
+      runOnJS(props.close)();
+    });
 
-            overflow: "hidden",
-            transformOrigin: "top left",
-            transform: [{ scale: scale }],
-          }}
-        >
-          <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }}>
-            <Text>Character: {ggCharacter.characterId}</Text>
-          </Image>
+    rectangles.push(
+      <GestureDetector gesture={tap} key={ggCharacter.characterId}>
+        <View style={{ width, height, borderRadius, overflow: "hidden" }}>
+          <View
+            style={{
+              width: originalWidth,
+
+              overflow: "hidden",
+              transformOrigin: "top left",
+              transform: [{ scale: scale }],
+            }}
+          >
+            <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }}>
+              <Text>Character: {ggCharacter.characterId}</Text>
+            </Image>
+          </View>
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              borderRadius,
+              borderWidth: 1,
+              borderColor: "grey",
+            }}
+          />
         </View>
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderRadius,
-            borderWidth: 1,
-            borderColor: "grey",
-          }}
-        />
-      </View>,
+      </GestureDetector>,
     );
   }
 
@@ -185,7 +198,13 @@ export default function BottomSheet({
           </View>
         </View>
         <View>
-          <TransferEquipButtons />
+          <TransferEquipButtons
+            close={() => {
+              if (refRBSheet.current) {
+                refRBSheet.current.close();
+              }
+            }}
+          />
         </View>
       </RBSheet>
     </View>
