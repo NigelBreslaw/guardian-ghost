@@ -95,6 +95,7 @@ export const createAccountSlice: StateCreator<
         profile.Response.responseMintedTimestamp,
         profile.Response.secondaryComponentsMintedTimestamp,
       );
+      const p1 = performance.now();
       const basicGuardians = createInitialGuardiansData(profile);
       const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
       const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
@@ -107,6 +108,8 @@ export const createAccountSlice: StateCreator<
       const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
       const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
       const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, vaultData);
+      const p2 = performance.now();
+      console.log("updateProfile", `${(p2 - p1).toFixed(4)} ms`);
       console.info("inventory pages updated");
       return {
         rawProfileData: profile,
@@ -284,7 +287,6 @@ function buildUIData(
             equipItem = returnDestinyIconData(profile, equipped);
             const equippedCell: DestinyCell = {
               ...equipItem,
-              equipped: true,
               id: `${bucket}_equipped`,
               type: UiCellType.DestinyCell,
             };
@@ -309,7 +311,6 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
-                equipped: false,
                 id: `${bucket}_row0_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -336,7 +337,6 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
-                equipped: false,
                 id: `${bucket}_row1_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -363,7 +363,6 @@ function buildUIData(
             if (item) {
               const destinyCell: DestinyCell = {
                 ...item,
-                equipped: false,
                 id: `${bucket}_row2_${i}`,
                 type: UiCellType.DestinyCell,
               };
@@ -534,7 +533,6 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
           if (item) {
             const destinyCell: DestinyCell = {
               ...item,
-              equipped: false,
               id: `${bucket}_row1_${i}_${j}`,
               type: UiCellType.DestinyCell,
             };

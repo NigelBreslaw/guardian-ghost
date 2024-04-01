@@ -113,7 +113,7 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash, equipped } = route.params.item as DestinyCell;
+  const { itemInstanceId, itemHash } = route.params.item as DestinyCell;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
 
   useEffect(() => {
@@ -132,11 +132,8 @@ export default function BottomSheet({
     const transferItem: TransferItem = {
       itemInstanceId,
       itemHash,
-      currentCharacterId: "",
       finalTargetId: toCharacterId,
-      inventorySection: 0,
       equipOnTarget,
-      currentlyEquipped: equipped,
       quantity,
     };
     console.log("transferItem", transferItem);
