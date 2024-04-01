@@ -125,7 +125,7 @@ export default function BottomSheet({
   const p1 = performance.now();
   const destinyItem = findDestinyItem(itemInstanceId, itemHash);
   const p2 = performance.now();
-  console.log("findDestinyItem", `${(p2 - p1).toFixed(4)} ms`);
+  console.log("findDestinyItem", destinyItem.equipped, `${(p2 - p1).toFixed(4)} ms`);
 
   function transferItem(
     toCharacterId: string,
