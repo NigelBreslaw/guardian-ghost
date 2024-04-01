@@ -169,7 +169,8 @@ function processCharacterEquipment(
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
-    const characterAsId = { characterId: character };
+    const characterAsId = { characterId: character, equipped: true };
+
     if (characterEquipment) {
       const characterItems = guardians[character];
       for (const item of characterEquipment.items) {
@@ -190,7 +191,7 @@ function processCharacterInventory(
   const charactersInventory = profile.Response.characterInventories.data;
   for (const character in charactersInventory) {
     const characterInventory = charactersInventory[character];
-    const characterAsId = { characterId: character };
+    const characterAsId = { characterId: character, equipped: false };
 
     if (characterInventory) {
       const characterItems = guardians[character];
@@ -212,7 +213,7 @@ function processCharacterInventory(
 function processVaultInventory(profile: ProfileData): Record<number, SectionItems> {
   const vaultInventory = profile.Response.profileInventory.data.items;
   const vaultItems: Record<number, SectionItems> = {};
-  const characterIsVault = { characterId: "VAULT" };
+  const characterIsVault = { characterId: "VAULT", equipped: false };
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
