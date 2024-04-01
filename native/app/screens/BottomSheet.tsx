@@ -7,7 +7,7 @@ import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar, StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { runOnJS } from "react-native-reanimated";
 import { safeParse } from "valibot";
@@ -68,36 +68,38 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
     });
 
     rectangles.push(
-      <GestureDetector gesture={tap} key={ggCharacter.characterId}>
-        <View style={{ width, height, borderRadius, overflow: "hidden" }}>
-          <View
-            style={{
-              width: originalWidth,
+      <GestureHandlerRootView key={ggCharacter.characterId}>
+        <GestureDetector gesture={tap}>
+          <View style={{ width, height, borderRadius, overflow: "hidden" }}>
+            <View
+              style={{
+                width: originalWidth,
 
-              overflow: "hidden",
-              transformOrigin: "top left",
-              transform: [{ scale: scale }],
-            }}
-          >
-            <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }} />
-            <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
-              <Text>Character: {ggCharacter.characterId}</Text>
+                overflow: "hidden",
+                transformOrigin: "top left",
+                transform: [{ scale: scale }],
+              }}
+            >
+              <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }} />
+              <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
+                <Text>Character: {ggCharacter.characterId}</Text>
+              </View>
             </View>
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderRadius,
+                borderWidth: 1,
+                borderColor: "grey",
+              }}
+            />
           </View>
-          <View
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              borderRadius,
-              borderWidth: 1,
-              borderColor: "grey",
-            }}
-          />
-        </View>
-      </GestureDetector>,
+        </GestureDetector>
+      </GestureHandlerRootView>,
     );
   }
 
