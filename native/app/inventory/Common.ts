@@ -86,7 +86,6 @@ export type DestinyCell = BaseCell & {
   damageTypeIconUri: number | null;
   itemHash: number;
   itemInstanceId: string | undefined;
-  equipped: boolean;
 };
 
 export type EmptyCell = BaseCell & {
