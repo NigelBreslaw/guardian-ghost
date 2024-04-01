@@ -1,6 +1,7 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import type {
   DestinyItem,
+  DestinyItemBase,
   GGCharacterUiData,
   Guardian,
   GuardianGear,
@@ -103,7 +104,6 @@ export const createAccountSlice: StateCreator<
         items: vaultItems,
       };
       const ggCharacters = getCharactersAndVault(basicGuardians);
-
       const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
       const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
       const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, vaultData);
@@ -169,12 +169,13 @@ function processCharacterEquipment(
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
-
+    const characterAsId = { characterId: character };
     if (characterEquipment) {
       const characterItems = guardians[character];
       for (const item of characterEquipment.items) {
         if (characterItems) {
-          characterItems.items[item.bucketHash] = { equipped: item, inventory: [] };
+          const destinyItem = Object.assign(item, characterAsId);
+          characterItems.items[item.bucketHash] = { equipped: destinyItem, inventory: [] };
         }
       }
     }
@@ -189,6 +190,7 @@ function processCharacterInventory(
   const charactersInventory = profile.Response.characterInventories.data;
   for (const character in charactersInventory) {
     const characterInventory = charactersInventory[character];
+    const characterAsId = { characterId: character };
 
     if (characterInventory) {
       const characterItems = guardians[character];
@@ -198,7 +200,8 @@ function processCharacterInventory(
           if (!hasBucket) {
             characterItems.items[item.bucketHash] = { equipped: null, inventory: [] };
           }
-          characterItems.items[item.bucketHash]?.inventory.push(item);
+          const destinyItem = Object.assign(item, characterAsId);
+          characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
         }
       }
     }
@@ -209,6 +212,7 @@ function processCharacterInventory(
 function processVaultInventory(profile: ProfileData): Record<number, SectionItems> {
   const vaultInventory = profile.Response.profileInventory.data.items;
   const vaultItems: Record<number, SectionItems> = {};
+  const characterIsVault = { characterId: "VAULT" };
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
@@ -234,8 +238,9 @@ function processVaultInventory(profile: ProfileData): Record<number, SectionItem
                   inventory: [],
                 };
               }
+              const destinyItem = Object.assign(item, characterIsVault);
 
-              items[definitionBucketHash]?.inventory.push(item);
+              items[definitionBucketHash]?.inventory.push(destinyItem);
             }
           }
         }
@@ -411,7 +416,7 @@ function buildUIData(
   return characterDataArray;
 }
 
-function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
+function returnDestinyIconData(profile: ProfileData, item: DestinyItemBase): DestinyIconData {
   const definition = itemsDefinition[item.itemHash];
   const itemInstanceId = item?.itemInstanceId;
 

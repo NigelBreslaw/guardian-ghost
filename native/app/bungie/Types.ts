@@ -133,7 +133,10 @@ export const ItemSchema = object({
   versionNumber: optional(number()),
 });
 
-export type DestinyItem = Output<typeof ItemSchema>;
+export type DestinyItemBase = Output<typeof ItemSchema>;
+export type DestinyItem = DestinyItemBase & {
+  characterId: string;
+};
 
 export const GuardiansSchema = object({
   baseCharacterLevel: number(),
