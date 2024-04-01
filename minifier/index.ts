@@ -103,12 +103,14 @@ async function downloadJsonFile(url: string): Promise<any> {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch JSON: ${response.statusText}`);
+      console.error(`Failed to fetch JSON: ${response.statusText}`);
+      process.exit(1);
     }
 
     return response.json();
   } catch (error) {
-    throw new Error(`Failed to download JSON file: ${error}`);
+    console.error(`Failed to download JSON file: ${error}`);
+    process.exit(1);
   }
 }
 
