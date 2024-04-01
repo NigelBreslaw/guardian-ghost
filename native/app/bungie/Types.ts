@@ -136,6 +136,7 @@ export const ItemSchema = object({
 export type DestinyItemBase = Output<typeof ItemSchema>;
 export type DestinyItem = DestinyItemBase & {
   characterId: string;
+  equipped: boolean;
 };
 
 export const GuardiansSchema = object({
