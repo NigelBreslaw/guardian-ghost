@@ -79,9 +79,10 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
               transform: [{ scale: scale }],
             }}
           >
-            <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }}>
+            <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }} />
+            <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
               <Text>Character: {ggCharacter.characterId}</Text>
-            </Image>
+            </View>
           </View>
           <View
             style={{
