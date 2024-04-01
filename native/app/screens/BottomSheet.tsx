@@ -2,7 +2,7 @@ import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
-import type { TransferItem } from "@/app/transfer/TransferLogic.ts";
+import { findDestinyItem, type TransferItem } from "@/app/transfer/TransferLogic.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -121,6 +121,11 @@ export default function BottomSheet({
       refRBSheet.current.open();
     }
   }, []);
+
+  const p1 = performance.now();
+  const destinyItem = findDestinyItem(itemInstanceId, itemHash);
+  const p2 = performance.now();
+  console.log("findDestinyItem", `${(p2 - p1).toFixed(4)} ms`);
 
   function transferItem(
     toCharacterId: string,
