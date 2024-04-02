@@ -7,6 +7,7 @@ import {
   GuardiansSchema,
 } from "@/app/bungie/Types.ts";
 import { bungieUrl } from "@/app/inventory/Common.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { safeParse } from "valibot";
 
 export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
@@ -27,7 +28,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
   const vaultEmblemBackgroundPath = require("../../images/vaultEmblemBackground.webp");
 
   const vaultData: GGCharacterUiData = {
-    characterId: "VAULT",
+    characterId: VAULT_CHARACTER_ID,
     guardianClassType: GuardianClassType.Unknown,
     genderType: 0,
     raceType: 0,
