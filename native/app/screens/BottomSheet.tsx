@@ -45,6 +45,7 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
 }
 
 type TransferEquipButtonsProps = {
+  currentCharacterId: string;
   close: () => void;
   startTransfer: (toCharacterId: string, quantity: number, equipOnTarget: boolean) => void;
 };
@@ -61,18 +62,29 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const borderRadius = 15;
 
   for (const ggCharacter of ggCharacters) {
+    const isButtonDisabled = ggCharacter.characterId === props.currentCharacterId;
+
     const transferTap = Gesture.Tap().onBegin(() => {
+      if (isButtonDisabled) {
+        return;
+      }
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
       runOnJS(props.close)();
     });
     const transferAndEquipTap = Gesture.Tap().onBegin(() => {
+      if (isButtonDisabled) {
+        return;
+      }
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, true);
       runOnJS(props.close)();
     });
 
     rectangles.push(
       // style should make this a flex row
-      <GestureHandlerRootView key={ggCharacter.characterId} style={{ flexDirection: "row" }}>
+      <GestureHandlerRootView
+        key={ggCharacter.characterId}
+        style={{ flexDirection: "row", gap: 5, opacity: isButtonDisabled ? 0.2 : 1 }}
+      >
         <GestureDetector gesture={transferTap}>
           <View style={{ width: transferWidth, height: transferHeight, borderRadius, overflow: "hidden" }}>
             <View
@@ -139,7 +151,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
   }
 
-  return rectangles;
+  return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{rectangles}</View>;
 }
 
 export default function BottomSheet({
@@ -255,6 +267,7 @@ export default function BottomSheet({
               }
             }}
             startTransfer={startTransfer}
+            currentCharacterId={characterId}
           />
         </View>
       </RBSheet>
