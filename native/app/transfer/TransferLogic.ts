@@ -119,7 +119,8 @@ export async function transferItem(
       if (parsedResult.success) {
         if (parsedResult.output.ErrorStatus === "Success") {
           console.log("Success");
-          useGGStore.getState().showSnackBar(`Item ${transferItem.destinyItem.itemHash} has been transferred`);
+          const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
+          useGGStore.getState().showSnackBar(`Item ${itemDefinition?.n} has been transferred`);
         } else {
           console.error("Failed", parsedResult.output);
           useGGStore
