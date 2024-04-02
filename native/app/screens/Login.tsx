@@ -118,7 +118,9 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
           mode="contained"
           disabled={authenticated === "LOGIN-FLOW"}
           onPressIn={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            if (Platform.OS !== "web") {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
           }}
           onPress={() => {
             startAuth();
