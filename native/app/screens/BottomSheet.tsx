@@ -62,7 +62,6 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   for (const ggCharacter of ggCharacters) {
     const tap = Gesture.Tap().onBegin(() => {
-      console.log(ggCharacter.characterId);
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
       runOnJS(props.close)();
     });
@@ -116,7 +115,7 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash } = route.params.item as DestinyCell;
+  const { itemInstanceId, itemHash, characterId } = route.params.item as DestinyCell;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
 
   useEffect(() => {
@@ -126,9 +125,9 @@ export default function BottomSheet({
   }, []);
 
   const p1 = performance.now();
-  const destinyItem = findDestinyItem(itemInstanceId, itemHash);
+  const destinyItem = findDestinyItem(itemInstanceId, itemHash, characterId);
   const p2 = performance.now();
-  console.log("findDestinyItem", destinyItem.equipped, `${(p2 - p1).toFixed(4)} ms`);
+  console.log("findDestinyItem", destinyItem.location, `${(p2 - p1).toFixed(4)} ms`);
 
   function transferItem(
     toCharacterId: string,
