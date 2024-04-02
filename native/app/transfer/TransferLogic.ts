@@ -1,6 +1,10 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
+import { basePath } from "@/app/inventory/Common.ts";
 import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { apiKey } from "@/constants/env.ts";
+import { number, object, optional, parse, safeParse, string } from "valibot";
 
 export type TransferItem = {
   destinyItem: DestinyItem;
@@ -103,6 +107,32 @@ export async function transferItem(
     return;
   }
 
+  const reachedTarget = hasReachedTarget(transferItem);
+  if (reachedTarget) {
+    // This is only possible if the item needs to equipped
+    useGGStore.getState().showSnackBar("!!! Equip has not been implemented yet !!!");
+  } else {
+    try {
+      const result = await moveItem(transferItem);
+      const parsedResult = safeParse(responseSchema, result);
+
+      if (parsedResult.success) {
+        if (parsedResult.output.ErrorStatus === "Success") {
+          console.log("Success");
+          useGGStore.getState().showSnackBar(`Item ${transferItem.destinyItem.itemHash} has been transferred`);
+        } else {
+          console.error("Failed", parsedResult.output);
+          useGGStore
+            .getState()
+            .showSnackBar(`Failed to transfer item ${parsedResult.output.ErrorStatus} ${parsedResult.output.Message} `);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to move item", e);
+      useGGStore.getState().showSnackBar("Failed to move item");
+    }
+  }
+
   console.log("transferItem got here...");
 }
 
@@ -111,4 +141,86 @@ function hasSuccessfullyTransferred(item: TransferItem) {
   const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
 
   return reachedTarget && inCorrectEquipState;
+}
+
+function hasReachedTarget(item: TransferItem) {
+  const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
+
+  return reachedTarget;
+}
+
+type TransferItemData = {
+  membershipType: number;
+  itemReferenceHash: number;
+  itemId: string;
+  stackSize: number;
+  characterId: string;
+  transferToVault: boolean;
+};
+
+const responseSchema = object({
+  ErrorCode: number(),
+  ErrorStatus: string(),
+  Message: string(),
+  MessageData: object({}),
+  Response: number(),
+  ThrottleSeconds: optional(number()),
+});
+
+async function moveItem(transferItem: TransferItem): Promise<JSON> {
+  const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
+
+  console.log("move", itemDefinition?.n);
+  let toVault: boolean;
+  let characterId = "";
+
+  if (transferItem.destinyItem.characterId !== VAULT_CHARACTER_ID) {
+    toVault = true;
+    characterId = transferItem.destinyItem.characterId;
+  } else {
+    toVault = false;
+    characterId = transferItem.finalTargetId;
+  }
+
+  const membershipType = useGGStore.getState().bungieUser.profile.membershipType;
+
+  const data: TransferItemData = {
+    membershipType,
+    itemReferenceHash: transferItem.destinyItem.itemHash,
+    itemId: transferItem.destinyItem.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
+    stackSize: transferItem.quantityToMove,
+    characterId,
+    transferToVault: toVault,
+  };
+  console.log("data", data);
+
+  const authToken = await useGGStore.getState().getTokenAsync("getProfile");
+  if (authToken) {
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${authToken.access_token}`);
+    headers.append("X-API-Key", apiKey);
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(data),
+    };
+
+    //TODO: Currently hardcode to en. This should be a parameter
+    const endPoint = `${basePath}/Destiny2/Actions/Items/TransferItem/?&lc=en`;
+    return new Promise((resolve, reject) => {
+      fetch(endPoint, requestOptions)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          resolve(data as JSON);
+        })
+        .catch((error) => {
+          console.error("moveItem()", error);
+          reject(error);
+        });
+    });
+  }
+  throw new Error("No auth token");
 }
