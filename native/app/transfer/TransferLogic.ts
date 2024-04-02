@@ -82,3 +82,33 @@ export function findDestinyItem(
   }
   throw new Error("No DestinyItem found");
 }
+
+export async function transferItem(
+  toCharacterId: string,
+  destinyItem: DestinyItem,
+  quantityToMove = 1,
+  equipOnTarget = false,
+) {
+  const transferItem: TransferItem = {
+    destinyItem,
+    finalTargetId: toCharacterId,
+    equipOnTarget,
+    quantityToMove,
+  };
+
+  // Check if the item has successfully been transferred
+  if (hasSuccessfullyTransferred(transferItem)) {
+    const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
+    useGGStore.getState().showSnackBar(`Item ${itemDefinition?.n} has been transferred`);
+    return;
+  }
+
+  console.log("transferItem got here...");
+}
+
+function hasSuccessfullyTransferred(item: TransferItem) {
+  const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
+  const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
+
+  return reachedTarget && inCorrectEquipState;
+}
