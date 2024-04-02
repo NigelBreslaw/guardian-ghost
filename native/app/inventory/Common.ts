@@ -50,6 +50,7 @@ export enum BreakerType {
 export type DestinyIconData = {
   itemHash: number;
   itemInstanceId: string | undefined;
+  characterId: string;
   icon: string;
   damageTypeIconUri: number | null;
   primaryStat: string;
@@ -86,6 +87,7 @@ export type DestinyCell = BaseCell & {
   damageTypeIconUri: number | null;
   itemHash: number;
   itemInstanceId: string | undefined;
+  characterId: string;
 };
 
 export type EmptyCell = BaseCell & {

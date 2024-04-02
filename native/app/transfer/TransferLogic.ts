@@ -10,22 +10,47 @@ export type TransferItem = {
   equipOnTarget: boolean;
 };
 
-export function findDestinyItem(itemInstanceId: string | undefined, itemHash: number): DestinyItem {
+// These are the fewest arguments possible. itemInstanceId would be enough for all instanced items. But for non
+// instanced the characterId and itemHash are needed. Because you could have a non instanced item such as upgrade
+// materials in the lost items of two different characters. So the characterId is needed to find the correct item.
+// TODO: This function does not check the global items, mods or consumables.
+export function findDestinyItem(
+  itemInstanceId: string | undefined,
+  itemHash: number,
+  characterId: string,
+): DestinyItem {
   const itemDefinition = itemsDefinition[itemHash];
   if (!itemDefinition) {
     throw new Error("No itemDefinition found");
   }
-  // has itemInstanceId ?
-  if (itemInstanceId && itemDefinition.b !== undefined) {
+
+  if (itemDefinition.b !== undefined) {
     const defaultBucket = bucketTypeHashArray[itemDefinition.b];
+
+    const instancedItem = itemInstanceId !== undefined;
     if (defaultBucket) {
-      // First check the guardians
-      const guardians = useGGStore.getState().guardians;
-      for (const guardian in guardians) {
-        const section = guardians[guardian]?.items[defaultBucket];
+      if (characterId === "VAULT") {
+        const vault = useGGStore.getState().vault;
+        const vaultSectionInventory = vault.items[138197802]?.items[defaultBucket]?.inventory;
+        if (vaultSectionInventory) {
+          for (const item of vaultSectionInventory) {
+            if (instancedItem) {
+              if (item.itemInstanceId === itemInstanceId) {
+                return item;
+              }
+            } else {
+              if (item.itemHash === itemHash) {
+                return item;
+              }
+            }
+          }
+        }
+      } else {
+        const guardians = useGGStore.getState().guardians;
+        const section = guardians[characterId]?.items[defaultBucket];
 
         if (section) {
-          if (section.equipped?.itemInstanceId === itemInstanceId) {
+          if (section.equipped && section.equipped?.itemInstanceId === itemInstanceId) {
             return section.equipped;
           }
 
@@ -37,24 +62,18 @@ export function findDestinyItem(itemInstanceId: string | undefined, itemHash: nu
         }
 
         // Check the lost items
-        const lostItems = guardians[guardian]?.items[215593132]?.inventory;
+        const lostItems = guardians[characterId]?.items[215593132]?.inventory;
         if (lostItems) {
           for (const item of lostItems) {
-            if (item.itemInstanceId === itemInstanceId) {
-              return item;
+            if (instancedItem) {
+              if (item.itemInstanceId === itemInstanceId) {
+                return item;
+              }
+            } else {
+              if (item.itemHash === itemHash) {
+                return item;
+              }
             }
-          }
-        }
-      }
-
-      // Then check the vault
-      const vault = useGGStore.getState().vault;
-      // TODO:
-      const vaultSectionInventory = vault.items[138197802]?.items[defaultBucket]?.inventory;
-      if (vaultSectionInventory) {
-        for (const item of vaultSectionInventory) {
-          if (item.itemInstanceId === itemInstanceId) {
-            return item;
           }
         }
       }
@@ -62,6 +81,5 @@ export function findDestinyItem(itemInstanceId: string | undefined, itemHash: nu
       console.error("No default bucket");
     }
   }
-
   throw new Error("No DestinyItem found");
 }
