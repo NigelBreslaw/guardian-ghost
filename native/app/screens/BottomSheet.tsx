@@ -56,20 +56,25 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const scale = 0.6;
   const originalWidth = 350;
   const originalHeight = 96;
-  const width = originalWidth * scale;
-  const height = originalHeight * scale;
+  const transferWidth = originalWidth * scale;
+  const transferHeight = originalHeight * scale;
   const borderRadius = 15;
 
   for (const ggCharacter of ggCharacters) {
-    const tap = Gesture.Tap().onBegin(() => {
+    const transferTap = Gesture.Tap().onBegin(() => {
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
+      runOnJS(props.close)();
+    });
+    const transferAndEquipTap = Gesture.Tap().onBegin(() => {
+      runOnJS(props.startTransfer)(ggCharacter.characterId, 1, true);
       runOnJS(props.close)();
     });
 
     rectangles.push(
-      <GestureHandlerRootView key={ggCharacter.characterId}>
-        <GestureDetector gesture={tap}>
-          <View style={{ width, height, borderRadius, overflow: "hidden" }}>
+      // style should make this a flex row
+      <GestureHandlerRootView key={ggCharacter.characterId} style={{ flexDirection: "row" }}>
+        <GestureDetector gesture={transferTap}>
+          <View style={{ width: transferWidth, height: transferHeight, borderRadius, overflow: "hidden" }}>
             <View
               style={{
                 width: originalWidth,
@@ -83,6 +88,38 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
               <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
                 <Text>Character: {ggCharacter.characterId}</Text>
               </View>
+            </View>
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderRadius,
+                borderWidth: 1,
+                borderColor: "grey",
+              }}
+            />
+          </View>
+        </GestureDetector>
+        <GestureDetector gesture={transferAndEquipTap}>
+          <View
+            style={{
+              width: transferHeight,
+              height: transferHeight,
+              borderRadius,
+              overflow: "hidden",
+              opacity: ggCharacter.characterId === "VAULT" ? 0 : 1,
+            }}
+          >
+            <View
+              style={{
+                transformOrigin: "top left",
+                transform: [{ scale: scale }],
+              }}
+            >
+              <Image source={ggCharacter.emblemPath} style={{ width: 96, height: 96 }} />
             </View>
             <View
               style={{
