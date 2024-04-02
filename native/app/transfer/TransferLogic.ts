@@ -4,7 +4,7 @@ import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { apiKey } from "@/constants/env.ts";
-import { number, object, optional, parse, safeParse, string } from "valibot";
+import { number, object, optional, safeParse, string } from "valibot";
 
 export type TransferItem = {
   destinyItem: DestinyItem;
