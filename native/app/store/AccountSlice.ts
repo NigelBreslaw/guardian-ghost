@@ -1,7 +1,6 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import type {
   DestinyItem,
-  DestinyItemBase,
   GGCharacterUiData,
   Guardian,
   GuardianGear,
@@ -417,7 +416,7 @@ function buildUIData(
   return characterDataArray;
 }
 
-function returnDestinyIconData(profile: ProfileData, item: DestinyItemBase): DestinyIconData {
+function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
   const definition = itemsDefinition[item.itemHash];
   const itemInstanceId = item?.itemInstanceId;
 
@@ -450,7 +449,8 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItemBase): Des
 
       const iconData: DestinyIconData = {
         itemHash: item.itemHash,
-        itemInstanceId: item.itemInstanceId,
+        itemInstanceId,
+        characterId: item.characterId,
         icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
         primaryStat: itemComponent.primaryStat?.value.toString() || "",
         calculatedWaterMark: watermark,
@@ -466,6 +466,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItemBase): Des
     const nonInstancedItem: DestinyIconData = {
       itemHash: item.itemHash,
       itemInstanceId: undefined,
+      characterId: item.characterId,
       icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
       primaryStat: "",
       calculatedWaterMark: "",
@@ -478,6 +479,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItemBase): Des
   const emptyData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: undefined,
+    characterId: "",
     icon: "",
     primaryStat: "",
     calculatedWaterMark: "",
