@@ -17,7 +17,11 @@ import type { StateCreator } from "zustand";
 
 export interface DefinitionsSlice {
   definitionsReady: boolean;
+  snackBarVisible: boolean;
+  snackBarMessage: string;
   initDefinitions: () => Promise<void>;
+  showSnackBar: (message: string) => void;
+  setSnackBarVisible: (snackBarVisible: boolean) => void;
 }
 
 export const createDefinitionsSlice: StateCreator<
@@ -27,6 +31,8 @@ export const createDefinitionsSlice: StateCreator<
   DefinitionsSlice
 > = (set) => ({
   definitionsReady: false,
+  snackBarVisible: false,
+  snackBarMessage: "",
   initDefinitions: async () => {
     try {
       const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
@@ -45,6 +51,8 @@ export const createDefinitionsSlice: StateCreator<
       console.error("Failed to download and save itemDefinition", e);
     }
   },
+  setSnackBarVisible: (snackBarVisible: boolean) => set({ snackBarVisible }),
+  showSnackBar: (message: string) => set({ snackBarMessage: message, snackBarVisible: true }),
 });
 
 function parseAndSet(itemDefinition: ItemResponse) {

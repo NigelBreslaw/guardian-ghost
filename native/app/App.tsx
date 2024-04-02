@@ -11,6 +11,7 @@ import Login from "@/app/screens/Login.tsx";
 import { Platform } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import type { UiCell } from "@/app/inventory/Common.ts";
+import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 
 type RootStackParamList = {
   Login: undefined;
@@ -88,6 +89,7 @@ function App() {
           </RootStack.Group>
         </RootStack.Navigator>
       </NavigationContainer>
+      <GGSnackBar />
     </PaperProvider>
   );
 }
