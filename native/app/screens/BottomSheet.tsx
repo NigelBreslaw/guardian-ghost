@@ -1,3 +1,4 @@
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -124,30 +125,21 @@ export default function BottomSheet({
     }
   }, []);
 
-  const p1 = performance.now();
-  const destinyItem = findDestinyItem(itemInstanceId, itemHash, characterId);
-  const p2 = performance.now();
-  console.log("findDestinyItem", destinyItem.location, `${(p2 - p1).toFixed(4)} ms`);
-
-  function transferItem(
-    toCharacterId: string,
-    itemInstanceId: string | undefined,
-    itemHash: number,
-    quantity = 1,
-    equipOnTarget = false,
-  ) {
+  function transferItem(toCharacterId: string, destinyItem: DestinyItem, quantityToMove = 1, equipOnTarget = false) {
     const transferItem: TransferItem = {
-      itemInstanceId,
-      itemHash,
+      destinyItem,
       finalTargetId: toCharacterId,
       equipOnTarget,
-      quantity,
+      quantityToMove,
     };
     console.log("transferItem", transferItem);
   }
 
   function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
-    transferItem(targetId, itemInstanceId, itemHash, quantity, equipOnTarget);
+    const destinyItem = {
+      ...findDestinyItem(itemInstanceId, itemHash, characterId),
+    };
+    transferItem(targetId, destinyItem, quantity, equipOnTarget);
   }
 
   return (

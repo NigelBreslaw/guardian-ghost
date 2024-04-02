@@ -3,10 +3,9 @@ import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts
 import { useGGStore } from "@/app/store/GGStore.ts";
 
 export type TransferItem = {
-  itemInstanceId: string | undefined;
-  itemHash: number;
+  destinyItem: DestinyItem;
   finalTargetId: string;
-  quantity: number;
+  quantityToMove: number;
   equipOnTarget: boolean;
 };
 
