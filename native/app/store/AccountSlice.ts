@@ -26,6 +26,7 @@ import { getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
 import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
 export interface AccountSlice {
   refreshing: boolean;
@@ -75,7 +76,7 @@ export const createAccountSlice: StateCreator<
   rawProfileData: null,
   guardians: {},
   vault: {
-    characterId: "VAULT",
+    characterId: VAULT_CHARACTER_ID,
     emblemBackgroundPath: "",
     items: {},
   },
@@ -216,7 +217,7 @@ function processCharacterInventory(
 function processVaultInventory(profile: ProfileData): Record<number, SectionItems> {
   const vaultInventory = profile.Response.profileInventory.data.items;
   const vaultItems: Record<number, SectionItems> = {};
-  const characterIsVault = { characterId: "VAULT", equipped: false };
+  const characterIsVault = { characterId: VAULT_CHARACTER_ID, equipped: false };
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
