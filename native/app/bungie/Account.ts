@@ -53,7 +53,7 @@ export function getBungieUser(linkedProfiles: LinkedProfiles): BungieUser {
         topLevelAccountMembershipId: linkedProfiles.Response.bnetMembership.membershipId,
         profile: {
           membershipId: bungieProfile.membershipId,
-          membershipType: bungieProfile.membershipType.toString(),
+          membershipType: bungieProfile.membershipType,
           displayName: bungieProfile.displayName,
         },
       };
