@@ -107,7 +107,7 @@ export const BungieUserSchema = object({
   topLevelAccountMembershipId: string(),
   profile: object({
     membershipId: string(),
-    membershipType: string(),
+    membershipType: number(),
     displayName: string(),
   }),
 });

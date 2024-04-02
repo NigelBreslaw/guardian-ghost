@@ -19,7 +19,7 @@ const initialBungieUser = {
   supplementalDisplayName: "",
   iconPath: "",
   topLevelAccountMembershipId: "",
-  profile: { membershipId: "", membershipType: "", displayName: "" },
+  profile: { membershipId: "", membershipType: 0, displayName: "" },
 };
 
 type Authenticating = "INITIALIZING" | "LOGIN-FLOW" | "AUTHENTICATED" | "NO-AUTHENTICATION";
@@ -90,6 +90,7 @@ export const createAuthenticationSlice: StateCreator<
       set({ authenticated: "NO-AUTHENTICATION", bungieUser: initialBungieUser });
     } catch (error) {
       console.error("An error occurred:", error);
+
       set({ authenticated: "NO-AUTHENTICATION" });
     } finally {
       SplashScreen.hideAsync();
