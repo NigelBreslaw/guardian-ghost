@@ -1,9 +1,8 @@
-import type { DestinyItem } from "@/app/bungie/Types.ts";
 import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
-import { findDestinyItem, type TransferItem } from "@/app/transfer/TransferLogic.ts";
+import { findDestinyItem, transferItem } from "@/app/transfer/TransferLogic.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -124,16 +123,6 @@ export default function BottomSheet({
       refRBSheet.current.open();
     }
   }, []);
-
-  function transferItem(toCharacterId: string, destinyItem: DestinyItem, quantityToMove = 1, equipOnTarget = false) {
-    const transferItem: TransferItem = {
-      destinyItem,
-      finalTargetId: toCharacterId,
-      equipOnTarget,
-      quantityToMove,
-    };
-    console.log("transferItem", transferItem);
-  }
 
   function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
     const destinyItem = {
