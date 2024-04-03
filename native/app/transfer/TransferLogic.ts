@@ -112,25 +112,33 @@ export async function transferItem(
     // This is only possible if the item needs to equipped
     useGGStore.getState().showSnackBar("!!! Equip has not been implemented yet !!!");
   } else {
-    try {
-      const result = await moveItem(transferItem);
-      const parsedResult = safeParse(responseSchema, result);
+    // lostitem?
+    if (transferItem.destinyItem.bucketHash === 215593132) {
+      // TODO: Handle postmaster items
+      useGGStore.getState().showSnackBar("!!! Postmaster items have not been implemented yet !!!");
+    } else {
+      try {
+        const result = await moveItem(transferItem);
+        const parsedResult = safeParse(responseSchema, result);
 
-      if (parsedResult.success) {
-        if (parsedResult.output.ErrorStatus === "Success") {
-          console.log("Success");
-          const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
-          useGGStore.getState().showSnackBar(`Item ${itemDefinition?.n} has been transferred`);
-        } else {
-          console.error("Failed", parsedResult.output);
-          useGGStore
-            .getState()
-            .showSnackBar(`Failed to transfer item ${parsedResult.output.ErrorStatus} ${parsedResult.output.Message} `);
+        if (parsedResult.success) {
+          if (parsedResult.output.ErrorStatus === "Success") {
+            console.log("Success");
+            const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
+            useGGStore.getState().showSnackBar(`Item ${itemDefinition?.n} has been transferred`);
+          } else {
+            console.error("Failed", parsedResult.output);
+            useGGStore
+              .getState()
+              .showSnackBar(
+                `Failed to transfer item ${parsedResult.output.ErrorStatus} ${parsedResult.output.Message} `,
+              );
+          }
         }
+      } catch (e) {
+        console.error("Failed to move item", e);
+        useGGStore.getState().showSnackBar("Failed to move item");
       }
-    } catch (e) {
-      console.error("Failed to move item", e);
-      useGGStore.getState().showSnackBar("Failed to move item");
     }
   }
 
@@ -140,14 +148,17 @@ export async function transferItem(
 function hasSuccessfullyTransferred(item: TransferItem) {
   const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
   const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
+  const lostItem = item.destinyItem.bucketHash === 215593132;
 
-  return reachedTarget && inCorrectEquipState;
+  return reachedTarget && inCorrectEquipState && !lostItem;
 }
 
 function hasReachedTarget(item: TransferItem) {
   const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
+  const lostItem = item.destinyItem.bucketHash === 215593132;
+  console.log("hasReachedTarget", reachedTarget && !lostItem);
 
-  return reachedTarget;
+  return reachedTarget && !lostItem;
 }
 
 type TransferItemData = {
@@ -193,7 +204,6 @@ async function moveItem(transferItem: TransferItem): Promise<JSON> {
     characterId,
     transferToVault: toVault,
   };
-  console.log("data", data);
 
   const authToken = await useGGStore.getState().getTokenAsync("getProfile");
   if (authToken) {
