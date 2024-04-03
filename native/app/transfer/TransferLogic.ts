@@ -32,7 +32,7 @@ export function findDestinyItem(
 
     const instancedItem = itemInstanceId !== undefined;
     if (defaultBucket) {
-      if (characterId === "VAULT") {
+      if (characterId === VAULT_CHARACTER_ID) {
         const vault = useGGStore.getState().vault;
         const vaultSectionInventory = vault.items[138197802]?.items[defaultBucket]?.inventory;
         if (vaultSectionInventory) {

@@ -1,8 +1,10 @@
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
 import { findDestinyItem, transferItem } from "@/app/transfer/TransferLogic.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -46,6 +48,7 @@ function buildViewData(itemInstanceId: string | undefined, itemHash: number): Vi
 
 type TransferEquipButtonsProps = {
   currentCharacterId: string;
+  destinyItem: DestinyItem;
   close: () => void;
   startTransfer: (toCharacterId: string, quantity: number, equipOnTarget: boolean) => void;
 };
@@ -61,18 +64,70 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const transferHeight = originalHeight * scale;
   const borderRadius = 15;
 
+  const itemDefinition = itemsDefinition[props.destinyItem.itemHash];
+  const nonTransferable = itemDefinition?.nt === 1;
+  const equipable = itemDefinition?.e === 1;
+
+  function calcEquipOpacity(buttonCharacterId: string): number {
+    if (buttonCharacterId === VAULT_CHARACTER_ID) {
+      return 0;
+    }
+    if (!equipable) {
+      return 0;
+    }
+    if (calcEquipButtonDisabled(buttonCharacterId)) {
+      return 0.2;
+    }
+    return 1;
+  }
+
+  function calcTransferOpacity(buttonCharacterId: string): number {
+    if (nonTransferable) {
+      return 0;
+    }
+    if (calcTransferButtonDisabled(buttonCharacterId)) {
+      return 0.2;
+    }
+    return 1;
+  }
+
+  // only call this if you already checked the item is equipable
+  function calcEquipButtonDisabled(buttonCharacterId: string): boolean {
+    // is this item already on the character, but not in the postmaster?
+    if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
+      if (props.destinyItem.equipped) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
+  function calcTransferButtonDisabled(buttonCharacterId: string): boolean {
+    // is this item already on the character, but not in the postmaster?
+    if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
+      return true;
+    }
+    return false;
+  }
+
   for (const ggCharacter of ggCharacters) {
-    const isButtonDisabled = ggCharacter.characterId === props.currentCharacterId;
+    const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
+    const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
+
+    if (nonTransferable && ggCharacter.characterId !== props.currentCharacterId) {
+      continue;
+    }
 
     const transferTap = Gesture.Tap().onBegin(() => {
-      if (isButtonDisabled) {
+      if (isTransferDisabled) {
         return;
       }
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
       runOnJS(props.close)();
     });
     const transferAndEquipTap = Gesture.Tap().onBegin(() => {
-      if (isButtonDisabled) {
+      if (isEquipDisabled) {
         return;
       }
       runOnJS(props.startTransfer)(ggCharacter.characterId, 1, true);
@@ -81,12 +136,17 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
     rectangles.push(
       // style should make this a flex row
-      <GestureHandlerRootView
-        key={ggCharacter.characterId}
-        style={{ flexDirection: "row", gap: 5, opacity: isButtonDisabled ? 0.2 : 1 }}
-      >
+      <GestureHandlerRootView key={ggCharacter.characterId} style={{ flexDirection: "row", gap: 5 }}>
         <GestureDetector gesture={transferTap}>
-          <View style={{ width: transferWidth, height: transferHeight, borderRadius, overflow: "hidden" }}>
+          <View
+            style={{
+              width: transferWidth,
+              height: transferHeight,
+              borderRadius,
+              overflow: "hidden",
+              opacity: calcTransferOpacity(ggCharacter.characterId),
+            }}
+          >
             <View
               style={{
                 width: originalWidth,
@@ -122,7 +182,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
               height: transferHeight,
               borderRadius,
               overflow: "hidden",
-              opacity: ggCharacter.characterId === "VAULT" ? 0 : 1,
+              opacity: calcEquipOpacity(ggCharacter.characterId),
             }}
           >
             <View
@@ -166,6 +226,7 @@ export default function BottomSheet({
   const SCREEN_WIDTH = width;
   const { itemInstanceId, itemHash, characterId } = route.params.item as DestinyCell;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
+  const destinyItem = { ...findDestinyItem(itemInstanceId, itemHash, characterId) };
 
   useEffect(() => {
     if (refRBSheet.current) {
@@ -174,9 +235,6 @@ export default function BottomSheet({
   }, []);
 
   function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
-    const destinyItem = {
-      ...findDestinyItem(itemInstanceId, itemHash, characterId),
-    };
     transferItem(targetId, destinyItem, quantity, equipOnTarget);
   }
 
@@ -266,6 +324,7 @@ export default function BottomSheet({
                 refRBSheet.current.close();
               }
             }}
+            destinyItem={destinyItem}
             startTransfer={startTransfer}
             currentCharacterId={characterId}
           />
