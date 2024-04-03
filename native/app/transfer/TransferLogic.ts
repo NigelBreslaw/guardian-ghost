@@ -118,9 +118,11 @@ export async function processTransferItem(
   // Check if the item has successfully been transferred
   if (hasSuccessfullyTransferred(transferItem)) {
     const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
-    useGGStore
-      .getState()
-      .showSnackBar(`${itemDefinition?.n} has been transferred${transferItem.equipOnTarget ? " and equipped." : "."}`);
+    const successMessage = `${itemDefinition?.n} has been transferred${
+      transferItem.equipOnTarget ? " and equipped." : "."
+    }`;
+    console.info(successMessage);
+    useGGStore.getState().showSnackBar(successMessage);
     return;
   }
 
