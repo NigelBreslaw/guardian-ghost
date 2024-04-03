@@ -17,13 +17,8 @@ export type GuardianGear = {
   inventory: DestinyItem[];
 };
 
-export type SectionItems = {
-  items: Record<number, GuardianGear>;
-};
 export type VaultData = {
-  characterId: string;
-  emblemBackgroundPath: string;
-  items: Record<number, SectionItems>;
+  items: Record<number, GuardianGear>;
 };
 
 export const bungieResponseSchema = object({

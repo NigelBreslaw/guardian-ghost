@@ -46,6 +46,7 @@ export function getInventoryPage(bucket: number): InventoryPage {
   if (generalPageBuckets.includes(bucket)) {
     return InventoryPage.General;
   }
+  console.log("Unknown page", bucket);
   return InventoryPage.Unknown;
 }
 

@@ -5,7 +5,6 @@ import type {
   Guardian,
   GuardianGear,
   ProfileData,
-  SectionItems,
   VaultData,
 } from "@/app/bungie/Types.ts";
 import {
@@ -27,6 +26,7 @@ import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/stor
 import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
+
 export interface AccountSlice {
   refreshing: boolean;
   currentListIndex: number;
@@ -43,7 +43,7 @@ export interface AccountSlice {
   secondaryComponentsMintedTimestamp: Date;
   rawProfileData: ProfileData | null;
   guardians: Record<string, Guardian>;
-  vault: VaultData;
+  generalVault: VaultData;
 
   setRefreshing: (refreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
@@ -74,9 +74,7 @@ export const createAccountSlice: StateCreator<
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
   guardians: {},
-  vault: {
-    characterId: VAULT_CHARACTER_ID,
-    emblemBackgroundPath: "",
+  generalVault: {
     items: {},
   },
 
@@ -89,38 +87,30 @@ export const createAccountSlice: StateCreator<
   setAllInventoryPageData: (weaponPage, armorPage, generalPage) =>
     set({ weaponsPageData: weaponPage, armorPageData: armorPage, generalPageData: generalPage }),
 
-  updateProfile: (profile) =>
-    set((state) => {
-      get().setTimestamps(
-        profile.Response.responseMintedTimestamp,
-        profile.Response.secondaryComponentsMintedTimestamp,
-      );
-      const p1 = performance.now();
-      const basicGuardians = createInitialGuardiansData(profile);
-      const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
-      const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
-      const vaultItems = processVaultInventory(profile);
-      const vaultData = {
-        ...state.vault,
-        items: vaultItems,
-      };
-      const ggCharacters = getCharactersAndVault(basicGuardians);
-      const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, vaultData);
-      const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, vaultData);
-      const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, vaultData);
-      const p2 = performance.now();
-      console.log("updateProfile", `${(p2 - p1).toFixed(4)} ms`);
-      console.info("inventory pages updated");
-      return {
-        rawProfileData: profile,
-        guardians: guardiansWithInventory,
-        vault: vaultData,
-        weaponsPageData,
-        armorPageData,
-        generalPageData,
-        ggCharacters,
-      };
-    }),
+  updateProfile: (profile) => {
+    get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
+    const p1 = performance.now();
+    const basicGuardians = createInitialGuardiansData(profile);
+    const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
+    const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
+    const generalVault = processVaultInventory(profile);
+    const ggCharacters = getCharactersAndVault(basicGuardians);
+    const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, generalVault);
+    const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, generalVault);
+    const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, generalVault);
+    const p2 = performance.now();
+    console.log("updateProfile", `${(p2 - p1).toFixed(4)} ms`);
+    console.info("inventory pages updated");
+    set({
+      rawProfileData: profile,
+      guardians: guardiansWithInventory,
+      generalVault,
+      weaponsPageData,
+      armorPageData,
+      generalPageData,
+      ggCharacters,
+    });
+  },
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
     set((state) => {
       const rmTimestamp = new Date(responseMintedTimestamp);
@@ -213,39 +203,41 @@ function processCharacterInventory(
   return guardians;
 }
 
-function processVaultInventory(profile: ProfileData): Record<number, SectionItems> {
+function processVaultInventory(profile: ProfileData): VaultData {
   const vaultInventory = profile.Response.profileInventory.data.items;
-  const vaultItems: Record<number, SectionItems> = {};
-  const characterIsVault = { characterId: VAULT_CHARACTER_ID, equipped: false };
+  const vaultItems: VaultData = { items: {} };
+
   if (vaultInventory) {
     for (const item of vaultInventory) {
       const itemHash = item.itemHash.toString();
+
       const data = itemsDefinition[itemHash];
+      //TODO: !!!! This only processes the general vault. Global items, consumables, mods, etc. need to be added.
+      if (item.bucketHash !== 138197802) {
+        continue;
+      }
 
       if (data) {
         const bucketHashIndex = data.b;
         if (bucketHashIndex !== undefined) {
-          const definitionBucketHash = bucketTypeHashArray[bucketHashIndex];
+          const recoveryBucketHash = bucketTypeHashArray[bucketHashIndex];
 
-          if (definitionBucketHash) {
-            const hasBaseBucket = Object.hasOwn(vaultItems, item.bucketHash);
+          if (recoveryBucketHash) {
+            const hasBaseBucket = Object.hasOwn(vaultItems.items, recoveryBucketHash);
             if (!hasBaseBucket) {
-              vaultItems[item.bucketHash] = { items: {} };
+              vaultItems.items[recoveryBucketHash] = {
+                equipped: null,
+                inventory: [],
+              };
             }
+            const characterIsVault = {
+              characterId: VAULT_CHARACTER_ID,
+              equipped: false,
+              bucketHashIndex: recoveryBucketHash,
+            };
+            const destinyItem = Object.assign(item, characterIsVault);
 
-            const items = vaultItems[item.bucketHash]?.items;
-            if (items) {
-              const hasBucket = Object.hasOwn(items, definitionBucketHash);
-              if (!hasBucket) {
-                items[definitionBucketHash] = {
-                  equipped: null,
-                  inventory: [],
-                };
-              }
-              const destinyItem = Object.assign(item, characterIsVault);
-
-              items[definitionBucketHash]?.inventory.push(destinyItem);
-            }
+            vaultItems.items[recoveryBucketHash]?.inventory.push(destinyItem);
           }
         }
       }
@@ -517,7 +509,7 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
   const columns = 5;
 
   for (const bucket of itemBuckets) {
-    const bucketItems = vaultData.items[138197802]?.items[bucket];
+    const bucketItems = vaultData.items[bucket];
     if (bucketItems) {
       for (let i = 0; i < columns; i++) {
         const separator: SeparatorCell = {
