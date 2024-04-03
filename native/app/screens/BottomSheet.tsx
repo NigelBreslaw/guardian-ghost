@@ -3,7 +3,7 @@ import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
-import { findDestinyItem, transferItem } from "@/app/transfer/TransferLogic.ts";
+import { findDestinyItem, processTransferItem } from "@/app/transfer/TransferLogic.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
@@ -235,7 +235,7 @@ export default function BottomSheet({
   }, []);
 
   function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
-    transferItem(targetId, destinyItem, quantity, equipOnTarget);
+    processTransferItem(targetId, destinyItem, quantity, equipOnTarget);
   }
 
   return (
