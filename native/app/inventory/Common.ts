@@ -3,6 +3,13 @@ export const basePath = "https://www.bungie.net/Platform";
 export const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
 export const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
 
+export enum InventoryPage {
+  Unknown = 0,
+  Weapons = 1,
+  Armor = 2,
+  General = 3,
+}
+
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
   2465295065, // energy weapons
@@ -28,6 +35,19 @@ export const generalPageBuckets = [
   2025709351, // Vehicle
   3683254069, // Finisher
 ];
+
+export function getInventoryPage(bucket: number): InventoryPage {
+  if (weaponsPageBuckets.includes(bucket)) {
+    return InventoryPage.Weapons;
+  }
+  if (armorPageBuckets.includes(bucket)) {
+    return InventoryPage.Armor;
+  }
+  if (generalPageBuckets.includes(bucket)) {
+    return InventoryPage.General;
+  }
+  return InventoryPage.Unknown;
+}
 
 export enum DamageType {
   None = 0,
