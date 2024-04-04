@@ -1,5 +1,3 @@
-import type { AccountSlice } from "@/app/store/AccountSlice.ts";
-import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import {
   setItemDefinition,
   type ItemsDefinition,
@@ -7,6 +5,7 @@ import {
   setIconWaterMarks,
   setItemTypeDisplayName,
 } from "@/app/store/Definitions.ts";
+import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, Store } from "@/app/store/Types";
 import type { StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
@@ -24,12 +23,7 @@ export interface DefinitionsSlice {
   setSnackBarVisible: (snackBarVisible: boolean) => void;
 }
 
-export const createDefinitionsSlice: StateCreator<
-  AccountSlice & AuthenticationSlice & DefinitionsSlice,
-  [],
-  [],
-  DefinitionsSlice
-> = (set) => ({
+export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set) => ({
   definitionsReady: false,
   snackBarVisible: false,
   snackBarMessage: "",
