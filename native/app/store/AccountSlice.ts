@@ -95,9 +95,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
     const generalVault = processVaultInventory(profile);
     const ggCharacters = getCharactersAndVault(basicGuardians);
-    const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, generalVault);
-    const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, generalVault);
-    const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, generalVault);
     const p2 = performance.now();
     console.log("updateProfile", `${(p2 - p1).toFixed(4)} ms`);
     console.info("inventory pages updated");
@@ -105,11 +102,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       rawProfileData: profile,
       guardians: guardiansWithInventory,
       generalVault,
-      weaponsPageData,
-      armorPageData,
-      generalPageData,
       ggCharacters,
     });
+    updateAllPages(get, set);
   },
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
     set((state) => {
@@ -145,18 +140,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     console.log("moveItem part1", `${(p2 - p1).toFixed(4)} ms`);
 
     const p3 = performance.now();
-    const profile = get().rawProfileData;
-    const guardiansWithInventory = get().guardians;
-    const generalVault = get().generalVault;
-
-    if (!profile || !guardiansWithInventory || !generalVault) {
-      console.error("No profile, guardians or generalVault");
-      return;
-    }
-    const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, generalVault);
-    const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, generalVault);
-    const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, generalVault);
-    set({ weaponsPageData, armorPageData, generalPageData });
+    updateAllPages(get, set);
     const p4 = performance.now();
     console.log("moveItem part2", `${(p4 - p3).toFixed(4)} ms`);
   },
@@ -164,9 +148,15 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
 function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   const previousGeneralVault = get().generalVault;
+  const previousInventory = previousGeneralVault.items[destinyItem.bucketHash]?.inventory;
+  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+  if (!updatedInventory) {
+    console.error("updatedInventory is undefined");
+    return;
+  }
 
   const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft.items[destinyItem.bucketHash]?.inventory.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+    draft.items[destinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
   });
 
   set({ generalVault: updatedGeneralVault });
@@ -185,15 +175,22 @@ function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyIte
 function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   const previousGuardians = get().guardians;
 
+  const previousInventory =
+    previousGuardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
+  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+  if (!updatedInventory) {
+    console.error("updatedInventory or previousGuardian is undefined");
+    return;
+  }
+
   const updatedGuardians = create(previousGuardians, (draft) => {
     const updatedGuardian = draft[destinyItem.previousCharacterId];
     if (!updatedGuardian) {
       console.error("updatedGuardian is undefined");
       return;
     }
-    updatedGuardian.items[destinyItem.bucketHash]?.inventory.filter(
-      (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
-    );
+    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
+    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
   });
   set({ guardians: updatedGuardians });
 }
@@ -202,12 +199,7 @@ function addToGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destiny
   const previousGuardians = get().guardians;
 
   const updatedGuardians = create(previousGuardians, (draft) => {
-    const updatedGuardian = draft[destinyItem.characterId];
-    if (!updatedGuardian) {
-      console.error("updatedGuardian is undefined");
-      return;
-    }
-    updatedGuardian.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+    draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
   });
   set({ guardians: updatedGuardians });
 }
@@ -326,14 +318,24 @@ function processVaultInventory(profile: ProfileData): VaultData {
   return vaultItems;
 }
 
-function buildUIData(
-  profile: ProfileData,
-  itemBuckets: number[],
-  guardians: Record<string, Guardian>,
-  vaultData: VaultData,
-): UiCell[][] {
+function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
+  const weaponsPageData = buildUIData(get, weaponsPageBuckets);
+  const armorPageData = buildUIData(get, armorPageBuckets);
+  const generalPageData = buildUIData(get, generalPageBuckets);
+  set({ weaponsPageData, armorPageData, generalPageData });
+}
+
+function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiCell[][] {
   const characterDataArray: UiCell[][] = [];
   const columns = 4;
+  const guardians = get().guardians;
+  const vaultData = get().generalVault;
+  const profile = get().rawProfileData;
+
+  if (!profile || !guardians || !vaultData) {
+    console.error("No profile, guardians or generalVault");
+    return characterDataArray;
+  }
 
   for (const character in guardians) {
     const characterData = guardians[character];
