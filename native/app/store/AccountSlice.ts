@@ -28,6 +28,9 @@ import type { StateCreator } from "zustand";
 import { create } from "mutative";
 import type { IStore } from "@/app/store/GGStore.ts";
 
+export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
+export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
+
 export interface AccountSlice {
   refreshing: boolean;
   currentListIndex: number;
@@ -54,7 +57,7 @@ export interface AccountSlice {
   updateProfile: (profile: ProfileData) => void;
 
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
-  moveItem: (updatedDestinyItem: DestinyItem, fromCharacterId: string) => void;
+  moveItem: (updatedDestinyItem: DestinyItem, originCharacterId: string) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -128,51 +131,103 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       // Should be impossible as BungieApi.ts -> getFullProfile() already did this check.
       throw new Error("No new timestamps");
     }),
-  moveItem: (updatedDestinyItem, fromCharacterId) => {
-    if (fromCharacterId === VAULT_CHARACTER_ID) {
-      const previousGeneralVault = get().generalVault;
-      const previousInventory = previousGeneralVault.items[updatedDestinyItem.bucketHash]?.inventory;
-      console.log("previousInventory", updatedDestinyItem.bucketHash, Object.keys(previousGeneralVault.items));
-      const updatedInventory = previousInventory?.filter(
-        (item) => item.itemInstanceId !== updatedDestinyItem.itemInstanceId,
-      );
-      if (!updatedInventory) {
-        console.error("updatedInventory is undefined");
-        return;
-      }
-      const p1 = performance.now();
-      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-        draft.items[updatedDestinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
-      });
-      const p2 = performance.now();
-      console.log("moveItem vault", `${(p2 - p1).toFixed(4)} ms`);
-      set({ generalVault: updatedGeneralVault });
+  moveItem: (updatedDestinyItem, originCharacterId) => {
+    const p1 = performance.now();
+    // First remove the item from the origin
+    if (originCharacterId === VAULT_CHARACTER_ID) {
+      removeFromVault(get, set, updatedDestinyItem);
+      addToGuardian(get, set, updatedDestinyItem);
     } else {
-      const previousGuardians = get().guardians;
-
-      const previousInventory = previousGuardians[fromCharacterId]?.items[updatedDestinyItem.bucketHash]?.inventory;
-      const updatedInventory = previousInventory?.filter(
-        (item) => item.itemInstanceId !== updatedDestinyItem.itemInstanceId,
-      );
-      if (!updatedInventory) {
-        console.error("updatedInventory or previousGuardian is undefined");
-        return;
-      }
-      const p1 = performance.now();
-      const updatedGuardians = create(previousGuardians, (draft) => {
-        const updatedGuardian = draft[fromCharacterId];
-        if (!updatedGuardian) {
-          console.error("updatedGuardian is undefined");
-          return;
-        }
-        updatedGuardian.items[updatedDestinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
-      });
-      const p2 = performance.now();
-      console.log("moveItem guardian", `${(p2 - p1).toFixed(4)} ms`);
-      set({ guardians: updatedGuardians });
+      removeFromGuardian(get, set, originCharacterId, updatedDestinyItem);
+      addToVault(get, set, updatedDestinyItem);
     }
+    const p2 = performance.now();
+    console.log("moveItem part1", `${(p2 - p1).toFixed(4)} ms`);
+
+    const p3 = performance.now();
+    const profile = get().rawProfileData;
+    const guardiansWithInventory = get().guardians;
+    const generalVault = get().generalVault;
+
+    if (!profile || !guardiansWithInventory || !generalVault) {
+      console.error("No profile, guardians or generalVault");
+      return;
+    }
+    const weaponsPageData = buildUIData(profile, weaponsPageBuckets, guardiansWithInventory, generalVault);
+    const armorPageData = buildUIData(profile, armorPageBuckets, guardiansWithInventory, generalVault);
+    const generalPageData = buildUIData(profile, generalPageBuckets, guardiansWithInventory, generalVault);
+    set({ weaponsPageData, armorPageData, generalPageData });
+    const p4 = performance.now();
+    console.log("moveItem part2", `${(p4 - p3).toFixed(4)} ms`);
   },
 });
+
+function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  const previousGeneralVault = get().generalVault;
+  const previousInventory = previousGeneralVault.items[destinyItem.bucketHash]?.inventory;
+  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+  if (!updatedInventory) {
+    console.error("updatedInventory is undefined");
+    return;
+  }
+
+  const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+    draft.items[destinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
+  });
+
+  set({ generalVault: updatedGeneralVault });
+}
+
+function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  const previousGeneralVault = get().generalVault;
+
+  const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+    draft.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+  });
+
+  set({ generalVault: updatedGeneralVault });
+}
+
+function removeFromGuardian(
+  get: AccountSliceGetter,
+  set: AccountSliceSetter,
+  guardianCharacterId: string,
+  destinyItem: DestinyItem,
+) {
+  const previousGuardians = get().guardians;
+
+  const previousInventory = previousGuardians[guardianCharacterId]?.items[destinyItem.bucketHash]?.inventory;
+  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+  if (!updatedInventory) {
+    console.error("updatedInventory or previousGuardian is undefined");
+    return;
+  }
+
+  const updatedGuardians = create(previousGuardians, (draft) => {
+    const updatedGuardian = draft[guardianCharacterId];
+    if (!updatedGuardian) {
+      console.error("updatedGuardian is undefined");
+      return;
+    }
+    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
+    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
+  });
+  set({ guardians: updatedGuardians });
+}
+
+function addToGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  const previousGuardians = get().guardians;
+
+  const updatedGuardians = create(previousGuardians, (draft) => {
+    const updatedGuardian = draft[destinyItem.characterId];
+    if (!updatedGuardian) {
+      console.error("updatedGuardian is undefined");
+      return;
+    }
+    updatedGuardian.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+  });
+  set({ guardians: updatedGuardians });
+}
 
 function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
   const characters = profile.Response.characters.data;
