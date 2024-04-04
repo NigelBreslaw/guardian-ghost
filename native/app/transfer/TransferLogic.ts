@@ -162,7 +162,9 @@ export async function processTransferItem(
 
         if (parsedResult.success) {
           if (parsedResult.output.ErrorStatus === "Success") {
-            return processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+            processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+            useGGStore.getState().moveItem(result[1]);
+            return;
           }
           console.error("Failed", parsedResult.output);
           useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
@@ -254,10 +256,13 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
           return response.json();
         })
         .then((data) => {
-          const fromCharacterId = transferItem.destinyItem.characterId;
+          const previousCharacterId = transferItem.destinyItem.characterId;
           const updatedCharacterId = toVault ? VAULT_CHARACTER_ID : transferItem.finalTargetId;
-          const updatedDestinyItem: DestinyItem = { ...transferItem.destinyItem, characterId: updatedCharacterId };
-          useGGStore.getState().moveItem(updatedDestinyItem, fromCharacterId);
+          const updatedDestinyItem: DestinyItem = {
+            ...transferItem.destinyItem,
+            characterId: updatedCharacterId,
+            previousCharacterId,
+          };
           resolve([data as JSON, updatedDestinyItem]);
         })
         .catch((error) => {

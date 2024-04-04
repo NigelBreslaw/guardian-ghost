@@ -57,7 +57,7 @@ export interface AccountSlice {
   updateProfile: (profile: ProfileData) => void;
 
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
-  moveItem: (updatedDestinyItem: DestinyItem, originCharacterId: string) => void;
+  moveItem: (updatedDestinyItem: DestinyItem) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -131,14 +131,14 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       // Should be impossible as BungieApi.ts -> getFullProfile() already did this check.
       throw new Error("No new timestamps");
     }),
-  moveItem: (updatedDestinyItem, originCharacterId) => {
+  moveItem: (updatedDestinyItem) => {
     const p1 = performance.now();
     // First remove the item from the origin
-    if (originCharacterId === VAULT_CHARACTER_ID) {
+    if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
       removeFromVault(get, set, updatedDestinyItem);
       addToGuardian(get, set, updatedDestinyItem);
     } else {
-      removeFromGuardian(get, set, originCharacterId, updatedDestinyItem);
+      removeFromGuardian(get, set, updatedDestinyItem);
       addToVault(get, set, updatedDestinyItem);
     }
     const p2 = performance.now();
@@ -164,15 +164,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
 function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   const previousGeneralVault = get().generalVault;
-  const previousInventory = previousGeneralVault.items[destinyItem.bucketHash]?.inventory;
-  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
-  if (!updatedInventory) {
-    console.error("updatedInventory is undefined");
-    return;
-  }
 
   const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft.items[destinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
+    draft.items[destinyItem.bucketHash]?.inventory.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
   });
 
   set({ generalVault: updatedGeneralVault });
@@ -188,29 +182,18 @@ function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyIte
   set({ generalVault: updatedGeneralVault });
 }
 
-function removeFromGuardian(
-  get: AccountSliceGetter,
-  set: AccountSliceSetter,
-  guardianCharacterId: string,
-  destinyItem: DestinyItem,
-) {
+function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   const previousGuardians = get().guardians;
 
-  const previousInventory = previousGuardians[guardianCharacterId]?.items[destinyItem.bucketHash]?.inventory;
-  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
-  if (!updatedInventory) {
-    console.error("updatedInventory or previousGuardian is undefined");
-    return;
-  }
-
   const updatedGuardians = create(previousGuardians, (draft) => {
-    const updatedGuardian = draft[guardianCharacterId];
+    const updatedGuardian = draft[destinyItem.previousCharacterId];
     if (!updatedGuardian) {
       console.error("updatedGuardian is undefined");
       return;
     }
-    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
-    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
+    updatedGuardian.items[destinyItem.bucketHash]?.inventory.filter(
+      (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
+    );
   });
   set({ guardians: updatedGuardians });
 }
@@ -258,7 +241,7 @@ function processCharacterEquipment(
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
-    const characterAsId = { characterId: character, equipped: true };
+    const characterAsId = { characterId: character, equipped: true, previousCharacterId: "" };
 
     if (characterEquipment) {
       const characterItems = guardians[character];
@@ -280,7 +263,7 @@ function processCharacterInventory(
   const charactersInventory = profile.Response.characterInventories.data;
   for (const character in charactersInventory) {
     const characterInventory = charactersInventory[character];
-    const characterAsId = { characterId: character, equipped: false };
+    const characterAsId = { characterId: character, equipped: false, previousCharacterId: "" };
 
     if (characterInventory) {
       const characterItems = guardians[character];
@@ -330,6 +313,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
               characterId: VAULT_CHARACTER_ID,
               equipped: false,
               bucketHash: recoveryBucketHash,
+              previousCharacterId: "",
             };
             const destinyItem = Object.assign(item, characterIsVault);
 
