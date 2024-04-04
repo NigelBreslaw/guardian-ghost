@@ -132,6 +132,7 @@ export type DestinyItemBase = Output<typeof ItemSchema>;
 export type DestinyItem = DestinyItemBase & {
   characterId: string;
   equipped: boolean;
+  previousCharacterId: string; //Used by the transfer system to update the UI
 };
 
 export const GuardiansSchema = object({
