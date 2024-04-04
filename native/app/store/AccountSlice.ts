@@ -21,13 +21,12 @@ import {
   weaponsPageBuckets,
 } from "@/app/inventory/Common.ts";
 import { getCharactersAndVault } from "@/app/store/AccountLogic.ts";
-import type { AuthenticationSlice } from "@/app/store/AuthenticationSlice.ts";
 import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
-import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
 // import { produce } from "immer";
 import { create } from "mutative";
+import type { IStore } from "@/app/store/GGStore.ts";
 
 export interface AccountSlice {
   refreshing: boolean;
@@ -58,12 +57,7 @@ export interface AccountSlice {
   moveItem: (updatedDestinyItem: DestinyItem, fromCharacterId: string) => void;
 }
 
-export const createAccountSlice: StateCreator<
-  AccountSlice & AuthenticationSlice & DefinitionsSlice,
-  [],
-  [],
-  AccountSlice
-> = (set, get) => ({
+export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
   refreshing: false,
   currentListIndex: 0,
 
