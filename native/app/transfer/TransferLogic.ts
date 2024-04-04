@@ -134,11 +134,12 @@ export async function processTransferItem(
         console.log("equipItem");
       }
       const result = await equipItem(transferItem);
-      const parsedResult = safeParse(responseSchema, result);
+      const parsedResult = safeParse(responseSchema, result[0]);
       if (parsedResult.success) {
         if (parsedResult.output.ErrorStatus === "Success") {
-          const updatedDestinyItem: DestinyItem = { ...transferItem.destinyItem, equipped: true };
-          return processTransferItem(toCharacterId, updatedDestinyItem, quantityToMove, equipOnTarget);
+          processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+          useGGStore.getState().equipItem(result[1]);
+          return;
         }
         console.error("Failed", parsedResult.output);
         useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
@@ -281,7 +282,7 @@ type EquipItemData = {
   characterId: string;
 };
 
-async function equipItem(transferItem: TransferItem): Promise<JSON> {
+async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]> {
   const membershipType = useGGStore.getState().bungieUser.profile.membershipType;
 
   const data: EquipItemData = {
@@ -311,7 +312,11 @@ async function equipItem(transferItem: TransferItem): Promise<JSON> {
           return response.json();
         })
         .then((data) => {
-          resolve(data as JSON);
+          const updatedDestinyItem: DestinyItem = {
+            ...transferItem.destinyItem,
+            equipped: true,
+          };
+          resolve([data as JSON, updatedDestinyItem]);
         })
         .catch((error) => {
           console.error("equipItem()", error);
