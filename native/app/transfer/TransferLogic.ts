@@ -6,7 +6,7 @@ import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
 
-const DEBUG_TRANSFER = true;
+const DEBUG_TRANSFER = false;
 
 const responseSchema = object({
   ErrorCode: number(),
@@ -151,7 +151,7 @@ export async function processTransferItem(
       useGGStore.getState().showSnackBar("Failed to equip item");
     }
   } else {
-    // lostitem?
+    // lostItem?
     if (transferItem.destinyItem.bucketHash === 215593132) {
       // TODO: Handle postmaster items
       useGGStore.getState().showSnackBar("!!! Postmaster items have not been implemented yet !!!");
@@ -254,8 +254,10 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
           return response.json();
         })
         .then((data) => {
+          const fromCharacterId = transferItem.destinyItem.characterId;
           const updatedCharacterId = toVault ? VAULT_CHARACTER_ID : transferItem.finalTargetId;
           const updatedDestinyItem: DestinyItem = { ...transferItem.destinyItem, characterId: updatedCharacterId };
+          useGGStore.getState().moveItem(updatedDestinyItem, fromCharacterId);
           resolve([data as JSON, updatedDestinyItem]);
         })
         .catch((error) => {
