@@ -202,7 +202,6 @@ function addToGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destiny
 }
 
 function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  console.log("swapEquipAndInventoryItem()", destinyItem);
   const previousGuardians = get().guardians;
 
   const previousInventorySection = previousGuardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
@@ -216,7 +215,8 @@ function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSet
   }
   const previousEquippedItem = previousInventorySection?.equipped;
   if (previousEquippedItem) {
-    updatedInventory.push(previousEquippedItem);
+    const setNotEquipped = { ...previousEquippedItem, equipped: false };
+    updatedInventory.push(setNotEquipped);
   }
 
   const updatedGuardians = create(previousGuardians, (draft) => {
