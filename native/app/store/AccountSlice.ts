@@ -58,6 +58,7 @@ export interface AccountSlice {
 
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem) => void;
+  equipItem: (updatedDestinyItem: DestinyItem) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -127,8 +128,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       throw new Error("No new timestamps");
     }),
   moveItem: (updatedDestinyItem) => {
-    const p1 = performance.now();
-    // First remove the item from the origin
     if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
       removeFromVault(get, set, updatedDestinyItem);
       addToGuardian(get, set, updatedDestinyItem);
@@ -136,13 +135,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       removeFromGuardian(get, set, updatedDestinyItem);
       addToVault(get, set, updatedDestinyItem);
     }
-    const p2 = performance.now();
-    console.log("moveItem part1", `${(p2 - p1).toFixed(4)} ms`);
-
-    const p3 = performance.now();
     updateAllPages(get, set);
-    const p4 = performance.now();
-    console.log("moveItem part2", `${(p4 - p3).toFixed(4)} ms`);
+  },
+  equipItem: (updatedDestinyItem) => {
+    swapEquipAndInventoryItem(get, set, updatedDestinyItem);
+    updateAllPages(get, set);
   },
 });
 
@@ -200,6 +197,35 @@ function addToGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destiny
 
   const updatedGuardians = create(previousGuardians, (draft) => {
     draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+  });
+  set({ guardians: updatedGuardians });
+}
+
+function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  console.log("swapEquipAndInventoryItem()", destinyItem);
+  const previousGuardians = get().guardians;
+
+  const previousInventorySection = previousGuardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
+
+  const updatedInventory = previousInventorySection?.inventory?.filter(
+    (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
+  );
+  if (!updatedInventory) {
+    console.error("swapEquipAndInventoryItem(), updatedInventory or previousGuardian is undefined");
+    return;
+  }
+  const previousEquippedItem = previousInventorySection?.equipped;
+  if (previousEquippedItem) {
+    updatedInventory.push(previousEquippedItem);
+  }
+
+  const updatedGuardians = create(previousGuardians, (draft) => {
+    const updatedGuardian = draft[destinyItem.characterId];
+    if (!updatedGuardian) {
+      console.error("updatedGuardian is undefined");
+      return;
+    }
+    updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
   });
   set({ guardians: updatedGuardians });
 }
