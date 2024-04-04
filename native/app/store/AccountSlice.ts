@@ -26,6 +26,7 @@ import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/stor
 import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
+import { produce } from "immer";
 
 export interface AccountSlice {
   refreshing: boolean;
@@ -53,6 +54,7 @@ export interface AccountSlice {
   updateProfile: (profile: ProfileData) => void;
 
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
+  moveItem: (updatedDestinyItem: DestinyItem, fromCharacterId: string) => void;
 }
 
 export const createAccountSlice: StateCreator<
@@ -131,6 +133,50 @@ export const createAccountSlice: StateCreator<
       // Should be impossible as BungieApi.ts -> getFullProfile() already did this check.
       throw new Error("No new timestamps");
     }),
+  moveItem: (updatedDestinyItem, fromCharacterId) => {
+    if (fromCharacterId === VAULT_CHARACTER_ID) {
+      const previousGeneralVault = get().generalVault;
+      const previousInventory = previousGeneralVault.items[updatedDestinyItem.bucketHash]?.inventory;
+      console.log("previousInventory", updatedDestinyItem.bucketHash, Object.keys(previousGeneralVault.items));
+      const updatedInventory = previousInventory?.filter(
+        (item) => item.itemInstanceId !== updatedDestinyItem.itemInstanceId,
+      );
+      if (!updatedInventory) {
+        console.error("updatedInventory is undefined");
+        return;
+      }
+      const p1 = performance.now();
+      const updatedGeneralVault = produce(previousGeneralVault, (draft) => {
+        draft.items[updatedDestinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
+      });
+      const p2 = performance.now();
+      console.log("moveItem vault", `${(p2 - p1).toFixed(4)} ms`);
+      set({ generalVault: updatedGeneralVault });
+    } else {
+      const previousGuardians = get().guardians;
+
+      const previousInventory = previousGuardians[fromCharacterId]?.items[updatedDestinyItem.bucketHash]?.inventory;
+      const updatedInventory = previousInventory?.filter(
+        (item) => item.itemInstanceId !== updatedDestinyItem.itemInstanceId,
+      );
+      if (!updatedInventory) {
+        console.error("updatedInventory or previousGuardian is undefined");
+        return;
+      }
+      const p1 = performance.now();
+      const updatedGuardians = produce(previousGuardians, (draft) => {
+        const updatedGuardian = draft[fromCharacterId];
+        if (!updatedGuardian) {
+          console.error("updatedGuardian is undefined");
+          return;
+        }
+        updatedGuardian.items[updatedDestinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
+      });
+      const p2 = performance.now();
+      console.log("moveItem guardian", `${(p2 - p1).toFixed(4)} ms`);
+      set({ guardians: updatedGuardians });
+    }
+  },
 });
 
 function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
@@ -233,7 +279,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
             const characterIsVault = {
               characterId: VAULT_CHARACTER_ID,
               equipped: false,
-              bucketHashIndex: recoveryBucketHash,
+              bucketHash: recoveryBucketHash,
             };
             const destinyItem = Object.assign(item, characterIsVault);
 
