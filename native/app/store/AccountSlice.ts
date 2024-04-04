@@ -26,7 +26,8 @@ import { bucketTypeHashArray, iconWaterMarks, itemsDefinition } from "@/app/stor
 import type { DefinitionsSlice } from "@/app/store/DefinitionsSlice.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
-import { produce } from "immer";
+// import { produce } from "immer";
+import { create } from "mutative";
 
 export interface AccountSlice {
   refreshing: boolean;
@@ -146,7 +147,7 @@ export const createAccountSlice: StateCreator<
         return;
       }
       const p1 = performance.now();
-      const updatedGeneralVault = produce(previousGeneralVault, (draft) => {
+      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
         draft.items[updatedDestinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
       });
       const p2 = performance.now();
@@ -164,7 +165,7 @@ export const createAccountSlice: StateCreator<
         return;
       }
       const p1 = performance.now();
-      const updatedGuardians = produce(previousGuardians, (draft) => {
+      const updatedGuardians = create(previousGuardians, (draft) => {
         const updatedGuardian = draft[fromCharacterId];
         if (!updatedGuardian) {
           console.error("updatedGuardian is undefined");
