@@ -43,7 +43,7 @@ jobs:
 
       # Automatically overrides the version code and version name through the github actions
       - name: Bump version
-        uses: chkfung/android-version-actions@v1.2.2
+        uses: chkfung/android-version-actions@v1.2.3
         with:
           gradlePath: native/android/app/build.gradle
           versionCode: ${{github.run_number}}
