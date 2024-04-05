@@ -1,5 +1,5 @@
 import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
-import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
+import { array, boolean, isoTimestamp, merge, never, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
 export type GuardiansAndVault = {
@@ -134,6 +134,18 @@ export type DestinyItem = DestinyItemBase & {
   equipped: boolean;
   previousCharacterId: string; //Used by the transfer system to update the UI
 };
+export const SocketSchema = object({
+  sockets: array(
+    object({
+      plugHash: optional(number()),
+      isEnabled: boolean(),
+      isVisible: boolean(),
+      enableFailIndexes: optional(array(number())),
+    }),
+  ),
+});
+
+export type SocketData = Output<typeof SocketSchema>;
 
 export const GuardiansSchema = object({
   baseCharacterLevel: number(),
@@ -225,6 +237,9 @@ export const getProfileSchema = merge([
               unlockHashesRequiredToEquip: array(number()),
             }),
           ),
+        }),
+        sockets: object({
+          data: record(string(), SocketSchema),
         }),
       }),
       profile: object({}),
