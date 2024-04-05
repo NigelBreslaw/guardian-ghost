@@ -55,5 +55,5 @@ export async function benchmarkAsync<T extends any[], R>(func: (...args: T) => P
 }
 
 export function bitmaskContains(bitmask: number, value: number): boolean {
-	return (bitmask & value) === value;
+  return (bitmask & value) === value;
 }
