@@ -77,6 +77,7 @@ export type DestinyIconData = {
   primaryStat: string;
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
+  crafted: boolean;
 };
 
 export enum UiRowType {
@@ -111,6 +112,7 @@ export type DestinyCell = BaseCell & {
   itemInstanceId: string | undefined;
   characterId: string;
   masterwork: boolean;
+  crafted: boolean;
 };
 
 export type EmptyCell = BaseCell & {
