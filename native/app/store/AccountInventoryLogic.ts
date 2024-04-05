@@ -27,8 +27,11 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   const armorPageData = buildUIData(get, armorPageBuckets);
   const generalPageData = buildUIData(get, generalPageBuckets);
   const p2 = performance.now();
-  console.log("built UI date for all pages", `${(p2 - p1).toFixed(4)} ms`);
+  console.log("built UI data for all pages", `${(p2 - p1).toFixed(4)} ms`);
+  const p3 = performance.now();
   set({ weaponsPageData, armorPageData, generalPageData });
+  const p4 = performance.now();
+  console.log("set updated page data.", `${(p4 - p3).toFixed(4)} ms`);
 }
 
 export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiCell[][] {
