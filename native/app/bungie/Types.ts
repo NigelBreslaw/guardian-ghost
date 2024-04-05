@@ -1,5 +1,5 @@
 import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
-import { array, boolean, isoTimestamp, merge, never, number, object, optional, record, string } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
 export type GuardiansAndVault = {
