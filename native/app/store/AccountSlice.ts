@@ -93,13 +93,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
-  const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
   const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
   const generalVault = processVaultInventory(profile);
   const ggCharacters = getCharactersAndVault(basicGuardians);
-
   set({
     rawProfileData: profile,
     guardians: guardiansWithInventory,
@@ -107,8 +105,6 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
     ggCharacters,
   });
   updateAllPages(get, set);
-  const p2 = performance.now();
-  console.log("updateProfile", `${(p2 - p1).toFixed(4)} ms`);
 }
 
 function setTimestamps(
