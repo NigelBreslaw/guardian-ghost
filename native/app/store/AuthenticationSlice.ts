@@ -31,7 +31,6 @@ export interface AuthenticationSlice {
 
   getTokenAsync: (errorMessage: string) => Promise<AuthToken | null>;
   initAuthentication: () => Promise<void>;
-  setBungieUser: (bungieUser: BungieUser) => void;
   setSystemDisabled: (systemDisabled: boolean) => void;
   logoutCurrentUser: () => void;
   createAuthenticatedAccount: (url: string) => Promise<void>;
@@ -90,7 +89,6 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       SplashScreen.hideAsync();
     }
   },
-  setBungieUser: (bungieUser) => set({ bungieUser }),
   setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
   logoutCurrentUser: () => {
     const membershipId = get().bungieUser.profile.membershipId;
