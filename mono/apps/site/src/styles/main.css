@@ -1,9 +1,4 @@
-@font-face {
-  font-family: 'Titan One';
-  font-style: regular;
-  font-weight: 400;
-  src: url('/fonts/Titan_One_regular.woff2') format('woff2');
-}
+
 
 :root {
   --accent: #FF9305;
@@ -70,9 +65,11 @@ main {
 }
 
 .heading {
-  font-family: 'Titan One', sans-serif;
+  font-family: 'Helvetica', sans-serif;
+  font-weight: 900;
   color: var(--accent);
   margin-bottom: 16px;
+  letter-spacing: -2px;
 }
 
 .subheading {
