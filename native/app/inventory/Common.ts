@@ -76,6 +76,7 @@ export type DestinyIconData = {
   damageTypeIconUri: number | null;
   primaryStat: string;
   calculatedWaterMark: string | undefined;
+  masterwork: boolean;
 };
 
 export enum UiRowType {
@@ -109,6 +110,7 @@ export type DestinyCell = BaseCell & {
   itemHash: number;
   itemInstanceId: string | undefined;
   characterId: string;
+  masterwork: boolean;
 };
 
 export type EmptyCell = BaseCell & {

@@ -29,6 +29,7 @@ export const UiCellRenderItem = ({ item }: { item: UiCell }, handlePress: (item:
                 primaryStat={item.primaryStat}
                 calculatedWaterMark={item.calculatedWaterMark}
                 damageTypeIconUri={item.damageTypeIconUri}
+                masterwork={item.masterwork}
               />
             );
         }
