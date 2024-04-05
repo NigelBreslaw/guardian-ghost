@@ -1,10 +1,11 @@
 import { ITEM_SIZE } from "@/app/inventory/Common.ts";
 import { Image } from "expo-image";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 17;
-const RIGHT_ALIGNMENT = -9;
+const RIGHT_ALIGNMENT = -7;
 
 const styles = StyleSheet.create({
   container: {
@@ -40,9 +41,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 68,
     height: 68,
-    borderRadius: 10,
+    borderRadius: 12,
     overflow: "hidden",
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "#555555",
   },
   frameSize: {
@@ -50,15 +51,15 @@ const styles = StyleSheet.create({
     height: 68,
   },
   innerFrameSize: {
-    width: 63,
-    height: 63,
+    width: 65,
+    height: 65,
     position: "absolute",
     top: -0.5,
     left: -0.5,
   },
   innerFrameOverlaySize: {
-    width: 63,
-    height: 63,
+    width: 65,
+    height: 65,
     position: "absolute",
   },
   miniIconBurnSize: {
@@ -84,13 +85,16 @@ type DestinyCellProps = {
   primaryStat: string;
   damageTypeIconUri: number | null;
   calculatedWaterMark: string | undefined;
+  masterwork: boolean;
 };
 
 const DestinyCell = (props: DestinyCellProps) => {
+  const borderColor = props.masterwork ? "#CEAE32" : "#555555";
+
   return (
     <View style={styles.container}>
       <View style={styles.frameSize}>
-        <View style={styles.icon}>
+        <View style={[styles.icon, { borderColor }]}>
           <View style={styles.innerFrameSize}>
             <Image
               source={{ uri: props.iconUri }}
@@ -121,4 +125,4 @@ const DestinyCell = (props: DestinyCellProps) => {
   );
 };
 
-export default DestinyCell;
+export default React.memo(DestinyCell);

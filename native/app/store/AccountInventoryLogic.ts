@@ -14,6 +14,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
+import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
 // ------------------------------
@@ -21,9 +22,12 @@ import { create } from "mutative";
 // ------------------------------
 
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
+  const p1 = performance.now();
   const weaponsPageData = buildUIData(get, weaponsPageBuckets);
   const armorPageData = buildUIData(get, armorPageBuckets);
   const generalPageData = buildUIData(get, generalPageBuckets);
+  const p2 = performance.now();
+  console.log("built UI date for all pages", `${(p2 - p1).toFixed(4)} ms`);
   set({ weaponsPageData, armorPageData, generalPageData });
 }
 
@@ -222,15 +226,20 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
       if (watermark) {
         watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
       }
+      const masterwork = bitmaskContains(item.state, 4);
+      const damageTypeIconUri = getDamageTypeIconUri(itemComponent.damageType);
+      const icon = `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`;
+      const primaryStat = itemComponent.primaryStat?.value.toString() || "";
 
       const iconData: DestinyIconData = {
         itemHash: item.itemHash,
         itemInstanceId,
         characterId: item.characterId,
-        icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
-        primaryStat: itemComponent.primaryStat?.value.toString() || "",
+        icon,
+        primaryStat,
         calculatedWaterMark: watermark,
-        damageTypeIconUri: getDamageTypeIconUri(itemComponent.damageType),
+        damageTypeIconUri,
+        masterwork,
       };
       return iconData;
     }
@@ -247,6 +256,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
       primaryStat: "",
       calculatedWaterMark: "",
       damageTypeIconUri: null,
+      masterwork: false,
     };
 
     return nonInstancedItem;
@@ -260,6 +270,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
     primaryStat: "",
     calculatedWaterMark: "",
     damageTypeIconUri: null,
+    masterwork: false,
   };
 
   console.error("returnDestinyIconData() error", item);
