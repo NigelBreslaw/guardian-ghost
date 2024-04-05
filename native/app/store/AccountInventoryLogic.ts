@@ -227,6 +227,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
         watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
       }
       const masterwork = bitmaskContains(item.state, 4);
+      const crafted = bitmaskContains(item.state, 8);
       const damageTypeIconUri = getDamageTypeIconUri(itemComponent.damageType);
       const icon = `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`;
       const primaryStat = itemComponent.primaryStat?.value.toString() || "";
@@ -240,6 +241,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
         calculatedWaterMark: watermark,
         damageTypeIconUri,
         masterwork,
+        crafted,
       };
       return iconData;
     }
@@ -257,6 +259,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
       calculatedWaterMark: "",
       damageTypeIconUri: null,
       masterwork: false,
+      crafted: false,
     };
 
     return nonInstancedItem;
@@ -271,6 +274,7 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
     calculatedWaterMark: "",
     damageTypeIconUri: null,
     masterwork: false,
+    crafted: false,
   };
 
   console.error("returnDestinyIconData() error", item);
@@ -431,4 +435,23 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
     updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
   });
   set({ guardians: updatedGuardians });
+}
+
+const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
+
+export function hasSocketedResonance(get: AccountSliceGetter, destinyItem: DestinyItem): boolean {
+  const itemInstanceId = destinyItem.itemInstanceId;
+  if (!itemInstanceId) {
+    return false;
+  }
+  const liveSocketJson = get().rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
+  if (!liveSocketJson) {
+    return false;
+  }
+  const ph = liveSocketJson.sockets[12]?.plugHash;
+  if (!ph) {
+    return false;
+  }
+
+  return deepSightItemHash.includes(ph);
 }

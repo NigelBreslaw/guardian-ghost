@@ -86,6 +86,7 @@ type DestinyCellProps = {
   damageTypeIconUri: number | null;
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
+  crafted: boolean;
 };
 
 const DestinyCell = (props: DestinyCellProps) => {
