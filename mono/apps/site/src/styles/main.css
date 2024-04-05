@@ -1,0 +1,142 @@
+@font-face {
+  font-family: 'Titan One';
+  font-style: regular;
+  font-weight: 400;
+  src: url('/fonts/Titan_One_regular.woff2') format('woff2');
+}
+
+:root {
+  --accent: #FF9305;
+  --secondary: #8e8e93;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Segoe UI, Roboto, Noto Sans, Helvetica Neue;
+  -webkit-font-smoothing: antialiased;
+  color: var(--secondary);
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: 900;
+  margin-bottom: .1em;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 400;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 0;
+}
+
+main {
+  margin: auto 0;
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+}
+
+.text-container {
+  width: 60%;
+}
+
+.app-icon {
+  width: 80px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  margin-bottom: 10px;
+}
+
+.heading {
+  font-family: 'Titan One', sans-serif;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.subheading {
+  font-size: 1.75rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.badge {
+  margin-bottom: 20px;
+  height: 50px;
+}
+.badge:hover {
+  cursor: pointer;
+}
+
+.authors {
+  font-weight: 300;
+}
+
+.authors a {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+}
+.authors a:hover {
+  text-decoration: underline;
+}
+
+.app-screenshot {
+  width: 220px;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding-top: 30px;
+  overflow: hidden;
+}
+
+.footer-image {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 30px;
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    padding: 40px;
+  }
+  .text-container {
+    width: 100%;
+  }
+  .footer-image {
+    top: 5px;
+  }
+}
