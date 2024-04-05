@@ -53,3 +53,7 @@ export async function benchmarkAsync<T extends any[], R>(func: (...args: T) => P
   console.log(`${func.name}() took: ${(end - start).toFixed(4)} ms`);
   return result;
 }
+
+export function bitmaskContains(bitmask: number, value: number): boolean {
+	return (bitmask & value) === value;
+}
