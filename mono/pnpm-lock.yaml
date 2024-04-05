@@ -19,10 +19,10 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.21.3
-        version: 0.21.3(astro@4.5.15)
+        version: 0.21.3(astro@4.5.16)
       astro:
-        specifier: 4.5.15
-        version: 4.5.15(typescript@5.4.4)
+        specifier: 4.5.16
+        version: 4.5.16(typescript@5.4.4)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -196,7 +196,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/mdx@2.1.1(astro@4.5.15):
+  /@astrojs/mdx@2.1.1(astro@4.5.16):
     resolution: {integrity: sha512-AgGFdE7HOGmoFooGvMSatkA9FiSKwyVW7ImHot/bXJ6uAbFfu6iG2ht18Cf1pT22Hda/6iSCGWusFvBv0/EnKQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -205,7 +205,7 @@ packages:
       '@astrojs/markdown-remark': 4.2.1
       '@mdx-js/mdx': 3.0.0
       acorn: 8.11.2
-      astro: 4.5.15(typescript@5.4.4)
+      astro: 4.5.16(typescript@5.4.4)
       es-module-lexer: 1.4.1
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -236,18 +236,18 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.21.3(astro@4.5.15):
+  /@astrojs/starlight@0.21.3(astro@4.5.16):
     resolution: {integrity: sha512-SvIKB8ECR+RhYdTg3bKsTL2e5Yac75eTatfOMGjkp3ced9Bx34xXMSURuKx/AHBWo1X/+WoWzKT3Y3d2y7kkVg==}
     peerDependencies:
       astro: ^4.2.7
     dependencies:
-      '@astrojs/mdx': 2.1.1(astro@4.5.15)
+      '@astrojs/mdx': 2.1.1(astro@4.5.16)
       '@astrojs/sitemap': 3.1.2
       '@pagefind/default-ui': 1.0.4
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.3
-      astro: 4.5.15(typescript@5.4.4)
-      astro-expressive-code: 0.33.4(astro@4.5.15)
+      astro: 4.5.16(typescript@5.4.4)
+      astro-expressive-code: 0.33.4(astro@4.5.16)
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -1800,18 +1800,18 @@ packages:
     hasBin: true
     dev: false
 
-  /astro-expressive-code@0.33.4(astro@4.5.15):
+  /astro-expressive-code@0.33.4(astro@4.5.16):
     resolution: {integrity: sha512-PtXLjd89WBA1WsDYlt3V1LZs9Pa8FFoXilaGDSyfxtbYJ2OPHjWh2JJvCiXmfXmY3HkPJ2oW9Jjo6om5vUlVcg==}
     peerDependencies:
       astro: ^3.3.0 || ^4.0.0-beta
     dependencies:
-      astro: 4.5.15(typescript@5.4.4)
+      astro: 4.5.16(typescript@5.4.4)
       hast-util-to-html: 8.0.4
       remark-expressive-code: 0.33.4
     dev: false
 
-  /astro@4.5.15(typescript@5.4.4):
-    resolution: {integrity: sha512-d2+yMv4ZlWwWFzfbpXIULMniNmdPlbwGrQScacEni0WLeo4k7ETO51/bHN/i/fXwxL9IGfasdEFkk2baYXDRog==}
+  /astro@4.5.16(typescript@5.4.4):
+    resolution: {integrity: sha512-1nOVsMq2OJiXnG6gO0Y77vTAboGN9nLQSy/8SGazq4h6x+alzbsMbQbArBgvaLzOSUXD0m91XLs3D8bOSuavrQ==}
     engines: {node: '>=18.14.1', npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -1871,8 +1871,8 @@ packages:
       tsconfck: 3.0.0(typescript@5.4.4)
       unist-util-visit: 5.0.0
       vfile: 6.0.1
-      vite: 5.2.7
-      vitefu: 0.2.5(vite@5.2.7)
+      vite: 5.2.8
+      vitefu: 0.2.5(vite@5.2.8)
       which-pm: 2.1.1
       yargs-parser: 21.1.1
       zod: 3.22.4
@@ -5356,6 +5356,7 @@ packages:
       rollup: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
 
   /vite@5.2.8:
     resolution: {integrity: sha512-OyZR+c1CE8yeHw5V5t59aXsUPPVTHMDjEZz8MgguLL/Q7NblxhZUlTu9xSPqlsUO/y+X7dlU05jdhvyycD55DA==}
@@ -5390,18 +5391,6 @@ packages:
       rollup: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
-
-  /vitefu@0.2.5(vite@5.2.7):
-    resolution: {integrity: sha512-SgHtMLoqaeeGnd2evZ849ZbACbnwQCIwRH57t18FxcXoZop0uQu0uzlIhJBlF/eWVzuce0sHeqPcDo+evVcg8Q==}
-    peerDependencies:
-      vite: ^3.0.0 || ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      vite: 5.2.7
-    dev: false
 
   /vitefu@0.2.5(vite@5.2.8):
     resolution: {integrity: sha512-SgHtMLoqaeeGnd2evZ849ZbACbnwQCIwRH57t18FxcXoZop0uQu0uzlIhJBlF/eWVzuce0sHeqPcDo+evVcg8Q==}
@@ -5412,7 +5401,6 @@ packages:
         optional: true
     dependencies:
       vite: 5.2.8
-    dev: true
 
   /vitest@1.4.0:
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
