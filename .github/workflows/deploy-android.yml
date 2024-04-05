@@ -43,14 +43,14 @@ jobs:
 
       # Automatically overrides the version code and version name through the github actions
       - name: Bump version
-        uses: chkfung/android-version-actions@v1.2.2
+        uses: chkfung/android-version-actions@v1.2.3
         with:
           gradlePath: native/android/app/build.gradle
           versionCode: ${{github.run_number}}
           versionName: "1.0.0"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.1.0
+        uses: gradle/actions/setup-gradle@v3.2.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
