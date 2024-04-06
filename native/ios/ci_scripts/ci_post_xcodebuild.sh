@@ -1,21 +1,20 @@
+#!/bin/sh
+
+# Don't forget to run 'chmod +x ci_post_xcodebuild.sh' from the terminal after adding this file to your project
+
 set -e
+if [[ -n $CI_ARCHIVE_PATH ]];
+then
 
-if [ ! -d "$CI_ARCHIVE_PATH" ]; then
-    echo "Archive does not exist, skipping Sentry upload"
-    exit 0
+    # Install Sentry CLI into the current directory ($CI_PRIMARY_REPOSITORY_PATH/ci_scripts)
+    export INSTALL_DIR=$PWD
+
+    if [[ $(command -v sentry-cli) == "" ]]; then
+        curl -sL https://sentry.io/get-cli/ | bash
+    fi
+
+    # Upload dSYMs
+    $CI_PRIMARY_REPOSITORY_PATH/ci_scripts/sentry-cli --auth-token $SENTRY_AUTH_TOKEN upload-dif --org nigel-breslaw --project guardian-ghost $CI_ARCHIVE_PATH
+else
+    echo "Archive path isn't available. Unable to run dSYMs uploading script."
 fi
-
-# This is necessary in order to have sentry-cli
-# install locally into the current directory
-export INSTALL_DIR=$PWD
-
-if [[ $(command -v sentry-cli) == "" ]]; then
-    echo "Installing Sentry CLI"
-    curl -sL https://sentry.io/get-cli/ | bash
-fi
-
-echo "Authenticate to Sentry"
-sentry-cli login --auth-token $SENTRY_AUTH_TOKEN
-
-echo "Uploading dSYM to Sentry"
-sentry-cli debug-files upload -o nigel-breslaw -p guardian-ghost $CI_ARCHIVE_PATH
