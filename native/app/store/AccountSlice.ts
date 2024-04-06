@@ -76,6 +76,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     setTimestamps(set, responseMintedTimestamp, secondaryComponentsMintedTimestamp),
 
   moveItem: (updatedDestinyItem) => {
+    const p1 = performance.now();
     if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
       removeFromVault(get, set, updatedDestinyItem);
       addToGuardian(get, set, updatedDestinyItem);
@@ -83,7 +84,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       removeFromGuardian(get, set, updatedDestinyItem);
       addToVault(get, set, updatedDestinyItem);
     }
+    const p2 = performance.now();
+    console.log("moveItem", `${(p2 - p1).toFixed(4)} ms`);
     updateAllPages(get, set);
+    const p3 = performance.now();
+    console.log("updateAllPages", `${(p3 - p2).toFixed(4)} ms`);
   },
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
