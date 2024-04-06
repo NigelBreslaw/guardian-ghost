@@ -80,11 +80,11 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
         }
       }
       console.warn("No user found");
-      set({ authenticated: "NO-AUTHENTICATION", bungieUser: initialBungieUser });
+      get().logoutCurrentUser();
     } catch (error) {
       console.error("An error occurred:", error);
 
-      set({ authenticated: "NO-AUTHENTICATION" });
+      get().logoutCurrentUser();
     } finally {
       SplashScreen.hideAsync();
     }
@@ -100,22 +100,28 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       armorPageData: [],
       generalPageData: [],
       weaponsPageData: [],
+      responseMintedTimestamp: new Date(1977),
+      secondaryComponentsMintedTimestamp: new Date(1977),
     });
   },
   createAuthenticatedAccount: async (url: string) => {
     try {
       const authToken = await urlToToken(url);
       const bungieUser = await getBungieAccount(authToken);
-      set({ bungieUser, authToken, authenticated: "AUTHENTICATED" });
+      set({
+        bungieUser,
+        authToken,
+        authenticated: "AUTHENTICATED",
+      });
       saveToken(authToken, bungieUser.profile.membershipId);
       saveBungieUser(bungieUser);
     } catch (error) {
       console.error("Failed to create authenticated account", error);
-      set({ authenticated: "NO-AUTHENTICATION" });
+      get().logoutCurrentUser();
     }
   },
   cancelLogin: () => {
-    set({ authenticated: "NO-AUTHENTICATION" });
+    get().logoutCurrentUser();
   },
   startedLoginFlow: () => set({ authenticated: "LOGIN-FLOW" }),
 });
