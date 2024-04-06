@@ -181,7 +181,7 @@ export const GuardiansSchema = object({
   raceHash: number(),
   raceType: number(),
   stats: record(string(), number()),
-  titleRecordHash: number(),
+  titleRecordHash: optional(number()),
 });
 
 export type GuardianData = Output<typeof GuardiansSchema>;
