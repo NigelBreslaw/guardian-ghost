@@ -14,7 +14,7 @@ then
     fi
 
     # Upload dSYMs
-    $CI_PRIMARY_REPOSITORY_PATH/ci_scripts/sentry-cli --auth-token $SENTRY_AUTH_TOKEN debug-files upload --org nigel-breslaw --project guardian-ghost $CI_ARCHIVE_PATH
+    $CI_PRIMARY_REPOSITORY_PATH/native/ios/ci_scripts/sentry-cli --auth-token $SENTRY_AUTH_TOKEN debug-files upload --org nigel-breslaw --project guardian-ghost $CI_ARCHIVE_PATH
 else
     echo "Archive path isn't available. Unable to run dSYMs uploading script."
 fi
