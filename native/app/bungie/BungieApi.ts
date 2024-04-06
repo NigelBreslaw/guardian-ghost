@@ -2,7 +2,7 @@ import { getProfileSchema, type ProfileData } from "@/app/bungie/Types.ts";
 import { basePath } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
-import { isoTimestamp, parse, safeParse, string } from "valibot";
+import { isoTimestamp, safeParse, string } from "valibot";
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 
@@ -15,8 +15,13 @@ export async function getFullProfile() {
     // has a newer timestamp than the previous data.
     const isNewer = isProfileNewer(profile);
     if (isNewer) {
-      const validatedProfile = parse(getProfileSchema, profile);
-      useGGStore.getState().updateProfile(validatedProfile);
+      const validatedProfile = safeParse(getProfileSchema, profile);
+      if (validatedProfile.success) {
+        useGGStore.getState().updateProfile(validatedProfile.output);
+      } else {
+        console.error("Failed to validate profile!", profile);
+        console.error("Issues", validatedProfile.issues);
+      }
     } else {
       console.info("No new profile");
     }
