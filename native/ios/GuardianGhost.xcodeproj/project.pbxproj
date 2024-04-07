@@ -329,7 +329,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "arch\nnode_version=20.11.1\n\nif [ \"$ARCHITECTURE\" == \"arm64\" ]; then\n    # For arm64 architecture (Apple Silicon)\n    arch=arm64\nelse\n    # For x86 architecture\n    arch=x64\nfi\n\n# Echo for debugging logs purposes\necho $HOME\necho \"============> Installing Node <============\"\n\n# Download and install node\ncurl \"https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz\" -o $HOME/Downloads/node.tar.gz\ncd $CI_WORKSPACE_PATH\ntar -xf \"$HOME/Downloads/node.tar.gz\"\nNODE_PATH=\"$PWD/node-v$node_version-darwin-$arch/bin\"\necho $NODE_PATH\nPATH+=\":$NODE_PATH\"\nexport PATH\n\nnode --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode-debug-files.sh'\"\n";
+			shellScript = "/bin/sh `\\\"$NODE_BINARY\\\" --print \\\"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode-debug-files.sh'\\\"`\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
