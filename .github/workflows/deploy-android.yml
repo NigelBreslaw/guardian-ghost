@@ -84,7 +84,6 @@ jobs:
           packageName: com.guardianghost
           releaseFiles: native/android/app/build/outputs/bundle/release/app-release.aab
           whatsNewDirectory: native/android/WhatsNew
-          track: internal
-          # TODO: Change to completed or remove the status line once alpha or beta testing tracks are ready.
-          status: draft
+          track: closed
+          status: completed
           inAppUpdatePriority: 3
