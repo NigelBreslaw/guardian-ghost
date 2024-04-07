@@ -84,6 +84,6 @@ jobs:
           packageName: com.guardianghost
           releaseFiles: native/android/app/build/outputs/bundle/release/app-release.aab
           whatsNewDirectory: native/android/WhatsNew
-          track: closed
+          track: alpha
           status: completed
           inAppUpdatePriority: 3
