@@ -7,7 +7,7 @@ const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
 });
 
 Sentry.init({
-  dsn: "https://7db2c06ee6ea56cae40a5bd963bad76b:7d7182201a659982c7b30a4512d4ad7a@o4506899216728065.ingest.us.sentry.io/4506899221970944",
+  dsn: "https://7db2c06ee6ea56cae40a5bd963bad76b@o4506899216728065.ingest.us.sentry.io/4506899221970944",
 
   // Capture 100% of transactions in development, and 10% in production
   tracesSampleRate: process.env.NODE_ENV === "development" ? 1.0 : 0.1,
