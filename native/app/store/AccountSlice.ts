@@ -81,12 +81,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       set({ selectedItem: null });
       return;
     }
-    const selectedItem = findDestinyItem(
-      get,
-      itemIdentifier?.itemInstanceId,
-      itemIdentifier.itemHash,
-      itemIdentifier.characterId,
-    );
+    const selectedItem = findDestinyItem(get, itemIdentifier);
     set({ selectedItem });
   },
 
@@ -113,7 +108,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     updateAllPages(get, set);
   },
   findDestinyItem: (itemDetails) =>
-    findDestinyItem(get, itemDetails.itemInstanceId, itemDetails.itemHash, itemDetails.characterId),
+    findDestinyItem(get, {
+      itemHash: itemDetails.itemHash,
+      itemInstanceId: itemDetails.itemInstanceId,
+      characterId: itemDetails.characterId,
+    }),
 });
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {
