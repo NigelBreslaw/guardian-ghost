@@ -251,7 +251,10 @@ export default function BottomSheet({
         ref={refRBSheet}
         closeOnDragDown={true}
         closeOnPressMask={true}
-        onClose={() => navigation.goBack()}
+        onClose={() => {
+          navigation.goBack();
+          useGGStore.getState().setSelectedItem(null);
+        }}
         height={600}
         customStyles={{
           wrapper: {
