@@ -1,7 +1,8 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
+import type { GuardianClassType } from "@/app/bungie/Hashes.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
-import HomeScreen from "@/app/screens/InventoryPages";
+import InventoryPages from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -72,7 +73,26 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   );
 };
 
+function getGuardianClassType(classType: GuardianClassType | undefined) {
+  switch (classType) {
+    case 0:
+      return "Titan";
+    case 1:
+      return "Hunter";
+    case 2:
+      return "Warlock";
+    case 100:
+      return "Vault";
+    default:
+      return "";
+  }
+}
+
 export default function MainDrawer() {
+  const ggGuardians = useGGStore((state) => state.ggCharacters);
+  const currentListIndex = useGGStore((state) => state.currentListIndex);
+  const guardianClassType = getGuardianClassType(ggGuardians[currentListIndex]?.guardianClassType);
+
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -82,8 +102,9 @@ export default function MainDrawer() {
     >
       <Drawer.Screen
         name="Inventory"
-        component={HomeScreen}
+        component={InventoryPages}
         options={{
+          title: `${guardianClassType}`,
           drawerType: "back",
           drawerStyle: {
             backgroundColor: "black",

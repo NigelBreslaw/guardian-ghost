@@ -29,7 +29,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
 
   const vaultData: GGCharacterUiData = {
     characterId: VAULT_CHARACTER_ID,
-    guardianClassType: GuardianClassType.Unknown,
+    guardianClassType: GuardianClassType.Vault,
     genderType: 0,
     raceType: 0,
     emblemPath: "",
