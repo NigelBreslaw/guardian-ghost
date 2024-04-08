@@ -1,12 +1,9 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
-import ArmorPage from "@/app/screens/ArmorPage.tsx";
-import GeneralPage from "@/app/screens/GeneralPage.tsx";
-import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
+import HomeScreen from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -22,60 +19,6 @@ function RefreshButton() {
         getFullProfile();
       }}
     />
-  );
-}
-
-const Tab = createMaterialBottomTabNavigator();
-
-const styles = StyleSheet.create({
-  bar: {
-    backgroundColor: "black",
-    borderTopColor: "#2A1D38",
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-});
-
-function HomeScreen() {
-  const insets = useSafeAreaInsets();
-
-  const barStyle = {
-    ...styles.bar,
-    height: insets.bottom + (Platform.OS === "ios" ? 50 : 70),
-  };
-
-  return (
-    <Tab.Navigator
-      shifting={true}
-      activeColor="white"
-      activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
-      inactiveColor="grey"
-      barStyle={barStyle}
-    >
-      <Tab.Screen
-        name="tab-weapons"
-        options={{
-          tabBarLabel: "Weapons",
-          tabBarIcon: "pistol",
-        }}
-        component={WeaponsPage}
-      />
-      <Tab.Screen
-        name="tab-armor"
-        options={{
-          tabBarLabel: "Armor",
-          tabBarIcon: "tshirt-crew-outline",
-        }}
-        component={ArmorPage}
-      />
-      <Tab.Screen
-        name="tab-inventory"
-        options={{
-          tabBarLabel: "Inventory",
-          tabBarIcon: "diamond-stone",
-        }}
-        component={GeneralPage}
-      />
-    </Tab.Navigator>
   );
 }
 
