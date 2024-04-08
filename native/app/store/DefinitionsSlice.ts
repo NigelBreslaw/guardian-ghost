@@ -18,15 +18,18 @@ export interface DefinitionsSlice {
   definitionsReady: boolean;
   snackBarVisible: boolean;
   snackBarMessage: string;
+  inventorySectionWidth: number;
   initDefinitions: () => Promise<void>;
   showSnackBar: (message: string) => void;
   setSnackBarVisible: (snackBarVisible: boolean) => void;
+  setInventorySectionWidth: (inventorySectionWidth: number) => void;
 }
 
 export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set) => ({
   definitionsReady: false,
   snackBarVisible: false,
   snackBarMessage: "",
+  inventorySectionWidth: 0,
   initDefinitions: async () => {
     try {
       const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
@@ -47,6 +50,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   setSnackBarVisible: (snackBarVisible: boolean) => set({ snackBarVisible }),
   showSnackBar: (message: string) => set({ snackBarMessage: message, snackBarVisible: true }),
+  setInventorySectionWidth: (inventorySectionWidth: number) => set({ inventorySectionWidth }),
 });
 
 function parseAndSet(itemDefinition: ItemResponse) {

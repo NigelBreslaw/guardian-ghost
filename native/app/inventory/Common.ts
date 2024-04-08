@@ -91,6 +91,7 @@ export enum UiCellType {
   EmptyCell = 1,
   BlankCell = 2,
   DestinyCell = 3,
+  EquipSectionCell = 4,
 }
 
 export type BaseCell = {
@@ -98,7 +99,7 @@ export type BaseCell = {
   type: UiCellType;
 };
 
-export type SeparatorCell = BaseCell & {
+export type SeparatorRow = BaseCell & {
   type: UiCellType.Separator;
 };
 
@@ -123,33 +124,13 @@ export type BlankCell = BaseCell & {
   type: UiCellType.BlankCell;
 };
 
-export type UiCell = SeparatorCell | DestinyCell | EmptyCell | BlankCell;
-
-export type CharacterEquippedRow = {
-  id: string;
+export type EquipSectionCell = BaseCell & {
+  type: UiCellType.EquipSectionCell;
   equipped: DestinyIconData | null;
   inventory: DestinyIconData[];
-  type: UiRowType.CharacterEquipped;
 };
 
-export type CharacterInventoryRow = {
-  id: string;
-  inventory: DestinyIconData[];
-  type: UiRowType.CharacterInventory;
-};
-
-export type VaultInventoryRow = {
-  id: string;
-  inventory: DestinyIconData[];
-  type: UiRowType.VaultInventory;
-};
-
-export type HeaderRow = {
-  id: string;
-  type: UiRowType.Header;
-};
-
-export type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow | VaultInventoryRow;
+export type UiCell = SeparatorRow | DestinyCell | EmptyCell | BlankCell | EquipSectionCell;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
