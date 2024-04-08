@@ -5,7 +5,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -83,6 +83,11 @@ export default function InventoryPage(props: InventoryPageProps) {
   };
 
   const keyExtractor = (item: UiCell) => item.id;
+  const getItemType = (item: UiCell) => item.type;
+
+  const onLoadListener = useCallback(({ elapsedTimeInMs }: { elapsedTimeInMs: number }) => {
+    console.log("Sample List load time", elapsedTimeInMs);
+  }, []);
 
   return (
     <View style={rootStyles.root}>
@@ -112,6 +117,8 @@ export default function InventoryPage(props: InventoryPageProps) {
                     debouncedMove(e.nativeEvent.contentOffset.y);
                   }
                 }}
+                getItemType={getItemType}
+                onLoad={onLoadListener}
               />
             </View>
           );
