@@ -30,7 +30,7 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   console.log("built UI data for all pages", `${(p2 - p1).toFixed(4)} ms`);
   set({ weaponsPageData, armorPageData, generalPageData });
   const p3 = performance.now();
-  console.log("set updated page data.", `${(p3 - p2).toFixed(4)} ms`);
+  console.log("Rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
 }
 
 export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiCell[][] {
