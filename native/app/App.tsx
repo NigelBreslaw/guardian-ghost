@@ -10,16 +10,16 @@ import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-import type { UiCell } from "@/app/inventory/Common.ts";
 import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 
 enableFreeze(true);
 
 type RootStackParamList = {
   Login: undefined;
   Root: undefined;
-  BottomSheet: { item: UiCell };
+  BottomSheet: { item: DestinyItem };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();

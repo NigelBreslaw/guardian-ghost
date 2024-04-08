@@ -3,7 +3,7 @@ import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
@@ -24,9 +24,15 @@ const rootStyles = StyleSheet.create({
   },
 });
 
+const renderItem = ({ item }: { item: UiCell }) => {
+  return UiCellRenderItem({ item });
+};
+
+const keyExtractor = (item: UiCell) => item.id;
+const getItemType = (item: UiCell) => item.type;
+
 export default function InventoryPage(props: InventoryPageProps) {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
-  const navigator = useNavigation();
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
@@ -54,10 +60,6 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [isFocused]);
 
-  function activateSheet(item: UiCell) {
-    navigator.navigate("BottomSheet", { item });
-  }
-
   // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
   // when you horizontally scroll to guardian 2 you will see it's energy weapons too.
   function listMoved(toY: number) {
@@ -78,15 +80,8 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedMove = debounce(listMoved, 60);
 
-  const renderItem = ({ item }: { item: UiCell }) => {
-    return UiCellRenderItem({ item }, activateSheet);
-  };
-
-  const keyExtractor = (item: UiCell) => item.id;
-  const getItemType = (item: UiCell) => item.type;
-
   const onLoadListener = useCallback(({ elapsedTimeInMs }: { elapsedTimeInMs: number }) => {
-    console.log("Sample List load time", elapsedTimeInMs);
+    console.log("FlashList load time", elapsedTimeInMs);
   }, []);
 
   return (

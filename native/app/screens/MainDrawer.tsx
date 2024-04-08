@@ -1,10 +1,13 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { GuardianClassType } from "@/app/bungie/Hashes.ts";
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
 import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
 import InventoryPages from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -92,6 +95,18 @@ export default function MainDrawer() {
   const ggGuardians = useGGStore((state) => state.ggCharacters);
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const guardianClassType = getGuardianClassType(ggGuardians[currentListIndex]?.guardianClassType);
+  const navigator = useNavigation();
+  const selectedItem = useGGStore((state) => state.selectedItem);
+
+  function activateSheet(item: DestinyItem) {
+    navigator.navigate("BottomSheet", { item });
+  }
+
+  useEffect(() => {
+    if (selectedItem) {
+      activateSheet(selectedItem);
+    }
+  }, [selectedItem]);
 
   return (
     <Drawer.Navigator

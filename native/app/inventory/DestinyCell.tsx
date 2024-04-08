@@ -1,7 +1,8 @@
 import { ITEM_SIZE } from "@/app/inventory/Common.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
 const MINI_ICON_SIZE = 17;
@@ -87,41 +88,52 @@ type DestinyCellProps = {
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
   crafted: boolean;
+  itemHash: number;
+  itemInstanceId: string | undefined;
+  characterId: string;
 };
+
+function handlePress(item: DestinyCellProps) {
+  useGGStore
+    .getState()
+    .setSelectedItem({ itemInstanceId: item.itemInstanceId, itemHash: item.itemHash, characterId: item.characterId });
+}
 
 const DestinyCell = (props: DestinyCellProps) => {
   const borderColor = props.masterwork ? "#CEAE32" : "#555555";
 
   return (
     <View style={styles.container}>
-      <View style={styles.frameSize}>
-        <View style={[styles.icon, { borderColor }]}>
-          <View style={styles.innerFrameSize}>
-            <Image
-              source={{ uri: props.iconUri }}
-              cachePolicy="memory-disk"
-              style={styles.innerFrameSize}
-              recyclingKey={props.iconUri}
-            />
-            <Image
-              source={{ uri: props.calculatedWaterMark }}
-              cachePolicy="memory-disk"
-              style={styles.innerFrameOverlaySize}
-              recyclingKey={props.calculatedWaterMark}
-            />
+      <TouchableOpacity onPress={handlePress.bind(this, props)}>
+        <View style={styles.frameSize}>
+          <View style={[styles.icon, { borderColor }]}>
+            <View style={styles.innerFrameSize}>
+              <Image
+                source={{ uri: props.iconUri }}
+                cachePolicy="memory-disk"
+                style={styles.innerFrameSize}
+                recyclingKey={props.iconUri}
+              />
+              <Image
+                source={{ uri: props.calculatedWaterMark }}
+                cachePolicy="memory-disk"
+                style={styles.innerFrameOverlaySize}
+                recyclingKey={props.calculatedWaterMark}
+              />
+            </View>
           </View>
+          {props.primaryStat !== "" && (
+            <View style={styles.powerLevel}>
+              <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
+            </View>
+          )}
+          {props.damageTypeIconUri && (
+            <View style={styles.miniIconBurn}>
+              <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
+            </View>
+          )}
         </View>
-        {props.primaryStat !== "" && (
-          <View style={styles.powerLevel}>
-            <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
-          </View>
-        )}
-        {props.damageTypeIconUri && (
-          <View style={styles.miniIconBurn}>
-            <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
-          </View>
-        )}
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
