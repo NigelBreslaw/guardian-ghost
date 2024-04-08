@@ -16,6 +16,14 @@ type InventoryPageProps = {
   inventoryPageData: UiCell[][];
 };
 
+const rootStyles = StyleSheet.create({
+  root: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+});
+
 export default function InventoryPage(props: InventoryPageProps) {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const navigator = useNavigation();
@@ -29,8 +37,8 @@ export default function InventoryPage(props: InventoryPageProps) {
   const styles = StyleSheet.create({
     container: {},
     page: {
-      flex: 1,
       width: HOME_WIDTH,
+      height: "100%",
     },
   });
 
@@ -77,36 +85,38 @@ export default function InventoryPage(props: InventoryPageProps) {
   const keyExtractor = (item: UiCell) => item.id;
 
   return (
-    <ScrollView
-      horizontal
-      pagingEnabled
-      scrollEventThrottle={32}
-      onScroll={(e) => calcCurrentListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
-      ref={pagedScrollRef}
-    >
-      {props.inventoryPageData.map((list, index) => {
-        return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-          <View key={index} style={styles.page}>
-            <FlashList
-              ref={(ref) => {
-                listRefs.current[index] = ref;
-              }}
-              data={list}
-              renderItem={renderItem}
-              keyExtractor={keyExtractor}
-              numColumns={pageColumns[index]}
-              estimatedItemSize={pageEstimatedFlashListItemSize[index]}
-              scrollEventThrottle={50}
-              onScroll={(e) => {
-                if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
-                  debouncedMove(e.nativeEvent.contentOffset.y);
-                }
-              }}
-            />
-          </View>
-        );
-      })}
-    </ScrollView>
+    <View style={rootStyles.root}>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={32}
+        onScroll={(e) => calcCurrentListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
+        ref={pagedScrollRef}
+      >
+        {props.inventoryPageData.map((list, index) => {
+          return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
+            <View key={index} style={styles.page}>
+              <FlashList
+                ref={(ref) => {
+                  listRefs.current[index] = ref;
+                }}
+                data={list}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
+                numColumns={pageColumns[index]}
+                estimatedItemSize={pageEstimatedFlashListItemSize[index]}
+                scrollEventThrottle={50}
+                onScroll={(e) => {
+                  if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
+                    debouncedMove(e.nativeEvent.contentOffset.y);
+                  }
+                }}
+              />
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
