@@ -5,9 +5,10 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 function InventoryHeader() {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const characterBackgroundEmblem = useGGStore((state) => state.ggCharacters[currentListIndex]?.emblemBackgroundPath);
+
   return (
     <View style={{ flex: 1 }}>
-      <Image style={{ flex: 1 }} transition={150} source={{ uri: characterBackgroundEmblem }} />
+      <Image style={{ flex: 1 }} transition={150} source={characterBackgroundEmblem} />
     </View>
   );
 }
