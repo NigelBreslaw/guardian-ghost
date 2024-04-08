@@ -1,7 +1,7 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import type { DestinyItem, GGCharacterUiData, Guardian, ProfileData, VaultData } from "@/app/bungie/Types.ts";
-import type { UiCell } from "@/app/inventory/Common.ts";
-import { getCharactersAndVault } from "@/app/store/AccountLogic.ts";
+import type { DestinyItemIdentifier, UiCell } from "@/app/inventory/Common.ts";
+import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
@@ -29,6 +29,7 @@ export interface AccountSlice {
   armorPageData: UiCell[][];
   generalPageData: UiCell[][];
   weaponsPageData: UiCell[][];
+  selectedItem: DestinyItem | null;
 
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
@@ -39,9 +40,11 @@ export interface AccountSlice {
   setRefreshing: (refreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
   updateProfile: (profile: ProfileData) => void;
+  setSelectedItem: (itemIdentifier: DestinyItemIdentifier | null) => void;
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
+  findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -53,6 +56,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   armorPageData: [],
   generalPageData: [],
   weaponsPageData: [],
+  selectedItem: null,
 
   responseMintedTimestamp: new Date(1977),
   secondaryComponentsMintedTimestamp: new Date(1977),
@@ -70,6 +74,20 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   updateProfile: (profile) => {
     updateProfile(get, set, profile);
+  },
+
+  setSelectedItem: (itemIdentifier) => {
+    if (!itemIdentifier) {
+      set({ selectedItem: null });
+      return;
+    }
+    const selectedItem = findDestinyItem(
+      get,
+      itemIdentifier?.itemInstanceId,
+      itemIdentifier.itemHash,
+      itemIdentifier.characterId,
+    );
+    set({ selectedItem });
   },
 
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
@@ -94,6 +112,8 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
     updateAllPages(get, set);
   },
+  findDestinyItem: (itemDetails) =>
+    findDestinyItem(get, itemDetails.itemInstanceId, itemDetails.itemHash, itemDetails.characterId),
 });
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {

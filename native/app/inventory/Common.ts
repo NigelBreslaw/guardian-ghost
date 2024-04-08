@@ -151,6 +151,12 @@ export type HeaderRow = {
 
 export type UiRow = HeaderRow | CharacterEquippedRow | CharacterInventoryRow | VaultInventoryRow;
 
+export type DestinyItemIdentifier = {
+  itemHash: number;
+  itemInstanceId: string | undefined;
+  characterId: string;
+};
+
 export const ITEM_SIZE = 90;
 export const SEPARATOR_SIZE = 45;
 

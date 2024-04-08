@@ -1,9 +1,8 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import type { DestinyCell } from "@/app/inventory/Common.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { itemSchema } from "@/app/store/Types";
-import { findDestinyItem, processTransferItem } from "@/app/transfer/TransferLogic.ts";
+import { processTransferItem } from "@/app/transfer/TransferLogic.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
@@ -224,9 +223,9 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash, characterId } = route.params.item as DestinyCell;
+  const { itemInstanceId, itemHash, characterId } = route.params.item;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
-  const destinyItem = { ...findDestinyItem(itemInstanceId, itemHash, characterId) };
+  const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
 
   useEffect(() => {
     if (refRBSheet.current) {
