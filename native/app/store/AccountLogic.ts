@@ -7,7 +7,7 @@ import {
   GuardiansSchema,
   type DestinyItem,
 } from "@/app/bungie/Types.ts";
-import { bungieUrl } from "@/app/inventory/Common.ts";
+import { bungieUrl, type DestinyItemIdentifier } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
@@ -69,13 +69,8 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // instanced the characterId and itemHash are needed. Because you could have a non instanced item such as upgrade
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
 // TODO: This function does not check the global items, mods or consumables.
-export function findDestinyItem(
-  get: AccountSliceGetter,
-  itemInstanceId: string | undefined,
-  itemHash: number,
-  characterId: string,
-): DestinyItem {
-  const itemDefinition = itemsDefinition[itemHash];
+export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: DestinyItemIdentifier): DestinyItem {
+  const itemDefinition = itemsDefinition[itemIdentifier.itemHash];
   if (!itemDefinition) {
     throw new Error("No itemDefinition found");
   }
@@ -83,19 +78,19 @@ export function findDestinyItem(
   if (itemDefinition.b !== undefined) {
     const defaultBucket = bucketTypeHashArray[itemDefinition.b];
 
-    const instancedItem = itemInstanceId !== undefined;
+    const instancedItem = itemIdentifier.itemInstanceId !== undefined;
     if (defaultBucket) {
-      if (characterId === VAULT_CHARACTER_ID) {
+      if (itemIdentifier.characterId === VAULT_CHARACTER_ID) {
         const vault = get().generalVault;
         const vaultSectionInventory = vault.items[defaultBucket]?.inventory;
         if (vaultSectionInventory) {
           for (const item of vaultSectionInventory) {
             if (instancedItem) {
-              if (item.itemInstanceId === itemInstanceId) {
+              if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
                 return item;
               }
             } else {
-              if (item.itemHash === itemHash) {
+              if (item.itemHash === itemIdentifier.itemHash) {
                 return item;
               }
             }
@@ -103,30 +98,30 @@ export function findDestinyItem(
         }
       } else {
         const guardians = get().guardians;
-        const section = guardians[characterId]?.items[defaultBucket];
+        const section = guardians[itemIdentifier.characterId]?.items[defaultBucket];
 
         if (section) {
-          if (section.equipped && section.equipped?.itemInstanceId === itemInstanceId) {
+          if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
             return section.equipped;
           }
 
           for (const item of section.inventory) {
-            if (item.itemInstanceId === itemInstanceId) {
+            if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
               return item;
             }
           }
         }
 
         // Check the lost items
-        const lostItems = guardians[characterId]?.items[215593132]?.inventory;
+        const lostItems = guardians[itemIdentifier.characterId]?.items[215593132]?.inventory;
         if (lostItems) {
           for (const item of lostItems) {
             if (instancedItem) {
-              if (item.itemInstanceId === itemInstanceId) {
+              if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
                 return item;
               }
             } else {
-              if (item.itemHash === itemHash) {
+              if (item.itemHash === itemIdentifier.itemHash) {
                 return item;
               }
             }
