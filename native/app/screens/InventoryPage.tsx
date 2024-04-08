@@ -9,7 +9,6 @@ import { useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const pageColumns = [4, 4, 4, 5];
 const pageEstimatedFlashListItemSize = [77, 77, 77, 89];
 
 type InventoryPageProps = {
@@ -104,9 +103,9 @@ export default function InventoryPage(props: InventoryPageProps) {
                 data={list}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
-                numColumns={pageColumns[index]}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
                 scrollEventThrottle={50}
+                showsVerticalScrollIndicator={false}
                 onScroll={(e) => {
                   if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
                     debouncedMove(e.nativeEvent.contentOffset.y);

@@ -9,7 +9,7 @@ import {
   type DestinyCell,
   type DestinyIconData,
   type EmptyCell,
-  type SeparatorCell,
+  type SeparatorRow,
   type UiCell,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
@@ -52,13 +52,11 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
 
       for (const bucket of itemBuckets) {
         // create section separators
-        for (let i = 0; i < columns; i++) {
-          const separator: SeparatorCell = {
-            id: `${bucket}_separator_${i}`,
-            type: UiCellType.Separator,
-          };
-          dataArray.push(separator);
-        }
+        const separator: SeparatorRow = {
+          id: `${bucket}_separator`,
+          type: UiCellType.Separator,
+        };
+        dataArray.push(separator);
 
         const bucketItems = characterData.items[bucket];
         if (bucketItems) {
@@ -312,13 +310,11 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
   for (const bucket of itemBuckets) {
     const bucketItems = vaultData.items[bucket];
     if (bucketItems) {
-      for (let i = 0; i < columns; i++) {
-        const separator: SeparatorCell = {
-          id: `${bucket}_separator_${i}`,
-          type: UiCellType.Separator,
-        };
-        dataArray.push(separator);
-      }
+      const separator: SeparatorRow = {
+        id: `${bucket}_separator`,
+        type: UiCellType.Separator,
+      };
+      dataArray.push(separator);
 
       const totalRows = Math.ceil(bucketItems.inventory.length / columns);
 

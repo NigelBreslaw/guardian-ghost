@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
-import { Platform } from "react-native";
+import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
@@ -50,6 +50,15 @@ function App() {
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
+  const { width } = useWindowDimensions();
+  const SCREEN_WIDTH = width;
+
+  useEffect(() => {
+    if (SCREEN_WIDTH) {
+      console.log("SCREEN_WIDTH", SCREEN_WIDTH);
+      useGGStore.getState().setInventorySectionWidth(SCREEN_WIDTH);
+    }
+  }, [SCREEN_WIDTH]);
 
   useEffect(() => {
     if (authenticated === "NO-AUTHENTICATION") {

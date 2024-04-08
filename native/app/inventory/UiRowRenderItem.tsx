@@ -2,12 +2,12 @@ import BlankCell from "@/app/inventory/BlankCell.tsx";
 import { type UiCell, UiCellType } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
-import SeparatorCell from "@/app/inventory/SeparatorCell.tsx";
+import SeparatorRow from "@/app/inventory/SeparatorRow";
 
 export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
   switch (item.type) {
     case UiCellType.Separator:
-      return <SeparatorCell />;
+      return <SeparatorRow />;
     case UiCellType.EmptyCell:
       return <EmptyCell />;
     case UiCellType.BlankCell:
@@ -26,5 +26,7 @@ export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
           characterId={item.characterId}
         />
       );
+    case UiCellType.EquipSectionCell:
+      return <BlankCell />;
   }
 };
