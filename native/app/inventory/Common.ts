@@ -92,6 +92,8 @@ export enum UiCellType {
   BlankCell = 2,
   DestinyCell = 3,
   EquipSectionCell = 4,
+  Vault5x5Cell = 5,
+  VaultFlexCell = 6,
 }
 
 export type BaseCell = {
@@ -130,7 +132,24 @@ export type EquipSectionCell = BaseCell & {
   inventory: DestinyIconData[];
 };
 
-export type UiCell = SeparatorRow | DestinyCell | EmptyCell | BlankCell | EquipSectionCell;
+export type Vault5x5Cell = BaseCell & {
+  type: UiCellType.Vault5x5Cell;
+  inventory: DestinyIconData[];
+};
+
+export type VaultFlexCell = BaseCell & {
+  type: UiCellType.VaultFlexCell;
+  inventory: DestinyIconData[];
+};
+
+export type UiCell =
+  | SeparatorRow
+  | DestinyCell
+  | EmptyCell
+  | BlankCell
+  | EquipSectionCell
+  | Vault5x5Cell
+  | VaultFlexCell;
 
 export type DestinyItemIdentifier = {
   itemHash: number;

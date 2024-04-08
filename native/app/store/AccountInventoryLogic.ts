@@ -1,4 +1,4 @@
-import type { DestinyItem, GuardianGear, ProfileData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardianGear, ProfileData, VaultData } from "@/app/bungie/Types.ts";
 import {
   UiCellType,
   armorPageBuckets,
@@ -12,6 +12,8 @@ import {
   type EquipSectionCell,
   type SeparatorRow,
   type UiCell,
+  type Vault5x5Cell,
+  type VaultFlexCell,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
@@ -86,10 +88,78 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
     }
   }
   // Now build the vault data
-  // const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
-  // characterDataArray.push(vaultUiData);
+  const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
+  characterDataArray.push(vaultUiData);
 
   return characterDataArray;
+}
+
+function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
+  const dataArray: UiCell[] = [];
+
+  for (const bucket of itemBuckets) {
+    const bucketItems = vaultData.items[bucket];
+    if (bucketItems) {
+      const separator: SeparatorRow = {
+        id: `${bucket}_separator`,
+        type: UiCellType.Separator,
+      };
+      dataArray.push(separator);
+
+      // get an array of all the items
+      const totalItemsArray = returnInventoryArray(profile, bucketItems);
+
+      let itemsLeft = totalItemsArray.length;
+      let count = 0;
+      while (itemsLeft > 0) {
+        // is there 21 or more items left?
+        if (itemsLeft > 20) {
+          const vault5x5Cell: Vault5x5Cell = {
+            id: `${bucket}_5x5_section${count}`,
+            type: UiCellType.Vault5x5Cell,
+            inventory: [],
+          };
+
+          const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
+
+          const itemsToAdd: DestinyIconData[] = [];
+          for (let i = startingPoint; i < startingPoint + 25; i++) {
+            const item = totalItemsArray[i];
+            if (item) {
+              itemsToAdd.push(item);
+            } else {
+              break;
+            }
+          }
+          vault5x5Cell.inventory = itemsToAdd;
+          dataArray.push(vault5x5Cell);
+          itemsLeft -= 25;
+          count++;
+        } else {
+          const vaultFlexCell: VaultFlexCell = {
+            id: `${bucket}_flex_section`,
+            type: UiCellType.VaultFlexCell,
+            inventory: [],
+          };
+
+          const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
+
+          const itemsToAdd: DestinyIconData[] = [];
+          for (let i = startingPoint; i < startingPoint + itemsLeft; i++) {
+            const item = totalItemsArray[i];
+            if (item) {
+              itemsToAdd.push(item);
+            }
+          }
+          vaultFlexCell.inventory = itemsToAdd;
+          dataArray.push(vaultFlexCell);
+          itemsLeft = 0;
+        }
+      }
+    }
+  }
+  console.log("dataArray.length", dataArray.length);
+  return dataArray;
 }
 
 function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
@@ -187,47 +257,6 @@ function returnInventoryArray(profile: ProfileData, characterGear: GuardianGear)
 
   return inventoryArray;
 }
-
-// function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
-//   const dataArray: UiCell[] = [];
-//   const columns = 5;
-
-//   for (const bucket of itemBuckets) {
-//     const bucketItems = vaultData.items[bucket];
-//     if (bucketItems) {
-//       const separator: SeparatorRow = {
-//         id: `${bucket}_separator`,
-//         type: UiCellType.Separator,
-//       };
-//       dataArray.push(separator);
-
-//       const totalRows = Math.ceil(bucketItems.inventory.length / columns);
-
-//       for (let i = 0; i < totalRows; i++) {
-//         const rowData = returnInventoryArray(profile, bucketItems, i, columns);
-//         for (let j = 0; j < columns; j++) {
-//           const item = rowData[j];
-//           if (item) {
-//             const destinyCell: DestinyCell = {
-//               ...item,
-//               id: `${bucket}_row1_${i}_${j}`,
-//               type: UiCellType.DestinyCell,
-//             };
-//             dataArray.push(destinyCell);
-//           } else {
-//             const emptyCell: EmptyCell = {
-//               id: `${bucket}_row1_${i}_${j}`,
-//               type: UiCellType.EmptyCell,
-//             };
-//             dataArray.push(emptyCell);
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   return dataArray;
-// }
 
 // ------------------------------
 // Update UI logic

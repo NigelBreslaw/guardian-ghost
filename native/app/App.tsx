@@ -55,7 +55,6 @@ function App() {
 
   useEffect(() => {
     if (SCREEN_WIDTH) {
-      console.log("SCREEN_WIDTH", SCREEN_WIDTH);
       useGGStore.getState().setInventorySectionWidth(SCREEN_WIDTH);
     }
   }, [SCREEN_WIDTH]);
