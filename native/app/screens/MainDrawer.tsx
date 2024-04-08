@@ -1,5 +1,6 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { LOGO_DARK } from "@/app/inventory/Common.ts";
+import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
 import HomeScreen from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
@@ -97,7 +98,8 @@ export default function MainDrawer() {
           },
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
-          headerRight: () => <RefreshButton />,
+          headerRight: RefreshButton,
+          headerBackground: InventoryHeader,
         }}
       />
     </Drawer.Navigator>
