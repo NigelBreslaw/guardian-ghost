@@ -12,6 +12,9 @@ import { Platform } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import type { UiCell } from "@/app/inventory/Common.ts";
 import GGSnackBar from "@/app/components/GGSnackBar.tsx";
+import { enableFreeze } from "react-native-screens";
+
+enableFreeze(true);
 
 type RootStackParamList = {
   Login: undefined;
