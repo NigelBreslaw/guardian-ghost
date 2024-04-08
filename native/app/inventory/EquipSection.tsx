@@ -2,6 +2,7 @@ import { EQUIP_SECTION_SIZE, ITEM_SIZE, type EquipSectionCell } from "@/app/inve
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 type EquipSectionProps = {
@@ -36,11 +37,19 @@ function EquipSection(props: EquipSectionProps) {
           {Array.from({ length: 9 }).map((_, index) => {
             const item = props.data.inventory[index];
             if (item) {
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              return <DestinyCell key={index} data={item} />;
+              return (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                <View key={index} style={styles.box}>
+                  <DestinyCell data={item} />
+                </View>
+              );
             }
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            return <EmptyCell key={index} />;
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <View key={index} style={styles.box}>
+                <EmptyCell />
+              </View>
+            );
           })}
         </View>
       </View>
@@ -48,4 +57,4 @@ function EquipSection(props: EquipSectionProps) {
   );
 }
 
-export default EquipSection;
+export default React.memo(EquipSection);
