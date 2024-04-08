@@ -1,4 +1,4 @@
-import { ITEM_SIZE } from "@/app/inventory/Common.ts";
+import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React from "react";
@@ -81,55 +81,46 @@ const styles = StyleSheet.create({
   },
 });
 
-type DestinyCellProps = {
-  iconUri: string;
-  primaryStat: string;
-  damageTypeIconUri: number | null;
-  calculatedWaterMark: string | undefined;
-  masterwork: boolean;
-  crafted: boolean;
-  itemHash: number;
-  itemInstanceId: string | undefined;
-  characterId: string;
-};
-
-function handlePress(item: DestinyCellProps) {
+function handlePress(item: DestinyIconData) {
   useGGStore
     .getState()
     .setSelectedItem({ itemInstanceId: item.itemInstanceId, itemHash: item.itemHash, characterId: item.characterId });
 }
 
-const DestinyCell = (props: DestinyCellProps) => {
-  const borderColor = props.masterwork ? "#CEAE32" : "#555555";
+type DestinyCellProps = {
+  data: DestinyIconData;
+};
 
+const DestinyCell = (props: DestinyCellProps) => {
+  const borderColor = props.data.masterwork ? "#CEAE32" : "#555555";
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress.bind(this, props)}>
+      <TouchableOpacity onPress={handlePress.bind(this, props.data)}>
         <View style={styles.frameSize}>
           <View style={[styles.icon, { borderColor }]}>
             <View style={styles.innerFrameSize}>
               <Image
-                source={{ uri: props.iconUri }}
+                source={{ uri: props.data.icon }}
                 cachePolicy="memory-disk"
                 style={styles.innerFrameSize}
-                recyclingKey={props.iconUri}
+                recyclingKey={props.data.icon}
               />
               <Image
-                source={{ uri: props.calculatedWaterMark }}
+                source={{ uri: props.data.calculatedWaterMark }}
                 cachePolicy="memory-disk"
                 style={styles.innerFrameOverlaySize}
-                recyclingKey={props.calculatedWaterMark}
+                recyclingKey={props.data.calculatedWaterMark}
               />
             </View>
           </View>
-          {props.primaryStat !== "" && (
+          {props.data.primaryStat !== "" && (
             <View style={styles.powerLevel}>
-              <Text style={styles.powerLevelText}>{props.primaryStat}</Text>
+              <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
             </View>
           )}
-          {props.damageTypeIconUri && (
+          {props.data.damageTypeIconUri && (
             <View style={styles.miniIconBurn}>
-              <Image style={styles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
+              <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
             </View>
           )}
         </View>

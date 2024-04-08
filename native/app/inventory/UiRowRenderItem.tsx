@@ -1,7 +1,7 @@
 import BlankCell from "@/app/inventory/BlankCell.tsx";
 import { type UiCell, UiCellType } from "@/app/inventory/Common.ts";
-import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
+import EquipSection from "@/app/inventory/EquipSection.tsx";
 import SeparatorRow from "@/app/inventory/SeparatorRow";
 
 export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
@@ -13,20 +13,8 @@ export const UiCellRenderItem = ({ item }: { item: UiCell }) => {
     case UiCellType.BlankCell:
       return <BlankCell />;
     case UiCellType.DestinyCell:
-      return (
-        <DestinyCell
-          iconUri={item.icon}
-          primaryStat={item.primaryStat}
-          calculatedWaterMark={item.calculatedWaterMark}
-          damageTypeIconUri={item.damageTypeIconUri}
-          masterwork={item.masterwork}
-          crafted={item.crafted}
-          itemHash={item.itemHash}
-          itemInstanceId={item.itemInstanceId}
-          characterId={item.characterId}
-        />
-      );
-    case UiCellType.EquipSectionCell:
       return <BlankCell />;
+    case UiCellType.EquipSectionCell:
+      return <EquipSection data={item} />;
   }
 };

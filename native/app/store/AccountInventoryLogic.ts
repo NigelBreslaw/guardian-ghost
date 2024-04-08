@@ -1,14 +1,15 @@
-import type { DestinyItem, GuardianGear, ProfileData, VaultData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardianGear, ProfileData } from "@/app/bungie/Types.ts";
 import {
   UiCellType,
   armorPageBuckets,
   generalPageBuckets,
   getDamageTypeIconUri,
   weaponsPageBuckets,
-  type BlankCell,
-  type DestinyCell,
+  // type BlankCell,
+  // type DestinyCell,
   type DestinyIconData,
-  type EmptyCell,
+  // type EmptyCell,
+  type EquipSectionCell,
   type SeparatorRow,
   type UiCell,
 } from "@/app/inventory/Common.ts";
@@ -35,7 +36,6 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
 
 export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiCell[][] {
   const characterDataArray: UiCell[][] = [];
-  const columns = 4;
   const guardians = get().guardians;
   const vaultData = get().generalVault;
   const profile = get().rawProfileData;
@@ -59,139 +59,35 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
         dataArray.push(separator);
 
         const bucketItems = characterData.items[bucket];
+
+        // TODO: If artifact (1506418338) create an artifact section
+        if (bucket === 1506418338) {
+          continue;
+        }
+
         if (bucketItems) {
+          const equipSectionCell: EquipSectionCell = {
+            id: `${bucket}_equip_section`,
+            type: UiCellType.EquipSectionCell,
+            equipped: null,
+            inventory: [],
+          };
           const equipped = bucketItems.equipped;
-          let equipItem: DestinyIconData | null = null;
 
           if (equipped) {
-            equipItem = returnDestinyIconData(profile, equipped);
-            const equippedCell: DestinyCell = {
-              ...equipItem,
-              id: `${bucket}_equipped`,
-              type: UiCellType.DestinyCell,
-            };
-            dataArray.push(equippedCell);
-          } else {
-            const emptyCell: EmptyCell = {
-              id: `${bucket}_equipped`,
-              type: UiCellType.EmptyCell,
-            };
-            dataArray.push(emptyCell);
+            equipSectionCell.equipped = returnDestinyIconData(profile, equipped);
           }
+          equipSectionCell.inventory = returnInventoryArray(profile, bucketItems);
 
-          // If artifact (1506418338) don't add any more items.
-          if (bucket === 1506418338) {
-            continue;
-          }
-
-          const inventoryRowData0 = returnInventoryRow(profile, bucketItems, 0);
-
-          for (let i = 0; i < columns - 1; i++) {
-            const item = inventoryRowData0[i];
-            if (item) {
-              const destinyCell: DestinyCell = {
-                ...item,
-                id: `${bucket}_row0_${i}`,
-                type: UiCellType.DestinyCell,
-              };
-              dataArray.push(destinyCell);
-            } else {
-              const emptyCell: EmptyCell = {
-                id: `${bucket}_row0_${i}`,
-                type: UiCellType.EmptyCell,
-              };
-              dataArray.push(emptyCell);
-            }
-          }
-
-          const inventoryRowData1 = returnInventoryRow(profile, bucketItems, 1);
-
-          const blankCell1: BlankCell = {
-            id: `${bucket}_row1_blank`,
-            type: UiCellType.BlankCell,
-          };
-          dataArray.push(blankCell1);
-
-          for (let i = 0; i < columns - 1; i++) {
-            const item = inventoryRowData1[i];
-            if (item) {
-              const destinyCell: DestinyCell = {
-                ...item,
-                id: `${bucket}_row1_${i}`,
-                type: UiCellType.DestinyCell,
-              };
-              dataArray.push(destinyCell);
-            } else {
-              const emptyCell: EmptyCell = {
-                id: `${bucket}_row1_${i}`,
-                type: UiCellType.EmptyCell,
-              };
-              dataArray.push(emptyCell);
-            }
-          }
-
-          const inventoryRowData2 = returnInventoryRow(profile, bucketItems, 2);
-
-          const blankCell2: BlankCell = {
-            id: `${bucket}_row2_blank`,
-            type: UiCellType.BlankCell,
-          };
-          dataArray.push(blankCell2);
-
-          for (let i = 0; i < columns - 1; i++) {
-            const item = inventoryRowData2[i];
-            if (item) {
-              const destinyCell: DestinyCell = {
-                ...item,
-                id: `${bucket}_row2_${i}`,
-                type: UiCellType.DestinyCell,
-              };
-              dataArray.push(destinyCell);
-            } else {
-              const emptyCell: EmptyCell = {
-                id: `${bucket}_row2_${i}`,
-                type: UiCellType.EmptyCell,
-              };
-              dataArray.push(emptyCell);
-            }
-          }
-        } else {
-          const emptyCell: EmptyCell = {
-            id: `${bucket}_equipped`,
-            type: UiCellType.EmptyCell,
-          };
-          dataArray.push(emptyCell);
-          for (let i = 0; i < columns - 1; i++) {
-            const emptyCell: EmptyCell = {
-              id: `${bucket}_row1_${i}`,
-              type: UiCellType.EmptyCell,
-            };
-            dataArray.push(emptyCell);
-          }
-
-          // Create tow more rows of empty cells
-          for (let r = 0; r < 2; r++) {
-            const blankCell1: BlankCell = {
-              id: `${bucket}_row${r + 1}_blank`,
-              type: UiCellType.BlankCell,
-            };
-            dataArray.push(blankCell1);
-            for (let i = 0; i < columns - 1; i++) {
-              const emptyCell: EmptyCell = {
-                id: `${bucket}_row${r + 1}_${i}`,
-                type: UiCellType.EmptyCell,
-              };
-              dataArray.push(emptyCell);
-            }
-          }
+          dataArray.push(equipSectionCell);
         }
       }
       characterDataArray.push(dataArray);
     }
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
-  characterDataArray.push(vaultUiData);
+  // const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
+  // characterDataArray.push(vaultUiData);
 
   return characterDataArray;
 }
@@ -281,68 +177,57 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
   return emptyData;
 }
 
-function returnInventoryRow(
-  profile: ProfileData,
-  characterGear: GuardianGear,
-  column: number,
-  rowWidth = 3,
-): DestinyIconData[] {
-  const rowData: DestinyIconData[] = [];
+function returnInventoryArray(profile: ProfileData, characterGear: GuardianGear): DestinyIconData[] {
+  const inventoryArray: DestinyIconData[] = [];
 
-  const startIndex = column * rowWidth;
-  const endIndex = startIndex + rowWidth;
-
-  for (let i = startIndex; i < endIndex; i++) {
-    const item = characterGear.inventory[i];
-    if (item) {
-      const iconData = returnDestinyIconData(profile, item);
-      rowData.push(iconData);
-    }
+  for (const item of characterGear.inventory) {
+    const iconData = returnDestinyIconData(profile, item);
+    inventoryArray.push(iconData);
   }
 
-  return rowData;
+  return inventoryArray;
 }
 
-function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
-  const dataArray: UiCell[] = [];
-  const columns = 5;
+// function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
+//   const dataArray: UiCell[] = [];
+//   const columns = 5;
 
-  for (const bucket of itemBuckets) {
-    const bucketItems = vaultData.items[bucket];
-    if (bucketItems) {
-      const separator: SeparatorRow = {
-        id: `${bucket}_separator`,
-        type: UiCellType.Separator,
-      };
-      dataArray.push(separator);
+//   for (const bucket of itemBuckets) {
+//     const bucketItems = vaultData.items[bucket];
+//     if (bucketItems) {
+//       const separator: SeparatorRow = {
+//         id: `${bucket}_separator`,
+//         type: UiCellType.Separator,
+//       };
+//       dataArray.push(separator);
 
-      const totalRows = Math.ceil(bucketItems.inventory.length / columns);
+//       const totalRows = Math.ceil(bucketItems.inventory.length / columns);
 
-      for (let i = 0; i < totalRows; i++) {
-        const rowData = returnInventoryRow(profile, bucketItems, i, columns);
-        for (let j = 0; j < columns; j++) {
-          const item = rowData[j];
-          if (item) {
-            const destinyCell: DestinyCell = {
-              ...item,
-              id: `${bucket}_row1_${i}_${j}`,
-              type: UiCellType.DestinyCell,
-            };
-            dataArray.push(destinyCell);
-          } else {
-            const emptyCell: EmptyCell = {
-              id: `${bucket}_row1_${i}_${j}`,
-              type: UiCellType.EmptyCell,
-            };
-            dataArray.push(emptyCell);
-          }
-        }
-      }
-    }
-  }
+//       for (let i = 0; i < totalRows; i++) {
+//         const rowData = returnInventoryArray(profile, bucketItems, i, columns);
+//         for (let j = 0; j < columns; j++) {
+//           const item = rowData[j];
+//           if (item) {
+//             const destinyCell: DestinyCell = {
+//               ...item,
+//               id: `${bucket}_row1_${i}_${j}`,
+//               type: UiCellType.DestinyCell,
+//             };
+//             dataArray.push(destinyCell);
+//           } else {
+//             const emptyCell: EmptyCell = {
+//               id: `${bucket}_row1_${i}_${j}`,
+//               type: UiCellType.EmptyCell,
+//             };
+//             dataArray.push(emptyCell);
+//           }
+//         }
+//       }
+//     }
+//   }
 
-  return dataArray;
-}
+//   return dataArray;
+// }
 
 // ------------------------------
 // Update UI logic
