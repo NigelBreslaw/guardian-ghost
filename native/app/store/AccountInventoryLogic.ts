@@ -1,4 +1,4 @@
-import type { DestinyItem, GuardianGear, ProfileData, VaultData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, GuardianGear, VaultData } from "@/app/bungie/Types.ts";
 import {
   UiCellType,
   armorPageBuckets,
@@ -16,7 +16,7 @@ import {
   type VaultFlexCell,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
-import { iconWaterMarks, itemsDefinition } from "@/app/store/Definitions.ts";
+import { iconWaterMarks, itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
@@ -40,9 +40,8 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
   const characterDataArray: UiCell[][] = [];
   const guardians = get().guardians;
   const vaultData = get().generalVault;
-  const profile = get().rawProfileData;
 
-  if (!profile || !guardians || !vaultData) {
+  if (!rawProfileData || !guardians || !vaultData) {
     console.error("No profile, guardians or generalVault");
     return characterDataArray;
   }
@@ -77,9 +76,9 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
           const equipped = bucketItems.equipped;
 
           if (equipped) {
-            equipSectionCell.equipped = returnDestinyIconData(profile, equipped);
+            equipSectionCell.equipped = returnDestinyIconData(equipped);
           }
-          equipSectionCell.inventory = returnInventoryArray(profile, bucketItems);
+          equipSectionCell.inventory = returnInventoryArray(bucketItems);
 
           dataArray.push(equipSectionCell);
         }
@@ -88,13 +87,13 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
     }
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(profile, itemBuckets, vaultData);
+  const vaultUiData = returnVaultUiData(itemBuckets, vaultData);
   characterDataArray.push(vaultUiData);
 
   return characterDataArray;
 }
 
-function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultData: VaultData): UiCell[] {
+function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[] {
   const dataArray: UiCell[] = [];
 
   for (const bucket of itemBuckets) {
@@ -107,7 +106,7 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
       dataArray.push(separator);
 
       // get an array of all the items
-      const totalItemsArray = returnInventoryArray(profile, bucketItems);
+      const totalItemsArray = returnInventoryArray(bucketItems);
 
       let itemsLeft = totalItemsArray.length;
       let count = 0;
@@ -161,12 +160,12 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
   return dataArray;
 }
 
-function returnDestinyIconData(profile: ProfileData, item: DestinyItem): DestinyIconData {
+function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const definition = itemsDefinition[item.itemHash];
   const itemInstanceId = item?.itemInstanceId;
 
   if (itemInstanceId) {
-    const itemComponent = profile.Response.itemComponents.instances.data[itemInstanceId];
+    const itemComponent = rawProfileData?.Response.itemComponents.instances.data[itemInstanceId];
     if (itemComponent && definition) {
       // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
       const versionNumber = item.versionNumber;
@@ -246,11 +245,11 @@ function returnDestinyIconData(profile: ProfileData, item: DestinyItem): Destiny
   return emptyData;
 }
 
-function returnInventoryArray(profile: ProfileData, characterGear: GuardianGear): DestinyIconData[] {
+function returnInventoryArray(characterGear: GuardianGear): DestinyIconData[] {
   const inventoryArray: DestinyIconData[] = [];
 
   for (const item of characterGear.inventory) {
-    const iconData = returnDestinyIconData(profile, item);
+    const iconData = returnDestinyIconData(item);
     inventoryArray.push(iconData);
   }
 
@@ -350,12 +349,12 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
 
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
 
-export function hasSocketedResonance(get: AccountSliceGetter, destinyItem: DestinyItem): boolean {
+export function hasSocketedResonance(destinyItem: DestinyItem): boolean {
   const itemInstanceId = destinyItem.itemInstanceId;
   if (!itemInstanceId) {
     return false;
   }
-  const liveSocketJson = get().rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
+  const liveSocketJson = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
   if (!liveSocketJson) {
     return false;
   }
