@@ -284,16 +284,15 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
   if (itemComponent) {
     definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
-    definitionItems.damageType = itemComponent.damageType;
+  }
+
+  const masterwork = bitmaskContains(baseItem.state, 4);
+  if (masterwork) {
+    // add this to the definitionItems
+    definitionItems.masterwork = true;
   }
 
   if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
-    const masterwork = bitmaskContains(baseItem.state, 4);
-    if (masterwork) {
-      // add this to the definitionItems
-      definitionItems.masterwork = true;
-    }
-
     if (itemComponent) {
       const primaryStat = itemComponent.primaryStat?.value;
       if (primaryStat) {
@@ -303,9 +302,9 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       if (itemType === DestinyItemType.Weapon) {
         const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
         if (deepSightResonance) {
-          // console.log("has deepsight resonance");
           definitionItems.deepSightResonance = true;
         }
+        definitionItems.damageType = itemComponent.damageType;
         const _crafted = bitmaskContains(baseItem.state, 8);
       }
     }
