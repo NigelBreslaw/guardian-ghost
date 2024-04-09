@@ -179,7 +179,7 @@ const _KINETIC_MINI_ICON_URI = require("../../images/kinetic_mini.webp");
 const STASIS_MINI_ICON_URI = require("../../images/stasis_mini.webp");
 const STRAND_MINI_ICON_URI = require("../../images/strand_mini.webp");
 
-export function getDamageTypeIconUri(damageType: DamageType): number | null {
+export function getDamageTypeIconUri(damageType: DamageType | undefined): number | null {
   switch (damageType) {
     case DamageType.Solar:
       return SOLAR_MINI_ICON_URI;

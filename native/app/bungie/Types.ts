@@ -1,5 +1,5 @@
 import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
-import type { DestinyItemType } from "@/app/inventory/Common.ts";
+import type { DamageType, DestinyItemType } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -138,6 +138,10 @@ export type DestinyItemDefinition = {
   recoveryBucketHash: number | undefined;
   itemType: DestinyItemType;
   masterwork?: boolean;
+  primaryStat?: number;
+  icon: string;
+  calculatedWaterMark?: string;
+  damageType?: DamageType;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
