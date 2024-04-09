@@ -10,6 +10,8 @@ export enum InventoryPage {
   General = 3,
 }
 
+export const weaponBuckets = [1498876634, 2465295065, 953998645];
+
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
   2465295065, // energy weapons
@@ -17,6 +19,8 @@ export const weaponsPageBuckets = [
   4023194814, // ghost
   1506418338, // artifact
 ];
+
+export const armorBuckets = [3448274439, 3448274439, 3551918588, 14239492, 20886954];
 
 export const armorPageBuckets = [
   3284755031, // Subclass
@@ -66,6 +70,13 @@ export enum BreakerType {
   ShieldPiercing = 1,
   Disruption = 2,
   Stagger = 3,
+}
+
+export enum DestinyItemType {
+  Unknown = 0,
+  Weapon = 1,
+  Armor = 2,
+  General = 3,
 }
 
 export type DestinyIconData = {

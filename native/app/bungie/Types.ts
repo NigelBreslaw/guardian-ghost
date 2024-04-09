@@ -1,4 +1,5 @@
 import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
+import type { DestinyItemType } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -133,6 +134,8 @@ export type DestinyItem = DestinyItemBase & {
   characterId: string;
   equipped: boolean;
   previousCharacterId: string; //Used by the transfer system to update the UI
+  recoveryBucketHash: number | undefined;
+  itemType: DestinyItemType;
 };
 export const SocketSchema = object({
   sockets: array(

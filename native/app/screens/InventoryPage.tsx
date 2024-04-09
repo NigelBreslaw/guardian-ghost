@@ -5,7 +5,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -79,10 +79,6 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedMove = debounce(listMoved, 60);
 
-  const onLoadListener = useCallback(({ elapsedTimeInMs }: { elapsedTimeInMs: number }) => {
-    console.log("FlashList load time", elapsedTimeInMs);
-  }, []);
-
   return (
     <View style={rootStyles.root}>
       <ScrollView
@@ -112,7 +108,6 @@ export default function InventoryPage(props: InventoryPageProps) {
                   }
                 }}
                 getItemType={getItemType}
-                onLoad={onLoadListener}
               />
             </View>
           );
