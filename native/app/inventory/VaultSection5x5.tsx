@@ -13,7 +13,7 @@ function VaultSection5x5(props: VaultSection5x5Props) {
   const styles = StyleSheet.create({
     root: {
       width: useGGStore.getState().inventorySectionWidth,
-      height: EQUIP_SECTION_SIZE,
+      height: ITEM_SIZE * 5,
     },
     container: {
       flex: 1,
