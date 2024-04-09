@@ -130,13 +130,18 @@ export const ItemSchema = object({
 });
 
 export type DestinyItemBase = Output<typeof ItemSchema>;
-export type DestinyItem = DestinyItemBase & {
+
+export type DestinyItemDefinition = {
   characterId: string;
   equipped: boolean;
   previousCharacterId: string; //Used by the transfer system to update the UI
   recoveryBucketHash: number | undefined;
   itemType: DestinyItemType;
+  masterwork?: boolean;
 };
+
+export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
+
 export const SocketSchema = object({
   sockets: array(
     object({

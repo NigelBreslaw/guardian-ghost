@@ -2,6 +2,7 @@ import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import type {
   DestinyItem,
   DestinyItemBase,
+  DestinyItemDefinition,
   GGCharacterUiData,
   Guardian,
   ProfileData,
@@ -27,6 +28,7 @@ import {
   swapEquipAndInventoryItem,
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
+import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -255,16 +257,35 @@ function processCharacterInventory(
 
 function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
   const itemDef = itemsDefinition[baseItem.itemHash];
-  if (!itemDef || itemDef.b === undefined) {
+  if (!itemDef || itemDef.b === undefined || baseItem.itemInstanceId === undefined) {
     throw new Error("No itemDefinition found");
   }
   const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
   const itemType: DestinyItemType = getItemType(recoveryBucketHash);
-  const definitionItems = {
+  const definitionItems: DestinyItemDefinition = {
     recoveryBucketHash,
     itemType,
     previousCharacterId: "",
+    characterId: extras.characterId,
+    equipped: extras.equipped,
   };
+
+  if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
+    const masterwork = bitmaskContains(baseItem.state, 4);
+    if (masterwork) {
+      // add this to the definitionItems
+      definitionItems.masterwork = true;
+    }
+  }
+
+  if (itemType === DestinyItemType.Weapon) {
+    // const itemComponent =
+    //   useGGStore.getState().rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
+    // if (itemComponent) {
+    //   const _craftedprimaryStat = itemComponent.primaryStat?.value || 0;
+    //   const _crafted = bitmaskContains(baseItem.state, 8);
+    // }
+  }
 
   const destinyItem = Object.assign(baseItem, extras, definitionItems);
   return destinyItem;

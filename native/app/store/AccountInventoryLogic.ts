@@ -190,8 +190,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
       if (watermark) {
         watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
       }
-      const masterwork = bitmaskContains(item.state, 4);
-      const crafted = bitmaskContains(item.state, 8);
+
       const damageTypeIconUri = getDamageTypeIconUri(itemComponent.damageType);
       const icon = `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`;
       const primaryStat = itemComponent.primaryStat?.value.toString() || "";
@@ -204,8 +203,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
         primaryStat,
         calculatedWaterMark: watermark,
         damageTypeIconUri,
-        masterwork,
-        crafted,
+        masterwork: item?.masterwork ?? false,
       };
       return iconData;
     }
