@@ -133,7 +133,7 @@ export type DestinyItemBase = Output<typeof ItemSchema>;
 export type DestinyItem = DestinyItemBase & {
   characterId: string;
   equipped: boolean;
-  previousCharacterId?: string; //Used by the transfer system to update the UI
+  previousCharacterId: string; //Used by the transfer system to update the UI
   recoveryBucketHash: number | undefined;
   itemType: DestinyItemType;
 };

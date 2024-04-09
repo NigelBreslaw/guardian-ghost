@@ -261,6 +261,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   const definitionItems = {
     recoveryBucketHash,
     itemType,
+    previousCharacterId: "",
   };
 
   const destinyItem = Object.assign(baseItem, extras, definitionItems);
