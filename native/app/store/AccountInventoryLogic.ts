@@ -17,7 +17,6 @@ import {
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { iconWaterMarks, itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
-import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
 // ------------------------------
@@ -220,8 +219,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
       primaryStat: "",
       calculatedWaterMark: "",
       damageTypeIconUri: null,
-      masterwork: false,
-      crafted: false,
+      masterwork: item?.masterwork ?? false,
     };
 
     return nonInstancedItem;
@@ -236,7 +234,6 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     calculatedWaterMark: "",
     damageTypeIconUri: null,
     masterwork: false,
-    crafted: false,
   };
 
   console.error("returnDestinyIconData() error", item);
