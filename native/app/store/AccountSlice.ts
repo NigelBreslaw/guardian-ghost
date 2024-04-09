@@ -29,6 +29,7 @@ import type { IStore } from "@/app/store/GGStore.ts";
 import {
   addToGuardian,
   addToVault,
+  hasSocketedResonance,
   removeFromGuardian,
   removeFromVault,
   swapEquipAndInventoryItem,
@@ -279,7 +280,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   };
 
   const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
-
   definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
 
   if (itemComponent) {
@@ -301,6 +301,11 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       }
 
       if (itemType === DestinyItemType.Weapon) {
+        const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
+        if (deepSightResonance) {
+          // console.log("has deepsight resonance");
+          definitionItems.deepSightResonance = true;
+        }
         const _crafted = bitmaskContains(baseItem.state, 8);
       }
     }

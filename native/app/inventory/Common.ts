@@ -88,6 +88,7 @@ export type DestinyIconData = {
   primaryStat: string;
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
+  borderColor: string;
 };
 
 export enum UiRowType {
