@@ -1,7 +1,7 @@
 import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
@@ -86,8 +86,6 @@ type DestinyCellProps = {
 };
 
 const DestinyCell = (props: DestinyCellProps) => {
-  const borderColor = useMemo(() => (props.data.masterwork ? "#CEAE32" : "#555555"), [props.data.masterwork]);
-
   const handlePress = useCallback(() => {
     useGGStore.getState().setSelectedItem({
       itemInstanceId: props.data.itemInstanceId,
@@ -100,7 +98,7 @@ const DestinyCell = (props: DestinyCellProps) => {
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress}>
         <View style={styles.frameSize}>
-          <View style={[styles.icon, { borderColor }]}>
+          <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
             <View style={styles.innerFrameSize}>
               <Image
                 source={{ uri: props.data.icon }}

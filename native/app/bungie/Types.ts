@@ -142,6 +142,7 @@ export type DestinyItemDefinition = {
   icon: string;
   calculatedWaterMark?: string;
   damageType?: DamageType;
+  deepSightResonance?: boolean;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;

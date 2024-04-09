@@ -159,6 +159,8 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const damageTypeIconUri = getDamageTypeIconUri(item.damageType);
   const primaryStat = item.primaryStat?.toString() || "";
+  const borderColor = returnBorderColor(item);
+  const masterwork = item.masterwork ?? false;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
@@ -168,9 +170,20 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     primaryStat,
     calculatedWaterMark: item.calculatedWaterMark,
     damageTypeIconUri,
-    masterwork: item?.masterwork ?? false,
+    masterwork,
+    borderColor,
   };
   return iconData;
+}
+
+function returnBorderColor(item: DestinyItem): string {
+  if (item.deepSightResonance) {
+    return "#FF603E";
+  }
+  if (item.masterwork) {
+    return "#CEAE32";
+  }
+  return "#555555";
 }
 
 function returnInventoryArray(characterGear: GuardianGear): DestinyIconData[] {
@@ -277,11 +290,7 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
 
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
 
-export function hasSocketedResonance(destinyItem: DestinyItem): boolean {
-  const itemInstanceId = destinyItem.itemInstanceId;
-  if (!itemInstanceId) {
-    return false;
-  }
+export function hasSocketedResonance(itemInstanceId: string): boolean {
   const liveSocketJson = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
   if (!liveSocketJson) {
     return false;
