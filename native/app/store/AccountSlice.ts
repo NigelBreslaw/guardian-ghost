@@ -280,7 +280,14 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     icon: "",
   };
 
-  definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+  if (baseItem.overrideStyleItemHash !== undefined) {
+    const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
+
+    definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${overrideDef?.i}`;
+  } else {
+    definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+  }
+
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
 
   if (baseItem.itemInstanceId !== undefined) {
@@ -324,7 +331,6 @@ function getItemType(bucketHash: number | undefined): DestinyItemType {
   if (armorBuckets.includes(bucketHash)) {
     return DestinyItemType.Armor;
   }
-
   return DestinyItemType.Unknown;
 }
 
@@ -334,7 +340,6 @@ function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItem
   let watermark: string | undefined = undefined;
   if (versionNumber !== undefined) {
     const dvwi = definition.dvwi;
-
     if (dvwi) {
       const index = dvwi[versionNumber];
       if (index !== undefined) {

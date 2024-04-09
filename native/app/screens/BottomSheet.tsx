@@ -1,7 +1,6 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { itemSchema } from "@/app/store/Types";
 import { processTransferItem } from "@/app/transfer/TransferLogic.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -11,7 +10,6 @@ import { StatusBar, StyleSheet, Text, View, useWindowDimensions } from "react-na
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { runOnJS } from "react-native-reanimated";
-import { safeParse } from "valibot";
 
 type ViewData = {
   itemInstanceId: string | undefined;
@@ -20,29 +18,33 @@ type ViewData = {
   name: string;
 };
 
-function buildViewData(itemInstanceId: string | undefined, itemHash: number): ViewData {
-  const itemDef = safeParse(itemSchema, itemsDefinition[itemHash]);
-  if (itemDef.success) {
-    const screenshot = itemDef.output.s;
-    const name = itemDef.output.n;
-    const itd = itemDef.output.itd;
+function buildViewData(destinyItem: DestinyItem): ViewData {
+  const itemDef = itemsDefinition[destinyItem.itemHash];
 
-    const viewData: ViewData = {
-      itemInstanceId,
-      screenshot: screenshot ? `https://www.bungie.net/common/destiny2_content/screenshots/${screenshot}` : "",
-      name: name ? name.toLocaleUpperCase() : "",
-      itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
-    };
-    return viewData;
+  let screenshot = "";
+
+  if (destinyItem.overrideStyleItemHash !== undefined) {
+    const overrideDef = itemsDefinition[destinyItem.overrideStyleItemHash];
+    const s = overrideDef?.s;
+    if (s) {
+      screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
+    }
+  } else {
+    const s = itemDef?.s;
+    if (s) {
+      screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
+    }
   }
+  const name = itemDef?.n;
+  const itd = itemDef?.itd;
 
-  console.error("Failed to build view data", itemInstanceId, itemHash);
-  return {
-    itemInstanceId,
-    screenshot: "",
-    name: "",
-    itemTypeDisplayName: "",
+  const viewData: ViewData = {
+    itemInstanceId: destinyItem.itemInstanceId,
+    screenshot: screenshot,
+    name: name ? name.toLocaleUpperCase() : "",
+    itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
   };
+  return viewData;
 }
 
 type TransferEquipButtonsProps = {
@@ -224,7 +226,7 @@ export default function BottomSheet({
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
   const { itemInstanceId, itemHash, characterId } = route.params.item;
-  const [viewData, _setViewData] = useState<ViewData>(buildViewData(itemInstanceId, itemHash));
+  const [viewData, _setViewData] = useState<ViewData>(buildViewData(route.params.item));
   const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
 
   useEffect(() => {
