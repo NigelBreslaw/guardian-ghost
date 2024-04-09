@@ -265,7 +265,7 @@ function processCharacterInventory(
 
 function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
   const itemDef = itemsDefinition[baseItem.itemHash];
-  if (!itemDef || itemDef.b === undefined || baseItem.itemInstanceId === undefined) {
+  if (!itemDef || itemDef.b === undefined) {
     throw new Error("No itemDefinition found");
   }
 
@@ -280,32 +280,32 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     icon: "",
   };
 
-  const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
   definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+  definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
 
-  if (itemComponent) {
-    definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
-  }
+  if (baseItem.itemInstanceId !== undefined) {
+    const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
 
-  const masterwork = bitmaskContains(baseItem.state, 4);
-  if (masterwork) {
-    definitionItems.masterwork = true;
-  }
+    const masterwork = bitmaskContains(baseItem.state, 4);
+    if (masterwork) {
+      definitionItems.masterwork = true;
+    }
 
-  if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
-    if (itemComponent) {
-      const primaryStat = itemComponent.primaryStat?.value;
-      if (primaryStat) {
-        definitionItems.primaryStat = primaryStat;
-      }
-
-      if (itemType === DestinyItemType.Weapon) {
-        const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
-        if (deepSightResonance) {
-          definitionItems.deepSightResonance = true;
+    if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
+      if (itemComponent) {
+        const primaryStat = itemComponent.primaryStat?.value;
+        if (primaryStat) {
+          definitionItems.primaryStat = primaryStat;
         }
-        definitionItems.damageType = itemComponent.damageType;
-        const _crafted = bitmaskContains(baseItem.state, 8);
+
+        if (itemType === DestinyItemType.Weapon) {
+          const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
+          if (deepSightResonance) {
+            definitionItems.deepSightResonance = true;
+          }
+          definitionItems.damageType = itemComponent.damageType;
+          const _crafted = bitmaskContains(baseItem.state, 8);
+        }
       }
     }
   }
