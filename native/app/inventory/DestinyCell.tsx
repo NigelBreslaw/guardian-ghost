@@ -1,7 +1,7 @@
 import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const DEFAULT_BORDER_COLOR = "#3E3D45";
@@ -81,21 +81,24 @@ const styles = StyleSheet.create({
   },
 });
 
-function handlePress(item: DestinyIconData) {
-  useGGStore
-    .getState()
-    .setSelectedItem({ itemInstanceId: item.itemInstanceId, itemHash: item.itemHash, characterId: item.characterId });
-}
-
 type DestinyCellProps = {
   data: DestinyIconData;
 };
 
 const DestinyCell = (props: DestinyCellProps) => {
-  const borderColor = props.data.masterwork ? "#CEAE32" : "#555555";
+  const borderColor = useMemo(() => (props.data.masterwork ? "#CEAE32" : "#555555"), [props.data.masterwork]);
+
+  const handlePress = useCallback(() => {
+    useGGStore.getState().setSelectedItem({
+      itemInstanceId: props.data.itemInstanceId,
+      itemHash: props.data.itemHash,
+      characterId: props.data.characterId,
+    });
+  }, [props.data]);
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress.bind(this, props.data)}>
+      <TouchableOpacity onPress={handlePress}>
         <View style={styles.frameSize}>
           <View style={[styles.icon, { borderColor }]}>
             <View style={styles.innerFrameSize}>

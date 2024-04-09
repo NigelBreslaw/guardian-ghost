@@ -2,6 +2,7 @@ import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 type VaultSectionFlexProps = {
@@ -54,4 +55,4 @@ function VaultSectionFlex(props: VaultSectionFlexProps) {
   );
 }
 
-export default VaultSectionFlex;
+export default React.memo(VaultSectionFlex);
