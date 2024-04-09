@@ -158,7 +158,6 @@ function returnVaultUiData(profile: ProfileData, itemBuckets: number[], vaultDat
       }
     }
   }
-  console.log("dataArray.length", dataArray.length);
   return dataArray;
 }
 
