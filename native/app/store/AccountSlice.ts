@@ -268,6 +268,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   if (!itemDef || itemDef.b === undefined || baseItem.itemInstanceId === undefined) {
     throw new Error("No itemDefinition found");
   }
+
   const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
   const itemType: DestinyItemType = getItemType(recoveryBucketHash);
   const definitionItems: DestinyItemDefinition = {
@@ -288,7 +289,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
-    // add this to the definitionItems
     definitionItems.masterwork = true;
   }
 
