@@ -158,6 +158,7 @@ export type DestinyItemIdentifier = {
 };
 
 export const ITEM_SIZE = 90;
+export const VAULT_5x5_SIZE = ITEM_SIZE * 5;
 export const EQUIP_SECTION_SIZE = ITEM_SIZE * 3;
 export const SEPARATOR_SIZE = 45;
 

@@ -5,36 +5,41 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
+const array9 = Array.from({ length: 9 });
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  box: {
+    width: "33.33%",
+    height: ITEM_SIZE,
+  },
+});
+
 type EquipSectionProps = {
   data: EquipSectionCell;
 };
 
 function EquipSection(props: EquipSectionProps) {
-  const styles = StyleSheet.create({
-    root: {
-      width: useGGStore.getState().inventorySectionWidth,
-      height: EQUIP_SECTION_SIZE,
-    },
-    container: {
-      flex: 3,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    box: {
-      width: "33.33%",
-      height: ITEM_SIZE,
-    },
-  });
+  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
+  const dynamicStyles = {
+    width: inventorySectionWidth,
+    height: EQUIP_SECTION_SIZE,
+  };
+
   return (
-    <View style={styles.root}>
+    <View style={dynamicStyles}>
       <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flex: 1 }}>
           {props.data.equipped !== null ? <DestinyCell data={props.data.equipped} /> : <EmptyCell />}
         </View>
         <View style={styles.container}>
-          {Array.from({ length: 9 }).map((_, index) => {
+          {array9.map((_, index) => {
             const item = props.data.inventory[index];
             if (item) {
               return (
