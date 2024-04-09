@@ -15,7 +15,7 @@ import {
   type UiCell,
 } from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
-import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
+import { bucketTypeHashArray, itemsDefinition, setRawProfileData } from "@/app/store/Definitions.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
@@ -46,7 +46,6 @@ export interface AccountSlice {
 
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
-  rawProfileData: ProfileData | null;
   guardians: Record<string, Guardian>;
   generalVault: VaultData;
 
@@ -129,6 +128,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 });
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {
+  // set the data first as many other functions need to use the latest version
+  setRawProfileData(profile);
+
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
   const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
@@ -138,8 +140,8 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const ggCharacters = getCharactersAndVault(basicGuardians);
   const p2 = performance.now();
   console.log("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
+
   set({
-    rawProfileData: profile,
     guardians: guardiansWithInventory,
     generalVault,
     ggCharacters,
