@@ -16,7 +16,13 @@ import {
   type UiCell,
 } from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
-import { bucketTypeHashArray, itemsDefinition, setRawProfileData } from "@/app/store/Definitions.ts";
+import {
+  bucketTypeHashArray,
+  iconWaterMarks,
+  itemsDefinition,
+  rawProfileData,
+  setRawProfileData,
+} from "@/app/store/Definitions.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
@@ -29,6 +35,7 @@ import {
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
+import type { SingleItemDefinition } from "@/app/store/Types.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -141,7 +148,7 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const generalVault = processVaultInventory(profile);
   const ggCharacters = getCharactersAndVault(basicGuardians);
   const p2 = performance.now();
-  console.log("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
+  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
   set({
     guardians: guardiansWithInventory,
@@ -268,7 +275,17 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     previousCharacterId: "",
     characterId: extras.characterId,
     equipped: extras.equipped,
+    icon: "",
   };
+
+  const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
+
+  definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+
+  if (itemComponent) {
+    definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
+    definitionItems.damageType = itemComponent.damageType;
+  }
 
   if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
     const masterwork = bitmaskContains(baseItem.state, 4);
@@ -276,15 +293,17 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       // add this to the definitionItems
       definitionItems.masterwork = true;
     }
-  }
 
-  if (itemType === DestinyItemType.Weapon) {
-    // const itemComponent =
-    //   useGGStore.getState().rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
-    // if (itemComponent) {
-    //   const _craftedprimaryStat = itemComponent.primaryStat?.value || 0;
-    //   const _crafted = bitmaskContains(baseItem.state, 8);
-    // }
+    if (itemComponent) {
+      const primaryStat = itemComponent.primaryStat?.value;
+      if (primaryStat) {
+        definitionItems.primaryStat = primaryStat;
+      }
+
+      if (itemType === DestinyItemType.Weapon) {
+        const _crafted = bitmaskContains(baseItem.state, 8);
+      }
+    }
   }
 
   const destinyItem = Object.assign(baseItem, extras, definitionItems);
@@ -303,6 +322,32 @@ function getItemType(bucketHash: number | undefined): DestinyItemType {
   }
 
   return DestinyItemType.Unknown;
+}
+
+function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItemDefinition): string | undefined {
+  const versionNumber = destinyItem.versionNumber;
+
+  let watermark: string | undefined = undefined;
+  if (versionNumber !== undefined) {
+    const dvwi = definition.dvwi;
+
+    if (dvwi) {
+      const index = dvwi[versionNumber];
+      if (index !== undefined) {
+        watermark = iconWaterMarks[index];
+      }
+    }
+  } else {
+    const iconWatermark = definition.iw;
+    if (iconWatermark) {
+      watermark = iconWaterMarks[iconWatermark];
+    }
+  }
+
+  if (watermark) {
+    watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
+  }
+  return watermark;
 }
 
 function processVaultInventory(profile: ProfileData): VaultData {

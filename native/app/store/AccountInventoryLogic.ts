@@ -5,10 +5,7 @@ import {
   generalPageBuckets,
   getDamageTypeIconUri,
   weaponsPageBuckets,
-  // type BlankCell,
-  // type DestinyCell,
   type DestinyIconData,
-  // type EmptyCell,
   type EquipSectionCell,
   type SeparatorRow,
   type UiCell,
@@ -16,7 +13,7 @@ import {
   type VaultFlexCell,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
-import { iconWaterMarks, itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
+import { rawProfileData } from "@/app/store/Definitions.ts";
 import { create } from "mutative";
 
 // ------------------------------
@@ -160,84 +157,20 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[
 }
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
-  const definition = itemsDefinition[item.itemHash];
-  const itemInstanceId = item?.itemInstanceId;
+  const damageTypeIconUri = getDamageTypeIconUri(item.damageType);
+  const primaryStat = item.primaryStat?.toString() || "";
 
-  if (itemInstanceId) {
-    const itemComponent = rawProfileData?.Response.itemComponents.instances.data[itemInstanceId];
-    if (itemComponent && definition) {
-      // if it has a version number get the watermark from the array. If it does not then see if the definition has an 'iconWatermark'
-      const versionNumber = item.versionNumber;
-
-      let watermark: string | undefined = undefined;
-      if (versionNumber !== undefined) {
-        const dvwi = definition.dvwi;
-
-        if (dvwi) {
-          const index = dvwi[versionNumber];
-          if (index !== undefined) {
-            watermark = iconWaterMarks[index];
-          }
-        }
-      } else {
-        const iconWatermark = definition.iw;
-        if (iconWatermark) {
-          watermark = iconWaterMarks[iconWatermark];
-        }
-      }
-
-      if (watermark) {
-        watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
-      }
-
-      const damageTypeIconUri = getDamageTypeIconUri(itemComponent.damageType);
-      const icon = `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`;
-      const primaryStat = itemComponent.primaryStat?.value.toString() || "";
-
-      const iconData: DestinyIconData = {
-        itemHash: item.itemHash,
-        itemInstanceId,
-        characterId: item.characterId,
-        icon,
-        primaryStat,
-        calculatedWaterMark: watermark,
-        damageTypeIconUri,
-        masterwork: item?.masterwork ?? false,
-      };
-      return iconData;
-    }
-
-    console.error("No itemComponent found for item", item);
-  }
-
-  if (definition) {
-    const nonInstancedItem: DestinyIconData = {
-      itemHash: item.itemHash,
-      itemInstanceId: undefined,
-      characterId: item.characterId,
-      icon: `https://www.bungie.net/common/destiny2_content/icons/${definition.i}`,
-      primaryStat: "",
-      calculatedWaterMark: "",
-      damageTypeIconUri: null,
-      masterwork: item?.masterwork ?? false,
-    };
-
-    return nonInstancedItem;
-  }
-
-  const emptyData: DestinyIconData = {
+  const iconData: DestinyIconData = {
     itemHash: item.itemHash,
-    itemInstanceId: undefined,
-    characterId: "",
-    icon: "",
-    primaryStat: "",
-    calculatedWaterMark: "",
-    damageTypeIconUri: null,
-    masterwork: false,
+    itemInstanceId: item.itemInstanceId,
+    characterId: item.characterId,
+    icon: item.icon,
+    primaryStat,
+    calculatedWaterMark: item.calculatedWaterMark,
+    damageTypeIconUri,
+    masterwork: item?.masterwork ?? false,
   };
-
-  console.error("returnDestinyIconData() error", item);
-  return emptyData;
+  return iconData;
 }
 
 function returnInventoryArray(characterGear: GuardianGear): DestinyIconData[] {
