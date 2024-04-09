@@ -1,6 +1,19 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
-import type { DestinyItem, GGCharacterUiData, Guardian, ProfileData, VaultData } from "@/app/bungie/Types.ts";
-import type { DestinyItemIdentifier, UiCell } from "@/app/inventory/Common.ts";
+import type {
+  DestinyItem,
+  DestinyItemBase,
+  GGCharacterUiData,
+  Guardian,
+  ProfileData,
+  VaultData,
+} from "@/app/bungie/Types.ts";
+import {
+  DestinyItemType,
+  armorBuckets,
+  weaponBuckets,
+  type DestinyItemIdentifier,
+  type UiCell,
+} from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
@@ -117,11 +130,14 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
+  const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
   const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
   const generalVault = processVaultInventory(profile);
   const ggCharacters = getCharactersAndVault(basicGuardians);
+  const p2 = performance.now();
+  console.log("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
   set({
     rawProfileData: profile,
     guardians: guardiansWithInventory,
@@ -186,14 +202,18 @@ function processCharacterEquipment(
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
-    const characterAsId = { characterId: character, equipped: true, previousCharacterId: "" };
+    const characterAsId = { characterId: character, equipped: true };
 
     if (characterEquipment) {
       const characterItems = guardians[character];
       for (const item of characterEquipment.items) {
         if (characterItems) {
-          const destinyItem = Object.assign(item, characterAsId);
-          characterItems.items[item.bucketHash] = { equipped: destinyItem, inventory: [] };
+          try {
+            const destinyItem = addDefinition(item, characterAsId);
+            characterItems.items[item.bucketHash] = { equipped: destinyItem, inventory: [] };
+          } catch {
+            // console.error("Failed to add item", e);
+          }
         }
       }
     }
@@ -218,13 +238,47 @@ function processCharacterInventory(
           if (!hasBucket) {
             characterItems.items[item.bucketHash] = { equipped: null, inventory: [] };
           }
-          const destinyItem = Object.assign(item, characterAsId);
-          characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
+          try {
+            const destinyItem = addDefinition(item, characterAsId);
+            characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
+          } catch {
+            // console.error("Failed to add item", e);
+          }
         }
       }
     }
   }
   return guardians;
+}
+
+function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
+  const itemDef = itemsDefinition[baseItem.itemHash];
+  if (!itemDef || itemDef.b === undefined) {
+    throw new Error("No itemDefinition found");
+  }
+  const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
+  const itemType: DestinyItemType = getItemType(recoveryBucketHash);
+  const definitionItems = {
+    recoveryBucketHash,
+    itemType,
+  };
+
+  const destinyItem = Object.assign(baseItem, extras, definitionItems);
+  return destinyItem;
+}
+
+function getItemType(bucketHash: number | undefined): DestinyItemType {
+  if (bucketHash === undefined) {
+    return DestinyItemType.Unknown;
+  }
+  if (weaponBuckets.includes(bucketHash)) {
+    return DestinyItemType.Weapon;
+  }
+  if (armorBuckets.includes(bucketHash)) {
+    return DestinyItemType.Armor;
+  }
+
+  return DestinyItemType.Unknown;
 }
 
 function processVaultInventory(profile: ProfileData): VaultData {
@@ -233,38 +287,31 @@ function processVaultInventory(profile: ProfileData): VaultData {
 
   if (vaultInventory) {
     for (const item of vaultInventory) {
-      const itemHash = item.itemHash.toString();
-
-      const data = itemsDefinition[itemHash];
       //TODO: !!!! This only processes the general vault. Global items, consumables, mods, etc. need to be added.
       if (item.bucketHash !== 138197802) {
         continue;
       }
+      let destinyItem: DestinyItem;
+      try {
+        const characterIsVault = {
+          characterId: VAULT_CHARACTER_ID,
+          equipped: false,
+        };
+        destinyItem = addDefinition(item, characterIsVault);
+        destinyItem.bucketHash = destinyItem.recoveryBucketHash ?? 0;
+      } catch {
+        continue;
+      }
 
-      if (data) {
-        const bucketHashIndex = data.b;
-        if (bucketHashIndex !== undefined) {
-          const recoveryBucketHash = bucketTypeHashArray[bucketHashIndex];
-
-          if (recoveryBucketHash) {
-            const hasBaseBucket = Object.hasOwn(vaultItems.items, recoveryBucketHash);
-            if (!hasBaseBucket) {
-              vaultItems.items[recoveryBucketHash] = {
-                equipped: null,
-                inventory: [],
-              };
-            }
-            const characterIsVault = {
-              characterId: VAULT_CHARACTER_ID,
-              equipped: false,
-              bucketHash: recoveryBucketHash,
-              previousCharacterId: "",
-            };
-            const destinyItem = Object.assign(item, characterIsVault);
-
-            vaultItems.items[recoveryBucketHash]?.inventory.push(destinyItem);
-          }
+      if (destinyItem.bucketHash !== 0) {
+        const hasBaseBucket = Object.hasOwn(vaultItems.items, destinyItem.bucketHash);
+        if (!hasBaseBucket) {
+          vaultItems.items[destinyItem.bucketHash] = {
+            equipped: null,
+            inventory: [],
+          };
         }
+        vaultItems.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
       }
     }
   }

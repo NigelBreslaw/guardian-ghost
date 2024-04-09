@@ -79,10 +79,6 @@ export default function InventoryPage(props: InventoryPageProps) {
 
   const debouncedMove = debounce(listMoved, 60);
 
-  const onLoadListener = useCallback(({ elapsedTimeInMs }: { elapsedTimeInMs: number }) => {
-    console.log("FlashList load time", elapsedTimeInMs);
-  }, []);
-
   return (
     <View style={rootStyles.root}>
       <ScrollView
@@ -112,7 +108,6 @@ export default function InventoryPage(props: InventoryPageProps) {
                   }
                 }}
                 getItemType={getItemType}
-                onLoad={onLoadListener}
               />
             </View>
           );
