@@ -1,37 +1,41 @@
-import { EQUIP_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
+const array25 = Array.from({ length: 25 });
+
 type VaultSection5x5Props = {
   data: DestinyIconData[];
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  box: {
+    width: "20%",
+    height: ITEM_SIZE,
+  },
+});
+
 function VaultSection5x5(props: VaultSection5x5Props) {
-  const styles = StyleSheet.create({
-    root: {
-      width: useGGStore.getState().inventorySectionWidth,
-      height: EQUIP_SECTION_SIZE,
-    },
-    container: {
-      flex: 1,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    box: {
-      width: "20%",
-      height: ITEM_SIZE,
-    },
-  });
+  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
+  const rootStyle = {
+    width: inventorySectionWidth,
+    height: VAULT_5x5_SIZE,
+  };
 
   return (
-    <View style={styles.root}>
+    <View style={rootStyle}>
       <View style={styles.container}>
-        {Array.from({ length: 25 }).map((_v, index) => {
+        {array25.map((_v, index) => {
           const item = props.data[index];
           if (item) {
             return (
