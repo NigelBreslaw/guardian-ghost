@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignContent: "center",
     includeFontPadding: false,
+    pointerEvents: "none",
   },
   powerLevel: {
     width: 40,
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 2,
     borderColor: "#555555",
+    pointerEvents: "none",
   },
   frameSize: {
     width: 68,
@@ -57,20 +59,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -0.5,
     left: -0.5,
+    pointerEvents: "none",
   },
   innerFrameOverlaySize: {
     width: 65,
     height: 65,
     position: "absolute",
+    pointerEvents: "none",
   },
   crafted: {
     width: 65,
     height: 65,
     position: "absolute",
+    pointerEvents: "none",
   },
   miniIconBurnSize: {
     width: 13,
     height: 13,
+    pointerEvents: "none",
   },
   miniIconBurn: {
     width: MINI_ICON_SIZE,
