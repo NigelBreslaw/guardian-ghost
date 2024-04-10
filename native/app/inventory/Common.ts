@@ -89,6 +89,7 @@ export type DestinyIconData = {
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
   borderColor: string;
+  crafted?: boolean;
 };
 
 export enum UiRowType {
@@ -168,3 +169,4 @@ export function getDamageTypeIconUri(damageType: DamageType | undefined): number
 
 export const LOGO_DARK = require("../../images/gg-logo-dark.webp");
 export const LOGO_LIGHT = require("../../images/gg-logo-light.webp");
+export const CRAFTED_OVERLAY = require("../../images/crafted.webp");
