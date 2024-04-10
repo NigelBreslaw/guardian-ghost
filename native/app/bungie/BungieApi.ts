@@ -1,4 +1,4 @@
-import { getProfileSchema, type ProfileData } from "@/app/bungie/Types.ts";
+import { getProfileSimpleSchema, type ProfileData } from "@/app/bungie/Types.ts";
 import { basePath } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
@@ -10,14 +10,13 @@ export async function getFullProfile() {
   useGGStore.getState().setRefreshing(true);
   try {
     const profile = (await getProfile()) as unknown as ProfileData;
-
     // The returned data is often old and won't reflect recent transfers. This check ensures the data
     // has a newer timestamp than the previous data.
     const isNewer = isProfileNewer(profile);
     if (isNewer) {
-      const validatedProfile = safeParse(getProfileSchema, profile);
+      const validatedProfile = safeParse(getProfileSimpleSchema, profile);
       if (validatedProfile.success) {
-        useGGStore.getState().updateProfile(validatedProfile.output);
+        useGGStore.getState().updateProfile(validatedProfile.output as ProfileData);
       } else {
         console.error("Failed to validate profile!", profile);
         console.error("Issues", validatedProfile.issues);
