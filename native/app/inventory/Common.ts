@@ -99,12 +99,9 @@ export enum UiRowType {
 }
 export enum UiCellType {
   Separator = 0,
-  EmptyCell = 1,
-  BlankCell = 2,
-  DestinyCell = 3,
-  EquipSectionCell = 4,
-  Vault5x5Cell = 5,
-  VaultFlexCell = 6,
+  EquipSectionCell = 1,
+  Vault5x5Cell = 2,
+  VaultFlexCell = 3,
 }
 
 export type BaseCell = {
@@ -114,27 +111,6 @@ export type BaseCell = {
 
 export type SeparatorRow = BaseCell & {
   type: UiCellType.Separator;
-};
-
-export type DestinyCell = BaseCell & {
-  type: UiCellType.DestinyCell;
-  icon: string;
-  primaryStat: string;
-  calculatedWaterMark: string | undefined;
-  damageTypeIconUri: number | null;
-  itemHash: number;
-  itemInstanceId: string | undefined;
-  characterId: string;
-  masterwork: boolean;
-  crafted: boolean;
-};
-
-export type EmptyCell = BaseCell & {
-  type: UiCellType.EmptyCell;
-};
-
-export type BlankCell = BaseCell & {
-  type: UiCellType.BlankCell;
 };
 
 export type EquipSectionCell = BaseCell & {
@@ -153,14 +129,7 @@ export type VaultFlexCell = BaseCell & {
   inventory: DestinyIconData[];
 };
 
-export type UiCell =
-  | SeparatorRow
-  | DestinyCell
-  | EmptyCell
-  | BlankCell
-  | EquipSectionCell
-  | Vault5x5Cell
-  | VaultFlexCell;
+export type UiCell = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
