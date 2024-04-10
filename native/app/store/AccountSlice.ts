@@ -29,6 +29,7 @@ import type { IStore } from "@/app/store/GGStore.ts";
 import {
   addToGuardian,
   addToVault,
+  checkForCraftedMasterwork,
   hasSocketedResonance,
   removeFromGuardian,
   removeFromVault,
@@ -314,6 +315,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
           const crafted = bitmaskContains(baseItem.state, 8);
           if (crafted) {
             definitionItems.crafted = true;
+            definitionItems.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
           }
         }
       }
