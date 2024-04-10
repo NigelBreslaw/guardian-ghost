@@ -1,6 +1,6 @@
 import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
 import type { DamageType, DestinyItemType } from "@/app/inventory/Common.ts";
-import { array, boolean, isoTimestamp, merge, number, object, optional, record, string } from "valibot";
+import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
 export type GuardiansAndVault = {
@@ -223,6 +223,38 @@ const PlugSetSchema = array(
 
 export type PlugSet = Output<typeof PlugSetSchema>;
 
+const itemComponentSchema = record(
+  string(),
+  object({
+    canEquip: boolean(),
+    cannotEquipReason: number(),
+    damageType: number(),
+    damageTypeHash: optional(number()),
+    energy: optional(
+      object({
+        energyCapacity: number(),
+        energyType: number(),
+        energyTypeHash: number(),
+        energyUnused: number(),
+        energyUsed: number(),
+      }),
+    ),
+    equipRequiredLevel: number(),
+    isEquipped: boolean(),
+    itemLevel: number(),
+    primaryStat: optional(
+      object({
+        statHash: number(),
+        value: number(),
+      }),
+    ),
+    quality: number(),
+    unlockHashesRequiredToEquip: array(number()),
+  }),
+);
+
+export type ItemComponent = Output<typeof itemComponentSchema>;
+
 export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
@@ -298,6 +330,52 @@ export const getProfileSchema = merge([
 ]);
 
 export type ProfileData = Output<typeof getProfileSchema>;
+
+export const getProfileSimpleSchema = merge([
+  bungieResponseSchema,
+  object({
+    Response: object({
+      characterEquipment: object({
+        data: record(string(), unknown()), //object({ items: array(ItemSchema) })),
+        privacy: number(),
+      }),
+      characterInventories: object({
+        data: unknown(), //record(string(), object({ items: array(ItemSchema) })),
+      }),
+      characterLoadouts: object({}),
+      characterPlugSets: object({}),
+      characterProgressions: object({}),
+      characterStringVariables: object({}),
+      characterUninstancedItemComponents: object({}),
+      characters: object({
+        data: record(string(), unknown()), //GuardiansSchema),
+      }),
+
+      itemComponents: object({
+        instances: object({
+          data: unknown(), //itemComponentSchema,
+        }),
+        sockets: object({
+          data: unknown(), //record(string(), SocketSchema),
+        }),
+      }),
+      profile: object({}),
+      profileCurrencies: object({}),
+      profileInventory: object({
+        data: object({ items: unknown() }), //array(ItemSchema) }),
+      }),
+      profilePlugSets: object({
+        data: object({
+          plugs: unknown(), //record(string(), PlugSetSchema),
+        }),
+      }),
+      profileProgression: object({}),
+      profileStringVariables: object({}),
+      responseMintedTimestamp: string([isoTimestamp()]),
+      secondaryComponentsMintedTimestamp: string([isoTimestamp()]),
+    }),
+  }),
+]);
 
 export enum GGCharacterType {
   Guardian = 0,
