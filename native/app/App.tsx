@@ -13,8 +13,17 @@ import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
+import { getCustomManifest } from "@/app/utilities/Helpers.ts";
+
+const startupTime = performance.now();
+useGGStore.getState().setAppStartupTime(startupTime);
 
 enableFreeze(true);
+
+async function init() {
+  const _manifest = await getCustomManifest();
+}
+init();
 
 type RootStackParamList = {
   Login: undefined;

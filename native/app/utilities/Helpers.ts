@@ -36,6 +36,31 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
   });
 }
 
+export function getCustomManifest(): Promise<JSON> {
+  const requestOptions: RequestInit = {
+    cache: "no-store",
+    method: "GET",
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch("https://app.guardianghost.com/json/manifest.json", requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        console.error("Failed to download custom manifest", error);
+        reject(error);
+      });
+  });
+}
+
 // biome-ignore lint/suspicious/noExplicitAny: <Generic function>
 export function benchmark<T extends any[], R>(func: (...args: T) => R, ...args: T): R {
   const start = performance.now();

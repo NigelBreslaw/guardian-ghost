@@ -43,6 +43,7 @@ export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], Account
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
 
 export interface AccountSlice {
+  appStartupTime: number;
   refreshing: boolean;
   currentListIndex: number;
 
@@ -60,6 +61,7 @@ export interface AccountSlice {
   guardians: Record<string, Guardian>;
   generalVault: VaultData;
 
+  setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
   updateProfile: (profile: ProfileData) => void;
@@ -71,6 +73,7 @@ export interface AccountSlice {
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
+  appStartupTime: 0,
   refreshing: false,
   currentListIndex: 0,
 
@@ -89,6 +92,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     items: {},
   },
 
+  setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
 
   setCurrentListIndex: (currentListIndex) => {
