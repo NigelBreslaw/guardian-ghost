@@ -223,7 +223,11 @@ const PlugSetSchema = array(
 
 export type PlugSet = Output<typeof PlugSetSchema>;
 
-const itemComponentSchema = record(
+const ReusablePlugSetSchema = object({
+  plugs: record(string(), PlugSetSchema),
+});
+
+const instancesSchema = record(
   string(),
   object({
     canEquip: boolean(),
@@ -253,7 +257,7 @@ const itemComponentSchema = record(
   }),
 );
 
-export type ItemComponent = Output<typeof itemComponentSchema>;
+export type GGInstances = Output<typeof instancesSchema>;
 
 export const getProfileSchema = merge([
   bungieResponseSchema,
@@ -277,38 +281,13 @@ export const getProfileSchema = merge([
 
       itemComponents: object({
         instances: object({
-          data: record(
-            string(),
-            object({
-              canEquip: boolean(),
-              cannotEquipReason: number(),
-              damageType: number(),
-              damageTypeHash: optional(number()),
-              energy: optional(
-                object({
-                  energyCapacity: number(),
-                  energyType: number(),
-                  energyTypeHash: number(),
-                  energyUnused: number(),
-                  energyUsed: number(),
-                }),
-              ),
-              equipRequiredLevel: number(),
-              isEquipped: boolean(),
-              itemLevel: number(),
-              primaryStat: optional(
-                object({
-                  statHash: number(),
-                  value: number(),
-                }),
-              ),
-              quality: number(),
-              unlockHashesRequiredToEquip: array(number()),
-            }),
-          ),
+          data: instancesSchema,
         }),
         sockets: object({
           data: record(string(), SocketSchema),
+        }),
+        reusablePlugs: object({
+          data: record(string(), ReusablePlugSetSchema),
         }),
       }),
       profile: object({}),
@@ -331,7 +310,7 @@ export const getProfileSchema = merge([
 
 export type ProfileData = Output<typeof getProfileSchema>;
 
-export const getProfileSimpleSchema = merge([
+export const getSimpleProfileSchema = merge([
   bungieResponseSchema,
   object({
     Response: object({
