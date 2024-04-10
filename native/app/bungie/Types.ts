@@ -315,11 +315,11 @@ export const getSimpleProfileSchema = merge([
   object({
     Response: object({
       characterEquipment: object({
-        data: record(string(), unknown()), //object({ items: array(ItemSchema) })),
+        data: record(string(), unknown()),
         privacy: number(),
       }),
       characterInventories: object({
-        data: unknown(), //record(string(), object({ items: array(ItemSchema) })),
+        data: unknown(),
       }),
       characterLoadouts: object({}),
       characterPlugSets: object({}),
@@ -327,25 +327,28 @@ export const getSimpleProfileSchema = merge([
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
       characters: object({
-        data: record(string(), unknown()), //GuardiansSchema),
+        data: record(string(), unknown()),
       }),
 
       itemComponents: object({
         instances: object({
-          data: unknown(), //itemComponentSchema,
+          data: unknown(),
         }),
         sockets: object({
-          data: unknown(), //record(string(), SocketSchema),
+          data: unknown(),
+        }),
+        reusablePlugs: object({
+          data: unknown(),
         }),
       }),
       profile: object({}),
       profileCurrencies: object({}),
       profileInventory: object({
-        data: object({ items: unknown() }), //array(ItemSchema) }),
+        data: object({ items: unknown() }),
       }),
       profilePlugSets: object({
         data: object({
-          plugs: unknown(), //record(string(), PlugSetSchema),
+          plugs: unknown(),
         }),
       }),
       profileProgression: object({}),
