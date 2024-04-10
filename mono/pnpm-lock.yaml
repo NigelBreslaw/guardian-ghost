@@ -18,17 +18,17 @@ importers:
   apps/site:
     dependencies:
       astro:
-        specifier: ^4.5.4
-        version: 4.5.16(typescript@5.4.4)
+        specifier: ^4.5.18
+        version: 4.5.18(typescript@5.4.4)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
-        specifier: 0.21.4
-        version: 0.21.4(astro@4.5.16)
+        specifier: 0.21.5
+        version: 0.21.5(astro@4.5.18)
       astro:
-        specifier: 4.5.16
-        version: 4.5.16(typescript@5.4.4)
+        specifier: 4.5.18
+        version: 4.5.18(typescript@5.4.4)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -202,7 +202,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/mdx@2.1.1(astro@4.5.16):
+  /@astrojs/mdx@2.1.1(astro@4.5.18):
     resolution: {integrity: sha512-AgGFdE7HOGmoFooGvMSatkA9FiSKwyVW7ImHot/bXJ6uAbFfu6iG2ht18Cf1pT22Hda/6iSCGWusFvBv0/EnKQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -211,7 +211,7 @@ packages:
       '@astrojs/markdown-remark': 4.2.1
       '@mdx-js/mdx': 3.0.0
       acorn: 8.11.2
-      astro: 4.5.16(typescript@5.4.4)
+      astro: 4.5.18(typescript@5.4.4)
       es-module-lexer: 1.4.1
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -242,18 +242,18 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.21.4(astro@4.5.16):
-    resolution: {integrity: sha512-n9K9WMYN9HtRsZ6u06yLXKMaLMo+a6ifDoBkP24S6EFOsgFUa4P9/t+xliDnNFTf3KGtm9YTdSUA3oI/2wq1eQ==}
+  /@astrojs/starlight@0.21.5(astro@4.5.18):
+    resolution: {integrity: sha512-cvftxu7DM4C25KGSxqyIk81DiQGX0zx9s5sfmprd1kKQK1h/MQXaRVDCpJrK4SjrgWtpG1UoKLJZBgD5w4k9kw==}
     peerDependencies:
       astro: ^4.2.7
     dependencies:
-      '@astrojs/mdx': 2.1.1(astro@4.5.16)
+      '@astrojs/mdx': 2.1.1(astro@4.5.18)
       '@astrojs/sitemap': 3.1.2
       '@pagefind/default-ui': 1.0.4
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.3
-      astro: 4.5.16(typescript@5.4.4)
-      astro-expressive-code: 0.33.4(astro@4.5.16)
+      astro: 4.5.18(typescript@5.4.4)
+      astro-expressive-code: 0.33.4(astro@4.5.18)
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -1805,18 +1805,18 @@ packages:
     hasBin: true
     dev: false
 
-  /astro-expressive-code@0.33.4(astro@4.5.16):
+  /astro-expressive-code@0.33.4(astro@4.5.18):
     resolution: {integrity: sha512-PtXLjd89WBA1WsDYlt3V1LZs9Pa8FFoXilaGDSyfxtbYJ2OPHjWh2JJvCiXmfXmY3HkPJ2oW9Jjo6om5vUlVcg==}
     peerDependencies:
       astro: ^3.3.0 || ^4.0.0-beta
     dependencies:
-      astro: 4.5.16(typescript@5.4.4)
+      astro: 4.5.18(typescript@5.4.4)
       hast-util-to-html: 8.0.4
       remark-expressive-code: 0.33.4
     dev: false
 
-  /astro@4.5.16(typescript@5.4.4):
-    resolution: {integrity: sha512-1nOVsMq2OJiXnG6gO0Y77vTAboGN9nLQSy/8SGazq4h6x+alzbsMbQbArBgvaLzOSUXD0m91XLs3D8bOSuavrQ==}
+  /astro@4.5.18(typescript@5.4.4):
+    resolution: {integrity: sha512-iytLnUfyUneKMjIQdj79zzniByXtcmGNDobIV/gjGsatC9vAyPqeCT8TbMqfkRBMeYGs+S/wCzSoPqaaMJiQnw==}
     engines: {node: '>=18.14.1', npm: '>=6.14.0'}
     hasBin: true
     dependencies:
