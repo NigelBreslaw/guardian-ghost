@@ -311,7 +311,10 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
             definitionItems.deepSightResonance = true;
           }
           definitionItems.damageType = itemComponent.damageType;
-          const _crafted = bitmaskContains(baseItem.state, 8);
+          const crafted = bitmaskContains(baseItem.state, 8);
+          if (crafted) {
+            definitionItems.crafted = true;
+          }
         }
       }
     }

@@ -1,4 +1,4 @@
-import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { CRAFTED_OVERLAY, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
     height: 65,
     position: "absolute",
   },
+  crafted: {
+    width: 65,
+    height: 65,
+    position: "absolute",
+  },
   miniIconBurnSize: {
     width: 13,
     height: 13,
@@ -111,6 +116,11 @@ const DestinyCell = (props: DestinyCellProps) => {
                 cachePolicy="memory-disk"
                 style={styles.innerFrameOverlaySize}
                 recyclingKey={props.data.calculatedWaterMark}
+              />
+              <Image
+                source={CRAFTED_OVERLAY}
+                cachePolicy="memory-disk"
+                style={[styles.crafted, { opacity: props.data.crafted ? 1 : 0 }]}
               />
             </View>
           </View>

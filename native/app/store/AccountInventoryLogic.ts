@@ -161,6 +161,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const primaryStat = item.primaryStat?.toString() || "";
   const borderColor = returnBorderColor(item);
   const masterwork = item.masterwork ?? false;
+  const crafted = item.crafted;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
@@ -172,6 +173,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     damageTypeIconUri,
     masterwork,
     borderColor,
+    crafted,
   };
   return iconData;
 }
