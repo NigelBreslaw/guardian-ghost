@@ -200,6 +200,29 @@ export const GuardiansSchema = object({
 
 export type GuardianData = Output<typeof GuardiansSchema>;
 
+const PlugSetSchema = array(
+  object({
+    canInsert: boolean(),
+    enabled: boolean(),
+    plugItemHash: number(),
+    enableFailIndexes: optional(array(number())),
+    insertFailIndexes: optional(array(number())),
+    plugObjectives: optional(
+      array(
+        object({
+          complete: boolean(),
+          completionValue: number(),
+          objectiveHash: number(),
+          progress: number(),
+          visible: boolean(),
+        }),
+      ),
+    ),
+  }),
+);
+
+export type PlugSet = Output<typeof PlugSetSchema>;
+
 export const getProfileSchema = merge([
   bungieResponseSchema,
   object({
@@ -261,7 +284,11 @@ export const getProfileSchema = merge([
       profileInventory: object({
         data: object({ items: array(ItemSchema) }),
       }),
-      profilePlugSets: object({}),
+      profilePlugSets: object({
+        data: object({
+          plugs: record(string(), PlugSetSchema),
+        }),
+      }),
       profileProgression: object({}),
       profileStringVariables: object({}),
       responseMintedTimestamp: string([isoTimestamp()]),
