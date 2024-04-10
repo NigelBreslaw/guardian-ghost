@@ -118,9 +118,10 @@ type ProcessedData = {
   helpers: { [key: string]: any };
   items: { [key: string]: any };
   version: number;
+  id: string;
 };
 
-function createMiniDefinition(jsonData: JsonData): ProcessedData {
+function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedData {
   // Dictionary of the repeat string arrays
   const repeatStrings: Record<RepeatStringsName, string[]> = {
     [RepeatStringsName.Descriptions]: [],
@@ -164,7 +165,7 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
     return index;
   }
 
-  const processedData: ProcessedData = { helpers: {}, items: {} };
+  const processedData: ProcessedData = { helpers: {}, items: {}, version: 2, id: uniqueKey };
 
   const sortedDataKeys = Object.keys(jsonData).sort((a, b) => parseFloat(a) - parseFloat(b));
 
@@ -646,8 +647,6 @@ function createMiniDefinition(jsonData: JsonData): ProcessedData {
     processedData.helpers[enumName] = stringArray;
   }
 
-  processedData.version = 2;
-
   return processedData;
 }
 
@@ -661,26 +660,26 @@ async function saveToJsonFile(data: any, filePath: string): Promise<void> {
   }
 }
 
-async function useContentPaths(jsonWorldComponentContentPaths: any): Promise<void> {
+async function useContentPaths(jsonWorldComponentContentPaths: any, uniqueKey: string): Promise<void> {
   const promises: Promise<void>[] = [];
 
   for (const key in jsonWorldComponentContentPaths) {
     const definitionUrl = "https://bungie.com" + jsonWorldComponentContentPaths[key].DestinyInventoryItemDefinition;
 
-    promises.push(downloadAndMinifyDefinition(definitionUrl, key));
+    promises.push(downloadAndMinifyDefinition(definitionUrl, key, uniqueKey));
   }
 
   // Wait for all promises to resolve in parallel
   await Promise.all(promises);
 }
 
-async function downloadAndMinifyDefinition(definitionUrl: string, key: string): Promise<void> {
+async function downloadAndMinifyDefinition(definitionUrl: string, key: string, uniqueKey: string): Promise<void> {
   console.time(`${key} download-json`);
   const jsonData = await downloadJsonFile(definitionUrl);
   console.timeEnd(`${key} download-json`);
 
   console.time(`${key} parse-took:`);
-  const processedData = createMiniDefinition(jsonData);
+  const processedData = createMiniDefinition(jsonData, uniqueKey);
   console.timeEnd(`${key} parse-took:`);
 
   const outputFilePath = path.join(__dirname, `json/${key}.json`);
@@ -704,15 +703,18 @@ async function main() {
     const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
 
     const jsonManifest = await downloadJsonFile(manifestUrl);
+    const id = jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition;
     console.timeEnd("download-manifest");
 
     const jsonWorldComponentContentPaths = jsonManifest.Response.jsonWorldComponentContentPaths;
     console.time("total-json-parse");
-    await useContentPaths(jsonWorldComponentContentPaths);
+    await useContentPaths(jsonWorldComponentContentPaths, id);
     console.timeEnd("total-json-parse");
 
-    const uniqueJsonManifest =
-      jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition;
+    const uniqueJsonManifest = {
+      version: id,
+    };
+
     const savePath = path.join(__dirname, `json/manifest.json`);
     await saveToJsonFile(uniqueJsonManifest, savePath);
   } catch (error) {
