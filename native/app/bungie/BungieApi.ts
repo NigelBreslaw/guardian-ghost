@@ -7,10 +7,6 @@ import { isoTimestamp, safeParse, string } from "valibot";
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 
 export async function getFullProfile() {
-  const p3 = performance.now();
-  const startupTime = useGGStore.getState().appStartupTime;
-  console.log("time since startup:", `${(p3 - startupTime).toFixed(4)} ms`);
-
   useGGStore.getState().setRefreshing(true);
   try {
     const profile = (await getProfile()) as unknown as ProfileData;
@@ -69,6 +65,7 @@ async function getProfile(): Promise<JSON> {
   const requestOptions: RequestInit = {
     method: "GET",
     headers: headers,
+    cache: "no-store",
   };
 
   const account = useGGStore.getState().bungieUser;
