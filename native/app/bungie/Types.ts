@@ -1,4 +1,4 @@
-import type { GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
+import type { DestinyClass, GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
 import type { DamageType, DestinyItemType } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
@@ -190,6 +190,7 @@ export type DestinyItemDefinition = {
   crafted?: boolean;
   itemSubType: ItemSubType;
   tierType: TierType;
+  destinyClass: DestinyClass;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
