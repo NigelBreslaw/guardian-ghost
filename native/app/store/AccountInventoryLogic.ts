@@ -1,4 +1,4 @@
-import type { DestinyItem, GuardianGear, VaultData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, DestinyItemSort, GuardianGear, VaultData } from "@/app/bungie/Types.ts";
 import {
   UiCellType,
   armorPageBuckets,
@@ -14,6 +14,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
+import { typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
 // ------------------------------
@@ -74,7 +75,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
           if (equipped) {
             equipSectionCell.equipped = returnDestinyIconData(equipped);
           }
-          equipSectionCell.inventory = returnInventoryArray(bucketItems);
+          equipSectionCell.inventory = returnInventoryArray(bucketItems, bucket);
 
           dataArray.push(equipSectionCell);
         }
@@ -102,7 +103,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[
       dataArray.push(separator);
 
       // get an array of all the items
-      const totalItemsArray = returnInventoryArray(bucketItems);
+      const totalItemsArray = returnInventoryArray(bucketItems, bucket);
 
       let itemsLeft = totalItemsArray.length;
       let count = 0;
@@ -188,10 +189,17 @@ function returnBorderColor(item: DestinyItem): string {
   return "#555555";
 }
 
-function returnInventoryArray(characterGear: GuardianGear): DestinyIconData[] {
+const weaponBuckets = [1498876634, 2465295065, 953998645];
+
+function returnInventoryArray(characterGear: GuardianGear, bucketHash: number): DestinyIconData[] {
   const inventoryArray: DestinyIconData[] = [];
 
-  for (const item of characterGear.inventory) {
+  let existingArray = characterGear.inventory as DestinyItemSort[];
+  if (weaponBuckets.includes(bucketHash)) {
+    existingArray = existingArray.sort(typeAndPowerSort);
+  }
+
+  for (const item of existingArray) {
     const iconData = returnDestinyIconData(item);
     inventoryArray.push(iconData);
   }
