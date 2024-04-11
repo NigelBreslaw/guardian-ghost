@@ -138,7 +138,7 @@ export type DestinyItemDefinition = {
   recoveryBucketHash: number | undefined;
   itemType: DestinyItemType;
   masterwork?: boolean;
-  primaryStat?: number;
+  primaryStat: number;
   icon: string;
   calculatedWaterMark?: string;
   damageType?: DamageType;

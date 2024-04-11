@@ -283,6 +283,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     characterId: extras.characterId,
     equipped: extras.equipped,
     icon: "",
+    primaryStat: 0,
   };
 
   if (baseItem.overrideStyleItemHash !== undefined) {
