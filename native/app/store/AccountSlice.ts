@@ -1,12 +1,13 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
-import type {
-  DestinyItem,
-  DestinyItemBase,
-  DestinyItemDefinition,
-  GGCharacterUiData,
-  Guardian,
-  ProfileData,
-  VaultData,
+import {
+  ItemSubType,
+  type DestinyItem,
+  type DestinyItemBase,
+  type DestinyItemDefinition,
+  type GGCharacterUiData,
+  type Guardian,
+  type ProfileData,
+  type VaultData,
 } from "@/app/bungie/Types.ts";
 import {
   DestinyItemType,
@@ -284,6 +285,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     equipped: extras.equipped,
     icon: "",
     primaryStat: 0,
+    itemSubType: ItemSubType.None,
   };
 
   if (baseItem.overrideStyleItemHash !== undefined) {
@@ -293,6 +295,8 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   } else {
     definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
   }
+
+  definitionItems.itemSubType = itemDef?.is ?? 0;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
 
