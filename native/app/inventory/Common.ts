@@ -170,3 +170,4 @@ export function getDamageTypeIconUri(damageType: DamageType | undefined): number
 export const LOGO_DARK = require("../../images/gg-logo-dark.webp");
 export const LOGO_LIGHT = require("../../images/gg-logo-light.webp");
 export const CRAFTED_OVERLAY = require("../../images/crafted.webp");
+export const EMPTY_ENGRAM = require("../../images/engram-empty.webp");
