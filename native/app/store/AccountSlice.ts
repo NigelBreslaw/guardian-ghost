@@ -1,4 +1,4 @@
-import { characterBuckets } from "@/app/bungie/Hashes.ts";
+import { DestinyClass, characterBuckets } from "@/app/bungie/Hashes.ts";
 import {
   ItemSubType,
   TierType,
@@ -288,6 +288,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     primaryStat: 0,
     itemSubType: ItemSubType.None,
     tierType: TierType.Unknown,
+    destinyClass: DestinyClass.Unknown,
   };
 
   if (baseItem.overrideStyleItemHash !== undefined) {
@@ -300,6 +301,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
   definitionItems.itemSubType = itemDef?.is ?? 0;
   definitionItems.tierType = itemDef?.t ?? 0;
+  definitionItems.destinyClass = itemDef?.c ?? 3;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
 
