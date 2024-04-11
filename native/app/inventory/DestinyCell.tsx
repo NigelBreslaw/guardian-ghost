@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     pointerEvents: "none",
   },
-  powerLevel: {
+  PrimaryStat: {
     width: 40,
     height: 18,
     borderRadius: 4,
@@ -131,7 +131,7 @@ const DestinyCell = (props: DestinyCellProps) => {
             </View>
           </View>
           {props.data.primaryStat !== "" && (
-            <View style={styles.powerLevel}>
+            <View style={styles.PrimaryStat}>
               <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
             </View>
           )}
