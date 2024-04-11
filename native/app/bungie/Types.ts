@@ -3,6 +3,16 @@ import type { DamageType, DestinyItemType } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
+export enum TierType {
+  Unknown = 0,
+  Currency = 1,
+  Uncommon = 2,
+  Common = 3,
+  Rare = 4,
+  Legendary = 5,
+  Exotic = 6,
+}
+
 export enum ItemSubType {
   None = 0,
   Crucible = 1,
@@ -179,11 +189,12 @@ export type DestinyItemDefinition = {
   deepSightResonance?: boolean;
   crafted?: boolean;
   itemSubType: ItemSubType;
+  tierType: TierType;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
 
-export type DestinyItemSort = DestinyItem & { itemInstanceId: string };
+export type DestinyItemSort = DestinyItem & { itemInstanceId: string; damageType: DamageType };
 
 export const SocketSchema = object({
   sockets: array(
