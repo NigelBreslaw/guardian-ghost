@@ -2,7 +2,7 @@ import { array, number, object, optional, record, string, unknown, value } from 
 import type { Output } from "valibot";
 
 export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
-export const Store = {
+export const DatabaseStore = {
   factoryName: "gg-data",
   storeName: "key-values",
   databaseName: "ggDataBase.db",
@@ -103,6 +103,7 @@ export const ItemResponseSchema = object({
 
   items: record(string(), unknown()),
   version: number([value(MINI_ITEM_DEFINITION_VERSION)]),
+  id: string(),
 });
 
 export type ItemResponse = Output<typeof ItemResponseSchema>;

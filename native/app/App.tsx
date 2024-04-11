@@ -14,14 +14,26 @@ import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
+import { object, parse, string } from "valibot";
+
+SplashScreen.preventAutoHideAsync();
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
+useGGStore.getState().initAuthentication();
+useGGStore.getState().initDefinitions();
 
 enableFreeze(true);
 
 async function init() {
-  const _manifest = await getCustomManifest();
+  try {
+    const manifest = await getCustomManifest();
+    const parsedManifest = parse(object({ version: string() }), manifest);
+    useGGStore.getState().loadDefinitions(parsedManifest.version);
+  } catch {
+    // If the network call fails try to use the already downloaded version.
+    useGGStore.getState().loadDefinitions(null);
+  }
 }
 init();
 
@@ -38,10 +50,6 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
-
-SplashScreen.preventAutoHideAsync();
-useGGStore.getState().initDefinitions();
-useGGStore.getState().initAuthentication();
 
 const navigationContainerTheme: Theme = {
   colors: {
