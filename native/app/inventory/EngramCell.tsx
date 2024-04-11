@@ -1,4 +1,4 @@
-import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { EMPTY_ENGRAM, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -13,11 +13,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  gesture: {
-    width: ITEM_SIZE,
-    height: ITEM_SIZE,
-    position: "absolute",
-  },
   powerLevelText: {
     color: "white",
     fontSize: 14,
@@ -26,7 +21,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     pointerEvents: "none",
   },
-
   icon: {
     width: 68,
     height: 68,
@@ -40,21 +34,6 @@ const styles = StyleSheet.create({
     width: 68,
     height: 68,
   },
-  innerFrameSize: {
-    width: 65,
-    height: 65,
-    position: "absolute",
-    top: -0.5,
-    left: -0.5,
-    pointerEvents: "none",
-  },
-  innerFrameOverlaySize: {
-    width: 65,
-    height: 65,
-    position: "absolute",
-    pointerEvents: "none",
-  },
-
   primaryStat: {
     width: 40,
     height: 18,
@@ -70,35 +49,33 @@ const styles = StyleSheet.create({
 });
 
 type DestinyCellProps = {
-  data: DestinyIconData;
+  data?: DestinyIconData;
 };
 
 const EngramCell = (props: DestinyCellProps) => {
   const handlePress = useCallback(() => {
-    useGGStore.getState().setSelectedItem({
-      itemInstanceId: props.data.itemInstanceId,
-      itemHash: props.data.itemHash,
-      characterId: props.data.characterId,
-    });
+    if (props.data) {
+      useGGStore.getState().setSelectedItem({
+        itemInstanceId: props.data.itemInstanceId,
+        itemHash: props.data.itemHash,
+        characterId: props.data.characterId,
+      });
+    }
   }, [props.data]);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress}>
         <View style={styles.frameSize}>
-          <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
-            <View style={styles.innerFrameSize}>
-              <Image
-                source={props.data.icon}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameSize}
-                recyclingKey={props.data.icon}
-              />
-            </View>
-          </View>
-          {props.data.primaryStat !== "" && (
+          <Image
+            source={props.data?.icon ? props.data.icon : EMPTY_ENGRAM}
+            cachePolicy="memory-disk"
+            style={styles.frameSize}
+            recyclingKey={props.data?.icon}
+          />
+          {props.data?.primaryStat !== "" && props.data?.primaryStat && (
             <View style={styles.primaryStat}>
-              <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
+              <Text style={styles.powerLevelText}>{props.data?.primaryStat}</Text>
             </View>
           )}
         </View>
