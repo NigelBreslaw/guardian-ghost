@@ -1,3 +1,5 @@
+import type { DestinyItemSort } from "@/app/bungie/Types.ts";
+
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 export const debounce = (func: Function, delay = 0) => {
   let timeoutId: string | number | NodeJS.Timeout | undefined;
@@ -81,4 +83,62 @@ export async function benchmarkAsync<T extends any[], R>(func: (...args: T) => P
 
 export function bitmaskContains(bitmask: number, value: number): boolean {
   return (bitmask & value) === value;
+}
+
+export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
+  ///  subtype
+  if (a.itemSubType > b.itemSubType) {
+    return 1;
+  }
+  if (a.itemSubType < b.itemSubType) {
+    return -1;
+  }
+
+  // /// primaryStat
+  if (a.primaryStat < b.primaryStat) {
+    return 1;
+  }
+  if (a.primaryStat > b.primaryStat) {
+    return -1;
+  }
+
+  ///  tierType
+  if (a.tierType < b.tierType) {
+    return 1;
+  }
+  if (a.tierType > b.tierType) {
+    return -1;
+  }
+
+  if (a.damageType > b.damageType) {
+    return 1;
+  }
+  if (a.damageType < b.damageType) {
+    return -1;
+  }
+
+  if (a.destinyClass > b.destinyClass) {
+    return 1;
+  }
+  if (a.destinyClass < b.destinyClass) {
+    return -1;
+  }
+
+  // ///  itemHash
+  if (a.itemHash > b.itemHash) {
+    return 1;
+  }
+  if (a.itemHash < b.itemHash) {
+    return -1;
+  }
+
+  // /// Criteria: masterwork
+  if (!a.masterwork && b.masterwork) {
+    return 1;
+  }
+  if (a.masterwork && !b.masterwork) {
+    return -1;
+  }
+
+  return a.itemInstanceId < b.itemInstanceId ? 1 : -1;
 }
