@@ -31,12 +31,9 @@ async function init() {
     const parsedManifest = parse(object({ version: string() }), manifest);
     useGGStore.getState().loadDefinitions(parsedManifest.version);
   } catch {
+    // If the network call fails try to use the already downloaded version.
     useGGStore.getState().loadDefinitions(null);
   }
-
-  const p3 = performance.now();
-  const startupTime = useGGStore.getState().appStartupTime;
-  console.log("manifest check finished:", `${(p3 - startupTime).toFixed(4)} ms`);
 }
 init();
 

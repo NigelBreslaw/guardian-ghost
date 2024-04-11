@@ -62,7 +62,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       loadLocalItemDefinitionVersion(set);
     } else {
       // download a new version
-      console.log("download a new version");
+      console.log("download a new version as KEY is different");
       downloadAndStoreItemDefinition(set);
     }
   },
