@@ -6,6 +6,7 @@ import {
   getDamageTypeIconUri,
   weaponsPageBuckets,
   type DestinyIconData,
+  type EngramsSection,
   type EquipSectionCell,
   type SeparatorRow,
   type UiCell,
@@ -60,6 +61,21 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
 
         // TODO: If artifact (1506418338) create an artifact section
         if (bucket === 1506418338) {
+          continue;
+        }
+
+        // Handle engrams
+        if (bucket === 375726501) {
+          console.log("Found engrams");
+          const engramsSection: EngramsSection = {
+            id: `${bucket}_engrams_section`,
+            type: UiCellType.EngramsCell,
+            inventory: [],
+          };
+          if (bucketItems) {
+            engramsSection.inventory = returnInventoryArray(bucketItems, bucket);
+          }
+          dataArray.push(engramsSection);
           continue;
         }
 

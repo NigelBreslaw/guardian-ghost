@@ -98,39 +98,46 @@ export enum UiRowType {
   CharacterInventory = 2,
   VaultInventory = 3,
 }
+
 export enum UiCellType {
   Separator = 0,
   EquipSectionCell = 1,
   Vault5x5Cell = 2,
   VaultFlexCell = 3,
+  EngramsCell = 4,
 }
 
-export type BaseCell = {
+export type BaseSection = {
   id: string;
   type: UiCellType;
 };
 
-export type SeparatorRow = BaseCell & {
+export type SeparatorRow = BaseSection & {
   type: UiCellType.Separator;
 };
 
-export type EquipSectionCell = BaseCell & {
+export type EngramsSection = BaseSection & {
+  type: UiCellType.EngramsCell;
+  inventory: DestinyIconData[];
+};
+
+export type EquipSectionCell = BaseSection & {
   type: UiCellType.EquipSectionCell;
   equipped: DestinyIconData | null;
   inventory: DestinyIconData[];
 };
 
-export type Vault5x5Cell = BaseCell & {
+export type Vault5x5Cell = BaseSection & {
   type: UiCellType.Vault5x5Cell;
   inventory: DestinyIconData[];
 };
 
-export type VaultFlexCell = BaseCell & {
+export type VaultFlexCell = BaseSection & {
   type: UiCellType.VaultFlexCell;
   inventory: DestinyIconData[];
 };
 
-export type UiCell = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell;
+export type UiCell = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell | EngramsSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
@@ -139,6 +146,7 @@ export type DestinyItemIdentifier = {
 };
 
 export const ITEM_SIZE = 90;
+export const ENGRAMS_SECTION_SIZE = ITEM_SIZE * 2;
 export const VAULT_5x5_SIZE = ITEM_SIZE * 5;
 export const EQUIP_SECTION_SIZE = ITEM_SIZE * 3;
 export const SEPARATOR_SIZE = 45;
