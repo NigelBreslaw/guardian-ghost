@@ -1,6 +1,7 @@
 import { characterBuckets } from "@/app/bungie/Hashes.ts";
 import {
   ItemSubType,
+  TierType,
   type DestinyItem,
   type DestinyItemBase,
   type DestinyItemDefinition,
@@ -286,6 +287,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     icon: "",
     primaryStat: 0,
     itemSubType: ItemSubType.None,
+    tierType: TierType.Unknown,
   };
 
   if (baseItem.overrideStyleItemHash !== undefined) {
@@ -297,6 +299,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   }
 
   definitionItems.itemSubType = itemDef?.is ?? 0;
+  definitionItems.tierType = itemDef?.t ?? 0;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
 
