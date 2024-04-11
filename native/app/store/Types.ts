@@ -103,6 +103,7 @@ export const ItemResponseSchema = object({
 
   items: record(string(), unknown()),
   version: number([value(MINI_ITEM_DEFINITION_VERSION)]),
+  id: string(),
 });
 
 export type ItemResponse = Output<typeof ItemResponseSchema>;

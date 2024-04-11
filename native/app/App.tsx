@@ -20,16 +20,18 @@ SplashScreen.preventAutoHideAsync();
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
+useGGStore.getState().initAuthentication();
+useGGStore.getState().initDefinitions();
 
 enableFreeze(true);
 
 async function init() {
   try {
     const manifest = await getCustomManifest();
-    const _parsedManifest = parse(object({ version: string() }), manifest);
-    useGGStore.getState().initDefinitions();
+    const parsedManifest = parse(object({ version: string() }), manifest);
+    useGGStore.getState().loadDefinitions(parsedManifest.version);
   } catch {
-    useGGStore.getState().initDefinitions();
+    useGGStore.getState().loadDefinitions(null);
   }
 
   const p3 = performance.now();
@@ -51,8 +53,6 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
-
-useGGStore.getState().initAuthentication();
 
 const navigationContainerTheme: Theme = {
   colors: {

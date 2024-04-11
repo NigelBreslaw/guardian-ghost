@@ -16,20 +16,23 @@ import { parse, safeParse, string } from "valibot";
 import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
 
+export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
+export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
+
 export interface DefinitionsSlice {
   definitionsReady: boolean;
   snackBarVisible: boolean;
   snackBarMessage: string;
   inventorySectionWidth: number;
   itemDefinitionVersion: string;
-
   initDefinitions: () => Promise<void>;
+  loadDefinitions: (uniqueKey: string | null) => Promise<void>;
   showSnackBar: (message: string) => void;
   setSnackBarVisible: (snackBarVisible: boolean) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
 }
 
-export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set) => ({
+export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set, get) => ({
   definitionsReady: false,
   snackBarVisible: false,
   snackBarMessage: "",
@@ -37,26 +40,61 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   itemDefinitionVersion: "",
   initDefinitions: async () => {
     try {
-      const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
-      const itemDefinition = parse(ItemResponseSchema, loadedDefinition);
-      return set(parseAndSet(itemDefinition));
+      const loadedDefinitionVersion = await loadItemDefinitionVersion();
+      set({ itemDefinitionVersion: loadedDefinitionVersion });
     } catch (e) {
-      console.error("No saved itemDefinition. Downloading new version...", e);
-    }
-
-    try {
-      const downloadedDefinition = await getCustomItemDefinition();
-      const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
-      await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
-      return set(parseAndSet(itemDefinition));
-    } catch (e) {
-      console.error("Failed to download and save itemDefinition", e);
+      console.log("No saved itemDefinition version", e);
     }
   },
-  setSnackBarVisible: (snackBarVisible: boolean) => set({ snackBarVisible }),
-  showSnackBar: (message: string) => set({ snackBarMessage: message, snackBarVisible: true }),
-  setInventorySectionWidth: (inventorySectionWidth: number) => set({ inventorySectionWidth }),
+  loadDefinitions: async (uniqueKey) => {
+    const storedVersion = get().itemDefinitionVersion;
+    if (storedVersion === "") {
+      // download a version
+      console.log("download a version");
+      downloadAndStoreItemDefinition(set);
+    } else if (uniqueKey === null) {
+      // try to use the already downloaded version
+      console.log("NULL use the already downloaded version");
+      loadLocalItemDefinitionVersion(set);
+    } else if (uniqueKey === storedVersion) {
+      // use the already downloaded version
+      console.log("use the already downloaded version");
+      loadLocalItemDefinitionVersion(set);
+    } else {
+      // download a new version
+      console.log("download a new version");
+      downloadAndStoreItemDefinition(set);
+    }
+  },
+  setSnackBarVisible: (snackBarVisible) => set({ snackBarVisible }),
+  showSnackBar: (message) => set({ snackBarMessage: message, snackBarVisible: true }),
+  setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
 });
+
+async function loadLocalItemDefinitionVersion(set: DefinitionsSliceSetter): Promise<void> {
+  try {
+    const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
+    const itemDefinition = parse(ItemResponseSchema, loadedDefinition);
+    set(parseAndSet(itemDefinition));
+  } catch (e) {
+    console.error("Failed to load itemDefinition version. Downloading new version...", e);
+    downloadAndStoreItemDefinition(set);
+  }
+}
+
+async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Promise<void> {
+  try {
+    const downloadedDefinition = await getCustomItemDefinition();
+    const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
+    const versionKey = itemDefinition.id;
+    await saveItemDefinitionVersion(versionKey);
+    await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
+    return set(parseAndSet(itemDefinition));
+  } catch (e) {
+    // TODO: Show big error message
+    console.error("Failed to download and save itemDefinition", e);
+  }
+}
 
 function parseAndSet(itemDefinition: ItemResponse) {
   setItemDefinition(itemDefinition.items as ItemsDefinition);
@@ -231,11 +269,22 @@ async function setNativeStore(json: object, key: string, errorMessage: string) {
 export async function loadItemDefinitionVersion(): Promise<string> {
   const version = await AsyncStorage.getItem(Store._item_definition);
   if (version) {
-    const validatedAccount = safeParse(string(), JSON.parse(version));
-    if (validatedAccount.success) {
-      return validatedAccount.output;
+    const validatedVersion = safeParse(string(), version);
+
+    if (validatedVersion.success) {
+      return validatedVersion.output;
     }
     throw new Error("Validation failed");
   }
-  throw new Error("No saved account found");
+  throw new Error("No saved itemDefinition version found");
+}
+
+export async function saveItemDefinitionVersion(version: string): Promise<void> {
+  try {
+    await AsyncStorage.setItem(Store._item_definition, version);
+    console.log("saved", version);
+  } catch (error: unknown) {
+    console.error("Failed to save itemDefinition version", error);
+    throw new Error("Failed to save itemDefinition version");
+  }
 }
