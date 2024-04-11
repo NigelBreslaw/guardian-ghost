@@ -1,4 +1,4 @@
-import { ENGRAMS_SECTION_SIZE, ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { ENGRAMS_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import EngramCell from "@/app/inventory/EngramCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";

@@ -137,7 +137,7 @@ export type VaultFlexCell = BaseSection & {
   inventory: DestinyIconData[];
 };
 
-export type UiCell = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell | EngramsCell;
+export type UiCell = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell | EngramsSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
