@@ -2,7 +2,7 @@ import { array, number, object, optional, record, string, unknown, value } from 
 import type { Output } from "valibot";
 
 export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
-export const Store = {
+export const DatabaseStore = {
   factoryName: "gg-data",
   storeName: "key-values",
   databaseName: "ggDataBase.db",

@@ -14,6 +14,9 @@ import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
+import { object, parse, string } from "valibot";
+
+SplashScreen.preventAutoHideAsync();
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
@@ -21,7 +24,17 @@ useGGStore.getState().setAppStartupTime(startupTime);
 enableFreeze(true);
 
 async function init() {
-  const _manifest = await getCustomManifest();
+  try {
+    const manifest = await getCustomManifest();
+    const _parsedManifest = parse(object({ version: string() }), manifest);
+    useGGStore.getState().initDefinitions();
+  } catch {
+    useGGStore.getState().initDefinitions();
+  }
+
+  const p3 = performance.now();
+  const startupTime = useGGStore.getState().appStartupTime;
+  console.log("manifest check finished:", `${(p3 - startupTime).toFixed(4)} ms`);
 }
 init();
 
@@ -39,8 +52,6 @@ declare global {
   }
 }
 
-SplashScreen.preventAutoHideAsync();
-useGGStore.getState().initDefinitions();
 useGGStore.getState().initAuthentication();
 
 const navigationContainerTheme: Theme = {
