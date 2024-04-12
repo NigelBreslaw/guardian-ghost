@@ -80,8 +80,22 @@ export async function processTransferItem(
   } else {
     // lostItem?
     if (transferItem.destinyItem.bucketHash === 215593132) {
-      // TODO: Handle postmaster items
-      useGGStore.getState().showSnackBar("!!! Postmaster items have not been implemented yet !!!");
+      const result = await pullFromPostmaster(transferItem);
+      const parsedResult = safeParse(responseSchema, result[0]);
+      if (parsedResult.success) {
+        if (parsedResult.output.ErrorStatus === "Success") {
+          // TODO: Handle postmaster items next step as items can end up on the character or in the global items space.
+          // processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+          // useGGStore.getState().moveFromPostmaster(result[1]);
+          useGGStore
+            .getState()
+            .showSnackBar("THE ITEM MOVED FROM THE POSTMASTER. However the rest of the logic is not implemented yet");
+          return;
+        }
+        console.error("Failed", parsedResult.output);
+        useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
+        return;
+      }
     } else {
       try {
         const result = await moveItem(transferItem);
@@ -218,7 +232,7 @@ async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem
     characterId: transferItem.finalTargetId,
   };
 
-  const authToken = await useGGStore.getState().getTokenAsync("getProfile");
+  const authToken = await useGGStore.getState().getTokenAsync("equipItem");
   if (authToken) {
     const headers = new Headers();
     headers.append("Authorization", `Bearer ${authToken.access_token}`);
@@ -246,6 +260,56 @@ async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem
         })
         .catch((error) => {
           console.error("equipItem()", error);
+          reject(error);
+        });
+    });
+  }
+  throw new Error("No auth token");
+}
+
+type PostmasterItemData = {
+  membershipType: number;
+  itemReferenceHash: number;
+  itemId: string;
+  stackSize: number;
+  characterId: string;
+};
+
+async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, DestinyItem]> {
+  const membershipType = useGGStore.getState().bungieUser.profile.membershipType;
+
+  const data: PostmasterItemData = {
+    membershipType,
+    itemReferenceHash: transferItem.destinyItem.itemHash,
+    itemId: transferItem.destinyItem?.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
+    // TODO: If the quantity is larger than can be moved should there be some logic to set it to the max possible?
+    stackSize: transferItem.destinyItem.quantity,
+    characterId: transferItem.destinyItem.characterId,
+  };
+
+  const authToken = await useGGStore.getState().getTokenAsync("equipItem");
+  if (authToken) {
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${authToken.access_token}`);
+    headers.append("X-API-Key", apiKey);
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(data),
+    };
+    //TODO: Currently hardcode to en. This should be a parameter
+    const endPoint = `${basePath}/Destiny2/Actions/Items/PullFromPostmaster/`;
+    return new Promise((resolve, reject) => {
+      fetch(endPoint, requestOptions)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          resolve([data as JSON, transferItem.destinyItem]);
+        })
+        .catch((error) => {
+          console.error("PullFromPostmaster()", error);
           reject(error);
         });
     });
