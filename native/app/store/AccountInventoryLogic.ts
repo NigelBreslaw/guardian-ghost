@@ -8,6 +8,7 @@ import {
   type DestinyIconData,
   type EngramsSection,
   type EquipSection,
+  type LostItemsSection,
   type SeparatorSection,
   type UISections,
   type Vault5x5Section,
@@ -75,6 +76,20 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
             engramsSection.inventory = returnInventoryArray(bucketItems, bucket);
           }
           dataArray.push(engramsSection);
+          continue;
+        }
+
+        // Handle lost items
+        if (bucket === 215593132) {
+          const lostItemsSection: LostItemsSection = {
+            id: `${bucket}_lost_items_section`,
+            type: UISection.LostItems,
+            inventory: [],
+          };
+          if (bucketItems) {
+            lostItemsSection.inventory = returnInventoryArray(bucketItems, bucket);
+          }
+          dataArray.push(lostItemsSection);
           continue;
         }
 

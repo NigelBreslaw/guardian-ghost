@@ -4,6 +4,7 @@ import EquipUI from "@/app/inventory/CharacterEquipmentUI";
 import SeparatorUI from "@/app/inventory/SeparatorUI";
 import Vault5x5UI from "@/app/inventory/Vault5x5UI";
 import VaultFlexUI from "@/app/inventory/VaultFlexUI";
+import LostItemsUI from "@/app/inventory/LostItemsUI";
 
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {
@@ -17,5 +18,7 @@ export const UiCellRenderItem = ({ item }: { item: UISections }) => {
       return <VaultFlexUI data={item.inventory} />;
     case UISection.Engrams:
       return <EngramsUI data={item.inventory} />;
+    case UISection.LostItems:
+      return <LostItemsUI data={item.inventory} />;
   }
 };
