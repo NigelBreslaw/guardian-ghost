@@ -78,13 +78,13 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
           continue;
         }
 
+        const equipSectionCell: EquipSectionCell = {
+          id: `${bucket}_equip_section`,
+          type: UiCellType.EquipSectionCell,
+          equipped: null,
+          inventory: [],
+        };
         if (bucketItems) {
-          const equipSectionCell: EquipSectionCell = {
-            id: `${bucket}_equip_section`,
-            type: UiCellType.EquipSectionCell,
-            equipped: null,
-            inventory: [],
-          };
           const equipped = bucketItems.equipped;
 
           if (equipped) {

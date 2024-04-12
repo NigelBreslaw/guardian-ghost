@@ -1,4 +1,4 @@
-import { DestinyClass, ItemType, characterBuckets } from "@/app/bungie/Hashes.ts";
+import { DestinyClass, ItemType } from "@/app/bungie/Hashes.ts";
 import {
   ItemSubType,
   TierType,
@@ -10,7 +10,7 @@ import {
   type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import type { DestinyItemIdentifier, UiCell } from "@/app/inventory/Common.ts";
+import { characterBuckets, type DestinyItemIdentifier, type UiCell } from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,
@@ -219,6 +219,13 @@ function processCharacterEquipment(
 
     if (characterEquipment) {
       const characterItems = guardians[character];
+      if (!characterItems) {
+        throw new Error("Character items not found");
+      }
+      // create all the sections first
+      for (const bucket of characterBuckets) {
+        characterItems.items[bucket] = { equipped: null, inventory: [] };
+      }
       for (const item of characterEquipment.items) {
         if (characterItems) {
           try {
@@ -247,10 +254,6 @@ function processCharacterInventory(
       const characterItems = guardians[character];
       for (const item of characterInventory.items) {
         if (characterItems) {
-          const hasBucket = Object.hasOwn(characterItems.items, item.bucketHash);
-          if (!hasBucket) {
-            characterItems.items[item.bucketHash] = { equipped: null, inventory: [] };
-          }
           try {
             const destinyItem = addDefinition(item, characterAsId);
             characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
@@ -370,6 +373,13 @@ function processVaultInventory(profile: ProfileData): VaultData {
   const vaultInventory = profile.Response.profileInventory.data.items;
   const vaultItems: VaultData = { items: {} };
 
+  // create all the sections first
+  for (const bucket of characterBuckets) {
+    vaultItems.items[bucket] = {
+      equipped: null,
+      inventory: [],
+    };
+  }
   if (vaultInventory) {
     for (const item of vaultInventory) {
       //TODO: !!!! This only processes the general vault. Global items, consumables, mods, etc. need to be added.
@@ -389,13 +399,6 @@ function processVaultInventory(profile: ProfileData): VaultData {
       }
 
       if (destinyItem.bucketHash !== 0) {
-        const hasBaseBucket = Object.hasOwn(vaultItems.items, destinyItem.bucketHash);
-        if (!hasBaseBucket) {
-          vaultItems.items[destinyItem.bucketHash] = {
-            equipped: null,
-            inventory: [],
-          };
-        }
         vaultItems.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
       }
     }
