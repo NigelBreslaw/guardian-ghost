@@ -66,7 +66,6 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
 
         // Handle engrams
         if (bucket === 375726501) {
-          console.log("Found engrams");
           const engramsSection: EngramsSection = {
             id: `${bucket}_engrams_section`,
             type: UiCellType.EngramsCell,

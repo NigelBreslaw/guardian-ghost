@@ -1,5 +1,11 @@
-import type { DestinyClass, GuardianClassType, GuardianGenderType, GuardianRaceType } from "@/app/bungie/Hashes.ts";
-import type { DamageType, DestinyItemType } from "@/app/inventory/Common.ts";
+import type {
+  DestinyClass,
+  GuardianClassType,
+  GuardianGenderType,
+  GuardianRaceType,
+  ItemType,
+} from "@/app/bungie/Hashes.ts";
+import type { DamageType } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
@@ -180,7 +186,7 @@ export type DestinyItemDefinition = {
   equipped: boolean;
   previousCharacterId: string; //Used by the transfer system to update the UI
   recoveryBucketHash: number | undefined;
-  itemType: DestinyItemType;
+  itemType: ItemType;
   masterwork?: boolean;
   primaryStat: number;
   icon: string;
