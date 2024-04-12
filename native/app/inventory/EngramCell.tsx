@@ -21,28 +21,19 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     pointerEvents: "none",
   },
-  icon: {
-    width: 68,
-    height: 68,
-    borderRadius: 12,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: "#555555",
-    pointerEvents: "none",
-  },
   frameSize: {
     width: 68,
     height: 68,
   },
   primaryStat: {
-    width: 40,
-    height: 18,
+    width: 36,
+    height: 16,
     borderRadius: 4,
     backgroundColor: DEFAULT_BORDER_COLOR,
     zIndex: 100,
     position: "absolute",
-    bottom: -8,
-    right: -8,
+    bottom: 0,
+    right: -4,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -69,7 +60,7 @@ const EngramCell = (props: DestinyCellProps) => {
         <View style={styles.frameSize}>
           <Image
             source={props.data?.icon ? props.data.icon : EMPTY_ENGRAM}
-            cachePolicy="memory-disk"
+            cachePolicy="memory"
             style={styles.frameSize}
             recyclingKey={props.data?.icon}
           />

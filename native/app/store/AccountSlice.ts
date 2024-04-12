@@ -299,17 +299,15 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItems.destinyClass = itemDef?.c ?? 3;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
+  const masterwork = bitmaskContains(baseItem.state, 4);
+  if (masterwork) {
+    definitionItems.masterwork = true;
+  }
 
   if (baseItem.itemInstanceId !== undefined) {
     const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
-
-    const masterwork = bitmaskContains(baseItem.state, 4);
-    if (masterwork) {
-      definitionItems.masterwork = true;
-    }
-
-    if (definitionItems.itemType === ItemType.Armor || definitionItems.itemType === ItemType.Weapon) {
-      if (itemComponent) {
+    if (itemComponent) {
+      if (definitionItems.itemType === ItemType.Armor || definitionItems.itemType === ItemType.Weapon) {
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
           definitionItems.primaryStat = primaryStat;
@@ -326,6 +324,14 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
             definitionItems.crafted = true;
             definitionItems.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
           }
+        }
+      }
+      if (definitionItems.itemType === ItemType.Engram) {
+        const itemLevel = itemComponent.itemLevel * 10;
+        const quality = itemComponent.quality;
+        const total = itemLevel + quality;
+        if (total > 0) {
+          definitionItems.primaryStat = Math.max(1600, itemLevel + quality);
         }
       }
     }

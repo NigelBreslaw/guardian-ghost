@@ -125,7 +125,7 @@ const DestinyCell = (props: DestinyCellProps) => {
               />
               <Image
                 source={CRAFTED_OVERLAY}
-                cachePolicy="memory-disk"
+                cachePolicy="memory"
                 style={[styles.crafted, { display: props.data.crafted ? "flex" : "none" }]}
               />
             </View>
