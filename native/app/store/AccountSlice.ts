@@ -310,22 +310,27 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   if (baseItem.itemInstanceId !== undefined) {
     const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
-      if (definitionItems.itemType === ItemType.Armor || definitionItems.itemType === ItemType.Weapon) {
+      if (
+        definitionItems.itemType === ItemType.Armor ||
+        definitionItems.itemType === ItemType.Weapon ||
+        definitionItems.itemType === ItemType.Vehicle
+      ) {
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
           definitionItems.primaryStat = primaryStat;
         }
-
-        if (definitionItems.itemType === ItemType.Weapon) {
-          const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
-          if (deepSightResonance) {
-            definitionItems.deepSightResonance = true;
-          }
-          definitionItems.damageType = itemComponent.damageType;
-          const crafted = bitmaskContains(baseItem.state, 8);
-          if (crafted) {
-            definitionItems.crafted = true;
-            definitionItems.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
+        if (definitionItems.itemType !== ItemType.Vehicle) {
+          if (definitionItems.itemType === ItemType.Weapon) {
+            const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
+            if (deepSightResonance) {
+              definitionItems.deepSightResonance = true;
+            }
+            definitionItems.damageType = itemComponent.damageType;
+            const crafted = bitmaskContains(baseItem.state, 8);
+            if (crafted) {
+              definitionItems.crafted = true;
+              definitionItems.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
+            }
           }
         }
       }
