@@ -285,6 +285,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     itemSubType: ItemSubType.None,
     tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
+    doesPostmasterPullHaveSideEffects: false,
   };
 
   definitionItems.itemType = itemDef?.it ?? ItemType.None;
@@ -300,6 +301,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItems.itemSubType = itemDef?.is ?? 0;
   definitionItems.tierType = itemDef?.t ?? 0;
   definitionItems.destinyClass = itemDef?.c ?? 3;
+  definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
