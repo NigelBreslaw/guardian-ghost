@@ -301,16 +301,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItems.itemSubType = itemDef?.is ?? 0;
   definitionItems.tierType = itemDef?.t ?? 0;
   definitionItems.destinyClass = itemDef?.c ?? 3;
+  definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
     definitionItems.masterwork = true;
-  }
-
-  // Only check for items in the postmaster
-  if (baseItem.bucketHash === 215593132) {
-    definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
   }
 
   if (baseItem.itemInstanceId !== undefined) {
