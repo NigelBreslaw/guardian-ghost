@@ -1,2 +1,6 @@
-System to auto update the item database.
-Basic sorting of weapons by type and then power.
+Artifact icon looks correct and shows blue + number.
+Items that have a quantity e.g. upgrade materials (5) are now displayed correctly.
+Render all lost items.
+Show engrams power level if possible.
+fix: Vehicles show their speed.
+fix: Sometimes items transferred to the vault would not show in the app till you did a refresh.
