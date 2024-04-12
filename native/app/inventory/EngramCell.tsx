@@ -65,7 +65,7 @@ const EngramCell = (props: DestinyCellProps) => {
             recyclingKey={props.data?.icon}
           />
         </View>
-        {props.data?.primaryStat > 0 && (
+        {props.data.primaryStat > 0 && (
           <View style={styles.primaryStat}>
             <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
           </View>
