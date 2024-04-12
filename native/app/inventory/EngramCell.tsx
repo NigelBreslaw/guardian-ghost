@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 type DestinyCellProps = {
-  data?: DestinyIconData;
+  data: DestinyIconData;
 };
 
 const EngramCell = (props: DestinyCellProps) => {
@@ -64,12 +64,12 @@ const EngramCell = (props: DestinyCellProps) => {
             style={styles.frameSize}
             recyclingKey={props.data?.icon}
           />
-          {props.data?.primaryStat && props.data?.primaryStat > 0 && (
-            <View style={styles.primaryStat}>
-              <Text style={styles.powerLevelText}>{props.data?.primaryStat}</Text>
-            </View>
-          )}
         </View>
+        {props.data?.primaryStat > 0 && (
+          <View style={styles.primaryStat}>
+            <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );

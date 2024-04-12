@@ -108,6 +108,20 @@ export type DestinyIconData = {
   crafted?: boolean;
 };
 
+export const DestinyIconDataEmpty: DestinyIconData = {
+  itemHash: 0,
+  itemInstanceId: "",
+  characterId: "",
+  icon: "",
+  damageTypeIconUri: null,
+  primaryStat: 0,
+  quantity: 0,
+  calculatedWaterMark: "",
+  masterwork: false,
+  borderColor: "#555555",
+  crafted: false,
+};
+
 export enum UiRowType {
   Header = 0,
   CharacterEquipped = 1,
