@@ -144,17 +144,15 @@ const DestinyCell = (props: DestinyCellProps) => {
                 style={styles.innerFrameSize}
                 recyclingKey={props.data.icon}
               />
+
               <Image
                 source={{ uri: props.data.calculatedWaterMark }}
                 cachePolicy="memory-disk"
                 style={styles.innerFrameOverlaySize}
                 recyclingKey={props.data.calculatedWaterMark}
               />
-              <Image
-                source={CRAFTED_OVERLAY}
-                cachePolicy="memory"
-                style={[styles.crafted, { display: props.data.crafted ? "flex" : "none" }]}
-              />
+
+              {props.data.crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.crafted} />}
             </View>
           </View>
           {props.data.primaryStat !== "" && (
@@ -167,9 +165,11 @@ const DestinyCell = (props: DestinyCellProps) => {
               <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
             </View>
           )}
-          <View style={[styles.quantity, { display: props.data.quantity > 1 ? "flex" : "none" }]}>
-            <Text style={styles.quantityLevelText}>{props.data.quantity}</Text>
-          </View>
+          {props.data.quantity > 1 && (
+            <View style={styles.quantity}>
+              <Text style={styles.quantityLevelText}>{props.data.quantity}</Text>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     </View>
