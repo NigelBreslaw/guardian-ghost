@@ -1,14 +1,11 @@
-import { ENGRAMS_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
-import EngramCell from "@/app/inventory/EngramCell.tsx";
+import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import DestinyCell from "@/app/inventory/DestinyCell.tsx";
+import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-const array10 = Array.from({ length: 10 });
-
-type EngramsSectionProps = {
-  data: DestinyIconData[];
-};
+const array21 = Array.from({ length: 21 });
 
 const styles = StyleSheet.create({
   container: {
@@ -24,22 +21,36 @@ const styles = StyleSheet.create({
   },
 });
 
-function EngramsSection(props: EngramsSectionProps) {
+const SECTION_HEIGHT = ITEM_SIZE * 5;
+
+type EngramsProps = {
+  data: DestinyIconData[];
+};
+
+function LostItemsUI(props: EngramsProps) {
   const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
   const rootStyle = {
     width: inventorySectionWidth,
-    height: ENGRAMS_SECTION_SIZE,
+    height: SECTION_HEIGHT,
   };
 
   return (
     <View style={rootStyle}>
       <View style={styles.container}>
-        {array10.map((_v, index) => {
+        {array21.map((_v, index) => {
           const item = props.data[index];
+          if (item) {
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <View key={index} style={styles.box}>
+                <DestinyCell data={item} />
+              </View>
+            );
+          }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <View key={index} style={styles.box}>
-              <EngramCell data={item} />
+              <EmptyCell />
             </View>
           );
         })}
@@ -48,4 +59,4 @@ function EngramsSection(props: EngramsSectionProps) {
   );
 }
 
-export default React.memo(EngramsSection);
+export default React.memo(LostItemsUI);

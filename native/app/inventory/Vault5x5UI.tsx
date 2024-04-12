@@ -1,39 +1,41 @@
-import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-type VaultSectionFlexProps = {
+const array25 = Array.from({ length: 25 });
+
+type Vault5x5Props = {
   data: DestinyIconData[];
 };
 
-function VaultSectionFlex(props: VaultSectionFlexProps) {
-  const sectionRows = Math.ceil(props.data.length / 5);
-  const totalItems = sectionRows * 5;
-  const styles = StyleSheet.create({
-    root: {
-      width: useGGStore.getState().inventorySectionWidth,
-      height: ITEM_SIZE * sectionRows,
-    },
-    container: {
-      flex: 1,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    box: {
-      width: "20%",
-      height: ITEM_SIZE,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  box: {
+    width: "20%",
+    height: ITEM_SIZE,
+  },
+});
+
+function Vault5x5UI(props: Vault5x5Props) {
+  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
+  const rootStyle = {
+    width: inventorySectionWidth,
+    height: VAULT_5x5_SIZE,
+  };
 
   return (
-    <View style={styles.root}>
+    <View style={rootStyle}>
       <View style={styles.container}>
-        {Array.from({ length: totalItems }).map((_v, index) => {
+        {array25.map((_v, index) => {
           const item = props.data[index];
           if (item) {
             return (
@@ -55,4 +57,4 @@ function VaultSectionFlex(props: VaultSectionFlexProps) {
   );
 }
 
-export default React.memo(VaultSectionFlex);
+export default React.memo(Vault5x5UI);

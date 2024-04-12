@@ -3,7 +3,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-function SeparatorCell() {
+function SeparatorUI() {
   const styles = StyleSheet.create({
     root: {
       width: useGGStore.getState().inventorySectionWidth,
@@ -14,4 +14,4 @@ function SeparatorCell() {
   return <View style={styles.root} />;
 }
 
-export default React.memo(SeparatorCell);
+export default React.memo(SeparatorUI);

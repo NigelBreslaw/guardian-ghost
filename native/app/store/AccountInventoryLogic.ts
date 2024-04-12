@@ -7,11 +7,11 @@ import {
   weaponsPageBuckets,
   type DestinyIconData,
   type EngramsSection,
-  type EquipSectionCell,
-  type SeparatorRow,
+  type EquipSection,
+  type SeparatorSection,
   type UISections,
-  type Vault5x5Cell,
-  type VaultFlexCell,
+  type Vault5x5Section,
+  type VaultFlexSection,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
@@ -51,7 +51,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
 
       for (const bucket of itemBuckets) {
         // create section separators
-        const separator: SeparatorRow = {
+        const separator: SeparatorSection = {
           id: `${bucket}_separator`,
           type: UISection.Separator,
         };
@@ -78,7 +78,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           continue;
         }
 
-        const equipSectionCell: EquipSectionCell = {
+        const equipSectionCell: EquipSection = {
           id: `${bucket}_equip_section`,
           type: UISection.CharacterEquipment,
           equipped: null,
@@ -111,7 +111,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISecti
   for (const bucket of itemBuckets) {
     const bucketItems = vaultData.items[bucket];
     if (bucketItems) {
-      const separator: SeparatorRow = {
+      const separator: SeparatorSection = {
         id: `${bucket}_separator`,
         type: UISection.Separator,
       };
@@ -125,7 +125,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISecti
       while (itemsLeft > 0) {
         // is there 21 or more items left?
         if (itemsLeft > 20) {
-          const vault5x5Cell: Vault5x5Cell = {
+          const vault5x5Cell: Vault5x5Section = {
             id: `${bucket}_5x5_section${count}`,
             type: UISection.Vault5x5,
             inventory: [],
@@ -147,7 +147,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISecti
           itemsLeft -= 25;
           count++;
         } else {
-          const vaultFlexCell: VaultFlexCell = {
+          const vaultFlexCell: VaultFlexSection = {
             id: `${bucket}_flex_section`,
             type: UISection.VaultFlex,
             inventory: [],

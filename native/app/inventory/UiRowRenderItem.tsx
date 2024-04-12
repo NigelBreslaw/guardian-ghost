@@ -1,21 +1,21 @@
 import { type UISections, UISection } from "@/app/inventory/Common.ts";
-import EngramsSection from "@/app/inventory/EngramsSection.tsx";
-import EquipSection from "@/app/inventory/EquipSection.tsx";
-import SeparatorRow from "@/app/inventory/SeparatorRow";
-import Vault5x5Cell from "@/app/inventory/VaultSection5x5.tsx";
-import VaultSectionFlex from "@/app/inventory/VaultSectionFlex.tsx";
+import EngramsUI from "@/app/inventory/EngramsUI";
+import EquipUI from "@/app/inventory/CharacterEquipmentUI";
+import SeparatorUI from "@/app/inventory/SeparatorUI";
+import Vault5x5UI from "@/app/inventory/Vault5x5UI";
+import VaultFlexUI from "@/app/inventory/VaultFlexUI";
 
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {
     case UISection.Separator:
-      return <SeparatorRow />;
+      return <SeparatorUI />;
     case UISection.CharacterEquipment:
-      return <EquipSection data={item} />;
+      return <EquipUI data={item} />;
     case UISection.Vault5x5:
-      return <Vault5x5Cell data={item.inventory} />;
+      return <Vault5x5UI data={item.inventory} />;
     case UISection.VaultFlex:
-      return <VaultSectionFlex data={item.inventory} />;
+      return <VaultFlexUI data={item.inventory} />;
     case UISection.Engrams:
-      return <EngramsSection data={item.inventory} />;
+      return <EngramsUI data={item.inventory} />;
   }
 };
