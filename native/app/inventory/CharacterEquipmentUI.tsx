@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
     width: "33.33%",
     height: ITEM_SIZE,
   },
+  root: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
 });
 
 type CharacterEquipmentProps = {
@@ -34,7 +39,7 @@ function CharacterEquipmentUI(props: CharacterEquipmentProps) {
 
   return (
     <View style={dynamicStyles}>
-      <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+      <View style={styles.root}>
         <View style={{ flex: 1 }}>
           {props.data.equipped !== null ? <DestinyCell data={props.data.equipped} /> : <EmptyCell />}
         </View>
