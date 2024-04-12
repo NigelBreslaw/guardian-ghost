@@ -4,9 +4,9 @@ import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const DEFAULT_BORDER_COLOR = "#3E3D45";
-const MINI_ICON_SIZE = 17;
-const RIGHT_ALIGNMENT = -7;
+const MINI_ICON_SIZE = 18;
+const RIGHT_ALIGNMENT = -9;
+const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
   },
   PrimaryStat: {
     width: 40,
-    height: 18,
+    height: 16,
     borderRadius: 4,
-    backgroundColor: DEFAULT_BORDER_COLOR,
+    backgroundColor: DEFAULT_OVERLAP_COLOR,
     zIndex: 100,
     position: "absolute",
-    bottom: -8,
+    bottom: -6,
     right: -8,
     justifyContent: "center",
     alignItems: "center",
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   miniIconBurn: {
     width: MINI_ICON_SIZE,
     height: MINI_ICON_SIZE,
-    borderRadius: 4,
-    backgroundColor: DEFAULT_BORDER_COLOR,
+    borderRadius: 9,
+    backgroundColor: DEFAULT_OVERLAP_COLOR,
     position: "absolute",
     zIndex: 100,
     bottom: 14,
