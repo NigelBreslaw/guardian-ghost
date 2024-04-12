@@ -1,4 +1,4 @@
-import type { UiCell } from "@/app/inventory/Common.ts";
+import type { UISections } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const pageEstimatedFlashListItemSize = [157, 157, 157, 250];
 
 type InventoryPageProps = {
-  inventoryPageData: UiCell[][];
+  inventoryPageData: UISections[][];
 };
 
 const rootStyles = StyleSheet.create({
@@ -23,19 +23,19 @@ const rootStyles = StyleSheet.create({
   },
 });
 
-const renderItem = ({ item }: { item: UiCell }) => {
+const renderItem = ({ item }: { item: UISections }) => {
   return UiCellRenderItem({ item });
 };
 
-const keyExtractor = (item: UiCell) => item.id;
-const getItemType = (item: UiCell) => item.type;
+const keyExtractor = (item: UISections) => item.id;
+const getItemType = (item: UISections) => item.type;
 
 export default function InventoryPage(props: InventoryPageProps) {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
-  const listRefs = useRef<(FlashList<UiCell> | null)[]>([]);
+  const listRefs = useRef<(FlashList<UISections> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
   const isFocused = useIsFocused();
 
