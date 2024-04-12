@@ -101,6 +101,7 @@ export type DestinyIconData = {
   icon: string;
   damageTypeIconUri: number | null;
   primaryStat: string;
+  quantity: number;
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
   borderColor: string;

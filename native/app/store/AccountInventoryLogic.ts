@@ -193,6 +193,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const borderColor = returnBorderColor(item);
   const masterwork = item.masterwork ?? false;
   const crafted = item.crafted;
+  const quantity = item.quantity;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
@@ -205,6 +206,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     masterwork,
     borderColor,
     crafted,
+    quantity,
   };
   return iconData;
 }
