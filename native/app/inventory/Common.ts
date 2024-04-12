@@ -29,6 +29,7 @@ export const characterBuckets = [
   1107761855, // emotes
   1506418338, // artifact
   375726501, // Engrams
+  215593132, // Lost Items
 ];
 
 export const weaponBuckets = [1498876634, 2465295065, 953998645];
@@ -54,7 +55,7 @@ export const armorPageBuckets = [
 
 export const generalPageBuckets = [
   375726501, // Engrams undefined 444348033 undefined 497170007
-  215593132, // LostItems
+  215593132, // Lost Items
   4274335291, // Emblems
   284967655, // Ships
   2025709351, // Vehicle
@@ -152,7 +153,18 @@ export type VaultFlexSection = BaseSection & {
   inventory: DestinyIconData[];
 };
 
-export type UISections = SeparatorSection | EquipSection | Vault5x5Section | VaultFlexSection | EngramsSection;
+export type LostItemsSection = BaseSection & {
+  type: UISection.LostItems;
+  inventory: DestinyIconData[];
+};
+
+export type UISections =
+  | SeparatorSection
+  | EquipSection
+  | Vault5x5Section
+  | VaultFlexSection
+  | EngramsSection
+  | LostItemsSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
