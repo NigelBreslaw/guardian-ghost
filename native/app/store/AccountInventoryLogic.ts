@@ -1,6 +1,6 @@
 import type { DestinyItem, DestinyItemSort, GuardianGear, VaultData } from "@/app/bungie/Types.ts";
 import {
-  UiCellType,
+  UISection,
   armorPageBuckets,
   generalPageBuckets,
   getDamageTypeIconUri,
@@ -9,7 +9,7 @@ import {
   type EngramsSection,
   type EquipSectionCell,
   type SeparatorRow,
-  type UiCell,
+  type UISections,
   type Vault5x5Cell,
   type VaultFlexCell,
 } from "@/app/inventory/Common.ts";
@@ -34,8 +34,8 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   console.log("Rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
 }
 
-export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiCell[][] {
-  const characterDataArray: UiCell[][] = [];
+export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
+  const characterDataArray: UISections[][] = [];
   const guardians = get().guardians;
   const vaultData = get().generalVault;
 
@@ -47,13 +47,13 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
   for (const character in guardians) {
     const characterData = guardians[character];
     if (characterData) {
-      const dataArray: UiCell[] = [];
+      const dataArray: UISections[] = [];
 
       for (const bucket of itemBuckets) {
         // create section separators
         const separator: SeparatorRow = {
           id: `${bucket}_separator`,
-          type: UiCellType.Separator,
+          type: UISection.Separator,
         };
         dataArray.push(separator);
 
@@ -68,7 +68,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
         if (bucket === 375726501) {
           const engramsSection: EngramsSection = {
             id: `${bucket}_engrams_section`,
-            type: UiCellType.EngramsCell,
+            type: UISection.Engrams,
             inventory: [],
           };
           if (bucketItems) {
@@ -80,7 +80,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
 
         const equipSectionCell: EquipSectionCell = {
           id: `${bucket}_equip_section`,
-          type: UiCellType.EquipSectionCell,
+          type: UISection.CharacterEquipment,
           equipped: null,
           inventory: [],
         };
@@ -105,15 +105,15 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UiC
   return characterDataArray;
 }
 
-function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[] {
-  const dataArray: UiCell[] = [];
+function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISections[] {
+  const dataArray: UISections[] = [];
 
   for (const bucket of itemBuckets) {
     const bucketItems = vaultData.items[bucket];
     if (bucketItems) {
       const separator: SeparatorRow = {
         id: `${bucket}_separator`,
-        type: UiCellType.Separator,
+        type: UISection.Separator,
       };
       dataArray.push(separator);
 
@@ -127,7 +127,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[
         if (itemsLeft > 20) {
           const vault5x5Cell: Vault5x5Cell = {
             id: `${bucket}_5x5_section${count}`,
-            type: UiCellType.Vault5x5Cell,
+            type: UISection.Vault5x5,
             inventory: [],
           };
 
@@ -149,7 +149,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UiCell[
         } else {
           const vaultFlexCell: VaultFlexCell = {
             id: `${bucket}_flex_section`,
-            type: UiCellType.VaultFlexCell,
+            type: UISection.VaultFlex,
             inventory: [],
           };
 

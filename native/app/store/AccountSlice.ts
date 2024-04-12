@@ -10,7 +10,7 @@ import {
   type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import { characterBuckets, type DestinyItemIdentifier, type UiCell } from "@/app/inventory/Common.ts";
+import { characterBuckets, type DestinyItemIdentifier, type UISections } from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,
@@ -47,9 +47,9 @@ export interface AccountSlice {
   // dictates
   ggCharacters: GGCharacterUiData[];
 
-  armorPageData: UiCell[][];
-  generalPageData: UiCell[][];
-  weaponsPageData: UiCell[][];
+  armorPageData: UISections[][];
+  generalPageData: UISections[][];
+  weaponsPageData: UISections[][];
   selectedItem: DestinyItem | null;
 
   responseMintedTimestamp: Date;
