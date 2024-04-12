@@ -197,6 +197,7 @@ export type DestinyItemDefinition = {
   itemSubType: ItemSubType;
   tierType: TierType;
   destinyClass: DestinyClass;
+  doesPostmasterPullHaveSideEffects: boolean;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;

@@ -285,6 +285,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     itemSubType: ItemSubType.None,
     tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
+    doesPostmasterPullHaveSideEffects: false,
   };
 
   definitionItems.itemType = itemDef?.it ?? ItemType.None;
@@ -305,6 +306,11 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
     definitionItems.masterwork = true;
+  }
+
+  // Only check for items in the postmaster
+  if (baseItem.bucketHash === 215593132) {
+    definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
   }
 
   if (baseItem.itemInstanceId !== undefined) {
