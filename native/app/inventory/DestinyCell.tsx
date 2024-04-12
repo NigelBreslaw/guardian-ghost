@@ -130,7 +130,7 @@ const DestinyCell = (props: DestinyCellProps) => {
       itemHash: props.data.itemHash,
       characterId: props.data.characterId,
     });
-  }, [props.data]);
+  }, [props.data.itemInstanceId, props.data.itemHash, props.data.characterId]);
 
   return (
     <View style={styles.container}>
