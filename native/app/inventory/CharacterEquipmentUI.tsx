@@ -1,4 +1,4 @@
-import { EQUIP_SECTION_SIZE, ITEM_SIZE, type EquipSectionCell } from "@/app/inventory/Common.ts";
+import { EQUIP_SECTION_SIZE, ITEM_SIZE, type EquipSection } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -21,11 +21,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type EquipSectionProps = {
-  data: EquipSectionCell;
+type CharacterEquipmentProps = {
+  data: EquipSection;
 };
 
-function EquipSection(props: EquipSectionProps) {
+function CharacterEquipmentUI(props: CharacterEquipmentProps) {
   const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
   const dynamicStyles = {
     width: inventorySectionWidth,
@@ -62,4 +62,4 @@ function EquipSection(props: EquipSectionProps) {
   );
 }
 
-export default React.memo(EquipSection);
+export default React.memo(CharacterEquipmentUI);

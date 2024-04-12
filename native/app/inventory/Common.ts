@@ -119,6 +119,7 @@ export enum UISection {
   Vault5x5 = 2,
   VaultFlex = 3,
   Engrams = 4,
+  LostItems = 5,
 }
 
 export type BaseSection = {
@@ -126,7 +127,7 @@ export type BaseSection = {
   type: UISection;
 };
 
-export type SeparatorRow = BaseSection & {
+export type SeparatorSection = BaseSection & {
   type: UISection.Separator;
 };
 
@@ -135,23 +136,23 @@ export type EngramsSection = BaseSection & {
   inventory: DestinyIconData[];
 };
 
-export type EquipSectionCell = BaseSection & {
+export type EquipSection = BaseSection & {
   type: UISection.CharacterEquipment;
   equipped: DestinyIconData | null;
   inventory: DestinyIconData[];
 };
 
-export type Vault5x5Cell = BaseSection & {
+export type Vault5x5Section = BaseSection & {
   type: UISection.Vault5x5;
   inventory: DestinyIconData[];
 };
 
-export type VaultFlexCell = BaseSection & {
+export type VaultFlexSection = BaseSection & {
   type: UISection.VaultFlex;
   inventory: DestinyIconData[];
 };
 
-export type UISections = SeparatorRow | EquipSectionCell | Vault5x5Cell | VaultFlexCell | EngramsSection;
+export type UISections = SeparatorSection | EquipSection | Vault5x5Section | VaultFlexSection | EngramsSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;
