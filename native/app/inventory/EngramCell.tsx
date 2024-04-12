@@ -4,7 +4,7 @@ import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const DEFAULT_BORDER_COLOR = "#3E3D45";
+const DEFAULT_BORDER_COLOR = "#303036";
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 const BORDER_COLOR = "#555555";
 const BORDER_RADIUS = 10;
 const BORDER_SIZE = 15;
-const BORDER_WIDTH = 3;
+const BORDER_WIDTH = 1;
 
 const styles = StyleSheet.create({
   square: {
