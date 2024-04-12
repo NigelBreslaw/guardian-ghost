@@ -20,17 +20,36 @@ const styles = StyleSheet.create({
     height: ITEM_SIZE,
     position: "absolute",
   },
-  powerLevelText: {
-    color: "white",
-    fontSize: 14,
+  quantity: {
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 6,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    backgroundColor: "#AEAEAE",
+    zIndex: 100,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  quantityLevelText: {
+    color: "black",
+    fontSize: 15,
     fontWeight: "bold",
     alignContent: "center",
     includeFontPadding: false,
     pointerEvents: "none",
   },
-  PrimaryStat: {
-    width: 40,
-    height: 16,
+  primaryStat: {
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 0,
+    paddingBottom: 0,
     borderRadius: 4,
     backgroundColor: DEFAULT_OVERLAP_COLOR,
     zIndex: 100,
@@ -39,6 +58,14 @@ const styles = StyleSheet.create({
     right: -8,
     justifyContent: "center",
     alignItems: "center",
+  },
+  primaryStatText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
   },
   icon: {
     width: 68,
@@ -131,8 +158,8 @@ const DestinyCell = (props: DestinyCellProps) => {
             </View>
           </View>
           {props.data.primaryStat !== "" && (
-            <View style={styles.PrimaryStat}>
-              <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
+            <View style={styles.primaryStat}>
+              <Text style={styles.primaryStatText}>{props.data.primaryStat}</Text>
             </View>
           )}
           {props.data.damageTypeIconUri && (
@@ -140,6 +167,9 @@ const DestinyCell = (props: DestinyCellProps) => {
               <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
             </View>
           )}
+          <View style={[styles.quantity, { display: props.data.quantity > 1 ? "flex" : "none" }]}>
+            <Text style={styles.quantityLevelText}>{props.data.quantity}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     </View>
