@@ -72,13 +72,6 @@ export enum BreakerType {
   Stagger = 3,
 }
 
-export enum DestinyItemType {
-  Unknown = 0,
-  Weapon = 1,
-  Armor = 2,
-  General = 3,
-}
-
 export type DestinyIconData = {
   itemHash: number;
   itemInstanceId: string | undefined;

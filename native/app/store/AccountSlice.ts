@@ -1,4 +1,4 @@
-import { DestinyClass, characterBuckets } from "@/app/bungie/Hashes.ts";
+import { DestinyClass, ItemType, characterBuckets } from "@/app/bungie/Hashes.ts";
 import {
   ItemSubType,
   TierType,
@@ -10,13 +10,7 @@ import {
   type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import {
-  DestinyItemType,
-  armorBuckets,
-  weaponBuckets,
-  type DestinyItemIdentifier,
-  type UiCell,
-} from "@/app/inventory/Common.ts";
+import type { DestinyItemIdentifier, UiCell } from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,
@@ -277,10 +271,9 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   }
 
   const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
-  const itemType: DestinyItemType = getItemType(recoveryBucketHash);
   const definitionItems: DestinyItemDefinition = {
     recoveryBucketHash,
-    itemType,
+    itemType: ItemType.None,
     previousCharacterId: "",
     characterId: extras.characterId,
     equipped: extras.equipped,
@@ -290,6 +283,8 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
   };
+
+  definitionItems.itemType = itemDef?.it ?? ItemType.None;
 
   if (baseItem.overrideStyleItemHash !== undefined) {
     const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
@@ -313,14 +308,14 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       definitionItems.masterwork = true;
     }
 
-    if (itemType === DestinyItemType.Armor || itemType === DestinyItemType.Weapon) {
+    if (definitionItems.itemType === ItemType.Armor || definitionItems.itemType === ItemType.Weapon) {
       if (itemComponent) {
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
           definitionItems.primaryStat = primaryStat;
         }
 
-        if (itemType === DestinyItemType.Weapon) {
+        if (definitionItems.itemType === ItemType.Weapon) {
           const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
           if (deepSightResonance) {
             definitionItems.deepSightResonance = true;
@@ -338,19 +333,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
   const destinyItem = Object.assign(baseItem, extras, definitionItems);
   return destinyItem;
-}
-
-function getItemType(bucketHash: number | undefined): DestinyItemType {
-  if (bucketHash === undefined) {
-    return DestinyItemType.Unknown;
-  }
-  if (weaponBuckets.includes(bucketHash)) {
-    return DestinyItemType.Weapon;
-  }
-  if (armorBuckets.includes(bucketHash)) {
-    return DestinyItemType.Armor;
-  }
-  return DestinyItemType.Unknown;
 }
 
 function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItemDefinition): string | undefined {
