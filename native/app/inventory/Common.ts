@@ -100,7 +100,7 @@ export type DestinyIconData = {
   characterId: string;
   icon: string;
   damageTypeIconUri: number | null;
-  primaryStat: string;
+  primaryStat: number;
   quantity: number;
   calculatedWaterMark: string | undefined;
   masterwork: boolean;
