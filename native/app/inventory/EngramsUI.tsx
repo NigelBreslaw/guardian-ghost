@@ -1,4 +1,4 @@
-import { ENGRAMS_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { DestinyIconDataEmpty, ENGRAMS_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import EngramCell from "@/app/inventory/EngramCell";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
@@ -36,10 +36,18 @@ function EngramsUI(props: EngramsProps) {
       <View style={styles.container}>
         {array10.map((_v, index) => {
           const item = props.data[index];
+          if (item) {
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <View key={index} style={styles.box}>
+                <EngramCell data={item} />
+              </View>
+            );
+          }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <View key={index} style={styles.box}>
-              <EngramCell data={item} />
+              <EngramCell data={DestinyIconDataEmpty} />
             </View>
           );
         })}
