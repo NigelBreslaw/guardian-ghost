@@ -154,7 +154,7 @@ const DestinyCell = (props: DestinyCellProps) => {
               {props.data.crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.crafted} />}
             </View>
           </View>
-          {props.data.primaryStat !== "" && (
+          {props.data.primaryStat > 0 && (
             <View style={styles.primaryStat}>
               <Text style={styles.primaryStatText}>{props.data.primaryStat}</Text>
             </View>

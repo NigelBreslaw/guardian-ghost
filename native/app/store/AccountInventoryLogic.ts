@@ -199,7 +199,7 @@ function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISecti
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const damageTypeIconUri = getDamageTypeIconUri(item.damageType);
-  const primaryStat = item.primaryStat > 0 ? item.primaryStat.toString() : "";
+  const primaryStat = item.primaryStat;
   const borderColor = returnBorderColor(item);
   const masterwork = item.masterwork ?? false;
   const crafted = item.crafted;
