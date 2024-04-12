@@ -1,11 +1,9 @@
-import { CRAFTED_OVERLAY, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const MINI_ICON_SIZE = 18;
-const RIGHT_ALIGNMENT = -9;
 const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
 const styles = StyleSheet.create({
@@ -19,31 +17,6 @@ const styles = StyleSheet.create({
     width: ITEM_SIZE,
     height: ITEM_SIZE,
     position: "absolute",
-  },
-  quantity: {
-    paddingLeft: 2,
-    paddingRight: 2,
-    paddingTop: 0,
-    paddingBottom: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 6,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    backgroundColor: "#AEAEAE",
-    zIndex: 100,
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  quantityLevelText: {
-    color: "black",
-    fontSize: 15,
-    fontWeight: "bold",
-    alignContent: "center",
-    includeFontPadding: false,
-    pointerEvents: "none",
   },
   primaryStat: {
     paddingLeft: 2,
@@ -60,8 +33,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   primaryStatText: {
-    color: "white",
-    fontSize: 14,
+    color: "#56B1B7",
+    fontSize: 15,
     fontWeight: "bold",
     alignContent: "center",
     includeFontPadding: false,
@@ -73,6 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 2,
+    borderColor: "#555555",
     pointerEvents: "none",
   },
   frameSize: {
@@ -93,29 +67,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     pointerEvents: "none",
   },
-  crafted: {
-    width: 65,
-    height: 65,
-    position: "absolute",
-    pointerEvents: "none",
-  },
-  miniIconBurnSize: {
-    width: 13,
-    height: 13,
-    pointerEvents: "none",
-  },
-  miniIconBurn: {
-    width: MINI_ICON_SIZE,
-    height: MINI_ICON_SIZE,
-    borderRadius: 9,
-    backgroundColor: DEFAULT_OVERLAP_COLOR,
-    position: "absolute",
-    zIndex: 100,
-    bottom: 14,
-    right: RIGHT_ALIGNMENT,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
 
 type DestinyCellProps = {
@@ -135,7 +86,7 @@ const DestinyCell = (props: DestinyCellProps) => {
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress}>
         <View style={styles.frameSize}>
-          <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
+          <View style={styles.icon}>
             <View style={styles.innerFrameSize}>
               <Image
                 source={{ uri: props.data.icon }}
@@ -143,32 +94,12 @@ const DestinyCell = (props: DestinyCellProps) => {
                 style={styles.innerFrameSize}
                 recyclingKey={props.data.icon}
               />
-
-              <Image
-                source={{ uri: props.data.calculatedWaterMark }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameOverlaySize}
-                recyclingKey={props.data.calculatedWaterMark}
-              />
-
-              {props.data.crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.crafted} />}
             </View>
           </View>
-          {props.data.primaryStat !== "" && (
-            <View style={styles.primaryStat}>
-              <Text style={styles.primaryStatText}>{props.data.primaryStat}</Text>
-            </View>
-          )}
-          {props.data.damageTypeIconUri && (
-            <View style={styles.miniIconBurn}>
-              <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
-            </View>
-          )}
-          {props.data.quantity > 1 && (
-            <View style={styles.quantity}>
-              <Text style={styles.quantityLevelText}>{props.data.quantity}</Text>
-            </View>
-          )}
+
+          <View style={styles.primaryStat}>
+            <Text style={styles.primaryStatText}>{`+${props.data.primaryStat}`}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     </View>

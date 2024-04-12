@@ -5,6 +5,7 @@ import SeparatorUI from "@/app/inventory/SeparatorUI";
 import Vault5x5UI from "@/app/inventory/Vault5x5UI";
 import VaultFlexUI from "@/app/inventory/VaultFlexUI";
 import LostItemsUI from "@/app/inventory/LostItemsUI";
+import ArtifactUI from "@/app/inventory/ArtifactUI.tsx";
 
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {
@@ -20,5 +21,7 @@ export const UiCellRenderItem = ({ item }: { item: UISections }) => {
       return <EngramsUI data={item.inventory} />;
     case UISection.LostItems:
       return <LostItemsUI data={item.inventory} />;
+    case UISection.Artifact:
+      return <ArtifactUI equipped={item.equipped} />;
   }
 };

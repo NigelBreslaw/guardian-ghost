@@ -5,6 +5,7 @@ import {
   generalPageBuckets,
   getDamageTypeIconUri,
   weaponsPageBuckets,
+  type ArtifactSection,
   type DestinyIconData,
   type EngramsSection,
   type EquipSection,
@@ -60,11 +61,6 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
 
         const bucketItems = characterData.items[bucket];
 
-        // TODO: If artifact (1506418338) create an artifact section
-        if (bucket === 1506418338) {
-          continue;
-        }
-
         // Handle engrams
         if (bucket === 375726501) {
           const engramsSection: EngramsSection = {
@@ -90,6 +86,20 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
             lostItemsSection.inventory = returnInventoryArray(bucketItems, bucket);
           }
           dataArray.push(lostItemsSection);
+          continue;
+        }
+
+        // Handle artifacts
+        if (bucket === 1506418338) {
+          const artifactSection: ArtifactSection = {
+            id: `${bucket}_artifact_section`,
+            type: UISection.Artifact,
+            equipped: null,
+          };
+          if (bucketItems?.equipped) {
+            artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
+          }
+          dataArray.push(artifactSection);
           continue;
         }
 

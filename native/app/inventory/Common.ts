@@ -122,6 +122,7 @@ export enum UISection {
   VaultFlex = 3,
   Engrams = 4,
   LostItems = 5,
+  Artifact = 6,
 }
 
 export type BaseSection = {
@@ -159,13 +160,19 @@ export type LostItemsSection = BaseSection & {
   inventory: DestinyIconData[];
 };
 
+export type ArtifactSection = BaseSection & {
+  type: UISection.Artifact;
+  equipped: DestinyIconData | null;
+};
+
 export type UISections =
   | SeparatorSection
   | EquipSection
   | Vault5x5Section
   | VaultFlexSection
   | EngramsSection
-  | LostItemsSection;
+  | LostItemsSection
+  | ArtifactSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;

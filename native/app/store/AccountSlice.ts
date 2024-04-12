@@ -311,9 +311,10 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
       if (
-        definitionItems.itemType === ItemType.Armor ||
         definitionItems.itemType === ItemType.Weapon ||
-        definitionItems.itemType === ItemType.Vehicle
+        definitionItems.itemType === ItemType.Armor ||
+        definitionItems.itemType === ItemType.Vehicle ||
+        definitionItems.itemType === ItemType.SeasonalArtifact
       ) {
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
