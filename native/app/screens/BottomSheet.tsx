@@ -2,7 +2,7 @@ import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { processTransferItem } from "@/app/transfer/TransferLogic.ts";
-import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -113,6 +113,13 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
 
   for (const ggCharacter of ggCharacters) {
+    // Global items can only be transferred to the vault
+    if (GLOBAL_INVENTORY_NAMES.includes(props.destinyItem.characterId)) {
+      if (ggCharacter.characterId !== VAULT_CHARACTER_ID) {
+        continue;
+      }
+    }
+
     const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
     const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
 
@@ -136,7 +143,6 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
     });
 
     rectangles.push(
-      // style should make this a flex row
       <GestureHandlerRootView key={ggCharacter.characterId} style={{ flexDirection: "row", gap: 5 }}>
         <GestureDetector gesture={transferTap}>
           <View
