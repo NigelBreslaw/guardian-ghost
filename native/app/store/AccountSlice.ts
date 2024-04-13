@@ -19,7 +19,12 @@ import {
   rawProfileData,
   setRawProfileData,
 } from "@/app/store/Definitions.ts";
-import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import {
+  GLOBAL_CONSUMABLES_CHARACTER_ID,
+  GLOBAL_LOST_ITEMS_CHARACTER_ID,
+  GLOBAL_MODS_CHARACTER_ID,
+  VAULT_CHARACTER_ID,
+} from "@/app/utilities/Constants.ts";
 import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
@@ -153,12 +158,7 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const ggCharacters = getCharactersAndVault(basicGuardians);
   const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
-  const characterId1 = ggCharacters[0]?.characterId;
-  if (!characterId1) {
-    console.error("No characterId1");
-    throw new Error("No characterId1");
-  }
-  const vaultData = processVaultInventory(characterId1, profile);
+  const vaultData = processVaultInventory(profile);
   const p2 = performance.now();
   console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
@@ -390,15 +390,25 @@ function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItem
   return watermark;
 }
 
-function processVaultInventory(characterId1: string, profile: ProfileData): VaultData {
+function processVaultInventory(profile: ProfileData): VaultData {
   const vaultInventory = profile.Response.profileInventory.data.items;
 
   const characterIsVault = {
     characterId: VAULT_CHARACTER_ID,
     equipped: false,
   };
-  const globalCharacter = {
-    characterId: characterId1,
+  const characterIsGlobalMods = {
+    characterId: GLOBAL_MODS_CHARACTER_ID,
+    equipped: false,
+  };
+
+  const characterIsGlobalConsumables = {
+    characterId: GLOBAL_CONSUMABLES_CHARACTER_ID,
+    equipped: false,
+  };
+
+  const characterIsGlobalLostItems = {
+    characterId: GLOBAL_LOST_ITEMS_CHARACTER_ID,
     equipped: false,
   };
 
@@ -432,15 +442,15 @@ function processVaultInventory(characterId1: string, profile: ProfileData): Vaul
           }
           break;
         case 1469714392:
-          destinyItem = addDefinition(item, globalCharacter);
+          destinyItem = addDefinition(item, characterIsGlobalConsumables);
           vaultData.consumables.push(destinyItem);
           break;
         case 3313201758:
-          destinyItem = addDefinition(item, globalCharacter);
+          destinyItem = addDefinition(item, characterIsGlobalMods);
           vaultData.mods.push(destinyItem);
           break;
         default:
-          destinyItem = addDefinition(item, globalCharacter);
+          destinyItem = addDefinition(item, characterIsGlobalLostItems);
           vaultData.lostItems.push(destinyItem);
           break;
       }
