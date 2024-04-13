@@ -437,7 +437,7 @@ function processVaultInventory(characterId1: string, profile: ProfileData): Vaul
           break;
         case 3313201758:
           destinyItem = addDefinition(item, globalCharacter);
-          vaultData.consumables.push(destinyItem);
+          vaultData.mods.push(destinyItem);
           break;
         default:
           destinyItem = addDefinition(item, globalCharacter);

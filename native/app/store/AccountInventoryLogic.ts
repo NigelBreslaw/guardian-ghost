@@ -61,6 +61,36 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
 
         const bucketItems = characterData.items[bucket];
 
+        // Special case global consumables
+        if (bucket === 1469714392) {
+          const consumables = get().consumables;
+          const globalConsumables: VaultFlexSection = {
+            id: `${bucket}_global_consumables_section`,
+            type: UISection.VaultFlex,
+            inventory: [],
+          };
+          if (consumables) {
+            globalConsumables.inventory = returnInventoryArray(consumables, bucket);
+          }
+          dataArray.push(globalConsumables);
+          continue;
+        }
+
+        // Special case global mods
+        if (bucket === 3313201758) {
+          const mods = get().mods;
+          const globalMods: VaultFlexSection = {
+            id: `${bucket}_global_mods_section`,
+            type: UISection.VaultFlex,
+            inventory: [],
+          };
+          if (mods) {
+            globalMods.inventory = returnInventoryArray(mods, bucket);
+          }
+          dataArray.push(globalMods);
+          continue;
+        }
+
         // Handle engrams
         if (bucket === 375726501) {
           const engramsSection: EngramsSection = {
