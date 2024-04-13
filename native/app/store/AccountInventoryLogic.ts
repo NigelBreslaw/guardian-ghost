@@ -1,4 +1,4 @@
-import type { DestinyItem, DestinyItemSort, GuardianGear, VaultData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
   UISection,
   armorPageBuckets,
@@ -39,9 +39,9 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
 export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
   const characterDataArray: UISections[][] = [];
   const guardians = get().guardians;
-  const vaultData = get().generalVault;
+  const generalVault = get().generalVault;
 
-  if (!rawProfileData || !guardians || !vaultData) {
+  if (!rawProfileData || !guardians || !generalVault) {
     console.error("No profile, guardians or generalVault");
     return characterDataArray;
   }
@@ -69,7 +69,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
             inventory: [],
           };
           if (bucketItems) {
-            engramsSection.inventory = returnInventoryArray(bucketItems, bucket);
+            engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
           }
           dataArray.push(engramsSection);
           continue;
@@ -83,7 +83,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
             inventory: [],
           };
           if (bucketItems) {
-            lostItemsSection.inventory = returnInventoryArray(bucketItems, bucket);
+            lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
           }
           dataArray.push(lostItemsSection);
           continue;
@@ -115,7 +115,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           if (equipped) {
             equipSectionCell.equipped = returnDestinyIconData(equipped);
           }
-          equipSectionCell.inventory = returnInventoryArray(bucketItems, bucket);
+          equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
 
           dataArray.push(equipSectionCell);
         }
@@ -124,17 +124,17 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
     }
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(itemBuckets, vaultData);
+  const vaultUiData = returnVaultUiData(itemBuckets, generalVault);
   characterDataArray.push(vaultUiData);
 
   return characterDataArray;
 }
 
-function returnVaultUiData(itemBuckets: number[], vaultData: VaultData): UISections[] {
+function returnVaultUiData(itemBuckets: number[], generalVault: Record<number, DestinyItem[]>): UISections[] {
   const dataArray: UISections[] = [];
 
   for (const bucket of itemBuckets) {
-    const bucketItems = vaultData.items[bucket];
+    const bucketItems = generalVault[bucket];
     if (bucketItems) {
       const separator: SeparatorSection = {
         id: `${bucket}_separator`,
@@ -233,10 +233,10 @@ function returnBorderColor(item: DestinyItem): string {
 
 const weaponBuckets = [1498876634, 2465295065, 953998645];
 
-function returnInventoryArray(characterGear: GuardianGear, bucketHash: number): DestinyIconData[] {
+function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): DestinyIconData[] {
   const inventoryArray: DestinyIconData[] = [];
 
-  let existingArray = characterGear.inventory as DestinyItemSort[];
+  let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
     existingArray = existingArray.sort(typeAndPowerSort);
   }
@@ -255,7 +255,7 @@ function returnInventoryArray(characterGear: GuardianGear, bucketHash: number): 
 
 export function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   const previousGeneralVault = get().generalVault;
-  const previousInventory = previousGeneralVault.items[destinyItem.bucketHash]?.inventory;
+  const previousInventory = previousGeneralVault[destinyItem.bucketHash];
   const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
   if (!updatedInventory) {
     console.error("updatedInventory is undefined");
@@ -263,7 +263,7 @@ export function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter
   }
 
   const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft.items[destinyItem.bucketHash] = { equipped: null, inventory: updatedInventory };
+    draft[destinyItem.bucketHash] = updatedInventory;
   });
 
   set({ generalVault: updatedGeneralVault });
@@ -273,7 +273,7 @@ export function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, des
   const previousGeneralVault = get().generalVault;
 
   const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+    draft[destinyItem.bucketHash]?.push(destinyItem);
   });
 
   set({ generalVault: updatedGeneralVault });

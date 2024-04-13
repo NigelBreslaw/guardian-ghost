@@ -69,7 +69,10 @@ export type GuardianGear = {
 };
 
 export type VaultData = {
-  items: Record<number, GuardianGear>;
+  generalVault: Record<number, DestinyItem[]>;
+  consumables: DestinyItem[];
+  mods: DestinyItem[];
+  lostItems: DestinyItem[];
 };
 
 export const bungieResponseSchema = object({
