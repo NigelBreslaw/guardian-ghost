@@ -2,7 +2,11 @@ import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { basePath } from "@/app/inventory/Common.ts";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import {
+  GLOBAL_CONSUMABLES_CHARACTER_ID,
+  GLOBAL_INVENTORY_NAMES,
+  VAULT_CHARACTER_ID,
+} from "@/app/utilities/Constants.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
 
@@ -67,7 +71,7 @@ export async function processTransferItem(
           useGGStore.getState().equipItem(result[1]);
           return;
         }
-        console.error("Failed", parsedResult.output);
+        console.error("Failed 1", parsedResult.output);
         useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
         return;
       }
@@ -92,7 +96,7 @@ export async function processTransferItem(
             .showSnackBar("THE ITEM MOVED FROM THE POSTMASTER. However the rest of the logic is not implemented yet");
           return;
         }
-        console.error("Failed", parsedResult.output);
+        console.error("Failed 2", parsedResult.output);
         useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
         return;
       }
@@ -107,7 +111,7 @@ export async function processTransferItem(
             useGGStore.getState().moveItem(result[1]);
             return;
           }
-          console.error("Failed", parsedResult.output);
+          console.error("Failed 3", parsedResult.output);
           useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
           return;
         }
@@ -160,7 +164,16 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
 
   if (transferItem.destinyItem.characterId !== VAULT_CHARACTER_ID) {
     toVault = true;
-    characterId = transferItem.destinyItem.characterId;
+    if (GLOBAL_INVENTORY_NAMES.includes(transferItem.destinyItem.characterId)) {
+      const characterId1 = useGGStore.getState().ggCharacters[0]?.characterId;
+      if (!characterId1) {
+        console.error("No characterId1");
+        throw new Error("Impossible situation. No characterId1");
+      }
+      characterId = characterId1;
+    } else {
+      characterId = transferItem.destinyItem.characterId;
+    }
   } else {
     toVault = false;
     characterId = transferItem.finalTargetId;
