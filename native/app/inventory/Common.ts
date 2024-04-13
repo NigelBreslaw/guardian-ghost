@@ -30,6 +30,8 @@ export const characterBuckets = [
   1506418338, // artifact
   375726501, // Engrams
   215593132, // Lost Items
+  1469714392, // consumables
+  3313201758, // modifications
 ];
 
 export const weaponBuckets = [1498876634, 2465295065, 953998645];
@@ -56,6 +58,8 @@ export const armorPageBuckets = [
 export const generalPageBuckets = [
   375726501, // Engrams undefined 444348033 undefined 497170007
   215593132, // Lost Items
+  1469714392, // consumables
+  3313201758, // modifications
   4274335291, // Emblems
   284967655, // Ships
   2025709351, // Vehicle
