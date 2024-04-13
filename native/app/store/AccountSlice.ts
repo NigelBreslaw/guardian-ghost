@@ -55,7 +55,10 @@ export interface AccountSlice {
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
   guardians: Record<string, Guardian>;
-  generalVault: VaultData;
+  generalVault: Record<number, DestinyItem[]>;
+  consumables: DestinyItem[];
+  mods: DestinyItem[];
+  lostItems: DestinyItem[];
 
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
@@ -84,9 +87,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
   guardians: {},
-  generalVault: {
-    items: {},
-  },
+
+  generalVault: {},
+  consumables: [],
+  mods: [],
+  lostItems: [],
 
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
@@ -145,16 +150,24 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
   const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
+  const ggCharacters = getCharactersAndVault(basicGuardians);
   const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
-  const generalVault = processVaultInventory(profile);
-  const ggCharacters = getCharactersAndVault(basicGuardians);
+  const characterId1 = ggCharacters[0]?.characterId;
+  if (!characterId1) {
+    console.error("No characterId1");
+    throw new Error("No characterId1");
+  }
+  const vaultData = processVaultInventory(characterId1, profile);
   const p2 = performance.now();
   console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
   set({
     guardians: guardiansWithInventory,
-    generalVault,
+    generalVault: vaultData.generalVault,
+    consumables: vaultData.consumables,
+    mods: vaultData.mods,
+    lostItems: vaultData.lostItems,
     ggCharacters,
   });
   updateAllPages(get, set);
@@ -377,39 +390,61 @@ function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItem
   return watermark;
 }
 
-function processVaultInventory(profile: ProfileData): VaultData {
+function processVaultInventory(characterId1: string, profile: ProfileData): VaultData {
   const vaultInventory = profile.Response.profileInventory.data.items;
-  const vaultItems: VaultData = { items: {} };
+
+  const characterIsVault = {
+    characterId: VAULT_CHARACTER_ID,
+    equipped: false,
+  };
+  const globalCharacter = {
+    characterId: characterId1,
+    equipped: false,
+  };
+
+  const vaultData: VaultData = {
+    generalVault: {},
+    consumables: [],
+    mods: [],
+    lostItems: [],
+  };
 
   // create all the sections first
   for (const bucket of characterBuckets) {
-    vaultItems.items[bucket] = {
-      equipped: null,
-      inventory: [],
-    };
+    vaultData.generalVault[bucket] = [];
   }
+
   if (vaultInventory) {
     for (const item of vaultInventory) {
-      //TODO: !!!! This only processes the general vault. Global items, consumables, mods, etc. need to be added.
-      if (item.bucketHash !== 138197802) {
-        continue;
-      }
       let destinyItem: DestinyItem;
-      try {
-        const characterIsVault = {
-          characterId: VAULT_CHARACTER_ID,
-          equipped: false,
-        };
-        destinyItem = addDefinition(item, characterIsVault);
-        destinyItem.bucketHash = destinyItem.recoveryBucketHash ?? 0;
-      } catch {
-        continue;
-      }
 
-      if (destinyItem.bucketHash !== 0) {
-        vaultItems.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+      switch (item.bucketHash) {
+        case 138197802:
+          try {
+            destinyItem = addDefinition(item, characterIsVault);
+            destinyItem.bucketHash = destinyItem.recoveryBucketHash ?? 0;
+
+            if (destinyItem.bucketHash !== 0) {
+              vaultData.generalVault[destinyItem.bucketHash]?.push(destinyItem);
+            }
+          } catch {
+            continue;
+          }
+          break;
+        case 1469714392:
+          destinyItem = addDefinition(item, globalCharacter);
+          vaultData.consumables.push(destinyItem);
+          break;
+        case 3313201758:
+          destinyItem = addDefinition(item, globalCharacter);
+          vaultData.consumables.push(destinyItem);
+          break;
+        default:
+          destinyItem = addDefinition(item, globalCharacter);
+          vaultData.lostItems.push(destinyItem);
+          break;
       }
     }
   }
-  return vaultItems;
+  return vaultData;
 }

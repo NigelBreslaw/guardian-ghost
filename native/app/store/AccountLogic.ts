@@ -82,7 +82,7 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
     if (defaultBucket) {
       if (itemIdentifier.characterId === VAULT_CHARACTER_ID) {
         const vault = get().generalVault;
-        const vaultSectionInventory = vault.items[defaultBucket]?.inventory;
+        const vaultSectionInventory = vault[defaultBucket];
         if (vaultSectionInventory) {
           for (const item of vaultSectionInventory) {
             if (instancedItem) {
