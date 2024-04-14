@@ -14,6 +14,7 @@ import { object, safeParse, string } from "valibot";
 import { parse as linkingParse } from "expo-linking";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
+import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;
@@ -68,7 +69,9 @@ async function getUpdatedAccessToken(token: AuthToken): Promise<AuthToken> {
       if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
         throw new Error("System disabled");
       }
-      throw new Error("Validation failed");
+      if (parsedError.success && parsedError.output.error_description === "ProvidedTokenNotValidRefreshToken") {
+        throw new Error("Invalid Token: Login again");
+      }
     } catch (e) {
       throw new Error("Failed to validate token", e as Error);
     }
@@ -77,7 +80,7 @@ async function getUpdatedAccessToken(token: AuthToken): Promise<AuthToken> {
   return token;
 }
 
-export function getTokenAsync(authToken: AuthToken, errorMessage: string): Promise<AuthToken> {
+export function getTokenAsync(get: AccountSliceGetter, authToken: AuthToken, errorMessage: string): Promise<AuthToken> {
   return new Promise((resolve, reject) => {
     // Function to add a new request to the queue
     const enqueue = () => {
@@ -86,7 +89,7 @@ export function getTokenAsync(authToken: AuthToken, errorMessage: string): Promi
       }
       queue.push(async () => {
         try {
-          const result = await getTokenInternal(authToken, errorMessage);
+          const result = await getTokenInternal(get, authToken, errorMessage);
 
           resolve(result);
         } catch {
@@ -114,12 +117,20 @@ export function getTokenAsync(authToken: AuthToken, errorMessage: string): Promi
   });
 }
 
-async function getTokenInternal(authToken: AuthToken, errorMessage: string): Promise<AuthToken> {
+async function getTokenInternal(
+  get: AccountSliceGetter,
+  authToken: AuthToken,
+  errorMessage: string,
+): Promise<AuthToken> {
   try {
     const updatedToken = await getUpdatedAccessToken(authToken);
     return updatedToken;
   } catch (e) {
     console.error("Failed to validate token", errorMessage, e);
+    const error = e as Error;
+    if (error.message === "Invalid Token: Login again") {
+      get().logoutCurrentUser();
+    }
     throw new Error("Failed to validate token");
   }
 }

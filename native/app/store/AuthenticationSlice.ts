@@ -56,7 +56,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
 
       // TODO: Handle system disabled
       // TODO: Handle "Refresh token expired"
-      const validToken = await getTokenAsync(authToken, errorMessage);
+      const validToken = await getTokenAsync(get, authToken, errorMessage);
       if (validToken) {
         const membershipId = get().bungieUser.profile.membershipId;
         saveToken(validToken, membershipId);
