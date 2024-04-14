@@ -126,7 +126,7 @@ async function getTokenInternal(
   } catch (e) {
     console.error("Failed to validate token", errorMessage, e);
     const error = e as Error;
-    if (error.message === "Invalid Token: Login again" || error.message.includes("NotFound (SQL Return Value")) {
+    if (error.message === "ProvidedTokenNotValidRefreshToken" || error.message.includes("NotFound (SQL Return Value")) {
       console.error(error.message);
       get().logoutCurrentUser();
     }
