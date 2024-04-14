@@ -34,7 +34,7 @@ jobs:
       - name: install dependencies
         run: cd native && pnpm install --frozen-lockfile
       - name: add .env file
-        run: cd native && echo '${{ secrets.CLIENT_SECRETS }}' > .env
+        run: cd native && echo '${{ secrets.CLIENT_SECRETS_WEB }}' > .env
       - name: build # Plus workaround cloudflare not uploading the node_modules folder
         run: |
           cd native 
