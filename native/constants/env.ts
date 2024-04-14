@@ -10,4 +10,5 @@ export const clientSecret: string = !isLocalWeb
   ? process.env.EXPO_PUBLIC_CLIENT_SECRET
   : process.env.EXPO_PUBLIC_CLIENT_SECRET_WEB;
 
-export const redirectURL = "https://app.guardianghost.com/auth";
+export const redirectURL =
+  Platform.OS === "web" ? "https://app.guardianghost.com/oauth" : "https://app.guardianghost.com/auth";
