@@ -14,7 +14,6 @@ import { object, safeParse, string } from "valibot";
 import { parse as linkingParse } from "expo-linking";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 
 const queue: (() => Promise<void>)[] = [];
