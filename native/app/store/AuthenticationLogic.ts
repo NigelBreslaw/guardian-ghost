@@ -66,14 +66,12 @@ async function getUpdatedAccessToken(token: AuthToken): Promise<AuthToken> {
 
       // check for system disabled
       const parsedError = safeParse(object({ error: string(), error_description: string() }), updateToken);
-      if (parsedError.success && parsedError.output.error_description === "SystemDisabled") {
-        throw new Error("System disabled");
-      }
-      if (parsedError.success && parsedError.output.error_description === "ProvidedTokenNotValidRefreshToken") {
-        throw new Error("Invalid Token: Login again");
+      if (parsedError.success) {
+        throw new Error(parsedError.output.error_description);
       }
     } catch (e) {
-      throw new Error("Failed to validate token", e as Error);
+      const error = e as Error;
+      throw new Error(error.message);
     }
   }
 
@@ -128,7 +126,8 @@ async function getTokenInternal(
   } catch (e) {
     console.error("Failed to validate token", errorMessage, e);
     const error = e as Error;
-    if (error.message === "Invalid Token: Login again") {
+    if (error.message === "Invalid Token: Login again" || error.message.includes("NotFound (SQL Return Value")) {
+      console.error(error.message);
       get().logoutCurrentUser();
     }
     throw new Error("Failed to validate token");
@@ -136,9 +135,6 @@ async function getTokenInternal(
 }
 
 export async function deleteUserData(membershipId: string) {
-  if (membershipId === "") {
-    console.error("No membershipId !!!!!");
-  }
   try {
     await AsyncStorage.removeItem(Store._bungie_user);
     await AsyncStorage.removeItem(`${membershipId}${Store._refresh_token}`);
