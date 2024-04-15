@@ -5,8 +5,6 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-const array21 = Array.from({ length: 21 });
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -21,23 +19,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const SECTION_HEIGHT = ITEM_SIZE * 5;
-
 type EngramsProps = {
   data: DestinyIconData[];
 };
 
 function LostItemsUI(props: EngramsProps) {
   const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
+  const maxLostItemsColumns = useGGStore.getState().maxLostItemsColumns;
   const rootStyle = {
     width: inventorySectionWidth,
-    height: SECTION_HEIGHT,
+    height: ITEM_SIZE * maxLostItemsColumns,
   };
+  const totalItems = Array.from({ length: 5 * maxLostItemsColumns });
 
   return (
     <View style={rootStyle}>
       <View style={styles.container}>
-        {array21.map((_v, index) => {
+        {totalItems.map((_v, index) => {
           const item = props.data[index];
           if (item) {
             return (

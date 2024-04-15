@@ -1,4 +1,4 @@
-import type { DestinyItem, DestinyItemSort } from "@/app/bungie/Types.ts";
+import { GGCharacterType, type DestinyItem, type DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
   SectionBuckets,
   UISection,
@@ -28,6 +28,7 @@ import { create } from "mutative";
 
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
   const p1 = performance.now();
+  createUIData(get);
   const weaponsPageData = buildUIData(get, weaponsPageBuckets);
   const armorPageData = buildUIData(get, armorPageBuckets);
   const generalPageData = buildUIData(get, generalPageBuckets);
@@ -38,7 +39,25 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   console.log("Rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
 }
 
-export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
+function createUIData(get: AccountSliceGetter) {
+  const guardians = get().guardians;
+  const ggCharacters = get().ggCharacters;
+  let maxLostItemsColumns = 0;
+  for (const ggCharacter of ggCharacters) {
+    if (ggCharacter.ggCharacterType !== GGCharacterType.Vault) {
+      const totalLostItems = guardians[ggCharacter.characterId]?.items[SectionBuckets.LostItem]?.inventory.length;
+      if (totalLostItems) {
+        const totalRows = Math.ceil(totalLostItems / 5);
+        if (totalRows > maxLostItemsColumns) {
+          maxLostItemsColumns = totalRows;
+        }
+      }
+    }
+  }
+  get().setLostItemsColumns(maxLostItemsColumns);
+}
+
+function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
   const characterDataArray: UISections[][] = [];
   const guardians = get().guardians;
   const generalVault = get().generalVault;
