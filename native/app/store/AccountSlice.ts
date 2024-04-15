@@ -10,7 +10,12 @@ import {
   type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import { characterBuckets, type DestinyItemIdentifier, type UISections } from "@/app/inventory/Common.ts";
+import {
+  SectionBuckets,
+  characterBuckets,
+  type DestinyItemIdentifier,
+  type UISections,
+} from "@/app/inventory/Common.ts";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,
@@ -441,11 +446,11 @@ function processVaultInventory(profile: ProfileData): VaultData {
             continue;
           }
           break;
-        case 1469714392:
+        case SectionBuckets.Consumables:
           destinyItem = addDefinition(item, characterIsGlobalConsumables);
           vaultData.consumables.push(destinyItem);
           break;
-        case 3313201758:
+        case SectionBuckets.Mods:
           destinyItem = addDefinition(item, characterIsGlobalMods);
           vaultData.mods.push(destinyItem);
           break;
