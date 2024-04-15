@@ -286,6 +286,7 @@ function processCharacterInventory(
   guardians: Record<string, Guardian>,
 ): Record<string, Guardian> {
   const charactersInventory = profile.Response.characterInventories.data;
+
   for (const character in charactersInventory) {
     const characterInventory = charactersInventory[character];
     const characterAsId = { characterId: character, equipped: false, previousCharacterId: "" };
