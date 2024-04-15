@@ -250,6 +250,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const masterwork = item.masterwork ?? false;
   const crafted = item.crafted;
   const quantity = item.quantity;
+  const stackSizeMaxed = item.quantity === item.maxStackSize;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
@@ -263,6 +264,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     borderColor,
     crafted,
     quantity,
+    stackSizeMaxed,
   };
   return iconData;
 }
