@@ -201,6 +201,7 @@ export type DestinyItemDefinition = {
   tierType: TierType;
   destinyClass: DestinyClass;
   doesPostmasterPullHaveSideEffects: boolean;
+  maxStackSize: number;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;

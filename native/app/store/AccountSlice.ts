@@ -169,16 +169,17 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   setRawProfileData(profile);
 
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
-  const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
   const ggCharacters = getCharactersAndVault(basicGuardians);
   set({
     ggCharacters,
   });
-
+  const p1 = performance.now();
   const guardiansWithEquipment = processCharacterEquipment(get, profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
   const vaultData = processVaultInventory(profile);
+  const p2 = performance.now();
+  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
   set({
     guardians: guardiansWithInventory,
@@ -187,8 +188,7 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
     mods: vaultData.mods,
     lostItems: vaultData.lostItems,
   });
-  const p2 = performance.now();
-  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
+
   updateAllPages(get, set);
 }
 
@@ -327,6 +327,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
     doesPostmasterPullHaveSideEffects: false,
+    maxStackSize: 1,
   };
 
   definitionItems.itemType = itemDef?.it ?? ItemType.None;
@@ -343,6 +344,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItems.tierType = itemDef?.t ?? 0;
   definitionItems.destinyClass = itemDef?.c ?? 3;
   definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
+  definitionItems.maxStackSize = itemDef?.m ?? 1;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
