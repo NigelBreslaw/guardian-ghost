@@ -34,7 +34,31 @@ export const characterBuckets = [
   3313201758, // modifications
 ];
 
-export const weaponBuckets = [1498876634, 2465295065, 953998645];
+export enum SectionBuckets {
+  Kinetic = 1498876634,
+  Energy = 2465295065,
+  Power = 953998645,
+  Helmet = 3448274439,
+  Gauntlets = 3551918588,
+  Chest = 14239492,
+  Leg = 20886954,
+  Class = 1585787867,
+  Ghost = 4023194814,
+  Vehicle = 2025709351,
+  Ship = 284967655,
+  Subclass = 3284755031,
+  Banner = 4292445962,
+  Emblem = 4274335291,
+  Finisher = 3683254069,
+  Emote = 1107761855,
+  Artifact = 1506418338,
+  Engram = 375726501,
+  LostItem = 215593132,
+  Consumables = 1469714392,
+  Mods = 3313201758,
+}
+
+export const weaponBuckets = [SectionBuckets.Kinetic, SectionBuckets.Energy, SectionBuckets.Power];
 
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
@@ -44,7 +68,13 @@ export const weaponsPageBuckets = [
   1506418338, // artifact
 ];
 
-export const armorBuckets = [3448274439, 3448274439, 3551918588, 14239492, 20886954];
+export const armorBuckets = [
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+];
 
 export const armorPageBuckets = [
   3284755031, // Subclass

@@ -1,9 +1,11 @@
 import type { DestinyItem, DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
+  SectionBuckets,
   UISection,
   armorPageBuckets,
   generalPageBuckets,
   getDamageTypeIconUri,
+  weaponBuckets,
   weaponsPageBuckets,
   type ArtifactSection,
   type DestinyIconData,
@@ -61,8 +63,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
 
         const bucketItems = characterData.items[bucket];
 
-        // Special case global consumables
-        if (bucket === 1469714392) {
+        if (bucket === SectionBuckets.Consumables) {
           const consumables = get().consumables;
           const globalConsumables: VaultFlexSection = {
             id: `${bucket}_global_consumables_section`,
@@ -76,8 +77,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           continue;
         }
 
-        // Special case global mods
-        if (bucket === 3313201758) {
+        if (bucket === SectionBuckets.Mods) {
           const mods = get().mods;
           const globalMods: VaultFlexSection = {
             id: `${bucket}_global_mods_section`,
@@ -91,8 +91,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           continue;
         }
 
-        // Handle engrams
-        if (bucket === 375726501) {
+        if (bucket === SectionBuckets.Engram) {
           const engramsSection: EngramsSection = {
             id: `${bucket}_engrams_section`,
             type: UISection.Engrams,
@@ -105,8 +104,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           continue;
         }
 
-        // Handle lost items
-        if (bucket === 215593132) {
+        if (bucket === SectionBuckets.LostItem) {
           const lostItemsSection: LostItemsSection = {
             id: `${bucket}_lost_items_section`,
             type: UISection.LostItems,
@@ -119,8 +117,7 @@ export function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UIS
           continue;
         }
 
-        // Handle artifacts
-        if (bucket === 1506418338) {
+        if (bucket === SectionBuckets.Artifact) {
           const artifactSection: ArtifactSection = {
             id: `${bucket}_artifact_section`,
             type: UISection.Artifact,
@@ -260,8 +257,6 @@ function returnBorderColor(item: DestinyItem): string {
   }
   return "#555555";
 }
-
-const weaponBuckets = [1498876634, 2465295065, 953998645];
 
 function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): DestinyIconData[] {
   const inventoryArray: DestinyIconData[] = [];
