@@ -9,9 +9,11 @@ export interface UIDataSlice {
   setLostItemsColumns: (maxLostItemsColumns: number) => void;
 }
 
-export const createUIDataSlice: StateCreator<IStore, [], [], UIDataSlice> = (set, _get) => ({
+export const createUIDataSlice: StateCreator<IStore, [], [], UIDataSlice> = (set, get) => ({
   maxLostItemsColumns: 0,
   setLostItemsColumns: (maxLostItemsColumns) => {
-    set({ maxLostItemsColumns });
+    if (maxLostItemsColumns !== get().maxLostItemsColumns) {
+      set({ maxLostItemsColumns });
+    }
   },
 });

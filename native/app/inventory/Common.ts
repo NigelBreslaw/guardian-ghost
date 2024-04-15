@@ -34,6 +34,30 @@ export const characterBuckets = [
   3313201758, // modifications
 ];
 
+export enum SectionBucket {
+  kinetic = 1498876634,
+  energy = 2465295065,
+  power = 953998645,
+  helmet = 3448274439,
+  gauntlets = 3551918588,
+  chest = 14239492,
+  leg = 20886954,
+  class = 1585787867,
+  ghost = 4023194814,
+  vehicle = 2025709351,
+  ship = 284967655,
+  subclass = 3284755031,
+  banner = 4292445962,
+  emblem = 4274335291,
+  finisher = 3683254069,
+  emote = 1107761855,
+  artifact = 1506418338,
+  engram = 375726501,
+  lostItem = 215593132,
+  consumables = 1469714392,
+  mods = 3313201758,
+}
+
 export const weaponBuckets = [1498876634, 2465295065, 953998645];
 
 export const weaponsPageBuckets = [
