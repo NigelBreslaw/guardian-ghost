@@ -140,6 +140,7 @@ export type DestinyIconData = {
   masterwork: boolean;
   borderColor: string;
   crafted?: boolean;
+  stackSizeMaxed?: boolean;
 };
 
 export const DestinyIconDataEmpty: DestinyIconData = {
@@ -153,7 +154,6 @@ export const DestinyIconDataEmpty: DestinyIconData = {
   calculatedWaterMark: "",
   masterwork: false,
   borderColor: "#555555",
-  crafted: false,
 };
 
 export enum UiRowType {

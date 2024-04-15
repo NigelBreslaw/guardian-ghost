@@ -29,13 +29,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#AEAEAE",
     zIndex: 100,
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: 2,
+    right: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  quantityMaxed: {
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderRadius: 4,
+    backgroundColor: "#A48F36",
+    zIndex: 100,
+    position: "absolute",
+    bottom: 2,
+    right: 2,
     justifyContent: "center",
     alignItems: "center",
   },
   quantityLevelText: {
     color: "black",
+    fontSize: 15,
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
+  },
+  quantityLevelTextMaxed: {
+    color: "#F7F8E3",
     fontSize: 15,
     alignContent: "center",
     includeFontPadding: false,
@@ -161,8 +182,10 @@ const DestinyCell = (props: DestinyCellProps) => {
             </View>
           )}
           {props.data.quantity > 1 && (
-            <View style={styles.quantity}>
-              <Text style={styles.quantityLevelText}>{props.data.quantity}</Text>
+            <View style={props.data.stackSizeMaxed ? styles.quantityMaxed : styles.quantity}>
+              <Text style={props.data.stackSizeMaxed ? styles.quantityLevelTextMaxed : styles.quantityLevelText}>
+                {props.data.quantity}
+              </Text>
             </View>
           )}
         </View>
