@@ -6,8 +6,13 @@ import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Cons
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
-import { StatusBar, StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
+import { StatusBar, StyleSheet, Text, View, useWindowDimensions, TextInput, Platform, Keyboard } from "react-native";
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { runOnJS } from "react-native-reanimated";
 
@@ -152,6 +157,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
               borderRadius,
               overflow: "hidden",
               opacity: calcTransferOpacity(ggCharacter.characterId),
+              display: calcTransferOpacity(ggCharacter.characterId) === 0 ? "none" : "flex",
             }}
           >
             <View
@@ -190,6 +196,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
               borderRadius,
               overflow: "hidden",
               opacity: calcEquipOpacity(ggCharacter.characterId),
+              display: calcTransferOpacity(ggCharacter.characterId) === 0 ? "none" : "flex",
             }}
           >
             <View
@@ -221,6 +228,36 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
   return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{rectangles}</View>;
 }
 
+const styles = StyleSheet.create({
+  quantityRoot: {
+    left: 20,
+    position: "absolute",
+    bottom: 20,
+  },
+  quantity: {
+    width: 100,
+    height: 30,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "grey",
+  },
+  quantityText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    includeFontPadding: false,
+    height: "100%",
+    width: "100%",
+    paddingLeft: 5,
+  },
+  quantityTitle: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    includeFontPadding: false,
+  },
+});
+
 export default function BottomSheet({
   navigation,
   route,
@@ -234,6 +271,7 @@ export default function BottomSheet({
   const { itemInstanceId, itemHash, characterId } = route.params.item;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(route.params.item));
   const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
+  const [quantity, setQuantity] = useState(destinyItem.quantity);
 
   useEffect(() => {
     if (refRBSheet.current) {
@@ -273,72 +311,92 @@ export default function BottomSheet({
           },
           container: {
             backgroundColor: "#111116",
+            width: Platform.OS === "web" ? 500 : "100%",
           },
         }}
       >
-        <View
-          style={{
-            width: "100%",
-            height: (SCREEN_WIDTH / 1920) * 1080,
-          }}
-        >
-          <Image
-            transition={200}
-            style={[
-              {
+        <TouchableWithoutFeedback onPressIn={Keyboard.dismiss}>
+          <View style={{ height: "100%" }}>
+            <View
+              style={{
                 width: "100%",
                 height: (SCREEN_WIDTH / 1920) * 1080,
-              },
-              StyleSheet.absoluteFillObject,
-            ]}
-            source={{ uri: viewData.screenshot }}
-          />
-          <View style={{ flex: 2 }} />
-          <View style={{ flex: 4, flexDirection: "row" }}>
-            <View style={{ flex: 1 }} />
-            <View style={{ flex: 18 }}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  color: "white",
-                  fontFamily: "Helvetica",
-                  includeFontPadding: false,
-                  lineHeight: 20,
+              }}
+            >
+              <Image
+                transition={200}
+                style={[
+                  {
+                    width: "100%",
+                    height: (SCREEN_WIDTH / 1920) * 1080,
+                  },
+                  StyleSheet.absoluteFillObject,
+                ]}
+                source={{ uri: viewData.screenshot }}
+              />
+
+              <View style={{ flex: 2 }} />
+              <View style={{ flex: 4, flexDirection: "row" }}>
+                <View style={{ flex: 1 }} />
+                <View style={{ flex: 18 }}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "white",
+                      fontFamily: "Helvetica",
+                      includeFontPadding: false,
+                      lineHeight: 20,
+                    }}
+                  >
+                    {viewData.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "white",
+                      opacity: 0.6,
+                      includeFontPadding: false,
+                      transform: [{ translateY: -4 }],
+                    }}
+                  >
+                    {viewData.itemTypeDisplayName}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ flex: 15 }} />
+              <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
+              </View>
+              {quantity > 1 && (
+                <View style={styles.quantityRoot}>
+                  <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
+                  <View style={styles.quantity}>
+                    <TextInput
+                      inputMode="numeric"
+                      style={styles.quantityText}
+                      value={quantity.toString()}
+                      onChangeText={(value) => setQuantity(Number.parseInt(value))}
+                    />
+                  </View>
+                </View>
+              )}
+            </View>
+
+            <View>
+              <TransferEquipButtons
+                close={() => {
+                  if (refRBSheet.current) {
+                    refRBSheet.current.close();
+                  }
                 }}
-              >
-                {viewData.name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  color: "white",
-                  opacity: 0.6,
-                  includeFontPadding: false,
-                  transform: [{ translateY: -4 }],
-                }}
-              >
-                {viewData.itemTypeDisplayName}
-              </Text>
+                destinyItem={destinyItem}
+                startTransfer={startTransfer}
+                currentCharacterId={characterId}
+              />
             </View>
           </View>
-          <View style={{ flex: 15 }} />
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
-          </View>
-        </View>
-        <View>
-          <TransferEquipButtons
-            close={() => {
-              if (refRBSheet.current) {
-                refRBSheet.current.close();
-              }
-            }}
-            destinyItem={destinyItem}
-            startTransfer={startTransfer}
-            currentCharacterId={characterId}
-          />
-        </View>
+        </TouchableWithoutFeedback>
       </RBSheet>
     </View>
   );
