@@ -430,6 +430,7 @@ export type GGCharacterUiData = {
   raceType: GuardianRaceType;
   emblemPath: string;
   emblemBackgroundPath: string;
+  secondarySpecial: string;
   lastActiveCharacter: boolean;
   ggCharacterType: GGCharacterType;
 };

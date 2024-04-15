@@ -34,6 +34,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
   }
 
   const vaultEmblemBackgroundPath = require("../../images/vaultEmblemBackground.webp");
+  const secondarySpecial = require("../../images/vaultSecondary.webp");
 
   const vaultData: GGCharacterUiData = {
     characterId: VAULT_CHARACTER_ID,
@@ -42,6 +43,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     raceType: 0,
     emblemPath: "",
     emblemBackgroundPath: vaultEmblemBackgroundPath,
+    secondarySpecial,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Vault,
   };
@@ -63,6 +65,7 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
     raceType: guardianData.raceType,
     emblemPath: fullEmblemPath,
     emblemBackgroundPath: fullBackgroundEmblemPath,
+    secondarySpecial: "",
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Guardian,
   };

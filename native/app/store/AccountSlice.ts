@@ -13,6 +13,7 @@ import {
 import {
   SectionBuckets,
   characterBuckets,
+  iconUrl,
   type DestinyItemIdentifier,
   type UISections,
 } from "@/app/inventory/Common.ts";
@@ -79,6 +80,7 @@ export interface AccountSlice {
   moveItem: (updatedDestinyItem: DestinyItem) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
+  setSecondarySpecial: (characterId: string, itemHash: number) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -151,6 +153,15 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       itemInstanceId: itemDetails.itemInstanceId,
       characterId: itemDetails.characterId,
     }),
+  setSecondarySpecial: (characterId, itemHash) => {
+    const character = get().ggCharacters.find((c) => c.characterId === characterId);
+    if (character) {
+      const itemDefinition = itemsDefinition[itemHash];
+      if (itemDefinition?.ss) {
+        character.secondarySpecial = `${iconUrl}/${itemDefinition.ss}`;
+      }
+    }
+  },
 });
 
 function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile: ProfileData) {
@@ -161,11 +172,13 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const p1 = performance.now();
   const basicGuardians = createInitialGuardiansData(profile);
   const ggCharacters = getCharactersAndVault(basicGuardians);
-  const guardiansWithEquipment = processCharacterEquipment(profile, basicGuardians);
+  set({
+    ggCharacters,
+  });
+
+  const guardiansWithEquipment = processCharacterEquipment(get, profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
   const vaultData = processVaultInventory(profile);
-  const p2 = performance.now();
-  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
   set({
     guardians: guardiansWithInventory,
@@ -173,8 +186,9 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
     consumables: vaultData.consumables,
     mods: vaultData.mods,
     lostItems: vaultData.lostItems,
-    ggCharacters,
   });
+  const p2 = performance.now();
+  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
   updateAllPages(get, set);
 }
 
@@ -227,6 +241,7 @@ function createInitialGuardiansData(profile: ProfileData): Record<string, Guardi
 }
 
 function processCharacterEquipment(
+  get: AccountSliceGetter,
   profile: ProfileData,
   guardians: Record<string, Guardian>,
 ): Record<string, Guardian> {
@@ -249,6 +264,13 @@ function processCharacterEquipment(
           try {
             const destinyItem = addDefinition(item, characterAsId);
             characterItems.items[item.bucketHash] = { equipped: destinyItem, inventory: [] };
+            if (item.bucketHash === SectionBuckets.Emblem) {
+              if (item.overrideStyleItemHash) {
+                get().setSecondarySpecial(character, item.overrideStyleItemHash);
+              } else {
+                get().setSecondarySpecial(character, item.itemHash);
+              }
+            }
           } catch {
             // console.error("Failed to add item", e);
           }
