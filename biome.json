@@ -22,8 +22,8 @@
         "noUnusedVariables": "error",
         "useExhaustiveDependencies": "warn"
       },
-      "nursery": {
-        "noReExportAll": "error"
+      "performance": {
+        "recommended": true
       }
     }
   }
