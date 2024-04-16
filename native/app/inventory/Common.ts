@@ -60,6 +60,17 @@ export enum SectionBuckets {
 
 export const weaponBuckets = [SectionBuckets.Kinetic, SectionBuckets.Energy, SectionBuckets.Power];
 
+export const sectionSupportsExotic = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+];
+
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
   2465295065, // energy weapons
