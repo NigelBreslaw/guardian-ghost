@@ -328,6 +328,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     destinyClass: DestinyClass.Unknown,
     doesPostmasterPullHaveSideEffects: false,
     maxStackSize: 1,
+    equipRequiredLevel: 0,
   };
 
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
