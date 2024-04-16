@@ -5,6 +5,7 @@ import {
   armorPageBuckets,
   generalPageBuckets,
   getDamageTypeIconUri,
+  getSectionDetails,
   weaponBuckets,
   weaponsPageBuckets,
   type ArtifactSection,
@@ -71,12 +72,14 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
     const characterData = guardians[character];
     if (characterData) {
       const dataArray: UISections[] = [];
-
       for (const bucket of itemBuckets) {
+        const sectionDetails = getSectionDetails(bucket);
+
         // create section separators
         const separator: SeparatorSection = {
           id: `${bucket}_separator`,
           type: UISection.Separator,
+          label: sectionDetails.label,
         };
         dataArray.push(separator);
 
@@ -181,10 +184,12 @@ function returnVaultUiData(itemBuckets: number[], generalVault: Record<number, D
 
   for (const bucket of itemBuckets) {
     const bucketItems = generalVault[bucket];
+    const sectionDetails = getSectionDetails(bucket);
     if (bucketItems) {
       const separator: SeparatorSection = {
         id: `${bucket}_separator`,
         type: UISection.Separator,
+        label: sectionDetails.label,
       };
       dataArray.push(separator);
 
