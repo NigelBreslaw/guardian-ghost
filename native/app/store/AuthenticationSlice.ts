@@ -12,7 +12,7 @@ import {
 import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
 import * as SplashScreen from "expo-splash-screen";
-import { useGGStore, type IStore } from "@/app/store/GGStore.ts";
+import type { IStore } from "@/app/store/GGStore.ts";
 
 const initialBungieUser = {
   supplementalDisplayName: "",
