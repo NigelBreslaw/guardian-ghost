@@ -17,6 +17,7 @@ import {
   type UISections,
   type Vault5x5Section,
   type VaultFlexSection,
+  type VaultSpacerSection,
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
@@ -173,13 +174,17 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
     }
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(itemBuckets, generalVault);
+  const vaultUiData = returnVaultUiData(get, itemBuckets, generalVault);
   characterDataArray.push(vaultUiData);
 
   return characterDataArray;
 }
 
-function returnVaultUiData(itemBuckets: number[], generalVault: Record<number, DestinyItem[]>): UISections[] {
+function returnVaultUiData(
+  get: AccountSliceGetter,
+  itemBuckets: number[],
+  generalVault: Record<number, DestinyItem[]>,
+): UISections[] {
   const dataArray: UISections[] = [];
 
   for (const bucket of itemBuckets) {
@@ -195,9 +200,20 @@ function returnVaultUiData(itemBuckets: number[], generalVault: Record<number, D
 
       // get an array of all the items
       const totalItemsArray = returnInventoryArray(bucketItems, bucket);
+      if (totalItemsArray.length === 0) {
+        const vaultSpacerSize = get().getVaultSpacerSize(bucket);
+        const vaultSpacer: VaultSpacerSection = {
+          id: `${bucket}_vault_spacer`,
+          type: UISection.VaultSpacer,
+          size: vaultSpacerSize,
+        };
+        dataArray.push(vaultSpacer);
+        continue;
+      }
 
       let itemsLeft = totalItemsArray.length;
       let count = 0;
+      const needsMinimumSpacer = totalItemsArray.length < 20;
       while (itemsLeft > 0) {
         // is there 21 or more items left?
         if (itemsLeft > 20) {
@@ -227,6 +243,7 @@ function returnVaultUiData(itemBuckets: number[], generalVault: Record<number, D
             id: `${bucket}_flex_section`,
             type: UISection.VaultFlex,
             inventory: [],
+            minimumSpacerSize: needsMinimumSpacer ? get().getVaultSpacerSize(bucket) : undefined,
           };
 
           const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
