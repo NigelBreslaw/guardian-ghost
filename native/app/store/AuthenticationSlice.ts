@@ -12,7 +12,7 @@ import {
 import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
 import * as SplashScreen from "expo-splash-screen";
-import type { IStore } from "@/app/store/GGStore.ts";
+import { useGGStore, type IStore } from "@/app/store/GGStore.ts";
 
 const initialBungieUser = {
   supplementalDisplayName: "",
@@ -117,6 +117,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       saveBungieUser(bungieUser);
     } catch (error) {
       console.error("Failed to create authenticated account", error);
+      useGGStore.getState().showSnackBar("Failed to create authenticated account");
       get().logoutCurrentUser();
     }
   },
