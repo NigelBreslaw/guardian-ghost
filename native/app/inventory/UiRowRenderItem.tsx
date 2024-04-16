@@ -10,7 +10,7 @@ import ArtifactUI from "@/app/inventory/ArtifactUI.tsx";
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {
     case UISection.Separator:
-      return <SeparatorUI />;
+      return <SeparatorUI label={item.label} />;
     case UISection.CharacterEquipment:
       return <EquipUI data={item} />;
     case UISection.Vault5x5:

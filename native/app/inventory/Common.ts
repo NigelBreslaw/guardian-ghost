@@ -60,6 +60,30 @@ export enum SectionBuckets {
 
 export const weaponBuckets = [SectionBuckets.Kinetic, SectionBuckets.Energy, SectionBuckets.Power];
 
+const localizedSectionNames = {
+  [SectionBuckets.Kinetic]: "Kinetic",
+  [SectionBuckets.Energy]: "Energy",
+  [SectionBuckets.Power]: "Power",
+  [SectionBuckets.Helmet]: "Helmets",
+  [SectionBuckets.Gauntlets]: "Gauntlets",
+  [SectionBuckets.Chest]: "Chests",
+  [SectionBuckets.Leg]: "Legs",
+  [SectionBuckets.Class]: "Class Items",
+  [SectionBuckets.Ghost]: "Ghosts",
+  [SectionBuckets.Vehicle]: "Vehicles",
+  [SectionBuckets.Ship]: "Ships",
+  [SectionBuckets.Subclass]: "Subclass",
+  [SectionBuckets.Banner]: "Banner",
+  [SectionBuckets.Emblem]: "Emblems",
+  [SectionBuckets.Finisher]: "Finisher",
+  [SectionBuckets.Emote]: "Emotes",
+  [SectionBuckets.Artifact]: "Artifact",
+  [SectionBuckets.Engram]: "Engrams",
+  [SectionBuckets.LostItem]: "Postmaster",
+  [SectionBuckets.Consumables]: "Consumables",
+  [SectionBuckets.Mods]: "Mods",
+};
+
 export const sectionSupportsExotic = [
   SectionBuckets.Kinetic,
   SectionBuckets.Energy,
@@ -70,6 +94,11 @@ export const sectionSupportsExotic = [
   SectionBuckets.Leg,
   SectionBuckets.Class,
 ];
+
+export function getSectionDetails(bucket: SectionBuckets): { label: string; icon: string } {
+  const section = localizedSectionNames[bucket];
+  return { label: section, icon: iconUrl };
+}
 
 export const weaponsPageBuckets = [
   1498876634, // kinetic weapons
@@ -191,6 +220,7 @@ export type BaseSection = {
 
 export type SeparatorSection = BaseSection & {
   type: UISection.Separator;
+  label: string;
 };
 
 export type EngramsSection = BaseSection & {
