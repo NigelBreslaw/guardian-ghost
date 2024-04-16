@@ -270,7 +270,12 @@ export type DestinyItemIdentifier = {
 };
 
 export const ITEM_SIZE = 90;
-export const ENGRAMS_SECTION_SIZE = ITEM_SIZE * 2;
+export const ICON_SIZE = 72;
+export const ICON_MARGIN = (ITEM_SIZE - ICON_SIZE) / 2;
+export const DEFAULT_MARGIN = 6;
+export const VISUAL_MARGIN = DEFAULT_MARGIN + ICON_MARGIN;
+export const DEFAULT_SECTION_4_WIDTH = ITEM_SIZE * 4;
+export const ENGRAMS_SECTION_SIZE = ITEM_SIZE * 2 * 0.9;
 export const VAULT_5x5_SIZE = ITEM_SIZE * 5;
 export const EQUIP_SECTION_SIZE = ITEM_SIZE * 3;
 export const SEPARATOR_SIZE = 45;

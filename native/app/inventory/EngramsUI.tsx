@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   box: {
     width: "20%",
-    height: ITEM_SIZE,
+    height: ITEM_SIZE * 0.9,
   },
 });
 
