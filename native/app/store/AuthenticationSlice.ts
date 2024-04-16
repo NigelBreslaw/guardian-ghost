@@ -117,8 +117,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       saveBungieUser(bungieUser);
     } catch (error) {
       console.error("Failed to create authenticated account", error);
-      useGGStore.getState().showSnackBar("Failed to create authenticated account");
-      get().logoutCurrentUser();
+      get().showSnackBar("Failed to create authenticated account");
     }
   },
   cancelLogin: () => {
