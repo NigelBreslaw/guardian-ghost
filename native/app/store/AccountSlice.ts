@@ -343,7 +343,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItems.itemSubType = itemDef?.is ?? 0;
   definitionItems.tierType = itemDef?.t ?? 0;
   definitionItems.destinyClass = itemDef?.c ?? 3;
-  definitionItems.doesPostmasterPullHaveSideEffects = itemDef?.pm ? true : false;
+  definitionItems.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
   definitionItems.maxStackSize = itemDef?.m ?? 1;
 
   definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);

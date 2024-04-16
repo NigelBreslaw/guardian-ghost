@@ -106,7 +106,7 @@ export default function MainDrawer() {
     if (selectedItem) {
       activateSheet(selectedItem);
     }
-  }, [selectedItem]);
+  }, [selectedItem, activateSheet]);
 
   return (
     <Drawer.Navigator
