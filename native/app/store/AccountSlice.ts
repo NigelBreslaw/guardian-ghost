@@ -315,7 +315,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   }
 
   const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
-  const definitionItems: DestinyItemDefinition = {
+  const definitionItem: DestinyItemDefinition = {
     recoveryBucketHash,
     itemType: ItemType.None,
     previousCharacterId: "",
@@ -330,68 +330,69 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     maxStackSize: 1,
   };
 
-  definitionItems.itemType = itemDef?.it ?? ItemType.None;
+  definitionItem.itemType = itemDef?.it ?? ItemType.None;
 
   if (baseItem.overrideStyleItemHash !== undefined) {
     const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
 
-    definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${overrideDef?.i}`;
+    definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${overrideDef?.i}`;
   } else {
-    definitionItems.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+    definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
   }
 
-  definitionItems.itemSubType = itemDef?.is ?? 0;
-  definitionItems.tierType = itemDef?.t ?? 0;
-  definitionItems.destinyClass = itemDef?.c ?? 3;
-  definitionItems.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
-  definitionItems.maxStackSize = itemDef?.m ?? 1;
+  definitionItem.itemSubType = itemDef?.is ?? 0;
+  definitionItem.tierType = itemDef?.t ?? 0;
+  definitionItem.destinyClass = itemDef?.c ?? 3;
+  definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
+  definitionItem.maxStackSize = itemDef?.m ?? 1;
 
-  definitionItems.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
+  definitionItem.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
-    definitionItems.masterwork = true;
+    definitionItem.masterwork = true;
   }
 
   if (baseItem.itemInstanceId !== undefined) {
     const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
       if (
-        definitionItems.itemType === ItemType.Weapon ||
-        definitionItems.itemType === ItemType.Armor ||
-        definitionItems.itemType === ItemType.Vehicle ||
-        definitionItems.itemType === ItemType.SeasonalArtifact
+        definitionItem.itemType === ItemType.Weapon ||
+        definitionItem.itemType === ItemType.Armor ||
+        definitionItem.itemType === ItemType.Vehicle ||
+        definitionItem.itemType === ItemType.SeasonalArtifact
       ) {
         const primaryStat = itemComponent.primaryStat?.value;
+        definitionItem.equipRequiredLevel = itemComponent.equipRequiredLevel;
         if (primaryStat) {
-          definitionItems.primaryStat = primaryStat;
+          definitionItem.primaryStat = primaryStat;
         }
-        if (definitionItems.itemType !== ItemType.Vehicle) {
-          if (definitionItems.itemType === ItemType.Weapon) {
+        if (definitionItem.itemType !== ItemType.Vehicle) {
+          if (definitionItem.itemType === ItemType.Weapon) {
             const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
             if (deepSightResonance) {
-              definitionItems.deepSightResonance = true;
+              definitionItem.deepSightResonance = true;
             }
-            definitionItems.damageType = itemComponent.damageType;
+            definitionItem.damageType = itemComponent.damageType;
             const crafted = bitmaskContains(baseItem.state, 8);
             if (crafted) {
-              definitionItems.crafted = true;
-              definitionItems.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
+              definitionItem.crafted = true;
+              definitionItem.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
             }
           }
         }
       }
-      if (definitionItems.itemType === ItemType.Engram) {
+      if (definitionItem.itemType === ItemType.Engram) {
         const itemLevel = itemComponent.itemLevel * 10;
         const quality = itemComponent.quality;
         const total = itemLevel + quality;
         if (total > 0) {
-          definitionItems.primaryStat = Math.max(1600, itemLevel + quality);
+          definitionItem.primaryStat = Math.max(1600, itemLevel + quality);
         }
       }
     }
   }
 
-  const destinyItem = Object.assign(baseItem, extras, definitionItems);
+  const destinyItem = Object.assign(baseItem, extras, definitionItem);
   return destinyItem;
 }
 
