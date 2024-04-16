@@ -136,6 +136,22 @@ export const generalPageBuckets = [
   3683254069, // Finisher
 ];
 
+export const equipSectionBuckets = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+  SectionBuckets.Subclass,
+  SectionBuckets.Emblem,
+  SectionBuckets.Ship,
+  SectionBuckets.Vehicle,
+  SectionBuckets.Finisher,
+];
+
 export function getInventoryPage(bucket: number): InventoryPage {
   if (weaponsPageBuckets.includes(bucket)) {
     return InventoryPage.Weapons;
@@ -211,6 +227,7 @@ export enum UISection {
   Engrams = 4,
   LostItems = 5,
   Artifact = 6,
+  VaultSpacer = 7,
 }
 
 export type BaseSection = {
@@ -242,6 +259,7 @@ export type Vault5x5Section = BaseSection & {
 export type VaultFlexSection = BaseSection & {
   type: UISection.VaultFlex;
   inventory: DestinyIconData[];
+  minimumSpacerSize?: number;
 };
 
 export type LostItemsSection = BaseSection & {
@@ -254,6 +272,11 @@ export type ArtifactSection = BaseSection & {
   equipped: DestinyIconData | null;
 };
 
+export type VaultSpacerSection = BaseSection & {
+  type: UISection.VaultSpacer;
+  size: number;
+};
+
 export type UISections =
   | SeparatorSection
   | EquipSection
@@ -261,7 +284,8 @@ export type UISections =
   | VaultFlexSection
   | EngramsSection
   | LostItemsSection
-  | ArtifactSection;
+  | ArtifactSection
+  | VaultSpacerSection;
 
 export type DestinyItemIdentifier = {
   itemHash: number;

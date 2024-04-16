@@ -7,15 +7,17 @@ import { StyleSheet, View } from "react-native";
 
 type VaultFlexProps = {
   data: DestinyIconData[];
+  minimumSpacerSize?: number;
 };
 
 function VaultFlexUI(props: VaultFlexProps) {
   const sectionRows = Math.ceil(props.data.length / 5);
   const totalItems = sectionRows * 5;
+  const minimumSpacerSize = Math.max(props.minimumSpacerSize ?? 0, ITEM_SIZE * sectionRows);
   const styles = StyleSheet.create({
     root: {
       width: useGGStore.getState().inventorySectionWidth,
-      height: ITEM_SIZE * sectionRows,
+      height: minimumSpacerSize,
     },
     container: {
       flex: 1,
