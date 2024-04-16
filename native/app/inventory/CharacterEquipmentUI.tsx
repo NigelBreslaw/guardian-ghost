@@ -1,13 +1,23 @@
-import { EQUIP_SECTION_SIZE, ITEM_SIZE, type EquipSection } from "@/app/inventory/Common.ts";
+import {
+  DEFAULT_MARGIN,
+  DEFAULT_SECTION_4_WIDTH,
+  EQUIP_SECTION_SIZE,
+  ITEM_SIZE,
+  type EquipSection,
+} from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
 const array9 = Array.from({ length: 9 });
 
 const styles = StyleSheet.create({
+  root: {
+    width: DEFAULT_SECTION_4_WIDTH,
+    height: EQUIP_SECTION_SIZE,
+    marginLeft: DEFAULT_MARGIN,
+  },
   container: {
     flex: 3,
     flexDirection: "row",
@@ -19,7 +29,7 @@ const styles = StyleSheet.create({
     width: "33.33%",
     height: ITEM_SIZE,
   },
-  root: {
+  grid: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -31,15 +41,9 @@ type CharacterEquipmentProps = {
 };
 
 function CharacterEquipmentUI(props: CharacterEquipmentProps) {
-  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
-  const dynamicStyles = {
-    width: inventorySectionWidth,
-    height: EQUIP_SECTION_SIZE,
-  };
-
   return (
-    <View style={dynamicStyles}>
-      <View style={styles.root}>
+    <View style={styles.root}>
+      <View style={styles.grid}>
         <View style={{ flex: 1 }}>
           {props.data.equipped !== null ? <DestinyCell data={props.data.equipped} /> : <EmptyCell />}
         </View>
