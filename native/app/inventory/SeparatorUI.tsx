@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     textAlign: "left",
-    fontSize: 17,
+    fontSize: 18,
   },
   spacer: {
     height: 15,

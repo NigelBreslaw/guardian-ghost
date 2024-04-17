@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   root: {
     width: DEFAULT_SECTION_4_WIDTH,
     height: EQUIP_SECTION_SIZE,
-    marginLeft: DEFAULT_MARGIN,
+    alignSelf: "center",
   },
   container: {
     flex: 3,
