@@ -12,18 +12,18 @@ const styles = StyleSheet.create({
   bar: {
     width: "auto",
     height: 1,
-    backgroundColor: "grey",
+    backgroundColor: "#D1D1D1",
   },
   label: {
-    color: "white",
+    color: "#D1D1D1",
     textAlign: "left",
-    fontSize: 18,
+    fontSize: 19,
   },
   spacer: {
-    height: 15,
+    height: 10,
   },
   spacer2: {
-    height: 2,
+    height: 4,
   },
 });
 
