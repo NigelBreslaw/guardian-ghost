@@ -5,7 +5,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -59,25 +59,28 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }, [isFocused]);
 
-  // Keeps the non vault list in sync with each other. So if you scroll to energy weapons on guardian 1
-  // when you horizontally scroll to guardian 2 you will see it's energy weapons too.
-  function listMoved(toY: number) {
-    if (currentListIndex === props.inventoryPageData.length - 1) {
-      return;
-    }
+  let lastOffsetY = 0;
 
-    for (let i = 0; i < listRefs.current.length; i++) {
-      if (i === currentListIndex) {
-        continue;
+  const listMoved = useCallback(
+    (toY: number) => {
+      if (lastOffsetY !== toY) {
+        lastOffsetY = toY;
+        for (let i = 0; i < listRefs.current.length; i++) {
+          if (i === currentListIndex) {
+            continue;
+          }
+          const lRef = listRefs.current[i];
+          if (lRef) {
+            lRef.scrollToOffset({ offset: toY, animated: false });
+          }
+        }
       }
-      const lRef = listRefs.current[i];
-      if (lRef) {
-        lRef.scrollToOffset({ offset: toY, animated: false });
-      }
-    }
-  }
+    },
+    [currentListIndex, lastOffsetY],
+  );
 
-  const debouncedMove = debounce(listMoved, 60);
+  const debouncedMove = debounce(listMoved, 40);
+  const debounceListIndex = debounce(calcCurrentListIndex, 40);
 
   return (
     <View style={rootStyles.root}>
@@ -85,7 +88,7 @@ export default function InventoryPage(props: InventoryPageProps) {
         horizontal
         pagingEnabled
         scrollEventThrottle={32}
-        onScroll={(e) => calcCurrentListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
+        onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
       >
         {props.inventoryPageData.map((list, index) => {
@@ -100,14 +103,12 @@ export default function InventoryPage(props: InventoryPageProps) {
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
-                scrollEventThrottle={50}
+                getItemType={getItemType}
+                scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 onScroll={(e) => {
-                  if (index === currentListIndex && index < props.inventoryPageData.length - 1) {
-                    debouncedMove(e.nativeEvent.contentOffset.y);
-                  }
+                  debouncedMove(e.nativeEvent.contentOffset.y);
                 }}
-                getItemType={getItemType}
               />
             </View>
           );
