@@ -1,5 +1,4 @@
 import {
-  DEFAULT_MARGIN,
   DestinyIconDataEmpty,
   ENGRAMS_SECTION_SIZE,
   ITEM_SIZE,
@@ -24,6 +23,8 @@ const styles = StyleSheet.create({
   box: {
     width: "20%",
     height: ITEM_SIZE * 0.9,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -36,7 +37,7 @@ function EngramsUI(props: EngramsProps) {
   const rootStyle = {
     width: inventorySectionWidth,
     height: ENGRAMS_SECTION_SIZE,
-    paddingLeft: DEFAULT_MARGIN,
+    paddingLeft: VISUAL_MARGIN,
     paddingRight: VISUAL_MARGIN,
   };
 
@@ -45,18 +46,10 @@ function EngramsUI(props: EngramsProps) {
       <View style={styles.container}>
         {array10.map((_v, index) => {
           const item = props.data[index];
-          if (item) {
-            return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <View key={index} style={styles.box}>
-                <EngramCell data={item} />
-              </View>
-            );
-          }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <View key={index} style={styles.box}>
-              <EngramCell data={DestinyIconDataEmpty} />
+              <EngramCell data={item ?? DestinyIconDataEmpty} />
             </View>
           );
         })}

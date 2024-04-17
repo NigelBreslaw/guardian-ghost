@@ -296,6 +296,7 @@ export type DestinyItemIdentifier = {
 
 export const ITEM_SIZE = 90;
 export const ICON_SIZE = 72;
+export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.95);
 export const ICON_MARGIN = (ITEM_SIZE - ICON_SIZE) / 2;
 export const DEFAULT_MARGIN = 6;
 export const VISUAL_MARGIN = DEFAULT_MARGIN + ICON_MARGIN;

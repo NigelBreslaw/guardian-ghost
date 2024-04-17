@@ -1,4 +1,4 @@
-import { EMPTY_ENGRAM, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { EMPTY_ENGRAM, ICON_SIZE, INNER_FRAME_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -8,8 +8,8 @@ const DEFAULT_BORDER_COLOR = "#303036";
 
 const styles = StyleSheet.create({
   container: {
-    width: ITEM_SIZE,
-    height: ITEM_SIZE,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   frameSize: {
-    width: 68,
-    height: 68,
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
   },
   primaryStat: {
     width: 36,

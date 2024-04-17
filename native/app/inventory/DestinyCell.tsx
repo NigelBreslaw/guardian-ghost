@@ -1,4 +1,10 @@
-import { CRAFTED_OVERLAY, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import {
+  CRAFTED_OVERLAY,
+  ICON_SIZE,
+  INNER_FRAME_SIZE,
+  ITEM_SIZE,
+  type DestinyIconData,
+} from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: DEFAULT_OVERLAP_COLOR,
     zIndex: 100,
     position: "absolute",
-    bottom: -6,
+    bottom: -7,
     right: -8,
     justifyContent: "center",
     alignItems: "center",
@@ -80,34 +86,34 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   icon: {
-    width: 72,
-    height: 72,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 2,
     pointerEvents: "none",
   },
   frameSize: {
-    width: 72,
-    height: 72,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
   },
   innerFrameSize: {
-    width: 69,
-    height: 69,
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
     position: "absolute",
     top: -0.5,
     left: -0.5,
     pointerEvents: "none",
   },
   innerFrameOverlaySize: {
-    width: 69,
-    height: 69,
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
     position: "absolute",
     pointerEvents: "none",
   },
   crafted: {
-    width: 69,
-    height: 69,
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
     position: "absolute",
     pointerEvents: "none",
   },
@@ -145,44 +151,42 @@ const DestinyCell = (props: DestinyCellProps) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress}>
-        <View style={styles.frameSize}>
-          <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
-            <View style={styles.innerFrameSize}>
-              <Image
-                source={{ uri: props.data.icon }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameSize}
-                recyclingKey={props.data.icon}
-              />
+        <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
+          <View style={styles.innerFrameSize}>
+            <Image
+              source={{ uri: props.data.icon }}
+              cachePolicy="memory-disk"
+              style={styles.innerFrameSize}
+              recyclingKey={props.data.icon}
+            />
 
-              <Image
-                source={{ uri: props.data.calculatedWaterMark }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameOverlaySize}
-                recyclingKey={props.data.calculatedWaterMark}
-              />
+            <Image
+              source={{ uri: props.data.calculatedWaterMark }}
+              cachePolicy="memory-disk"
+              style={styles.innerFrameOverlaySize}
+              recyclingKey={props.data.calculatedWaterMark}
+            />
 
-              {props.data.crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.crafted} />}
-            </View>
+            {props.data.crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.crafted} />}
           </View>
-          {props.data.primaryStat > 0 && (
-            <View style={styles.primaryStat}>
-              <Text style={styles.primaryStatText}>{props.data.primaryStat}</Text>
-            </View>
-          )}
-          {props.data.damageTypeIconUri && (
-            <View style={styles.miniIconBurn}>
-              <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
-            </View>
-          )}
-          {props.data.quantity > 1 && (
-            <View style={props.data.stackSizeMaxed ? styles.quantityMaxed : styles.quantity}>
-              <Text style={props.data.stackSizeMaxed ? styles.quantityLevelTextMaxed : styles.quantityLevelText}>
-                {props.data.quantity}
-              </Text>
-            </View>
-          )}
         </View>
+        {props.data.primaryStat > 0 && (
+          <View style={styles.primaryStat}>
+            <Text style={styles.primaryStatText}>{props.data.primaryStat}</Text>
+          </View>
+        )}
+        {props.data.damageTypeIconUri && (
+          <View style={styles.miniIconBurn}>
+            <Image style={styles.miniIconBurnSize} source={props.data.damageTypeIconUri} cachePolicy="memory" />
+          </View>
+        )}
+        {props.data.quantity > 1 && (
+          <View style={props.data.stackSizeMaxed ? styles.quantityMaxed : styles.quantity}>
+            <Text style={props.data.stackSizeMaxed ? styles.quantityLevelTextMaxed : styles.quantityLevelText}>
+              {props.data.quantity}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );
