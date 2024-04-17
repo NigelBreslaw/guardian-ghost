@@ -1,5 +1,4 @@
 import {
-  DEFAULT_MARGIN,
   DestinyIconDataEmpty,
   ENGRAMS_SECTION_SIZE,
   ITEM_SIZE,

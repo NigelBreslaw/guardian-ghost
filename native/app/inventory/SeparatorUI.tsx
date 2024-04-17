@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   bar: {
     width: "auto",
     height: 1,
-    backgroundColor: "#D1D1D1",
+    backgroundColor: "#818181",
   },
   label: {
     color: "#D1D1D1",
