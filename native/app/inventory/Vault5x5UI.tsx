@@ -1,4 +1,4 @@
-import { ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { DEFAULT_MARGIN, ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -30,6 +30,8 @@ function Vault5x5UI(props: Vault5x5Props) {
   const rootStyle = {
     width: inventorySectionWidth,
     height: VAULT_5x5_SIZE,
+    paddingLeft: DEFAULT_MARGIN,
+    paddingRight: DEFAULT_MARGIN,
   };
 
   return (

@@ -1,4 +1,4 @@
-import { ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { DEFAULT_MARGIN, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -18,6 +18,8 @@ function VaultFlexUI(props: VaultFlexProps) {
     root: {
       width: useGGStore.getState().inventorySectionWidth,
       height: minimumSpacerSize,
+      paddingLeft: DEFAULT_MARGIN,
+      paddingRight: DEFAULT_MARGIN,
     },
     container: {
       flex: 1,

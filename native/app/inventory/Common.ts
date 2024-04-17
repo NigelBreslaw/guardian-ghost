@@ -140,6 +140,7 @@ export const equipSectionBuckets = [
   SectionBuckets.Kinetic,
   SectionBuckets.Energy,
   SectionBuckets.Power,
+  SectionBuckets.Ghost,
   SectionBuckets.Helmet,
   SectionBuckets.Gauntlets,
   SectionBuckets.Chest,

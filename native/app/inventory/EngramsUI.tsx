@@ -1,4 +1,11 @@
-import { DestinyIconDataEmpty, ENGRAMS_SECTION_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import {
+  DEFAULT_MARGIN,
+  DestinyIconDataEmpty,
+  ENGRAMS_SECTION_SIZE,
+  ITEM_SIZE,
+  VISUAL_MARGIN,
+  type DestinyIconData,
+} from "@/app/inventory/Common.ts";
 import EngramCell from "@/app/inventory/EngramCell";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
@@ -29,6 +36,8 @@ function EngramsUI(props: EngramsProps) {
   const rootStyle = {
     width: inventorySectionWidth,
     height: ENGRAMS_SECTION_SIZE,
+    paddingLeft: DEFAULT_MARGIN,
+    paddingRight: VISUAL_MARGIN,
   };
 
   return (
