@@ -45,5 +45,16 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
     return ITEM_SIZE;
   }
 
+  if (bucket === SectionBuckets.Consumables) {
+    const totalConsumables = get().consumables.length;
+    const totalRows = Math.ceil(totalConsumables / 5);
+    return totalRows * ITEM_SIZE;
+  }
+
+  if (bucket === SectionBuckets.Mods) {
+    const totalMods = get().mods.length;
+    const totalRows = Math.ceil(totalMods / 5);
+    return totalRows * ITEM_SIZE;
+  }
   return 0;
 }
