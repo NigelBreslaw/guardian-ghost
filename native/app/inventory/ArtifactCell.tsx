@@ -13,11 +13,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  gesture: {
-    width: ITEM_SIZE,
-    height: ITEM_SIZE,
-    position: "absolute",
-  },
   primaryStat: {
     paddingLeft: 2,
     paddingRight: 2,
@@ -61,12 +56,6 @@ const styles = StyleSheet.create({
     left: -0.5,
     pointerEvents: "none",
   },
-  innerFrameOverlaySize: {
-    width: 65,
-    height: 65,
-    position: "absolute",
-    pointerEvents: "none",
-  },
 });
 
 type DestinyCellProps = {
@@ -85,21 +74,18 @@ const DestinyCell = (props: DestinyCellProps) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress}>
-        <View style={styles.frameSize}>
-          <View style={styles.icon}>
-            <View style={styles.innerFrameSize}>
-              <Image
-                source={{ uri: props.data.icon }}
-                cachePolicy="memory-disk"
-                style={styles.innerFrameSize}
-                recyclingKey={props.data.icon}
-              />
-            </View>
+        <View style={styles.icon}>
+          <View style={styles.innerFrameSize}>
+            <Image
+              source={{ uri: props.data.icon }}
+              cachePolicy="memory-disk"
+              style={styles.innerFrameSize}
+              recyclingKey={props.data.icon}
+            />
           </View>
-
-          <View style={styles.primaryStat}>
-            <Text style={styles.primaryStatText}>{`+${props.data.primaryStat}`}</Text>
-          </View>
+        </View>
+        <View style={styles.primaryStat}>
+          <Text style={styles.primaryStatText}>{`+${props.data.primaryStat}`}</Text>
         </View>
       </TouchableOpacity>
     </View>

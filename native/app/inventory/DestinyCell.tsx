@@ -1,4 +1,4 @@
-import { CRAFTED_OVERLAY, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { CRAFTED_OVERLAY, ICON_SIZE, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -80,16 +80,16 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   icon: {
-    width: 72,
-    height: 72,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 2,
     pointerEvents: "none",
   },
   frameSize: {
-    width: 72,
-    height: 72,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
   },
   innerFrameSize: {
     width: 69,
