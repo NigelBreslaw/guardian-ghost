@@ -23,10 +23,6 @@ const rootStyles = StyleSheet.create({
   },
 });
 
-const renderItem = ({ item }: { item: UISections }) => {
-  return UiCellRenderItem({ item });
-};
-
 const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
@@ -100,7 +96,7 @@ export default function InventoryPage(props: InventoryPageProps) {
                   listRefs.current[index] = ref;
                 }}
                 data={list}
-                renderItem={renderItem}
+                renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
                 getItemType={getItemType}
