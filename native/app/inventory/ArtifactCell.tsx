@@ -1,5 +1,6 @@
-import { ICON_SIZE, INNER_FRAME_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import type { DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";

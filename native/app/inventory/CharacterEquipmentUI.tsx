@@ -1,10 +1,5 @@
-import {
-  DEFAULT_SECTION_4_WIDTH,
-  EQUIP_SECTION_HEIGHT,
-  ICON_MARGIN,
-  ICON_SIZE,
-  type EquipSection,
-} from "@/app/inventory/Common.ts";
+import type { EquipSection } from "@/app/inventory/Common.ts";
+import { DEFAULT_SECTION_4_WIDTH, EQUIP_SECTION_HEIGHT, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React from "react";

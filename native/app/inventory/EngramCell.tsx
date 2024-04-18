@@ -1,4 +1,5 @@
-import { EMPTY_ENGRAM, INNER_FRAME_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { EMPTY_ENGRAM, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";

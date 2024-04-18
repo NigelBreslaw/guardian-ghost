@@ -1,6 +1,7 @@
 import ArtifactCell from "@/app/inventory/ArtifactCell.tsx";
-import { DEFAULT_SECTION_4_WIDTH, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import type { DestinyIconData } from "@/app/inventory/Common.ts";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
+import { DEFAULT_SECTION_4_WIDTH, ITEM_SIZE } from "@/app/utilities/UISize.ts";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
@@ -19,9 +20,7 @@ type ArtifactProps = {
 function ArtifactUI(props: ArtifactProps) {
   return (
     <View style={styles.container}>
-      <View style={{ flex: 4, flexDirection: "row", justifyContent: "space-between" }}>
-        {props.equipped !== null ? <ArtifactCell data={props.equipped} /> : <EmptyCell />}
-      </View>
+      {props.equipped !== null ? <ArtifactCell data={props.equipped} /> : <EmptyCell />}
     </View>
   );
 }

@@ -1,11 +1,7 @@
-import {
-  ENGRAMS_SECTION_HEIGHT,
-  EQUIP_SECTION_SIZE,
-  ITEM_SIZE,
-  SectionBuckets,
-  equipSectionBuckets,
-} from "@/app/inventory/Common.ts";
+import { SectionBuckets, equipSectionBuckets } from "@/app/inventory/Common.ts";
+
 import type { IStore } from "@/app/store/GGStore.ts";
+import { ENGRAMS_SECTION_HEIGHT, EQUIP_SECTION_SIZE, ITEM_SIZE } from "@/app/utilities/UISize.ts";
 import type { StateCreator } from "zustand";
 
 export type UIDataSliceSetter = Parameters<StateCreator<IStore, [], [], UIDataSlice>>[0];
