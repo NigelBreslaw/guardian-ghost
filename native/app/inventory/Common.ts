@@ -294,6 +294,8 @@ export type DestinyItemIdentifier = {
   characterId: string;
 };
 
+export const DEFAULT_OVERLAP_COLOR = "#242429CC";
+
 const SOLAR_MINI_ICON_URI = require("../../images/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../images/void_mini.webp");
 const ARC_MINI_ICON_URI = require("../../images/arc_mini.webp");

@@ -1,4 +1,4 @@
-import { CRAFTED_OVERLAY, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR, type DestinyIconData } from "@/app/inventory/Common.ts";
 import {
   ICON_SIZE,
   INNER_FRAME_SIZE,
@@ -12,8 +12,6 @@ import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
-const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
 const common = StyleSheet.create({
   quantity: {
