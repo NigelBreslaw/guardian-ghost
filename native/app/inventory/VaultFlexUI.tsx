@@ -7,14 +7,14 @@ import { StyleSheet, View } from "react-native";
 
 type VaultFlexProps = {
   data: DestinyIconData[];
-  minimumSpacerSize?: number;
+  minimumSpacerHeight?: number;
 };
 
 function VaultFlexUI(props: VaultFlexProps) {
   const sectionRows = Math.ceil(props.data.length / 5);
   const totalItems = sectionRows * 5;
-  const minimumSpacerSize = Math.max(
-    props.minimumSpacerSize ?? 0,
+  const minimumSpacerHeight = Math.max(
+    props.minimumSpacerHeight ?? 0,
     ICON_SIZE * sectionRows + ICON_VAULT_MARGIN * (sectionRows - 1),
   );
 
@@ -22,7 +22,7 @@ function VaultFlexUI(props: VaultFlexProps) {
     () =>
       StyleSheet.create({
         container: {
-          height: minimumSpacerSize,
+          height: minimumSpacerHeight,
           marginLeft: DEFAULT_MARGIN,
           marginRight: DEFAULT_MARGIN,
           flex: 5,
@@ -32,7 +32,7 @@ function VaultFlexUI(props: VaultFlexProps) {
           alignContent: "space-between",
         },
       }),
-    [minimumSpacerSize],
+    [minimumSpacerHeight],
   );
 
   return (

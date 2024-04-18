@@ -1,13 +1,18 @@
 import { CRAFTED_OVERLAY, type DestinyIconData } from "@/app/inventory/Common.ts";
-import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
+import {
+  ICON_SIZE,
+  INNER_FRAME_SIZE,
+  MINI_ICON_SIZE,
+  MINI_BURN_SIZE,
+  PRIMARY_STAT_FONT_SIZE,
+  RIGHT_ALIGNMENT,
+} from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const MINI_ICON_SIZE = 18;
-const RIGHT_ALIGNMENT = -9;
 const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
 const common = StyleSheet.create({
@@ -56,14 +61,14 @@ const styles = StyleSheet.create({
   },
   quantityLevelText: {
     color: "black",
-    fontSize: 15,
+    fontSize: PRIMARY_STAT_FONT_SIZE,
     alignContent: "center",
     includeFontPadding: false,
     pointerEvents: "none",
   },
   quantityLevelTextMaxed: {
     color: "#F7F8E3",
-    fontSize: 15,
+    fontSize: PRIMARY_STAT_FONT_SIZE,
     alignContent: "center",
     includeFontPadding: false,
     pointerEvents: "none",
@@ -83,15 +88,15 @@ const styles = StyleSheet.create({
   },
   primaryStatText: {
     color: "white",
-    fontSize: 14,
+    fontSize: PRIMARY_STAT_FONT_SIZE,
     fontWeight: "bold",
     alignContent: "center",
     includeFontPadding: false,
     pointerEvents: "none",
   },
   miniIconBurnSize: {
-    width: 15,
-    height: 15,
+    width: MINI_BURN_SIZE,
+    height: MINI_BURN_SIZE,
     pointerEvents: "none",
   },
   miniIconBurn: {

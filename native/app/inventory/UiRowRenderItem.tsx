@@ -17,7 +17,7 @@ export const UiCellRenderItem = ({ item }: { item: UISections }) => {
     case UISection.Vault5x5:
       return <Vault5x5UI data={item.inventory} />;
     case UISection.VaultFlex:
-      return <VaultFlexUI data={item.inventory} minimumSpacerSize={item.minimumSpacerSize} />;
+      return <VaultFlexUI data={item.inventory} minimumSpacerHeight={item.minimumSpacerSize} />;
     case UISection.Engrams:
       return <EngramsUI data={item.inventory} />;
     case UISection.LostItems:

@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
   label: {
     color: "#D1D1D1",
     textAlign: "left",
-    fontSize: 17,
+    fontSize: 16,
   },
   spacer: {
-    height: 5,
+    height: 11,
   },
   spacer2: {
-    height: 1,
+    height: 2,
   },
 });
 
