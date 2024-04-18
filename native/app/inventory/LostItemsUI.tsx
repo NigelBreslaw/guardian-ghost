@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/inventory/Common.ts";
-import { DEFAULT_MARGIN, ITEM_SIZE } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -14,7 +14,7 @@ function LostItemsUI(props: EngramsProps) {
   const maxLostItemsColumns = useGGStore.getState().maxLostItemsColumns;
   const styles = StyleSheet.create({
     root: {
-      height: ITEM_SIZE * maxLostItemsColumns,
+      height: (ICON_SIZE + ICON_MARGIN) * maxLostItemsColumns,
       paddingLeft: DEFAULT_MARGIN,
       paddingRight: DEFAULT_MARGIN,
       flex: 5,

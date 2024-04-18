@@ -1,14 +1,14 @@
 import ArtifactCell from "@/app/inventory/ArtifactCell.tsx";
 import type { DestinyIconData } from "@/app/inventory/Common.ts";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
-import { DEFAULT_SECTION_4_WIDTH, ITEM_SIZE } from "@/app/utilities/UISize.ts";
+import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     width: DEFAULT_SECTION_4_WIDTH,
-    height: ITEM_SIZE,
+    height: ICON_SIZE + ICON_MARGIN,
     alignSelf: "center",
   },
 });
