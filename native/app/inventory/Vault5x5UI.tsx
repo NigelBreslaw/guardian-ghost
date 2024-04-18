@@ -1,7 +1,6 @@
-import { DEFAULT_MARGIN, ITEM_SIZE, VAULT_5x5_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { DEFAULT_MARGIN, ICON_VAULT_MARGIN, VAULT_5x5_HEIGHT, type DestinyIconData } from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -13,48 +12,36 @@ type Vault5x5Props = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    height: VAULT_5x5_HEIGHT,
+    flex: 5,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  box: {
-    width: "20%",
-    height: ITEM_SIZE,
+    justifyContent: "space-between",
+    alignContent: "space-between",
   },
 });
 
 function Vault5x5UI(props: Vault5x5Props) {
-  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
-  const rootStyle = {
-    width: inventorySectionWidth,
-    height: VAULT_5x5_SIZE,
-    paddingLeft: DEFAULT_MARGIN,
-    paddingRight: DEFAULT_MARGIN,
-  };
-
   return (
-    <View style={rootStyle}>
+    <View>
       <View style={styles.container}>
         {array25.map((_v, index) => {
           const item = props.data[index];
           if (item) {
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <View key={index} style={styles.box}>
-                <DestinyCell data={item} />
-              </View>
+              <DestinyCell key={index} data={item} />
             );
           }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <View key={index} style={styles.box}>
-              <EmptyCell />
-            </View>
+            <EmptyCell key={index} />
           );
         })}
       </View>
+      <View style={{ height: ICON_VAULT_MARGIN }} />
     </View>
   );
 }

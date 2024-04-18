@@ -1,4 +1,4 @@
-import { EMPTY_ENGRAM, ICON_SIZE, INNER_FRAME_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { EMPTY_ENGRAM, INNER_FRAME_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -7,9 +7,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const DEFAULT_BORDER_COLOR = "#303036";
 
 const styles = StyleSheet.create({
-  container: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
+  frameSize: {
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
+    pointerEvents: "none",
+  },
+  primaryStat: {
+    width: 36,
+    height: 16,
+    borderRadius: 4,
+    backgroundColor: DEFAULT_BORDER_COLOR,
+    position: "absolute",
+    bottom: 0,
+    right: -4,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -21,22 +31,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     pointerEvents: "none",
   },
-  frameSize: {
-    width: INNER_FRAME_SIZE,
-    height: INNER_FRAME_SIZE,
-  },
-  primaryStat: {
-    width: 36,
-    height: 16,
-    borderRadius: 4,
-    backgroundColor: DEFAULT_BORDER_COLOR,
-    zIndex: 100,
-    position: "absolute",
-    bottom: 0,
-    right: -4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
 
 type DestinyCellProps = {
@@ -45,33 +39,29 @@ type DestinyCellProps = {
 
 const EngramCell = (props: DestinyCellProps) => {
   const handlePress = useCallback(() => {
-    if (props.data) {
-      useGGStore.getState().setSelectedItem({
-        itemInstanceId: props.data.itemInstanceId,
-        itemHash: props.data.itemHash,
-        characterId: props.data.characterId,
-      });
-    }
-  }, [props.data]);
+    useGGStore.getState().setSelectedItem({
+      itemInstanceId: props.data.itemInstanceId,
+      itemHash: props.data.itemHash,
+      characterId: props.data.characterId,
+    });
+  }, [props.data.itemInstanceId, props.data.itemHash, props.data.characterId]);
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress}>
-        <View style={styles.frameSize}>
-          <Image
-            source={props.data?.icon ? props.data.icon : EMPTY_ENGRAM}
-            cachePolicy="memory"
-            style={styles.frameSize}
-            recyclingKey={props.data?.icon}
-          />
-        </View>
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.frameSize}>
+        <Image
+          source={props.data?.icon ? props.data.icon : EMPTY_ENGRAM}
+          cachePolicy="memory"
+          style={styles.frameSize}
+          recyclingKey={props.data?.icon}
+        />
         {props.data.primaryStat > 0 && (
           <View style={styles.primaryStat}>
             <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
           </View>
         )}
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
