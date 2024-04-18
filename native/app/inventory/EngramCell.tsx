@@ -1,5 +1,5 @@
 import { EMPTY_ENGRAM, type DestinyIconData } from "@/app/inventory/Common.ts";
-import { INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
+import { INNER_FRAME_SIZE, PRIMARY_STAT_FONT_SIZE } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
@@ -14,8 +14,10 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   primaryStat: {
-    width: 36,
-    height: 16,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
+    paddingBottom: 1,
     borderRadius: 4,
     backgroundColor: DEFAULT_BORDER_COLOR,
     position: "absolute",
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
   },
   powerLevelText: {
     color: "white",
-    fontSize: 14,
+    fontSize: PRIMARY_STAT_FONT_SIZE,
     fontWeight: "bold",
     alignContent: "center",
     includeFontPadding: false,
