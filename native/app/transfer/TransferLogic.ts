@@ -390,12 +390,7 @@ function returnNonBusyUnequipItem(
   ignoreLocked: boolean,
 ): DestinyItem {
   // let nonBusyItem: DestinyItem
-  const characterLevel = useGGStore.getState().guardians[itemToUnequip.characterId]?.data?.levelProgression?.level ?? 0;
-  console.log("character level", characterLevel);
   for (const item of items) {
-    if (item.equipRequiredLevel > characterLevel) {
-      continue;
-    }
     if (item.destinyClass !== DestinyClass.Unknown && item.destinyClass !== itemToUnequip.destinyClass) {
       continue;
     }
