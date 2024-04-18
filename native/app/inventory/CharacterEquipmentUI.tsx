@@ -1,4 +1,10 @@
-import { DEFAULT_SECTION_4_WIDTH, EQUIP_SECTION_SIZE, ITEM_SIZE, type EquipSection } from "@/app/inventory/Common.ts";
+import {
+  DEFAULT_SECTION_4_WIDTH,
+  EQUIP_SECTION_HEIGHT,
+  ICON_MARGIN,
+  ICON_SIZE,
+  type EquipSection,
+} from "@/app/inventory/Common.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React from "react";
@@ -9,7 +15,7 @@ const array9 = Array.from({ length: 9 });
 const styles = StyleSheet.create({
   root: {
     width: DEFAULT_SECTION_4_WIDTH,
-    height: EQUIP_SECTION_SIZE,
+    height: EQUIP_SECTION_HEIGHT,
     alignSelf: "center",
   },
   container: {
@@ -19,14 +25,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  box: {
-    width: "33.33%",
-    height: ITEM_SIZE,
+  equip: {
+    width: ICON_SIZE + ICON_MARGIN,
   },
-  grid: {
-    flex: 1,
+  equipAndInventoryHolder: {
     flexDirection: "row",
+    height: "100%",
+  },
+  inventoryGrid: {
+    flex: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
+    alignContent: "space-between",
   },
 });
 
@@ -37,26 +48,22 @@ type CharacterEquipmentProps = {
 function CharacterEquipmentUI(props: CharacterEquipmentProps) {
   return (
     <View style={styles.root}>
-      <View style={styles.grid}>
-        <View style={{ flex: 1 }}>
+      <View style={styles.equipAndInventoryHolder}>
+        <View style={styles.equip}>
           {props.data.equipped !== null ? <DestinyCell data={props.data.equipped} /> : <EmptyCell />}
         </View>
-        <View style={styles.container}>
+        <View style={styles.inventoryGrid}>
           {array9.map((_, index) => {
             const item = props.data.inventory[index];
             if (item) {
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <View key={index} style={styles.box}>
-                  <DestinyCell data={item} />
-                </View>
+                <DestinyCell key={index} data={item} />
               );
             }
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <View key={index} style={styles.box}>
-                <EmptyCell />
-              </View>
+              <EmptyCell key={index} />
             );
           })}
         </View>

@@ -2,7 +2,7 @@ import {
   DestinyIconDataEmpty,
   ENGRAMS_SECTION_SIZE,
   ITEM_SIZE,
-  VISUAL_MARGIN,
+  DEFAULT_MARGIN,
   type DestinyIconData,
 } from "@/app/inventory/Common.ts";
 import EngramCell from "@/app/inventory/EngramCell";
@@ -37,8 +37,8 @@ function EngramsUI(props: EngramsProps) {
   const rootStyle = {
     width: inventorySectionWidth,
     height: ENGRAMS_SECTION_SIZE,
-    paddingLeft: VISUAL_MARGIN,
-    paddingRight: VISUAL_MARGIN,
+    paddingLeft: DEFAULT_MARGIN,
+    paddingRight: DEFAULT_MARGIN,
   };
 
   return (
