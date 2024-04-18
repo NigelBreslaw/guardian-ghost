@@ -328,7 +328,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     destinyClass: DestinyClass.Unknown,
     doesPostmasterPullHaveSideEffects: false,
     maxStackSize: 1,
-    equipRequiredLevel: 0,
   };
 
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
@@ -363,7 +362,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
         definitionItem.itemType === ItemType.SeasonalArtifact
       ) {
         const primaryStat = itemComponent.primaryStat?.value;
-        definitionItem.equipRequiredLevel = itemComponent.equipRequiredLevel;
         if (primaryStat) {
           definitionItem.primaryStat = primaryStat;
         }
