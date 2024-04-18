@@ -1,4 +1,4 @@
-import { ICON_SIZE } from "@/app/inventory/Common.ts";
+import { ICON_SIZE } from "@/app/utilities/UISize.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 

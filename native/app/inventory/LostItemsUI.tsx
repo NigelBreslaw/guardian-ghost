@@ -1,4 +1,5 @@
-import { DEFAULT_MARGIN, ITEM_SIZE, type DestinyIconData } from "@/app/inventory/Common.ts";
+import type { DestinyIconData } from "@/app/inventory/Common.ts";
+import { DEFAULT_MARGIN, ITEM_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
