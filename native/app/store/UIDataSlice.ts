@@ -1,5 +1,5 @@
 import {
-  ENGRAMS_SECTION_SIZE,
+  ENGRAMS_SECTION_HEIGHT,
   EQUIP_SECTION_SIZE,
   ITEM_SIZE,
   SectionBuckets,
@@ -33,7 +33,7 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
   }
 
   if (bucket === SectionBuckets.Engram) {
-    return ENGRAMS_SECTION_SIZE;
+    return ENGRAMS_SECTION_HEIGHT;
   }
 
   if (bucket === SectionBuckets.LostItem) {

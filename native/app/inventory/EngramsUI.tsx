@@ -1,12 +1,11 @@
 import {
   DestinyIconDataEmpty,
-  ENGRAMS_SECTION_SIZE,
-  ITEM_SIZE,
+  ENGRAMS_SECTION_HEIGHT,
   DEFAULT_MARGIN,
   type DestinyIconData,
+  ENGRAMS_SECTION_WIDTH,
 } from "@/app/inventory/Common.ts";
 import EngramCell from "@/app/inventory/EngramCell";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -14,17 +13,15 @@ const array10 = Array.from({ length: 10 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: ENGRAMS_SECTION_WIDTH,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    height: ENGRAMS_SECTION_HEIGHT,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  box: {
-    width: "20%",
-    height: ITEM_SIZE * 0.9,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+    alignSelf: "center",
   },
 });
 
@@ -33,27 +30,15 @@ type EngramsProps = {
 };
 
 function EngramsUI(props: EngramsProps) {
-  const inventorySectionWidth = useGGStore.getState().inventorySectionWidth;
-  const rootStyle = {
-    width: inventorySectionWidth,
-    height: ENGRAMS_SECTION_SIZE,
-    paddingLeft: DEFAULT_MARGIN,
-    paddingRight: DEFAULT_MARGIN,
-  };
-
   return (
-    <View style={rootStyle}>
-      <View style={styles.container}>
-        {array10.map((_v, index) => {
-          const item = props.data[index];
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <View key={index} style={styles.box}>
-              <EngramCell data={item ?? DestinyIconDataEmpty} />
-            </View>
-          );
-        })}
-      </View>
+    <View style={styles.container}>
+      {array10.map((_v, index) => {
+        const item = props.data[index];
+        return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <EngramCell key={index} data={item ?? DestinyIconDataEmpty} />
+        );
+      })}
     </View>
   );
 }
