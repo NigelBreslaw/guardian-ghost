@@ -1,13 +1,13 @@
-import { SEPARATOR_SIZE, VISUAL_MARGIN } from "@/app/inventory/Common.ts";
+import { SEPARATOR_SIZE, DEFAULT_MARGIN } from "@/app/inventory/Common.ts";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
-    width: "100%",
+    // width: "100%",
     height: SEPARATOR_SIZE,
-    paddingLeft: VISUAL_MARGIN,
-    paddingRight: VISUAL_MARGIN,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
   },
   bar: {
     width: "auto",

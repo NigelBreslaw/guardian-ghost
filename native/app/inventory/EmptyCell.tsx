@@ -1,4 +1,4 @@
-import { ICON_SIZE, ITEM_SIZE } from "@/app/inventory/Common.ts";
+import { ICON_SIZE } from "@/app/inventory/Common.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -8,16 +8,9 @@ const BORDER_SIZE = 15;
 const BORDER_WIDTH = 1;
 
 const styles = StyleSheet.create({
-  box: {
-    width: ITEM_SIZE,
-    height: ITEM_SIZE,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   square: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    position: "relative",
   },
   corner: {
     position: "absolute",
@@ -62,13 +55,11 @@ const bottomRight = StyleSheet.flatten([styles.bottomRight, styles.corner]);
 
 function EmptyCell() {
   return (
-    <View style={styles.box}>
-      <View style={styles.square}>
-        <View style={topLeft} />
-        <View style={topRight} />
-        <View style={bottomLeft} />
-        <View style={bottomRight} />
-      </View>
+    <View style={styles.square}>
+      <View style={topLeft} />
+      <View style={topRight} />
+      <View style={bottomLeft} />
+      <View style={bottomRight} />
     </View>
   );
 }
