@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
   container: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    justifyContent: "center",
-    alignItems: "center",
   },
   quantity: {
     ...common.quantity,
