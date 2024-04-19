@@ -188,7 +188,7 @@ export type DestinyItemDefinition = {
   characterId: string;
   equipped: boolean;
   previousCharacterId: string; //Used by the transfer system to update the UI
-  recoveryBucketHash: number | undefined;
+  recoveryBucketHash: number;
   itemType: ItemType;
   masterwork?: boolean;
   primaryStat: number;

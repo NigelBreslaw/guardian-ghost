@@ -34,7 +34,7 @@ import {
 import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
-  addToGuardian,
+  addToInventory,
   addToVault,
   checkForCraftedMasterwork,
   hasSocketedResonance,
@@ -79,6 +79,8 @@ export interface AccountSlice {
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
+  removeFromLostItems: (updatedDestinyItem: DestinyItem) => void;
+  addInventoryItem: (updatedDestinyItem: DestinyItem) => void;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
 }
@@ -132,7 +134,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     const p1 = performance.now();
     if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
       removeFromVault(get, set, updatedDestinyItem);
-      addToGuardian(get, set, updatedDestinyItem);
+      addToInventory(get, set, updatedDestinyItem);
     } else {
       removeFromGuardian(get, set, updatedDestinyItem);
       addToVault(get, set, updatedDestinyItem);
@@ -146,6 +148,12 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
     updateAllPages(get, set);
+  },
+  removeFromLostItems: (updatedDestinyItem) => {
+    removeFromGuardian(get, set, updatedDestinyItem);
+  },
+  addInventoryItem: (updatedDestinyItem) => {
+    addToInventory(get, set, updatedDestinyItem);
   },
   findDestinyItem: (itemDetails) =>
     findDestinyItem(get, {
@@ -314,7 +322,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     throw new Error("No itemDefinition found");
   }
 
-  const recoveryBucketHash = bucketTypeHashArray[itemDef.b];
+  const recoveryBucketHash = bucketTypeHashArray[itemDef.b] ?? 0;
   const definitionItem: DestinyItemDefinition = {
     recoveryBucketHash,
     itemType: ItemType.None,

@@ -1,14 +1,25 @@
-import { DestinyClass } from "@/app/bungie/Hashes.ts";
+import { DestinyClass, ItemType } from "@/app/bungie/Hashes.ts";
 import { TierType, type DestinyItem } from "@/app/bungie/Types.ts";
-import { basePath, sectionSupportsExotic } from "@/app/inventory/Common.ts";
+import {
+  SectionBuckets,
+  armorBuckets,
+  basePath,
+  sectionSupportsExotic,
+  weaponBuckets,
+} from "@/app/inventory/Common.ts";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import {
+  GLOBAL_CONSUMABLES_CHARACTER_ID,
+  GLOBAL_INVENTORY_NAMES,
+  GLOBAL_MODS_CHARACTER_ID,
+  VAULT_CHARACTER_ID,
+} from "@/app/utilities/Constants.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
 
-const DEBUG_TRANSFER = false;
+const DEBUG_TRANSFER = true;
 
 const responseSchema = object({
   ErrorCode: number(),
@@ -33,7 +44,15 @@ export async function processTransferItem(
   equipOnTarget = false,
 ) {
   if (DEBUG_TRANSFER) {
-    console.log("processTransferItem()", toCharacterId, destinyItem, quantityToMove, equipOnTarget);
+    console.log(
+      "processTransferItem()",
+      "to guardian:",
+      DestinyClass[useGGStore.getState().guardians[toCharacterId]?.data.classType ?? 3],
+      "quantity:",
+      quantityToMove,
+      "equipOnTarget:",
+      equipOnTarget,
+    ); //, destinyItem);
   }
 
   const transferItem: TransferItem = {
@@ -43,7 +62,7 @@ export async function processTransferItem(
     quantityToMove,
   };
 
-  // Check if the item has successfully been transferred
+  // Is transfer complete?
   if (hasSuccessfullyTransferred(transferItem)) {
     const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
     const successMessage = `${itemDefinition?.n} has been transferred${
@@ -51,6 +70,42 @@ export async function processTransferItem(
     }`;
     console.info(successMessage);
     useGGStore.getState().showSnackBar(successMessage);
+    return;
+  }
+
+  // Is the item currently in lost items?
+  if (transferItem.destinyItem.bucketHash === SectionBuckets.LostItem) {
+    const result = await pullFromPostmaster(transferItem);
+    const parsedResult = safeParse(responseSchema, result[0]);
+    if (parsedResult.success) {
+      if (parsedResult.output.ErrorStatus === "Success") {
+        // remove the item from the lost items
+        useGGStore.getState().removeFromLostItems(result[1]);
+
+        // Mutate the item to be part of the characters items or a global bucket
+        const transformedItem = transformSuccessfulPullFromPostmasterItem(result[1]);
+
+        // Add the item back
+        useGGStore.getState().addInventoryItem(result[1]);
+
+        // Send the item on its way
+        processTransferItem(toCharacterId, transformedItem, quantityToMove, equipOnTarget);
+        return;
+      }
+
+      console.error("Failed 2", parsedResult.output);
+      useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
+      return;
+    }
+    useGGStore.getState().showSnackBar("Failed to transfer item from the postmaster %^");
+    return;
+  }
+
+  if (transferItem.destinyItem.equipped) {
+    // First unquip it with another item
+    // const unequip = await unequipItem(transferItem.destinyItem);
+    // System.log(inventoryItem.name + " needs to be unequipped to move")
+    useGGStore.getState().showSnackBar("Unequip has not been implemented yet");
     return;
   }
 
@@ -80,51 +135,90 @@ export async function processTransferItem(
       useGGStore.getState().showSnackBar("Failed to equip item");
     }
   } else {
-    // lostItem?
-    if (transferItem.destinyItem.bucketHash === 215593132) {
-      const result = await pullFromPostmaster(transferItem);
+    try {
+      const result = await moveItem(transferItem);
       const parsedResult = safeParse(responseSchema, result[0]);
+
       if (parsedResult.success) {
         if (parsedResult.output.ErrorStatus === "Success") {
-          // TODO: Handle postmaster items next step as items can end up on the character or in the global items space.
-          // processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
-          // useGGStore.getState().moveFromPostmaster(result[1]);
-          useGGStore
-            .getState()
-            .showSnackBar("THE ITEM MOVED FROM THE POSTMASTER. However the rest of the logic is not implemented yet");
+          processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+          useGGStore.getState().moveItem(result[1]);
           return;
         }
-        console.error("Failed 2", parsedResult.output);
+        console.error("Failed 3", parsedResult.output);
         useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
         return;
       }
-    } else {
-      try {
-        const result = await moveItem(transferItem);
-        const parsedResult = safeParse(responseSchema, result[0]);
-
-        if (parsedResult.success) {
-          if (parsedResult.output.ErrorStatus === "Success") {
-            processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
-            useGGStore.getState().moveItem(result[1]);
-            return;
-          }
-          console.error("Failed 3", parsedResult.output);
-          useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
-          return;
-        }
-        console.error("Failed to parse response", result[0]);
-        useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
-      } catch (e) {
-        console.error("Failed to move item", e);
-        useGGStore.getState().showSnackBar("Failed to move item");
-      }
+      console.error("Failed to parse response", result[0]);
+      useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
+    } catch (e) {
+      console.error("Failed to move item", e);
+      useGGStore.getState().showSnackBar("Failed to move item");
     }
   }
 
   if (DEBUG_TRANSFER) {
     console.log("transferItem got here...");
   }
+}
+
+function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
+  let characterId: string;
+  switch (destinyItem.recoveryBucketHash) {
+    case SectionBuckets.Mods: {
+      characterId = GLOBAL_MODS_CHARACTER_ID;
+      break;
+    }
+    case SectionBuckets.Consumables: {
+      characterId = GLOBAL_CONSUMABLES_CHARACTER_ID;
+      break;
+    }
+    default: {
+      characterId = destinyItem.characterId;
+    }
+  }
+  const bucketHash = destinyItem.recoveryBucketHash;
+  const newDestinyItem: DestinyItem = {
+    ...destinyItem,
+    characterId,
+    bucketHash,
+  };
+
+  return newDestinyItem;
+}
+
+async function _unequipItem(destinyItem: DestinyItem): Promise<boolean> {
+  let allowExotic = destinyItem.tierType === TierType.Exotic;
+
+  if (!allowExotic) {
+    allowExotic = exoticAlreadyEquipped(destinyItem);
+  }
+  throw new Error("Not implemented");
+}
+
+function exoticAlreadyEquipped(destinyItem: DestinyItem): boolean {
+  const characterId = destinyItem.characterId;
+  const guardiansItems = useGGStore.getState().guardians[characterId]?.items;
+
+  let searchBuckets: SectionBuckets[];
+
+  if (destinyItem.itemType === ItemType.Armor) {
+    searchBuckets = armorBuckets;
+  } else if (destinyItem.itemType === ItemType.Weapon) {
+    searchBuckets = weaponBuckets;
+  } else {
+    console.error("exoticAlreadyEquipped: Unknown item type");
+    return false;
+  }
+  if (!guardiansItems) {
+    return false;
+  }
+  for (const bucket of searchBuckets) {
+    if (guardiansItems[bucket]?.equipped?.tierType === TierType.Exotic) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function hasSuccessfullyTransferred(item: TransferItem) {
@@ -317,7 +411,13 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
           return response.json();
         })
         .then((data) => {
-          resolve([data as JSON, transferItem.destinyItem]);
+          // The UI remove system relies on the previousCharacterId to delete items.
+          const previousCharacterId = transferItem.destinyItem.characterId;
+          const updatedDestinyItem: DestinyItem = {
+            ...transferItem.destinyItem,
+            previousCharacterId,
+          };
+          resolve([data as JSON, updatedDestinyItem]);
         })
         .catch((error) => {
           console.error("PullFromPostmaster()", error);
