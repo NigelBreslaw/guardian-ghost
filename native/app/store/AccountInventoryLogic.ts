@@ -322,49 +322,49 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // Update UI logic
 // ------------------------------
 
-export function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  // TODO: Cope with stackable items
-  const previousGeneralVault = get().generalVault;
-  const previousInventory = previousGeneralVault[destinyItem.bucketHash];
-  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
-  if (!updatedInventory) {
-    console.error("updatedInventory is undefined");
-    return;
-  }
-
-  const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft[destinyItem.bucketHash] = updatedInventory;
-  });
-
-  set({ generalVault: updatedGeneralVault });
-}
-
-export function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function removeFromInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   if (destinyItem.previousCharacterId === "") {
     console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
     return;
   }
 
-  const previousGuardians = get().guardians;
-
-  const previousInventory =
-    previousGuardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
-  const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
-  if (!updatedInventory) {
-    console.error("updatedInventory or previousGuardian is undefined");
-    return;
-  }
-
-  const updatedGuardians = create(previousGuardians, (draft) => {
-    const updatedGuardian = draft[destinyItem.previousCharacterId];
-    if (!updatedGuardian) {
-      console.error("updatedGuardian is undefined");
+  if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
+    // TODO: Cope with stackable items
+    const previousGeneralVault = get().generalVault;
+    const previousInventory = previousGeneralVault[destinyItem.bucketHash];
+    const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+    if (!updatedInventory) {
+      console.error("updatedInventory is undefined");
       return;
     }
-    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
-    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
-  });
-  set({ guardians: updatedGuardians });
+
+    const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+      draft[destinyItem.bucketHash] = updatedInventory;
+    });
+
+    set({ generalVault: updatedGeneralVault });
+  } else {
+    const previousGuardians = get().guardians;
+
+    const previousInventory =
+      previousGuardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
+    const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
+    if (!updatedInventory) {
+      console.error("updatedInventory or previousGuardian is undefined");
+      return;
+    }
+
+    const updatedGuardians = create(previousGuardians, (draft) => {
+      const updatedGuardian = draft[destinyItem.previousCharacterId];
+      if (!updatedGuardian) {
+        console.error("updatedGuardian is undefined");
+        return;
+      }
+      const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
+      updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
+    });
+    set({ guardians: updatedGuardians });
+  }
 }
 
 export function addToInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {

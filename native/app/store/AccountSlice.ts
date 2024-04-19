@@ -37,8 +37,7 @@ import {
   addToInventory,
   checkForCraftedMasterwork,
   hasSocketedResonance,
-  removeFromGuardian,
-  removeFromVault,
+  removeFromInventory,
   swapEquipAndInventoryItem,
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
@@ -131,26 +130,18 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   moveItem: (updatedDestinyItem) => {
     const p1 = performance.now();
-
-    if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
-      removeFromVault(get, set, updatedDestinyItem);
-      addToInventory(get, set, updatedDestinyItem);
-    } else {
-      removeFromGuardian(get, set, updatedDestinyItem);
-      addToInventory(get, set, updatedDestinyItem);
-    }
+    removeFromInventory(get, set, updatedDestinyItem);
+    addToInventory(get, set, updatedDestinyItem);
     const p2 = performance.now();
     console.log("moveItem", `${(p2 - p1).toFixed(4)} ms`);
     updateAllPages(get, set);
-    const p3 = performance.now();
-    console.log("updateAllPages", `${(p3 - p2).toFixed(4)} ms`);
   },
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
     updateAllPages(get, set);
   },
   removeFromLostItems: (updatedDestinyItem) => {
-    removeFromGuardian(get, set, updatedDestinyItem);
+    removeFromInventory(get, set, updatedDestinyItem);
   },
   addInventoryItem: (updatedDestinyItem) => {
     addToInventory(get, set, updatedDestinyItem);
