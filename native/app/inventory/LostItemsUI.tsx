@@ -5,6 +5,7 @@ import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import EngramCell from "@/app/inventory/EngramCell.tsx";
 
 type EngramsProps = {
   data: DestinyIconData[];
@@ -31,6 +32,12 @@ function LostItemsUI(props: EngramsProps) {
       {totalItems.map((_v, index) => {
         const item = props.data[index];
         if (item) {
+          if (item.engram) {
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
+              <EngramCell key={index} data={item} />
+            );
+          }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <DestinyCell key={index} data={item} />
