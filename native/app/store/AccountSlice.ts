@@ -34,11 +34,12 @@ import {
 import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
-  addToInventory,
+  addInventoryItem,
   checkForCraftedMasterwork,
   hasSocketedResonance,
-  removeFromInventory,
+  removeInventoryItem,
   swapEquipAndInventoryItem,
+  transformSuccessfulPullFromPostmasterItem,
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
@@ -77,8 +78,7 @@ export interface AccountSlice {
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
-  removeFromLostItems: (updatedDestinyItem: DestinyItem) => void;
-  addInventoryItem: (updatedDestinyItem: DestinyItem) => void;
+  pullFromPostmaster: (updatedDestinyItem: DestinyItem) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
 }
@@ -130,8 +130,8 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   moveItem: (updatedDestinyItem) => {
     const p1 = performance.now();
-    removeFromInventory(get, set, updatedDestinyItem);
-    addToInventory(get, set, updatedDestinyItem);
+    removeInventoryItem(get, set, updatedDestinyItem);
+    addInventoryItem(get, set, updatedDestinyItem);
     const p2 = performance.now();
     console.log("moveItem", `${(p2 - p1).toFixed(4)} ms`);
     updateAllPages(get, set);
@@ -140,11 +140,17 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
     updateAllPages(get, set);
   },
-  removeFromLostItems: (updatedDestinyItem) => {
-    removeFromInventory(get, set, updatedDestinyItem);
-  },
-  addInventoryItem: (updatedDestinyItem) => {
-    addToInventory(get, set, updatedDestinyItem);
+  pullFromPostmaster: (updatedDestinyItem) => {
+    // remove the item from the lost items
+    removeInventoryItem(get, set, updatedDestinyItem);
+    // Mutate the item to be part of the characters items or a global bucket
+    const transformedItem = transformSuccessfulPullFromPostmasterItem(updatedDestinyItem);
+    // Add the item back
+    addInventoryItem(get, set, transformedItem);
+
+    updateAllPages(get, set);
+
+    return transformedItem;
   },
   findDestinyItem: (itemDetails) =>
     findDestinyItem(get, {
