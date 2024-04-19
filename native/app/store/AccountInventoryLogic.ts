@@ -21,6 +21,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
@@ -322,6 +323,7 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // ------------------------------
 
 export function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  // TODO: Cope with stackable items
   const previousGeneralVault = get().generalVault;
   const previousInventory = previousGeneralVault[destinyItem.bucketHash];
   const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
@@ -332,16 +334,6 @@ export function removeFromVault(get: AccountSliceGetter, set: AccountSliceSetter
 
   const updatedGeneralVault = create(previousGeneralVault, (draft) => {
     draft[destinyItem.bucketHash] = updatedInventory;
-  });
-
-  set({ generalVault: updatedGeneralVault });
-}
-
-export function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  const previousGeneralVault = get().generalVault;
-
-  const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-    draft[destinyItem.bucketHash]?.push(destinyItem);
   });
 
   set({ generalVault: updatedGeneralVault });
@@ -376,35 +368,47 @@ export function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSet
 }
 
 export function addToInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  // Is this a mod, consumable or other?
-  switch (destinyItem.bucketHash) {
-    case SectionBuckets.Mods: {
-      // TODO: This is too simplistic. Mods can be stacked so it should be checked to see if this action adds
-      // to an existing stack and/or creates a new stack.
-      const previousMods = get().mods;
-      const updatedMods = create(previousMods, (draft) => {
-        draft.push(destinyItem);
-      });
-      set({ mods: updatedMods });
-      break;
-    }
-    case SectionBuckets.Consumables: {
-      // TODO: This is too simplistic. Consumables can be stacked so it should be checked to see if this action adds
-      // to an existing stack and/or creates a new stack.
-      const previousConsumables = get().consumables;
-      const updatedConsumables = create(previousConsumables, (draft) => {
-        draft.push(destinyItem);
-      });
-      set({ consumables: updatedConsumables });
-      break;
-    }
-    default: {
-      const previousGuardians = get().guardians;
-      const updatedGuardians = create(previousGuardians, (draft) => {
-        draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
-      });
-      set({ guardians: updatedGuardians });
-      break;
+  // Vault or other?
+  if (destinyItem.characterId === VAULT_CHARACTER_ID) {
+    // TODO: Cope with stackable items
+    const previousGeneralVault = get().generalVault;
+
+    const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+      draft[destinyItem.bucketHash]?.push(destinyItem);
+    });
+
+    set({ generalVault: updatedGeneralVault });
+  } else {
+    // Is this a mod, consumable or other?
+    switch (destinyItem.bucketHash) {
+      case SectionBuckets.Mods: {
+        // TODO: This is too simplistic. Mods can be stacked so it should be checked to see if this action adds
+        // to an existing stack and/or creates a new stack.
+        const previousMods = get().mods;
+        const updatedMods = create(previousMods, (draft) => {
+          draft.push(destinyItem);
+        });
+        set({ mods: updatedMods });
+        break;
+      }
+      case SectionBuckets.Consumables: {
+        // TODO: This is too simplistic. Consumables can be stacked so it should be checked to see if this action adds
+        // to an existing stack and/or creates a new stack.
+        const previousConsumables = get().consumables;
+        const updatedConsumables = create(previousConsumables, (draft) => {
+          draft.push(destinyItem);
+        });
+        set({ consumables: updatedConsumables });
+        break;
+      }
+      default: {
+        const previousGuardians = get().guardians;
+        const updatedGuardians = create(previousGuardians, (draft) => {
+          draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+        });
+        set({ guardians: updatedGuardians });
+        break;
+      }
     }
   }
 }

@@ -35,7 +35,6 @@ import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
   addToInventory,
-  addToVault,
   checkForCraftedMasterwork,
   hasSocketedResonance,
   removeFromGuardian,
@@ -132,12 +131,13 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   moveItem: (updatedDestinyItem) => {
     const p1 = performance.now();
+
     if (updatedDestinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
       removeFromVault(get, set, updatedDestinyItem);
       addToInventory(get, set, updatedDestinyItem);
     } else {
       removeFromGuardian(get, set, updatedDestinyItem);
-      addToVault(get, set, updatedDestinyItem);
+      addToInventory(get, set, updatedDestinyItem);
     }
     const p2 = performance.now();
     console.log("moveItem", `${(p2 - p1).toFixed(4)} ms`);
