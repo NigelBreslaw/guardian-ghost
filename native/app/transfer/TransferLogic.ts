@@ -52,7 +52,7 @@ export async function processTransferItem(
       quantityToMove,
       "equipOnTarget:",
       equipOnTarget,
-    ); //, destinyItem);
+    );
   }
 
   const transferItem: TransferItem = {
@@ -79,15 +79,8 @@ export async function processTransferItem(
     const parsedResult = safeParse(responseSchema, result[0]);
     if (parsedResult.success) {
       if (parsedResult.output.ErrorStatus === "Success") {
-        // remove the item from the lost items
-        useGGStore.getState().removeFromLostItems(result[1]);
-
-        // Mutate the item to be part of the characters items or a global bucket
-        const transformedItem = transformSuccessfulPullFromPostmasterItem(result[1]);
-
-        // Add the item back
-        useGGStore.getState().addInventoryItem(result[1]);
-
+        // Update the UI and get a transformed item to continue the transfer
+        const transformedItem = useGGStore.getState().pullFromPostmaster(result[1]);
         // Send the item on its way
         processTransferItem(toCharacterId, transformedItem, quantityToMove, equipOnTarget);
         return;
@@ -160,31 +153,6 @@ export async function processTransferItem(
   if (DEBUG_TRANSFER) {
     console.log("transferItem got here...");
   }
-}
-
-function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
-  let characterId: string;
-  switch (destinyItem.recoveryBucketHash) {
-    case SectionBuckets.Mods: {
-      characterId = GLOBAL_MODS_CHARACTER_ID;
-      break;
-    }
-    case SectionBuckets.Consumables: {
-      characterId = GLOBAL_CONSUMABLES_CHARACTER_ID;
-      break;
-    }
-    default: {
-      characterId = destinyItem.characterId;
-    }
-  }
-  const bucketHash = destinyItem.recoveryBucketHash;
-  const newDestinyItem: DestinyItem = {
-    ...destinyItem,
-    characterId,
-    bucketHash,
-  };
-
-  return newDestinyItem;
 }
 
 async function _unequipItem(destinyItem: DestinyItem): Promise<boolean> {

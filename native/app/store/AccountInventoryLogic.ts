@@ -22,7 +22,11 @@ import {
 } from "@/app/inventory/Common.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
-import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import {
+  GLOBAL_CONSUMABLES_CHARACTER_ID,
+  GLOBAL_MODS_CHARACTER_ID,
+  VAULT_CHARACTER_ID,
+} from "@/app/utilities/Constants.ts";
 import { typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 
@@ -325,11 +329,13 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // Update UI logic
 // ------------------------------
 
-export function removeFromInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
   if (destinyItem.previousCharacterId === "") {
     console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
     return;
   }
+
+  console.log("removeInventoryItem", destinyItem);
 
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
@@ -370,7 +376,8 @@ export function removeFromInventory(get: AccountSliceGetter, set: AccountSliceSe
   }
 }
 
-export function addToInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  console.log("addInventoryItem", destinyItem);
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
@@ -443,6 +450,36 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
     updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
   });
   set({ guardians: updatedGuardians });
+}
+
+export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
+  let characterId: string;
+  console.log(
+    "transformSuccessfulPullFromPostmasterItem",
+    destinyItem.characterId,
+    SectionBuckets[destinyItem.recoveryBucketHash],
+  );
+  switch (destinyItem.recoveryBucketHash) {
+    case SectionBuckets.Mods: {
+      characterId = GLOBAL_MODS_CHARACTER_ID;
+      break;
+    }
+    case SectionBuckets.Consumables: {
+      characterId = GLOBAL_CONSUMABLES_CHARACTER_ID;
+      break;
+    }
+    default: {
+      characterId = destinyItem.characterId;
+    }
+  }
+  const bucketHash = destinyItem.recoveryBucketHash;
+  const newDestinyItem: DestinyItem = {
+    ...destinyItem,
+    characterId,
+    bucketHash,
+  };
+
+  return newDestinyItem;
 }
 
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
