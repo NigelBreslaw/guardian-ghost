@@ -9,7 +9,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const pageEstimatedFlashListItemSize = [157, 157, 157, 250];
+const pageEstimatedFlashListItemSize = [130, 130, 130, 200];
 
 type InventoryPageProps = {
   inventoryPageData: UISections[][];
