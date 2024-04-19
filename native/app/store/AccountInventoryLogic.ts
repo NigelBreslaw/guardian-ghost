@@ -1,3 +1,4 @@
+import { ItemType } from "@/app/bungie/Hashes.ts";
 import { GGCharacterType, type DestinyItem, type DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
   SectionBuckets,
@@ -274,6 +275,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const crafted = item.crafted;
   const quantity = item.quantity;
   const stackSizeMaxed = item.quantity === item.maxStackSize;
+  const engram = item.itemType === ItemType.Engram;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
@@ -288,6 +290,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     crafted,
     quantity,
     stackSizeMaxed,
+    engram,
   };
   return iconData;
 }

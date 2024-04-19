@@ -198,6 +198,7 @@ export type DestinyIconData = {
   borderColor: string;
   crafted?: boolean;
   stackSizeMaxed?: boolean;
+  engram?: boolean;
 };
 
 export const DestinyIconDataEmpty: DestinyIconData = {
