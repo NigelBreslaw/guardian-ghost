@@ -348,6 +348,11 @@ export function addToVault(get: AccountSliceGetter, set: AccountSliceSetter, des
 }
 
 export function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  if (destinyItem.previousCharacterId === "") {
+    console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
+    return;
+  }
+
   const previousGuardians = get().guardians;
 
   const previousInventory =
@@ -370,13 +375,38 @@ export function removeFromGuardian(get: AccountSliceGetter, set: AccountSliceSet
   set({ guardians: updatedGuardians });
 }
 
-export function addToGuardian(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  const previousGuardians = get().guardians;
-
-  const updatedGuardians = create(previousGuardians, (draft) => {
-    draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
-  });
-  set({ guardians: updatedGuardians });
+export function addToInventory(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  // Is this a mod, consumable or other?
+  switch (destinyItem.bucketHash) {
+    case SectionBuckets.Mods: {
+      // TODO: This is too simplistic. Mods can be stacked so it should be checked to see if this action adds
+      // to an existing stack and/or creates a new stack.
+      const previousMods = get().mods;
+      const updatedMods = create(previousMods, (draft) => {
+        draft.push(destinyItem);
+      });
+      set({ mods: updatedMods });
+      break;
+    }
+    case SectionBuckets.Consumables: {
+      // TODO: This is too simplistic. Consumables can be stacked so it should be checked to see if this action adds
+      // to an existing stack and/or creates a new stack.
+      const previousConsumables = get().consumables;
+      const updatedConsumables = create(previousConsumables, (draft) => {
+        draft.push(destinyItem);
+      });
+      set({ consumables: updatedConsumables });
+      break;
+    }
+    default: {
+      const previousGuardians = get().guardians;
+      const updatedGuardians = create(previousGuardians, (draft) => {
+        draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+      });
+      set({ guardians: updatedGuardians });
+      break;
+    }
+  }
 }
 
 export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
