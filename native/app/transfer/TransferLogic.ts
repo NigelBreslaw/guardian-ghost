@@ -9,12 +9,7 @@ import {
 } from "@/app/inventory/Common.ts";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import {
-  GLOBAL_CONSUMABLES_CHARACTER_ID,
-  GLOBAL_INVENTORY_NAMES,
-  GLOBAL_MODS_CHARACTER_ID,
-  VAULT_CHARACTER_ID,
-} from "@/app/utilities/Constants.ts";
+import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
