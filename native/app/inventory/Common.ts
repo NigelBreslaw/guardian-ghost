@@ -10,30 +10,6 @@ export enum InventoryPage {
   General = 3,
 }
 
-export const characterBuckets = [
-  1498876634, // kinetic weapons
-  2465295065, // energy weapons
-  953998645, // power weapons
-  3448274439, // helmet
-  3551918588, // gauntlets
-  14239492, // chest armor
-  20886954, // leg armor
-  1585787867, // class armor
-  4023194814, // ghost
-  2025709351, // vehicle
-  284967655, // ships
-  3284755031, // subclass
-  4292445962, // banners
-  4274335291, // emblems
-  3683254069, // finisher
-  1107761855, // emotes
-  1506418338, // artifact
-  375726501, // Engrams
-  215593132, // Lost Items
-  1469714392, // consumables
-  3313201758, // modifications
-];
-
 export enum SectionBuckets {
   Kinetic = 1498876634,
   Energy = 2465295065,
@@ -57,6 +33,30 @@ export enum SectionBuckets {
   Consumables = 1469714392,
   Mods = 3313201758,
 }
+
+export const characterBuckets = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+  SectionBuckets.Ghost,
+  SectionBuckets.Vehicle,
+  SectionBuckets.Ship,
+  SectionBuckets.Subclass,
+  SectionBuckets.Banner,
+  SectionBuckets.Emblem,
+  SectionBuckets.Finisher,
+  SectionBuckets.Emote,
+  SectionBuckets.Artifact,
+  SectionBuckets.Engram,
+  SectionBuckets.LostItem,
+  SectionBuckets.Consumables,
+  SectionBuckets.Mods,
+];
 
 export const weaponBuckets = [SectionBuckets.Kinetic, SectionBuckets.Energy, SectionBuckets.Power];
 
@@ -101,11 +101,11 @@ export function getSectionDetails(bucket: SectionBuckets): { label: string; icon
 }
 
 export const weaponsPageBuckets = [
-  1498876634, // kinetic weapons
-  2465295065, // energy weapons
-  953998645, // power weapons
-  4023194814, // ghost
-  1506418338, // artifact
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Ghost,
+  SectionBuckets.Artifact,
 ];
 
 export const armorBuckets = [
@@ -117,23 +117,23 @@ export const armorBuckets = [
 ];
 
 export const armorPageBuckets = [
-  3284755031, // Subclass
-  3448274439, // Helmet
-  3551918588, // Gauntlets
-  14239492, // ChestArmor
-  20886954, // LegArmor
-  1585787867, // ClassArmor undefined //1626737477 undefined //1801258597
+  SectionBuckets.Subclass,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
 ];
 
 export const generalPageBuckets = [
-  375726501, // Engrams undefined 444348033 undefined 497170007
-  215593132, // Lost Items
-  1469714392, // consumables
-  3313201758, // modifications
-  4274335291, // Emblems
-  284967655, // Ships
-  2025709351, // Vehicle
-  3683254069, // Finisher
+  SectionBuckets.Engram,
+  SectionBuckets.LostItem,
+  SectionBuckets.Consumables,
+  SectionBuckets.Mods,
+  SectionBuckets.Emblem,
+  SectionBuckets.Ship,
+  SectionBuckets.Vehicle,
+  SectionBuckets.Finisher,
 ];
 
 export const equipSectionBuckets = [
