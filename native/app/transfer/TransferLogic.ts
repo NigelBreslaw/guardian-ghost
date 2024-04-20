@@ -98,10 +98,8 @@ export async function processTransfer(transferBundle: TransferBundle) {
   // Is there other items to transfer first?
   if (transferBundle.unequipItem) {
     transferItem = transferBundle.unequipItem;
-    console.log("using otherItem");
   } else {
     transferItem = transferBundle.primaryItem;
-    console.log("using primaryItem");
   }
 
   // Is the item currently in lost items?
@@ -141,8 +139,9 @@ export async function processTransfer(transferBundle: TransferBundle) {
         if (parsedResult.output.ErrorStatus === "Success") {
           transferItem.destinyItem = { ...result[1] };
           // If the bundle has an unequipItem then check if the primary would have been replaced by it. If so mark the primary destinyItem as equipped: false
-
           useGGStore.getState().equipItem(result[1]);
+          // TODO: Investigate why this needs to be copied as otherwise the bundle is not mutated.
+          // I'm not understanding something to do with accessing objects by reference.
           const transferBundleCopy = JSON.parse(JSON.stringify(transferBundle)) as TransferBundle;
           if (transferBundleCopy.unequipItem) {
             const primaryItem = transferBundle.primaryItem.destinyItem;
@@ -155,7 +154,6 @@ export async function processTransfer(transferBundle: TransferBundle) {
               transferBundleCopy.primaryItem.destinyItem.equipped = false;
             }
           }
-
           processTransfer(transferBundleCopy);
 
           return;
@@ -310,13 +308,6 @@ function itemSuccessfullyTransferred(item: TransferItem) {
   const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
   const lostItem = item.destinyItem.bucketHash === SectionBuckets.LostItem;
 
-  console.log(
-    "itemSuccessfullyTransferred",
-    reachedTarget && inCorrectEquipState && !lostItem,
-    reachedTarget,
-    inCorrectEquipState,
-    lostItem,
-  );
   return reachedTarget && inCorrectEquipState && !lostItem;
 }
 
