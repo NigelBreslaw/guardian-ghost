@@ -4,7 +4,7 @@ import {
   SectionBuckets,
   armorBuckets,
   basePath,
-  sectionSupportsExotic,
+  sectionSupportsBlockingExotic,
   weaponBuckets,
 } from "@/app/inventory/Common.ts";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
@@ -14,7 +14,7 @@ import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
 
-const DEBUG_TRANSFER = true;
+const DEBUG_TRANSFER = false;
 
 const responseSchema = object({
   ErrorCode: number(),
@@ -29,7 +29,7 @@ export type TransferBundle = {
   // The main item to be transferred
   primaryItem: TransferItem;
   // Other items that first need transferring e.g. unquip items
-  otherItem: TransferItem | null;
+  unequipItem: TransferItem | null;
   // Track failed transfers to see if the transfer should be retried.
   fails: number;
   // Changed to true when all transfers have been completed
@@ -56,7 +56,7 @@ function createTransferBundle(
       quantityToMove,
       equipOnTarget,
     },
-    otherItem: null,
+    unequipItem: null,
     fails: 0,
     completed: false,
   };
@@ -96,10 +96,12 @@ export async function processTransfer(transferBundle: TransferBundle) {
   let transferItem: TransferItem;
 
   // Is there other items to transfer first?
-  if (transferBundle.otherItem) {
-    transferItem = transferBundle.otherItem;
+  if (transferBundle.unequipItem) {
+    transferItem = transferBundle.unequipItem;
+    console.log("using otherItem");
   } else {
     transferItem = transferBundle.primaryItem;
+    console.log("using primaryItem");
   }
 
   // Is the item currently in lost items?
@@ -126,6 +128,7 @@ export async function processTransfer(transferBundle: TransferBundle) {
   }
 
   const reachedTarget = hasReachedTarget(transferItem);
+  console.log("reachedTarget", reachedTarget);
   if (reachedTarget) {
     // This is only possible if the item needs to equipped
     try {
@@ -137,8 +140,23 @@ export async function processTransfer(transferBundle: TransferBundle) {
       if (parsedResult.success) {
         if (parsedResult.output.ErrorStatus === "Success") {
           transferItem.destinyItem = { ...result[1] };
-          processTransfer(transferBundle);
+          // If the bundle has an unequipItem then check if the primary would have been replaced by it. If so mark the primary destinyItem as equipped: false
+
           useGGStore.getState().equipItem(result[1]);
+          const transferBundleCopy = JSON.parse(JSON.stringify(transferBundle)) as TransferBundle;
+          if (transferBundleCopy.unequipItem) {
+            const primaryItem = transferBundle.primaryItem.destinyItem;
+            const unequipItem = transferBundleCopy.unequipItem.destinyItem;
+            if (
+              primaryItem.equipped &&
+              primaryItem.characterId === unequipItem.characterId &&
+              primaryItem.bucketHash === unequipItem.bucketHash
+            ) {
+              transferBundleCopy.primaryItem.destinyItem.equipped = false;
+            }
+          }
+
+          processTransfer(transferBundleCopy);
 
           return;
         }
@@ -154,11 +172,52 @@ export async function processTransfer(transferBundle: TransferBundle) {
     }
   } else {
     if (transferItem.destinyItem.equipped) {
+      console.log("item is equipped", transferItem.destinyItem.equipped);
       try {
-        // First unquip it with another item
-        // const unequip = await unequipItem(transferItem.destinyItem);
-        // System.log(inventoryItem.name + " needs to be unequipped to move")
-        useGGStore.getState().showSnackBar("Unequip has not been implemented yet");
+        // Bail if the section has no items
+        const sectionItems =
+          useGGStore.getState().guardians[transferItem.destinyItem.characterId]?.items[
+            transferItem.destinyItem.bucketHash
+          ]?.inventory;
+        if (!sectionItems || sectionItems.length === 0) {
+          console.error("Failed to unquip item as section has no items");
+          const name = itemsDefinition[transferItem.destinyItem.itemHash]?.n;
+          useGGStore
+            .getState()
+            .showSnackBar(`Unable to unequip ${name}. There needs to be another item that can be equipped.`);
+          return;
+        }
+        console.log("sectionItems", sectionItems.length);
+        // is there an item that isn't Exotic in the section items? Find the first one
+        let unequipItem: DestinyItem | null = null;
+        for (const item of sectionItems) {
+          console.log("item e?", item.tierType);
+          if (sectionSupportsBlockingExotic.includes(item.bucketHash)) {
+            if (item.tierType !== TierType.Exotic) {
+              unequipItem = item;
+              break;
+            }
+          } else {
+            unequipItem = item;
+            break;
+          }
+        }
+
+        if (unequipItem) {
+          const name = itemsDefinition[unequipItem.itemHash]?.n;
+          console.log("unequipItem", name);
+          // create a transferItem for it and set it on the transferBundle otherItem
+          const unequipTransferItem: TransferItem = {
+            destinyItem: unequipItem,
+            finalTargetId: transferItem.destinyItem.characterId,
+            quantityToMove: 1,
+            equipOnTarget: true,
+          };
+          transferBundle.unequipItem = unequipTransferItem;
+          processTransfer(transferBundle);
+          return;
+        }
+
         return;
       } catch {}
     } else {
@@ -226,14 +285,15 @@ function exoticAlreadyEquipped(destinyItem: DestinyItem): boolean {
 }
 
 function hasSuccessfullyTransferred(transferBundle: TransferBundle) {
-  if (transferBundle.otherItem) {
-    if (itemSuccessfullyTransferred(transferBundle.otherItem)) {
-      transferBundle.otherItem = null;
+  if (transferBundle.unequipItem) {
+    console.log("hasSuccessfullyTransferred unequipItem detected");
+    if (itemSuccessfullyTransferred(transferBundle.unequipItem)) {
+      transferBundle.unequipItem = null;
     }
   }
 
   // if the array is not empty then return false
-  if (transferBundle.otherItem) {
+  if (transferBundle.unequipItem) {
     return transferBundle;
   }
 
@@ -250,6 +310,13 @@ function itemSuccessfullyTransferred(item: TransferItem) {
   const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
   const lostItem = item.destinyItem.bucketHash === SectionBuckets.LostItem;
 
+  console.log(
+    "itemSuccessfullyTransferred",
+    reachedTarget && inCorrectEquipState && !lostItem,
+    reachedTarget,
+    inCorrectEquipState,
+    lostItem,
+  );
   return reachedTarget && inCorrectEquipState && !lostItem;
 }
 
@@ -461,7 +528,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   // var itemToUnequipDef = DestinyItem.Def.definitions[itemToUnequip.itemHash]
   /// Can the unequip item be an exotic? Yes if this item is an exotic or in a slot where it does not matter
   const doNotIncludeExotics =
-    sectionSupportsExotic.includes(itemToUnequip.bucketHash) && itemToUnequip.tierType !== TierType.Exotic;
+    sectionSupportsBlockingExotic.includes(itemToUnequip.bucketHash) && itemToUnequip.tierType !== TierType.Exotic;
   console.log("do not include exotics", doNotIncludeExotics);
 
   /// Is there an item in this section that can unequip the item?

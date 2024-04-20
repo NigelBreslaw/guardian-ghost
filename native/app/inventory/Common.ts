@@ -84,7 +84,7 @@ const localizedSectionNames = {
   [SectionBuckets.Mods]: "/ Modifications",
 };
 
-export const sectionSupportsExotic = [
+export const sectionSupportsBlockingExotic = [
   SectionBuckets.Kinetic,
   SectionBuckets.Energy,
   SectionBuckets.Power,

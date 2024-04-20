@@ -335,8 +335,6 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
     return;
   }
 
-  console.log("removeInventoryItem", destinyItem);
-
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
     const previousGeneralVault = get().generalVault;
@@ -377,7 +375,6 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
 }
 
 export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  console.log("addInventoryItem", destinyItem);
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
@@ -424,6 +421,7 @@ export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSette
 }
 
 export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+  console.log("swapEquipAndInventoryItem", destinyItem.equipped);
   const previousGuardians = get().guardians;
 
   const previousInventorySection = previousGuardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
@@ -437,8 +435,8 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
   }
   const previousEquippedItem = previousInventorySection?.equipped;
   if (previousEquippedItem) {
-    const setNotEquipped = { ...previousEquippedItem, equipped: false };
-    updatedInventory.push(setNotEquipped);
+    previousEquippedItem.equipped = false;
+    updatedInventory.push(previousEquippedItem);
   }
 
   const updatedGuardians = create(previousGuardians, (draft) => {
