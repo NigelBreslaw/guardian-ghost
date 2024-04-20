@@ -1,9 +1,12 @@
 <mxfile host="65bd71144e">
     <diagram id="TVojpHYMpzYpOVmNF_GP" name="Page-1">
-        <mxGraphModel dx="823" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+        <mxGraphModel dx="972" dy="1077" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="88" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="490" width="840" height="170" as="geometry"/>
+                </mxCell>
                 <mxCell id="5" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="300" as="targetPoint"/>
@@ -14,14 +17,19 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="73" value="NO" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="2" target="72" edge="1">
+                <mxCell id="85" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="82">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
+                <mxCell id="86" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="85">
+                    <mxGeometry x="-0.1701" y="-1" relative="1" as="geometry">
+                        <mxPoint y="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="2" value="Is Transfer complete?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="65" y="130" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="65" y="90" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="3" value="Show transfer complete" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
-                    <mxGeometry x="245" y="145" width="70" height="70" as="geometry"/>
+                    <mxGeometry x="245" y="105" width="70" height="70" as="geometry"/>
                 </mxCell>
                 <mxCell id="32" value="YES" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="9" target="10" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -32,25 +40,25 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="9" value="Is item &lt;br&gt;equipped?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="230" y="440" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="230" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="10" target="14" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="10" value="Unequip()" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="380" y="450" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="380" y="520" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="12" value="Fail and show error &quot;there needs to be another item&quot;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-                    <mxGeometry x="510" y="250" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="510" y="320" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="15" value="YES" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="14" target="12" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="22" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="14" target="16" edge="1">
+                <mxCell id="91" value="NO" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;" edge="1" parent="1" source="14" target="16">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="14" value="Zero other &lt;br&gt;items?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="500" y="440" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="500" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="23" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="16" target="18" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -67,41 +75,22 @@
                 <mxCell id="43" value="NO" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="16" target="35" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" value="Are any non exotic?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="640" y="440" width="100" height="100" as="geometry"/>
+                <mxCell id="16" value="Are any &lt;br&gt;non exotic to &lt;br&gt;equip?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="26" value="SUCCESS" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="18" target="20" edge="1">
+                <mxCell id="87" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="18" target="28">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="18" target="19" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="790" y="145" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="39" value="Text" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="30" vertex="1" connectable="0">
-                    <mxGeometry x="-0.0857" y="2" relative="1" as="geometry">
-                        <mxPoint as="offset"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="18" value="Create an equip transfer for that. And process it.&amp;nbsp;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+                <mxCell id="18" value="Create an equip transfer for the 'other' part of the transferBundle&amp;nbsp;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
                     <mxGeometry x="770" y="45" width="80" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="Fail and show error." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-                    <mxGeometry x="770" y="160" width="80" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="36" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="20" target="28" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="20" value="Upadate the UI and the destiny items.&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="940" y="45" width="80" height="80" as="geometry"/>
-                </mxCell>
                 <mxCell id="28" value="&lt;span style=&quot;color: rgb(240, 240, 240);&quot;&gt;Then send the updated item back into the system to transfer again.&lt;br&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
-                    <mxGeometry x="1060" y="40" width="90" height="90" as="geometry"/>
+                    <mxGeometry x="930" y="40" width="90" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="41" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="35" target="12" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="820" y="290"/>
+                            <mxPoint x="830" y="360"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -114,12 +103,12 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="35" value="Any exotic?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="780" y="440" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="780" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="46" value="YES" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="45" target="18" edge="1">
                     <mxGeometry x="0.0448" relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="960" y="260"/>
+                            <mxPoint x="980" y="270"/>
                         </Array>
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -128,12 +117,12 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" value="Can this &lt;br&gt;exotic be equipped?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="930" y="440" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="930" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="49" value="YES" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="48" target="18" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1110" y="270"/>
+                            <mxPoint x="1120" y="280"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -141,10 +130,10 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="48" value="Can it be unblocked?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="1070" y="440" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="1070" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="51" value="Fail and show error." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-                    <mxGeometry x="1210" y="450" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="1210" y="520" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="54" value="NO" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="53" target="9" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -153,11 +142,11 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="53" value="Is the item at the target character?" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="70" y="445" width="90" height="90" as="geometry"/>
+                    <mxGeometry x="70" y="515" width="90" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="57" style="edgeStyle=none;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="55" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="160" y="660" as="targetPoint"/>
+                        <mxPoint x="160" y="730" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="66" value="SUCCESS" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;" parent="1" source="55" target="63" edge="1">
@@ -166,7 +155,7 @@
                 <mxCell id="69" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;" parent="1" source="55" target="65" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="220" y="610"/>
+                            <mxPoint x="220" y="680"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -176,7 +165,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="55" value="equip()" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="75" y="600" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="75" y="670" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="61" value="TRANSFER SYSTEM" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=28;" parent="1" vertex="1">
                     <mxGeometry x="60" y="45" width="300" height="50" as="geometry"/>
@@ -192,18 +181,18 @@
                 <mxCell id="71" value="FAIL" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=12;" parent="1" source="62" target="65" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="400" y="795"/>
+                            <mxPoint x="400" y="865"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="62" value="move()" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="240" y="755" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="240" y="825" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="63" value="&lt;span style=&quot;color: rgb(240, 240, 240);&quot;&gt;Then send the updated item back into the system to transfer again.&lt;br&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
-                    <mxGeometry x="70" y="750" width="90" height="90" as="geometry"/>
+                    <mxGeometry x="70" y="820" width="90" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="65" value="Fail and show error." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-                    <mxGeometry x="360" y="570" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="360" y="640" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="77" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="72" target="74" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -215,30 +204,39 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="72" value="Lost Item?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="65" y="280" width="100" height="100" as="geometry"/>
+                    <mxGeometry x="65" y="350" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="76" value="SUCCESS" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="74" target="75" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="270" y="265"/>
+                            <mxPoint x="270" y="335"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="81" value="FAIL" style="edgeStyle=none;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="74" target="80" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="320" y="380"/>
+                            <mxPoint x="320" y="450"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="74" value="pullFrom&lt;br&gt;Postmager()" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-                    <mxGeometry x="230" y="290" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="230" y="360" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="75" value="&lt;span style=&quot;color: rgb(240, 240, 240);&quot;&gt;Then send the updated item back into the system to transfer again.&lt;br&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
-                    <mxGeometry x="360" y="220" width="90" height="90" as="geometry"/>
+                    <mxGeometry x="360" y="290" width="90" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="80" value="Fail and show error." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-                    <mxGeometry x="365" y="340" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="365" y="410" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="84" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="82" target="72">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="82" value="Primary &lt;br&gt;or Other &lt;br&gt;transfer" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="65" y="230" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" value="Unequip System" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;" vertex="1" parent="1">
+                    <mxGeometry x="827" y="620" width="180" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
