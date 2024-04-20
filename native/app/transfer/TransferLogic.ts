@@ -25,6 +25,17 @@ const responseSchema = object({
   ThrottleSeconds: optional(number()),
 });
 
+export type TransferBundle = {
+  // The main item to be transferred
+  primaryItem: TransferItem;
+  // Other items that first need transferring e.g. unquip items
+  otherItem: TransferItem | null;
+  // Track failed transfers to see if the transfer should be retried.
+  fails: number;
+  // Changed to true when all transfers have been completed
+  completed: boolean;
+};
+
 export type TransferItem = {
   destinyItem: DestinyItem;
   finalTargetId: string;
@@ -32,40 +43,63 @@ export type TransferItem = {
   equipOnTarget: boolean;
 };
 
-export async function processTransferItem(
+function createTransferBundle(
+  toCharacterId: string,
+  destinyItem: DestinyItem,
+  quantityToMove = 1,
+  equipOnTarget = false,
+): TransferBundle {
+  return {
+    primaryItem: {
+      destinyItem,
+      finalTargetId: toCharacterId,
+      quantityToMove,
+      equipOnTarget,
+    },
+    otherItem: null,
+    fails: 0,
+    completed: false,
+  };
+}
+
+export function startTransfer(
   toCharacterId: string,
   destinyItem: DestinyItem,
   quantityToMove = 1,
   equipOnTarget = false,
 ) {
+  const transferBundle = createTransferBundle(toCharacterId, destinyItem, quantityToMove, equipOnTarget);
+  processTransfer(transferBundle);
+}
+
+function showTransferSuccess(transferBundle: TransferBundle) {
+  const itemDefinition = itemsDefinition[transferBundle.primaryItem.destinyItem.itemHash];
+  const successMessage = `${itemDefinition?.n} has been transferred${
+    transferBundle.primaryItem.equipOnTarget ? " and equipped." : "."
+  }`;
+  console.info(successMessage);
+  useGGStore.getState().showSnackBar(successMessage);
+}
+
+export async function processTransfer(transferBundle: TransferBundle) {
   if (DEBUG_TRANSFER) {
-    console.log(
-      "processTransferItem()",
-      "to guardian:",
-      DestinyClass[useGGStore.getState().guardians[toCharacterId]?.data.classType ?? 3],
-      "quantity:",
-      quantityToMove,
-      "equipOnTarget:",
-      equipOnTarget,
-    );
+    console.log("processTransferItem()", transferBundle);
   }
 
-  const transferItem: TransferItem = {
-    destinyItem,
-    finalTargetId: toCharacterId,
-    equipOnTarget,
-    quantityToMove,
-  };
-
   // Is transfer complete?
-  if (hasSuccessfullyTransferred(transferItem)) {
-    const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
-    const successMessage = `${itemDefinition?.n} has been transferred${
-      transferItem.equipOnTarget ? " and equipped." : "."
-    }`;
-    console.info(successMessage);
-    useGGStore.getState().showSnackBar(successMessage);
+  const checkedPackage = hasSuccessfullyTransferred(transferBundle);
+  if (checkedPackage.completed) {
+    showTransferSuccess(transferBundle);
     return;
+  }
+
+  let transferItem: TransferItem;
+
+  // Is there other items to transfer first?
+  if (transferBundle.otherItem) {
+    transferItem = transferBundle.otherItem;
+  } else {
+    transferItem = transferBundle.primaryItem;
   }
 
   // Is the item currently in lost items?
@@ -76,24 +110,18 @@ export async function processTransferItem(
       if (parsedResult.output.ErrorStatus === "Success") {
         // Update the UI and get a transformed item to continue the transfer
         const transformedItem = useGGStore.getState().pullFromPostmaster(result[1]);
+        // spread transformedItem into transferItem.destinyItem
+        transferItem.destinyItem = { ...transformedItem };
         // Send the item on its way
-        processTransferItem(toCharacterId, transformedItem, quantityToMove, equipOnTarget);
+        processTransfer(transferBundle);
         return;
       }
 
-      console.error("Failed 2", parsedResult.output);
+      console.log("Failed 2", parsedResult.output);
       useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
       return;
     }
     useGGStore.getState().showSnackBar("Failed to transfer item from the postmaster %^");
-    return;
-  }
-
-  if (transferItem.destinyItem.equipped) {
-    // First unquip it with another item
-    // const unequip = await unequipItem(transferItem.destinyItem);
-    // System.log(inventoryItem.name + " needs to be unequipped to move")
-    useGGStore.getState().showSnackBar("Unequip has not been implemented yet");
     return;
   }
 
@@ -108,12 +136,14 @@ export async function processTransferItem(
       const parsedResult = safeParse(responseSchema, result[0]);
       if (parsedResult.success) {
         if (parsedResult.output.ErrorStatus === "Success") {
-          processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
+          transferItem.destinyItem = { ...result[1] };
+          processTransfer(transferBundle);
           useGGStore.getState().equipItem(result[1]);
+
           return;
         }
         console.error("Failed 1", parsedResult.output);
-        useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
+        useGGStore.getState().showSnackBar(`Failed to equip item ${parsedResult.output.Message} `);
         return;
       }
       console.error("Failed to equip item and failed to parse response");
@@ -123,30 +153,41 @@ export async function processTransferItem(
       useGGStore.getState().showSnackBar("Failed to equip item");
     }
   } else {
-    try {
-      const result = await moveItem(transferItem);
-      const parsedResult = safeParse(responseSchema, result[0]);
+    if (transferItem.destinyItem.equipped) {
+      try {
+        // First unquip it with another item
+        // const unequip = await unequipItem(transferItem.destinyItem);
+        // System.log(inventoryItem.name + " needs to be unequipped to move")
+        useGGStore.getState().showSnackBar("Unequip has not been implemented yet");
+        return;
+      } catch {}
+    } else {
+      try {
+        const result = await moveItem(transferItem);
+        const parsedResult = safeParse(responseSchema, result[0]);
 
-      if (parsedResult.success) {
-        if (parsedResult.output.ErrorStatus === "Success") {
-          processTransferItem(toCharacterId, result[1], quantityToMove, equipOnTarget);
-          useGGStore.getState().moveItem(result[1]);
+        if (parsedResult.success) {
+          if (parsedResult.output.ErrorStatus === "Success") {
+            transferItem.destinyItem = { ...result[1] };
+            processTransfer(transferBundle);
+            useGGStore.getState().moveItem(result[1]);
+            return;
+          }
+          console.error("Failed 3", parsedResult.output);
+          useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
           return;
         }
-        console.error("Failed 3", parsedResult.output);
-        useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
-        return;
+        console.error("Failed to parse response", result[0]);
+        useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
+      } catch (e) {
+        console.error("Failed to move item", e);
+        useGGStore.getState().showSnackBar("Failed to move item");
       }
-      console.error("Failed to parse response", result[0]);
-      useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
-    } catch (e) {
-      console.error("Failed to move item", e);
-      useGGStore.getState().showSnackBar("Failed to move item");
     }
-  }
 
-  if (DEBUG_TRANSFER) {
-    console.log("transferItem got here...");
+    if (DEBUG_TRANSFER) {
+      console.log("transferItem got here...");
+    }
   }
 }
 
@@ -184,17 +225,37 @@ function exoticAlreadyEquipped(destinyItem: DestinyItem): boolean {
   return false;
 }
 
-function hasSuccessfullyTransferred(item: TransferItem) {
+function hasSuccessfullyTransferred(transferBundle: TransferBundle) {
+  if (transferBundle.otherItem) {
+    if (itemSuccessfullyTransferred(transferBundle.otherItem)) {
+      transferBundle.otherItem = null;
+    }
+  }
+
+  // if the array is not empty then return false
+  if (transferBundle.otherItem) {
+    return transferBundle;
+  }
+
+  if (itemSuccessfullyTransferred(transferBundle.primaryItem)) {
+    transferBundle.completed = true;
+    return transferBundle;
+  }
+
+  return transferBundle;
+}
+
+function itemSuccessfullyTransferred(item: TransferItem) {
   const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
   const inCorrectEquipState = item.destinyItem.equipped === item.equipOnTarget;
-  const lostItem = item.destinyItem.bucketHash === 215593132;
+  const lostItem = item.destinyItem.bucketHash === SectionBuckets.LostItem;
 
   return reachedTarget && inCorrectEquipState && !lostItem;
 }
 
 function hasReachedTarget(item: TransferItem) {
   const reachedTarget = item.destinyItem.characterId === item.finalTargetId;
-  const lostItem = item.destinyItem.bucketHash === 215593132;
+  const lostItem = item.destinyItem.bucketHash === SectionBuckets.LostItem;
 
   return reachedTarget && !lostItem;
 }

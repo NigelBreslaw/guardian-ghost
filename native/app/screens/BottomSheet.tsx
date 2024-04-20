@@ -1,7 +1,7 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { processTransferItem } from "@/app/transfer/TransferLogic.ts";
+import { startTransfer } from "@/app/transfer/TransferLogic.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
@@ -279,8 +279,8 @@ export default function BottomSheet({
     }
   }, []);
 
-  function startTransfer(targetId: string, quantity = 1, equipOnTarget = false) {
-    processTransferItem(targetId, destinyItem, quantity, equipOnTarget);
+  function transfer(targetId: string, quantity = 1, equipOnTarget = false) {
+    startTransfer(targetId, destinyItem, quantity, equipOnTarget);
   }
 
   return (
@@ -391,7 +391,7 @@ export default function BottomSheet({
                   }
                 }}
                 destinyItem={destinyItem}
-                startTransfer={startTransfer}
+                startTransfer={transfer}
                 currentCharacterId={characterId}
               />
             </View>
