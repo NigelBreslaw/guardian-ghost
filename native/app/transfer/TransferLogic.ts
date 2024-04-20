@@ -104,69 +104,14 @@ export async function processTransfer(transferBundle: TransferBundle) {
 
   // Is the item currently in lost items?
   if (transferItem.destinyItem.bucketHash === SectionBuckets.LostItem) {
-    const result = await pullFromPostmaster(transferItem);
-    const parsedResult = safeParse(responseSchema, result[0]);
-    if (parsedResult.success) {
-      if (parsedResult.output.ErrorStatus === "Success") {
-        // Update the UI and get a transformed item to continue the transfer
-        const transformedItem = useGGStore.getState().pullFromPostmaster(result[1]);
-        // spread transformedItem into transferItem.destinyItem
-        transferItem.destinyItem = { ...transformedItem };
-        // Send the item on its way
-        processTransfer(transferBundle);
-        return;
-      }
-
-      console.log("Failed 2", parsedResult.output);
-      useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
-      return;
-    }
-    useGGStore.getState().showSnackBar("Failed to transfer item from the postmaster %^");
+    lostItemLogic(transferBundle, transferItem);
     return;
   }
 
   const reachedTarget = hasReachedTarget(transferItem);
   if (reachedTarget) {
     // This is only possible if the item needs to equipped
-    try {
-      if (DEBUG_TRANSFER) {
-        console.log("equipItem");
-      }
-      const result = await equipItem(transferItem);
-      const parsedResult = safeParse(responseSchema, result[0]);
-      if (parsedResult.success) {
-        if (parsedResult.output.ErrorStatus === "Success") {
-          transferItem.destinyItem = { ...result[1] };
-          // If the bundle has an unequipItem then check if the primary would have been replaced by it. If so mark the primary destinyItem as equipped: false
-          useGGStore.getState().equipItem(result[1]);
-          // TODO: Investigate why this needs to be copied as otherwise the bundle is not mutated.
-          // I'm not understanding something to do with accessing objects by reference.
-          const transferBundleCopy = JSON.parse(JSON.stringify(transferBundle)) as TransferBundle;
-          if (transferBundleCopy.unequipItem) {
-            const primaryItem = transferBundle.primaryItem.destinyItem;
-            const unequipItem = transferBundleCopy.unequipItem.destinyItem;
-            if (
-              primaryItem.equipped &&
-              primaryItem.characterId === unequipItem.characterId &&
-              primaryItem.bucketHash === unequipItem.bucketHash
-            ) {
-              transferBundleCopy.primaryItem.destinyItem.equipped = false;
-            }
-          }
-          processTransfer(transferBundleCopy);
-
-          return;
-        }
-        console.error("Failed 1", parsedResult.output);
-        useGGStore.getState().showSnackBar(`Failed to equip item ${parsedResult.output.Message} `);
-        return;
-      }
-      console.error("Failed to equip item and failed to parse response");
-      useGGStore.getState().showSnackBar("Failed to equip item");
-    } catch (e) {
-      console.error("Failed to equip item", e);
-      useGGStore.getState().showSnackBar("Failed to equip item");
-    }
+    equipItemLogic(transferBundle, transferItem);
   } else {
     if (transferItem.destinyItem.equipped) {
       try {
@@ -185,17 +130,7 @@ export async function processTransfer(transferBundle: TransferBundle) {
         }
         // is there an item that isn't Exotic in the section items? Find the first one
         let unequipItem: DestinyItem | null = null;
-        for (const item of sectionItems) {
-          if (sectionSupportsBlockingExotic.includes(item.bucketHash)) {
-            if (item.tierType !== TierType.Exotic) {
-              unequipItem = item;
-              break;
-            }
-          } else {
-            unequipItem = item;
-            break;
-          }
-        }
+        unequipItem = getUnequipItem(sectionItems, false);
 
         if (unequipItem) {
           const name = itemsDefinition[unequipItem.itemHash]?.n;
@@ -212,36 +147,128 @@ export async function processTransfer(transferBundle: TransferBundle) {
           return;
         }
 
+        unequipItem = getUnequipItem(sectionItems, true);
+        // Can an exotic be equipped? If the currently equipped item is an exotic there is no issue
+        const currentEquippedItem =
+          useGGStore.getState().guardians[transferItem.destinyItem.characterId]?.items[
+            transferItem.destinyItem.bucketHash
+          ]?.equipped;
+
+        if (currentEquippedItem?.tierType === TierType.Exotic) {
+          console.log("currentEquippedItem is exotic");
+          return;
+        }
+
         return;
       } catch {}
     } else {
-      try {
-        const result = await moveItem(transferItem);
-        const parsedResult = safeParse(responseSchema, result[0]);
-
-        if (parsedResult.success) {
-          if (parsedResult.output.ErrorStatus === "Success") {
-            transferItem.destinyItem = { ...result[1] };
-            processTransfer(transferBundle);
-            useGGStore.getState().moveItem(result[1]);
-            return;
-          }
-          console.error("Failed 3", parsedResult.output);
-          useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
-          return;
-        }
-        console.error("Failed to parse response", result[0]);
-        useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
-      } catch (e) {
-        console.error("Failed to move item", e);
-        useGGStore.getState().showSnackBar("Failed to move item");
-      }
-    }
-
-    if (DEBUG_TRANSFER) {
-      console.log("transferItem got here...");
+      // Move the item
+      moveItemLogic(transferBundle, transferItem);
     }
   }
+}
+
+async function lostItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
+  const result = await pullFromPostmaster(transferItem);
+  const parsedResult = safeParse(responseSchema, result[0]);
+  if (parsedResult.success) {
+    if (parsedResult.output.ErrorStatus === "Success") {
+      // Update the UI and get a transformed item to continue the transfer
+      const transformedItem = useGGStore.getState().pullFromPostmaster(result[1]);
+      // spread transformedItem into transferItem.destinyItem
+      transferItem.destinyItem = { ...transformedItem };
+      // Send the item on its way
+      processTransfer(transferBundle);
+      return;
+    }
+
+    console.log("Failed 2", parsedResult.output);
+    useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
+    return;
+  }
+  useGGStore.getState().showSnackBar("Failed to transfer item from the postmaster %^");
+}
+
+async function moveItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
+  try {
+    const result = await moveItem(transferItem);
+    const parsedResult = safeParse(responseSchema, result[0]);
+
+    if (parsedResult.success) {
+      if (parsedResult.output.ErrorStatus === "Success") {
+        transferItem.destinyItem = { ...result[1] };
+        processTransfer(transferBundle);
+        useGGStore.getState().moveItem(result[1]);
+        return;
+      }
+      console.error("Failed 3", parsedResult.output);
+      useGGStore.getState().showSnackBar(`Failed to transfer item ${parsedResult.output.Message} `);
+      return;
+    }
+    console.error("Failed to parse response", result[0]);
+    useGGStore.getState().showSnackBar("Failed to move item and Failed to parse response");
+  } catch (e) {
+    console.error("Failed to move item", e);
+    useGGStore.getState().showSnackBar("Failed to move item");
+  }
+}
+
+async function equipItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
+  try {
+    if (DEBUG_TRANSFER) {
+      console.log("equipItem");
+    }
+    const result = await equipItem(transferItem);
+    const parsedResult = safeParse(responseSchema, result[0]);
+    if (parsedResult.success) {
+      if (parsedResult.output.ErrorStatus === "Success") {
+        transferItem.destinyItem = { ...result[1] };
+        // If the bundle has an unequipItem then check if the primary would have been replaced by it. If so mark the primary destinyItem as equipped: false
+        useGGStore.getState().equipItem(result[1]);
+        // TODO: Investigate why this needs to be copied as otherwise the bundle is not mutated.
+        // I'm not understanding something to do with accessing objects by reference.
+        const transferBundleCopy = JSON.parse(JSON.stringify(transferBundle)) as TransferBundle;
+        if (transferBundleCopy.unequipItem) {
+          const primaryItem = transferBundle.primaryItem.destinyItem;
+          const unequipItem = transferBundleCopy.unequipItem.destinyItem;
+          if (
+            primaryItem.equipped &&
+            primaryItem.characterId === unequipItem.characterId &&
+            primaryItem.bucketHash === unequipItem.bucketHash
+          ) {
+            transferBundleCopy.primaryItem.destinyItem.equipped = false;
+          }
+        }
+        processTransfer(transferBundleCopy);
+
+        return;
+      }
+      console.error("Failed 1", parsedResult.output);
+      useGGStore.getState().showSnackBar(`Failed to equip item ${parsedResult.output.Message} `);
+      return;
+    }
+    console.error("Failed to equip item and failed to parse response");
+    useGGStore.getState().showSnackBar("Failed to equip item");
+  } catch (e) {
+    console.error("Failed to equip item", e);
+    useGGStore.getState().showSnackBar("Failed to equip item");
+  }
+}
+
+function getUnequipItem(sectionItems: DestinyItem[], allowExotics = false): DestinyItem | null {
+  let unequipItem: DestinyItem | null = null;
+  for (const item of sectionItems) {
+    if (sectionSupportsBlockingExotic.includes(item.bucketHash) && !allowExotics) {
+      if (item.tierType !== TierType.Exotic) {
+        unequipItem = item;
+        break;
+      }
+    } else {
+      unequipItem = item;
+      break;
+    }
+  }
+  return unequipItem;
 }
 
 async function _unequipItem(destinyItem: DestinyItem): Promise<boolean> {
