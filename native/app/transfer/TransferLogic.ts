@@ -126,7 +126,6 @@ export async function processTransfer(transferBundle: TransferBundle) {
   }
 
   const reachedTarget = hasReachedTarget(transferItem);
-  console.log("reachedTarget", reachedTarget);
   if (reachedTarget) {
     // This is only possible if the item needs to equipped
     try {
@@ -170,7 +169,6 @@ export async function processTransfer(transferBundle: TransferBundle) {
     }
   } else {
     if (transferItem.destinyItem.equipped) {
-      console.log("item is equipped", transferItem.destinyItem.equipped);
       try {
         // Bail if the section has no items
         const sectionItems =
@@ -185,11 +183,9 @@ export async function processTransfer(transferBundle: TransferBundle) {
             .showSnackBar(`Unable to unequip ${name}. There needs to be another item that can be equipped.`);
           return;
         }
-        console.log("sectionItems", sectionItems.length);
         // is there an item that isn't Exotic in the section items? Find the first one
         let unequipItem: DestinyItem | null = null;
         for (const item of sectionItems) {
-          console.log("item e?", item.tierType);
           if (sectionSupportsBlockingExotic.includes(item.bucketHash)) {
             if (item.tierType !== TierType.Exotic) {
               unequipItem = item;

@@ -421,7 +421,6 @@ export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSette
 }
 
 export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  console.log("swapEquipAndInventoryItem", destinyItem.equipped);
   const previousGuardians = get().guardians;
 
   const previousInventorySection = previousGuardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
