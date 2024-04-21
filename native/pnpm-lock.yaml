@@ -981,9 +981,6 @@ packages:
   '@expo/config-plugins@7.9.1':
     resolution: {integrity: sha512-ICt6Jed1J0tPYMQrJ8K5Qusgih2I6pZ2PU4VSvxsN3T4n97L13XpYV1vyq1Uc/HMl3UhOwldipmgpEbCfeDqsQ==}
 
-  '@expo/config-types@50.0.0':
-    resolution: {integrity: sha512-0kkhIwXRT6EdFDwn+zTg9R2MZIAEYGn1MVkyRohAd+C9cXOb5RA8WLQi7vuxKF9m1SMtNAUrf0pO+ENK0+/KSw==}
-
   '@expo/config-types@50.0.1':
     resolution: {integrity: sha512-EZHMgzkWRB9SMHO1e9m8s+OMahf92XYTnsCFjxhSfcDrcEoSdFPyJWDJVloHZPMGhxns7Fi2+A+bEVN/hD4NKA==}
 
@@ -1000,14 +997,8 @@ packages:
     resolution: {integrity: sha512-ggLn6unI6qowlA1FihdQwPpLn16VJulYkvYAEL50gaqVahfNEglRQMSH2giZzjD0d6xq2/EQuUdFyHaJfyJwOQ==}
     hasBin: true
 
-  '@expo/image-utils@0.4.1':
-    resolution: {integrity: sha512-EZb+VHSmw+a5s2hS9qksTcWylY0FDaIAVufcxoaRS9tHIXLjW5zcKW7Rhj9dSEbZbRVy9yXXdHKa3GQdUQIOFw==}
-
   '@expo/image-utils@0.4.2':
     resolution: {integrity: sha512-CxP+1QXgRXsNnmv2FAUA2RWwK6kNBFg4QEmVXn2K9iLoEAI+i+1IQXcUgc+J7nTJl9pO7FIu2gIiEYGYffjLWQ==}
-
-  '@expo/json-file@8.3.0':
-    resolution: {integrity: sha512-yROUeXJXR5goagB8c3muFLCzLmdGOvoPpR5yDNaXrnTp4euNykr9yW0wWhJx4YVRTNOPtGBnEbbJBW+a9q+S6g==}
 
   '@expo/json-file@8.3.1':
     resolution: {integrity: sha512-QIMMaqPvm8EGflp041h27OG8DDgh3RxzkEjEEvHJ9AUImgeieMCGrpDsnGOcPI4TR6MpJpLNAk5rZK4szhEwIQ==}
@@ -2230,11 +2221,6 @@ packages:
 
   expo-build-properties@0.11.1:
     resolution: {integrity: sha512-m4j4aEjFaDuBE6KWYMxDhWgLzzSmpE7uHKAwtvXyNmRK+6JKF0gjiXi0sXgI5ngNppDQpsyPFMvqG7uQpRuCuw==}
-    peerDependencies:
-      expo: '*'
-
-  expo-constants@15.4.5:
-    resolution: {integrity: sha512-1pVVjwk733hbbIjtQcvUFCme540v4gFemdNlaxM2UXKbfRCOh2hzgKN5joHMOysoXQe736TTUrRj7UaZI5Yyhg==}
     peerDependencies:
       expo: '*'
 
@@ -5602,9 +5588,9 @@ snapshots:
 
   '@expo/config-plugins@7.8.4':
     dependencies:
-      '@expo/config-types': 50.0.0
+      '@expo/config-types': 50.0.1
       '@expo/fingerprint': 0.6.1
-      '@expo/json-file': 8.3.0
+      '@expo/json-file': 8.3.1
       '@expo/plist': 0.1.1
       '@expo/sdk-runtime-versions': 1.0.0
       '@react-native/normalize-color': 2.1.0
@@ -5614,7 +5600,7 @@ snapshots:
       getenv: 1.0.0
       glob: 7.1.6
       resolve-from: 5.0.0
-      semver: 7.5.3
+      semver: 7.6.0
       slash: 3.0.0
       slugify: 1.6.6
       xcode: 3.0.1
@@ -5643,8 +5629,6 @@ snapshots:
       xml2js: 0.6.0
     transitivePeerDependencies:
       - supports-color
-
-  '@expo/config-types@50.0.0': {}
 
   '@expo/config-types@50.0.1': {}
 
@@ -5704,21 +5688,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@expo/image-utils@0.4.1':
-    dependencies:
-      '@expo/spawn-async': 1.5.0
-      chalk: 4.1.2
-      fs-extra: 9.0.0
-      getenv: 1.0.0
-      jimp-compact: 0.16.1
-      node-fetch: 2.7.0
-      parse-png: 2.1.0
-      resolve-from: 5.0.0
-      semver: 7.5.3
-      tempy: 0.3.0
-    transitivePeerDependencies:
-      - encoding
-
   '@expo/image-utils@0.4.2':
     dependencies:
       '@expo/spawn-async': 1.5.0
@@ -5733,12 +5702,6 @@ snapshots:
       tempy: 0.3.0
     transitivePeerDependencies:
       - encoding
-
-  '@expo/json-file@8.3.0':
-    dependencies:
-      '@babel/code-frame': 7.10.4
-      json5: 2.2.3
-      write-file-atomic: 2.4.3
 
   '@expo/json-file@8.3.1':
     dependencies:
@@ -5778,13 +5741,13 @@ snapshots:
 
   '@expo/osascript@2.1.0':
     dependencies:
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       exec-async: 2.2.0
 
   '@expo/package-manager@1.4.2':
     dependencies:
       '@expo/json-file': 8.3.1
-      '@expo/spawn-async': 1.5.0
+      '@expo/spawn-async': 1.7.2
       ansi-regex: 5.0.1
       chalk: 4.1.2
       find-up: 5.0.0
@@ -5806,9 +5769,9 @@ snapshots:
     dependencies:
       '@expo/config': 8.5.6
       '@expo/config-plugins': 7.8.4
-      '@expo/config-types': 50.0.0
-      '@expo/image-utils': 0.4.1
-      '@expo/json-file': 8.3.0
+      '@expo/config-types': 50.0.1
+      '@expo/image-utils': 0.4.2
+      '@expo/json-file': 8.3.1
       debug: 4.3.4
       expo-modules-autolinking: 1.10.3
       fs-extra: 9.1.0
@@ -7389,13 +7352,6 @@ snapshots:
       expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4)))
       semver: 7.6.0
 
-  expo-constants@15.4.5(expo@50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4)))):
-    dependencies:
-      '@expo/config': 8.5.6
-      expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4)))
-    transitivePeerDependencies:
-      - supports-color
-
   expo-constants@15.4.6(expo@50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4)))):
     dependencies:
       '@expo/config': 8.5.6
@@ -7470,7 +7426,7 @@ snapshots:
 
   expo-linking@6.2.2(expo@50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4)))):
     dependencies:
-      expo-constants: 15.4.5(expo@50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4))))
+      expo-constants: 15.4.6(expo@50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4(@babel/core@7.24.4))))
       invariant: 2.2.4
     transitivePeerDependencies:
       - expo
