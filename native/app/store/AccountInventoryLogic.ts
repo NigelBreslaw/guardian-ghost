@@ -54,22 +54,29 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
 
       if (newWeaponsPageData && !deepEqual(ggCharacter.weaponsPageData, newWeaponsPageData)) {
         ggCharacter.weaponsPageData = newWeaponsPageData;
+        dataHasChanged = true;
       }
       const newArmorPageData = armorPageData[index];
       if (newArmorPageData && !deepEqual(ggCharacter.armorPageData, newArmorPageData)) {
         ggCharacter.armorPageData = newArmorPageData;
+        dataHasChanged = true;
       }
 
       const newGeneralPageData = generalPageData[index];
       if (newGeneralPageData && !deepEqual(ggCharacter.generalPageData, newGeneralPageData)) {
         ggCharacter.generalPageData = newGeneralPageData;
+        dataHasChanged = true;
       }
       index++;
     }
   });
   const p3 = performance.now();
   console.log("compare ggCharacters took:", `${(p3 - p2).toFixed(4)} ms`);
-  set({ ggCharacters: updatedGGCharacters });
+  if (dataHasChanged) {
+    set({ ggCharacters: updatedGGCharacters });
+  } else {
+    console.log("No data has changed");
+  }
   const p4 = performance.now();
   console.log("rebuild UI took:", `${(p4 - p3).toFixed(4)} ms`);
 }
