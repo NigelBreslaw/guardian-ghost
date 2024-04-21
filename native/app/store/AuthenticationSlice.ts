@@ -97,9 +97,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       bungieUser: initialBungieUser,
       authToken: null,
       authenticated: "NO-AUTHENTICATION",
-      armorPageData: [],
-      generalPageData: [],
-      weaponsPageData: [],
+      ggCharacters: [],
       responseMintedTimestamp: new Date(1977),
       secondaryComponentsMintedTimestamp: new Date(1977),
     });

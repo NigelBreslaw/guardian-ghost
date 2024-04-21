@@ -3,7 +3,7 @@ export const basePath = "https://www.bungie.net/Platform";
 export const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
 export const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
 
-export enum InventoryPage {
+export enum InventoryPageEnums {
   Unknown = 0,
   Weapons = 1,
   Armor = 2,
@@ -153,18 +153,18 @@ export const equipSectionBuckets = [
   SectionBuckets.Finisher,
 ];
 
-export function getInventoryPage(bucket: number): InventoryPage {
+export function getInventoryPage(bucket: number): InventoryPageEnums {
   if (weaponsPageBuckets.includes(bucket)) {
-    return InventoryPage.Weapons;
+    return InventoryPageEnums.Weapons;
   }
   if (armorPageBuckets.includes(bucket)) {
-    return InventoryPage.Armor;
+    return InventoryPageEnums.Armor;
   }
   if (generalPageBuckets.includes(bucket)) {
-    return InventoryPage.General;
+    return InventoryPageEnums.General;
   }
   console.log("Unknown page", bucket);
-  return InventoryPage.Unknown;
+  return InventoryPageEnums.Unknown;
 }
 
 export enum DamageType {

@@ -29,22 +29,47 @@ import {
 } from "@/app/utilities/Constants.ts";
 import { typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
+import { deepEqual } from "fast-equals";
 
 // ------------------------------
 // UI data creation
 // ------------------------------
 
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
-  const p1 = performance.now();
   createUIData(get);
+  const p1 = performance.now();
+
   const weaponsPageData = buildUIData(get, weaponsPageBuckets);
+  const ggCharacters = get().ggCharacters;
+
   const armorPageData = buildUIData(get, armorPageBuckets);
   const generalPageData = buildUIData(get, generalPageBuckets);
   const p2 = performance.now();
-  console.log("built UI data for all pages", `${(p2 - p1).toFixed(4)} ms`);
-  set({ weaponsPageData, armorPageData, generalPageData });
+  console.log("buildUIData took:", `${(p2 - p1).toFixed(4)} ms`);
+
+  const updatedGGCharacters = create(ggCharacters, (draft) => {
+    let index = 0;
+    for (const ggCharacter of draft) {
+      const newWeaponsPageData = weaponsPageData[index];
+
+      if (newWeaponsPageData && !deepEqual(ggCharacter.weaponsPageData, newWeaponsPageData)) {
+        ggCharacter.weaponsPageData = newWeaponsPageData;
+      }
+      const newArmorPageData = armorPageData[index];
+      if (newArmorPageData && !deepEqual(ggCharacter.armorPageData, newArmorPageData)) {
+        ggCharacter.armorPageData = newArmorPageData;
+      }
+
+      const newGeneralPageData = generalPageData[index];
+      if (newGeneralPageData && !deepEqual(ggCharacter.generalPageData, newGeneralPageData)) {
+        ggCharacter.generalPageData = newGeneralPageData;
+      }
+      index++;
+    }
+  });
+  set({ ggCharacters: updatedGGCharacters });
   const p3 = performance.now();
-  console.log("Rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
+  console.log("rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
 }
 
 function createUIData(get: AccountSliceGetter) {

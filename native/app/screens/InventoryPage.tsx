@@ -1,4 +1,5 @@
-import type { UISections } from "@/app/inventory/Common.ts";
+import type { GGCharacterUiData } from "@/app/bungie/Types.ts";
+import { InventoryPageEnums, type UISections } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -11,8 +12,19 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const pageEstimatedFlashListItemSize = [130, 130, 130, 200];
 
+function getData(ggCharacter: GGCharacterUiData, inventoryPage: InventoryPageEnums): UISections[] | undefined {
+  switch (inventoryPage) {
+    case InventoryPageEnums.Armor:
+      return ggCharacter.armorPageData;
+    case InventoryPageEnums.General:
+      return ggCharacter.generalPageData;
+    case InventoryPageEnums.Weapons:
+      return ggCharacter.weaponsPageData;
+  }
+}
+
 type InventoryPageProps = {
-  inventoryPageData: UISections[][];
+  inventoryPages: InventoryPageEnums;
 };
 
 const rootStyles = StyleSheet.create({
@@ -78,6 +90,8 @@ export default function InventoryPage(props: InventoryPageProps) {
   const debouncedMove = debounce(listMoved, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
 
+  const mainData = useGGStore((state) => state.ggCharacters);
+
   return (
     <View style={rootStyles.root}>
       <ScrollView
@@ -87,7 +101,7 @@ export default function InventoryPage(props: InventoryPageProps) {
         onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
       >
-        {props.inventoryPageData.map((list, index) => {
+        {mainData.map((character, index) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
             <View key={index} style={styles.page}>
@@ -95,7 +109,7 @@ export default function InventoryPage(props: InventoryPageProps) {
                 ref={(ref) => {
                   listRefs.current[index] = ref;
                 }}
-                data={list}
+                data={getData(character, props.inventoryPages)}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
