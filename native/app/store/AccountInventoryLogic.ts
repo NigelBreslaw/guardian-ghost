@@ -67,9 +67,11 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
       index++;
     }
   });
-  set({ ggCharacters: updatedGGCharacters });
   const p3 = performance.now();
-  console.log("rebuild UI took:", `${(p3 - p2).toFixed(4)} ms`);
+  console.log("compare ggCharacters took:", `${(p3 - p2).toFixed(4)} ms`);
+  set({ ggCharacters: updatedGGCharacters });
+  const p4 = performance.now();
+  console.log("rebuild UI took:", `${(p4 - p3).toFixed(4)} ms`);
 }
 
 function createUIData(get: AccountSliceGetter) {
