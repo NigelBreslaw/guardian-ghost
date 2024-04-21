@@ -38,6 +38,7 @@ import {
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import type { SingleItemDefinition } from "@/app/store/Types.ts";
+import { create } from "mutative";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -163,10 +164,23 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
 
   get().setTimestamps(profile.Response.responseMintedTimestamp, profile.Response.secondaryComponentsMintedTimestamp);
   const basicGuardians = createInitialGuardiansData(profile);
-  const ggCharacters = getCharactersAndVault(basicGuardians);
-  set({
-    ggCharacters,
-  });
+  const newGGCharacters = getCharactersAndVault(basicGuardians);
+  const previousGGCharacters = get().ggCharacters;
+  if (previousGGCharacters.length === 0) {
+    set({ ggCharacters: newGGCharacters });
+  } else {
+    const ggCharacters = create(previousGGCharacters, (draft) => {
+      let index = 0;
+      for (const ggCharacter of draft) {
+        ggCharacter.emblemBackgroundPath = newGGCharacters[index]?.emblemBackgroundPath ?? "";
+        ggCharacter.emblemPath = newGGCharacters[index]?.emblemPath ?? "";
+        ggCharacter.secondarySpecial = newGGCharacters[index]?.secondarySpecial ?? "";
+        index++;
+      }
+    });
+    set({ ggCharacters });
+  }
+
   const p1 = performance.now();
   const guardiansWithEquipment = processCharacterEquipment(get, profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
