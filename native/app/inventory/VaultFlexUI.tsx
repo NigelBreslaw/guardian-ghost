@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/inventory/Common.ts";
-import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_SIZE, ICON_VAULT_MARGIN } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_SIZE, ICON_VAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React, { useMemo } from "react";
