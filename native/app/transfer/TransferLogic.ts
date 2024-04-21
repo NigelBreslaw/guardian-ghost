@@ -86,6 +86,9 @@ export async function processTransfer(transferBundle: TransferBundle) {
     console.log("processTransferItem()", transferBundle);
   }
 
+  // Reset the auto refresh timer to ensure auto refresh doesn't happen mid transfer and confuse the system.
+  useGGStore.getState().setLastRefreshTime();
+
   // Is transfer complete?
   const checkedPackage = hasSuccessfullyTransferred(transferBundle);
   if (checkedPackage.completed) {

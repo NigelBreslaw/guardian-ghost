@@ -7,6 +7,7 @@ import { isoTimestamp, safeParse, string } from "valibot";
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 
 export async function getFullProfile() {
+  useGGStore.getState().setLastRefreshTime();
   useGGStore.getState().setRefreshing(true);
   try {
     const profile = (await getProfile()) as unknown as ProfileData;

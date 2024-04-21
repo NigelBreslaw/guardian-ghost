@@ -46,6 +46,7 @@ export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], Account
 export interface AccountSlice {
   appStartupTime: number;
   refreshing: boolean;
+  lastRefreshTime: number;
   currentListIndex: number;
 
   // The characters live in an object. This array does duplicate some of this data, but it's order
@@ -73,11 +74,13 @@ export interface AccountSlice {
   pullFromPostmaster: (updatedDestinyItem: DestinyItem) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
+  setLastRefreshTime: () => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
   appStartupTime: 0,
   refreshing: false,
+  lastRefreshTime: 0,
   currentListIndex: 0,
 
   ggCharacters: [],
@@ -155,6 +158,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
         character.secondarySpecial = `${iconUrl}/${itemDefinition.ss}`;
       }
     }
+  },
+  setLastRefreshTime: () => {
+    set({ lastRefreshTime: performance.now() });
   },
 });
 
