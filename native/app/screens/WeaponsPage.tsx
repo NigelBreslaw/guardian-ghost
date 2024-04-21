@@ -1,7 +1,6 @@
+import { InventoryPageEnums } from "@/app/inventory/Common.ts";
 import InventoryPage from "@/app/screens/InventoryPage.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
 
 export default function WeaponsPage() {
-  const weaponsPageData = useGGStore((state) => state.weaponsPageData);
-  return <InventoryPage inventoryPageData={weaponsPageData} />;
+  return <InventoryPage inventoryPages={InventoryPageEnums.Weapons} />;
 }

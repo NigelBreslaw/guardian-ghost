@@ -5,7 +5,7 @@ import type {
   GuardianRaceType,
   ItemType,
 } from "@/app/bungie/Hashes.ts";
-import type { DamageType } from "@/app/inventory/Common.ts";
+import type { DamageType, UISections } from "@/app/inventory/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
@@ -434,4 +434,7 @@ export type GGCharacterUiData = {
   secondarySpecial: string;
   lastActiveCharacter: boolean;
   ggCharacterType: GGCharacterType;
+  armorPageData: UISections[];
+  generalPageData: UISections[];
+  weaponsPageData: UISections[];
 };
