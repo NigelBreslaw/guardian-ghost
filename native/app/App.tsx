@@ -69,7 +69,6 @@ function App() {
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const lastRefreshRef = useRef<number>(0);
 
   useEffect(() => {
     if (SCREEN_WIDTH) {
@@ -86,8 +85,7 @@ function App() {
       }
     } else if (authenticated === "AUTHENTICATED" && definitionsReady) {
       getFullProfile();
-      const now = performance.now();
-      lastRefreshRef.current = now;
+      useGGStore.getState().setLastRefreshTime();
       const intervalId = setInterval(refreshIfNeeded, 2000);
 
       return () => clearInterval(intervalId);
@@ -95,11 +93,10 @@ function App() {
   }, [authenticated, definitionsReady]);
 
   function refreshIfNeeded() {
-    const lastRefresh = lastRefreshRef.current;
+    const lastRefresh = useGGStore.getState().lastRefreshTime;
     const now = performance.now();
     if (now - lastRefresh > 35000) {
       getFullProfile();
-      lastRefreshRef.current = now;
     }
   }
 
