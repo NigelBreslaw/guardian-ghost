@@ -88,7 +88,7 @@ function App() {
       getFullProfile();
       const now = performance.now();
       lastRefreshRef.current = now;
-      const intervalId = setInterval(refreshIfNeeded, 2000); // 30000 ms = 30 s
+      const intervalId = setInterval(refreshIfNeeded, 2000);
 
       return () => clearInterval(intervalId);
     }
