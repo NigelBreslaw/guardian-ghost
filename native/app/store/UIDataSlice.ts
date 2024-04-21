@@ -1,7 +1,14 @@
 import { SectionBuckets, equipSectionBuckets } from "@/app/inventory/Common.ts";
 
 import type { IStore } from "@/app/store/GGStore.ts";
-import { ENGRAMS_SECTION_HEIGHT, EQUIP_SECTION_SIZE, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import {
+  ENGRAMS_SECTION_HEIGHT,
+  EQUIP_SECTION_SIZE,
+  FOOTER_HEIGHT,
+  ICON_MARGIN,
+  ICON_SIZE,
+  ICON_VAULT_MARGIN,
+} from "@/app/utilities/UISize.ts";
 import type { StateCreator } from "zustand";
 
 export type UIDataSliceSetter = Parameters<StateCreator<IStore, [], [], UIDataSlice>>[0];
@@ -25,7 +32,7 @@ export const createUIDataSlice: StateCreator<IStore, [], [], UIDataSlice> = (set
 
 function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): number {
   if (equipSectionBuckets.includes(bucket)) {
-    return EQUIP_SECTION_SIZE;
+    return EQUIP_SECTION_SIZE + FOOTER_HEIGHT;
   }
 
   if (bucket === SectionBuckets.Engram) {
@@ -34,7 +41,8 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
 
   if (bucket === SectionBuckets.LostItem) {
     const maxLostItemsColumns = get().maxLostItemsColumns;
-    return maxLostItemsColumns * ICON_SIZE + ICON_MARGIN;
+
+    return ICON_SIZE * maxLostItemsColumns + (maxLostItemsColumns - 1) * ICON_MARGIN + FOOTER_HEIGHT;
   }
 
   if (bucket === SectionBuckets.Artifact) {
@@ -44,13 +52,13 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
   if (bucket === SectionBuckets.Consumables) {
     const totalConsumables = get().consumables.length;
     const totalRows = Math.ceil(totalConsumables / 5);
-    return totalRows * ICON_SIZE + ICON_MARGIN;
+    return ICON_SIZE * totalRows + ICON_VAULT_MARGIN * (totalRows - 1);
   }
 
   if (bucket === SectionBuckets.Mods) {
     const totalMods = get().mods.length;
     const totalRows = Math.ceil(totalMods / 5);
-    return totalRows * ICON_SIZE + ICON_MARGIN;
+    return ICON_SIZE * totalRows + ICON_VAULT_MARGIN * (totalRows - 1);
   }
   return 0;
 }

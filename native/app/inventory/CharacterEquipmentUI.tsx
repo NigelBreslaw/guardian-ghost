@@ -1,5 +1,11 @@
 import type { EquipSection } from "@/app/inventory/Common.ts";
-import { DEFAULT_SECTION_4_WIDTH, EQUIP_SECTION_HEIGHT, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import {
+  DEFAULT_SECTION_4_WIDTH,
+  FOOTER_HEIGHT,
+  EQUIP_SECTION_HEIGHT,
+  ICON_MARGIN,
+  ICON_SIZE,
+} from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React from "react";
@@ -10,8 +16,11 @@ const array9 = Array.from({ length: 9 });
 const styles = StyleSheet.create({
   root: {
     width: DEFAULT_SECTION_4_WIDTH,
-    height: EQUIP_SECTION_HEIGHT,
+
     alignSelf: "center",
+  },
+  footer: {
+    height: FOOTER_HEIGHT,
   },
   container: {
     flex: 3,
@@ -25,7 +34,7 @@ const styles = StyleSheet.create({
   },
   equipAndInventoryHolder: {
     flexDirection: "row",
-    height: "100%",
+    height: EQUIP_SECTION_HEIGHT,
   },
   inventoryGrid: {
     flex: 3,
@@ -63,6 +72,7 @@ function CharacterEquipmentUI(props: CharacterEquipmentProps) {
           })}
         </View>
       </View>
+      <View style={styles.footer} />
     </View>
   );
 }
