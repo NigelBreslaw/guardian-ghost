@@ -1,9 +1,9 @@
 import type { GGCharacterUiData } from "@/app/bungie/Types.ts";
 import { InventoryPageEnums, type UISections } from "@/app/inventory/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { calcCurrentListIndex } from "@/app/screens/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
+import { calcCurrentListIndex } from "@/app/utilities/UISize.ts";
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef } from "react";

@@ -1,3 +1,4 @@
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -29,3 +30,15 @@ export const ENGRAMS_SECTION_WIDTH = ICON_SIZE * 5 + 20 * SCALAR;
 export const VAULT_5x5_HEIGHT = ICON_SIZE * 5 + ICON_VAULT_MARGIN * 4;
 export const EQUIP_SECTION_SIZE = ICON_SIZE * 3 + 2 * ICON_MARGIN;
 export const SEPARATOR_HEIGHT = 50 * SCALAR;
+
+export function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
+  const internalOffset = posX - PAGE_WIDTH / 2;
+  let index = 0;
+  if (posX > 0) {
+    const newIndex = Math.ceil(internalOffset / PAGE_WIDTH);
+    if (newIndex > 0) {
+      index = newIndex;
+    }
+  }
+  useGGStore.getState().setCurrentListIndex(index);
+}
