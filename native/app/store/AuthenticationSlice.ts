@@ -21,7 +21,7 @@ const initialBungieUser = {
   profile: { membershipId: "", membershipType: 0, displayName: "" },
 };
 
-type Authenticating = "INITIALIZING" | "LOGIN-FLOW" | "AUTHENTICATED" | "NO-AUTHENTICATION";
+type Authenticating = "INITIALIZING" | "LOGIN-FLOW" | "AUTHENTICATED" | "NO-AUTHENTICATION" | "DEMO-MODE";
 
 export interface AuthenticationSlice {
   authenticated: Authenticating;
