@@ -1,5 +1,5 @@
 import { getSimpleProfileSchema, type ProfileData } from "@/app/bungie/Types.ts";
-import { basePath } from "@/app/inventory/Common.ts";
+import { basePath } from "@/app/bungie/Common";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
 import { isoTimestamp, safeParse, string } from "valibot";

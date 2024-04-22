@@ -1,4 +1,3 @@
-import { DestinyClass, ItemType } from "@/app/bungie/Hashes.ts";
 import { TierType, type DestinyItem } from "@/app/bungie/Types.ts";
 import {
   SectionBuckets,
@@ -6,7 +5,9 @@ import {
   basePath,
   sectionSupportsBlockingExotic,
   weaponBuckets,
-} from "@/app/inventory/Common.ts";
+  DestinyClass,
+  ItemType,
+} from "@/app/bungie/Common";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";

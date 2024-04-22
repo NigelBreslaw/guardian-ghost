@@ -1,4 +1,4 @@
-import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR, type DestinyIconData } from "@/app/bungie/Common";
 import {
   ICON_SIZE,
   INNER_FRAME_SIZE,

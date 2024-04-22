@@ -1,5 +1,5 @@
 import type { GGCharacterUiData } from "@/app/bungie/Types.ts";
-import { InventoryPageEnums, type UISections } from "@/app/inventory/Common.ts";
+import { InventoryPageEnums, type UISections } from "@/app/bungie/Common";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";

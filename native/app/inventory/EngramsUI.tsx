@@ -1,4 +1,4 @@
-import { DestinyIconDataEmpty, type DestinyIconData } from "@/app/inventory/Common.ts";
+import { DestinyIconDataEmpty, type DestinyIconData } from "@/app/bungie/Common";
 import { ENGRAMS_SECTION_WIDTH, ENGRAMS_SECTION_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import EngramCell from "@/app/inventory/EngramCell";
 import React from "react";

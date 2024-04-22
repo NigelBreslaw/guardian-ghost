@@ -1,4 +1,3 @@
-import { DestinyClass, ItemType } from "@/app/bungie/Hashes.ts";
 import {
   ItemSubType,
   TierType,
@@ -10,7 +9,14 @@ import {
   type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
-import { SectionBuckets, characterBuckets, iconUrl, type DestinyItemIdentifier } from "@/app/inventory/Common.ts";
+import {
+  SectionBuckets,
+  characterBuckets,
+  iconUrl,
+  DestinyClass,
+  ItemType,
+  type DestinyItemIdentifier,
+} from "@/app/bungie/Common";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,

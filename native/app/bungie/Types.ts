@@ -4,8 +4,9 @@ import type {
   GuardianGenderType,
   GuardianRaceType,
   ItemType,
-} from "@/app/bungie/Hashes.ts";
-import type { DamageType, UISections } from "@/app/inventory/Common.ts";
+  DamageType,
+  UISections,
+} from "@/app/bungie/Common.ts";
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, unknown } from "valibot";
 import type { Output } from "valibot";
 
