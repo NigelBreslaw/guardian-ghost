@@ -16,7 +16,7 @@ jobs:
       TURBO_CODE: ${{ secrets.TURBO_CODE }}
 
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.3
       - uses: pnpm/action-setup@v3.0.0
         with:
           version: 9.0.4
