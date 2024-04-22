@@ -81,6 +81,7 @@ export interface AccountSlice {
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
   setLastRefreshTime: () => void;
+  setDemoMode: () => Promise<void>;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -167,6 +168,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
   setLastRefreshTime: () => {
     set({ lastRefreshTime: performance.now() });
+  },
+  setDemoMode: async () => {
+    set({ authenticated: "DEMO-MODE" });
+    const demoData = await fetch("https://app.guardianghost.com/json/demo.json");
+    updateProfile(get, set, await demoData.json());
   },
 });
 

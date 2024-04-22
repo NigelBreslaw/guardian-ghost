@@ -118,7 +118,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (authenticated === "AUTHENTICATED") {
+    if (authenticated === "AUTHENTICATED" || authenticated === "DEMO-MODE") {
       navigation.goBack();
     }
   }, [authenticated, navigation]);
@@ -185,7 +185,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
             }
           }}
           onPress={() => {
-            // startAuth();
+            useGGStore.getState().setDemoMode();
           }}
           style={{ alignSelf: "center" }}
           loading={authenticated === "DEMO-MODE"}
