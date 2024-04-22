@@ -1,5 +1,5 @@
 import ArtifactCell from "@/app/inventory/ArtifactCell.tsx";
-import type { DestinyIconData } from "@/app/inventory/Common.ts";
+import type { DestinyIconData } from "@/app/bungie/Common";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import React from "react";

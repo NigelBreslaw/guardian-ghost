@@ -1,4 +1,4 @@
-import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/Common.ts";
+import { LOGO_DARK, LOGO_LIGHT } from "@/app/bungie/Common";
 import { stateID } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";

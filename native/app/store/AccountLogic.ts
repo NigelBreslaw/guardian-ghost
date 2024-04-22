@@ -1,4 +1,3 @@
-import { GuardianClassType } from "@/app/bungie/Hashes.ts";
 import {
   GGCharacterType,
   type GGCharacterUiData,
@@ -7,7 +6,7 @@ import {
   GuardiansSchema,
   type DestinyItem,
 } from "@/app/bungie/Types.ts";
-import { bungieUrl, type DestinyItemIdentifier } from "@/app/inventory/Common.ts";
+import { bungieUrl, GuardianClassType, type DestinyItemIdentifier } from "@/app/bungie/Common";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 import { bucketTypeHashArray, itemsDefinition } from "@/app/store/Definitions.ts";
 import {

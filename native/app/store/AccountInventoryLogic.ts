@@ -1,4 +1,3 @@
-import { ItemType } from "@/app/bungie/Hashes.ts";
 import { GGCharacterType, type DestinyItem, type DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
   SectionBuckets,
@@ -7,6 +6,7 @@ import {
   generalPageBuckets,
   getDamageTypeIconUri,
   getSectionDetails,
+  ItemType,
   weaponBuckets,
   weaponsPageBuckets,
   type ArtifactSection,
@@ -19,7 +19,7 @@ import {
   type Vault5x5Section,
   type VaultFlexSection,
   type VaultSpacerSection,
-} from "@/app/inventory/Common.ts";
+} from "@/app/bungie/Common";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
 import {

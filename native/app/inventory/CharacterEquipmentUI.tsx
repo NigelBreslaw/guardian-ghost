@@ -1,4 +1,4 @@
-import type { EquipSection } from "@/app/inventory/Common.ts";
+import type { EquipSection } from "@/app/bungie/Common";
 import {
   DEFAULT_SECTION_4_WIDTH,
   FOOTER_HEIGHT,

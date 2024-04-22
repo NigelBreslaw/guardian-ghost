@@ -1,7 +1,6 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
-import type { GuardianClassType } from "@/app/bungie/Hashes.ts";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import { LOGO_DARK } from "@/app/inventory/Common.ts";
+import { LOGO_DARK, type GuardianClassType } from "@/app/bungie/Common";
 import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
 import InventoryPages from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";

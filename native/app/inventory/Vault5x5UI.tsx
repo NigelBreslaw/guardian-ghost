@@ -1,4 +1,4 @@
-import type { DestinyIconData } from "@/app/inventory/Common.ts";
+import type { DestinyIconData } from "@/app/bungie/Common";
 import { DEFAULT_MARGIN, ICON_VAULT_MARGIN, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";

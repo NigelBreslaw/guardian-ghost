@@ -1,4 +1,4 @@
-import { type UISections, UISection } from "@/app/inventory/Common.ts";
+import { type UISections, UISection } from "@/app/bungie/Common";
 import EngramsUI from "@/app/inventory/EngramsUI";
 import EquipUI from "@/app/inventory/CharacterEquipmentUI";
 import SeparatorUI from "@/app/inventory/SeparatorUI";
