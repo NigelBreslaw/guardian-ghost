@@ -717,8 +717,17 @@ async function main() {
 
     const savePath = path.join(__dirname, `json/manifest.json`);
     await saveToJsonFile(uniqueJsonManifest, savePath);
+
+    // To avoid committing a 3MB JSON blob into this repo download the demo.json file
+    // from the unintuitive.com site and save it to the json folder. This is only used
+    // for the apps demo mode.
+    const demoJsonUrl = "https://unintuitive.com/demo.json";
+    const demoJson = await downloadJsonFile(demoJsonUrl);
+    const saveDemoPath = path.join(__dirname, `json/demo.json`);
+    await saveToJsonFile(demoJson, saveDemoPath);
   } catch (error) {
     console.error(error);
+    process.exit(1);
   }
 }
 
