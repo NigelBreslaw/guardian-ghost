@@ -653,7 +653,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
 async function saveToJsonFile(data: any, filePath: string): Promise<void> {
   try {
     const jsonString = JSON.stringify(data, null, 0);
-    await fs.promises.writeFile(filePath, jsonString, "utf-8");
+    await Bun.write(filePath, jsonString);
     console.log(`Data saved to ${filePath}`);
   } catch (error) {
     throw new Error(`Failed to save data to file: ${error}`);
