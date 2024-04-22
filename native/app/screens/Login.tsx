@@ -11,6 +11,50 @@ import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
+const styles = StyleSheet.create({
+  topContainerLight: {
+    flex: 1,
+    backgroundColor: "#F2F5FC",
+  },
+  topContainerDark: {
+    flex: 1,
+    backgroundColor: "#171321",
+  },
+  textLight: {
+    color: "black",
+    fontSize: 22,
+  },
+  textDark: {
+    color: "#F1EDFE",
+    fontSize: 22,
+  },
+  container: {
+    flex: 1,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  imageContainer: {
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  spacer: {
+    marginTop: 10,
+  },
+});
+
 function startAuth(): void {
   function cancelLogin() {
     console.info("Failed to complete auth session");
@@ -74,7 +118,7 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
   const themeTextStyle = colorScheme === "light" ? styles.textLight : styles.textDark;
 
   useEffect(() => {
-    if (authenticated === "AUTHENTICATED") {
+    if (authenticated === "AUTHENTICATED" || authenticated === "DEMO-MODE") {
       navigation.goBack();
     }
   }, [authenticated, navigation]);
@@ -131,51 +175,24 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
           Login
         </Button>
         {isLocalWeb && <LocalWebLogin />}
+        <View style={{ marginTop: 80 }} />
+        <Button
+          mode="outlined"
+          disabled={authenticated === "DEMO-MODE"}
+          onPressIn={() => {
+            if (Platform.OS !== "web") {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
+          }}
+          onPress={() => {
+            useGGStore.getState().setDemoMode();
+          }}
+          style={{ alignSelf: "center" }}
+          loading={authenticated === "DEMO-MODE"}
+        >
+          Demo Mode
+        </Button>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  topContainerLight: {
-    flex: 1,
-    backgroundColor: "#F2F5FC",
-  },
-  topContainerDark: {
-    flex: 1,
-    backgroundColor: "#171321",
-  },
-  textLight: {
-    color: "black",
-    fontSize: 22,
-  },
-  textDark: {
-    color: "#F1EDFE",
-    fontSize: 22,
-  },
-  container: {
-    flex: 1,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  imageContainer: {
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 16,
-    overflow: "hidden",
-  },
-  spacer: {
-    marginTop: 10,
-  },
-});
