@@ -16,6 +16,7 @@ import {
   DestinyClass,
   ItemType,
   type DestinyItemIdentifier,
+  type UISections,
 } from "@/app/bungie/Common";
 import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
@@ -58,6 +59,9 @@ export interface AccountSlice {
   // The characters live in an object. This array does duplicate some of this data, but it's order
   // dictates
   ggCharacters: GGCharacterUiData[];
+  ggWeapons: UISections[][];
+  ggArmor: UISections[][];
+  ggGeneral: UISections[][];
 
   selectedItem: DestinyItem | null;
 
@@ -91,6 +95,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   currentListIndex: 0,
 
   ggCharacters: [],
+  ggWeapons: [],
+  ggArmor: [],
+  ggGeneral: [],
 
   selectedItem: null,
 
