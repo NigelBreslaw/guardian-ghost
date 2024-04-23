@@ -45,9 +45,6 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     secondarySpecial,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Vault,
-    armorPageData: [],
-    generalPageData: [],
-    weaponsPageData: [],
   };
   ggCharacters.push(vaultData);
 
@@ -70,9 +67,6 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
     secondarySpecial: "",
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Guardian,
-    armorPageData: [],
-    generalPageData: [],
-    weaponsPageData: [],
   };
 
   return data;

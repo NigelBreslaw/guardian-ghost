@@ -1,4 +1,3 @@
-import type { GGCharacterUiData } from "@/app/bungie/Types.ts";
 import { InventoryPageEnums, type UISections } from "@/app/bungie/Common";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -21,17 +20,6 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
     }
   }
   useGGStore.getState().setCurrentListIndex(index);
-}
-
-function getData(ggCharacter: GGCharacterUiData, inventoryPage: InventoryPageEnums): UISections[] | undefined {
-  switch (inventoryPage) {
-    case InventoryPageEnums.Armor:
-      return ggCharacter.armorPageData;
-    case InventoryPageEnums.General:
-      return ggCharacter.generalPageData;
-    case InventoryPageEnums.Weapons:
-      return ggCharacter.weaponsPageData;
-  }
 }
 
 type InventoryPageProps = {
@@ -101,7 +89,18 @@ export default function InventoryPage(props: InventoryPageProps) {
   const debouncedMove = debounce(listMoved, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
 
-  const mainData = useGGStore((state) => state.ggCharacters);
+  function getData(inventoryPage: InventoryPageEnums): UISections[][] | undefined {
+    switch (inventoryPage) {
+      case InventoryPageEnums.Armor:
+        return useGGStore((state) => state.ggArmor);
+      case InventoryPageEnums.General:
+        return useGGStore((state) => state.ggGeneral);
+      case InventoryPageEnums.Weapons:
+        return useGGStore((state) => state.ggWeapons);
+    }
+  }
+
+  const mainData = getData(props.inventoryPages) ?? [];
 
   return (
     <View style={rootStyles.root}>
@@ -112,7 +111,7 @@ export default function InventoryPage(props: InventoryPageProps) {
         onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
       >
-        {mainData.map((character, index) => {
+        {mainData.map((_c, index) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
             <View key={index} style={styles.page}>
@@ -120,7 +119,7 @@ export default function InventoryPage(props: InventoryPageProps) {
                 ref={(ref) => {
                   listRefs.current[index] = ref;
                 }}
-                data={getData(character, props.inventoryPages)}
+                data={mainData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}

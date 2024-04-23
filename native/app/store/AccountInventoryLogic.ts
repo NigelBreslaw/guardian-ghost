@@ -39,39 +39,62 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   createUIData(get);
   const p1 = performance.now();
 
-  const weaponsPageData = buildUIData(get, weaponsPageBuckets);
-  const ggCharacters = get().ggCharacters;
+  // For each page use a deepEqual compare to see if the data has changed.
+  // If it has changed then update just that page.
+  const ggWeapons = get().ggWeapons;
+  const newWeaponsPageData = buildUIData(get, weaponsPageBuckets);
+  const updatedWeapons = getUpdatedItems(ggWeapons, newWeaponsPageData);
+  if (updatedWeapons) {
+    set({ ggWeapons: updatedWeapons });
+  }
 
-  const armorPageData = buildUIData(get, armorPageBuckets);
-  const generalPageData = buildUIData(get, generalPageBuckets);
+  const ggArmor = get().ggArmor;
+  const newArmorPageData = buildUIData(get, armorPageBuckets);
+  const updatedArmor = getUpdatedItems(ggArmor, newArmorPageData);
+  if (updatedArmor) {
+    set({ ggArmor: updatedArmor });
+  }
+
+  const ggGeneral = get().ggGeneral;
+  const newGeneralPageData = buildUIData(get, generalPageBuckets);
+  const updatedGeneral = getUpdatedItems(ggGeneral, newGeneralPageData);
+  if (updatedGeneral) {
+    set({ ggGeneral: updatedGeneral });
+  }
   const p2 = performance.now();
-  console.log("buildUIData took:", `${(p2 - p1).toFixed(4)} ms`);
+  console.log("updateAllPages", `${(p2 - p1).toFixed(4)} ms`);
+}
 
-  const updatedGGCharacters = create(ggCharacters, (draft) => {
-    let index = 0;
-    for (const ggCharacter of draft) {
-      const newWeaponsPageData = weaponsPageData[index];
-
-      if (newWeaponsPageData && !deepEqual(ggCharacter.weaponsPageData, newWeaponsPageData)) {
-        ggCharacter.weaponsPageData = newWeaponsPageData;
-      }
-      const newArmorPageData = armorPageData[index];
-      if (newArmorPageData && !deepEqual(ggCharacter.armorPageData, newArmorPageData)) {
-        ggCharacter.armorPageData = newArmorPageData;
-      }
-
-      const newGeneralPageData = generalPageData[index];
-      if (newGeneralPageData && !deepEqual(ggCharacter.generalPageData, newGeneralPageData)) {
-        ggCharacter.generalPageData = newGeneralPageData;
-      }
-      index++;
+function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[][]): UISections[][] | null {
+  const newPages: UISections[][] = [];
+  let foundNewItems = false;
+  let index = 0;
+  for (const page of newPageData) {
+    if (!deepEqual(previousPages[index], page)) {
+      newPages.push(page);
+      foundNewItems = true;
+    } else {
+      const emptySection: UISections[] = [];
+      newPages.push(emptySection);
     }
-  });
-  const p3 = performance.now();
-  console.log("compare ggCharacters took:", `${(p3 - p2).toFixed(4)} ms`);
-  set({ ggCharacters: updatedGGCharacters });
-  const p4 = performance.now();
-  console.log("rebuild UI took:", `${(p4 - p3).toFixed(4)} ms`);
+    index++;
+  }
+
+  if (foundNewItems) {
+    const updatedPages = create(previousPages, (draft) => {
+      let indexPages = 0;
+      for (const page of newPages) {
+        if (page.length > 0) {
+          draft[indexPages] = page;
+        }
+        indexPages++;
+      }
+    });
+
+    return updatedPages;
+  }
+
+  return null;
 }
 
 function createUIData(get: AccountSliceGetter) {
