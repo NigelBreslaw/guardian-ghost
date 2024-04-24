@@ -135,11 +135,8 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     setTimestamps(set, responseMintedTimestamp, secondaryComponentsMintedTimestamp),
 
   moveItem: (updatedDestinyItem) => {
-    const p1 = performance.now();
     removeInventoryItem(get, set, updatedDestinyItem);
     addInventoryItem(get, set, updatedDestinyItem);
-    const p2 = performance.now();
-    console.log("moveItem", `${(p2 - p1).toFixed(4)} ms`);
     updateAllPages(get, set);
   },
   equipItem: (updatedDestinyItem) => {
@@ -158,12 +155,14 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
     return transformedItem;
   },
+
   findDestinyItem: (itemDetails) =>
     findDestinyItem(get, {
       itemHash: itemDetails.itemHash,
       itemInstanceId: itemDetails.itemInstanceId,
       characterId: itemDetails.characterId,
     }),
+
   setSecondarySpecial: (characterId, itemHash) => {
     const character = get().ggCharacters.find((c) => c.characterId === characterId);
     if (character) {
@@ -173,9 +172,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       }
     }
   },
+
   setLastRefreshTime: () => {
     set({ lastRefreshTime: performance.now() });
   },
+
   setDemoMode: async () => {
     set({ authenticated: "DEMO-MODE" });
     const demoData = await fetch("https://app.guardianghost.com/json/demo.json");
