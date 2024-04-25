@@ -69,6 +69,7 @@ function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[
   const newPages: UISections[][] = [];
   let foundNewItems = false;
   let index = 0;
+
   for (const page of newPageData) {
     if (!deepEqual(previousPages[index], page)) {
       newPages.push(page);
@@ -90,7 +91,6 @@ function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[
         indexPages++;
       }
     });
-
     return updatedPages;
   }
 
@@ -379,27 +379,36 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // Update UI logic
 // ------------------------------
 
-export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function removeInventoryItem(
+  get: AccountSliceGetter,
+  set: AccountSliceSetter,
+  destinyItem: DestinyItem,
+  stackableQuantityToMove: number,
+) {
   if (destinyItem.previousCharacterId === "") {
     console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
     return;
   }
 
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
-    // TODO: Cope with stackable items
     const previousGeneralVault = get().generalVault;
     const previousInventory = previousGeneralVault[destinyItem.bucketHash];
-    const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
-    if (!updatedInventory) {
-      console.error("updatedInventory is undefined");
-      return;
+
+    if (previousInventory) {
+      const updatedInventory = removeLogic(previousInventory, destinyItem, stackableQuantityToMove);
+      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+        draft[destinyItem.bucketHash] = updatedInventory;
+      });
+      set({ generalVault: updatedGeneralVault });
     }
-
-    const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-      draft[destinyItem.bucketHash] = updatedInventory;
-    });
-
-    set({ generalVault: updatedGeneralVault });
+  } else if (destinyItem.previousCharacterId === GLOBAL_MODS_CHARACTER_ID) {
+    const previousMods = get().mods;
+    const updatedMods = removeLogic(previousMods, destinyItem, stackableQuantityToMove);
+    set({ mods: updatedMods });
+  } else if (destinyItem.previousCharacterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
+    const previousConsumables = get().consumables;
+    const updatedConsumables = removeLogic(previousConsumables, destinyItem, stackableQuantityToMove);
+    set({ consumables: updatedConsumables });
   } else {
     const previousGuardians = get().guardians;
 
@@ -424,17 +433,26 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
   }
 }
 
-export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function addInventoryItem(
+  get: AccountSliceGetter,
+  set: AccountSliceSetter,
+  destinyItem: DestinyItem,
+  stackableQuantityToMove: number,
+) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
     const previousGeneralVault = get().generalVault;
+    const previousSection = previousGeneralVault[destinyItem.bucketHash];
 
-    const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-      draft[destinyItem.bucketHash]?.push(destinyItem);
-    });
+    if (previousSection) {
+      const updatedSection = addLogic(previousSection, destinyItem, stackableQuantityToMove);
 
-    set({ generalVault: updatedGeneralVault });
+      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
+        draft[destinyItem.bucketHash] = updatedSection;
+      });
+      set({ generalVault: updatedGeneralVault });
+    }
   } else {
     // Is this a mod, consumable or other?
     switch (destinyItem.bucketHash) {
@@ -468,6 +486,87 @@ export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSette
       }
     }
   }
+}
+
+function removeLogic(
+  previousItems: DestinyItem[],
+  itemToRemove: DestinyItem,
+  stackableQuantityToMove: number,
+): DestinyItem[] {
+  const p1 = performance.now();
+
+  if (itemToRemove.itemInstanceId) {
+    const updatedItems = previousItems.filter((item) => item.itemInstanceId !== itemToRemove.itemInstanceId);
+    return updatedItems;
+  }
+
+  const filteredItems = previousItems.filter((item) => item.itemHash === itemToRemove.itemHash);
+  let arrayWithoutItems = previousItems.filter((item) => item.itemHash !== itemToRemove.itemHash);
+
+  const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+  const newTotal = previousTotalQuantity - stackableQuantityToMove;
+  const newItems = rebuildStackableItems(newTotal, itemToRemove);
+
+  if (newItems.length > 0) {
+    arrayWithoutItems = arrayWithoutItems.concat(newItems);
+  }
+  const p2 = performance.now();
+  console.log("removeLogic", `${(p2 - p1).toFixed(4)} ms`);
+  return arrayWithoutItems;
+}
+
+function addLogic(
+  previousItems: DestinyItem[],
+  itemToAdd: DestinyItem,
+  stackableQuantityToMove: number,
+): DestinyItem[] {
+  const p1 = performance.now();
+
+  if (itemToAdd.itemInstanceId) {
+    const updatedItems = create(previousItems, (draft) => {
+      draft.push(itemToAdd);
+    });
+    return updatedItems;
+  }
+
+  const filteredItems = previousItems.filter((item) => item.itemHash === itemToAdd.itemHash);
+  let arrayWithoutItems = previousItems.filter((item) => item.itemHash !== itemToAdd.itemHash);
+
+  const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+  const newTotal = previousTotalQuantity + stackableQuantityToMove;
+
+  const newItems = rebuildStackableItems(newTotal, itemToAdd);
+
+  if (newItems.length > 0) {
+    arrayWithoutItems = arrayWithoutItems.concat(newItems);
+  }
+  const p2 = performance.now();
+  console.log("addLogic", `${(p2 - p1).toFixed(4)} ms`);
+
+  return arrayWithoutItems;
+}
+
+function rebuildStackableItems(total: number, destinyItem: DestinyItem): DestinyItem[] {
+  const totalPerStack = destinyItem.maxStackSize;
+  let newTotal = total;
+  const newItems: DestinyItem[] = [];
+
+  while (newTotal > 0) {
+    let itemsToAdd = 0;
+    if (newTotal > totalPerStack) {
+      itemsToAdd = totalPerStack;
+    } else {
+      itemsToAdd = newTotal;
+    }
+    const newItem: DestinyItem = {
+      ...destinyItem,
+      quantity: itemsToAdd,
+    };
+    newItems.push(newItem);
+    newTotal -= totalPerStack;
+  }
+
+  return newItems;
 }
 
 export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {

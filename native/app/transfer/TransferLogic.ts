@@ -132,7 +132,7 @@ async function lostItemLogic(transferBundle: TransferBundle, transferItem: Trans
   if (parsedResult.success) {
     if (parsedResult.output.ErrorStatus === "Success") {
       // Update the UI and get a transformed item to continue the transfer
-      const transformedItem = useGGStore.getState().pullFromPostmaster(result[1]);
+      const transformedItem = useGGStore.getState().pullFromPostmaster(result[1], transferItem.quantityToMove);
       // spread transformedItem into transferItem.destinyItem
       transferItem.destinyItem = { ...transformedItem };
       // Send the item on its way
@@ -156,7 +156,7 @@ async function moveItemLogic(transferBundle: TransferBundle, transferItem: Trans
       if (parsedResult.output.ErrorStatus === "Success") {
         transferItem.destinyItem = { ...result[1] };
         processTransfer(transferBundle);
-        useGGStore.getState().moveItem(result[1]);
+        useGGStore.getState().moveItem(result[1], transferItem.quantityToMove);
         return;
       }
       console.error("Failed 3", parsedResult.output);
