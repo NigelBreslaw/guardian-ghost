@@ -236,7 +236,8 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
     mods: vaultData.mods,
     lostItems: vaultData.lostItems,
   });
-
+  const p3 = performance.now();
+  console.info("set Inventory took:", `${(p3 - p2).toFixed(4)} ms`);
   updateAllPages(get, set);
 }
 
