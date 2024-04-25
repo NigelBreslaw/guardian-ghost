@@ -56,7 +56,7 @@ type TransferEquipButtonsProps = {
   currentCharacterId: string;
   destinyItem: DestinyItem;
   close: () => void;
-  startTransfer: (toCharacterId: string, quantity: number, equipOnTarget: boolean) => void;
+  startTransfer: (toCharacterId: string, equipOnTarget: boolean) => void;
 };
 
 function TransferEquipButtons(props: TransferEquipButtonsProps) {
@@ -136,14 +136,14 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
       if (isTransferDisabled) {
         return;
       }
-      runOnJS(props.startTransfer)(ggCharacter.characterId, 1, false);
+      runOnJS(props.startTransfer)(ggCharacter.characterId, false);
       runOnJS(props.close)();
     });
     const transferAndEquipTap = Gesture.Tap().onBegin(() => {
       if (isEquipDisabled) {
         return;
       }
-      runOnJS(props.startTransfer)(ggCharacter.characterId, 1, true);
+      runOnJS(props.startTransfer)(ggCharacter.characterId, true);
       runOnJS(props.close)();
     });
 
@@ -224,7 +224,7 @@ function TransferEquipButtons(props: TransferEquipButtonsProps) {
       </GestureHandlerRootView>,
     );
   }
-
+  console.log("RENDER BUTTONS");
   return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{rectangles}</View>;
 }
 
@@ -271,16 +271,20 @@ export default function BottomSheet({
   const { itemInstanceId, itemHash, characterId } = route.params.item;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(route.params.item));
   const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
-  const [quantity, setQuantity] = useState(destinyItem.quantity);
+
+  const quantity = useGGStore((state) => state.quantityToTransfer);
+  console.log("quantity", quantity);
 
   useEffect(() => {
     if (refRBSheet.current) {
+      useGGStore.getState().setQuantityToTransfer(destinyItem.quantity);
       refRBSheet.current.open();
     }
   }, []);
 
-  function transfer(targetId: string, quantity = 1, equipOnTarget = false) {
-    startTransfer(targetId, destinyItem, quantity, equipOnTarget);
+  function transfer(targetId: string, equipOnTarget = false) {
+    const transferQuantity = useGGStore.getState().quantityToTransfer;
+    startTransfer(targetId, destinyItem, transferQuantity, equipOnTarget);
   }
 
   return (
@@ -376,7 +380,10 @@ export default function BottomSheet({
                       inputMode="numeric"
                       style={styles.quantityText}
                       value={quantity.toString()}
-                      onChangeText={(value) => setQuantity(Number.parseInt(value))}
+                      onChangeText={(value) => {
+                        console.log("onChangeText", value);
+                        useGGStore.getState().setQuantityToTransfer(Number.parseInt(value));
+                      }}
                     />
                   </View>
                 </View>

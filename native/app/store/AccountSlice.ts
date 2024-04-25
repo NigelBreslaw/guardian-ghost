@@ -64,6 +64,7 @@ export interface AccountSlice {
   ggGeneral: UISections[][];
 
   selectedItem: DestinyItem | null;
+  quantityToTransfer: number;
 
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
@@ -78,6 +79,7 @@ export interface AccountSlice {
   setCurrentListIndex: (payload: number) => void;
   updateProfile: (profile: ProfileData) => void;
   setSelectedItem: (itemIdentifier: DestinyItemIdentifier | null) => void;
+  setQuantityToTransfer: (quantityToTransfer: number) => void;
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
@@ -100,6 +102,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   ggGeneral: [],
 
   selectedItem: null,
+  quantityToTransfer: 1,
 
   responseMintedTimestamp: new Date(1977),
   secondaryComponentsMintedTimestamp: new Date(1977),
@@ -129,6 +132,12 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     }
     const selectedItem = findDestinyItem(get, itemIdentifier);
     set({ selectedItem });
+  },
+
+  setQuantityToTransfer: (quantityToTransfer) => {
+    console.log("zustand setQuantityToTransfer", quantityToTransfer);
+
+    set({ quantityToTransfer });
   },
 
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
