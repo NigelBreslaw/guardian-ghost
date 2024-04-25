@@ -227,7 +227,6 @@ export function itemHashAndQuantitySort(a: DestinyItemSort, b: DestinyItemSort):
 }
 
 export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
-  ///  subtype
   if (a.itemSubType > b.itemSubType) {
     return 1;
   }
@@ -235,7 +234,6 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  // /// primaryStat
   if (a.primaryStat < b.primaryStat) {
     return 1;
   }
@@ -243,7 +241,6 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  ///  tierType
   if (a.tierType < b.tierType) {
     return 1;
   }
@@ -265,7 +262,6 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  // ///  itemHash
   if (a.itemHash > b.itemHash) {
     return 1;
   }
@@ -273,7 +269,6 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  // /// Criteria: masterwork
   if (!a.masterwork && b.masterwork) {
     return 1;
   }
