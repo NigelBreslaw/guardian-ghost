@@ -441,7 +441,6 @@ export function addInventoryItem(
 ) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
-    // TODO: Cope with stackable items
     const previousGeneralVault = get().generalVault;
     const previousSection = previousGeneralVault[destinyItem.bucketHash];
 
@@ -457,22 +456,14 @@ export function addInventoryItem(
     // Is this a mod, consumable or other?
     switch (destinyItem.bucketHash) {
       case SectionBuckets.Mods: {
-        // TODO: This is too simplistic. Mods can be stacked so it should be checked to see if this action adds
-        // to an existing stack and/or creates a new stack.
         const previousMods = get().mods;
-        const updatedMods = create(previousMods, (draft) => {
-          draft.push(destinyItem);
-        });
+        const updatedMods = addLogic(previousMods, destinyItem, stackableQuantityToMove);
         set({ mods: updatedMods });
         break;
       }
       case SectionBuckets.Consumables: {
-        // TODO: This is too simplistic. Consumables can be stacked so it should be checked to see if this action adds
-        // to an existing stack and/or creates a new stack.
         const previousConsumables = get().consumables;
-        const updatedConsumables = create(previousConsumables, (draft) => {
-          draft.push(destinyItem);
-        });
+        const updatedConsumables = addLogic(previousConsumables, destinyItem, stackableQuantityToMove);
         set({ consumables: updatedConsumables });
         break;
       }

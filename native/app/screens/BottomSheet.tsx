@@ -86,9 +86,13 @@ export default function BottomSheet({
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { itemInstanceId, itemHash, characterId } = route.params.item;
+  const { characterId } = route.params.item;
   const [viewData, _setViewData] = useState<ViewData>(buildViewData(route.params.item));
-  const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
+  const destinyItem = useGGStore.getState().selectedItem;
+
+  if (!destinyItem) {
+    return null;
+  }
 
   const quantity = useGGStore((state) => state.quantityToTransfer);
 
@@ -101,7 +105,9 @@ export default function BottomSheet({
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
-    startTransfer(targetId, destinyItem, transferQuantity, equipOnTarget);
+    if (destinyItem) {
+      startTransfer(targetId, destinyItem, transferQuantity, equipOnTarget);
+    }
   }
 
   return (

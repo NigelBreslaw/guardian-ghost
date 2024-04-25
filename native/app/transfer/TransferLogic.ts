@@ -498,6 +498,7 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
         .then((data) => {
           const previousCharacterId = transferItem.destinyItem.characterId;
           const updatedCharacterId = toVault ? VAULT_CHARACTER_ID : transferItem.finalTargetId;
+
           const updatedDestinyItem: DestinyItem = {
             ...transferItem.destinyItem,
             characterId: updatedCharacterId,
@@ -683,7 +684,6 @@ function returnNonBusyUnequipItem(
   ignoreExotics: boolean,
   ignoreLocked: boolean,
 ): DestinyItem {
-  // let nonBusyItem: DestinyItem
   for (const item of items) {
     if (item.destinyClass !== DestinyClass.Unknown && item.destinyClass !== itemToUnequip.destinyClass) {
       continue;
@@ -695,8 +695,6 @@ function returnNonBusyUnequipItem(
       }
     }
 
-    //TODO: If the system that marks items for transfer is added back this will need to be changed
-    // if !TransferLogic.itemsMarkedForTransfer.contains(item.itemInstanceId) {
     if (ignoreExotics) {
       if (item.tierType !== TierType.Exotic) {
         return item;
@@ -704,11 +702,9 @@ function returnNonBusyUnequipItem(
     } else {
       return item;
     }
-    // }
   }
 
   throw new Error("No unequip item");
-  // return nonBusyItem
 }
 
 function isLocked(item: DestinyItem): boolean {
