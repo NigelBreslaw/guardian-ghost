@@ -18,7 +18,7 @@ import {
   type DestinyItemIdentifier,
   type UISections,
 } from "@/app/bungie/Common";
-import { findDestinyItem, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
+import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   bucketTypeHashArray,
   iconWaterMarks,
@@ -85,6 +85,7 @@ export interface AccountSlice {
   equipItem: (updatedDestinyItem: DestinyItem) => void;
   pullFromPostmaster: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
+  findMaxQuantityToTransfer: (destinyItem: DestinyItem) => number;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
@@ -136,6 +137,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   setQuantityToTransfer: (quantityToTransfer) => {
     set({ quantityToTransfer });
+  },
+
+  findMaxQuantityToTransfer: (destinyItem) => {
+    const maxQuantityToTransfer = findMaxQuantityToTransfer(get, destinyItem);
+    return maxQuantityToTransfer;
   },
 
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>

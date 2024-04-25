@@ -160,6 +160,36 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
   throw new Error("No DestinyItem found");
 }
 
+export function findMaxQuantityToTransfer(get: AccountSliceGetter, destinyItem: DestinyItem): number {
+  switch (destinyItem.characterId) {
+    case GLOBAL_MODS_CHARACTER_ID: {
+      const mods = get().mods;
+      const filteredItems = mods.filter((item) => item.itemHash === destinyItem.itemHash);
+      const totalStackedQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+      return totalStackedQuantity;
+    }
+    case GLOBAL_CONSUMABLES_CHARACTER_ID: {
+      const consumables = get().consumables;
+      const filteredItems = consumables.filter((item) => item.itemHash === destinyItem.itemHash);
+      const totalStackedQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+      return totalStackedQuantity;
+    }
+    case VAULT_CHARACTER_ID: {
+      const vault = get().generalVault;
+      const vaultSectionInventory = vault[destinyItem.bucketHash];
+      if (!vaultSectionInventory) {
+        console.error("Failed to find section inventory");
+        return 1;
+      }
+      const filteredItems = vaultSectionInventory.filter((item) => item.itemHash === destinyItem.itemHash);
+      const totalStackedQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+      return totalStackedQuantity;
+    }
+    default:
+      return 1;
+  }
+}
+
 function findDestinyItemInArray(itemArray: DestinyItem[], itemIdentifier: DestinyItemIdentifier): DestinyItem {
   const instancedItem = itemIdentifier.itemInstanceId !== undefined;
   for (const item of itemArray) {
