@@ -278,3 +278,45 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
 
   return a.itemInstanceId < b.itemInstanceId ? 1 : -1;
 }
+
+export function modSort(b: DestinyItemSort, a: DestinyItemSort): number {
+  /// Criteria 1: sorting value
+  if (a.plugCategoryIdentifier.includes("mod") && !b.plugCategoryIdentifier.includes("mod")) {
+    return 1;
+  }
+
+  if (!a.plugCategoryIdentifier.includes("mod") && b.plugCategoryIdentifier.includes("mod")) {
+    return -1;
+  }
+
+  if (a.plugCategoryIdentifier.includes("enhancements") && !b.plugCategoryIdentifier.includes("enhancements")) {
+    return 1;
+  }
+  if (!a.plugCategoryIdentifier.includes("enhancements") && b.plugCategoryIdentifier.includes("enhancements")) {
+    return -1;
+  }
+
+  if (a.plugCategoryIdentifier.includes("spawnfx") && !b.plugCategoryIdentifier.includes("spawnfx")) {
+    return 1;
+  }
+  if (!a.plugCategoryIdentifier.includes("spawnfx") && b.plugCategoryIdentifier.includes("spawnfx")) {
+    return -1;
+  }
+
+  if (a.plugCategoryIdentifier > b.plugCategoryIdentifier) {
+    return 1;
+  }
+  if (a.plugCategoryIdentifier < b.plugCategoryIdentifier) {
+    return -1;
+  }
+
+  if (a.tierType > b.tierType) {
+    return 1;
+  }
+  if (a.tierType < b.tierType) {
+    return -1;
+  }
+
+  /// critera 3: itemHash
+  return a.itemHash > b.itemHash ? 1 : -1;
+}

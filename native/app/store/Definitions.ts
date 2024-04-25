@@ -8,6 +8,7 @@ export let bucketTypeHashArray: number[];
 export let iconWaterMarks: string[];
 export let itemTypeDisplayName: string[];
 export let stackUniqueLabel: string[];
+export let PlugCategoryIdentifier: string[];
 
 export let rawProfileData: ProfileData | null;
 
@@ -33,4 +34,8 @@ export function setStackUniqueLabel(stackUniqueLabelDefinition: string[]) {
 
 export function setRawProfileData(profileData: ProfileData) {
   rawProfileData = profileData;
+}
+
+export function setPlugCategoryIdentifier(plugCategoryIdentifier: string[]) {
+  PlugCategoryIdentifier = plugCategoryIdentifier;
 }

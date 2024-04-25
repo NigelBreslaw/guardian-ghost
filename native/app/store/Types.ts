@@ -16,6 +16,7 @@ export const itemSchema = object({
   b: optional(number()),
   bt: optional(number()),
   c: optional(number()),
+  p: optional(object({ p: optional(number()), pl: optional(number()), im: optional(number()) })),
   ds: optional(number()),
   dt: optional(array(number())),
   dvwi: optional(array(number())),
