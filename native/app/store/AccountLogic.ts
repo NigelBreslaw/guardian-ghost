@@ -75,7 +75,6 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // These are the fewest arguments possible. itemInstanceId would be enough for all instanced items. But for non
 // instanced the characterId and itemHash are needed. Because you could have a non instanced item such as upgrade
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
-// TODO: This function does not check the global items, mods or consumables.
 export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: DestinyItemIdentifier): DestinyItem {
   const itemDefinition = itemsDefinition[itemIdentifier.itemHash];
   if (!itemDefinition) {
@@ -94,7 +93,7 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
             const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
             return item;
           } catch {
-            console.error("Failed to find item in lost items");
+            console.error("Failed to find item in VAULT");
           }
         }
       } else if (itemIdentifier.characterId === GLOBAL_MODS_CHARACTER_ID) {
@@ -104,7 +103,7 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
             const item = findDestinyItemInArray(mods, itemIdentifier);
             return item;
           } catch {
-            console.error("Failed to find item in lost items");
+            console.error("Failed to find item in GLOBAL_MODS");
           }
         }
       } else if (itemIdentifier.characterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
@@ -114,7 +113,7 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
             const item = findDestinyItemInArray(consumables, itemIdentifier);
             return item;
           } catch {
-            console.error("Failed to find item in lost items");
+            console.error("Failed to find item in GLOBAL_CONSUMABLES");
           }
         }
       } else if (itemIdentifier.characterId === GLOBAL_LOST_ITEMS_CHARACTER_ID) {
@@ -124,7 +123,7 @@ export function findDestinyItem(get: AccountSliceGetter, itemIdentifier: Destiny
             const item = findDestinyItemInArray(lostItems, itemIdentifier);
             return item;
           } catch {
-            console.error("Failed to find item in lost items");
+            console.error("Failed to find item in GLOBAL_LOST_ITEMS");
           }
         }
       } else {
