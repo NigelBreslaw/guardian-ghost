@@ -25,6 +25,7 @@ import {
   itemsDefinition,
   rawProfileData,
   setRawProfileData,
+  stackUniqueLabel,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -374,6 +375,8 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     destinyClass: DestinyClass.Unknown,
     doesPostmasterPullHaveSideEffects: false,
     maxStackSize: 1,
+    nonTransferrable: false,
+    equippable: false,
   };
 
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
@@ -391,6 +394,9 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItem.destinyClass = itemDef?.c ?? 3;
   definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
   definitionItem.maxStackSize = itemDef?.m ?? 1;
+  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? stackUniqueLabel[itemDef.su] : undefined;
+  definitionItem.nonTransferrable = itemDef?.nt === 1;
+  definitionItem.equippable = itemDef?.e === 1;
 
   definitionItem.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);

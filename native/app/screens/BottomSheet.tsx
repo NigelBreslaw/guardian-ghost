@@ -196,29 +196,31 @@ export default function BottomSheet({
               <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
               </View>
-              {destinyItem.maxStackSize > 1 && (
-                <View style={styles.quantityRoot}>
-                  <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
-                  <View style={styles.quantity}>
-                    <TextInput
-                      inputMode="numeric"
-                      style={styles.quantityText}
-                      value={quantity.toString()}
-                      onChangeText={(value) => {
-                        const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-                        const valueAsNumber = Number.parseInt(value);
-                        if (valueAsNumber > maxAmount) {
-                          useGGStore.getState().setQuantityToTransfer(maxAmount);
-                        } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
-                          useGGStore.getState().setQuantityToTransfer(1);
-                        } else {
-                          useGGStore.getState().setQuantityToTransfer(valueAsNumber);
-                        }
-                      }}
-                    />
+              {!destinyItem.nonTransferrable &&
+                destinyItem.maxStackSize > 1 &&
+                destinyItem.stackUniqueLabel === undefined && (
+                  <View style={styles.quantityRoot}>
+                    <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
+                    <View style={styles.quantity}>
+                      <TextInput
+                        inputMode="numeric"
+                        style={styles.quantityText}
+                        value={quantity === 0 ? "" : quantity.toString()}
+                        onChangeText={(value) => {
+                          const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+                          const valueAsNumber = Number.parseInt(value);
+                          if (valueAsNumber > maxAmount) {
+                            useGGStore.getState().setQuantityToTransfer(maxAmount);
+                          } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
+                            useGGStore.getState().setQuantityToTransfer(0);
+                          } else {
+                            useGGStore.getState().setQuantityToTransfer(valueAsNumber);
+                          }
+                        }}
+                      />
+                    </View>
                   </View>
-                </View>
-              )}
+                )}
             </View>
 
             <View>

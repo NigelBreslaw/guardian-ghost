@@ -4,6 +4,7 @@ import {
   setBucketTypeHashArray,
   setIconWaterMarks,
   setItemTypeDisplayName,
+  setStackUniqueLabel,
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
@@ -101,6 +102,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setBucketTypeHashArray(itemDefinition.helpers.BucketTypeHash);
   setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
   setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
+  setStackUniqueLabel(itemDefinition.helpers.StackUniqueLabel);
   return { definitionsReady: true };
 }
 

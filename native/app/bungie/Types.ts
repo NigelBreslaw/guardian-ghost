@@ -202,6 +202,9 @@ export type DestinyItemDefinition = {
   destinyClass: DestinyClass;
   doesPostmasterPullHaveSideEffects: boolean;
   maxStackSize: number;
+  stackUniqueLabel?: string;
+  nonTransferrable: boolean;
+  equippable: boolean;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
