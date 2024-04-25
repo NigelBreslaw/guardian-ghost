@@ -85,7 +85,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
     return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{globalButton}</View>;
   }
-  const ggCharacters = useGGStore((state) => state.ggCharacters);
+  const ggCharacters = useGGStore.getState().ggCharacters;
 
   function calcEquipOpacity(buttonCharacterId: string): number {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
