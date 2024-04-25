@@ -17,12 +17,16 @@ function VaultFlexUI(props: VaultFlexProps) {
     props.minimumSpacerHeight ?? 0,
     ICON_SIZE * sectionRows + ICON_VAULT_MARGIN * (sectionRows - 1),
   );
+  const normalHeight = ICON_SIZE * sectionRows + ICON_VAULT_MARGIN * (sectionRows - 1);
 
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        container: {
+        root: {
           height: minimumSpacerHeight,
+        },
+        container: {
+          maxHeight: normalHeight,
           marginLeft: DEFAULT_MARGIN,
           marginRight: DEFAULT_MARGIN,
           flex: 5,
@@ -32,24 +36,26 @@ function VaultFlexUI(props: VaultFlexProps) {
           alignContent: "space-between",
         },
       }),
-    [minimumSpacerHeight],
+    [minimumSpacerHeight, normalHeight],
   );
 
   return (
-    <View style={styles.container}>
-      {Array.from({ length: totalItems }).map((_v, index) => {
-        const item = props.data[index];
-        if (item) {
+    <View style={styles.root}>
+      <View style={styles.container}>
+        {Array.from({ length: totalItems }).map((_v, index) => {
+          const item = props.data[index];
+          if (item) {
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <DestinyCell key={index} data={item} />
+            );
+          }
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <DestinyCell key={index} data={item} />
+            <EmptyCell key={index} />
           );
-        }
-        return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          <EmptyCell key={index} />
-        );
-      })}
+        })}
+      </View>
     </View>
   );
 }
