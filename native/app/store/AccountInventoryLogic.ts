@@ -27,9 +27,10 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { typeAndPowerSort } from "@/app/utilities/Helpers.ts";
+import { itemHashAndQuantitySort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
+import { Section } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 
 // ------------------------------
 // UI data creation
@@ -365,6 +366,10 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
     existingArray = existingArray.sort(typeAndPowerSort);
+  }
+
+  if (bucketHash === SectionBuckets.Consumables || bucketHash === SectionBuckets.Mods) {
+    existingArray = existingArray.sort(itemHashAndQuantitySort);
   }
 
   for (const item of existingArray) {
