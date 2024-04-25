@@ -85,6 +85,17 @@ export function bitmaskContains(bitmask: number, value: number): boolean {
   return (bitmask & value) === value;
 }
 
+export function itemHashAndQuantitySort(a: DestinyItemSort, b: DestinyItemSort): number {
+  if (a.itemHash > b.itemHash) {
+    return 1;
+  }
+  if (a.itemHash < b.itemHash) {
+    return -1;
+  }
+
+  return a.quantity < b.quantity ? 1 : -1;
+}
+
 export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
   ///  subtype
   if (a.itemSubType > b.itemSubType) {
