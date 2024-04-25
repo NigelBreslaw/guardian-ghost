@@ -32,7 +32,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     }
   }
 
-  const vaultEmblemBackgroundPath = require("../../images/vaultEmblemBackground.webp");
+  const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
   const secondarySpecial = require("../../images/vaultSecondary.webp");
 
   const vaultData: GGCharacterUiData = {
