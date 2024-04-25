@@ -1,11 +1,17 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import {
+  GLOBAL_CONSUMABLES_CHARACTER_ID,
+  GLOBAL_INVENTORY_NAMES,
+  GLOBAL_MODS_CHARACTER_ID,
+  VAULT_CHARACTER_ID,
+} from "@/app/utilities/Constants.ts";
 import { View, StyleSheet, Text } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { Image } from "expo-image";
+import { GLOBAL_SPACE_EMBLEM, SectionBuckets } from "@/app/bungie/Common.ts";
 
 type TransferEquipButtonsProps = {
   currentCharacterId: string;
@@ -16,14 +22,73 @@ type TransferEquipButtonsProps = {
 
 export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const rectangles = [];
-
-  const ggCharacters = useGGStore((state) => state.ggCharacters);
   const scale = 0.6;
   const originalWidth = 350;
   const originalHeight = 96;
   const transferWidth = originalWidth * scale;
   const transferHeight = originalHeight * scale;
   const borderRadius = 15;
+
+  // is this a vault item that will be transferred to the Mods or Consumables page section?
+  if (
+    (props.currentCharacterId === VAULT_CHARACTER_ID &&
+      props.destinyItem.recoveryBucketHash === SectionBuckets.Consumables) ||
+    props.destinyItem.recoveryBucketHash === SectionBuckets.Mods
+  ) {
+    const ggCharacterId =
+      props.destinyItem.recoveryBucketHash === SectionBuckets.Mods
+        ? GLOBAL_MODS_CHARACTER_ID
+        : GLOBAL_CONSUMABLES_CHARACTER_ID;
+    const transferTap = Gesture.Tap().onBegin(() => {
+      runOnJS(props.startTransfer)(ggCharacterId, false);
+      runOnJS(props.close)();
+    });
+
+    const globalButton = (
+      <GestureHandlerRootView style={{ flexDirection: "row", gap: 5 }}>
+        <GestureDetector gesture={transferTap}>
+          <View
+            style={{
+              width: transferWidth,
+              height: transferHeight,
+              borderRadius,
+              overflow: "hidden",
+            }}
+          >
+            <View
+              style={{
+                width: originalWidth,
+
+                overflow: "hidden",
+                transformOrigin: "top left",
+                transform: [{ scale: scale }],
+              }}
+            >
+              <Image source={GLOBAL_SPACE_EMBLEM} cachePolicy={"memory"} style={{ width: 474, height: 96 }} />
+              <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
+                <Text>Character: {ggCharacterId}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderRadius,
+                borderWidth: 1,
+                borderColor: "grey",
+              }}
+            />
+          </View>
+        </GestureDetector>
+      </GestureHandlerRootView>
+    );
+    return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{globalButton}</View>;
+  }
+
+  const ggCharacters = useGGStore((state) => state.ggCharacters);
 
   const itemDefinition = itemsDefinition[props.destinyItem.itemHash];
   const nonTransferable = itemDefinition?.nt === 1;
@@ -179,6 +244,6 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       </GestureHandlerRootView>,
     );
   }
-  console.log("RENDER BUTTONS");
+
   return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{rectangles}</View>;
 }

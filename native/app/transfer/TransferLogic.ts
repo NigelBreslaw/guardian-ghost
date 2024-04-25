@@ -436,11 +436,10 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
     console.log("move", itemDefinition?.n);
   }
 
-  let toVault: boolean;
+  let toVault = false;
   let characterId = "";
 
   if (transferItem.destinyItem.characterId !== VAULT_CHARACTER_ID) {
-    toVault = true;
     if (GLOBAL_INVENTORY_NAMES.includes(transferItem.destinyItem.characterId)) {
       const characterId1 = useGGStore.getState().ggCharacters[0]?.characterId;
       if (!characterId1) {
@@ -451,9 +450,19 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
     } else {
       characterId = transferItem.destinyItem.characterId;
     }
+    toVault = true;
   } else {
+    if (GLOBAL_INVENTORY_NAMES.includes(transferItem.finalTargetId)) {
+      const characterId1 = useGGStore.getState().ggCharacters[0]?.characterId;
+      if (!characterId1) {
+        console.error("No characterId1");
+        throw new Error("Impossible situation. No characterId1");
+      }
+      characterId = characterId1;
+    } else {
+      characterId = transferItem.finalTargetId;
+    }
     toVault = false;
-    characterId = transferItem.finalTargetId;
   }
 
   const membershipType = useGGStore.getState().bungieUser.profile.membershipType;
