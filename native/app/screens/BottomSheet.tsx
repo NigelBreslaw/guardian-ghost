@@ -198,7 +198,6 @@ export default function BottomSheet({
                       style={styles.quantityText}
                       value={quantity.toString()}
                       onChangeText={(value) => {
-                        console.log("onChangeText", value);
                         useGGStore.getState().setQuantityToTransfer(Number.parseInt(value));
                       }}
                     />

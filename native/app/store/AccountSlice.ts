@@ -135,8 +135,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
 
   setQuantityToTransfer: (quantityToTransfer) => {
-    console.log("zustand setQuantityToTransfer", quantityToTransfer);
-
     set({ quantityToTransfer });
   },
 
