@@ -1,5 +1,4 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import { itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -88,15 +87,11 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
   const ggCharacters = useGGStore((state) => state.ggCharacters);
 
-  const itemDefinition = itemsDefinition[props.destinyItem.itemHash];
-  const nonTransferable = itemDefinition?.nt === 1;
-  const equipable = itemDefinition?.e === 1;
-
   function calcEquipOpacity(buttonCharacterId: string): number {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
       return 0;
     }
-    if (!equipable) {
+    if (!props.destinyItem.equippable) {
       return 0;
     }
     if (calcEquipButtonDisabled(buttonCharacterId)) {
@@ -106,7 +101,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
 
   function calcTransferOpacity(buttonCharacterId: string): number {
-    if (nonTransferable) {
+    if (props.destinyItem.nonTransferrable) {
       return 0;
     }
     if (calcTransferButtonDisabled(buttonCharacterId)) {
@@ -115,7 +110,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     return 1;
   }
 
-  // only call this if you already checked the item is equipable
+  // only call this if you already checked the item is equippable
   function calcEquipButtonDisabled(buttonCharacterId: string): boolean {
     // is this item already on the character, but not in the postmaster?
     if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
@@ -146,7 +141,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
     const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
 
-    if (nonTransferable && ggCharacter.characterId !== props.currentCharacterId) {
+    if (props.destinyItem.nonTransferrable && ggCharacter.characterId !== props.currentCharacterId) {
       continue;
     }
 

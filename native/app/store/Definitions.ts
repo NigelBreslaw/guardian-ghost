@@ -7,6 +7,7 @@ export let itemsDefinition: ItemsDefinition = {};
 export let bucketTypeHashArray: number[];
 export let iconWaterMarks: string[];
 export let itemTypeDisplayName: string[];
+export let stackUniqueLabel: string[];
 
 export let rawProfileData: ProfileData | null;
 
@@ -24,6 +25,10 @@ export function setIconWaterMarks(iconWaterMarksDefinition: string[]) {
 
 export function setItemTypeDisplayName(itemTypeDisplayNameDefinition: string[]) {
   itemTypeDisplayName = itemTypeDisplayNameDefinition;
+}
+
+export function setStackUniqueLabel(stackUniqueLabelDefinition: string[]) {
+  stackUniqueLabel = stackUniqueLabelDefinition;
 }
 
 export function setRawProfileData(profileData: ProfileData) {

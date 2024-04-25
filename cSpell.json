@@ -1,18 +1,15 @@
 {
-    "ignorePaths": [
-        "**/*.pbxproj",
-        "**/*.lock",
-        "cspell.json"
-    ],
-    "words": [
-        "Bnet",
-        "dvwi",
-        "equipable",
-        "lucide",
-        "MMKV",
-        "Stackable",
-        "Subviews",
-        "Unequip",
-        "Uninstanced"
-    ]
+  "ignorePaths": ["**/*.pbxproj", "**/*.lock", "cspell.json"],
+  "words": [
+    "Bnet",
+    "dvwi",
+    "equippable",
+    "equippable",
+    "lucide",
+    "MMKV",
+    "Stackable",
+    "Subviews",
+    "Unequip",
+    "Uninstanced"
+  ]
 }
