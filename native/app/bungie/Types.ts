@@ -205,11 +205,16 @@ export type DestinyItemDefinition = {
   stackUniqueLabel?: string;
   nonTransferrable: boolean;
   equippable: boolean;
+  plugCategoryIdentifier?: string;
 };
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
 
-export type DestinyItemSort = DestinyItem & { itemInstanceId: string; damageType: DamageType };
+export type DestinyItemSort = DestinyItem & {
+  itemInstanceId: string;
+  damageType: DamageType;
+  plugCategoryIdentifier: string;
+};
 
 export const SocketSchema = object({
   sockets: array(

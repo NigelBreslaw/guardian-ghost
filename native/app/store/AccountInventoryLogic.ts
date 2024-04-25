@@ -27,7 +27,7 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { itemHashAndQuantitySort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
+import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
@@ -367,8 +367,12 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
     existingArray = existingArray.sort(typeAndPowerSort);
   }
 
-  if (bucketHash === SectionBuckets.Consumables || bucketHash === SectionBuckets.Mods) {
+  if (bucketHash === SectionBuckets.Consumables) {
     existingArray = existingArray.sort(itemHashAndQuantitySort);
+  }
+
+  if (bucketHash === SectionBuckets.Mods) {
+    existingArray = existingArray.sort(modSort);
   }
 
   for (const item of existingArray) {

@@ -5,6 +5,7 @@ import {
   setIconWaterMarks,
   setItemTypeDisplayName,
   setStackUniqueLabel,
+  setPlugCategoryIdentifier,
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
@@ -103,6 +104,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
   setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
   setStackUniqueLabel(itemDefinition.helpers.StackUniqueLabel);
+  setPlugCategoryIdentifier(itemDefinition.helpers.PlugCategoryIdentifier);
   return { definitionsReady: true };
 }
 

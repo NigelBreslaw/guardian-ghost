@@ -20,6 +20,7 @@ import {
 } from "@/app/bungie/Common";
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
+  PlugCategoryIdentifier,
   bucketTypeHashArray,
   iconWaterMarks,
   itemsDefinition,
@@ -397,6 +398,10 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? stackUniqueLabel[itemDef.su] : undefined;
   definitionItem.nonTransferrable = itemDef?.nt === 1;
   definitionItem.equippable = itemDef?.e === 1;
+
+  if (itemDef?.p?.p) {
+    definitionItem.plugCategoryIdentifier = PlugCategoryIdentifier[itemDef.p.p];
+  }
 
   definitionItem.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
