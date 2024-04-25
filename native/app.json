@@ -4,14 +4,10 @@
     "slug": "native_gg",
     "scheme": "guardianghost",
     "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "automatic",    
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "associatedDomains": [
-        "applinks:app.guardianghost.com"
-      ],
+      "associatedDomains": ["applinks:app.guardianghost.com"],
       "bundleIdentifier": "com.guardianghost.mobile",
       "config": {
         "usesNonExemptEncryption": false
@@ -46,7 +42,6 @@
           "backgroundColor": "#17101F"
         }
       },
-      
       "intentFilters": [
         {
           "action": "VIEW",
@@ -72,16 +67,6 @@
         "projectId": "aa838362-0c4a-434d-b70b-d67f764a5d32"
       }
     },
-    "plugins": [
-      [
-        "@sentry/react-native/expo",
-        {
-          "url": "https://sentry.io/",
-          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
-          "project": "guardian-ghost",
-          "organization": "nigel-breslaw"
-        }
-      ]
-    ]
+    "plugins": ["expo-build-properties"]
   }
 }
