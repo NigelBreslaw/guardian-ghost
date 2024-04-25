@@ -98,10 +98,11 @@ export default function BottomSheet({
 
   useEffect(() => {
     if (refRBSheet.current) {
-      useGGStore.getState().setQuantityToTransfer(destinyItem.quantity);
+      const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+      useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
       refRBSheet.current.open();
     }
-  }, [destinyItem.quantity]);
+  }, [destinyItem]);
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
@@ -195,7 +196,7 @@ export default function BottomSheet({
               <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
               </View>
-              {quantity > 1 && (
+              {destinyItem.maxStackSize > 1 && (
                 <View style={styles.quantityRoot}>
                   <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
                   <View style={styles.quantity}>
@@ -204,7 +205,15 @@ export default function BottomSheet({
                       style={styles.quantityText}
                       value={quantity.toString()}
                       onChangeText={(value) => {
-                        useGGStore.getState().setQuantityToTransfer(Number.parseInt(value));
+                        const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+                        const valueAsNumber = Number.parseInt(value);
+                        if (valueAsNumber > maxAmount) {
+                          useGGStore.getState().setQuantityToTransfer(maxAmount);
+                        } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
+                          useGGStore.getState().setQuantityToTransfer(1);
+                        } else {
+                          useGGStore.getState().setQuantityToTransfer(valueAsNumber);
+                        }
                       }}
                     />
                   </View>
