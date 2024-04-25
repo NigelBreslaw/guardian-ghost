@@ -81,9 +81,9 @@ export interface AccountSlice {
   setSelectedItem: (itemIdentifier: DestinyItemIdentifier | null) => void;
   setQuantityToTransfer: (quantityToTransfer: number) => void;
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
-  moveItem: (updatedDestinyItem: DestinyItem) => void;
+  moveItem: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
-  pullFromPostmaster: (updatedDestinyItem: DestinyItem) => DestinyItem;
+  pullFromPostmaster: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   setSecondarySpecial: (characterId: string, itemHash: number) => void;
   setLastRefreshTime: () => void;
@@ -143,22 +143,22 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setTimestamps: (responseMintedTimestamp, secondaryComponentsMintedTimestamp) =>
     setTimestamps(set, responseMintedTimestamp, secondaryComponentsMintedTimestamp),
 
-  moveItem: (updatedDestinyItem) => {
-    removeInventoryItem(get, set, updatedDestinyItem);
-    addInventoryItem(get, set, updatedDestinyItem);
+  moveItem: (updatedDestinyItem, stackableQuantityToMove) => {
+    removeInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
+    addInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
     updateAllPages(get, set);
   },
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(get, set, updatedDestinyItem);
     updateAllPages(get, set);
   },
-  pullFromPostmaster: (updatedDestinyItem) => {
+  pullFromPostmaster: (updatedDestinyItem, stackableQuantityToMove) => {
     // remove the item from the lost items
-    removeInventoryItem(get, set, updatedDestinyItem);
+    removeInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
     // Mutate the item to be part of the characters items or a global bucket
     const transformedItem = transformSuccessfulPullFromPostmasterItem(updatedDestinyItem);
     // Add the item back
-    addInventoryItem(get, set, transformedItem);
+    addInventoryItem(get, set, transformedItem, stackableQuantityToMove);
 
     updateAllPages(get, set);
 

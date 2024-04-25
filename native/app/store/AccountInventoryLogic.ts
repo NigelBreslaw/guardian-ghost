@@ -379,7 +379,12 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // Update UI logic
 // ------------------------------
 
-export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function removeInventoryItem(
+  get: AccountSliceGetter,
+  set: AccountSliceSetter,
+  destinyItem: DestinyItem,
+  stackableQuantityToMove: number,
+) {
   if (destinyItem.previousCharacterId === "") {
     console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
     return;
@@ -390,7 +395,7 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
     const previousInventory = previousGeneralVault[destinyItem.bucketHash];
 
     if (previousInventory) {
-      const updatedInventory = removeLogic(previousInventory, destinyItem);
+      const updatedInventory = removeLogic(previousInventory, destinyItem, stackableQuantityToMove);
       const updatedGeneralVault = create(previousGeneralVault, (draft) => {
         draft[destinyItem.bucketHash] = updatedInventory;
       });
@@ -398,11 +403,11 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
     }
   } else if (destinyItem.previousCharacterId === GLOBAL_MODS_CHARACTER_ID) {
     const previousMods = get().mods;
-    const updatedMods = removeLogic(previousMods, destinyItem);
+    const updatedMods = removeLogic(previousMods, destinyItem, stackableQuantityToMove);
     set({ mods: updatedMods });
   } else if (destinyItem.previousCharacterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
     const previousConsumables = get().consumables;
-    const updatedConsumables = removeLogic(previousConsumables, destinyItem);
+    const updatedConsumables = removeLogic(previousConsumables, destinyItem, stackableQuantityToMove);
     set({ consumables: updatedConsumables });
   } else {
     const previousGuardians = get().guardians;
@@ -428,7 +433,12 @@ export function removeInventoryItem(get: AccountSliceGetter, set: AccountSliceSe
   }
 }
 
-export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
+export function addInventoryItem(
+  get: AccountSliceGetter,
+  set: AccountSliceSetter,
+  destinyItem: DestinyItem,
+  stackableQuantityToMove: number,
+) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
     // TODO: Cope with stackable items
@@ -436,7 +446,7 @@ export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSette
     const previousSection = previousGeneralVault[destinyItem.bucketHash];
 
     if (previousSection) {
-      const updatedSection = addLogic(previousSection, destinyItem);
+      const updatedSection = addLogic(previousSection, destinyItem, stackableQuantityToMove);
 
       const updatedGeneralVault = create(previousGeneralVault, (draft) => {
         draft[destinyItem.bucketHash] = updatedSection;
@@ -478,7 +488,11 @@ export function addInventoryItem(get: AccountSliceGetter, set: AccountSliceSette
   }
 }
 
-function removeLogic(previousItems: DestinyItem[], itemToRemove: DestinyItem): DestinyItem[] {
+function removeLogic(
+  previousItems: DestinyItem[],
+  itemToRemove: DestinyItem,
+  stackableQuantityToMove: number,
+): DestinyItem[] {
   const p1 = performance.now();
 
   if (itemToRemove.itemInstanceId) {
@@ -490,8 +504,7 @@ function removeLogic(previousItems: DestinyItem[], itemToRemove: DestinyItem): D
   let arrayWithoutItems = previousItems.filter((item) => item.itemHash !== itemToRemove.itemHash);
 
   const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
-  const totalToRemove = itemToRemove.quantity;
-  const newTotal = previousTotalQuantity - totalToRemove;
+  const newTotal = previousTotalQuantity - stackableQuantityToMove;
   const newItems = rebuildStackableItems(newTotal, itemToRemove);
 
   if (newItems.length > 0) {
@@ -502,7 +515,11 @@ function removeLogic(previousItems: DestinyItem[], itemToRemove: DestinyItem): D
   return arrayWithoutItems;
 }
 
-function addLogic(previousItems: DestinyItem[], itemToAdd: DestinyItem): DestinyItem[] {
+function addLogic(
+  previousItems: DestinyItem[],
+  itemToAdd: DestinyItem,
+  stackableQuantityToMove: number,
+): DestinyItem[] {
   const p1 = performance.now();
 
   if (itemToAdd.itemInstanceId) {
@@ -516,8 +533,7 @@ function addLogic(previousItems: DestinyItem[], itemToAdd: DestinyItem): Destiny
   let arrayWithoutItems = previousItems.filter((item) => item.itemHash !== itemToAdd.itemHash);
 
   const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
-  const totalToAdd = itemToAdd.quantity;
-  const newTotal = previousTotalQuantity + totalToAdd;
+  const newTotal = previousTotalQuantity + stackableQuantityToMove;
 
   const newItems = rebuildStackableItems(newTotal, itemToAdd);
 

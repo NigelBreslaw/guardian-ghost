@@ -273,14 +273,13 @@ export default function BottomSheet({
   const destinyItem = { ...useGGStore.getState().findDestinyItem({ itemInstanceId, itemHash, characterId }) };
 
   const quantity = useGGStore((state) => state.quantityToTransfer);
-  console.log("quantity", quantity);
 
   useEffect(() => {
     if (refRBSheet.current) {
       useGGStore.getState().setQuantityToTransfer(destinyItem.quantity);
       refRBSheet.current.open();
     }
-  }, []);
+  }, [destinyItem.quantity]);
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
