@@ -85,7 +85,137 @@ export function bitmaskContains(bitmask: number, value: number): boolean {
   return (bitmask & value) === value;
 }
 
+const consumablesOrder = [
+  3905974032, /// Synthstrand
+  3855200273, /// Rigid Synthcord
+  3107195131, /// Sleek Synthcord
+  3552107018, /// Plush Synthcord
+
+  1476367555,
+  1210362881,
+  1277677855,
+  398376520,
+  990304814,
+  3803054958,
+  4076644238,
+  2540418730,
+  2434439500,
+  4046539562,
+  3853748946,
+  2979281381,
+  4257549984,
+  3467984096, /// Exotic cipher
+  4257549985,
+  2891979647,
+  685157383,
+  685157381,
+  2640973641,
+  494493680,
+  3201839676,
+  3825769808,
+  3022799524,
+  3135658658,
+  3899548068,
+  1431165322,
+  3957264072,
+  183980811,
+  1504542608,
+  1505278293,
+  885593286,
+  2959556799,
+  1270564331,
+  2270228604,
+  1873857625,
+  3702027555,
+  759381183,
+  3282419336,
+  4285666432, //nightfall card
+
+  2201818872, // feeble offering
+  2201818875, // robust offering
+  2201818874, // powerful offering
+
+  1880080506, // lair key
+  1224079819, // defiant key
+  2392300858, // witch's key
+
+  4101386442,
+  2109561326,
+  3260482534,
+  3536420626,
+  2916406440,
+  3196288028,
+  478751073,
+  950899352,
+  461171930,
+  2014411539,
+  2949414982,
+  3487922223,
+  3756389242,
+  1305274547,
+  2386485406,
+  49145143,
+  685095924,
+  31293053, //seraphite
+  1177810185,
+  592227263,
+  3592324052,
+  293622383,
+  1485756901,
+
+  581237363,
+  426283548,
+
+  3421463185,
+  3147640224,
+  4114204995,
+  2993288448,
+  2367713531,
+  1633854071,
+  685299502,
+  810623803,
+  771273473,
+  2473252800,
+  3923650007,
+  3516481563,
+  3040412000,
+  3516481562,
+  3516481561,
+  889896758,
+  3552598030,
+  3948022968,
+  1691570586,
+  3782248531,
+  717261397,
+  457334494,
+  4025113300,
+  937378714,
+  443031982,
+  443031983,
+  723146156,
+  1776857076,
+  1425776985,
+];
+
+// The array is too large to check, so create a lookup object
+const consumablesOrderLookup: Record<number, number> = consumablesOrder.reduce(
+  (acc: Record<number, number>, item: number, index: number) => {
+    acc[item] = index;
+    return acc;
+  },
+  {},
+);
+
 export function itemHashAndQuantitySort(a: DestinyItemSort, b: DestinyItemSort): number {
+  const aIndex = consumablesOrderLookup[a.itemHash] ?? 0;
+  const bIndex = consumablesOrderLookup[b.itemHash] ?? 0;
+
+  if (aIndex > bIndex) {
+    return 1;
+  }
+  if (aIndex < bIndex) {
+    return -1;
+  }
   if (a.itemHash > b.itemHash) {
     return 1;
   }
