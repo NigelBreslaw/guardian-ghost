@@ -30,7 +30,6 @@ import {
 import { itemHashAndQuantitySort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
-import { Section } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 
 // ------------------------------
 // UI data creation
