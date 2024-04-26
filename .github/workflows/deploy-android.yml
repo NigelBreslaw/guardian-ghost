@@ -85,5 +85,5 @@ jobs:
           releaseFiles: native/android/app/build/outputs/bundle/release/app-release.aab
           whatsNewDirectory: native/android/WhatsNew
           track: alpha
-          status: draft
+          status: completed
           inAppUpdatePriority: 3
