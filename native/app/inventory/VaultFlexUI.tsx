@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/bungie/Common";
-import { DEFAULT_MARGIN, ICON_SIZE, ICON_VAULT_MARGIN } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React, { useMemo } from "react";
@@ -15,9 +15,9 @@ function VaultFlexUI(props: VaultFlexProps) {
   const totalItems = sectionRows * 5;
   const minimumSpacerHeight = Math.max(
     props.minimumSpacerHeight ?? 0,
-    ICON_SIZE * sectionRows + ICON_VAULT_MARGIN * (sectionRows - 1),
+    ICON_SIZE * sectionRows + ICON_MARGIN * (sectionRows - 1),
   );
-  const normalHeight = ICON_SIZE * sectionRows + ICON_VAULT_MARGIN * (sectionRows - 1);
+  const normalHeight = ICON_SIZE * sectionRows + ICON_MARGIN * (sectionRows - 1);
 
   const styles = useMemo(
     () =>

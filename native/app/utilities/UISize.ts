@@ -12,7 +12,6 @@ if (width < min_width) {
 export const ICON_SIZE = Math.ceil(72 * SCALAR);
 export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.95);
 export const ICON_MARGIN = Math.ceil(16 * SCALAR);
-export const ICON_VAULT_MARGIN = Math.ceil(10 * SCALAR);
 export const DEFAULT_MARGIN = Math.ceil(16 * SCALAR);
 export const MINI_ICON_SIZE = Math.ceil(18 * SCALAR);
 export const MINI_BURN_SIZE = Math.ceil(MINI_ICON_SIZE * 0.83);
@@ -26,6 +25,6 @@ export const FOOTER_HEIGHT = Math.ceil(18 * SCALAR);
 export const ENGRAMS_SECTION_HEIGHT = ICON_SIZE * 2;
 export const ENGRAMS_SECTION_WIDTH = ICON_SIZE * 5 + 20 * SCALAR;
 
-export const VAULT_5x5_HEIGHT = ICON_SIZE * 5 + ICON_VAULT_MARGIN * 4;
+export const VAULT_5x5_HEIGHT = ICON_SIZE * 5 + ICON_MARGIN * 4;
 export const EQUIP_SECTION_SIZE = ICON_SIZE * 3 + 2 * ICON_MARGIN;
-export const SEPARATOR_HEIGHT = 50 * SCALAR;
+export const SEPARATOR_HEIGHT = 70 * SCALAR;
