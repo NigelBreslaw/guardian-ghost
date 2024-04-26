@@ -474,7 +474,7 @@ function removeLogic(
 
   const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
   const newTotal = previousTotalQuantity - stackableQuantityToMove;
-  const newItems = rebuildStackableItems(newTotal, itemToRemove);
+  const newItems = rebuildStackableItems(newTotal, itemToRemove, "REMOVE");
 
   if (newItems.length > 0) {
     arrayWithoutItems = arrayWithoutItems.concat(newItems);
@@ -504,7 +504,7 @@ function addLogic(
   const previousTotalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
   const newTotal = previousTotalQuantity + stackableQuantityToMove;
 
-  const newItems = rebuildStackableItems(newTotal, itemToAdd);
+  const newItems = rebuildStackableItems(newTotal, itemToAdd, "ADD");
 
   if (newItems.length > 0) {
     arrayWithoutItems = arrayWithoutItems.concat(newItems);
@@ -515,10 +515,12 @@ function addLogic(
   return arrayWithoutItems;
 }
 
-function rebuildStackableItems(total: number, destinyItem: DestinyItem): DestinyItem[] {
+function rebuildStackableItems(total: number, destinyItem: DestinyItem, mode: "ADD" | "REMOVE"): DestinyItem[] {
   const totalPerStack = destinyItem.maxStackSize;
   let newTotal = total;
   const newItems: DestinyItem[] = [];
+
+  const characterId = mode === "ADD" ? destinyItem.characterId : destinyItem.previousCharacterId;
 
   while (newTotal > 0) {
     let itemsToAdd = 0;
@@ -530,6 +532,7 @@ function rebuildStackableItems(total: number, destinyItem: DestinyItem): Destiny
     const newItem: DestinyItem = {
       ...destinyItem,
       quantity: itemsToAdd,
+      characterId,
     };
     newItems.push(newItem);
     newTotal -= totalPerStack;
