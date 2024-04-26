@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 function InventoryPages() {
   return (
     <Tab.Navigator
+      detachInactiveScreens={true}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
@@ -36,6 +37,9 @@ function InventoryPages() {
         name="tab-weapons"
         options={{
           tabBarLabel: "Weapons",
+          headerStyle: {
+            height: 0,
+          },
         }}
         component={WeaponsPage}
       />
