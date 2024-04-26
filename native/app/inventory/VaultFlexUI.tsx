@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/bungie/Common";
-import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React, { useMemo } from "react";
@@ -29,6 +29,7 @@ function VaultFlexUI(props: VaultFlexProps) {
           maxHeight: normalHeight,
           marginLeft: DEFAULT_MARGIN,
           marginRight: DEFAULT_MARGIN,
+          maxWidth: INV_MAX_WIDTH,
           flex: 5,
           flexDirection: "row",
           flexWrap: "wrap",

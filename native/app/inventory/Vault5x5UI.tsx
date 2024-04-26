@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/bungie/Common";
-import { DEFAULT_MARGIN, ICON_MARGIN, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_MARGIN, INV_MAX_WIDTH, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React from "react";
@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: DEFAULT_MARGIN,
     marginRight: DEFAULT_MARGIN,
+    maxWidth: INV_MAX_WIDTH,
     height: VAULT_5x5_HEIGHT,
+    minHeight: VAULT_5x5_HEIGHT,
     flex: 5,
     flexDirection: "row",
     flexWrap: "wrap",

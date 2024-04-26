@@ -3,11 +3,14 @@ import { Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 // margin = 16 * 2, 5 icons * 72, icon margins at 16
-const min_width = 16 * 2 + 5 * 72 + 4 * 16;
+const MIN_WIDTH = 16 * 2 + 5 * 72 + 4 * 16;
+
 let SCALAR = 1;
-if (width < min_width) {
-  SCALAR = width / min_width;
+if (width < MIN_WIDTH) {
+  SCALAR = width / MIN_WIDTH;
 }
+
+export const INV_MAX_WIDTH = Math.ceil((MIN_WIDTH - 16 * 2) * SCALAR);
 
 export const ICON_SIZE = Math.ceil(72 * SCALAR);
 export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.95);
