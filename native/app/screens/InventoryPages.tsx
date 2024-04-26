@@ -47,6 +47,9 @@ function InventoryPages() {
         name="tab-armor"
         options={{
           tabBarLabel: "Armor",
+          headerStyle: {
+            height: 0,
+          },
         }}
         component={ArmorPage}
       />
@@ -54,6 +57,9 @@ function InventoryPages() {
         name="tab-inventory"
         options={{
           tabBarLabel: "Inventory",
+          headerStyle: {
+            height: 0,
+          },
         }}
         component={GeneralPage}
       />
