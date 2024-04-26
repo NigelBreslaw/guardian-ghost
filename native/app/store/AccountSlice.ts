@@ -25,6 +25,11 @@ import {
   iconWaterMarks,
   itemsDefinition,
   rawProfileData,
+  setConsumables,
+  setGeneralVault,
+  setGuardians,
+  setLostItems,
+  setMods,
   setRawProfileData,
   stackUniqueLabel,
 } from "@/app/store/Definitions.ts";
@@ -70,11 +75,6 @@ export interface AccountSlice {
 
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
-  guardians: Record<string, Guardian>;
-  generalVault: Record<number, DestinyItem[]>;
-  consumables: DestinyItem[];
-  mods: DestinyItem[];
-  lostItems: DestinyItem[];
 
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
@@ -110,12 +110,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   responseMintedTimestamp: new Date(1977),
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
-  guardians: {},
-
-  generalVault: {},
-  consumables: [],
-  mods: [],
-  lostItems: [],
 
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
@@ -133,7 +127,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       set({ selectedItem: null });
       return;
     }
-    const selectedItem = findDestinyItem(get, itemIdentifier);
+    const selectedItem = findDestinyItem(itemIdentifier);
     set({ selectedItem });
   },
 
@@ -142,7 +136,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
 
   findMaxQuantityToTransfer: (destinyItem) => {
-    const maxQuantityToTransfer = findMaxQuantityToTransfer(get, destinyItem);
+    const maxQuantityToTransfer = findMaxQuantityToTransfer(destinyItem);
     return maxQuantityToTransfer;
   },
 
@@ -150,21 +144,21 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     setTimestamps(set, responseMintedTimestamp, secondaryComponentsMintedTimestamp),
 
   moveItem: (updatedDestinyItem, stackableQuantityToMove) => {
-    removeInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
-    addInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
+    removeInventoryItem(updatedDestinyItem, stackableQuantityToMove);
+    addInventoryItem(updatedDestinyItem, stackableQuantityToMove);
     updateAllPages(get, set);
   },
   equipItem: (updatedDestinyItem) => {
-    swapEquipAndInventoryItem(get, set, updatedDestinyItem);
+    swapEquipAndInventoryItem(updatedDestinyItem);
     updateAllPages(get, set);
   },
   pullFromPostmaster: (updatedDestinyItem, stackableQuantityToMove) => {
     // remove the item from the lost items
-    removeInventoryItem(get, set, updatedDestinyItem, stackableQuantityToMove);
+    removeInventoryItem(updatedDestinyItem, stackableQuantityToMove);
     // Mutate the item to be part of the characters items or a global bucket
     const transformedItem = transformSuccessfulPullFromPostmasterItem(updatedDestinyItem);
     // Add the item back
-    addInventoryItem(get, set, transformedItem, stackableQuantityToMove);
+    addInventoryItem(transformedItem, stackableQuantityToMove);
 
     updateAllPages(get, set);
 
@@ -172,7 +166,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
 
   findDestinyItem: (itemDetails) =>
-    findDestinyItem(get, {
+    findDestinyItem({
       itemHash: itemDetails.itemHash,
       itemInstanceId: itemDetails.itemInstanceId,
       characterId: itemDetails.characterId,
@@ -229,15 +223,11 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const p2 = performance.now();
   console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
-  set({
-    guardians: guardiansWithInventory,
-    generalVault: vaultData.generalVault,
-    consumables: vaultData.consumables,
-    mods: vaultData.mods,
-    lostItems: vaultData.lostItems,
-  });
-  const p3 = performance.now();
-  console.info("set Inventory took:", `${(p3 - p2).toFixed(4)} ms`);
+  setLostItems(vaultData.lostItems);
+  setConsumables(vaultData.consumables);
+  setMods(vaultData.mods);
+  setGeneralVault(vaultData.generalVault);
+  setGuardians(guardiansWithInventory);
   updateAllPages(get, set);
 }
 

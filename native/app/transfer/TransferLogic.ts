@@ -8,7 +8,7 @@ import {
   DestinyClass,
   ItemType,
 } from "@/app/bungie/Common";
-import { itemsDefinition } from "@/app/store/Definitions.ts";
+import { guardians, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
@@ -178,8 +178,7 @@ async function equipItemLogic(transferBundle: TransferBundle, transferItem: Tran
     // is there an unequip item for the other exotic?
     const itemToUnequip = returnBlockingExotic(transferItem.destinyItem);
     if (itemToUnequip) {
-      const sectionItems =
-        useGGStore.getState().guardians[itemToUnequip.characterId]?.items[itemToUnequip.bucketHash]?.inventory;
+      const sectionItems = guardians[itemToUnequip.characterId]?.items[itemToUnequip.bucketHash]?.inventory;
 
       if (sectionItems && sectionItems.length > 0) {
         const unequipItem = getUnequipItem(sectionItems, false);
@@ -260,7 +259,7 @@ function returnBlockingExotic(destinyItem: DestinyItem): DestinyItem | null {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = useGGStore.getState().guardians[characterId]?.items;
+  const guardiansItems = guardians[characterId]?.items;
 
   if (!guardiansItems) {
     return null;
@@ -296,8 +295,7 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
   try {
     // Bail if the section has no items
     const sectionItems =
-      useGGStore.getState().guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]
-        ?.inventory;
+      guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]?.inventory;
     if (!sectionItems || sectionItems.length === 0) {
       console.error("Failed to unquip item as section has no items");
       const name = itemsDefinition[transferItem.destinyItem.itemHash]?.n;
@@ -328,8 +326,7 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
     unequipItem = getUnequipItem(sectionItems, true);
     // Can an exotic be equipped? If the currently equipped item is an exotic there is no issue
     const currentEquippedItem =
-      useGGStore.getState().guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]
-        ?.equipped;
+      guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]?.equipped;
 
     if (currentEquippedItem?.tierType === TierType.Exotic && unequipItem) {
       const name = itemsDefinition[unequipItem.itemHash]?.n;
@@ -366,7 +363,7 @@ function hasBlockingExotic(destinyItem: DestinyItem): boolean {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = useGGStore.getState().guardians[characterId]?.items;
+  const guardiansItems = guardians[characterId]?.items;
 
   if (!guardiansItems) {
     return false;
@@ -624,7 +621,6 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
 }
 
 function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
-  const guardians = useGGStore.getState().guardians;
   // DestinyItem unequipItem
   let unequipItem: DestinyItem;
 

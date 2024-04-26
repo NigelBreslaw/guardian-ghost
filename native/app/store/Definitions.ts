@@ -1,4 +1,4 @@
-import type { ProfileData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
 import type { SingleItemDefinition } from "@/app/store/Types.ts";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
@@ -11,9 +11,14 @@ export let stackUniqueLabel: string[];
 export let PlugCategoryIdentifier: string[];
 
 export let rawProfileData: ProfileData | null;
+export let lostItems: DestinyItem[] = [];
+export let consumables: DestinyItem[] = [];
+export let mods: DestinyItem[] = [];
+export let generalVault: Record<number, DestinyItem[]> = {};
+export let guardians: Record<string, Guardian> = {};
 
-export function setItemDefinition(itemDefinition: ItemsDefinition) {
-  itemsDefinition = itemDefinition;
+export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
+  itemsDefinition = newItemsDefinition;
 }
 
 export function setBucketTypeHashArray(bucketTypeHashDefinition: number[]) {
@@ -38,4 +43,24 @@ export function setRawProfileData(profileData: ProfileData) {
 
 export function setPlugCategoryIdentifier(plugCategoryIdentifier: string[]) {
   PlugCategoryIdentifier = plugCategoryIdentifier;
+}
+
+export function setLostItems(newLostItems: DestinyItem[]) {
+  lostItems = newLostItems;
+}
+
+export function setConsumables(newConsumables: DestinyItem[]) {
+  consumables = newConsumables;
+}
+
+export function setMods(newMods: DestinyItem[]) {
+  mods = newMods;
+}
+
+export function setGeneralVault(newGeneralVault: Record<number, DestinyItem[]>) {
+  generalVault = newGeneralVault;
+}
+
+export function setGuardians(newGuardians: Record<string, Guardian>) {
+  guardians = newGuardians;
 }
