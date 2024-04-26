@@ -12,7 +12,7 @@ import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/stor
 import type { StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SQLite from "expo-sqlite";
+import * as SQLite from "expo-sqlite/legacy";
 import { Platform } from "react-native";
 import { parse, safeParse, string } from "valibot";
 import { Store } from "@/constants/storage.ts";
