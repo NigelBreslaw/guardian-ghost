@@ -1,43 +1,45 @@
-import { StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Platform } from "react-native";
 import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
 import ArmorPage from "@/app/screens/ArmorPage.tsx";
 import GeneralPage from "@/app/screens/GeneralPage.tsx";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Tab = createMaterialBottomTabNavigator();
-
-const styles = StyleSheet.create({
-  bar: {
-    backgroundColor: "black",
-    borderTopColor: "#2A1D38",
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-});
+const Tab = createBottomTabNavigator();
 
 function InventoryPages() {
-  const insets = useSafeAreaInsets();
-
-  const barStyle = {
-    ...styles.bar,
-    height: insets.bottom + (Platform.OS === "ios" ? 50 : 70),
-  };
-
   return (
     <Tab.Navigator
-      shifting={true}
-      activeColor="white"
-      activeIndicatorStyle={{ backgroundColor: "#303030", borderRadius: 5 }}
-      inactiveColor="grey"
-      barStyle={barStyle}
+      detachInactiveScreens={true}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => {
+          switch (route.name) {
+            case "tab-weapons":
+              return <MaterialCommunityIcons name="sword-cross" size={20} color={focused ? "white" : "gray"} />;
+            case "tab-armor":
+              return (
+                <MaterialCommunityIcons
+                  name="shield-link-variant-outline"
+                  size={20}
+                  color={focused ? "white" : "gray"}
+                />
+              );
+            case "tab-inventory":
+              return <Ionicons name={"diamond-sharp"} size={20} color={focused ? "white" : "gray"} />;
+          }
+        },
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "gray",
+      })}
     >
       <Tab.Screen
         name="tab-weapons"
         options={{
           tabBarLabel: "Weapons",
-          tabBarIcon: "pistol",
+          headerStyle: {
+            height: 0,
+          },
         }}
         component={WeaponsPage}
       />
@@ -45,7 +47,6 @@ function InventoryPages() {
         name="tab-armor"
         options={{
           tabBarLabel: "Armor",
-          tabBarIcon: "tshirt-crew-outline",
         }}
         component={ArmorPage}
       />
@@ -53,7 +54,6 @@ function InventoryPages() {
         name="tab-inventory"
         options={{
           tabBarLabel: "Inventory",
-          tabBarIcon: "diamond-stone",
         }}
         component={GeneralPage}
       />
