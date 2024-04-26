@@ -319,7 +319,7 @@ export type Vault5x5Section = BaseSection & {
 export type VaultFlexSection = BaseSection & {
   type: UISection.VaultFlex;
   inventory: DestinyIconData[];
-  minimumSpacerSize?: number;
+  minimumSpacerHeight?: number;
 };
 
 export type LostItemsSection = BaseSection & {

@@ -303,7 +303,7 @@ function returnVaultUiData(
             id: `${bucket}_flex_section`,
             type: UISection.VaultFlex,
             inventory: [],
-            minimumSpacerSize: needsMinimumSpacer ? get().getVaultSpacerSize(bucket) : undefined,
+            minimumSpacerHeight: needsMinimumSpacer ? get().getVaultSpacerSize(bucket) : undefined,
           };
 
           const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);

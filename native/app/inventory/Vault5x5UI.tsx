@@ -1,5 +1,5 @@
 import type { DestinyIconData } from "@/app/bungie/Common";
-import { DEFAULT_MARGIN, ICON_VAULT_MARGIN, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, ICON_MARGIN, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/EmptyCell.tsx";
 import React from "react";
@@ -42,7 +42,7 @@ function Vault5x5UI(props: Vault5x5Props) {
           );
         })}
       </View>
-      <View style={{ height: ICON_VAULT_MARGIN }} />
+      <View style={{ height: ICON_MARGIN }} />
     </View>
   );
 }

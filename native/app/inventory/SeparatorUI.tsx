@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   spacer: {
-    height: 11,
+    height: 20,
   },
   spacer2: {
     height: 2,
