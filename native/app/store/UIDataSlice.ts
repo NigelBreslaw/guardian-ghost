@@ -1,4 +1,5 @@
 import { SectionBuckets, equipSectionBuckets } from "@/app/bungie/Common";
+import { consumables, mods } from "@/app/store/Definitions.ts";
 
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
@@ -50,13 +51,13 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
   }
 
   if (bucket === SectionBuckets.Consumables) {
-    const totalConsumables = get().consumables.length;
+    const totalConsumables = consumables.length;
     const totalRows = Math.ceil(totalConsumables / 5);
     return ICON_SIZE * totalRows + ICON_VAULT_MARGIN * (totalRows - 1);
   }
 
   if (bucket === SectionBuckets.Mods) {
-    const totalMods = get().mods.length;
+    const totalMods = mods.length;
     const totalRows = Math.ceil(totalMods / 5);
     return ICON_SIZE * totalRows + ICON_VAULT_MARGIN * (totalRows - 1);
   }

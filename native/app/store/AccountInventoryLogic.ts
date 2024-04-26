@@ -21,7 +21,16 @@ import {
   type VaultSpacerSection,
 } from "@/app/bungie/Common";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
-import { itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
+import {
+  consumables,
+  generalVault,
+  guardians,
+  itemsDefinition,
+  mods,
+  rawProfileData,
+  setConsumables,
+  setMods,
+} from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_MODS_CHARACTER_ID,
@@ -98,7 +107,6 @@ function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[
 }
 
 function createUIData(get: AccountSliceGetter) {
-  const guardians = get().guardians;
   const ggCharacters = get().ggCharacters;
   let maxLostItemsColumns = 0;
   for (const ggCharacter of ggCharacters) {
@@ -117,8 +125,6 @@ function createUIData(get: AccountSliceGetter) {
 
 function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
   const characterDataArray: UISections[][] = [];
-  const guardians = get().guardians;
-  const generalVault = get().generalVault;
 
   if (!rawProfileData || !guardians || !generalVault) {
     console.error("No profile, guardians or generalVault");
@@ -143,7 +149,6 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
         const bucketItems = characterData.items[bucket];
 
         if (bucket === SectionBuckets.Consumables) {
-          const consumables = get().consumables;
           const globalConsumables: VaultFlexSection = {
             id: `${bucket}_global_consumables_section`,
             type: UISection.VaultFlex,
@@ -157,7 +162,6 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
         }
 
         if (bucket === SectionBuckets.Mods) {
-          const mods = get().mods;
           const globalMods: VaultFlexSection = {
             id: `${bucket}_global_mods_section`,
             type: UISection.VaultFlex,
@@ -387,100 +391,66 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): Des
 // Update UI logic
 // ------------------------------
 
-export function removeInventoryItem(
-  get: AccountSliceGetter,
-  set: AccountSliceSetter,
-  destinyItem: DestinyItem,
-  stackableQuantityToMove: number,
-) {
+export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityToMove: number) {
   if (destinyItem.previousCharacterId === "") {
     console.error("ERROR: removeFromGuardian expected previousCharacterId to be set");
     return;
   }
 
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
-    const previousGeneralVault = get().generalVault;
-    const previousInventory = previousGeneralVault[destinyItem.bucketHash];
-
+    const previousInventory = generalVault[destinyItem.bucketHash];
     if (previousInventory) {
       const updatedInventory = removeLogic(previousInventory, destinyItem, stackableQuantityToMove);
-      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-        draft[destinyItem.bucketHash] = updatedInventory;
-      });
-      set({ generalVault: updatedGeneralVault });
+      generalVault[destinyItem.bucketHash] = updatedInventory;
     }
   } else if (destinyItem.previousCharacterId === GLOBAL_MODS_CHARACTER_ID) {
-    const previousMods = get().mods;
-    const updatedMods = removeLogic(previousMods, destinyItem, stackableQuantityToMove);
-    set({ mods: updatedMods });
+    const updatedMods = removeLogic(mods, destinyItem, stackableQuantityToMove);
+    setMods(updatedMods);
   } else if (destinyItem.previousCharacterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
-    const previousConsumables = get().consumables;
-    const updatedConsumables = removeLogic(previousConsumables, destinyItem, stackableQuantityToMove);
-    set({ consumables: updatedConsumables });
+    const updatedConsumables = removeLogic(consumables, destinyItem, stackableQuantityToMove);
+    setConsumables(updatedConsumables);
   } else {
-    const previousGuardians = get().guardians;
-
-    const previousInventory =
-      previousGuardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
+    const previousInventory = guardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
     const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
     if (!updatedInventory) {
       console.error("updatedInventory or previousGuardian is undefined");
       return;
     }
 
-    const updatedGuardians = create(previousGuardians, (draft) => {
-      const updatedGuardian = draft[destinyItem.previousCharacterId];
-      if (!updatedGuardian) {
-        console.error("updatedGuardian is undefined");
-        return;
-      }
-      const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
-      updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
-    });
-    set({ guardians: updatedGuardians });
+    const updatedGuardian = guardians[destinyItem.previousCharacterId];
+    if (!updatedGuardian) {
+      console.error("updatedGuardian is undefined");
+      return;
+    }
+    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
+    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
   }
 }
 
-export function addInventoryItem(
-  get: AccountSliceGetter,
-  set: AccountSliceSetter,
-  destinyItem: DestinyItem,
-  stackableQuantityToMove: number,
-) {
+export function addInventoryItem(destinyItem: DestinyItem, stackableQuantityToMove: number) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
-    const previousGeneralVault = get().generalVault;
-    const previousSection = previousGeneralVault[destinyItem.bucketHash];
+    const previousSection = generalVault[destinyItem.bucketHash];
 
     if (previousSection) {
       const updatedSection = addLogic(previousSection, destinyItem, stackableQuantityToMove);
-
-      const updatedGeneralVault = create(previousGeneralVault, (draft) => {
-        draft[destinyItem.bucketHash] = updatedSection;
-      });
-      set({ generalVault: updatedGeneralVault });
+      generalVault[destinyItem.bucketHash] = updatedSection;
     }
   } else {
     // Is this a mod, consumable or other?
     switch (destinyItem.bucketHash) {
       case SectionBuckets.Mods: {
-        const previousMods = get().mods;
-        const updatedMods = addLogic(previousMods, destinyItem, stackableQuantityToMove);
-        set({ mods: updatedMods });
+        const updatedMods = addLogic(mods, destinyItem, stackableQuantityToMove);
+        setMods(updatedMods);
         break;
       }
       case SectionBuckets.Consumables: {
-        const previousConsumables = get().consumables;
-        const updatedConsumables = addLogic(previousConsumables, destinyItem, stackableQuantityToMove);
-        set({ consumables: updatedConsumables });
+        const updatedConsumables = addLogic(consumables, destinyItem, stackableQuantityToMove);
+        setConsumables(updatedConsumables);
         break;
       }
       default: {
-        const previousGuardians = get().guardians;
-        const updatedGuardians = create(previousGuardians, (draft) => {
-          draft[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
-        });
-        set({ guardians: updatedGuardians });
+        guardians[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
         break;
       }
     }
@@ -568,10 +538,8 @@ function rebuildStackableItems(total: number, destinyItem: DestinyItem): Destiny
   return newItems;
 }
 
-export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountSliceSetter, destinyItem: DestinyItem) {
-  const previousGuardians = get().guardians;
-
-  const previousInventorySection = previousGuardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
+export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
+  const previousInventorySection = guardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
 
   const updatedInventory = previousInventorySection?.inventory?.filter(
     (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
@@ -586,15 +554,12 @@ export function swapEquipAndInventoryItem(get: AccountSliceGetter, set: AccountS
     updatedInventory.push(previousEquippedItem);
   }
 
-  const updatedGuardians = create(previousGuardians, (draft) => {
-    const updatedGuardian = draft[destinyItem.characterId];
-    if (!updatedGuardian) {
-      console.error("updatedGuardian is undefined");
-      return;
-    }
-    updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
-  });
-  set({ guardians: updatedGuardians });
+  const updatedGuardian = guardians[destinyItem.characterId];
+  if (!updatedGuardian) {
+    console.error("updatedGuardian is undefined");
+    return;
+  }
+  updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
 }
 
 export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
