@@ -78,6 +78,13 @@
             "newArchEnabled": false
           }
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "nigel-breslaw",
+          "project": "guardian-ghost"
+        }
       ]
     ]
   }
