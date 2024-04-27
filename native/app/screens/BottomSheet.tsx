@@ -3,10 +3,21 @@ import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/transfer/TransferLogic.ts";
+import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
-import { StatusBar, StyleSheet, Text, View, useWindowDimensions, TextInput, Platform, Keyboard } from "react-native";
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  TextInput,
+  Platform,
+  Keyboard,
+  Dimensions,
+} from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
@@ -14,6 +25,7 @@ type ViewData = {
   itemInstanceId: string | undefined;
   itemTypeDisplayName: string;
   screenshot: string;
+  secondaryIcon: string;
   name: string;
 };
 
@@ -21,18 +33,26 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
   const itemDef = itemsDefinition[destinyItem.itemHash];
 
   let screenshot = "";
+  let secondaryIcon = "";
 
   if (destinyItem.overrideStyleItemHash !== undefined) {
     const overrideDef = itemsDefinition[destinyItem.overrideStyleItemHash];
-    const s = overrideDef?.s;
-    if (s) {
-      screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
+    if (overrideDef) {
+      const s = overrideDef?.s;
+      const si = overrideDef?.si;
+      if (s) {
+        screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
+      }
+      if (si) {
+        secondaryIcon = `https://www.bungie.net/common/destiny2_content/icons/${si}`;
+      }
     }
-  } else {
-    const s = itemDef?.s;
-    if (s) {
-      screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
-    }
+  }
+  if (screenshot === "" && itemDef?.s) {
+    screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${itemDef?.s}`;
+  }
+  if (secondaryIcon === "" && itemDef?.si) {
+    secondaryIcon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef?.si}`;
   }
   const name = itemDef?.n;
   const itd = itemDef?.itd;
@@ -40,11 +60,17 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
   const viewData: ViewData = {
     itemInstanceId: destinyItem.itemInstanceId,
     screenshot: screenshot,
+    secondaryIcon: secondaryIcon,
     name: name ? name.toLocaleUpperCase() : "",
     itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
   };
   return viewData;
 }
+
+const { width } = Dimensions.get("window");
+const SCREEN_WIDTH = width;
+const scalar = SCREEN_WIDTH / 1080;
+const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
 
 const styles = StyleSheet.create({
   quantityRoot: {
@@ -73,6 +99,33 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     includeFontPadding: false,
+  },
+  secondaryIcon: {
+    height: SCREENSHOT_HEIGHT / 2,
+    width: SCREENSHOT_HEIGHT / 2,
+    opacity: 36 / 100,
+  },
+  tierHeaderContainer: {
+    position: "absolute",
+    width: SCREEN_WIDTH,
+    height: 15 * scalar,
+  },
+  tierHeader: {
+    flex: 1,
+    opacity: 30 / 100,
+  },
+  tierHeaderBottom: {
+    width: SCREEN_WIDTH,
+    height: 1 * scalar,
+    opacity: 80 / 100,
+    bottom: 0,
+    position: "absolute",
+  },
+  itemDetails: {
+    position: "absolute",
+    top: 100 * scalar,
+    flex: 4,
+    flexDirection: "row",
   },
 });
 
