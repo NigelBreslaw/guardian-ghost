@@ -291,17 +291,28 @@ function getUnequipItem(sectionItems: DestinyItem[], allowExotics = false): Dest
   return unequipItem;
 }
 
+function unequipError(destinyItem: DestinyItem, exotic = false) {
+  console.error("Failed to unquip item as section has no items");
+  const name = itemsDefinition[destinyItem.itemHash]?.n;
+
+  if (exotic) {
+    useGGStore
+      .getState()
+      .showSnackBar(`Unable to unequip ${name}. There needs to be another non exotic item that can be equipped.`);
+  } else {
+    useGGStore
+      .getState()
+      .showSnackBar(`Unable to unequip ${name}. There needs to be another item that can be equipped.`);
+  }
+}
+
 function unequipItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
   try {
     // Bail if the section has no items
     const sectionItems =
       guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]?.inventory;
     if (!sectionItems || sectionItems.length === 0) {
-      console.error("Failed to unquip item as section has no items");
-      const name = itemsDefinition[transferItem.destinyItem.itemHash]?.n;
-      useGGStore
-        .getState()
-        .showSnackBar(`Unable to unequip ${name}. There needs to be another item that can be equipped.`);
+      unequipError(transferItem.destinyItem);
       return;
     }
     // is there an item that isn't Exotic in the section items? Find the first one
@@ -342,8 +353,10 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
       processTransfer(transferBundle);
       return;
     }
+    unequipError(transferItem.destinyItem, true);
   } catch {
     console.error("Failed to unequip item");
+    unequipError(transferItem.destinyItem);
   }
 }
 
