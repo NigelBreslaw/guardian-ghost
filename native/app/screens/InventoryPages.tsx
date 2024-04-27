@@ -4,6 +4,7 @@ import GeneralPage from "@/app/screens/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "expo-image";
+import { StyleSheet } from "react-native";
 
 const WEAPONS_TAB_ICON = require("../../images/weapons_tab.webp");
 const ARMOR_TAB_ICON = require("../../images/armor_tab.webp");
@@ -28,6 +29,10 @@ function InventoryPages() {
         },
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "gray",
+        tabBarStyle: {
+          borderTopColor: "grey",
+          borderTopWidth: StyleSheet.hairlineWidth,
+        },
       })}
     >
       <Tab.Screen
