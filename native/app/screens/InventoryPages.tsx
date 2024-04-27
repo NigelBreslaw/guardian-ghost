@@ -20,11 +20,29 @@ function InventoryPages() {
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
             case "tab-weapons":
-              return <Image source={WEAPONS_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
+              return (
+                <Image
+                  source={WEAPONS_TAB_ICON}
+                  cachePolicy="memory"
+                  style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }}
+                />
+              );
             case "tab-armor":
-              return <Image source={ARMOR_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
+              return (
+                <Image
+                  source={ARMOR_TAB_ICON}
+                  cachePolicy="memory"
+                  style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }}
+                />
+              );
             case "tab-inventory":
-              return <Image source={GENERAL_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
+              return (
+                <Image
+                  source={GENERAL_TAB_ICON}
+                  cachePolicy="memory"
+                  style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }}
+                />
+              );
           }
         },
         tabBarActiveTintColor: "white",
