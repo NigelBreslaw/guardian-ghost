@@ -3,8 +3,11 @@ import ArmorPage from "@/app/screens/ArmorPage.tsx";
 import GeneralPage from "@/app/screens/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+
+const WEAPONS_TAB_ICON = require("../../images/weapons_tab.webp");
+const ARMOR_TAB_ICON = require("../../images/armor_tab.webp");
+const GENERAL_TAB_ICON = require("../../images/general_tab.webp");
 
 const Tab = createBottomTabNavigator();
 
@@ -16,17 +19,11 @@ function InventoryPages() {
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
             case "tab-weapons":
-              return <MaterialCommunityIcons name="sword-cross" size={20} color={focused ? "white" : "gray"} />;
+              return <Image source={WEAPONS_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
             case "tab-armor":
-              return (
-                <MaterialCommunityIcons
-                  name="shield-link-variant-outline"
-                  size={20}
-                  color={focused ? "white" : "gray"}
-                />
-              );
+              return <Image source={ARMOR_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
             case "tab-inventory":
-              return <Ionicons name={"diamond-sharp"} size={20} color={focused ? "white" : "gray"} />;
+              return <Image source={GENERAL_TAB_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />;
           }
         },
         tabBarActiveTintColor: "white",
