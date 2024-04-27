@@ -1,5 +1,4 @@
 import { apiKey, clientID, clientSecret } from "@/constants/env.ts";
-import * as base64 from "base-64";
 import { isoTimestamp, number, object, parse, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -61,9 +60,8 @@ export function getAccessToken(token: AuthToken): Promise<JSON> {
   const headers = new Headers();
   headers.append("Content-Type", "application/x-www-form-urlencoded");
   headers.append("X-API-Key", apiKey);
-  // TODO: base64 package can be removed soon as Hermes is adding support for these in 0.74
-  // https://github.com/facebook/hermes/issues/1178
-  headers.append("Authorization", `Basic ${base64.encode(`${clientID}:${clientSecret}`)}`);
+  const authHeader = btoa(`${clientID}:${clientSecret}`);
+  headers.append("Authorization", `Basic ${authHeader}`);
 
   const bodyParams = `grant_type=refresh_token&refresh_token=${token.refresh_token}`;
 
