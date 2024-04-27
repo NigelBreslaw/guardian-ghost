@@ -1,3 +1,4 @@
+import { TierType } from "@/app/bungie/Types.ts";
 import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -31,3 +32,22 @@ export const ENGRAMS_SECTION_WIDTH = ICON_SIZE * 5 + 20 * SCALAR;
 export const VAULT_5x5_HEIGHT = ICON_SIZE * 5 + ICON_MARGIN * 4;
 export const EQUIP_SECTION_SIZE = ICON_SIZE * 3 + 2 * ICON_MARGIN;
 export const SEPARATOR_HEIGHT = 70 * SCALAR;
+
+enum TierTintColor {
+  Exotic = "#CEAF33",
+  Legendary = "#422458",
+  Rare = "#497190",
+  Common = "#275B32",
+  Uncommon = "#BCB5AC",
+  Unknown = "#BCB5AC",
+}
+
+export const TierTypeToColor = {
+  [TierType.Exotic]: TierTintColor.Exotic,
+  [TierType.Legendary]: TierTintColor.Legendary,
+  [TierType.Rare]: TierTintColor.Rare,
+  [TierType.Common]: TierTintColor.Common,
+  [TierType.Uncommon]: TierTintColor.Uncommon,
+  [TierType.Unknown]: TierTintColor.Unknown,
+  [TierType.Currency]: TierTintColor.Unknown,
+};

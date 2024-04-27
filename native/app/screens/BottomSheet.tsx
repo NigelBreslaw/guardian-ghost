@@ -3,6 +3,7 @@ import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
 import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/transfer/TransferLogic.ts";
+import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -214,9 +215,13 @@ export default function BottomSheet({
                 ]}
                 source={{ uri: viewData.screenshot }}
               />
+              <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
+              <View style={styles.tierHeaderContainer}>
+                <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
+                <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
+              </View>
 
-              <View style={{ flex: 2 }} />
-              <View style={{ flex: 4, flexDirection: "row" }}>
+              <View style={styles.itemDetails}>
                 <View style={{ flex: 1 }} />
                 <View style={{ flex: 18 }}>
                   <Text
