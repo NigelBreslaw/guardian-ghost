@@ -6,7 +6,7 @@ PODS:
   - EXJSONUtils (0.13.0)
   - EXManifests (0.14.0):
     - ExpoModulesCore
-  - Expo (51.0.0-preview.6):
+  - Expo (51.0.0-preview.7):
     - ExpoModulesCore
   - expo-dev-client (4.0.6):
     - EXManifests
@@ -231,7 +231,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.2):
+  - ExpoModulesCore (1.12.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1489,7 +1489,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated (3.9.0-rc.1):
+  - RNReanimated (3.9.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1840,7 +1840,7 @@ SPEC CHECKSUMS:
   EXConstants: 9a008dbf262550884e6280dea95b81b51f65ea6f
   EXJSONUtils: fe9e2688bdcbbd3adfd3323b19b0406c56acb471
   EXManifests: 9099018ae9786e67a347c2f1e1441b8878774d1b
-  Expo: e9ad6b85ef3dfaa6e25db8596ba78611414f18b6
+  Expo: 3d55b9ed388fb85d26ff82bea46edf5472fa9dd1
   expo-dev-client: f1fe17913de8de725f5a313b2b6638e217c1b227
   expo-dev-launcher: ce1799afff618e4f9604676d2408177a1340b727
   expo-dev-menu: 8af75aa218cc0b70c4500deed8d2267db69e09d3
@@ -1853,7 +1853,7 @@ SPEC CHECKSUMS:
   ExpoImage: 80a5b14f9e0d845f2c2877cee1c2b1038ba276a6
   ExpoKeepAwake: f3a7b0ff4b4911957264dad8cb584ef688326a22
   ExpoLinearGradient: 99736b51da8bac4970013bdea81d19f4db546fa1
-  ExpoModulesCore: a3d35c00bd8727d15bff3d2b291dc95cd1cd08ec
+  ExpoModulesCore: b322e60d4f954f1c369f167ce1ccb7157cfcaf56
   ExpoSQLite: 0091da247fdd8095f2cc213d98f812dba0ec7ca3
   ExpoSystemUI: f204247738681293eb231159a2476e68c8438ab3
   ExpoWebBrowser: 247e3ff48a7554eb2db0d96b6e64e1bda4d4011f
@@ -1916,7 +1916,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNFlashList: b521ebdd7f9352673817f1d98e8bdc0c8cf8545b
   RNGestureHandler: 4d271a5d9178403bd8dae0d853e2be21cf53743c
-  RNReanimated: a921c27a898be3a706f18c8be992db53f3b033d9
+  RNReanimated: 5fe9e4e22610ec906856da8dde7ea6815dd0cee2
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
   RNSentry: 7ae2a06a5563de39ec09dcb1e751ac0c67f1883c
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
