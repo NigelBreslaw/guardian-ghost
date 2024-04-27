@@ -21,6 +21,8 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
+const SCREENSHOT_MASTERWORK_OVERLAY = require("../../images/masterwork-landscape-overlay.png");
+
 type ViewData = {
   itemInstanceId: string | undefined;
   itemTypeDisplayName: string;
@@ -72,6 +74,7 @@ const SCREEN_WIDTH = width;
 const scalar = SCREEN_WIDTH / 1080;
 const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
 
+const masterworkScalar = SCREEN_WIDTH / 2 / 500;
 const styles = StyleSheet.create({
   quantityRoot: {
     left: 20,
@@ -126,6 +129,22 @@ const styles = StyleSheet.create({
     top: 100 * scalar,
     flex: 4,
     flexDirection: "row",
+  },
+  masterworkContainer: {
+    position: "absolute",
+    bottom: 0,
+    alignSelf: "center",
+    flexDirection: "row",
+    opacity: 0.8,
+  },
+  masterworkLeft: {
+    width: 700 * masterworkScalar,
+    height: 264 * masterworkScalar,
+  },
+  masterworkRight: {
+    width: 700 * masterworkScalar,
+    height: 264 * masterworkScalar,
+    transform: [{ scaleX: -1 }],
   },
 });
 
@@ -215,6 +234,12 @@ export default function BottomSheet({
                 ]}
                 source={{ uri: viewData.screenshot }}
               />
+              {destinyItem.masterwork && (
+                <View style={styles.masterworkContainer}>
+                  <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                  <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                </View>
+              )}
               <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
               <View style={styles.tierHeaderContainer}>
                 <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
