@@ -103,15 +103,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     includeFontPadding: false,
   },
+  screenshotFooter: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 50 * scalar,
+    backgroundColor: "black",
+    opacity: 0.3,
+  },
   secondaryIcon: {
     height: SCREENSHOT_HEIGHT / 2,
     width: SCREENSHOT_HEIGHT / 2,
-    opacity: 36 / 100,
+    opacity: 50 / 100,
   },
   tierHeaderContainer: {
     position: "absolute",
     width: SCREEN_WIDTH,
-    height: 15 * scalar,
+    height: 25 * scalar,
   },
   tierHeader: {
     flex: 1,
@@ -119,8 +127,8 @@ const styles = StyleSheet.create({
   },
   tierHeaderBottom: {
     width: SCREEN_WIDTH,
-    height: 1 * scalar,
-    opacity: 80 / 100,
+    height: 4 * scalar,
+    opacity: 30 / 100,
     bottom: 0,
     position: "absolute",
   },
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
   },
   masterworkContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: -20 * scalar,
     alignSelf: "center",
     flexDirection: "row",
     opacity: 0.8,
@@ -221,6 +229,7 @@ export default function BottomSheet({
               style={{
                 width: "100%",
                 height: (SCREEN_WIDTH / 1920) * 1080,
+                overflow: "hidden",
               }}
             >
               <Image
@@ -275,9 +284,7 @@ export default function BottomSheet({
                 </View>
               </View>
               <View style={{ flex: 15 }} />
-              <View style={{ flex: 1 }}>
-                <View style={{ flex: 1, backgroundColor: "#000000", opacity: 0.4 }} />
-              </View>
+              <View style={styles.screenshotFooter} />
               {!destinyItem.nonTransferrable &&
                 destinyItem.maxStackSize > 1 &&
                 destinyItem.stackUniqueLabel === undefined && (
