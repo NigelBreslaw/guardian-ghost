@@ -39,27 +39,12 @@ importers:
       '@astrojs/check':
         specifier: 0.5.10
         version: 0.5.10(typescript@5.4.5)
-      '@types/hast':
-        specifier: 3.0.4
-        version: 3.0.4
       '@vitest/coverage-v8':
         specifier: 1.5.0
         version: 1.5.0(vitest@1.5.0(@types/node@17.0.45))
-      hast-util-from-html:
-        specifier: 2.0.1
-        version: 2.0.1
-      hast-util-to-string:
-        specifier: 3.0.0
-        version: 3.0.0
-      hastscript:
-        specifier: 9.0.0
-        version: 9.0.0
       typescript:
         specifier: 5.4.5
         version: 5.4.5
-      unist-util-visit:
-        specifier: 5.0.0
-        version: 5.0.0
       vitest:
         specifier: 1.5.0
         version: 1.5.0(@types/node@17.0.45)
@@ -1598,9 +1583,6 @@ packages:
   hastscript@8.0.0:
     resolution: {integrity: sha512-dMOtzCEd3ABUeSIISmrETiKuyydk1w0pa+gE/uormcTpSYuaNJPbX1NU3JLyscSLjwAQM8bWMhhIlnCqnRvDTw==}
 
-  hastscript@9.0.0:
-    resolution: {integrity: sha512-jzaLBGavEDKHrc5EfFImKN7nZKKBdSLIdGvCwDZ9TfzbF2ffXiov8CKE445L2Z1Ek2t/m4SKQ2j6Ipv7NyUolw==}
-
   html-entities@2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==}
 
@@ -2731,34 +2713,6 @@ packages:
 
   vite@5.2.10:
     resolution: {integrity: sha512-PAzgUZbP7msvQvqdSD+ErD5qGnSFiGOoWmV5yAKUEI0kdhjbH6nMWVyZQC/hSc4aXwc0oJ9aEdIiF9Oje0JFCw==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-
-  vite@5.2.9:
-    resolution: {integrity: sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -3980,8 +3934,8 @@ snapshots:
       tsconfck: 3.0.3(typescript@5.4.5)
       unist-util-visit: 5.0.0
       vfile: 6.0.1
-      vite: 5.2.9(@types/node@17.0.45)
-      vitefu: 0.2.5(vite@5.2.9(@types/node@17.0.45))
+      vite: 5.2.10(@types/node@17.0.45)
+      vitefu: 0.2.5(vite@5.2.10(@types/node@17.0.45))
       which-pm: 2.1.1
       yargs-parser: 21.1.1
       zod: 3.22.4
@@ -4715,14 +4669,6 @@ snapshots:
       space-separated-tokens: 2.0.2
 
   hastscript@8.0.0:
-    dependencies:
-      '@types/hast': 3.0.4
-      comma-separated-tokens: 2.0.3
-      hast-util-parse-selector: 4.0.0
-      property-information: 6.5.0
-      space-separated-tokens: 2.0.2
-
-  hastscript@9.0.0:
     dependencies:
       '@types/hast': 3.0.4
       comma-separated-tokens: 2.0.3
@@ -6312,22 +6258,9 @@ snapshots:
       '@types/node': 17.0.45
       fsevents: 2.3.3
 
-  vite@5.2.9(@types/node@17.0.45):
-    dependencies:
-      esbuild: 0.20.2
-      postcss: 8.4.38
-      rollup: 4.14.3
-    optionalDependencies:
-      '@types/node': 17.0.45
-      fsevents: 2.3.3
-
   vitefu@0.2.5(vite@5.2.10(@types/node@17.0.45)):
     optionalDependencies:
       vite: 5.2.10(@types/node@17.0.45)
-
-  vitefu@0.2.5(vite@5.2.9(@types/node@17.0.45)):
-    optionalDependencies:
-      vite: 5.2.9(@types/node@17.0.45)
 
   vitest@1.5.0(@types/node@17.0.45):
     dependencies:
@@ -6348,7 +6281,7 @@ snapshots:
       strip-literal: 2.1.0
       tinybench: 2.7.0
       tinypool: 0.8.4
-      vite: 5.2.9(@types/node@17.0.45)
+      vite: 5.2.10(@types/node@17.0.45)
       vite-node: 1.5.0(@types/node@17.0.45)
       why-is-node-running: 2.2.2
     optionalDependencies:
