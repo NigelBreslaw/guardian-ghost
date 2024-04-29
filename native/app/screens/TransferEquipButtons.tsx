@@ -23,7 +23,7 @@ type TransferEquipButtonsProps = {
 export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const rectangles = [];
 
-  const scale = 0.6;
+  const scale = 0.55;
   const originalWidth = 350;
   const originalHeight = 96;
   const transferWidth = originalWidth * scale;
@@ -39,6 +39,13 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       fontFamily: "Helvetica",
       includeFontPadding: false,
       width: transferWidth,
+    },
+    transferToInventory: {
+      fontSize: 16,
+      color: "white",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+      width: "100%",
     },
     equipOnText: {
       fontSize: 16,
@@ -64,6 +71,16 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       position: "absolute",
       top: 40,
       left: 85,
+    },
+    InventoryName: {
+      fontSize: 25,
+      fontWeight: "bold",
+      color: "white",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+      position: "absolute",
+      top: 10,
+      left: 90,
     },
   });
 
@@ -101,9 +118,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
               }}
             >
               <Image source={GLOBAL_SPACE_EMBLEM} cachePolicy={"memory"} style={{ width: 474, height: 96 }} />
-              <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
-                <Text>Character: {ggCharacterId}</Text>
-              </View>
+              <Text style={styles.InventoryName}>{"Inventory"}</Text>
             </View>
             <View
               style={{
@@ -121,7 +136,12 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
         </GestureDetector>
       </GestureHandlerRootView>
     );
-    return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{globalButton}</View>;
+    return (
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
+        <Text style={styles.transferToInventory}>Transfer to</Text>
+        {globalButton}
+      </View>
+    );
   }
 
   function calcEquipOpacity(buttonCharacterId: string): number {
@@ -275,10 +295,14 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
   }
 
+  if (rectangles.length === 0) {
+    return null;
+  }
+
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
-      <Text style={styles.transferToText}>Transfer to:</Text>
-      <Text style={styles.equipOnText}>Equip on:</Text>
+      <Text style={styles.transferToText}>Transfer to</Text>
+      <Text style={[styles.equipOnText, { display: props.destinyItem.equippable ? "flex" : "none" }]}>Equip on</Text>
 
       {rectangles}
     </View>
