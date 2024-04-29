@@ -384,3 +384,6 @@ export const LOGO_LIGHT = require("../../images/gg-logo-light.webp");
 export const CRAFTED_OVERLAY = require("../../images/crafted.webp");
 export const EMPTY_ENGRAM = require("../../images/engram-empty.webp");
 export const GLOBAL_SPACE_EMBLEM = require("../../images/globalEmblem.webp");
+export const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
+export const vaultEmblemPath = require("../../images/vault-emblem-button.png");
+export const vaultSecondarySpecial = require("../../images/vaultSecondary.webp");

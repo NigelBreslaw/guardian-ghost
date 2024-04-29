@@ -6,7 +6,14 @@ import {
   GuardiansSchema,
   type DestinyItem,
 } from "@/app/bungie/Types.ts";
-import { bungieUrl, GuardianClassType, type DestinyItemIdentifier } from "@/app/bungie/Common";
+import {
+  bungieUrl,
+  GuardianClassType,
+  vaultEmblemBackgroundPath,
+  vaultEmblemPath,
+  vaultSecondarySpecial,
+  type DestinyItemIdentifier,
+} from "@/app/bungie/Common";
 import {
   bucketTypeHashArray,
   consumables,
@@ -39,10 +46,6 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     }
   }
 
-  const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
-  const vaultEmblemPath = require("../../images/vault-emblem.png");
-  const secondarySpecial = require("../../images/vaultSecondary.webp");
-
   const vaultData: GGCharacterUiData = {
     characterId: VAULT_CHARACTER_ID,
     guardianClassType: GuardianClassType.Vault,
@@ -50,7 +53,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     raceType: 3,
     emblemPath: vaultEmblemPath,
     emblemBackgroundPath: vaultEmblemBackgroundPath,
-    secondarySpecial,
+    secondarySpecial: vaultSecondarySpecial,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Vault,
   };
