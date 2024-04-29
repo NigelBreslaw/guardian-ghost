@@ -1,6 +1,6 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import { LOGO_DARK, type GuardianClassType } from "@/app/bungie/Common";
+import { LOGO_DARK } from "@/app/bungie/Common";
 import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
 import InventoryPages from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 
 function RefreshButton() {
   const refreshing = useGGStore((state) => state.refreshing);
@@ -74,21 +75,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     </View>
   );
 };
-
-function getGuardianClassType(classType: GuardianClassType | undefined) {
-  switch (classType) {
-    case 0:
-      return "Titan";
-    case 1:
-      return "Hunter";
-    case 2:
-      return "Warlock";
-    case 100:
-      return "Vault";
-    default:
-      return "";
-  }
-}
 
 export default function MainDrawer() {
   const ggGuardians = useGGStore((state) => state.ggCharacters);

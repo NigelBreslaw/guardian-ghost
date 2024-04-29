@@ -11,6 +11,7 @@ import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-g
 import { runOnJS } from "react-native-reanimated";
 import { Image } from "expo-image";
 import { GLOBAL_SPACE_EMBLEM, SectionBuckets } from "@/app/bungie/Common.ts";
+import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
 
 type TransferEquipButtonsProps = {
   currentCharacterId: string;
@@ -28,6 +29,43 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const transferWidth = originalWidth * scale;
   const transferHeight = originalHeight * scale;
   const borderRadius = 15;
+
+  const ggCharacters = useGGStore.getState().ggCharacters;
+
+  const styles = StyleSheet.create({
+    transferToText: {
+      fontSize: 16,
+      color: "white",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+      width: transferWidth,
+    },
+    equipOnText: {
+      fontSize: 16,
+      color: "white",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+    },
+    transferClassName: {
+      fontSize: 25,
+      fontWeight: "bold",
+      color: "white",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+      position: "absolute",
+      top: 10,
+      left: 85,
+    },
+    transferRaceName: {
+      fontSize: 20,
+      color: "grey",
+      fontFamily: "Helvetica",
+      includeFontPadding: false,
+      position: "absolute",
+      top: 40,
+      left: 85,
+    },
+  });
 
   // is this a vault item that will be transferred to the Mods or Consumables page section?
   if (
@@ -85,7 +123,6 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
     return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{globalButton}</View>;
   }
-  const ggCharacters = useGGStore.getState().ggCharacters;
 
   function calcEquipOpacity(buttonCharacterId: string): number {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
@@ -183,9 +220,9 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
               }}
             >
               <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }} />
-              <View style={[StyleSheet.absoluteFillObject, { flex: 1, alignContent: "center" }]}>
-                <Text>Character: {ggCharacter.characterId}</Text>
-              </View>
+
+              <Text style={styles.transferClassName}>{`${getGuardianClassType(ggCharacter.guardianClassType)}`}</Text>
+              <Text style={styles.transferRaceName}>{`${getGuardianRaceType(ggCharacter.raceType)}`}</Text>
             </View>
             <View
               style={{
@@ -238,5 +275,12 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
   }
 
-  return <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>{rectangles}</View>;
+  return (
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
+      <Text style={styles.transferToText}>Transfer to:</Text>
+      <Text style={styles.equipOnText}>Equip on:</Text>
+
+      {rectangles}
+    </View>
+  );
 }

@@ -46,7 +46,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     characterId: VAULT_CHARACTER_ID,
     guardianClassType: GuardianClassType.Vault,
     genderType: 0,
-    raceType: 0,
+    raceType: 3,
     emblemPath: "",
     emblemBackgroundPath: vaultEmblemBackgroundPath,
     secondarySpecial,
