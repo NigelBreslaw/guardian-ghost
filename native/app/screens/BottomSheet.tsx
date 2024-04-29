@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   tierHeader: {
     flex: 1,
-    opacity: 30 / 100,
+    opacity: 40 / 100,
   },
   tierHeaderBottom: {
     width: SCREEN_WIDTH,
@@ -228,7 +228,7 @@ export default function BottomSheet({
             <View
               style={{
                 width: "100%",
-                height: (SCREEN_WIDTH / 1920) * 1080,
+                height: (SCREEN_WIDTH / 1920) * 980,
                 overflow: "hidden",
               }}
             >
@@ -236,10 +236,12 @@ export default function BottomSheet({
                 transition={200}
                 style={[
                   {
+                    position: "absolute",
+                    top: -((SCREEN_WIDTH / 1920) * 40),
                     width: "100%",
                     height: (SCREEN_WIDTH / 1920) * 1080,
                   },
-                  StyleSheet.absoluteFillObject,
+                  // StyleSheet.absoluteFillObject,
                 ]}
                 source={{ uri: viewData.screenshot }}
               />

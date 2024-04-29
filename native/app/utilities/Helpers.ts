@@ -1,3 +1,4 @@
+import type { GuardianClassType } from "@/app/bungie/Common.ts";
 import type { DestinyItemSort } from "@/app/bungie/Types.ts";
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -319,4 +320,32 @@ export function modSort(b: DestinyItemSort, a: DestinyItemSort): number {
 
   /// critera 3: itemHash
   return a.itemHash > b.itemHash ? 1 : -1;
+}
+
+export function getGuardianClassType(classType: GuardianClassType | undefined) {
+  switch (classType) {
+    case 0:
+      return "Titan";
+    case 1:
+      return "Hunter";
+    case 2:
+      return "Warlock";
+    case 100:
+      return "Vault";
+    default:
+      return "";
+  }
+}
+
+export function getGuardianRaceType(raceType: number) {
+  switch (raceType) {
+    case 0:
+      return "Human";
+    case 1:
+      return "Awoken";
+    case 2:
+      return "Exo";
+    default:
+      return "";
+  }
 }
