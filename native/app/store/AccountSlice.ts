@@ -64,8 +64,6 @@ export interface AccountSlice {
   currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
 
-  // The characters live in an object. This array does duplicate some of this data, but it's order
-  // dictates
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
   ggArmor: UISections[][];

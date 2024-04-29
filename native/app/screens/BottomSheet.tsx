@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
     bottom: -20 * scalar,
     alignSelf: "center",
     flexDirection: "row",
-    opacity: 0.8,
   },
   masterworkLeft: {
     width: 700 * masterworkScalar,
