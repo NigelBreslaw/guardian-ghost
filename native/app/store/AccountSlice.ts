@@ -62,6 +62,7 @@ export interface AccountSlice {
   refreshing: boolean;
   lastRefreshTime: number;
   currentListIndex: number;
+  animateToInventoryPage: { index: number; animate: boolean };
 
   // The characters live in an object. This array does duplicate some of this data, but it's order
   // dictates
@@ -79,6 +80,7 @@ export interface AccountSlice {
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
+  setJumpToIndex: (payload: { index: number; animate: boolean }) => void;
   updateProfile: (profile: ProfileData) => void;
   setSelectedItem: (itemIdentifier: DestinyItemIdentifier | null) => void;
   setQuantityToTransfer: (quantityToTransfer: number) => void;
@@ -98,6 +100,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   refreshing: false,
   lastRefreshTime: 0,
   currentListIndex: 0,
+  animateToInventoryPage: { index: 0, animate: false },
 
   ggCharacters: [],
   ggWeapons: [],
@@ -115,7 +118,10 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setRefreshing: (refreshing) => set({ refreshing }),
 
   setCurrentListIndex: (currentListIndex) => {
-    set({ currentListIndex });
+    set({ currentListIndex, animateToInventoryPage: { index: currentListIndex, animate: false } });
+  },
+  setJumpToIndex: (jumpToIndex) => {
+    set({ animateToInventoryPage: jumpToIndex });
   },
 
   updateProfile: (profile) => {

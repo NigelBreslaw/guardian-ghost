@@ -37,9 +37,12 @@ function CharacterHeaderButtons() {
 
   return (
     <View style={{ flexDirection: "row", gap: 10 }}>
-      {ggCharacters.map((ggCharacter, _index) => {
+      {ggCharacters.map((ggCharacter, index) => {
         return (
-          <TouchableOpacity key={ggCharacter.characterId}>
+          <TouchableOpacity
+            onPress={() => useGGStore.getState().setJumpToIndex({ index, animate: true })}
+            key={ggCharacter.characterId}
+          >
             <View
               style={{
                 width: transferHeight,
