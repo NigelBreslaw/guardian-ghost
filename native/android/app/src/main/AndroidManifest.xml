@@ -1,27 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <supports-screens 
-      android:smallScreens="true"
-      android:normalScreens="true" 
-      android:largeScreens="false"
-      android:xlargeScreens="false"
-      android:resizeable="false" />
   <uses-feature android:name="android.hardware.telephony" required="true"/>
-  <compatible-screens>
-  <!-- all small size screens -->
 
-    <screen android:screenSize="small" android:screenDensity="ldpi" />
-    <screen android:screenSize="small" android:screenDensity="mdpi" />
-    <screen android:screenSize="small" android:screenDensity="hdpi" />
-    <screen android:screenSize="small" android:screenDensity="xhdpi" />
-
-    <!-- all normal size screens -->
-
-    <screen android:screenSize="normal" android:screenDensity="ldpi" />
-    <screen android:screenSize="normal" android:screenDensity="mdpi" />
-    <screen android:screenSize="normal" android:screenDensity="hdpi" />
-    <screen android:screenSize="normal" android:screenDensity="xhdpi" />
-
-  </compatible-screens>
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
