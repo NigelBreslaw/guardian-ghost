@@ -59,6 +59,20 @@ export default function InventoryPage(props: InventoryPageProps) {
     pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
   };
 
+  useEffect(() => {
+    const unsubscribe = useGGStore.subscribe(
+      (state) => state.animateToInventoryPage,
+      (inventoryPage, previousPage) => {
+        if (inventoryPage.index !== previousPage.index && inventoryPage.animate && isFocused) {
+          const posX = HOME_WIDTH * inventoryPage.index;
+          pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: true });
+        }
+      },
+    );
+
+    return unsubscribe;
+  }, [isFocused, HOME_WIDTH]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <This should only run when the view is focus>
   useEffect(() => {
     if (isFocused) {
