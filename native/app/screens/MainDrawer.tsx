@@ -7,10 +7,11 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
+import { Image } from "expo-image";
 
 function RefreshButton() {
   const refreshing = useGGStore((state) => state.refreshing);
@@ -24,6 +25,54 @@ function RefreshButton() {
         getFullProfile();
       }}
     />
+  );
+}
+
+function CharacterHeaderButtons() {
+  const ggCharacters = useGGStore((state) => state.ggCharacters);
+  const scale = 0.4;
+  const originalHeight = 96;
+  const borderRadius = 15;
+  const transferHeight = originalHeight * scale;
+
+  return (
+    <View style={{ flexDirection: "row", gap: 10 }}>
+      {ggCharacters.map((ggCharacter, _index) => {
+        return (
+          <TouchableOpacity key={ggCharacter.characterId}>
+            <View
+              style={{
+                width: transferHeight,
+                height: transferHeight,
+                borderRadius,
+                overflow: "hidden",
+              }}
+            >
+              <View
+                style={{
+                  transformOrigin: "top left",
+                  transform: [{ scale: scale }],
+                }}
+              >
+                <Image source={ggCharacter.emblemPath} style={{ width: 96, height: 96 }} />
+              </View>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  borderRadius,
+                  borderWidth: 1,
+                  borderColor: "grey",
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
   );
 }
 
@@ -120,6 +169,7 @@ export default function MainDrawer() {
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
           headerRight: RefreshButton,
+          headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,
         }}
       />

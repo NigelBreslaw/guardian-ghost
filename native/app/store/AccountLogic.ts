@@ -40,6 +40,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
   }
 
   const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
+  const vaultEmblemPath = require("../../images/vault-emblem.png");
   const secondarySpecial = require("../../images/vaultSecondary.webp");
 
   const vaultData: GGCharacterUiData = {
@@ -47,7 +48,7 @@ export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCh
     guardianClassType: GuardianClassType.Vault,
     genderType: 0,
     raceType: 3,
-    emblemPath: "",
+    emblemPath: vaultEmblemPath,
     emblemBackgroundPath: vaultEmblemBackgroundPath,
     secondarySpecial,
     lastActiveCharacter: false,
