@@ -6,10 +6,11 @@ import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
-import { Image, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Image, Platform, StyleSheet, Text, TextInput, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Spinner from "@/app/components/Spinner.tsx";
 
 const styles = StyleSheet.create({
   topContainerLight: {
@@ -53,6 +54,41 @@ const styles = StyleSheet.create({
   spacer: {
     marginTop: 10,
   },
+  button: {
+    width: "100%",
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#6750A4",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    includeFontPadding: false,
+  },
+  demoButton: {
+    width: 130,
+    height: 40,
+    borderRadius: 20,
+    borderColor: "#6750A4AA",
+    borderWidth: 1,
+    backgroundColor: "transparent",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  demoButtonText: {
+    color: "#6750A4",
+    fontSize: 14,
+    includeFontPadding: false,
+  },
 });
 
 function startAuth(): void {
@@ -94,14 +130,18 @@ function LocalWebLogin() {
   return (
     <>
       <TextInput
-        label="Paste URL"
+        style={{ color: "white" }}
         value={localWebLoginText}
         onChangeText={(localWebLoginText) => {
           setLocalWebLoginText(localWebLoginText);
         }}
       />
       <View style={styles.spacer} />
-      <Button onPress={() => createAuthenticatedAccount(localWebLoginText)}>secret login</Button>
+      <TouchableOpacity onPress={() => createAuthenticatedAccount(localWebLoginText)}>
+        <View style={styles.demoButton}>
+          <Text style={styles.demoButtonText}>secret login</Text>
+        </View>
+      </TouchableOpacity>
     </>
   );
 }
@@ -158,40 +198,35 @@ export default function Login({ navigation }: { navigation: NavigationProp<React
         <View style={{ marginTop: 40 }} />
         <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
         <View style={{ marginTop: 20 }} />
-        <Button
-          mode="contained"
+        <TouchableOpacity
           disabled={authenticated === "LOGIN-FLOW"}
+          onPress={() => startAuth()}
           onPressIn={() => {
             if (Platform.OS !== "web") {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             }
           }}
-          onPress={() => {
-            startAuth();
-          }}
-          style={{ alignSelf: "stretch" }}
-          loading={authenticated === "LOGIN-FLOW"}
         >
-          Login
-        </Button>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Login</Text>
+            {authenticated === "LOGIN-FLOW" && <Spinner />}
+          </View>
+        </TouchableOpacity>
         {isLocalWeb && <LocalWebLogin />}
         <View style={{ marginTop: 80 }} />
-        <Button
-          mode="outlined"
+        <TouchableOpacity
           disabled={authenticated === "DEMO-MODE"}
+          onPress={() => useGGStore.getState().setDemoMode()}
           onPressIn={() => {
             if (Platform.OS !== "web") {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             }
           }}
-          onPress={() => {
-            useGGStore.getState().setDemoMode();
-          }}
-          style={{ alignSelf: "center" }}
-          loading={authenticated === "DEMO-MODE"}
         >
-          Demo Mode
-        </Button>
+          <View style={styles.demoButton}>
+            <Text style={styles.demoButtonText}>Demo Mode</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
