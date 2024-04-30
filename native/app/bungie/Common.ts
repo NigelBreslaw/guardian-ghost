@@ -298,6 +298,7 @@ export type BaseSection = {
 export type SeparatorSection = BaseSection & {
   type: UISection.Separator;
   label: string;
+  info?: string;
 };
 
 export type EngramsSection = BaseSection & {

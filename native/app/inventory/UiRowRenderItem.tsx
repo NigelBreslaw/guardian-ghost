@@ -11,7 +11,7 @@ import VaultSpacerUI from "@/app/inventory/VaultSpacerUI.tsx";
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {
     case UISection.Separator:
-      return <SeparatorUI label={item.label} />;
+      return <SeparatorUI label={item.label} info={item.info} />;
     case UISection.CharacterEquipment:
       return <EquipUI data={item} />;
     case UISection.Vault5x5:

@@ -137,16 +137,30 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
       const dataArray: UISections[] = [];
       for (const bucket of itemBuckets) {
         const sectionDetails = getSectionDetails(bucket);
+        const bucketItems = characterData.items[bucket];
 
+        const getInfo = (bucket: SectionBuckets): string | undefined => {
+          switch (bucket) {
+            case SectionBuckets.Consumables:
+              return `${consumables.length}/50`;
+            case SectionBuckets.Mods:
+              return `${mods.length}/50`;
+            case SectionBuckets.LostItem:
+              return `${bucketItems?.inventory.length}/21`;
+            default:
+              return undefined;
+          }
+        };
+
+        const info: string | undefined = getInfo(bucket);
         // create section separators
         const separator: SeparatorSection = {
           id: `${bucket}_separator`,
           type: UISection.Separator,
           label: sectionDetails.label,
+          info,
         };
         dataArray.push(separator);
-
-        const bucketItems = characterData.items[bucket];
 
         if (bucket === SectionBuckets.Consumables) {
           const globalConsumables: VaultFlexSection = {
@@ -246,6 +260,8 @@ function returnVaultUiData(
   generalVault: Record<number, DestinyItem[]>,
 ): UISections[] {
   const dataArray: UISections[] = [];
+  const totalVaultItems = calcTotalVaultItems();
+  console.log("totalVaultItems", totalVaultItems);
 
   for (const bucket of itemBuckets) {
     const bucketItems = generalVault[bucket];
@@ -255,6 +271,7 @@ function returnVaultUiData(
         id: `${bucket}_separator`,
         type: UISection.Separator,
         label: sectionDetails.label,
+        info: `${totalVaultItems}/600`,
       };
       dataArray.push(separator);
 
@@ -323,6 +340,25 @@ function returnVaultUiData(
     }
   }
   return dataArray;
+}
+
+function calcTotalVaultItems(): number {
+  let total = 0;
+  // for (const bucket of SectionBuckets) {
+  //   const section = generalVault[bucket];
+  //   if (section) {
+  //     total += section.length;
+  //   }
+  // }
+  const values = Object.values(SectionBuckets);
+  const filteredValues = values.filter((v) => !Number.isNaN(v));
+  for (const bucket of filteredValues) {
+    const section = generalVault[bucket as number];
+    if (section) {
+      total += section.length;
+    }
+  }
+  return total;
 }
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
