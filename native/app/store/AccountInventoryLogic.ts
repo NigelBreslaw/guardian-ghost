@@ -44,6 +44,9 @@ import { deepEqual } from "fast-equals";
 // UI data creation
 // ------------------------------
 
+const SectionBucketsValues = Object.values(SectionBuckets);
+const section_buckets = SectionBucketsValues.filter((v) => !Number.isNaN(v));
+
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
   createUIData(get);
   const p1 = performance.now();
@@ -342,15 +345,16 @@ function returnVaultUiData(
 }
 
 function calcTotalVaultItems(): number {
+  const p1 = performance.now();
   let total = 0;
-  const values = Object.values(SectionBuckets);
-  const filteredValues = values.filter((v) => !Number.isNaN(v));
-  for (const bucket of filteredValues) {
+  for (const bucket of section_buckets) {
     const section = generalVault[bucket as number];
     if (section) {
       total += section.length;
     }
   }
+  const p2 = performance.now();
+  console.log("calcTotalVaultItems", `${(p2 - p1).toFixed(4)} ms`);
   return total;
 }
 
