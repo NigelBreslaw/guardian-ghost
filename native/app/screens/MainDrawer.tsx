@@ -54,6 +54,7 @@ function RefreshButton() {
 
 function CharacterHeaderButtons() {
   const ggCharacters = useGGStore((state) => state.ggCharacters);
+  const currentListIndex = useGGStore((state) => state.currentListIndex);
   const scale = 0.4;
   const originalHeight = 96;
   const borderRadius = 15;
@@ -92,7 +93,7 @@ function CharacterHeaderButtons() {
                   right: 0,
                   borderRadius,
                   borderWidth: 1,
-                  borderColor: "grey",
+                  borderColor: index === currentListIndex ? "white" : "#5B5B5B",
                 }}
               />
             </View>
