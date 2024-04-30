@@ -261,7 +261,6 @@ function returnVaultUiData(
 ): UISections[] {
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
-  console.log("totalVaultItems", totalVaultItems);
 
   for (const bucket of itemBuckets) {
     const bucketItems = generalVault[bucket];
@@ -344,12 +343,6 @@ function returnVaultUiData(
 
 function calcTotalVaultItems(): number {
   let total = 0;
-  // for (const bucket of SectionBuckets) {
-  //   const section = generalVault[bucket];
-  //   if (section) {
-  //     total += section.length;
-  //   }
-  // }
   const values = Object.values(SectionBuckets);
   const filteredValues = values.filter((v) => !Number.isNaN(v));
   for (const bucket of filteredValues) {
