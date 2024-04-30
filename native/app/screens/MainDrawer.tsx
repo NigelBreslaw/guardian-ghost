@@ -1,30 +1,54 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import { LOGO_DARK } from "@/app/bungie/Common";
+import { LOGO_DARK, REFRESH_ICON } from "@/app/bungie/Common";
 import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
 import InventoryPages from "@/app/screens/InventoryPages";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Button, IconButton } from "react-native-paper";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { Image } from "expo-image";
+import Spinner from "@/app/components/Spinner.tsx";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import * as Haptics from "expo-haptics";
+
+const styles = StyleSheet.create({
+  iconButton: {
+    width: 40,
+    height: 40,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  iconImage: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+  },
+  spinner: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+    position: "absolute",
+  },
+});
 
 function RefreshButton() {
   const refreshing = useGGStore((state) => state.refreshing);
 
   return (
-    <IconButton
-      icon={"refresh"}
-      iconColor={"white"}
-      loading={refreshing}
-      onPress={() => {
-        getFullProfile();
-      }}
-    />
+    <TouchableWithoutFeedback onPress={() => getFullProfile()}>
+      <View style={styles.iconButton}>
+        <Image source={REFRESH_ICON} style={[styles.iconImage, { opacity: refreshing ? 0 : 1 }]} />
+        {refreshing && (
+          <View style={styles.spinner}>
+            <Spinner size={52} />
+          </View>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -104,6 +128,22 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       letterSpacing: -2,
       lineHeight: 48,
     },
+    button: {
+      width: "100%",
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: "#6750A4",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 20,
+      flexDirection: "row",
+      gap: 4,
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      includeFontPadding: false,
+    },
   });
 
   return (
@@ -113,16 +153,21 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <Text style={styles.textDark}>Guardian Ghost</Text>
       </View>
       <View style={styles.bottomContainer}>
-        <Button
-          mode="contained"
+        <TouchableOpacity
           onPress={() => {
             props.navigation.closeDrawer();
             logoutCurrentUser();
           }}
-          style={{ alignSelf: "stretch" }}
+          onPressIn={() => {
+            if (Platform.OS !== "web") {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
+          }}
         >
-          Logout
-        </Button>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

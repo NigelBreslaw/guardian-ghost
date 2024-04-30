@@ -13,11 +13,12 @@ import Svg, { Circle, G } from "react-native-svg";
 
 type SpinnerProps = {
   color?: string;
+  size?: number;
 };
 
 export default function Spinner(props: SpinnerProps) {
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-  const CIRCUMFERENCE = 50;
+  const CIRCUMFERENCE = props.size ?? 50;
   const R = CIRCUMFERENCE / (2 * Math.PI);
   const STROKE_WIDTH = 3;
   const HALF_CIRCLE = R + STROKE_WIDTH;

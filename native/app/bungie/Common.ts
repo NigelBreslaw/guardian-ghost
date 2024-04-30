@@ -387,3 +387,4 @@ export const GLOBAL_SPACE_EMBLEM = require("../../images/globalEmblem.webp");
 export const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
 export const vaultEmblemPath = require("../../images/vault-emblem-button.png");
 export const vaultSecondarySpecial = require("../../images/vaultSecondary.webp");
+export const REFRESH_ICON = require("../../images/icons/refresh.webp");
