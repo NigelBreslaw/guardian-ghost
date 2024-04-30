@@ -17,6 +17,7 @@ import { Platform } from "react-native";
 import { parse, safeParse, string } from "valibot";
 import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
+import Toast from "react-native-toast-message";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -30,7 +31,6 @@ export interface DefinitionsSlice {
   initDefinitions: () => Promise<void>;
   loadDefinitions: (uniqueKey: string | null) => Promise<void>;
   showSnackBar: (message: string) => void;
-  setSnackBarVisible: (snackBarVisible: boolean) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
 }
 
@@ -68,8 +68,12 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       downloadAndStoreItemDefinition(set);
     }
   },
-  setSnackBarVisible: (snackBarVisible) => set({ snackBarVisible }),
-  showSnackBar: (message) => set({ snackBarMessage: message, snackBarVisible: true }),
+  showSnackBar: (message) => {
+    Toast.show({
+      type: "success",
+      text1: message,
+    });
+  },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
 });
 
