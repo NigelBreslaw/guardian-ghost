@@ -2,7 +2,6 @@ import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
-import { PaperProvider } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useRef } from "react";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
@@ -10,11 +9,11 @@ import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
-import GGSnackBar from "@/app/components/GGSnackBar.tsx";
 import { enableFreeze } from "react-native-screens";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -101,36 +100,34 @@ function App() {
   }
 
   return (
-    <PaperProvider>
-      <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
-        <RootStack.Navigator>
-          <RootStack.Group>
-            <RootStack.Screen
-              name="Root"
-              component={MainDrawer}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </RootStack.Group>
-          <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
-            <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
-          </RootStack.Group>
-          <RootStack.Group
-            screenOptions={{
-              presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
+    <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
+      <RootStack.Navigator>
+        <RootStack.Group>
+          <RootStack.Screen
+            name="Root"
+            component={MainDrawer}
+            options={{
               headerShown: false,
-              cardStyle: {
-                backgroundColor: "transparent",
-              },
             }}
-          >
-            <RootStack.Screen name="BottomSheet" component={BottomSheet} />
-          </RootStack.Group>
-        </RootStack.Navigator>
-      </NavigationContainer>
-      <GGSnackBar />
-    </PaperProvider>
+          />
+        </RootStack.Group>
+        <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
+          <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
+        </RootStack.Group>
+        <RootStack.Group
+          screenOptions={{
+            presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
+            headerShown: false,
+            cardStyle: {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
+          <RootStack.Screen name="BottomSheet" component={BottomSheet} />
+        </RootStack.Group>
+      </RootStack.Navigator>
+      <Toast />
+    </NavigationContainer>
   );
 }
 
