@@ -6,7 +6,7 @@ PODS:
   - EXJSONUtils (0.13.0)
   - EXManifests (0.14.0):
     - ExpoModulesCore
-  - Expo (51.0.0-preview.7):
+  - Expo (51.0.0-preview.8):
     - ExpoModulesCore
   - expo-dev-client (4.0.6):
     - EXManifests
@@ -231,7 +231,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.3):
+  - ExpoModulesCore (1.12.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -261,7 +261,7 @@ PODS:
     - "sqlite3/fts5 (~> 3.45.3+1)"
   - ExpoSystemUI (3.0.2):
     - ExpoModulesCore
-  - ExpoWebBrowser (13.0.2):
+  - ExpoWebBrowser (13.0.3):
     - ExpoModulesCore
   - EXSplashScreen (0.27.2):
     - DoubleConversion
@@ -1840,7 +1840,7 @@ SPEC CHECKSUMS:
   EXConstants: 9a008dbf262550884e6280dea95b81b51f65ea6f
   EXJSONUtils: fe9e2688bdcbbd3adfd3323b19b0406c56acb471
   EXManifests: 9099018ae9786e67a347c2f1e1441b8878774d1b
-  Expo: 3d55b9ed388fb85d26ff82bea46edf5472fa9dd1
+  Expo: 5023eca14968f8122e58505712ca089fec21b4d2
   expo-dev-client: f1fe17913de8de725f5a313b2b6638e217c1b227
   expo-dev-launcher: ce1799afff618e4f9604676d2408177a1340b727
   expo-dev-menu: 8af75aa218cc0b70c4500deed8d2267db69e09d3
@@ -1853,10 +1853,10 @@ SPEC CHECKSUMS:
   ExpoImage: 80a5b14f9e0d845f2c2877cee1c2b1038ba276a6
   ExpoKeepAwake: f3a7b0ff4b4911957264dad8cb584ef688326a22
   ExpoLinearGradient: 99736b51da8bac4970013bdea81d19f4db546fa1
-  ExpoModulesCore: b322e60d4f954f1c369f167ce1ccb7157cfcaf56
+  ExpoModulesCore: a6e3dbeeb297d51b76bdaa0bda60cc6dea607765
   ExpoSQLite: 0091da247fdd8095f2cc213d98f812dba0ec7ca3
   ExpoSystemUI: f204247738681293eb231159a2476e68c8438ab3
-  ExpoWebBrowser: 247e3ff48a7554eb2db0d96b6e64e1bda4d4011f
+  ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
   EXSplashScreen: f4a379f0ef239cfd7e070fb7de4650bf8663e0cc
   EXUpdatesInterface: 9c4a15026e8434058e0fc0cc0418e667107e0edd
   FBLazyVector: 026c8f4ae67b06e088ae01baa2271ef8a26c0e8c
