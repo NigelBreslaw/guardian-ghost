@@ -335,11 +335,8 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
     }
 
     unequipItem = getUnequipItem(sectionItems, true);
-    // Can an exotic be equipped? If the currently equipped item is an exotic there is no issue
-    const currentEquippedItem =
-      guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]?.equipped;
 
-    if (currentEquippedItem?.tierType === TierType.Exotic && unequipItem) {
+    if (!hasBlockingExotic(transferItem.destinyItem) && unequipItem) {
       const name = itemsDefinition[unequipItem.itemHash]?.n;
       console.log("unequipItem", name);
       // create a transferItem for it and set it on the transferBundle otherItem
