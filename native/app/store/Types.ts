@@ -67,8 +67,8 @@ export const itemSchema = object({
 
 export type SingleItemDefinition = Output<typeof itemSchema>;
 
-const SocketCategorySchema = array(record(string(), object({ h: number(), i: number() })));
-export type SocketCategoryItem = Output<typeof SocketCategorySchema>;
+export const SocketCategorySchema = array(array(object({ h: number(), i: number() })));
+export type SocketCategoryItems = Output<typeof SocketCategorySchema>;
 
 const SocketEntrySchema = array(
   array(
@@ -80,7 +80,7 @@ const SocketEntrySchema = array(
     }),
   ),
 );
-export type SocketEntryItem = Output<typeof SocketEntrySchema>;
+export type SocketEntryItems = Output<typeof SocketEntrySchema>;
 
 export const ItemResponseSchema = object({
   helpers: object(

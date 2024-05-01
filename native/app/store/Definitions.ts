@@ -1,5 +1,5 @@
 import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
-import type { SingleItemDefinition, SocketCategoryItem, SocketEntryItem } from "@/app/store/Types.ts";
+import type { SingleItemDefinition, SocketCategoryItems, SocketEntryItems } from "@/app/store/Types.ts";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
 
@@ -18,9 +18,9 @@ export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
 export let ReusablePlugSetHash: number[];
 export let SingleInitialItemHash: number[];
-export let SocketCategories: SocketCategoryItem[]; // These strings are JSON objects
+export let SocketCategories: SocketCategoryItems; // These strings are JSON objects
 export let SocketCategoryHash: number[];
-export let SocketEntries: SocketEntryItem[];
+export let SocketEntries: SocketEntryItems;
 export let SocketIndexes: number[][];
 export let SocketTypeHash: number[];
 export let StackUniqueLabel: string[];
@@ -100,7 +100,7 @@ export function setSingleInitialItemHash(singleInitialItemHashDefinition: number
 }
 
 export function setSocketCategories(socketCategoriesDefinition: unknown) {
-  SocketCategories = socketCategoriesDefinition as SocketCategoryItem[];
+  SocketCategories = socketCategoriesDefinition as SocketCategoryItems;
 }
 
 export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
@@ -108,7 +108,7 @@ export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
 }
 
 export function setSocketEntries(socketEntriesDefinition: unknown) {
-  SocketEntries = socketEntriesDefinition as SocketEntryItem[];
+  SocketEntries = socketEntriesDefinition as SocketEntryItems;
 }
 
 export function setSocketIndexes(socketIndexesDefinition: unknown) {
