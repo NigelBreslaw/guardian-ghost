@@ -165,7 +165,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     return index;
   }
 
-  const processedData: ProcessedData = { helpers: {}, items: {}, version: 2, id: uniqueKey };
+  const processedData: ProcessedData = { helpers: {}, items: {}, version: 3, id: uniqueKey };
 
   const sortedDataKeys = Object.keys(jsonData).sort((a, b) => parseFloat(a) - parseFloat(b));
 
@@ -643,10 +643,32 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
 
   // Iterate over the enum names
   for (const enumName of enumNames) {
-    const stringArray = repeatStrings[RepeatStringsName[enumName]];
-    processedData.helpers[enumName] = stringArray;
-  }
+    switch (enumName) {
+      case RepeatStringsName.SocketIndexes: {
+        const socketIndexesDefinition = repeatStrings[RepeatStringsName[enumName]];
+        const si: number[][] = [];
+        for (const socketIndex of socketIndexesDefinition) {
+          si.push(JSON.parse(socketIndex) as number[]);
+        }
+        processedData.helpers[enumName] = si;
 
+        break;
+      }
+      case RepeatStringsName.SocketCategories:
+      case RepeatStringsName.SocketEntries:
+        const entries = repeatStrings[RepeatStringsName[enumName]];
+        const si: JSON[][] = [];
+        for (const entry of entries) {
+          si.push(JSON.parse(entry) as JSON[]);
+        }
+        processedData.helpers[enumName] = si;
+        break;
+      default: {
+        const stringArray = repeatStrings[RepeatStringsName[enumName]];
+        processedData.helpers[enumName] = stringArray;
+      }
+    }
+  }
   return processedData;
 }
 
