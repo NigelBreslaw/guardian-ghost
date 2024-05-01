@@ -1,6 +1,6 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
-import { itemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
+import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/transfer/TransferLogic.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
@@ -64,7 +64,7 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
     screenshot: screenshot,
     secondaryIcon: secondaryIcon,
     name: name ? name.toLocaleUpperCase() : "",
-    itemTypeDisplayName: itd ? itemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
+    itemTypeDisplayName: itd ? ItemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
   };
   return viewData;
 }

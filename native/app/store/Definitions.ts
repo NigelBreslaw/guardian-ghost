@@ -2,13 +2,37 @@ import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
 import type { SingleItemDefinition } from "@/app/store/Types.ts";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
+//       SocketEntries: unknown(),
+//       SocketIndexes: unknown(),
 
 export let itemsDefinition: ItemsDefinition = {};
-export let bucketTypeHashArray: number[];
-export let iconWaterMarks: string[];
-export let itemTypeDisplayName: string[];
-export let stackUniqueLabel: string[];
+export let BucketTypeHashArray: number[];
+export let DamageTypeHashes: number[];
+export let Descriptions: string[];
+export let DisplaySources: string[];
+export let ExpirationTooltip: string[];
+export let ExpiredInActivityMessage: string[];
+export let IconWaterMarks: string[];
+export let ItemTypeDisplayName: string[];
+export let ItemValue: number[];
+export let InsertionMaterialRequirementHash: number[];
+export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
+export let ReusablePlugSetHash: number[];
+export let SingleInitialItemHash: number[];
+export let SocketCategories: string[]; // These strings are JSON objects
+export let SocketCategoryHash: number[];
+export let SocketEntries: string[];
+export let SocketIndexes: number[][];
+export let SocketTypeHash: number[];
+export let StackUniqueLabel: string[];
+export let StatGroupHash: number[];
+export let StatHash: string[];
+export let TalentGridHash: number[];
+export let TooltipNotifications: string[];
+export let TraitIds: string[];
+export let UiItemDisplayStyle: string[];
+export let UiPlugLabel: string[];
 
 export let rawProfileData: ProfileData | null;
 export let lostItems: DestinyItem[] = [];
@@ -22,27 +46,129 @@ export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
 }
 
 export function setBucketTypeHashArray(bucketTypeHashDefinition: number[]) {
-  bucketTypeHashArray = bucketTypeHashDefinition;
+  BucketTypeHashArray = bucketTypeHashDefinition;
+}
+
+export function setDamageTypeHashes(damageTypeHashesDefinition: number[]) {
+  DamageTypeHashes = damageTypeHashesDefinition;
+}
+
+export function setDescriptions(descriptionsDefinition: string[]) {
+  Descriptions = descriptionsDefinition;
+}
+
+export function setDisplaySources(displaySourcesDefinition: string[]) {
+  DisplaySources = displaySourcesDefinition;
+}
+
+export function setExpirationTooltip(expirationTooltipDefinition: string[]) {
+  ExpirationTooltip = expirationTooltipDefinition;
+}
+
+export function setExpiredInActivityMessage(expiredInActivityMessageDefinition: string[]) {
+  ExpiredInActivityMessage = expiredInActivityMessageDefinition;
 }
 
 export function setIconWaterMarks(iconWaterMarksDefinition: string[]) {
-  iconWaterMarks = iconWaterMarksDefinition;
+  IconWaterMarks = iconWaterMarksDefinition;
 }
 
 export function setItemTypeDisplayName(itemTypeDisplayNameDefinition: string[]) {
-  itemTypeDisplayName = itemTypeDisplayNameDefinition;
+  ItemTypeDisplayName = itemTypeDisplayNameDefinition;
 }
 
-export function setStackUniqueLabel(stackUniqueLabelDefinition: string[]) {
-  stackUniqueLabel = stackUniqueLabelDefinition;
+export function setItemValue(itemValueDefinition: number[]) {
+  ItemValue = itemValueDefinition;
 }
 
-export function setRawProfileData(profileData: ProfileData) {
-  rawProfileData = profileData;
+export function setInsertionMaterialRequirementHash(insertionMaterialRequirementHashDefinition: number[]) {
+  InsertionMaterialRequirementHash = insertionMaterialRequirementHashDefinition;
+}
+
+export function setPlugCategoryHash(plugCategoryHashDefinition: number[]) {
+  PlugCategoryHash = plugCategoryHashDefinition;
 }
 
 export function setPlugCategoryIdentifier(plugCategoryIdentifier: string[]) {
   PlugCategoryIdentifier = plugCategoryIdentifier;
+}
+
+export function setReusablePlugSetHash(reusablePlugSetHashDefinition: number[]) {
+  ReusablePlugSetHash = reusablePlugSetHashDefinition;
+}
+
+export function setSingleInitialItemHash(singleInitialItemHashDefinition: number[]) {
+  SingleInitialItemHash = singleInitialItemHashDefinition;
+}
+
+export function setSocketCategories(socketCategoriesDefinition: string[]) {
+  const si: JSON[][] = [];
+  for (const socketCategory of socketCategoriesDefinition) {
+    si.push(JSON.parse(socketCategory) as JSON[]);
+  }
+
+  SocketCategories = socketCategoriesDefinition;
+}
+
+export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
+  SocketCategoryHash = socketCategoryHashDefinition;
+}
+
+export function setSocketEntries(socketEntriesDefinition: string[]) {
+  const si: JSON[][] = [];
+  for (const socketEntry of socketEntriesDefinition) {
+    si.push(JSON.parse(socketEntry) as JSON[]);
+  }
+
+  SocketEntries = socketEntriesDefinition;
+}
+
+export function setSocketIndexes(socketIndexesDefinition: string[]) {
+  const si: number[][] = [];
+  for (const socketIndex of socketIndexesDefinition) {
+    si.push(JSON.parse(socketIndex) as number[]);
+  }
+  SocketIndexes = si;
+}
+
+export function setSocketTypeHash(socketTypeHashDefinition: number[]) {
+  SocketTypeHash = socketTypeHashDefinition;
+}
+
+export function setStackUniqueLabel(stackUniqueLabelDefinition: string[]) {
+  StackUniqueLabel = stackUniqueLabelDefinition;
+}
+
+export function setStatGroupHash(statGroupHashDefinition: number[]) {
+  StatGroupHash = statGroupHashDefinition;
+}
+
+export function setStatHash(statHashDefinition: string[]) {
+  StatHash = statHashDefinition;
+}
+
+export function setTalentGridHash(talentGridHashDefinition: number[]) {
+  TalentGridHash = talentGridHashDefinition;
+}
+
+export function setTooltipNotifications(tooltipNotificationsDefinition: string[]) {
+  TooltipNotifications = tooltipNotificationsDefinition;
+}
+
+export function setTraitIds(traitIdsDefinition: string[]) {
+  TraitIds = traitIdsDefinition;
+}
+
+export function setUiItemDisplayStyle(uiItemDisplayStyleDefinition: string[]) {
+  UiItemDisplayStyle = uiItemDisplayStyleDefinition;
+}
+
+export function setUiPlugLabel(uiPlugLabelDefinition: string[]) {
+  UiPlugLabel = uiPlugLabelDefinition;
+}
+
+export function setRawProfileData(profileData: ProfileData) {
+  rawProfileData = profileData;
 }
 
 export function setLostItems(newLostItems: DestinyItem[]) {

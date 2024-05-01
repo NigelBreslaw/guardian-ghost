@@ -15,7 +15,7 @@ import {
   type DestinyItemIdentifier,
 } from "@/app/bungie/Common";
 import {
-  bucketTypeHashArray,
+  BucketTypeHashArray,
   consumables,
   generalVault,
   guardians,
@@ -93,7 +93,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
   }
 
   if (itemDefinition.b !== undefined) {
-    const defaultBucket = bucketTypeHashArray[itemDefinition.b];
+    const defaultBucket = BucketTypeHashArray[itemDefinition.b];
 
     if (defaultBucket) {
       if (itemIdentifier.characterId === VAULT_CHARACTER_ID) {
