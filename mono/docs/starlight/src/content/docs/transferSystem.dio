@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="TVojpHYMpzYpOVmNF_GP" name="Page-1">
-        <mxGraphModel dx="583" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+        <mxGraphModel dx="604" dy="384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -108,7 +108,7 @@
                 <mxCell id="35" value="Any exotic?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="820" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="YES" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="45" target="18" edge="1">
+                <mxCell id="46" value="FALSE" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="45" target="18" edge="1">
                     <mxGeometry x="0.0448" relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1020" y="270"/>
@@ -116,14 +116,14 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="106" value="NO" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="45" target="65" edge="1">
+                <mxCell id="106" value="TRUE" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="45" target="65" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="980" y="880"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="45" value="Can this &lt;br&gt;exotic be equipped?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="45" value="hasBlocking&lt;br&gt;Exotic()" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="970" y="510" width="100" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="54" value="NO" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="53" target="9" edge="1">
