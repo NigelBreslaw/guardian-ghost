@@ -8,7 +8,7 @@ export const DatabaseStore = {
   databaseName: "ggDataBase.db",
 };
 
-const MINI_ITEM_DEFINITION_VERSION = 2;
+const MINI_ITEM_DEFINITION_VERSION = 3;
 
 export const itemSchema = object({
   a: optional(number()),
@@ -67,6 +67,21 @@ export const itemSchema = object({
 
 export type SingleItemDefinition = Output<typeof itemSchema>;
 
+const SocketCategorySchema = array(record(string(), object({ h: number(), i: number() })));
+export type SocketCategoryItem = Output<typeof SocketCategorySchema>;
+
+const SocketEntrySchema = array(
+  array(
+    object({
+      p: optional(number()),
+      r: optional(number()),
+      s: optional(number()),
+      st: optional(number()),
+    }),
+  ),
+);
+export type SocketEntryItem = Output<typeof SocketEntrySchema>;
+
 export const ItemResponseSchema = object({
   helpers: object(
     {
@@ -84,10 +99,10 @@ export const ItemResponseSchema = object({
       PlugCategoryIdentifier: array(string()),
       ReusablePlugSetHash: array(number()),
       SingleInitialItemHash: array(number()),
-      SocketCategories: array(string()),
+      SocketCategories: unknown(),
       SocketCategoryHash: array(number()),
-      SocketEntries: array(string()),
-      SocketIndexes: array(string()),
+      SocketEntries: unknown(),
+      SocketIndexes: unknown(),
       SocketTypeHash: array(number()),
       StackUniqueLabel: array(string()),
       StatGroupHash: array(number()),

@@ -125,7 +125,6 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
 }
 
 function parseAndSet(itemDefinition: ItemResponse) {
-  const p1 = performance.now();
   setItemDefinition(itemDefinition.items as ItemsDefinition);
   setBucketTypeHashArray(itemDefinition.helpers.BucketTypeHash);
   setDamageTypeHashes(itemDefinition.helpers.DamageTypeHashes);
@@ -154,8 +153,6 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setTraitIds(itemDefinition.helpers.TraitIds);
   setUiItemDisplayStyle(itemDefinition.helpers.UiItemDisplayStyle);
   setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
-  const p2 = performance.now();
-  console.log("parseAndSet", p2 - p1);
   return { definitionsReady: true };
 }
 
