@@ -6,6 +6,28 @@ import {
   setItemTypeDisplayName,
   setStackUniqueLabel,
   setPlugCategoryIdentifier,
+  setDamageTypeHashes,
+  setDescriptions,
+  setDisplaySources,
+  setExpirationTooltip,
+  setExpiredInActivityMessage,
+  setItemValue,
+  setInsertionMaterialRequirementHash,
+  setPlugCategoryHash,
+  setReusablePlugSetHash,
+  setSingleInitialItemHash,
+  setSocketCategoryHash,
+  setSocketTypeHash,
+  setStatGroupHash,
+  setStatHash,
+  setTalentGridHash,
+  setTooltipNotifications,
+  setTraitIds,
+  setUiItemDisplayStyle,
+  setUiPlugLabel,
+  setSocketCategories,
+  setSocketEntries,
+  setSocketIndexes,
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
@@ -103,12 +125,37 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
 }
 
 function parseAndSet(itemDefinition: ItemResponse) {
+  const p1 = performance.now();
   setItemDefinition(itemDefinition.items as ItemsDefinition);
   setBucketTypeHashArray(itemDefinition.helpers.BucketTypeHash);
+  setDamageTypeHashes(itemDefinition.helpers.DamageTypeHashes);
+  setDescriptions(itemDefinition.helpers.Descriptions);
+  setDisplaySources(itemDefinition.helpers.DisplaySources);
+  setExpirationTooltip(itemDefinition.helpers.ExpirationTooltip);
+  setExpiredInActivityMessage(itemDefinition.helpers.ExpiredInActivityMessage);
   setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
   setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
-  setStackUniqueLabel(itemDefinition.helpers.StackUniqueLabel);
+  setItemValue(itemDefinition.helpers.ItemValue);
+  setInsertionMaterialRequirementHash(itemDefinition.helpers.InsertionMaterialRequirementHash);
+  setPlugCategoryHash(itemDefinition.helpers.PlugCategoryHash);
   setPlugCategoryIdentifier(itemDefinition.helpers.PlugCategoryIdentifier);
+  setReusablePlugSetHash(itemDefinition.helpers.ReusablePlugSetHash);
+  setSingleInitialItemHash(itemDefinition.helpers.SingleInitialItemHash);
+  setSocketCategories(itemDefinition.helpers.SocketCategories);
+  setSocketCategoryHash(itemDefinition.helpers.SocketCategoryHash);
+  setSocketEntries(itemDefinition.helpers.SocketEntries);
+  setSocketIndexes(itemDefinition.helpers.SocketIndexes);
+  setSocketTypeHash(itemDefinition.helpers.SocketTypeHash);
+  setStackUniqueLabel(itemDefinition.helpers.StackUniqueLabel);
+  setStatGroupHash(itemDefinition.helpers.StatGroupHash);
+  setStatHash(itemDefinition.helpers.StatHash);
+  setTalentGridHash(itemDefinition.helpers.TalentGridHash);
+  setTooltipNotifications(itemDefinition.helpers.TooltipNotifications);
+  setTraitIds(itemDefinition.helpers.TraitIds);
+  setUiItemDisplayStyle(itemDefinition.helpers.UiItemDisplayStyle);
+  setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
+  const p2 = performance.now();
+  console.log("parseAndSet", p2 - p1);
   return { definitionsReady: true };
 }
 

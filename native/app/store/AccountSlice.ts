@@ -21,8 +21,8 @@ import {
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   PlugCategoryIdentifier,
-  bucketTypeHashArray,
-  iconWaterMarks,
+  BucketTypeHashArray,
+  IconWaterMarks,
   itemsDefinition,
   rawProfileData,
   setConsumables,
@@ -31,7 +31,7 @@ import {
   setLostItems,
   setMods,
   setRawProfileData,
-  stackUniqueLabel,
+  StackUniqueLabel,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -357,7 +357,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     throw new Error("No itemDefinition found");
   }
 
-  const recoveryBucketHash = bucketTypeHashArray[itemDef.b] ?? 0;
+  const recoveryBucketHash = BucketTypeHashArray[itemDef.b] ?? 0;
   const definitionItem: DestinyItemDefinition = {
     recoveryBucketHash,
     itemType: ItemType.None,
@@ -390,7 +390,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   definitionItem.destinyClass = itemDef?.c ?? 3;
   definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
   definitionItem.maxStackSize = itemDef?.m ?? 1;
-  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? stackUniqueLabel[itemDef.su] : undefined;
+  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? StackUniqueLabel[itemDef.su] : undefined;
   definitionItem.nonTransferrable = itemDef?.nt === 1;
   definitionItem.equippable = itemDef?.e === 1;
 
@@ -456,13 +456,13 @@ function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItem
     if (dvwi) {
       const index = dvwi[versionNumber];
       if (index !== undefined) {
-        watermark = iconWaterMarks[index];
+        watermark = IconWaterMarks[index];
       }
     }
   } else {
     const iconWatermark = definition.iw;
     if (iconWatermark) {
-      watermark = iconWaterMarks[iconWatermark];
+      watermark = IconWaterMarks[iconWatermark];
     }
   }
 
