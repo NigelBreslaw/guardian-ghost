@@ -1,9 +1,7 @@
 import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
-import type { SingleItemDefinition } from "@/app/store/Types.ts";
+import type { SingleItemDefinition, SocketCategoryItem, SocketEntryItem } from "@/app/store/Types.ts";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
-//       SocketEntries: unknown(),
-//       SocketIndexes: unknown(),
 
 export let itemsDefinition: ItemsDefinition = {};
 export let BucketTypeHashArray: number[];
@@ -20,9 +18,9 @@ export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
 export let ReusablePlugSetHash: number[];
 export let SingleInitialItemHash: number[];
-export let SocketCategories: string[]; // These strings are JSON objects
+export let SocketCategories: SocketCategoryItem[]; // These strings are JSON objects
 export let SocketCategoryHash: number[];
-export let SocketEntries: string[];
+export let SocketEntries: SocketEntryItem[];
 export let SocketIndexes: number[][];
 export let SocketTypeHash: number[];
 export let StackUniqueLabel: string[];
@@ -101,34 +99,20 @@ export function setSingleInitialItemHash(singleInitialItemHashDefinition: number
   SingleInitialItemHash = singleInitialItemHashDefinition;
 }
 
-export function setSocketCategories(socketCategoriesDefinition: string[]) {
-  const si: JSON[][] = [];
-  for (const socketCategory of socketCategoriesDefinition) {
-    si.push(JSON.parse(socketCategory) as JSON[]);
-  }
-
-  SocketCategories = socketCategoriesDefinition;
+export function setSocketCategories(socketCategoriesDefinition: unknown) {
+  SocketCategories = socketCategoriesDefinition as SocketCategoryItem[];
 }
 
 export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
   SocketCategoryHash = socketCategoryHashDefinition;
 }
 
-export function setSocketEntries(socketEntriesDefinition: string[]) {
-  const si: JSON[][] = [];
-  for (const socketEntry of socketEntriesDefinition) {
-    si.push(JSON.parse(socketEntry) as JSON[]);
-  }
-
-  SocketEntries = socketEntriesDefinition;
+export function setSocketEntries(socketEntriesDefinition: unknown) {
+  SocketEntries = socketEntriesDefinition as SocketEntryItem[];
 }
 
-export function setSocketIndexes(socketIndexesDefinition: string[]) {
-  const si: number[][] = [];
-  for (const socketIndex of socketIndexesDefinition) {
-    si.push(JSON.parse(socketIndex) as number[]);
-  }
-  SocketIndexes = si;
+export function setSocketIndexes(socketIndexesDefinition: unknown) {
+  SocketIndexes = socketIndexesDefinition as number[][];
 }
 
 export function setSocketTypeHash(socketTypeHashDefinition: number[]) {
