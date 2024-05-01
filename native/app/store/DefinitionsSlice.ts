@@ -153,6 +153,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setTraitIds(itemDefinition.helpers.TraitIds);
   setUiItemDisplayStyle(itemDefinition.helpers.UiItemDisplayStyle);
   setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
+
   return { definitionsReady: true };
 }
 
