@@ -32,10 +32,11 @@ async function init() {
     const manifest = await Promise.all([customManifest, bungieManifest]);
     const parsedManifest = parse(object({ version: string() }), manifest[0]);
     const parsedBungieManifest = parse(bungieManifestSchema, manifest[1]);
-    useGGStore.getState().loadCustomDefinitions(parsedManifest.version);
-    useGGStore.getState().loadBungieDefinitions(parsedBungieManifest);
-  } catch {
+    await useGGStore.getState().loadCustomDefinitions(parsedManifest.version);
+    await useGGStore.getState().loadBungieDefinitions(parsedBungieManifest);
+  } catch (e) {
     // If the network call fails try to use the already downloaded version.
+    console.error("Failed to load custom manifest", e);
     useGGStore.getState().loadCustomDefinitions(null);
   }
 }
