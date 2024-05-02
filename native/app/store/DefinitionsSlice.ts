@@ -29,6 +29,7 @@ import {
   setSocketEntries,
   setSocketIndexes,
 } from "@/app/store/Definitions.ts";
+import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
 import type { StorageKey } from "@/app/store/Types";
@@ -91,6 +92,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       console.log("download a new version as KEY is different");
       downloadAndStoreItemDefinition(set);
     }
+    SplashScreen.hideAsync();
   },
   loadBungieDefinitions: async (bungieManifest) => {
     if (bungieManifest === null) {
