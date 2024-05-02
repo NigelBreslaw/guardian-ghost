@@ -10,7 +10,7 @@ import Login from "@/app/screens/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { enableFreeze } from "react-native-screens";
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import { bungieManifestSchema, type DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
@@ -31,11 +31,12 @@ async function init() {
 
     const manifest = await Promise.all([customManifest, bungieManifest]);
     const parsedManifest = parse(object({ version: string() }), manifest[0]);
-    useGGStore.getState().loadDefinitions(parsedManifest.version);
+    const parsedBungieManifest = parse(bungieManifestSchema, manifest[1]);
+    useGGStore.getState().loadCustomDefinitions(parsedManifest.version);
+    useGGStore.getState().loadBungieDefinitions(parsedBungieManifest);
   } catch {
-    console.error("Failed to load manifests");
     // If the network call fails try to use the already downloaded version.
-    useGGStore.getState().loadDefinitions(null);
+    useGGStore.getState().loadCustomDefinitions(null);
   }
 }
 init();

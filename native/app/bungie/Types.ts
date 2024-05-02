@@ -85,6 +85,15 @@ export const bungieResponseSchema = object({
 
 export type BungieResponse = Output<typeof bungieResponseSchema>;
 
+export const bungieManifestSchema = object({
+  Response: object({
+    jsonWorldComponentContentPaths: record(string(), object({ DestinySocketCategoryDefinition: string() })),
+    version: string(),
+  }),
+});
+
+export type BungieManifest = Output<typeof bungieManifestSchema>;
+
 const PlatformSilverSchema = object({
   itemHash: number(),
   quantity: number(),

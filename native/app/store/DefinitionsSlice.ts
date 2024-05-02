@@ -40,6 +40,7 @@ import { parse, safeParse, string } from "valibot";
 import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
+import type { BungieManifest } from "@/app/bungie/Types.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -51,7 +52,8 @@ export interface DefinitionsSlice {
   inventorySectionWidth: number;
   itemDefinitionVersion: string;
   initDefinitions: () => Promise<void>;
-  loadDefinitions: (uniqueKey: string | null) => Promise<void>;
+  loadCustomDefinitions: (uniqueKey: string | null) => Promise<void>;
+  loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
 }
@@ -70,7 +72,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       console.log("No saved itemDefinition version", e);
     }
   },
-  loadDefinitions: async (uniqueKey) => {
+  loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
     if (storedVersion === "") {
       // download a version
@@ -88,6 +90,14 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       // download a new version
       console.log("download a new version as KEY is different");
       downloadAndStoreItemDefinition(set);
+    }
+  },
+  loadBungieDefinitions: async (bungieManifest) => {
+    if (bungieManifest === null) {
+      Toast.show({
+        type: "error",
+        text1: "Restart the app. Failed to load bungie manifest",
+      });
     }
   },
   showSnackBar: (message) => {
