@@ -1,4 +1,4 @@
-import { array, number, object, optional, record, string, unknown, value } from "valibot";
+import { array, boolean, number, object, optional, record, string, unknown, value } from "valibot";
 import type { Output } from "valibot";
 
 export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS" | "DestinySocketCategoryDefinition";
@@ -67,10 +67,10 @@ export const itemSchema = object({
 
 export type SingleItemDefinition = Output<typeof itemSchema>;
 
-export const SocketCategorySchema = array(array(object({ h: number(), i: number() })));
-export type SocketCategoryItems = Output<typeof SocketCategorySchema>;
+export const MiniSocketCategorySchema = array(array(object({ h: number(), i: number() })));
+export type MiniSocketCategoryItems = Output<typeof MiniSocketCategorySchema>;
 
-const SocketEntrySchema = array(
+const MiniSocketEntrySchema = array(
   array(
     object({
       p: optional(number()),
@@ -80,7 +80,25 @@ const SocketEntrySchema = array(
     }),
   ),
 );
-export type SocketEntryItems = Output<typeof SocketEntrySchema>;
+export type MiniSocketEntryItems = Output<typeof MiniSocketEntrySchema>;
+
+const SocketCategorySchema = record(
+  string(),
+  object({
+    blacklisted: boolean(),
+    categoryStyle: number(),
+    displayProperties: object({
+      description: string(),
+      hasIcon: boolean(),
+      name: string(),
+    }),
+    hash: number(),
+    index: number(),
+    redacted: boolean(),
+    uiCategoryStyle: number(),
+  }),
+);
+export type SocketCategoryDefinition = Output<typeof SocketCategorySchema>;
 
 export const ItemResponseSchema = object({
   helpers: object(
