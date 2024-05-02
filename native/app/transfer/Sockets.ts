@@ -1,5 +1,6 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import {
+  DestinySocketCategoryDefinition,
   ReusablePlugSetHash,
   SingleInitialItemHash,
   SocketCategories,
@@ -10,21 +11,21 @@ import {
   itemsDefinition,
 } from "@/app/store/Definitions.ts";
 
-// enum CategoryStyle {
-//   Unknown = 0,
-//   Reusable = 1,
-//   Consumable = 2,
-//   Unlockable = 3,
-//   Intrinsic = 4,
-//   EnergyMeter = 5,
-//   LargePerk = 6,
-//   Abilities = 7,
-//   Supers = 8,
-// }
+enum CategoryStyle {
+  Unknown = 0,
+  Reusable = 1,
+  Consumable = 2,
+  Unlockable = 3,
+  Intrinsic = 4,
+  EnergyMeter = 5,
+  LargePerk = 6,
+  Abilities = 7,
+  Supers = 8,
+}
 
 type SocketMap = {
   socketIndex: number;
-  socketTypeHash?: number;
+  socketTypeHash: number | null;
 };
 
 enum SocketPlugSources {
@@ -75,7 +76,7 @@ type SocketEntry = {
   /// This is a bitmask
   // iconType: IconType; // default is.Plug
   // modType: ModType; // default is.Normal
-  plugSources?: SocketPlugSources;
+  plugSources: SocketPlugSources;
   // reusablePlugSocketIndex: number;
 
   // plugSourceEnums: SocketPlugSources[];
@@ -83,10 +84,10 @@ type SocketEntry = {
   // categoryStyle: CategoryStyle;
 
   // socketIndex: number;
-  socketTypeHash?: number;
-  singleInitialItemHash?: number;
+  socketTypeHash: number | null;
+  singleInitialItemHash: number | null;
 
-  reusablePlugSetHash?: number;
+  reusablePlugSetHash: number | null;
 
   /// What plug is socketed if any?
   // isVisible: boolean;
@@ -115,13 +116,14 @@ type Sockets = {
 };
 
 type SocketCategory = {
-  socketCategoryHash?: number;
-  socketIndexes?: number[];
-  // name: string;
-  // description: string;
+  socketCategoryHash: number | null;
+  socketIndexes: number[];
+  name: string;
 
-  // categoryStyle: CategoryStyle;
-  // index: number;
+  description: string;
+
+  categoryStyle: CategoryStyle;
+  index: number;
 
   // /// This is used to map to a specific socket entry in the itemDefinition
   socketMaps: SocketMap[];
@@ -129,13 +131,28 @@ type SocketCategory = {
   // topLevelSockets: SocketEntry[][];
 };
 
-// Create the socket categories and socket entries with the basic info from the itemDefinition
-// It's all been minified to the point where it's unreadable. So at this point we un-minify everything
-// and use the exact same property names as in the original itemDefinition.
 export function createSockets(destinyItem: DestinyItem): Sockets | null {
   const p1 = performance.now();
+
+  // Create the socket categories and socket entries with the basic info from the itemDefinition
+  // It's all been minified to the point where it's unreadable. So at this point we un-minify everything
+  // and use the exact same property names as in the original itemDefinition.
+  const sockets = unMinifyAndCreateSockets(destinyItem.itemHash);
+
+  if (!sockets) {
+    console.error("Failed to create sockets for item", destinyItem.itemHash);
+    return null;
+  }
+
+  addSocketCategoryDefinition(sockets);
+  const p2 = performance.now();
+  console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
+  return sockets;
+}
+
+function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
   /// The set of socketCategories an item has can only be discovered from the itemDefinition
-  const sk = itemsDefinition[destinyItem.itemHash]?.sk;
+  const sk = itemsDefinition[itemHash]?.sk;
 
   if (!sk || !sk.sc || !sk.se) {
     return null;
@@ -151,18 +168,18 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   // First create the socket entries as the socket categories will need some data from them.
   const socketEntries: SocketEntry[] = [];
   for (const socketEntry of minifiedSocketEntries) {
-    const plugSources = socketEntry.p;
-    let singleInitialItemHash = undefined;
+    const plugSources = socketEntry.p ?? SocketPlugSources.None;
+    let singleInitialItemHash = null;
     if (socketEntry.s) {
-      singleInitialItemHash = SingleInitialItemHash[socketEntry.s];
+      singleInitialItemHash = SingleInitialItemHash[socketEntry.s] ?? null;
     }
-    let reusablePlugSetHash = undefined;
+    let reusablePlugSetHash = null;
     if (socketEntry.r) {
-      reusablePlugSetHash = ReusablePlugSetHash[socketEntry.r];
+      reusablePlugSetHash = ReusablePlugSetHash[socketEntry.r] ?? null;
     }
-    let socketTypeHash = undefined;
+    let socketTypeHash = null;
     if (socketEntry.st) {
-      socketTypeHash = SocketTypeHash[socketEntry.st];
+      socketTypeHash = SocketTypeHash[socketEntry.st] ?? null;
     }
 
     const se = {
@@ -176,20 +193,29 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
   const socketCategories: SocketCategory[] = [];
   for (const socketCategory of minifiedSocketCategories) {
-    const socketCategoryHash = SocketCategoryHash[socketCategory.h];
+    const socketCategoryHash = SocketCategoryHash[socketCategory.h] ?? null;
     const socketIndexes = SocketIndexes[socketCategory.i];
     if (!socketIndexes || !socketIndexes) {
       console.log("No socketIndexes!! return null");
       return null;
     }
+
     const socketMaps = socketIndexes.map((item, socketIndex) => {
-      const socketTypeHash = socketEntries[item]?.socketTypeHash;
+      const socketTypeHash = socketEntries[item]?.socketTypeHash ?? null;
       return {
         socketIndex,
         socketTypeHash,
       };
     });
-    const sc = { socketCategoryHash, socketIndexes, socketMaps };
+    const sc = {
+      name: "",
+      description: "",
+      categoryStyle: 0,
+      index: -1,
+      socketCategoryHash,
+      socketIndexes,
+      socketMaps,
+    };
     socketCategories.push(sc);
   }
 
@@ -197,7 +223,20 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
     socketEntries,
     socketCategories,
   };
-  const p2 = performance.now();
-  console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
+
   return sockets;
+}
+
+function addSocketCategoryDefinition(sockets: Sockets) {
+  for (const category of sockets.socketCategories) {
+    if (category.socketCategoryHash) {
+      const categoryDefinition = DestinySocketCategoryDefinition[category.socketCategoryHash];
+      if (categoryDefinition) {
+        category.name = categoryDefinition.displayProperties.name;
+        category.description = categoryDefinition.displayProperties.description;
+        category.categoryStyle = categoryDefinition.categoryStyle;
+        category.index = categoryDefinition.index;
+      }
+    }
+  }
 }
