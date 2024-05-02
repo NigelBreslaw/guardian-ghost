@@ -2,6 +2,7 @@ import type { DestinyItem } from "@/app/bungie/Types.ts";
 import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
 import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { createSockets } from "@/app/transfer/Sockets.ts";
 import { startTransfer } from "@/app/transfer/TransferLogic.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -33,7 +34,7 @@ type ViewData = {
 
 function buildViewData(destinyItem: DestinyItem): ViewData {
   const itemDef = itemsDefinition[destinyItem.itemHash];
-
+  createSockets(destinyItem);
   let screenshot = "";
   let secondaryIcon = "";
 
