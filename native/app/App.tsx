@@ -4,7 +4,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useRef } from "react";
-import { getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { getBungieManifest, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
@@ -26,10 +26,14 @@ enableFreeze(true);
 
 async function init() {
   try {
-    const manifest = await getCustomManifest();
-    const parsedManifest = parse(object({ version: string() }), manifest);
+    const customManifest = getCustomManifest();
+    const bungieManifest = getBungieManifest();
+
+    const manifest = await Promise.all([customManifest, bungieManifest]);
+    const parsedManifest = parse(object({ version: string() }), manifest[0]);
     useGGStore.getState().loadDefinitions(parsedManifest.version);
   } catch {
+    console.error("Failed to load manifests");
     // If the network call fails try to use the already downloaded version.
     useGGStore.getState().loadDefinitions(null);
   }
