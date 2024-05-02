@@ -11,7 +11,6 @@ import {
 } from "@/app/store/AuthenticationLogic.ts";
 import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
 import type { StateCreator } from "zustand";
-import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 
 const initialBungieUser = {
@@ -85,8 +84,6 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       console.error("An error occurred:", error);
 
       get().logoutCurrentUser();
-    } finally {
-      SplashScreen.hideAsync();
     }
   },
   setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
