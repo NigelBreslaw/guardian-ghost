@@ -28,6 +28,7 @@ import {
   setSocketCategories,
   setSocketEntries,
   setSocketIndexes,
+  setDestinySocketCategoryDefinition,
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
@@ -42,6 +43,7 @@ import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
 import type { BungieManifest } from "@/app/bungie/Types.ts";
+import { bungieUrl } from "@/app/bungie/Common.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -52,6 +54,7 @@ export interface DefinitionsSlice {
   snackBarMessage: string;
   inventorySectionWidth: number;
   itemDefinitionVersion: string;
+  bungieDefinitionVersions: string;
   initDefinitions: () => Promise<void>;
   loadCustomDefinitions: (uniqueKey: string | null) => Promise<void>;
   loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
@@ -65,12 +68,20 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   snackBarMessage: "",
   inventorySectionWidth: 0,
   itemDefinitionVersion: "",
+  bungieDefinitionVersions: "",
   initDefinitions: async () => {
     try {
       const loadedDefinitionVersion = await loadItemDefinitionVersion();
       set({ itemDefinitionVersion: loadedDefinitionVersion });
     } catch (e) {
       console.log("No saved itemDefinition version", e);
+    }
+
+    try {
+      const bungieDefinitionVersion = await loadBungieDefinitionsVersion();
+      set({ bungieDefinitionVersions: bungieDefinitionVersion });
+    } catch (e) {
+      console.log("No saved bungieDefinition version", e);
     }
   },
   loadCustomDefinitions: async (uniqueKey) => {
@@ -100,6 +111,25 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
         type: "error",
         text1: "Restart the app. Failed to load bungie manifest",
       });
+    }
+    const storedVersion = get().bungieDefinitionVersions;
+    const versionKey = bungieManifest?.Response.version;
+    if (storedVersion === "") {
+      // download a version
+
+      downloadAndStoreBungieDefinitions(bungieManifest);
+    } else if (versionKey === null) {
+      // try to use the already downloaded version
+      console.log("NULL use the already downloaded version");
+      loadLocalBungieDefinitions();
+    } else if (versionKey === storedVersion) {
+      // use the already downloaded version
+      console.log("use the already downloaded version");
+      loadLocalBungieDefinitions();
+    } else {
+      // download a new version
+      console.log("download a new bungie definitions as KEY is different");
+      downloadAndStoreBungieDefinitions(bungieManifest);
     }
   },
   showSnackBar: (message) => {
@@ -133,6 +163,35 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
   } catch (e) {
     // TODO: Show big error message
     console.error("Failed to download and save itemDefinition", e);
+  }
+}
+
+async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest | null): Promise<void> {
+  const versionKey = bungieManifest?.Response.version;
+  if (!versionKey) {
+    console.error("No version key found in bungieManifest");
+    return;
+  }
+  try {
+    const path = bungieManifest?.Response.jsonWorldComponentContentPaths.en?.DestinySocketCategoryDefinition;
+    const url = `${bungieUrl}${path}`;
+    const downloadedDefinition = await getBungieDefinition(url);
+    await setData(downloadedDefinition, "DestinySocketCategoryDefinition", "downloadAndStoreBungieDefinitions()");
+    await saveBungieDefinitionsVersion(versionKey);
+    setDestinySocketCategoryDefinition(downloadedDefinition);
+  } catch (e) {
+    console.error("Failed to download and save bungieDefinition", e);
+  }
+}
+
+async function loadLocalBungieDefinitions(): Promise<void> {
+  try {
+    const loadedDefinition = await getData("DestinySocketCategoryDefinition", "loadLocalBungieDefinitions()");
+    // const socketDefinition = parse(ItemResponseSchema, loadedDefinition);
+    setDestinySocketCategoryDefinition(loadedDefinition);
+  } catch (e) {
+    console.error("Failed to load bungieDefinition version", e);
+    saveBungieDefinitionsVersion("");
   }
 }
 
@@ -352,4 +411,51 @@ export async function saveItemDefinitionVersion(version: string): Promise<void> 
     console.error("Failed to save itemDefinition version", error);
     throw new Error("Failed to save itemDefinition version");
   }
+}
+
+export async function loadBungieDefinitionsVersion(): Promise<string> {
+  const version = await AsyncStorage.getItem(Store._bungie_definitions);
+  if (version) {
+    const validatedVersion = safeParse(string(), version);
+
+    if (validatedVersion.success) {
+      return validatedVersion.output;
+    }
+    throw new Error("Validation failed");
+  }
+  throw new Error("No saved bungieDefinitions version found");
+}
+
+export async function saveBungieDefinitionsVersion(version: string): Promise<void> {
+  try {
+    await AsyncStorage.setItem(Store._bungie_definitions, version);
+    console.log("saved bungie", version);
+  } catch (error: unknown) {
+    console.error("Failed to save itemDefinition version", error);
+    throw new Error("Failed to save itemDefinition version");
+  }
+}
+
+async function getBungieDefinition(definitionUrl: string): Promise<JSON> {
+  const requestOptions: RequestInit = {
+    method: "GET",
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch(definitionUrl, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        console.error("getBungieDefinition", definitionUrl, error);
+        reject(error);
+      });
+  });
 }
