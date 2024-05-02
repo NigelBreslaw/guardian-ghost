@@ -39,6 +39,8 @@ export let mods: DestinyItem[] = [];
 export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
+export let DestinySocketCategoryDefinition: JSON;
+
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
 }
@@ -173,4 +175,8 @@ export function setGeneralVault(newGeneralVault: Record<number, DestinyItem[]>) 
 
 export function setGuardians(newGuardians: Record<string, Guardian>) {
   guardians = newGuardians;
+}
+
+export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefinition: JSON) {
+  DestinySocketCategoryDefinition = newDestinySocketCategoryDefinition;
 }

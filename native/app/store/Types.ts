@@ -1,7 +1,7 @@
 import { array, number, object, optional, record, string, unknown, value } from "valibot";
 import type { Output } from "valibot";
 
-export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
+export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS" | "DestinySocketCategoryDefinition";
 export const DatabaseStore = {
   factoryName: "gg-data",
   storeName: "key-values",
