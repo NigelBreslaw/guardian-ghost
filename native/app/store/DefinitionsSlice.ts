@@ -89,19 +89,17 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     if (storedVersion === "") {
       // download a version
       console.log("download a version");
-      downloadAndStoreItemDefinition(set);
+      await downloadAndStoreItemDefinition(set);
     } else if (uniqueKey === null) {
       // try to use the already downloaded version
-      console.log("NULL use the already downloaded version");
-      loadLocalItemDefinitionVersion(set);
+      await loadLocalItemDefinitionVersion(set);
     } else if (uniqueKey === storedVersion) {
       // use the already downloaded version
-      console.log("use the already downloaded version");
-      loadLocalItemDefinitionVersion(set);
+      await loadLocalItemDefinitionVersion(set);
     } else {
       // download a new version
       console.log("download a new version as KEY is different");
-      downloadAndStoreItemDefinition(set);
+      await downloadAndStoreItemDefinition(set);
     }
     SplashScreen.hideAsync();
   },
@@ -116,20 +114,17 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     const versionKey = bungieManifest?.Response.version;
     if (storedVersion === "") {
       // download a version
-
-      downloadAndStoreBungieDefinitions(bungieManifest);
+      await downloadAndStoreBungieDefinitions(bungieManifest);
     } else if (versionKey === null) {
       // try to use the already downloaded version
-      console.log("NULL use the already downloaded version");
-      loadLocalBungieDefinitions();
+      await loadLocalBungieDefinitions();
     } else if (versionKey === storedVersion) {
       // use the already downloaded version
-      console.log("use the already downloaded version");
-      loadLocalBungieDefinitions();
+      await loadLocalBungieDefinitions();
     } else {
       // download a new version
       console.log("download a new bungie definitions as KEY is different");
-      downloadAndStoreBungieDefinitions(bungieManifest);
+      await downloadAndStoreBungieDefinitions(bungieManifest);
     }
   },
   showSnackBar: (message) => {
@@ -285,11 +280,10 @@ function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
         (_, error) => {
           console.log("Error occurred while creating the table");
           console.log(error);
-          return true;
+          return false;
         },
       );
     });
-
     if (nativeStore) {
       nativeStore.transaction((tx) => {
         tx.executeSql(
