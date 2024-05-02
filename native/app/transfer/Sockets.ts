@@ -1,3 +1,4 @@
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import {
   ReusablePlugSetHash,
   SingleInitialItemHash,
@@ -21,10 +22,10 @@ import {
 //   Supers = 8,
 // }
 
-// type SocketMap = {
-//   socketIndex: number;
-//   socketTypeHash: number;
-// };
+type SocketMap = {
+  socketIndex: number;
+  socketTypeHash?: number;
+};
 
 enum SocketPlugSources {
   /// There's no way we can detect to insert new plugs.
@@ -123,14 +124,18 @@ type SocketCategory = {
   // index: number;
 
   // /// This is used to map to a specific socket entry in the itemDefinition
-  // socketMap: SocketMap[];
+  socketMaps: SocketMap[];
 
   // topLevelSockets: SocketEntry[][];
 };
 
-export function createSockets(itemHash: number): Sockets | null {
+// Create the socket categories and socket entries with the basic info from the itemDefinition
+// It's all been minified to the point where it's unreadable. So at this point we un-minify everything
+// and use the exact same property names as in the original itemDefinition.
+export function createSockets(destinyItem: DestinyItem): Sockets | null {
+  const p1 = performance.now();
   /// The set of socketCategories an item has can only be discovered from the itemDefinition
-  const sk = itemsDefinition[itemHash]?.sk;
+  const sk = itemsDefinition[destinyItem.itemHash]?.sk;
 
   if (!sk || !sk.sc || !sk.se) {
     return null;
@@ -143,22 +148,8 @@ export function createSockets(itemHash: number): Sockets | null {
     return null;
   }
 
-  // First create the socket categories and socket entries with the basic info from the itemDefinition
-  // It's all been minified to the point where it's unreadable. So at this point we un-minify everything
-  // and use the exact same property names as in the original itemDefinition.
-  const socketCategories: SocketCategory[] = [];
-  for (const socketCategory of minifiedSocketCategories) {
-    const socketCategoryHash = SocketCategoryHash[socketCategory.h];
-    const socketIndexes = SocketIndexes[socketCategory.i];
-    if (!socketIndexes || !socketIndexes) {
-      console.log("No socketIndexes!! return null");
-      return null;
-    }
-    const sc = { socketCategoryHash, socketIndexes };
-    socketCategories.push(sc);
-  }
-
-  const socketEntries = [];
+  // First create the socket entries as the socket categories will need some data from them.
+  const socketEntries: SocketEntry[] = [];
   for (const socketEntry of minifiedSocketEntries) {
     const plugSources = socketEntry.p;
     let singleInitialItemHash = undefined;
@@ -183,10 +174,30 @@ export function createSockets(itemHash: number): Sockets | null {
     socketEntries.push(se);
   }
 
+  const socketCategories: SocketCategory[] = [];
+  for (const socketCategory of minifiedSocketCategories) {
+    const socketCategoryHash = SocketCategoryHash[socketCategory.h];
+    const socketIndexes = SocketIndexes[socketCategory.i];
+    if (!socketIndexes || !socketIndexes) {
+      console.log("No socketIndexes!! return null");
+      return null;
+    }
+    const socketMaps = socketIndexes.map((item, socketIndex) => {
+      const socketTypeHash = socketEntries[item]?.socketTypeHash;
+      return {
+        socketIndex,
+        socketTypeHash,
+      };
+    });
+    const sc = { socketCategoryHash, socketIndexes, socketMaps };
+    socketCategories.push(sc);
+  }
+
   const sockets = {
     socketEntries,
     socketCategories,
   };
-
+  const p2 = performance.now();
+  console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
   return sockets;
 }
