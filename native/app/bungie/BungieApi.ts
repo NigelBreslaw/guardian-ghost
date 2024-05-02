@@ -96,3 +96,27 @@ async function getProfile(): Promise<JSON> {
       });
   });
 }
+
+export async function getBungieManifest(): Promise<JSON> {
+  const requestOptions: RequestInit = {
+    method: "GET",
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch("https://www.bungie.net/Platform/Destiny2/Manifest/", requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        console.error("getManifest", error);
+        reject(error);
+      });
+  });
+}
