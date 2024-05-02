@@ -1,5 +1,10 @@
 import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
-import type { SingleItemDefinition, SocketCategoryItems, SocketEntryItems } from "@/app/store/Types.ts";
+import type {
+  SingleItemDefinition,
+  MiniSocketCategoryItems,
+  MiniSocketEntryItems,
+  SocketCategoryDefinition,
+} from "@/app/store/Types.ts";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
 
@@ -18,9 +23,9 @@ export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
 export let ReusablePlugSetHash: number[];
 export let SingleInitialItemHash: number[];
-export let SocketCategories: SocketCategoryItems; // These strings are JSON objects
+export let SocketCategories: MiniSocketCategoryItems; // These strings are JSON objects
 export let SocketCategoryHash: number[];
-export let SocketEntries: SocketEntryItems;
+export let SocketEntries: MiniSocketEntryItems;
 export let SocketIndexes: number[][];
 export let SocketTypeHash: number[];
 export let StackUniqueLabel: string[];
@@ -39,7 +44,7 @@ export let mods: DestinyItem[] = [];
 export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
-export let DestinySocketCategoryDefinition: JSON;
+export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
@@ -102,7 +107,7 @@ export function setSingleInitialItemHash(singleInitialItemHashDefinition: number
 }
 
 export function setSocketCategories(socketCategoriesDefinition: unknown) {
-  SocketCategories = socketCategoriesDefinition as SocketCategoryItems;
+  SocketCategories = socketCategoriesDefinition as MiniSocketCategoryItems;
 }
 
 export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
@@ -110,7 +115,7 @@ export function setSocketCategoryHash(socketCategoryHashDefinition: number[]) {
 }
 
 export function setSocketEntries(socketEntriesDefinition: unknown) {
-  SocketEntries = socketEntriesDefinition as SocketEntryItems;
+  SocketEntries = socketEntriesDefinition as MiniSocketEntryItems;
 }
 
 export function setSocketIndexes(socketIndexesDefinition: unknown) {
@@ -177,6 +182,6 @@ export function setGuardians(newGuardians: Record<string, Guardian>) {
   guardians = newGuardians;
 }
 
-export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefinition: JSON) {
+export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefinition: SocketCategoryDefinition) {
   DestinySocketCategoryDefinition = newDestinySocketCategoryDefinition;
 }

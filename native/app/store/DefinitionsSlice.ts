@@ -33,7 +33,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
-import type { StorageKey } from "@/app/store/Types";
+import type { SocketCategoryDefinition, StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite/legacy";
@@ -178,7 +178,7 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     const downloadedDefinition = await getBungieDefinition(url);
     await setData(downloadedDefinition, "DestinySocketCategoryDefinition", "downloadAndStoreBungieDefinitions()");
     await saveBungieDefinitionsVersion(versionKey);
-    setDestinySocketCategoryDefinition(downloadedDefinition);
+    setDestinySocketCategoryDefinition(downloadedDefinition as unknown as SocketCategoryDefinition);
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
   }
@@ -188,7 +188,7 @@ async function loadLocalBungieDefinitions(): Promise<void> {
   try {
     const loadedDefinition = await getData("DestinySocketCategoryDefinition", "loadLocalBungieDefinitions()");
     // const socketDefinition = parse(ItemResponseSchema, loadedDefinition);
-    setDestinySocketCategoryDefinition(loadedDefinition);
+    setDestinySocketCategoryDefinition(loadedDefinition as unknown as SocketCategoryDefinition);
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");
