@@ -89,7 +89,7 @@ type SocketEntry = {
   plugCreationSource: SocketPlugSources;
   // categoryStyle: CategoryStyle;
 
-  // socketIndex: number;
+  socketIndex: number | null;
   socketTypeHash: number | null;
   singleInitialItemHash: number | null;
 
@@ -163,6 +163,8 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   updateSocketEntriesWithLiveData(sockets, destinyItem);
 
   updateSocketCategoriesWithData(sockets, destinyItem);
+
+  addDefinitionsToTopLevelSockets(sockets, destinyItem);
   const p2 = performance.now();
   console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
   // console.log("sockets", sockets);
@@ -211,6 +213,7 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
       plugSourcesAsEnums,
       plugCreationSource: SocketPlugSources.None,
       singleInitialItemHash,
+      socketIndex: null,
       reusablePlugSetHash,
       reusablePlugSocketIndex: null,
       socketTypeHash,
@@ -409,6 +412,7 @@ function makeSocketEntryColumn(
           isVisible: false,
           isEnabled: false,
           socketTypeHash: null,
+          socketIndex: null,
           singleInitialItemHash: null,
           reusablePlugSetHash: null,
           reusablePlugSocketIndex: null,
@@ -429,4 +433,37 @@ function makeSocketEntryColumn(
   }
 
   return topLevelSocketsInternal;
+}
+
+function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: DestinyItem) {
+  for (const category of sockets.socketCategories) {
+    let columnIndex = 0;
+
+    for (const column of category.topLevelSockets) {
+      for (const socketEntry of column) {
+        // TODO: add back when this extends destinyItem?
+        // DestinyItem.Def.addDefinition( socketEntry )
+
+        /// Add the data needed for inserting a free plug
+        socketEntry.socketTypeHash = category.socketMaps[columnIndex]?.socketTypeHash ?? null;
+        socketEntry.socketIndex = category.socketMaps[columnIndex]?.socketIndex ?? null;
+
+        // TODO: add back when this extends destinyItem?
+        // socketEntry.itemInstanceId = destinyItem.itemInstanceId
+
+        // let characterIdArg = "";
+
+        // if (destinyItem.characterId === VAULT_CHARACTER_ID) {
+        //   characterIdArg = useGGStore.getState().ggCharacters[0]?.characterId ?? "";
+        // } else {
+        //   characterIdArg = destinyItem.characterId;
+        // }
+        // TODO: add back when this extends destinyItem?
+
+        // socketEntry.characterId = characterIdArg
+      }
+
+      columnIndex++;
+    }
+  }
 }
