@@ -165,6 +165,11 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   updateSocketCategoriesWithData(sockets, destinyItem);
 
   addDefinitionsToTopLevelSockets(sockets, destinyItem);
+
+  // TODO: addMasterworkInvestments() should be added. But it presumes addDefinitionsToTopLevelSockets has done
+  // it's job and right now some research is needed to see if it's really needed.
+
+  // TODO: addDeepsightResonance() should all be added.
   const p2 = performance.now();
   console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
   // console.log("sockets", sockets);
