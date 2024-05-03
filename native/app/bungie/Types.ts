@@ -401,7 +401,7 @@ export const getSimpleProfileSchema = merge([
         data: unknown(),
       }),
       characterLoadouts: object({}),
-      characterPlugSets: object({}),
+      characterPlugSets: object({ data: unknown() }),
       characterProgressions: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
