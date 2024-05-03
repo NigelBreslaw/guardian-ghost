@@ -11,8 +11,6 @@ import {
   itemsDefinition,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
-import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 
 enum CategoryStyle {
