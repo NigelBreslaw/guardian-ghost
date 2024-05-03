@@ -86,6 +86,20 @@ export function bitmaskContains(bitmask: number, value: number): boolean {
   return (bitmask & value) === value;
 }
 
+export function getBitmaskValues(bitmask: number): number[] {
+  const values: number[] = [];
+  let mask = 1;
+
+  while (bitmask >= mask) {
+    if ((bitmask & mask) !== 0) {
+      values.push(mask);
+    }
+    mask = mask << 1;
+  }
+
+  return values;
+}
+
 const consumablesOrder = [
   3905974032, /// Synthstrand
   3855200273, /// Rigid Synthcord
