@@ -220,14 +220,15 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
       return null;
     }
 
-    const socketMaps = socketIndexes.map((item, socketIndex) => {
+    const socketMaps: SocketMap[] = socketIndexes.map((item, socketIndex) => {
       const socketTypeHash = socketEntries[item]?.socketTypeHash ?? null;
-      return {
+      const sm: SocketMap = {
         socketIndex,
         socketTypeHash,
       };
+      return sm;
     });
-    const sc = {
+    const sc: SocketCategory = {
       name: "",
       description: "",
       categoryStyle: 0,
