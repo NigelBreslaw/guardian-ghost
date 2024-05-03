@@ -140,6 +140,11 @@ type SocketCategory = {
 export function createSockets(destinyItem: DestinyItem): Sockets | null {
   const p1 = performance.now();
 
+  // Non instanced items have no sockets.
+  if (!destinyItem.itemInstanceId) {
+    return null;
+  }
+
   // Create the socket categories and socket entries with the basic info from the itemDefinition
   // It's all been minified to the point where it's unreadable. So at this point we un-minify everything
   // and use the exact same property names as in the original itemDefinition.
@@ -154,11 +159,6 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
   // TODO: The categories now have an 'index' property gained from the definition. Should this be used
   // to sort the visual order the categories are displayed in?
-
-  if (!destinyItem.itemInstanceId) {
-    console.error("No itemInstanceId", destinyItem);
-    return null;
-  }
 
   updateSocketEntriesWithLiveData(sockets, destinyItem);
 
