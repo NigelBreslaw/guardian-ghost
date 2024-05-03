@@ -33,8 +33,8 @@ type ViewData = {
 };
 
 function buildViewData(destinyItem: DestinyItem): ViewData {
+  const _sockets = createSockets(destinyItem);
   const itemDef = itemsDefinition[destinyItem.itemHash];
-  createSockets(destinyItem);
   let screenshot = "";
   let secondaryIcon = "";
 
@@ -167,7 +167,8 @@ export default function BottomSheet({
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
   const { characterId } = route.params.item;
-  const [viewData, _setViewData] = useState<ViewData>(buildViewData(route.params.item));
+
+  const [viewData, setViewData] = useState<ViewData | null>(null);
   const destinyItem = useGGStore.getState().selectedItem;
 
   if (!destinyItem) {
@@ -181,6 +182,7 @@ export default function BottomSheet({
       const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
       useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
       refRBSheet.current.open();
+      setViewData(buildViewData(route.params.item));
     }
   }, [destinyItem]);
 
@@ -223,111 +225,113 @@ export default function BottomSheet({
           },
         }}
       >
-        <TouchableWithoutFeedback onPressIn={Keyboard.dismiss}>
-          <View style={{ height: "100%" }}>
-            <View
-              style={{
-                width: "100%",
-                height: (SCREEN_WIDTH / 1920) * 980,
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                transition={200}
-                style={[
-                  {
-                    position: "absolute",
-                    top: -((SCREEN_WIDTH / 1920) * 40),
-                    width: "100%",
-                    height: (SCREEN_WIDTH / 1920) * 1080,
-                  },
-                  // StyleSheet.absoluteFillObject,
-                ]}
-                source={{ uri: viewData.screenshot }}
-              />
-              {destinyItem.masterwork && (
-                <View style={styles.masterworkContainer}>
-                  <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
-                  <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
-                </View>
-              )}
-              <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
-              <View style={styles.tierHeaderContainer}>
-                <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
-                <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
-              </View>
-
-              <View style={styles.itemDetails}>
-                <View style={{ flex: 1 }} />
-                <View style={{ flex: 18 }}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      fontFamily: "Helvetica",
-                      includeFontPadding: false,
-                      lineHeight: 20,
-                    }}
-                  >
-                    {viewData.name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: "white",
-                      opacity: 0.6,
-                      includeFontPadding: false,
-                      transform: [{ translateY: -4 }],
-                    }}
-                  >
-                    {viewData.itemTypeDisplayName}
-                  </Text>
-                </View>
-              </View>
-              <View style={{ flex: 15 }} />
-              <View style={styles.screenshotFooter} />
-              {!destinyItem.nonTransferrable &&
-                destinyItem.maxStackSize > 1 &&
-                destinyItem.stackUniqueLabel === undefined && (
-                  <View style={styles.quantityRoot}>
-                    <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
-                    <View style={styles.quantity}>
-                      <TextInput
-                        inputMode="numeric"
-                        style={styles.quantityText}
-                        value={quantity === 0 ? "" : quantity.toString()}
-                        onChangeText={(value) => {
-                          const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-                          const valueAsNumber = Number.parseInt(value);
-                          if (valueAsNumber > maxAmount) {
-                            useGGStore.getState().setQuantityToTransfer(maxAmount);
-                          } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
-                            useGGStore.getState().setQuantityToTransfer(0);
-                          } else {
-                            useGGStore.getState().setQuantityToTransfer(valueAsNumber);
-                          }
-                        }}
-                      />
-                    </View>
+        {viewData && (
+          <TouchableWithoutFeedback onPressIn={Keyboard.dismiss}>
+            <View style={{ height: "100%" }}>
+              <View
+                style={{
+                  width: "100%",
+                  height: (SCREEN_WIDTH / 1920) * 980,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  transition={200}
+                  style={[
+                    {
+                      position: "absolute",
+                      top: -((SCREEN_WIDTH / 1920) * 40),
+                      width: "100%",
+                      height: (SCREEN_WIDTH / 1920) * 1080,
+                    },
+                    // StyleSheet.absoluteFillObject,
+                  ]}
+                  source={{ uri: viewData.screenshot }}
+                />
+                {destinyItem.masterwork && (
+                  <View style={styles.masterworkContainer}>
+                    <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                    <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
                   </View>
                 )}
-            </View>
+                <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
+                <View style={styles.tierHeaderContainer}>
+                  <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
+                  <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
+                </View>
 
-            <View>
-              <TransferEquipButtons
-                close={() => {
-                  if (refRBSheet.current) {
-                    refRBSheet.current.close();
-                  }
-                }}
-                destinyItem={destinyItem}
-                startTransfer={transfer}
-                currentCharacterId={characterId}
-              />
+                <View style={styles.itemDetails}>
+                  <View style={{ flex: 1 }} />
+                  <View style={{ flex: 18 }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        color: "white",
+                        fontFamily: "Helvetica",
+                        includeFontPadding: false,
+                        lineHeight: 20,
+                      }}
+                    >
+                      {viewData.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: "white",
+                        opacity: 0.6,
+                        includeFontPadding: false,
+                        transform: [{ translateY: -4 }],
+                      }}
+                    >
+                      {viewData.itemTypeDisplayName}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ flex: 15 }} />
+                <View style={styles.screenshotFooter} />
+                {!destinyItem.nonTransferrable &&
+                  destinyItem.maxStackSize > 1 &&
+                  destinyItem.stackUniqueLabel === undefined && (
+                    <View style={styles.quantityRoot}>
+                      <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
+                      <View style={styles.quantity}>
+                        <TextInput
+                          inputMode="numeric"
+                          style={styles.quantityText}
+                          value={quantity === 0 ? "" : quantity.toString()}
+                          onChangeText={(value) => {
+                            const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+                            const valueAsNumber = Number.parseInt(value);
+                            if (valueAsNumber > maxAmount) {
+                              useGGStore.getState().setQuantityToTransfer(maxAmount);
+                            } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
+                              useGGStore.getState().setQuantityToTransfer(0);
+                            } else {
+                              useGGStore.getState().setQuantityToTransfer(valueAsNumber);
+                            }
+                          }}
+                        />
+                      </View>
+                    </View>
+                  )}
+              </View>
+
+              <View>
+                <TransferEquipButtons
+                  close={() => {
+                    if (refRBSheet.current) {
+                      refRBSheet.current.close();
+                    }
+                  }}
+                  destinyItem={destinyItem}
+                  startTransfer={transfer}
+                  currentCharacterId={characterId}
+                />
+              </View>
             </View>
-          </View>
-        </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
+        )}
       </RBSheet>
     </View>
   );
