@@ -9,6 +9,7 @@ import {
   SocketIndexes,
   SocketTypeHash,
   itemsDefinition,
+  rawProfileData,
 } from "@/app/store/Definitions.ts";
 
 enum CategoryStyle {
@@ -28,7 +29,7 @@ type SocketMap = {
   socketTypeHash: number | null;
 };
 
-enum SocketPlugSources {
+enum _SocketPlugSources {
   /// There's no way we can detect to insert new plugs.
   None = 0, // None: 0
 
@@ -76,7 +77,12 @@ type SocketEntry = {
   /// This is a bitmask
   // iconType: IconType; // default is.Plug
   // modType: ModType; // default is.Normal
-  plugSources: SocketPlugSources;
+
+  // TODO: The itemHash should not be here. SocketEntrys are a type of destinyItem and maybe should be
+  // extending that type? But right now it's not been needed.
+  itemHash: number;
+  plugSources: number; // This is a bitmask
+
   // reusablePlugSocketIndex: number;
 
   // plugSourceEnums: SocketPlugSources[];
@@ -90,8 +96,8 @@ type SocketEntry = {
   reusablePlugSetHash: number | null;
 
   /// What plug is socketed if any?
-  // isVisible: boolean;
-  // isEnabled: boolean;
+  isVisible: boolean;
+  isEnabled: boolean;
   // isActive: boolean;
   // canInsert: boolean;
 
@@ -145,8 +151,19 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   }
 
   addSocketCategoryDefinition(sockets);
+
+  // TODO: The categories now have an 'index' property gained from the definition. Should this be used
+  // to sort the visual order the categories are displayed in?
+
+  if (!destinyItem.itemInstanceId) {
+    console.error("No itemInstanceId", destinyItem);
+    return null;
+  }
+
+  updateSocketEntriesWithLiveData(sockets, destinyItem);
   const p2 = performance.now();
   console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
+  // console.log("sockets", sockets);
   return sockets;
 }
 
@@ -168,7 +185,7 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
   // First create the socket entries as the socket categories will need some data from them.
   const socketEntries: SocketEntry[] = [];
   for (const socketEntry of minifiedSocketEntries) {
-    const plugSources = socketEntry.p ?? SocketPlugSources.None;
+    const plugSources = socketEntry.p ?? 0;
     let singleInitialItemHash = null;
     if (socketEntry.s) {
       singleInitialItemHash = SingleInitialItemHash[socketEntry.s] ?? null;
@@ -182,7 +199,10 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
       socketTypeHash = SocketTypeHash[socketEntry.st] ?? null;
     }
 
-    const se = {
+    const se: SocketEntry = {
+      itemHash: 0,
+      isVisible: false,
+      isEnabled: false,
       plugSources,
       singleInitialItemHash,
       reusablePlugSetHash,
@@ -238,5 +258,28 @@ function addSocketCategoryDefinition(sockets: Sockets) {
         category.index = categoryDefinition.index;
       }
     }
+  }
+}
+
+function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyItem) {
+  if (!destinyItem.itemInstanceId) {
+    console.error("No itemInstanceId", destinyItem);
+    return null;
+  }
+  const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId];
+  if (!liveSockets) {
+    console.error("No liveSockets", destinyItem);
+    return null;
+  }
+
+  let index = 0;
+  for (const s of liveSockets.sockets) {
+    const se = sockets.socketEntries[index];
+    if (se) {
+      se.itemHash = s.plugHash ?? 0;
+      se.isVisible = s.isVisible;
+      se.isEnabled = s.isEnabled;
+    }
+    index++;
   }
 }
