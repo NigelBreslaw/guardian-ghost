@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem, PlugSet } from "@/app/bungie/Types.ts";
 import {
   DestinySocketCategoryDefinition,
   ReusablePlugSetHash,
@@ -11,6 +11,7 @@ import {
   itemsDefinition,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
+import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 
 enum CategoryStyle {
   Unknown = 0,
@@ -29,7 +30,7 @@ type SocketMap = {
   socketTypeHash: number | null;
 };
 
-enum _SocketPlugSources {
+enum SocketPlugSources {
   /// There's no way we can detect to insert new plugs.
   None = 0, // None: 0
 
@@ -60,11 +61,10 @@ enum _SocketPlugSources {
   CharacterPlugSet = 8, // CharacterPlugSet: 8
 }
 
-// TODO: Add values, I made these up
-// enum IconType {
-//   TopLevel = 1,
-//   Plug = 2,
-// }
+enum IconType {
+  Plug = 1,
+  TopLevel = 2,
+}
 // // TODO: Add values, I made these up
 // enum ModType {
 //   Normal = 1,
@@ -75,7 +75,7 @@ type SocketEntry = {
   // extends DestinyItem
 
   /// This is a bitmask
-  // iconType: IconType; // default is.Plug
+  iconType: IconType; // default is.Plug
   // modType: ModType; // default is.Normal
 
   // TODO: The itemHash should not be here. SocketEntrys are a type of destinyItem and maybe should be
@@ -83,10 +83,10 @@ type SocketEntry = {
   itemHash: number;
   plugSources: number; // This is a bitmask
 
-  // reusablePlugSocketIndex: number;
+  reusablePlugSocketIndex: number | null;
 
-  // plugSourceEnums: SocketPlugSources[];
-  // plugCreationSource: SocketPlugSources;
+  plugSourcesAsEnums: SocketPlugSources[];
+  plugCreationSource: SocketPlugSources;
   // categoryStyle: CategoryStyle;
 
   // socketIndex: number;
@@ -134,7 +134,7 @@ type SocketCategory = {
   // /// This is used to map to a specific socket entry in the itemDefinition
   socketMaps: SocketMap[];
 
-  // topLevelSockets: SocketEntry[][];
+  topLevelSockets: SocketEntry[][];
 };
 
 export function createSockets(destinyItem: DestinyItem): Sockets | null {
@@ -161,6 +161,8 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   }
 
   updateSocketEntriesWithLiveData(sockets, destinyItem);
+
+  updateSocketCategoriesWithData(sockets, destinyItem);
   const p2 = performance.now();
   console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
   // console.log("sockets", sockets);
@@ -186,6 +188,7 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
   const socketEntries: SocketEntry[] = [];
   for (const socketEntry of minifiedSocketEntries) {
     const plugSources = socketEntry.p ?? 0;
+    const plugSourcesAsEnums = getBitmaskValues(plugSources);
     let singleInitialItemHash = null;
     if (socketEntry.s) {
       singleInitialItemHash = SingleInitialItemHash[socketEntry.s] ?? null;
@@ -203,9 +206,13 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
       itemHash: 0,
       isVisible: false,
       isEnabled: false,
+      iconType: IconType.Plug,
       plugSources,
+      plugSourcesAsEnums,
+      plugCreationSource: SocketPlugSources.None,
       singleInitialItemHash,
       reusablePlugSetHash,
+      reusablePlugSocketIndex: null,
       socketTypeHash,
     };
     socketEntries.push(se);
@@ -231,6 +238,7 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
     const sc: SocketCategory = {
       name: "",
       description: "",
+      topLevelSockets: [],
       categoryStyle: 0,
       index: -1,
       socketCategoryHash,
@@ -283,4 +291,137 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     }
     index++;
   }
+}
+
+function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyItem) {
+  if (!destinyItem?.itemInstanceId) {
+    console.error("No itemInstanceId", destinyItem);
+    return null;
+  }
+  /// These plugs are used by multiple socketEntries so just grab them once and reuse
+  const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
+
+  for (const category of sockets.socketCategories) {
+    const categoryStyleEnum = category.categoryStyle;
+
+    for (const map of category.socketMaps) {
+      const socket = sockets.socketEntries[map.socketIndex];
+
+      if (!socket?.isVisible) {
+        continue;
+      }
+
+      switch (categoryStyleEnum) {
+        /// for these items the UI itself can decide to get all the plugs. As they are not looked by users
+        /// all the time it is a waste to create them for every category
+        case CategoryStyle.Consumable:
+        case CategoryStyle.EnergyMeter: {
+          /// Skip adding the plugs for now
+          socket.reusablePlugSocketIndex = map.socketIndex;
+          socket.iconType = IconType.TopLevel;
+          const entry = [socket];
+          category.topLevelSockets.push(entry);
+          break;
+        }
+
+        default: {
+          let plugsFound = false;
+
+          for (const plugSourceEnum of socket.plugSourcesAsEnums) {
+            let plugs: PlugSet | null = null;
+
+            switch (plugSourceEnum) {
+              case SocketPlugSources.ReusablePlugItems: {
+                if (reusablePlugs) {
+                  plugs = reusablePlugs[map.socketIndex] ?? [];
+                }
+                break;
+              }
+
+              case SocketPlugSources.ProfilePlugSet: {
+                if (socket.reusablePlugSetHash) {
+                  plugs = rawProfileData?.Response.profilePlugSets.data.plugs[socket.reusablePlugSetHash] ?? [];
+                }
+                break;
+              }
+
+              case SocketPlugSources.CharacterPlugSet: {
+                if (socket.reusablePlugSetHash) {
+                  plugs =
+                    rawProfileData?.Response.characterPlugSets.data[destinyItem.characterId]?.plugs[
+                      socket.reusablePlugSetHash
+                    ] ?? [];
+                }
+                break;
+              }
+              default: {
+                console.log("No support for", plugSourceEnum);
+              }
+            }
+
+            if (plugs) {
+              plugsFound = true;
+              category.topLevelSockets = makeSocketEntryColumn(plugs, socket, category.topLevelSockets, plugSourceEnum);
+            }
+          }
+          if (!plugsFound) {
+            /// This only happens on armor 1.0 but might happen again in the future.
+            /// It ensures a socket with no extra plugs still gets the live socket added
+            const socketColumn = [socket];
+            category.topLevelSockets.push(socketColumn);
+          }
+        }
+      }
+    }
+  }
+}
+
+function makeSocketEntryColumn(
+  plugs: PlugSet,
+  socketEntry: SocketEntry,
+  topLevelSockets: SocketEntry[][],
+  plugCreationSource: SocketPlugSources,
+): SocketEntry[][] {
+  const topLevelSocketsInternal: SocketEntry[][] = topLevelSockets;
+
+  const socketColumn: SocketEntry[] = [];
+
+  for (const plug of plugs) {
+    let socketToAppend: SocketEntry;
+
+    if (plug.plugItemHash) {
+      const plugItemHash = plug.plugItemHash;
+
+      if (plugItemHash === socketEntry.itemHash) {
+        socketToAppend = socketEntry;
+      } else {
+        const s: SocketEntry = {
+          itemHash: 0,
+          iconType: IconType.Plug,
+          plugSourcesAsEnums: [],
+          plugSources: 0,
+          plugCreationSource: SocketPlugSources.None,
+          isVisible: false,
+          isEnabled: false,
+          socketTypeHash: null,
+          singleInitialItemHash: null,
+          reusablePlugSetHash: null,
+          reusablePlugSocketIndex: null,
+        };
+        s.itemHash = plugItemHash;
+        socketToAppend = s;
+      }
+
+      socketToAppend.plugCreationSource = plugCreationSource;
+      socketColumn.push(socketToAppend);
+    } else {
+      console.log("ERROR!! SHOULD NOT HAPPEN", plug);
+    }
+  }
+
+  if (socketColumn.length > 0) {
+    topLevelSocketsInternal.push(socketColumn);
+  }
+
+  return topLevelSocketsInternal;
 }

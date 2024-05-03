@@ -277,7 +277,7 @@ export const GuardiansSchema = object({
 
 export type GuardianData = Output<typeof GuardiansSchema>;
 
-const PlugSetSchema = array(
+const PlugSetsSchema = array(
   object({
     canInsert: boolean(),
     enabled: boolean(),
@@ -298,10 +298,10 @@ const PlugSetSchema = array(
   }),
 );
 
-export type PlugSet = Output<typeof PlugSetSchema>;
+export type PlugSet = Output<typeof PlugSetsSchema>;
 
 const ReusablePlugSetSchema = object({
-  plugs: record(string(), PlugSetSchema),
+  plugs: record(string(), PlugSetsSchema),
 });
 
 const instancesSchema = record(
@@ -348,7 +348,9 @@ export const getProfileSchema = merge([
         data: record(string(), object({ items: array(ItemSchema) })),
       }),
       characterLoadouts: object({}),
-      characterPlugSets: object({}),
+      characterPlugSets: object({
+        data: record(string(), object({ plugs: record(string(), PlugSetsSchema) })),
+      }),
       characterProgressions: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
@@ -374,7 +376,7 @@ export const getProfileSchema = merge([
       }),
       profilePlugSets: object({
         data: object({
-          plugs: record(string(), PlugSetSchema),
+          plugs: record(string(), PlugSetsSchema),
         }),
       }),
       profileProgression: object({}),
