@@ -27,8 +27,8 @@ dependencies:
     specifier: 6.3.29
     version: 6.3.29(@react-navigation/native@6.1.17)(react-native-gesture-handler@2.16.0)(react-native-safe-area-context@4.10.1)(react-native-screens@3.31.1)(react-native@0.74.1-rc.0)(react@18.3.1)
   '@sentry/react-native':
-    specifier: 5.22.0
-    version: 5.22.0(expo@51.0.0-preview.12)(react-native@0.74.1-rc.0)(react@18.3.1)
+    specifier: 5.22.1
+    version: 5.22.1(expo@51.0.0-preview.12)(react-native@0.74.1-rc.0)(react@18.3.1)
   '@shopify/flash-list':
     specifier: 1.6.4
     version: 1.6.4(@babel/runtime@7.24.5)(react-native@0.74.1-rc.0)(react@18.3.1)
@@ -3122,8 +3122,8 @@ packages:
       localforage: 1.10.0
     dev: false
 
-  /@sentry/react-native@5.22.0(expo@51.0.0-preview.12)(react-native@0.74.1-rc.0)(react@18.3.1):
-    resolution: {integrity: sha512-lVtwyZtN7mkMXt2ziAUBjYFUtheUsKfPRhtfkeo8tMs0outdm4ZPV8XkYHFAPwT8va4ASIuwymaiIqOM8I7ZOw==}
+  /@sentry/react-native@5.22.1(expo@51.0.0-preview.12)(react-native@0.74.1-rc.0)(react@18.3.1):
+    resolution: {integrity: sha512-k+t5LIpDGYt85L9t5ynYFB/ofSEJhrd2uG5gzxsERTJtYh6uW0SQjQ5xX3/yPQRkr9Lq2anVoYrg1mM8x3v0Mw==}
     hasBin: true
     peerDependencies:
       expo: '>=49.0.0'
