@@ -293,6 +293,7 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
   }
 }
 
+// Populate the sockets with real data. This can do things such as create the weapon perks columns
 function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyItem) {
   if (!destinyItem?.itemInstanceId) {
     console.error("No itemInstanceId", destinyItem);
