@@ -332,6 +332,10 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
             let plugs: PlugSet | null = null;
 
             switch (plugSourceEnum) {
+              case SocketPlugSources.InventorySourced: {
+                // TODO: Check if anything is using these. At one point shaders and mods did, but they seem to be in the api now.
+                break;
+              }
               case SocketPlugSources.ReusablePlugItems: {
                 if (reusablePlugs) {
                   plugs = reusablePlugs[map.socketIndex] ?? [];
