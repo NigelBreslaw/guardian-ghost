@@ -1,7 +1,10 @@
 import { array, boolean, number, object, optional, record, string, unknown, value } from "valibot";
 import type { Output } from "valibot";
 
-export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS" | "DestinySocketCategoryDefinition";
+export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGroupDefinition";
+type StoreKeys = "ITEM_DEFINITION" | "ACCOUNTS";
+export type StorageKey = DefinitionKey | StoreKeys;
+
 export const DatabaseStore = {
   factoryName: "gg-data",
   storeName: "key-values",
@@ -99,6 +102,34 @@ const SocketCategorySchema = record(
   }),
 );
 export type SocketCategoryDefinition = Output<typeof SocketCategorySchema>;
+
+const StatGroupSchema = record(
+  string(),
+  object({
+    maximumValue: number(),
+    uiPosition: number(),
+    scaledStats: array(
+      object({
+        statHash: number(),
+        maximumValue: number(),
+        displayAsNumeric: boolean(),
+        displayInterpolation: array(
+          object({
+            value: number(),
+            weight: number(),
+          }),
+        ),
+      }),
+    ),
+    overrides: unknown(),
+    hash: number(),
+    index: number(),
+    redacted: boolean(),
+    blacklisted: boolean(),
+  }),
+);
+
+export type StatGroupDefinition = Output<typeof StatGroupSchema>;
 
 export const ItemResponseSchema = object({
   helpers: object(

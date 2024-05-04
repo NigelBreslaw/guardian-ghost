@@ -29,11 +29,13 @@ import {
   setSocketEntries,
   setSocketIndexes,
   setDestinySocketCategoryDefinition,
+  setDestinyStatGroupDefinition,
+  DestinyStatGroupDefinition,
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
-import type { SocketCategoryDefinition, StorageKey } from "@/app/store/Types";
+import type { DefinitionKey, SocketCategoryDefinition, StatGroupDefinition, StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite/legacy";
@@ -161,6 +163,8 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
   }
 }
 
+const BungieDefinitions: DefinitionKey[] = ["DestinySocketCategoryDefinition", "DestinyStatGroupDefinition"];
+
 async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest | null): Promise<void> {
   const versionKey = bungieManifest?.Response.version;
   if (!versionKey) {
@@ -168,12 +172,31 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     return;
   }
   try {
-    const path = bungieManifest?.Response.jsonWorldComponentContentPaths.en?.DestinySocketCategoryDefinition;
-    const url = `${bungieUrl}${path}`;
-    const downloadedDefinition = await getBungieDefinition(url);
-    await setData(downloadedDefinition, "DestinySocketCategoryDefinition", "downloadAndStoreBungieDefinitions()");
+    const promises: Promise<JSON>[] = [];
+
+    for (const key of BungieDefinitions) {
+      console.log("downloading", key);
+      const path = bungieManifest?.Response.jsonWorldComponentContentPaths.en?.[key];
+
+      if (path) {
+        const url = `${bungieUrl}${path}`;
+        const downloadedDefinition = getBungieDefinition(url);
+        promises.push(downloadedDefinition);
+      }
+    }
+
+    const completedDefinitions = await Promise.all(promises);
+
+    if (completedDefinitions[0]) {
+      await setData(completedDefinitions[0], "DestinySocketCategoryDefinition", "downloadAndStoreBungieDefinitions()");
+      setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
+    }
+    if (completedDefinitions[1]) {
+      await setData(completedDefinitions[1], "DestinyStatGroupDefinition", "DestinyStatGroupDefinition()");
+      setDestinySocketCategoryDefinition(completedDefinitions[1] as unknown as SocketCategoryDefinition);
+    }
+
     await saveBungieDefinitionsVersion(versionKey);
-    setDestinySocketCategoryDefinition(downloadedDefinition as unknown as SocketCategoryDefinition);
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
   }
@@ -181,12 +204,15 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
 
 async function loadLocalBungieDefinitions(): Promise<void> {
   try {
-    const loadedDefinition = await getData("DestinySocketCategoryDefinition", "loadLocalBungieDefinitions()");
-    // const socketDefinition = parse(ItemResponseSchema, loadedDefinition);
-    setDestinySocketCategoryDefinition(loadedDefinition as unknown as SocketCategoryDefinition);
+    const loadSocketTypeDefinition = await getData("DestinySocketCategoryDefinition", "loadLocalBungieDefinitions()");
+    setDestinySocketCategoryDefinition(loadSocketTypeDefinition as unknown as SocketCategoryDefinition);
+
+    const loadStatGroupDefinition = await getData("DestinyStatGroupDefinition", "loadLocalBungieDefinitions()");
+    setDestinyStatGroupDefinition(loadStatGroupDefinition as unknown as StatGroupDefinition);
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");
+    // TODO: Should error. Show something to the user that lets them restart the app. In the sense of running init again.
   }
 }
 

@@ -87,7 +87,11 @@ export type BungieResponse = Output<typeof bungieResponseSchema>;
 
 export const bungieManifestSchema = object({
   Response: object({
-    jsonWorldComponentContentPaths: record(string(), object({ DestinySocketCategoryDefinition: string() })),
+    jsonWorldComponentContentPaths: record(
+      string(),
+      object({ DestinySocketCategoryDefinition: string(), DestinyStatGroupDefinition: string() }),
+    ),
+
     version: string(),
   }),
 });
