@@ -16,6 +16,9 @@
     "lint:fix": "pnpm -r lint:fix",
     "type-check": "pnpm --stream -r type-check"
   },
+  "engines": {
+    "pnpm": ">=9"
+  },
   "type": "module",
   "workspaces": ["apps/*", "docs/*"]
 }

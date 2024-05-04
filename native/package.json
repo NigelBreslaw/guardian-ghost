@@ -62,6 +62,9 @@
     "source-map-explorer": "2.5.3",
     "typescript": "5.4.5"
   },
+  "engines": {
+    "pnpm": ">=9"
+  },
   "main": "app/index.js",
   "name": "native_gg",
   "version": "1.0.0",
