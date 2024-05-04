@@ -34,8 +34,6 @@ export PATH
 node -v
 npm -v
 
-export SENTRY_DIST=$CI_BUILD_NUMBER
-
 # Install cocoapods.
 echo "============> Installing cocoapods <============"
 brew install cocoapods
