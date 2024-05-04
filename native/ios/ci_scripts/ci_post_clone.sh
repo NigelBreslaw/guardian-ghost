@@ -64,3 +64,6 @@ pnpm install --frozen-lockfile
 # Install all pod dependencies.
 echo "=> Install pods"
 cd ios && pwd && pod install
+
+export SENTRY_DIST=$CI_BUILD_NUMBER
+echo $SENTRY_DIST
