@@ -30,7 +30,6 @@ import {
   setSocketIndexes,
   setDestinySocketCategoryDefinition,
   setDestinyStatGroupDefinition,
-  DestinyStatGroupDefinition,
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
