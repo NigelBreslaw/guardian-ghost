@@ -4,7 +4,9 @@ import type {
   MiniSocketCategoryItems,
   MiniSocketEntryItems,
   SocketCategoryDefinition,
+  StatGroupDefinition,
 } from "@/app/store/Types.ts";
+import { array, boolean, number, object, record, safeParse, string, unknown } from "valibot";
 
 export type ItemsDefinition = Record<string, SingleItemDefinition>;
 
@@ -45,6 +47,7 @@ export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
+export let DestinyStatGroupDefinition: StatGroupDefinition;
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
@@ -184,4 +187,37 @@ export function setGuardians(newGuardians: Record<string, Guardian>) {
 
 export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefinition: SocketCategoryDefinition) {
   DestinySocketCategoryDefinition = newDestinySocketCategoryDefinition;
+}
+
+export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
+  const result = safeParse(
+    record(
+      string(),
+      object({
+        maximumValue: number(),
+        uiPosition: number(),
+        scaledStats: array(
+          object({
+            statHash: number(),
+            maximumValue: number(),
+            displayAsNumeric: boolean(),
+            displayInterpolation: array(
+              object({
+                value: number(),
+                weight: number(),
+              }),
+            ),
+          }),
+        ),
+        overrides: unknown(),
+        hash: number(),
+        index: number(),
+        redacted: boolean(),
+        blacklisted: boolean(),
+      }),
+    ),
+    newDestinyStatGroupDefinition,
+  );
+  console.log("result", result.success, result.issues);
+  DestinyStatGroupDefinition = newDestinyStatGroupDefinition;
 }

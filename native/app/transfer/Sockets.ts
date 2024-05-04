@@ -13,7 +13,7 @@ import {
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 
-enum CategoryStyle {
+export enum CategoryStyle {
   Unknown = 0,
   Reusable = 1,
   Consumable = 2,
@@ -71,7 +71,7 @@ enum IconType {
 //   Artifact = 2,
 // }
 
-type SocketEntry = {
+export type SocketEntry = {
   // extends DestinyItem
 
   /// This is a bitmask
@@ -116,12 +116,12 @@ type SocketEntry = {
   // mode: .SocketEntry
 };
 
-type Sockets = {
+export type Sockets = {
   socketCategories: SocketCategory[];
   socketEntries: SocketEntry[];
 };
 
-type SocketCategory = {
+export type SocketCategory = {
   socketCategoryHash: number | null;
   socketIndexes: number[];
   name: string;
