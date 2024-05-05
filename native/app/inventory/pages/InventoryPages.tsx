@@ -6,9 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
-const WEAPONS_TAB_ICON = require("../../images/weapons_tab.webp");
-const ARMOR_TAB_ICON = require("../../images/armor_tab.webp");
-const GENERAL_TAB_ICON = require("../../images/general_tab.webp");
+const WEAPONS_TAB_ICON = require("../../../images/weapons_tab.webp");
+const ARMOR_TAB_ICON = require("../../../images/armor_tab.webp");
+const GENERAL_TAB_ICON = require("../../../images/general_tab.webp");
 
 const Tab = createBottomTabNavigator();
 
