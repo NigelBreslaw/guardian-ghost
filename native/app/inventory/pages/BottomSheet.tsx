@@ -1,5 +1,5 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
+import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { createSockets } from "@/app/transfer/Sockets.ts";

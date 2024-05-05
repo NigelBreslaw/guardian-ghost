@@ -1,12 +1,12 @@
-import { type UISections, UISection } from "@/app/bungie/Common";
-import EngramsUI from "@/app/inventory/EngramsUI";
-import EquipUI from "@/app/inventory/CharacterEquipmentUI";
-import SeparatorUI from "@/app/inventory/SeparatorUI";
-import Vault5x5UI from "@/app/inventory/Vault5x5UI";
-import VaultFlexUI from "@/app/inventory/VaultFlexUI";
-import LostItemsUI from "@/app/inventory/LostItemsUI";
-import ArtifactUI from "@/app/inventory/ArtifactUI.tsx";
-import VaultSpacerUI from "@/app/inventory/VaultSpacerUI.tsx";
+import { type UISections, UISection } from "@/app/bungie/Common.ts";
+import EngramsUI from "@/app/inventory/sections/EngramsUI.tsx";
+import EquipUI from "@/app/inventory/sections/CharacterEquipmentUI.tsx";
+import SeparatorUI from "@/app/inventory/sections/SeparatorUI.tsx";
+import Vault5x5UI from "@/app/inventory/sections/Vault5x5UI.tsx";
+import VaultFlexUI from "@/app/inventory/sections/VaultFlexUI.tsx";
+import LostItemsUI from "@/app/inventory/sections/LostItemsUI.tsx";
+import ArtifactUI from "@/app/inventory/sections/ArtifactUI.tsx";
+import VaultSpacerUI from "@/app/inventory/sections/VaultSpacerUI.tsx";
 
 export const UiCellRenderItem = ({ item }: { item: UISections }) => {
   switch (item.type) {

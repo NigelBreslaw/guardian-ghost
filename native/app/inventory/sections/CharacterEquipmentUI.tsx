@@ -1,4 +1,4 @@
-import type { EquipSection } from "@/app/bungie/Common";
+import type { EquipSection } from "@/app/bungie/Common.ts";
 import {
   DEFAULT_SECTION_4_WIDTH,
   FOOTER_HEIGHT,
@@ -6,8 +6,8 @@ import {
   ICON_MARGIN,
   ICON_SIZE,
 } from "@/app/utilities/UISize.ts";
-import DestinyCell from "@/app/inventory/DestinyCell.tsx";
-import EmptyCell from "@/app/inventory/EmptyCell.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 

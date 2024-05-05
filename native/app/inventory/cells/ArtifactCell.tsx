@@ -1,4 +1,4 @@
-import { DEFAULT_OVERLAP_COLOR, type DestinyIconData } from "@/app/bungie/Common";
+import { DEFAULT_OVERLAP_COLOR, type DestinyIconData } from "@/app/bungie/Common.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";

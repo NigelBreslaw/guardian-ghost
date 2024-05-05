@@ -1,7 +1,7 @@
-import type { DestinyIconData } from "@/app/bungie/Common";
+import type { DestinyIconData } from "@/app/bungie/Common.ts";
 import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
-import DestinyCell from "@/app/inventory/DestinyCell.tsx";
-import EmptyCell from "@/app/inventory/EmptyCell.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 

@@ -8,7 +8,7 @@ import { getBungieManifest, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/screens/MainDrawer.tsx";
 import Login from "@/app/screens/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
-import BottomSheet from "@/app/screens/BottomSheet.tsx";
+import BottomSheet from "@/app/inventory/pages/BottomSheet.tsx";
 import { enableFreeze } from "react-native-screens";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";

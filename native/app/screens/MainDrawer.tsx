@@ -1,8 +1,8 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import { LOGO_DARK, REFRESH_ICON } from "@/app/bungie/Common";
-import InventoryHeader from "@/app/screens/InventoryHeader.tsx";
-import InventoryPages from "@/app/screens/InventoryPages";
+import { LOGO_DARK, REFRESH_ICON } from "@/app/bungie/Common.ts";
+import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
+import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
