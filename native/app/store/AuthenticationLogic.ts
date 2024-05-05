@@ -1,4 +1,4 @@
-import { BungieUserSchema, type BungieUser } from "@/app/inventory/logic/Types";
+import { BungieUserSchema, type BungieUser } from "@/app/inventory/logic/Types.ts";
 // import { useGGStore } from "@/app/store/GGStore.ts";
 import {
   authTokenSchema,

@@ -1,4 +1,4 @@
-import type { DestinyIconData } from "@/app/inventory/logic/Types";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";

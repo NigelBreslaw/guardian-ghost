@@ -5,7 +5,7 @@ import {
   type GGCharacterUiData,
   type Guardian,
   type VaultData,
-} from "@/app/inventory/logic/Types";
+} from "@/app/inventory/logic/Types.ts";
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
   PlugCategoryIdentifier,

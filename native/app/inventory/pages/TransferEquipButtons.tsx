@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/inventory/logic/Types";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,

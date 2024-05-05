@@ -9,7 +9,7 @@ import Login from "@/app/UI/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/inventory/pages/BottomSheet.tsx";
 import { enableFreeze } from "react-native-screens";
-import type { DestinyItem } from "@/app/inventory/logic/Types";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";

@@ -3,7 +3,7 @@ import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import type { DestinyIconData } from "@/app/inventory/logic/Types";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 type VaultFlexProps = {
   data: DestinyIconData[];

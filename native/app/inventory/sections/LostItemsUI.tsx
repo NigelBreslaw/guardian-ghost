@@ -1,11 +1,11 @@
 import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import DestinyCell from "@/app/inventory/cells/DestinyCell";
-import EmptyCell from "@/app/inventory/cells/EmptyCell";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
-import type { DestinyIconData } from "@/app/inventory/logic/Types";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 type EngramsProps = {
   data: DestinyIconData[];

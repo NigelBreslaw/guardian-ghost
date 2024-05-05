@@ -1,4 +1,4 @@
-import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types";
+import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
   consumables,

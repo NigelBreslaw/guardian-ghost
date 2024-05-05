@@ -9,7 +9,7 @@ import { Image, Platform, StyleSheet, Text, TextInput, View, useColorScheme } fr
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Spinner from "@/app/UI/Spinner";
+import Spinner from "@/app/UI/Spinner.tsx";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/logic/Constants.ts";
 
 const styles = StyleSheet.create({

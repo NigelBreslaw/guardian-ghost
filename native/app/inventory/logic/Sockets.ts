@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/inventory/logic/Types";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
   DestinySocketCategoryDefinition,

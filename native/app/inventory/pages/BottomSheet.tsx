@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/inventory/logic/Types";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";

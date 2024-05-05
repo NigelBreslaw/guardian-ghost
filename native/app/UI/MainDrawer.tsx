@@ -1,5 +1,5 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
-import type { DestinyItem } from "@/app/inventory/logic/Types";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
