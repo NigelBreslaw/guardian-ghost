@@ -1,5 +1,5 @@
-import { InventoryPageEnums, type UISections } from "@/app/bungie/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
+import { InventoryPageEnums, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused } from "@react-navigation/native";

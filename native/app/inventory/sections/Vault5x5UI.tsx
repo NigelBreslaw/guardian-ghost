@@ -1,9 +1,9 @@
-import type { DestinyIconData } from "@/app/bungie/Common.ts";
 import { DEFAULT_MARGIN, ICON_MARGIN, INV_MAX_WIDTH, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import type { DestinyIconData } from "@/app/bungie/Types.ts";
 
 const array25 = Array.from({ length: 25 });
 

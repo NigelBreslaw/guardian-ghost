@@ -1,25 +1,11 @@
-import { GGCharacterType, type DestinyItem, type DestinyItemSort } from "@/app/bungie/Types.ts";
 import {
-  SectionBuckets,
-  UISection,
-  armorPageBuckets,
-  generalPageBuckets,
-  getDamageTypeIconUri,
-  getSectionDetails,
+  GGCharacterType,
   ItemType,
-  weaponBuckets,
-  weaponsPageBuckets,
-  type ArtifactSection,
+  SectionBuckets,
   type DestinyIconData,
-  type EngramsSection,
-  type EquipSection,
-  type LostItemsSection,
-  type SeparatorSection,
-  type UISections,
-  type Vault5x5Section,
-  type VaultFlexSection,
-  type VaultSpacerSection,
-} from "@/app/bungie/Common";
+  type DestinyItem,
+  type DestinyItemSort,
+} from "@/app/bungie/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
   consumables,
@@ -39,6 +25,24 @@ import {
 import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
+import {
+  UISection,
+  armorPageBuckets,
+  generalPageBuckets,
+  getSectionDetails,
+  weaponBuckets,
+  weaponsPageBuckets,
+  type ArtifactSection,
+  type EngramsSection,
+  type EquipSection,
+  type LostItemsSection,
+  type SeparatorSection,
+  type UISections,
+  type Vault5x5Section,
+  type VaultFlexSection,
+  type VaultSpacerSection,
+} from "@/app/inventory/logic/Helpers.ts";
+import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 
 // ------------------------------
 // UI data creation

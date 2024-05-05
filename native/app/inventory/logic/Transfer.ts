@@ -1,13 +1,6 @@
-import { TierType, type DestinyItem } from "@/app/bungie/Types.ts";
-import {
-  SectionBuckets,
-  armorBuckets,
-  basePath,
-  sectionSupportsBlockingExotic,
-  weaponBuckets,
-  DestinyClass,
-  ItemType,
-} from "@/app/bungie/Common";
+import { DestinyClass, ItemType, SectionBuckets, TierType, type DestinyItem } from "@/app/bungie/Types.ts";
+import { basePath } from "@/app/core/ApiResponse.ts";
+import { armorBuckets, sectionSupportsBlockingExotic, weaponBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { guardians, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";

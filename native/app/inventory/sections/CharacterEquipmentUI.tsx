@@ -1,4 +1,3 @@
-import type { EquipSection } from "@/app/bungie/Common.ts";
 import {
   DEFAULT_SECTION_4_WIDTH,
   FOOTER_HEIGHT,
@@ -10,6 +9,7 @@ import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import type { EquipSection } from "@/app/inventory/logic/Helpers.ts";
 
 const array9 = Array.from({ length: 9 });
 
