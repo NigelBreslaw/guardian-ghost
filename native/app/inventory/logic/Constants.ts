@@ -1,4 +1,4 @@
-import { DamageType } from "@/app/bungie/Types.ts";
+import { DamageType } from "@/app/bungie/Enums.ts";
 
 export const DEFAULT_OVERLAP_COLOR = "#242429CC";
 

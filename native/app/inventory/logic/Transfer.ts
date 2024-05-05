@@ -1,4 +1,5 @@
-import { DestinyClass, ItemType, SectionBuckets, TierType, type DestinyItem } from "@/app/bungie/Types.ts";
+import { DestinyClass, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { basePath } from "@/app/core/ApiResponse.ts";
 import { armorBuckets, sectionSupportsBlockingExotic, weaponBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { guardians, itemsDefinition } from "@/app/store/Definitions.ts";
