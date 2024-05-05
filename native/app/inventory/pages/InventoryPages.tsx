@@ -1,14 +1,14 @@
-import WeaponsPage from "@/app/screens/WeaponsPage.tsx";
-import ArmorPage from "@/app/screens/ArmorPage.tsx";
-import GeneralPage from "@/app/screens/GeneralPage.tsx";
+import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
+import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
+import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
-const WEAPONS_TAB_ICON = require("../../images/weapons_tab.webp");
-const ARMOR_TAB_ICON = require("../../images/armor_tab.webp");
-const GENERAL_TAB_ICON = require("../../images/general_tab.webp");
+const WEAPONS_TAB_ICON = require("../../../images/weapons_tab.webp");
+const ARMOR_TAB_ICON = require("../../../images/armor_tab.webp");
+const GENERAL_TAB_ICON = require("../../../images/general_tab.webp");
 
 const Tab = createBottomTabNavigator();
 

@@ -1,4 +1,4 @@
-import { EMPTY_ENGRAM, type DestinyIconData } from "@/app/bungie/Common";
+import { EMPTY_ENGRAM, type DestinyIconData } from "@/app/bungie/Common.ts";
 import { INNER_FRAME_SIZE, PRIMARY_STAT_FONT_SIZE } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";

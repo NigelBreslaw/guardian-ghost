@@ -1,4 +1,4 @@
-import { InventoryPageEnums, type UISections } from "@/app/bungie/Common";
+import { InventoryPageEnums, type UISections } from "@/app/bungie/Common.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";

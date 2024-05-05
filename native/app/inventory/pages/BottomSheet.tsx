@@ -1,5 +1,5 @@
 import type { DestinyItem } from "@/app/bungie/Types.ts";
-import TransferEquipButtons from "@/app/screens/TransferEquipButtons.tsx";
+import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { createSockets } from "@/app/transfer/Sockets.ts";
@@ -22,7 +22,7 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const SCREENSHOT_MASTERWORK_OVERLAY = require("../../images/masterwork-landscape-overlay.png");
+const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
 type ViewData = {
   itemInstanceId: string | undefined;
