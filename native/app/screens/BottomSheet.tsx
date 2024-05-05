@@ -184,7 +184,7 @@ export default function BottomSheet({
       refRBSheet.current.open();
       setViewData(buildViewData(route.params.item));
     }
-  }, [destinyItem]);
+  }, [destinyItem, route.params.item]);
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
