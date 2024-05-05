@@ -1,4 +1,4 @@
-import type { DestinyItem, Guardian } from "@/app/bungie/Types.ts";
+import type { DestinyItem, Guardian } from "@/app/inventory/logic/Types.ts";
 import type {
   MiniSocketCategoryItems,
   MiniSocketEntryItems,

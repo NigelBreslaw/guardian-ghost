@@ -1,16 +1,15 @@
 import * as SplashScreen from "expo-splash-screen";
-import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useRef } from "react";
 import { getBungieManifest, getFullProfile } from "@/app/bungie/BungieApi.ts";
-import MainDrawer from "@/app/screens/MainDrawer.tsx";
-import Login from "@/app/screens/Login.tsx";
+import MainDrawer from "@/app/UI/MainDrawer.tsx";
+import Login from "@/app/UI/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/inventory/pages/BottomSheet.tsx";
 import { enableFreeze } from "react-native-screens";
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";

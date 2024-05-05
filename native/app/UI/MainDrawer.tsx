@@ -1,5 +1,5 @@
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -10,10 +10,10 @@ import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { Image } from "expo-image";
-import Spinner from "@/app/components/Spinner.tsx";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { LOGO_DARK, REFRESH_ICON } from "@/app/inventory/logic/Constants.ts";
+import Spinner from "@/app/UI/Spinner.tsx";
 
 const styles = StyleSheet.create({
   iconButton: {

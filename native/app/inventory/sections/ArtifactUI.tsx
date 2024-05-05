@@ -1,4 +1,4 @@
-import type { DestinyIconData } from "@/app/bungie/Types.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import ArtifactCell from "@/app/inventory/cells/ArtifactCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";

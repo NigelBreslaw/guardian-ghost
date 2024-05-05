@@ -11,7 +11,7 @@ import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
-import type { DestinyIconData } from "@/app/bungie/Types.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 const common = StyleSheet.create({
   quantity: {

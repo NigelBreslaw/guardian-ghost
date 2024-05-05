@@ -3,7 +3,7 @@ import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import type { DestinyIconData } from "@/app/bungie/Types.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 const array25 = Array.from({ length: 25 });
 
