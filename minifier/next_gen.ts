@@ -248,7 +248,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     return repeatStringsMap[name].get(s)!;
   }
 
-  const processedData: ProcessedData = { helpers: {}, items: {}, version: 3, id: uniqueKey };
+  const processedData: ProcessedData = { helpers: {}, items: {}, version: 4, id: uniqueKey };
 
   const sortedDataKeys = Object.keys(jsonData).sort((a, b) => parseFloat(a) - parseFloat(b));
 
