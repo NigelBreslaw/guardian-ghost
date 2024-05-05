@@ -51,8 +51,8 @@ import {
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
-import type { SingleItemDefinition } from "@/app/store/Types.ts";
 import { create } from "mutative";
+import type { MiniSingleItemDefinition } from "@/app/core/BungieDefinitions";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -447,7 +447,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   return destinyItem;
 }
 
-function calculateWaterMark(destinyItem: DestinyItemBase, definition: SingleItemDefinition): string | undefined {
+function calculateWaterMark(destinyItem: DestinyItemBase, definition: MiniSingleItemDefinition): string | undefined {
   const versionNumber = destinyItem.versionNumber;
 
   let watermark: string | undefined = undefined;
