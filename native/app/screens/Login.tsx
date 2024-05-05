@@ -1,4 +1,3 @@
-import { LOGO_DARK, LOGO_LIGHT } from "@/app/bungie/Common.ts";
 import { stateID } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
@@ -11,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Spinner from "@/app/components/Spinner.tsx";
+import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/logic/Constants.ts";
 
 const styles = StyleSheet.create({
   topContainerLight: {

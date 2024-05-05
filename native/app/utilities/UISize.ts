@@ -3,7 +3,6 @@ import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-// margin = 16 * 2, 5 icons * 72, icon margins at 16
 const MIN_WIDTH = 16 * 2 + 5 * 72 + 4 * 16;
 
 let SCALAR = 1;

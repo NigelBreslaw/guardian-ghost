@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import { SectionBuckets, type DestinyItem } from "@/app/bungie/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -10,8 +10,8 @@ import { View, StyleSheet, Text } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { Image } from "expo-image";
-import { GLOBAL_SPACE_EMBLEM, SectionBuckets } from "@/app/bungie/Common.ts";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
+import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
 
 type TransferEquipButtonsProps = {
   currentCharacterId: string;

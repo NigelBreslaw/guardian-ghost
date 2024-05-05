@@ -1,6 +1,14 @@
 import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, type Output } from "valibot";
 
 // -------------------------------
+// URL constants
+// -------------------------------
+export const bungieUrl = "https://www.bungie.net";
+export const basePath = "https://www.bungie.net/Platform";
+export const iconUrl = "https://www.bungie.net/common/destiny2_content/icons/";
+export const screenshotUrl = "https://www.bungie.net/common/destiny2_content/screenshots/";
+
+// -------------------------------
 // Bungie Manifest
 // -------------------------------
 

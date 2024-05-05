@@ -1,4 +1,5 @@
-import { SectionBuckets, equipSectionBuckets } from "@/app/bungie/Common";
+import { SectionBuckets } from "@/app/bungie/Types.ts";
+import { equipSectionBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { consumables, mods } from "@/app/store/Definitions.ts";
 
 import type { IStore } from "@/app/store/GGStore.ts";

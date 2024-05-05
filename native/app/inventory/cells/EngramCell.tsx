@@ -1,9 +1,10 @@
-import { EMPTY_ENGRAM, type DestinyIconData } from "@/app/bungie/Common.ts";
 import { INNER_FRAME_SIZE, PRIMARY_STAT_FONT_SIZE } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
+import type { DestinyIconData } from "@/app/bungie/Types.ts";
 
 const DEFAULT_BORDER_COLOR = "#303036";
 

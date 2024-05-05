@@ -1,4 +1,4 @@
-import { basePath } from "@/app/bungie/Common";
+import { basePath } from "@/app/core/ApiResponse.ts";
 import { getSimpleProfileSchema, type ProfileData } from "@/app/core/GetProfile.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";

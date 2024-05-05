@@ -1,11 +1,3 @@
-import type {
-  DestinyClass,
-  GuardianClassType,
-  GuardianGenderType,
-  GuardianRaceType,
-  ItemType,
-  DamageType,
-} from "@/app/bungie/Common.ts";
 import type { DestinyItemBase, GuardianData } from "@/app/core/GetProfile.ts";
 import { number, object, string } from "valibot";
 import type { Output } from "valibot";
@@ -136,4 +128,157 @@ export type GGCharacterUiData = {
   secondarySpecial: string;
   lastActiveCharacter: boolean;
   ggCharacterType: GGCharacterType;
+};
+
+export enum GuardianClassType {
+  Titan = 0,
+  Hunter = 1,
+  Warlock = 2,
+  Unknown = 3,
+  Vault = 100,
+}
+
+export enum DestinyClass {
+  Titan = 0,
+  Hunter = 1,
+  Warlock = 2,
+  Unknown = 3,
+}
+
+export enum GuardianGenderType {
+  Male = 0,
+  Female = 1,
+  Unknown = 2,
+}
+
+export enum GuardianRaceType {
+  Human = 0,
+  Awoken = 1,
+  Exo = 2,
+  Unknown = 3,
+}
+
+export enum ItemType {
+  None = 0,
+  Currency = 1,
+  Armor = 2,
+  Weapon = 3,
+  Message = 7,
+  Engram = 8,
+  Consumable = 9,
+  ExchangeMaterial = 10,
+  MissionReward = 11,
+  QuestStep = 12,
+  QuestStepComplete = 13,
+  Emblem = 14,
+  Quest = 15,
+  Subclass = 16,
+  ClanBanner = 17,
+  Aura = 18,
+  Mod = 19,
+  Dummy = 20,
+  Ship = 21,
+  Vehicle = 22,
+  Emote = 23,
+  Ghost = 24,
+  Package = 25,
+  Bounty = 26,
+  Wrapper = 27,
+  SeasonalArtifact = 28,
+  Finisher = 29,
+}
+
+export enum SectionBuckets {
+  Kinetic = 1498876634,
+  Energy = 2465295065,
+  Power = 953998645,
+  Helmet = 3448274439,
+  Gauntlets = 3551918588,
+  Chest = 14239492,
+  Leg = 20886954,
+  Class = 1585787867,
+  Ghost = 4023194814,
+  Vehicle = 2025709351,
+  Ship = 284967655,
+  Subclass = 3284755031,
+  Banner = 4292445962,
+  Emblem = 4274335291,
+  Finisher = 3683254069,
+  Emote = 1107761855,
+  Artifact = 1506418338,
+  Engram = 375726501,
+  LostItem = 215593132,
+  Consumables = 1469714392,
+  Mods = 3313201758,
+}
+
+export const characterBuckets = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+  SectionBuckets.Ghost,
+  SectionBuckets.Vehicle,
+  SectionBuckets.Ship,
+  SectionBuckets.Subclass,
+  SectionBuckets.Banner,
+  SectionBuckets.Emblem,
+  SectionBuckets.Finisher,
+  SectionBuckets.Emote,
+  SectionBuckets.Artifact,
+  SectionBuckets.Engram,
+  SectionBuckets.LostItem,
+  SectionBuckets.Consumables,
+  SectionBuckets.Mods,
+];
+
+export enum DamageType {
+  None = 0,
+  Kinetic = 1,
+  Arc = 2,
+  Solar = 3,
+  Void = 4,
+  Raid = 5,
+  Stasis = 6,
+  Strand = 7,
+}
+
+export enum BreakerType {
+  None = 0,
+  ShieldPiercing = 1,
+  Disruption = 2,
+  Stagger = 3,
+}
+
+export type DestinyIconData = {
+  itemHash: number;
+  itemInstanceId: string | undefined;
+  characterId: string;
+  icon: string;
+  damageTypeIconUri: number | null;
+  primaryStat: number;
+  quantity: number;
+  calculatedWaterMark: string | undefined;
+  masterwork: boolean;
+  borderColor: string;
+  crafted?: boolean;
+  stackSizeMaxed?: boolean;
+  engram?: boolean;
+};
+
+export const DestinyIconDataEmpty: DestinyIconData = {
+  itemHash: 0,
+  itemInstanceId: "",
+  characterId: "",
+  icon: "",
+  damageTypeIconUri: null,
+  primaryStat: 0,
+  quantity: 0,
+  calculatedWaterMark: "",
+  masterwork: false,
+  borderColor: "#555555",
 };
