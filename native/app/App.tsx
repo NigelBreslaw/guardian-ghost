@@ -10,10 +10,11 @@ import Login from "@/app/screens/Login.tsx";
 import { Platform, useWindowDimensions } from "react-native";
 import BottomSheet from "@/app/screens/BottomSheet.tsx";
 import { enableFreeze } from "react-native-screens";
-import { bungieManifestSchema, type DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem } from "@/app/bungie/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
+import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 
 SplashScreen.preventAutoHideAsync();
 

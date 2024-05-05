@@ -43,9 +43,9 @@ import { parse, safeParse, string } from "valibot";
 import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
-import type { BungieManifest } from "@/app/bungie/Types.ts";
 import { bungieUrl } from "@/app/bungie/Common.ts";
 import type { SocketCategoryDefinition, StatGroupDefinition } from "@/app/core/BungieDefinitions";
+import type { BungieManifest } from "@/app/core/ApiResponse.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
