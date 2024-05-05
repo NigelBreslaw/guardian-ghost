@@ -34,7 +34,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { type ItemResponse, ItemResponseSchema, DatabaseStore } from "@/app/store/Types";
-import type { DefinitionKey, SocketCategoryDefinition, StatGroupDefinition, StorageKey } from "@/app/store/Types";
+import type { DefinitionKey, StorageKey } from "@/app/store/Types";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite/legacy";
@@ -45,6 +45,7 @@ import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
 import type { BungieManifest } from "@/app/bungie/Types.ts";
 import { bungieUrl } from "@/app/bungie/Common.ts";
+import type { SocketCategoryDefinition, StatGroupDefinition } from "@/app/core/BungieDefinitions";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];

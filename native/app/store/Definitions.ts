@@ -1,14 +1,13 @@
 import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
 import type {
-  SingleItemDefinition,
   MiniSocketCategoryItems,
   MiniSocketEntryItems,
+  MiniSingleItemDefinition,
   SocketCategoryDefinition,
   StatGroupDefinition,
-} from "@/app/store/Types.ts";
-import { array, boolean, number, object, record, safeParse, string, unknown } from "valibot";
+} from "@/app/core/BungieDefinitions";
 
-export type ItemsDefinition = Record<string, SingleItemDefinition>;
+export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
 export let itemsDefinition: ItemsDefinition = {};
 export let BucketTypeHashArray: number[];
@@ -190,34 +189,5 @@ export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefin
 }
 
 export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
-  const result = safeParse(
-    record(
-      string(),
-      object({
-        maximumValue: number(),
-        uiPosition: number(),
-        scaledStats: array(
-          object({
-            statHash: number(),
-            maximumValue: number(),
-            displayAsNumeric: boolean(),
-            displayInterpolation: array(
-              object({
-                value: number(),
-                weight: number(),
-              }),
-            ),
-          }),
-        ),
-        overrides: unknown(),
-        hash: number(),
-        index: number(),
-        redacted: boolean(),
-        blacklisted: boolean(),
-      }),
-    ),
-    newDestinyStatGroupDefinition,
-  );
-  console.log("result", result.success, result.issues);
   DestinyStatGroupDefinition = newDestinyStatGroupDefinition;
 }
