@@ -1,4 +1,4 @@
-import type { DestinyItem } from "@/app/bungie/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
   DestinySocketCategoryDefinition,
@@ -79,7 +79,7 @@ export type SocketEntry = {
   iconType: IconType; // default is.Plug
   // modType: ModType; // default is.Normal
 
-  // TODO: The itemHash should not be here. SocketEntrys are a type of destinyItem and maybe should be
+  // TODO: The itemHash should not be here. SocketEntries are a type of destinyItem and maybe should be
   // extending that type? But right now it's not been needed.
   itemHash: number;
   plugSources: number; // This is a bitmask

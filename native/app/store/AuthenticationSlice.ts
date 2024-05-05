@@ -1,4 +1,4 @@
-import type { BungieUser } from "@/app/bungie/Types.ts";
+import type { BungieUser } from "@/app/inventory/logic/Types";
 import {
   deleteUserData,
   getBungieAccount,

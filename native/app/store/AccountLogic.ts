@@ -1,4 +1,4 @@
-import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/bungie/Types.ts";
+import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/inventory/logic/Types";
 import {
   BucketTypeHashArray,
   consumables,

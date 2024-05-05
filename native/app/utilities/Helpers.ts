@@ -1,5 +1,5 @@
 import type { GuardianClassType } from "@/app/bungie/Enums.ts";
-import type { DestinyItemSort } from "@/app/bungie/Types.ts";
+import type { DestinyItemSort } from "@/app/inventory/logic/Types";
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 export const debounce = (func: Function, delay = 0) => {

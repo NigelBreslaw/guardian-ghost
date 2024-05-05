@@ -4,7 +4,7 @@ import { Image } from "expo-image";
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
-import type { DestinyIconData } from "@/app/bungie/Types.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types";
 
 const DEFAULT_BORDER_COLOR = "#303036";
 

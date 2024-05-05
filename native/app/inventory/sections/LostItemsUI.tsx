@@ -5,7 +5,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
-import type { DestinyIconData } from "@/app/bungie/Types.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types";
 
 type EngramsProps = {
   data: DestinyIconData[];
