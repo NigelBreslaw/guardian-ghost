@@ -1,4 +1,4 @@
-import { BungieUserSchema, type BungieUser, linkedProfilesSchema } from "@/app/bungie/Types.ts";
+import { BungieUserSchema, type BungieUser } from "@/app/bungie/Types.ts";
 // import { useGGStore } from "@/app/store/GGStore.ts";
 import {
   authTokenSchema,
@@ -15,6 +15,7 @@ import { parse as linkingParse } from "expo-linking";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
+import { linkedProfilesSchema } from "@/app/core/ApiResponse.ts";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;

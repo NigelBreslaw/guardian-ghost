@@ -2,11 +2,9 @@ import {
   ItemSubType,
   TierType,
   type DestinyItem,
-  type DestinyItemBase,
   type DestinyItemDefinition,
   type GGCharacterUiData,
   type Guardian,
-  type ProfileData,
   type VaultData,
 } from "@/app/bungie/Types.ts";
 import {
@@ -53,6 +51,7 @@ import {
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import type { MiniSingleItemDefinition } from "@/app/core/BungieDefinitions";
+import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];

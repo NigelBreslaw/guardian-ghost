@@ -1,11 +1,4 @@
-import {
-  GGCharacterType,
-  type GGCharacterUiData,
-  type Guardian,
-  type GuardianData,
-  GuardiansSchema,
-  type DestinyItem,
-} from "@/app/bungie/Types.ts";
+import { GGCharacterType, type GGCharacterUiData, type Guardian, type DestinyItem } from "@/app/bungie/Types.ts";
 import {
   bungieUrl,
   GuardianClassType,
@@ -30,6 +23,7 @@ import {
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import { safeParse } from "valibot";
+import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
 
 export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
   const ggCharacters: GGCharacterUiData[] = [];

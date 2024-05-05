@@ -1,4 +1,5 @@
-import type { DestinyItem, PlugSet } from "@/app/bungie/Types.ts";
+import type { DestinyItem } from "@/app/bungie/Types.ts";
+import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
   DestinySocketCategoryDefinition,
   ReusablePlugSetHash,

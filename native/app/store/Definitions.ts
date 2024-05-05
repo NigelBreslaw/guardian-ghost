@@ -1,4 +1,4 @@
-import type { DestinyItem, Guardian, ProfileData } from "@/app/bungie/Types.ts";
+import type { DestinyItem, Guardian } from "@/app/bungie/Types.ts";
 import type {
   MiniSocketCategoryItems,
   MiniSocketEntryItems,
@@ -6,6 +6,7 @@ import type {
   SocketCategoryDefinition,
   StatGroupDefinition,
 } from "@/app/core/BungieDefinitions";
+import type { ProfileData } from "@/app/core/GetProfile.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
