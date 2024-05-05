@@ -1,4 +1,5 @@
-import { SectionBuckets, type DestinyIconData } from "@/app/bungie/Types.ts";
+import { SectionBuckets } from "@/app/bungie/Enums.ts";
+import type { DestinyIconData } from "@/app/bungie/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
 
 export enum InventoryPageEnums {

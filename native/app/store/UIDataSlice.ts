@@ -1,4 +1,4 @@
-import { SectionBuckets } from "@/app/bungie/Types.ts";
+import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import { equipSectionBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { consumables, mods } from "@/app/store/Definitions.ts";
 

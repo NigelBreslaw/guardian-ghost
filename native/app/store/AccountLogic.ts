@@ -1,10 +1,4 @@
-import {
-  GGCharacterType,
-  type GGCharacterUiData,
-  type Guardian,
-  type DestinyItem,
-  GuardianClassType,
-} from "@/app/bungie/Types.ts";
+import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/bungie/Types.ts";
 import {
   BucketTypeHashArray,
   consumables,
@@ -25,6 +19,7 @@ import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
 import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/inventory/logic/Constants.ts";
 import { bungieUrl } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
+import { GGCharacterType, GuardianClassType } from "@/app/bungie/Enums.ts";
 
 export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
   const ggCharacters: GGCharacterUiData[] = [];

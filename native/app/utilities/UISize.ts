@@ -1,4 +1,4 @@
-import { TierType } from "@/app/bungie/Types.ts";
+import { TierType } from "@/app/bungie/Enums.ts";
 import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");

@@ -1,9 +1,4 @@
 import {
-  DestinyClass,
-  ItemSubType,
-  ItemType,
-  SectionBuckets,
-  TierType,
   characterBuckets,
   type DestinyItem,
   type DestinyItemDefinition,
@@ -49,6 +44,7 @@ import type { MiniSingleItemDefinition } from "@/app/core/BungieDefinitions";
 import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
+import { DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];

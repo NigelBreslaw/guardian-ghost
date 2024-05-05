@@ -1,11 +1,4 @@
-import {
-  GGCharacterType,
-  ItemType,
-  SectionBuckets,
-  type DestinyIconData,
-  type DestinyItem,
-  type DestinyItemSort,
-} from "@/app/bungie/Types.ts";
+import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/bungie/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
   consumables,
@@ -43,6 +36,7 @@ import {
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
 import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
 
 // ------------------------------
 // UI data creation
