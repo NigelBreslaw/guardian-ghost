@@ -31,6 +31,7 @@ enum RepeatStringsName {
   SocketEntries = "SocketEntries",
   SocketTypeHash = "SocketTypeHash",
   TalentGridHash = "TalentGridHash",
+  Icons = "Icons",
 }
 
 // Interface (Schema) for the DestinyItemDefinition
@@ -60,6 +61,7 @@ interface JsonData {
       itemValue?: [itemHash?: string, quantity?: any];
     };
     displayProperties?: {
+      iconSequences: any;
       name?: any;
       description?: any;
       icon?: any;
@@ -93,7 +95,15 @@ interface JsonData {
 // http:bungie.com/blah/blah/123.jpg -> 123.jpg
 function stripImageUrl(url: string): string {
   const index = url.lastIndexOf("/");
-  const shortUrl = url.substring(index + 1);
+  let shortUrl = url.substring(index + 1);
+
+  // Change the extension
+  // if (shortUrl.endsWith(".jpg")) {
+  //   shortUrl = shortUrl.replace(".jpg", ".j");
+  // } else if (shortUrl.endsWith(".png")) {
+  //   shortUrl = shortUrl.replace(".png", ".p");
+  // }
+
   return shortUrl;
 }
 
@@ -152,6 +162,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     [RepeatStringsName.SocketEntries]: [],
     [RepeatStringsName.SocketTypeHash]: [],
     [RepeatStringsName.TalentGridHash]: [],
+    [RepeatStringsName.Icons]: [],
   };
 
   type RepeatStringsName =
@@ -182,7 +193,8 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     | "PlugCategoryHash"
     | "SocketEntries"
     | "SocketTypeHash"
-    | "TalentGridHash";
+    | "TalentGridHash"
+    | "Icons";
 
   const repeatStringsMap: Record<RepeatStringsName, Map<string, number>> = {
     Descriptions: new Map(),
@@ -213,6 +225,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     SocketEntries: new Map(),
     SocketTypeHash: new Map(),
     TalentGridHash: new Map(),
+    Icons: new Map(),
   };
 
   // Send a repeat string and get a index value back
@@ -264,7 +277,22 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
 
         const icon = displayProperties.icon;
         if (icon) {
-          item.i = stripImageUrl(icon);
+          item.i = getRepeatStringIndexMap(RepeatStringsName.Icons, stripImageUrl(icon));
+        }
+
+        const iconSequences = displayProperties.iconSequences;
+        if (iconSequences) {
+          const is: any[] = [];
+          for (const i of iconSequences) {
+            const f: any[] = [];
+            for (const frame of i.frames) {
+              const icon = getRepeatStringIndexMap(RepeatStringsName.Icons, stripImageUrl(frame));
+              f.push(icon);
+            }
+            is.push(f);
+          }
+
+          item.if = is;
         }
       }
 
@@ -774,7 +802,7 @@ async function downloadAndMinifyDefinition(definitionUrl: string, key: string, u
   const processedData = createMiniDefinition(jsonData, uniqueKey);
   console.timeEnd(`${key} parse-took:`);
 
-  const outputFilePath = path.join(__dirname, `json/${key}.json`);
+  const outputFilePath = path.join(__dirname, `json/1/${key}.json`);
 
   console.time(`${key} save-took:`);
   await saveToJsonFile(processedData, outputFilePath);
@@ -788,6 +816,10 @@ async function main() {
   const jsonPath = path.join(__dirname, `json`);
   if (!fs.existsSync(jsonPath)) {
     fs.mkdirSync(jsonPath);
+  }
+  const jsonPath1 = path.join(__dirname, `json/1`);
+  if (!fs.existsSync(jsonPath1)) {
+    fs.mkdirSync(jsonPath1);
   }
   try {
     console.time("download-manifest");
@@ -803,20 +835,20 @@ async function main() {
     await useContentPaths(jsonWorldComponentContentPaths, id);
     console.timeEnd("total-json-parse");
 
-    const uniqueJsonManifest = {
-      version: id,
-    };
+    // const uniqueJsonManifest = {
+    //   version: id,
+    // };
 
-    const savePath = path.join(__dirname, `json/manifest.json`);
-    await saveToJsonFile(uniqueJsonManifest, savePath);
+    // const savePath = path.join(__dirname, `json/manifest.json`);
+    // await saveToJsonFile(uniqueJsonManifest, savePath);
 
     // To avoid committing a 3MB JSON blob into this repo download the demo.json file
     // from the unintuitive.com site and save it to the json folder. This is only used
     // for the apps demo mode.
-    const demoJsonUrl = "https://unintuitive.com/demo.json";
-    const demoJson = await downloadJsonFile(demoJsonUrl);
-    const saveDemoPath = path.join(__dirname, `json/demo.json`);
-    await saveToJsonFile(demoJson, saveDemoPath);
+    // const demoJsonUrl = "https://unintuitive.com/demo.json";
+    // const demoJson = await downloadJsonFile(demoJsonUrl);
+    // const saveDemoPath = path.join(__dirname, `json/demo.json`);
+    // await saveToJsonFile(demoJson, saveDemoPath);
   } catch (error) {
     console.error(error);
     process.exit(1);
