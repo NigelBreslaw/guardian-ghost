@@ -192,11 +192,11 @@ export default function BottomSheet({
   const [viewData, setViewData] = useState<ViewData | null>(null);
   const destinyItem = useGGStore.getState().selectedItem;
 
+  const quantity = useGGStore((state) => state.quantityToTransfer);
+
   if (!destinyItem) {
     return null;
   }
-
-  const quantity = useGGStore((state) => state.quantityToTransfer);
 
   useEffect(() => {
     if (refRBSheet.current) {
