@@ -30,6 +30,7 @@ import {
   setSocketIndexes,
   setDestinySocketCategoryDefinition,
   setDestinyStatGroupDefinition,
+  setIcons,
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
@@ -249,6 +250,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setTraitIds(itemDefinition.helpers.TraitIds);
   setUiItemDisplayStyle(itemDefinition.helpers.UiItemDisplayStyle);
   setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
+  setIcons(itemDefinition.helpers.Icons);
 
   return { definitionsReady: true };
 }

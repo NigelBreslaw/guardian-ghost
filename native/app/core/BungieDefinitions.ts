@@ -7,7 +7,7 @@ export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGrou
 // The self hosted minified JSON response definition
 // -------------------------------
 
-const MINI_ITEM_DEFINITION_VERSION = 3;
+const MINI_ITEM_DEFINITION_VERSION = 4;
 
 export const ItemResponseSchema = object({
   helpers: object(
@@ -39,6 +39,7 @@ export const ItemResponseSchema = object({
       TraitIds: array(string()),
       UiItemDisplayStyle: array(string()),
       UiPlugLabel: array(string()),
+      Icons: array(string()),
       Versions: array(number()),
     },
     unknown(),
@@ -68,7 +69,8 @@ export const miniItemSchema = object({
   e: optional(number()),
   em: optional(number()),
   et: optional(number()),
-  i: optional(string()),
+  i: optional(number()),
+  if: optional(array(array(number()))),
   is: optional(number()),
   ids: optional(number()),
   it: optional(number()),
