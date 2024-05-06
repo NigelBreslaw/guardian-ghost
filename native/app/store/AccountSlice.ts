@@ -20,6 +20,7 @@ import {
   setMods,
   setRawProfileData,
   StackUniqueLabel,
+  Icons,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -371,10 +372,17 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
   if (baseItem.overrideStyleItemHash !== undefined) {
     const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
-
-    definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${overrideDef?.i}`;
+    const iconIndex = overrideDef?.i;
+    if (iconIndex) {
+      const icon = Icons[iconIndex];
+      definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${icon}`;
+    }
   } else {
-    definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef.i}`;
+    const iconIndex = itemDef?.i;
+    if (iconIndex) {
+      const icon = Icons[iconIndex];
+      definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${icon}`;
+    }
   }
 
   definitionItem.itemSubType = itemDef?.is ?? 0;

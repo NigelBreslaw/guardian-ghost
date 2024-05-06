@@ -38,6 +38,7 @@ export let TooltipNotifications: string[];
 export let TraitIds: string[];
 export let UiItemDisplayStyle: string[];
 export let UiPlugLabel: string[];
+export let Icons: string[];
 
 export let rawProfileData: ProfileData | null;
 export let lostItems: DestinyItem[] = [];
@@ -159,6 +160,10 @@ export function setUiItemDisplayStyle(uiItemDisplayStyleDefinition: string[]) {
 
 export function setUiPlugLabel(uiPlugLabelDefinition: string[]) {
   UiPlugLabel = uiPlugLabelDefinition;
+}
+
+export function setIcons(iconsDefinition: string[]) {
+  Icons = iconsDefinition;
 }
 
 export function setRawProfileData(profileData: ProfileData) {
