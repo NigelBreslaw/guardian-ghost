@@ -1,7 +1,10 @@
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, SocketDefinition } from "@/app/inventory/logic/Types.ts";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
+  Descriptions,
   DestinySocketCategoryDefinition,
+  Icons,
+  ItemTypeDisplayName,
   ReusablePlugSetHash,
   SingleInitialItemHash,
   SocketCategories,
@@ -13,6 +16,7 @@ import {
   rawProfileData,
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
+import { iconUrl } from "@/app/core/ApiResponse.ts";
 
 export enum CategoryStyle {
   Unknown = 0,
@@ -115,6 +119,8 @@ export type SocketEntry = {
 
   // TODO: Is this mode needed? It was in Ishtar
   // mode: .SocketEntry
+
+  socketDefinition?: SocketDefinition;
 };
 
 export type Sockets = {
@@ -236,10 +242,10 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
       return null;
     }
 
-    const socketMaps: SocketMap[] = socketIndexes.map((item, socketIndex) => {
+    const socketMaps: SocketMap[] = socketIndexes.map((item) => {
       const socketTypeHash = socketEntries[item]?.socketTypeHash ?? null;
       const sm: SocketMap = {
-        socketIndex,
+        socketIndex: item,
         socketTypeHash,
       };
       return sm;
@@ -285,6 +291,7 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     return null;
   }
   const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId];
+
   if (!liveSockets) {
     console.error("No liveSockets", destinyItem);
     return null;
@@ -314,6 +321,12 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
   for (const category of sockets.socketCategories) {
     const categoryStyleEnum = category.categoryStyle;
 
+    if (categoryStyleEnum === CategoryStyle.Reusable) {
+      console.log("ell", category.topLevelSockets);
+      /// lets make the top level socket columns
+      console.log;
+    }
+
     for (const map of category.socketMaps) {
       const socket = sockets.socketEntries[map.socketIndex];
 
@@ -321,6 +334,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
         continue;
       }
 
+      console.log(CategoryStyle[categoryStyleEnum]);
       switch (categoryStyleEnum) {
         /// for these items the UI itself can decide to get all the plugs. As they are not looked by users
         /// all the time it is a waste to create them for every category
@@ -347,6 +361,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
               }
               case SocketPlugSources.ReusablePlugItems: {
                 if (reusablePlugs) {
+                  // console.log(category.name, reusablePlugs[map.socketIndex]);
                   plugs = reusablePlugs[map.socketIndex] ?? [];
                 }
                 break;
@@ -447,8 +462,7 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
 
     for (const column of category.topLevelSockets) {
       for (const socketEntry of column) {
-        // TODO: add back when this extends destinyItem?
-        // DestinyItem.Def.addDefinition( socketEntry )
+        addSocketDefinition(socketEntry);
 
         /// Add the data needed for inserting a free plug
         socketEntry.socketTypeHash = category.socketMaps[columnIndex]?.socketTypeHash ?? null;
@@ -472,4 +486,60 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
       columnIndex++;
     }
   }
+}
+
+function addSocketDefinition(socket: SocketEntry) {
+  const itemDefinition = itemsDefinition[socket.itemHash];
+  if (!itemDefinition) {
+    return null;
+  }
+
+  const name = itemDefinition.n ?? "";
+  let description = "";
+  const descriptionIndex = itemDefinition.d;
+  if (descriptionIndex) {
+    description = Descriptions[descriptionIndex] ?? "";
+  }
+  let icon = "";
+  const iconIndex = itemDefinition.i;
+  if (iconIndex) {
+    const iconPath = Icons[iconIndex];
+    if (iconPath) {
+      icon = `${iconUrl}${iconPath}`;
+    }
+  }
+  const itemType = itemDefinition.it ?? 0;
+  const tierType = itemDefinition.t ?? 0;
+  let itemTypeDisplayName = "";
+  const itdIndex = itemDefinition.itd;
+  if (itdIndex) {
+    itemTypeDisplayName = ItemTypeDisplayName[itdIndex] ?? "";
+  }
+  let uiItemDisplayStyle = "";
+  const itemDefinitionIdex = itemDefinition.ids;
+  if (itemDefinitionIdex) {
+    uiItemDisplayStyle = ItemTypeDisplayName[itemDefinitionIdex] ?? "";
+  }
+  const investmentStats: { statTypeHash: number; value: number }[] = [];
+  const investments = itemDefinition.iv;
+  if (investments) {
+    for (const iv in Object.keys(investments)) {
+      const statTypeHash = Number(iv);
+      const value = investments[iv] ?? 0;
+      investmentStats.push({ statTypeHash, value });
+    }
+  }
+
+  const socketDefinition: SocketDefinition = {
+    name,
+    description,
+    icon,
+    itemType,
+    tierType,
+    itemTypeDisplayName,
+    uiItemDisplayStyle,
+    investmentStats,
+  };
+
+  socket.socketDefinition = socketDefinition;
 }
