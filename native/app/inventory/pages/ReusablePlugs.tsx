@@ -1,4 +1,5 @@
-import { CategoryStyle, type SocketCategory, type SocketEntry } from "@/app/inventory/logic/Sockets.ts";
+import { StatType } from "@/app/bungie/Enums.ts";
+import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Sockets.ts";
 import { Image } from "expo-image";
 import { View, StyleSheet } from "react-native";
 
@@ -21,6 +22,19 @@ const styles = StyleSheet.create({
     gap: GAP,
   },
 });
+
+// CREDIT: DIM for this article and code that collates information from their app,
+// the community and info directly from Bungie.
+// https://www.reddit.com/r/DestinyTheGame/comments/d8ahdl/dim_updates_stat_calculation_for_shadowkeep/
+
+// Bankers rounding function. Used for all stats but magazine
+// https://wiki.c2.com/?BankersRounding
+function _bankersRounding(num: number): number {
+  if (Math.abs(Math.round(num) - num) === 0.5) {
+    return Math.floor(num) % 2 === 0 ? Math.floor(num) : Math.ceil(num);
+  }
+  return Math.round(num);
+}
 
 type PerkCircleProps = {
   icon: string | undefined;
@@ -46,12 +60,36 @@ function PerkCircle(props: PerkCircleProps) {
   );
 }
 
+function debug(socketCategory: SocketCategory) {
+  const stats = new Map<number, number>();
+  socketCategory.topLevelSockets.map((column, index) => {
+    if (column) {
+      column.map((e, index) => {
+        if (e.socketDefinition?.investmentStats) {
+          e.socketDefinition.investmentStats.map((stat) => {
+            if (stats.has(stat.statTypeHash)) {
+              const currentValue = stats.get(stat.statTypeHash) ?? 0;
+              stats.set(stat.statTypeHash, currentValue + stat.value);
+            } else {
+              stats.set(stat.statTypeHash, stat.value);
+            }
+          });
+        }
+      });
+    }
+  });
+  // console.log all the keys and values in stats
+  for (const [key, value] of stats) {
+    console.log(StatType[key], value);
+  }
+}
+
 type ReusablePlugsProps = {
   socketCategory: SocketCategory;
-  socketEntries: SocketEntry[] | undefined;
 };
 
 export default function ReusablePlugs(props: ReusablePlugsProps) {
+  debug(props.socketCategory);
   switch (props.socketCategory.categoryStyle) {
     case CategoryStyle.Reusable: {
       return (
