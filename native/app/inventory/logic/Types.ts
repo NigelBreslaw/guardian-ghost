@@ -60,6 +60,7 @@ export type ItemInstance = {
 };
 
 export type DestinyItemDefinition = {
+  icon: string;
   destinyClass: DestinyClass;
   doesPostmasterPullHaveSideEffects: boolean;
   equippable: boolean;
@@ -72,6 +73,8 @@ export type DestinyItemDefinition = {
   stackUniqueLabel?: string;
   plugCategoryIdentifier: string;
   investmentStats: InvestmentStat[];
+  displayVersionWatermarkIcons: string[];
+  watermark: string;
 };
 
 export type DestinyItem = DestinyItemBase & {

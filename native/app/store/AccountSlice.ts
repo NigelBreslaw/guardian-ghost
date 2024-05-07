@@ -43,7 +43,6 @@ import {
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
-import type { MiniSingleItemDefinition } from "@/app/core/BungieDefinitions";
 import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
@@ -356,29 +355,24 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     primaryStat: 0,
   };
 
-  const itemDef = itemsDefinition[baseItem.itemHash];
-  if (!itemDef || itemDef.b === undefined) {
-    throw new Error("No itemDefinition found");
-  }
-
   const definitionItem = getItemDefinition(baseItem.itemHash);
 
   if (baseItem.overrideStyleItemHash !== undefined) {
-    const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
-    const iconIndex = overrideDef?.i;
-    if (iconIndex) {
-      const icon = Icons[iconIndex];
-      itemInstance.icon = `${iconUrl}/${icon}`;
+    const overrideDef = getItemDefinition(baseItem.overrideStyleItemHash);
+
+    if (overrideDef) {
+      itemInstance.icon = overrideDef.icon;
     }
   } else {
-    const iconIndex = itemDef?.i;
-    if (iconIndex) {
-      const icon = Icons[iconIndex];
-      itemInstance.icon = `${iconUrl}/${icon}`;
-    }
+    itemInstance.icon = definitionItem.icon;
   }
 
-  itemInstance.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
+  if (baseItem.versionNumber !== undefined) {
+    itemInstance.calculatedWaterMark = definitionItem.displayVersionWatermarkIcons[baseItem.versionNumber];
+  } else {
+    itemInstance.calculatedWaterMark = definitionItem.watermark;
+  }
+
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
     itemInstance.masterwork = true;
@@ -449,12 +443,37 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     equippable: false,
     investmentStats: [],
     plugCategoryIdentifier: "",
+    icon: "",
+    displayVersionWatermarkIcons: [],
+    watermark: "",
   };
 
   const itemDef = itemsDefinition[itemHash];
   if (!itemDef || itemDef.b === undefined) {
     itemDefinitionCache.set(itemHash, definitionItem);
     return definitionItem;
+  }
+
+  const iconIndex = itemDef?.i;
+  if (iconIndex) {
+    const icon = Icons[iconIndex];
+    definitionItem.icon = `${iconUrl}/${icon}`;
+  }
+
+  const waterMarkIndex = itemDef.iw;
+  if (waterMarkIndex) {
+    const waterMark = IconWaterMarks[waterMarkIndex];
+    definitionItem.watermark = `${iconUrl}${waterMark}`;
+  }
+
+  const dvwi = itemDef.dvwi;
+  if (dvwi) {
+    for (const w of dvwi) {
+      const wm = IconWaterMarks[w];
+      if (wm) {
+        definitionItem.displayVersionWatermarkIcons.push(`${iconUrl}${wm}`);
+      }
+    }
   }
 
   const investmentStats: InvestmentStat[] = [];
@@ -483,31 +502,6 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
 
   itemDefinitionCache.set(itemHash, definitionItem);
   return definitionItem;
-}
-
-function calculateWaterMark(destinyItem: DestinyItemBase, definition: MiniSingleItemDefinition): string | undefined {
-  const versionNumber = destinyItem.versionNumber;
-
-  let watermark: string | undefined = undefined;
-  if (versionNumber !== undefined) {
-    const dvwi = definition.dvwi;
-    if (dvwi) {
-      const index = dvwi[versionNumber];
-      if (index !== undefined) {
-        watermark = IconWaterMarks[index];
-      }
-    }
-  } else {
-    const iconWatermark = definition.iw;
-    if (iconWatermark) {
-      watermark = IconWaterMarks[iconWatermark];
-    }
-  }
-
-  if (watermark) {
-    watermark = `https://www.bungie.net/common/destiny2_content/icons/${watermark}`;
-  }
-  return watermark;
 }
 
 function processVaultInventory(profile: ProfileData): VaultData {
