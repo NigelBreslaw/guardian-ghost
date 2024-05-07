@@ -29,7 +29,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   const originalHeight = 96;
   const transferWidth = originalWidth * scale;
   const transferHeight = originalHeight * scale;
-  const borderRadius = 15;
+  const borderRadius = 10;
 
   const ggCharacters = useGGStore.getState().ggCharacters;
 
