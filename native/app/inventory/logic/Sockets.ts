@@ -321,12 +321,6 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
   for (const category of sockets.socketCategories) {
     const categoryStyleEnum = category.categoryStyle;
 
-    if (categoryStyleEnum === CategoryStyle.Reusable) {
-      console.log("ell", category.topLevelSockets);
-      /// lets make the top level socket columns
-      console.log;
-    }
-
     for (const map of category.socketMaps) {
       const socket = sockets.socketEntries[map.socketIndex];
 
@@ -334,7 +328,6 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
         continue;
       }
 
-      console.log(CategoryStyle[categoryStyleEnum]);
       switch (categoryStyleEnum) {
         /// for these items the UI itself can decide to get all the plugs. As they are not looked by users
         /// all the time it is a waste to create them for every category
@@ -361,7 +354,6 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
               }
               case SocketPlugSources.ReusablePlugItems: {
                 if (reusablePlugs) {
-                  // console.log(category.name, reusablePlugs[map.socketIndex]);
                   plugs = reusablePlugs[map.socketIndex] ?? [];
                 }
                 break;
@@ -387,8 +379,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
                 console.log("No support for", plugSourceEnum);
               }
             }
-
-            if (plugs) {
+            if (plugs && plugs?.length > 0) {
               plugsFound = true;
               category.topLevelSockets = makeSocketEntryColumn(plugs, socket, category.topLevelSockets, plugSourceEnum);
             }
