@@ -523,7 +523,7 @@ function addSocketDefinition(socket: SocketEntry) {
   const investmentStats: { statTypeHash: number; value: number }[] = [];
   const investments = itemDefinition.iv;
   if (investments) {
-    for (const iv in Object.keys(investments)) {
+    for (const iv of Object.keys(investments)) {
       const statTypeHash = Number(iv);
       const value = investments[iv] ?? 0;
       investmentStats.push({ statTypeHash, value });
