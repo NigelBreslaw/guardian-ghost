@@ -57,7 +57,7 @@ function CharacterHeaderButtons() {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const scale = 0.4;
   const originalHeight = 96;
-  const borderRadius = 15;
+  const borderRadius = 7;
   const transferHeight = originalHeight * scale;
 
   return (
