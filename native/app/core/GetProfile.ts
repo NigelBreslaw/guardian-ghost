@@ -232,7 +232,7 @@ export const getSimpleProfileSchema = merge([
         data: unknown(),
       }),
       characterLoadouts: object({}),
-      characterPlugSets: optional(object({ data: unknown() })),
+      characterPlugSets: object({ data: optional(unknown()) }),
       characterProgressions: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),

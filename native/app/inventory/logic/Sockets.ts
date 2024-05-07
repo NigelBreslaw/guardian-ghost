@@ -361,7 +361,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
 
               case SocketPlugSources.ProfilePlugSet: {
                 if (socket.reusablePlugSetHash) {
-                  plugs = rawProfileData?.Response.profilePlugSets.data.plugs[socket.reusablePlugSetHash] ?? [];
+                  plugs = rawProfileData?.Response.profilePlugSets.data?.plugs[socket.reusablePlugSetHash] ?? [];
                 }
                 break;
               }
@@ -369,7 +369,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
               case SocketPlugSources.CharacterPlugSet: {
                 if (socket.reusablePlugSetHash) {
                   plugs =
-                    rawProfileData?.Response.characterPlugSets.data[destinyItem.characterId]?.plugs[
+                    rawProfileData?.Response.characterPlugSets.data?.[destinyItem.characterId]?.plugs[
                       socket.reusablePlugSetHash
                     ] ?? [];
                 }
