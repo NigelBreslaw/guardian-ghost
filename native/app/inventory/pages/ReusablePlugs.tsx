@@ -62,9 +62,9 @@ function PerkCircle(props: PerkCircleProps) {
 
 function debug(socketCategory: SocketCategory) {
   const stats = new Map<number, number>();
-  socketCategory.topLevelSockets.map((column, index) => {
+  socketCategory.topLevelSockets.map((column) => {
     if (column) {
-      column.map((e, index) => {
+      column.map((e) => {
         if (e.socketDefinition?.investmentStats) {
           e.socketDefinition.investmentStats.map((stat) => {
             if (stats.has(stat.statTypeHash)) {
