@@ -95,7 +95,7 @@ export type SocketDefinition = {
 export type DestinyItemSort = DestinyItem & {
   itemInstanceId: string;
   damageType: DamageType;
-  plugCategoryIdentifier: string;
+  def: DestinyItemDefinition & { plugCategoryIdentifier: string };
 };
 
 export type GGCharacterUiData = {

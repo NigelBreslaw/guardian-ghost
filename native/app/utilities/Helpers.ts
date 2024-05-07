@@ -296,32 +296,32 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
 
 export function modSort(b: DestinyItemSort, a: DestinyItemSort): number {
   /// Criteria 1: sorting value
-  if (a.plugCategoryIdentifier.includes("mod") && !b.plugCategoryIdentifier.includes("mod")) {
+  if (a.def.plugCategoryIdentifier.includes("mod") && !b.def.plugCategoryIdentifier.includes("mod")) {
     return 1;
   }
 
-  if (!a.plugCategoryIdentifier.includes("mod") && b.plugCategoryIdentifier.includes("mod")) {
+  if (!a.def.plugCategoryIdentifier.includes("mod") && b.def.plugCategoryIdentifier.includes("mod")) {
     return -1;
   }
 
-  if (a.plugCategoryIdentifier.includes("enhancements") && !b.plugCategoryIdentifier.includes("enhancements")) {
+  if (a.def.plugCategoryIdentifier.includes("enhancements") && !b.def.plugCategoryIdentifier.includes("enhancements")) {
     return 1;
   }
-  if (!a.plugCategoryIdentifier.includes("enhancements") && b.plugCategoryIdentifier.includes("enhancements")) {
+  if (!a.def.plugCategoryIdentifier.includes("enhancements") && b.def.plugCategoryIdentifier.includes("enhancements")) {
     return -1;
   }
 
-  if (a.plugCategoryIdentifier.includes("spawnfx") && !b.plugCategoryIdentifier.includes("spawnfx")) {
+  if (a.def.plugCategoryIdentifier.includes("spawnfx") && !b.def.plugCategoryIdentifier.includes("spawnfx")) {
     return 1;
   }
-  if (!a.plugCategoryIdentifier.includes("spawnfx") && b.plugCategoryIdentifier.includes("spawnfx")) {
+  if (!a.def.plugCategoryIdentifier.includes("spawnfx") && b.def.plugCategoryIdentifier.includes("spawnfx")) {
     return -1;
   }
 
-  if (a.plugCategoryIdentifier > b.plugCategoryIdentifier) {
+  if (a.def.plugCategoryIdentifier > b.def.plugCategoryIdentifier) {
     return 1;
   }
-  if (a.plugCategoryIdentifier < b.plugCategoryIdentifier) {
+  if (a.def.plugCategoryIdentifier < b.def.plugCategoryIdentifier) {
     return -1;
   }
 

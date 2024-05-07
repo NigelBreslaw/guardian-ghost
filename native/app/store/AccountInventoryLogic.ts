@@ -47,7 +47,6 @@ const section_buckets = SectionBucketsValues.filter((v) => !Number.isNaN(v));
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
   createUIData(get);
   const p1 = performance.now();
-
   // For each page use a deepEqual compare to see if the data has changed.
   // If it has changed then update just that page.
   const ggWeapons = get().ggWeapons;
@@ -56,14 +55,12 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   if (updatedWeapons) {
     set({ ggWeapons: updatedWeapons });
   }
-
   const ggArmor = get().ggArmor;
   const newArmorPageData = buildUIData(get, armorPageBuckets);
   const updatedArmor = getUpdatedItems(ggArmor, newArmorPageData);
   if (updatedArmor) {
     set({ ggArmor: updatedArmor });
   }
-
   const ggGeneral = get().ggGeneral;
   const newGeneralPageData = buildUIData(get, generalPageBuckets);
   const updatedGeneral = getUpdatedItems(ggGeneral, newGeneralPageData);
