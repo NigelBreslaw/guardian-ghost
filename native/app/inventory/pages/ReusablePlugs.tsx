@@ -3,12 +3,10 @@ import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Socket
 import { Image } from "expo-image";
 import { View, StyleSheet } from "react-native";
 
-const GAP = 10;
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
     flexDirection: "row",
-    gap: GAP,
+    gap: 20,
   },
   text: {
     color: "white",
@@ -19,7 +17,7 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: "column",
     justifyContent: "flex-start",
-    gap: GAP,
+    gap: 10,
   },
 });
 
@@ -78,7 +76,6 @@ function debug(socketCategory: SocketCategory) {
       });
     }
   });
-  // console.log all the keys and values in stats
   for (const [key, value] of stats) {
     console.log(StatType[key], value);
   }
