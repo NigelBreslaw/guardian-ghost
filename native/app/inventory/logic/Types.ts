@@ -70,7 +70,8 @@ export type DestinyItemDefinition = {
   tierType: TierType;
   recoveryBucketHash: number;
   stackUniqueLabel?: string;
-  plugCategoryIdentifier?: string;
+  plugCategoryIdentifier: string;
+  investmentStats: InvestmentStat[];
 };
 
 export type DestinyItem = DestinyItemBase & {
@@ -81,6 +82,8 @@ export type DestinyItem = DestinyItemBase & {
   def: DestinyItemDefinition;
 };
 
+export type InvestmentStat = { statTypeHash: number; value: number };
+
 export type SocketDefinition = {
   name: string;
   description: string;
@@ -89,13 +92,12 @@ export type SocketDefinition = {
   tierType: TierType; // .Common means its an enhanced perk
   itemTypeDisplayName: string;
   uiItemDisplayStyle: string;
-  investmentStats: { statTypeHash: number; value: number }[];
+  investmentStats: InvestmentStat[];
 };
 
 export type DestinyItemSort = DestinyItem & {
   itemInstanceId: string;
   damageType: DamageType;
-  def: DestinyItemDefinition & { plugCategoryIdentifier: string };
 };
 
 export type GGCharacterUiData = {

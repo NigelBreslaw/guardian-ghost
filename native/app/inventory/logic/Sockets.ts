@@ -1,4 +1,4 @@
-import type { DestinyItem, SocketDefinition } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, InvestmentStat, SocketDefinition } from "@/app/inventory/logic/Types.ts";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
   Descriptions,
@@ -511,7 +511,7 @@ function addSocketDefinition(socket: SocketEntry) {
   if (itemDefinitionIdex) {
     uiItemDisplayStyle = ItemTypeDisplayName[itemDefinitionIdex] ?? "";
   }
-  const investmentStats: { statTypeHash: number; value: number }[] = [];
+  const investmentStats: InvestmentStat[] = [];
   const investments = itemDefinition.iv;
   if (investments) {
     for (const iv of Object.keys(investments)) {
