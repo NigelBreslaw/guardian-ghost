@@ -75,6 +75,7 @@ export type DestinyItemDefinition = {
   investmentStats: InvestmentStat[];
   displayVersionWatermarkIcons: string[];
   watermark: string;
+  statGroupHash: number;
 };
 
 export type DestinyItem = DestinyItemBase & {

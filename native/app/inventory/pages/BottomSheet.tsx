@@ -340,9 +340,9 @@ export default function BottomSheet({
                     </View>
                   )}
               </View>
-              <View style={{ width: "100%", justifyContent: "center", alignItems: "center" }}>
+              <View style={{ width: "100%" }}>
                 {viewData.sockets?.socketCategories.map((category, _index) => {
-                  return <ReusablePlugs key={category.index} socketCategory={category} />;
+                  return <ReusablePlugs key={category.index} item={destinyItem} socketCategory={category} />;
                 })}
               </View>
               <View>
