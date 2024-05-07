@@ -243,9 +243,9 @@ async function equipItemLogic(transferBundle: TransferBundle, transferItem: Tran
 function returnBlockingExotic(destinyItem: DestinyItem): DestinyItem | null {
   let searchBuckets: SectionBuckets[];
 
-  if (destinyItem.itemType === ItemType.Armor) {
+  if (destinyItem.def.itemType === ItemType.Armor) {
     searchBuckets = armorBuckets;
-  } else if (destinyItem.itemType === ItemType.Weapon) {
+  } else if (destinyItem.def.itemType === ItemType.Weapon) {
     searchBuckets = weaponBuckets;
   } else {
     console.error("returnBlockingExotic: Unknown item type");
@@ -261,7 +261,7 @@ function returnBlockingExotic(destinyItem: DestinyItem): DestinyItem | null {
 
   for (const bucket of searchBuckets) {
     const equippedItem = guardiansItems[bucket]?.equipped;
-    if (equippedItem && equippedItem?.tierType === TierType.Exotic) {
+    if (equippedItem && equippedItem?.def.tierType === TierType.Exotic) {
       return equippedItem;
     }
   }
@@ -273,7 +273,7 @@ function getUnequipItem(sectionItems: DestinyItem[], allowExotics = false): Dest
   let unequipItem: DestinyItem | null = null;
   for (const item of sectionItems) {
     if (sectionSupportsBlockingExotic.includes(item.bucketHash) && !allowExotics) {
-      if (item.tierType !== TierType.Exotic) {
+      if (item.def.tierType !== TierType.Exotic) {
         unequipItem = item;
         break;
       }
@@ -352,15 +352,15 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
 }
 
 function hasBlockingExotic(destinyItem: DestinyItem): boolean {
-  if (destinyItem.tierType !== TierType.Exotic) {
+  if (destinyItem.def.tierType !== TierType.Exotic) {
     return false;
   }
 
   let searchBuckets: SectionBuckets[];
 
-  if (destinyItem.itemType === ItemType.Armor) {
+  if (destinyItem.def.itemType === ItemType.Armor) {
     searchBuckets = armorBuckets;
-  } else if (destinyItem.itemType === ItemType.Weapon) {
+  } else if (destinyItem.def.itemType === ItemType.Weapon) {
     searchBuckets = weaponBuckets;
   } else {
     return false;
@@ -373,13 +373,13 @@ function hasBlockingExotic(destinyItem: DestinyItem): boolean {
     return false;
   }
   const currentEquippedItem = guardiansItems[destinyItem.bucketHash]?.equipped;
-  if (currentEquippedItem && currentEquippedItem.tierType === TierType.Exotic) {
+  if (currentEquippedItem && currentEquippedItem.def.tierType === TierType.Exotic) {
     return false;
   }
 
   // If the currently equipped item in this section is an exotic then its fine to equip another
   for (const bucket of searchBuckets) {
-    if (guardiansItems[bucket]?.equipped?.tierType === TierType.Exotic) {
+    if (guardiansItems[bucket]?.equipped?.def.tierType === TierType.Exotic) {
       return true;
     }
   }
@@ -632,7 +632,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   // var itemToUnequipDef = DestinyItem.Def.definitions[itemToUnequip.itemHash]
   /// Can the unequip item be an exotic? Yes if this item is an exotic or in a slot where it does not matter
   const doNotIncludeExotics =
-    sectionSupportsBlockingExotic.includes(itemToUnequip.bucketHash) && itemToUnequip.tierType !== TierType.Exotic;
+    sectionSupportsBlockingExotic.includes(itemToUnequip.bucketHash) && itemToUnequip.def.tierType !== TierType.Exotic;
   console.log("do not include exotics", doNotIncludeExotics);
 
   /// Is there an item in this section that can unequip the item?
@@ -685,7 +685,7 @@ function returnNonBusyUnequipItem(
   ignoreLocked: boolean,
 ): DestinyItem {
   for (const item of items) {
-    if (item.destinyClass !== DestinyClass.Unknown && item.destinyClass !== itemToUnequip.destinyClass) {
+    if (item.def.destinyClass !== DestinyClass.Unknown && item.def.destinyClass !== itemToUnequip.def.destinyClass) {
       continue;
     }
 
@@ -696,7 +696,7 @@ function returnNonBusyUnequipItem(
     }
 
     if (ignoreExotics) {
-      if (item.tierType !== TierType.Exotic) {
+      if (item.def.tierType !== TierType.Exotic) {
         return item;
       }
     } else {

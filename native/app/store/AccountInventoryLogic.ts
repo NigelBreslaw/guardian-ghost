@@ -353,22 +353,22 @@ function calcTotalVaultItems(): number {
 }
 
 function returnDestinyIconData(item: DestinyItem): DestinyIconData {
-  const damageTypeIconUri = getDamageTypeIconUri(item.damageType);
-  const primaryStat = item.primaryStat;
+  const damageTypeIconUri = getDamageTypeIconUri(item.instance.damageType);
+  const primaryStat = item.instance.primaryStat;
   const borderColor = returnBorderColor(item);
-  const masterwork = item.masterwork ?? false;
-  const crafted = item.crafted;
+  const masterwork = item.instance.masterwork ?? false;
+  const crafted = item.instance.crafted;
   const quantity = item.quantity;
-  const stackSizeMaxed = item.quantity === item.maxStackSize;
-  const engram = item.itemType === ItemType.Engram;
+  const stackSizeMaxed = item.quantity === item.def.maxStackSize;
+  const engram = item.def.itemType === ItemType.Engram;
 
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
     characterId: item.characterId,
-    icon: item.icon,
+    icon: item.instance.icon,
     primaryStat,
-    calculatedWaterMark: item.calculatedWaterMark,
+    calculatedWaterMark: item.instance.calculatedWaterMark,
     damageTypeIconUri,
     masterwork,
     borderColor,
@@ -381,10 +381,10 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
 }
 
 function returnBorderColor(item: DestinyItem): string {
-  if (item.deepSightResonance) {
+  if (item.instance.deepSightResonance) {
     return "#FF603E";
   }
-  if (item.masterwork) {
+  if (item.instance.masterwork) {
     return "#CEAE32";
   }
   return "#555555";
@@ -543,7 +543,7 @@ function addLogic(
 }
 
 function rebuildStackableItems(total: number, destinyItem: DestinyItem, mode: "ADD" | "REMOVE"): DestinyItem[] {
-  const totalPerStack = destinyItem.maxStackSize;
+  const totalPerStack = destinyItem.def.maxStackSize;
   let newTotal = total;
   const newItems: DestinyItem[] = [];
 
@@ -597,9 +597,9 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
   console.log(
     "transformSuccessfulPullFromPostmasterItem",
     destinyItem.characterId,
-    SectionBuckets[destinyItem.recoveryBucketHash],
+    SectionBuckets[destinyItem.def.recoveryBucketHash],
   );
-  switch (destinyItem.recoveryBucketHash) {
+  switch (destinyItem.def.recoveryBucketHash) {
     case SectionBuckets.Mods: {
       characterId = GLOBAL_MODS_CHARACTER_ID;
       break;
@@ -612,7 +612,7 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
       characterId = destinyItem.characterId;
     }
   }
-  const bucketHash = destinyItem.recoveryBucketHash;
+  const bucketHash = destinyItem.def.recoveryBucketHash;
   const newDestinyItem: DestinyItem = {
     ...destinyItem,
     characterId,

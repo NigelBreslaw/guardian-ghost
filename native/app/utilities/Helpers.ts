@@ -242,24 +242,24 @@ export function itemHashAndQuantitySort(a: DestinyItemSort, b: DestinyItemSort):
 }
 
 export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
-  if (a.itemSubType > b.itemSubType) {
+  if (a.def.itemSubType > b.def.itemSubType) {
     return 1;
   }
-  if (a.itemSubType < b.itemSubType) {
+  if (a.def.itemSubType < b.def.itemSubType) {
     return -1;
   }
 
-  if (a.primaryStat < b.primaryStat) {
+  if (a.instance.primaryStat < b.instance.primaryStat) {
     return 1;
   }
-  if (a.primaryStat > b.primaryStat) {
+  if (a.instance.primaryStat > b.instance.primaryStat) {
     return -1;
   }
 
-  if (a.tierType < b.tierType) {
+  if (a.def.tierType < b.def.tierType) {
     return 1;
   }
-  if (a.tierType > b.tierType) {
+  if (a.def.tierType > b.def.tierType) {
     return -1;
   }
 
@@ -270,10 +270,10 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  if (a.destinyClass > b.destinyClass) {
+  if (a.def.destinyClass > b.def.destinyClass) {
     return 1;
   }
-  if (a.destinyClass < b.destinyClass) {
+  if (a.def.destinyClass < b.def.destinyClass) {
     return -1;
   }
 
@@ -284,10 +284,10 @@ export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number
     return -1;
   }
 
-  if (!a.masterwork && b.masterwork) {
+  if (!a.instance.masterwork && b.instance.masterwork) {
     return 1;
   }
-  if (a.masterwork && !b.masterwork) {
+  if (a.instance.masterwork && !b.instance.masterwork) {
     return -1;
   }
 
@@ -325,10 +325,10 @@ export function modSort(b: DestinyItemSort, a: DestinyItemSort): number {
     return -1;
   }
 
-  if (a.tierType > b.tierType) {
+  if (a.def.tierType > b.def.tierType) {
     return 1;
   }
-  if (a.tierType < b.tierType) {
+  if (a.def.tierType < b.def.tierType) {
     return -1;
   }
 
