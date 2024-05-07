@@ -23,6 +23,7 @@ import {
   setRawProfileData,
   StackUniqueLabel,
   Icons,
+  StatGroupHash,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -446,6 +447,7 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     icon: "",
     displayVersionWatermarkIcons: [],
     watermark: "",
+    statGroupHash: 0,
   };
 
   const itemDef = itemsDefinition[itemHash];
@@ -485,6 +487,11 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
       investmentStats.push({ statTypeHash, value });
     }
     definitionItem.investmentStats = investmentStats;
+  }
+
+  const statGroupHashIndex = itemDef.st?.sgs;
+  if (statGroupHashIndex) {
+    definitionItem.statGroupHash = StatGroupHash[statGroupHashIndex]!;
   }
   definitionItem.recoveryBucketHash = BucketTypeHashArray[itemDef.b] ?? 0;
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
