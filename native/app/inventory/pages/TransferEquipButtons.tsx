@@ -88,11 +88,11 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   // is this a vault item that will be transferred to the Mods or Consumables page section?
   if (
     (props.currentCharacterId === VAULT_CHARACTER_ID &&
-      props.destinyItem.recoveryBucketHash === SectionBuckets.Consumables) ||
-    props.destinyItem.recoveryBucketHash === SectionBuckets.Mods
+      props.destinyItem.def.recoveryBucketHash === SectionBuckets.Consumables) ||
+    props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
   ) {
     const ggCharacterId =
-      props.destinyItem.recoveryBucketHash === SectionBuckets.Mods
+      props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
         ? GLOBAL_MODS_CHARACTER_ID
         : GLOBAL_CONSUMABLES_CHARACTER_ID;
     const transferTap = Gesture.Tap().onBegin(() => {
@@ -149,7 +149,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
       return 0;
     }
-    if (!props.destinyItem.equippable) {
+    if (!props.destinyItem.def.equippable) {
       return 0;
     }
     if (calcEquipButtonDisabled(buttonCharacterId)) {
@@ -159,7 +159,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
 
   function calcTransferOpacity(buttonCharacterId: string): number {
-    if (props.destinyItem.nonTransferrable) {
+    if (props.destinyItem.def.nonTransferrable) {
       return 0;
     }
     if (calcTransferButtonDisabled(buttonCharacterId)) {
@@ -199,7 +199,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
     const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
 
-    if (props.destinyItem.nonTransferrable && ggCharacter.characterId !== props.currentCharacterId) {
+    if (props.destinyItem.def.nonTransferrable && ggCharacter.characterId !== props.currentCharacterId) {
       continue;
     }
 
@@ -303,7 +303,9 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
       <Text style={styles.transferToText}>Transfer to</Text>
-      <Text style={[styles.equipOnText, { display: props.destinyItem.equippable ? "flex" : "none" }]}>Equip on</Text>
+      <Text style={[styles.equipOnText, { display: props.destinyItem.def.equippable ? "flex" : "none" }]}>
+        Equip on
+      </Text>
 
       {rectangles}
     </View>

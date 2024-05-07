@@ -49,31 +49,37 @@ export const BungieUserSchema = object({
 
 export type BungieUser = Output<typeof BungieUserSchema>;
 
-export type DestinyItemDefinition = {
-  characterId: string;
-  equipped: boolean;
-  previousCharacterId: string; //Used by the transfer system to update the UI
-  recoveryBucketHash: number;
-  itemType: ItemType;
-  masterwork?: boolean;
-  primaryStat: number;
+export type ItemInstance = {
   icon: string;
   calculatedWaterMark?: string;
+  crafted?: boolean;
   damageType?: DamageType;
   deepSightResonance?: boolean;
-  crafted?: boolean;
-  itemSubType: ItemSubType;
-  tierType: TierType;
+  masterwork?: boolean;
+  primaryStat: number;
+};
+
+export type DestinyItemDefinition = {
   destinyClass: DestinyClass;
   doesPostmasterPullHaveSideEffects: boolean;
-  maxStackSize: number;
-  stackUniqueLabel?: string;
-  nonTransferrable: boolean;
   equippable: boolean;
+  itemSubType: ItemSubType;
+  itemType: ItemType;
+  maxStackSize: number;
+  nonTransferrable: boolean;
+  tierType: TierType;
+  recoveryBucketHash: number;
+  stackUniqueLabel?: string;
   plugCategoryIdentifier?: string;
 };
 
-export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
+export type DestinyItem = DestinyItemBase & {
+  characterId: string;
+  previousCharacterId: string; //Used by the transfer system to update the UI
+  equipped: boolean;
+  instance: ItemInstance;
+  def: DestinyItemDefinition;
+};
 
 export type SocketDefinition = {
   name: string;
@@ -89,7 +95,7 @@ export type SocketDefinition = {
 export type DestinyItemSort = DestinyItem & {
   itemInstanceId: string;
   damageType: DamageType;
-  plugCategoryIdentifier: string;
+  def: DestinyItemDefinition & { plugCategoryIdentifier: string };
 };
 
 export type GGCharacterUiData = {

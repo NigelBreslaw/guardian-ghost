@@ -270,7 +270,7 @@ export default function BottomSheet({
                   ]}
                   source={{ uri: viewData.screenshot }}
                 />
-                {destinyItem.masterwork && (
+                {destinyItem.instance.masterwork && (
                   <View style={styles.masterworkContainer}>
                     <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
                     <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
@@ -278,8 +278,10 @@ export default function BottomSheet({
                 )}
                 <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
                 <View style={styles.tierHeaderContainer}>
-                  <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
-                  <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.tierType] }]} />
+                  <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+                  <View
+                    style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]}
+                  />
                 </View>
 
                 <View style={styles.itemDetails}>
@@ -312,9 +314,9 @@ export default function BottomSheet({
                 </View>
                 <View style={{ flex: 15 }} />
                 <View style={styles.screenshotFooter} />
-                {!destinyItem.nonTransferrable &&
-                  destinyItem.maxStackSize > 1 &&
-                  destinyItem.stackUniqueLabel === undefined && (
+                {!destinyItem.def.nonTransferrable &&
+                  destinyItem.def.maxStackSize > 1 &&
+                  destinyItem.def.stackUniqueLabel === undefined && (
                     <View style={styles.quantityRoot}>
                       <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
                       <View style={styles.quantity}>

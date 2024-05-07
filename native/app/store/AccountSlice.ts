@@ -2,6 +2,7 @@ import {
   characterBuckets,
   type DestinyItem,
   type DestinyItemDefinition,
+  type ItemInstance,
   type GGCharacterUiData,
   type Guardian,
   type VaultData,
@@ -45,7 +46,7 @@ import type { MiniSingleItemDefinition } from "@/app/core/BungieDefinitions";
 import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
-import { DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
+import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -354,11 +355,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
   const definitionItem: DestinyItemDefinition = {
     recoveryBucketHash,
     itemType: ItemType.None,
-    previousCharacterId: "",
-    characterId: extras.characterId,
-    equipped: extras.equipped,
-    icon: "",
-    primaryStat: 0,
     itemSubType: ItemSubType.None,
     tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
@@ -368,6 +364,15 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     equippable: false,
   };
 
+  const itemInstance: ItemInstance = {
+    icon: "",
+
+    damageType: DamageType.None,
+    deepSightResonance: false,
+    masterwork: false,
+    primaryStat: 0,
+  };
+
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
 
   if (baseItem.overrideStyleItemHash !== undefined) {
@@ -375,13 +380,13 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     const iconIndex = overrideDef?.i;
     if (iconIndex) {
       const icon = Icons[iconIndex];
-      definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${icon}`;
+      itemInstance.icon = `${iconUrl}/${icon}`;
     }
   } else {
     const iconIndex = itemDef?.i;
     if (iconIndex) {
       const icon = Icons[iconIndex];
-      definitionItem.icon = `https://www.bungie.net/common/destiny2_content/icons/${icon}`;
+      itemInstance.icon = `${iconUrl}/${icon}`;
     }
   }
 
@@ -398,10 +403,10 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     definitionItem.plugCategoryIdentifier = PlugCategoryIdentifier[itemDef.p.p];
   }
 
-  definitionItem.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
+  itemInstance.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
-    definitionItem.masterwork = true;
+    itemInstance.masterwork = true;
   }
 
   if (baseItem.itemInstanceId !== undefined) {
@@ -415,19 +420,19 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       ) {
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
-          definitionItem.primaryStat = primaryStat;
+          itemInstance.primaryStat = primaryStat;
         }
         if (definitionItem.itemType !== ItemType.Vehicle) {
           if (definitionItem.itemType === ItemType.Weapon) {
             const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
             if (deepSightResonance) {
-              definitionItem.deepSightResonance = true;
+              itemInstance.deepSightResonance = true;
             }
-            definitionItem.damageType = itemComponent.damageType;
+            itemInstance.damageType = itemComponent.damageType;
             const crafted = bitmaskContains(baseItem.state, 8);
             if (crafted) {
-              definitionItem.crafted = true;
-              definitionItem.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
+              itemInstance.crafted = true;
+              itemInstance.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
             }
           }
         }
@@ -437,13 +442,17 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
         const quality = itemComponent.quality;
         const total = itemLevel + quality;
         if (total > 0) {
-          definitionItem.primaryStat = Math.max(1600, itemLevel + quality);
+          itemInstance.primaryStat = Math.max(1600, itemLevel + quality);
         }
       }
     }
   }
 
-  const destinyItem = Object.assign(baseItem, extras, definitionItem);
+  const destinyItem = Object.assign(baseItem, extras, {
+    def: definitionItem,
+    instance: itemInstance,
+    previousCharacterId: "",
+  });
   return destinyItem;
 }
 
@@ -514,7 +523,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
         case 138197802:
           try {
             destinyItem = addDefinition(item, characterIsVault);
-            destinyItem.bucketHash = destinyItem.recoveryBucketHash ?? 0;
+            destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? 0;
 
             if (destinyItem.bucketHash !== 0) {
               vaultData.generalVault[destinyItem.bucketHash]?.push(destinyItem);
