@@ -178,7 +178,7 @@ export const getProfileSchema = merge([
       }),
       characterLoadouts: object({}),
       characterPlugSets: object({
-        data: record(string(), object({ plugs: record(string(), PlugSetsSchema) })),
+        data: optional(record(string(), object({ plugs: record(string(), PlugSetsSchema) }))),
       }),
       characterProgressions: object({}),
       characterStringVariables: object({}),
@@ -204,9 +204,11 @@ export const getProfileSchema = merge([
         data: object({ items: array(ItemSchema) }),
       }),
       profilePlugSets: object({
-        data: object({
-          plugs: record(string(), PlugSetsSchema),
-        }),
+        data: optional(
+          object({
+            plugs: record(string(), PlugSetsSchema),
+          }),
+        ),
       }),
       profileProgression: object({}),
       profileStringVariables: object({}),
@@ -230,7 +232,7 @@ export const getSimpleProfileSchema = merge([
         data: unknown(),
       }),
       characterLoadouts: object({}),
-      characterPlugSets: object({ data: unknown() }),
+      characterPlugSets: optional(object({ data: unknown() })),
       characterProgressions: object({}),
       characterStringVariables: object({}),
       characterUninstancedItemComponents: object({}),
@@ -254,11 +256,13 @@ export const getSimpleProfileSchema = merge([
       profileInventory: object({
         data: object({ items: unknown() }),
       }),
-      profilePlugSets: object({
-        data: object({
-          plugs: unknown(),
+      profilePlugSets: optional(
+        object({
+          data: object({
+            plugs: unknown(),
+          }),
         }),
-      }),
+      ),
       profileProgression: object({}),
       profileStringVariables: object({}),
       responseMintedTimestamp: string([isoTimestamp()]),
