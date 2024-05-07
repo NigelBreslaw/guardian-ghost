@@ -6,6 +6,7 @@ import {
   type GGCharacterUiData,
   type Guardian,
   type VaultData,
+  type InvestmentStat,
 } from "@/app/inventory/logic/Types.ts";
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
@@ -346,24 +347,6 @@ function processCharacterInventory(
 }
 
 function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
-  const itemDef = itemsDefinition[baseItem.itemHash];
-  if (!itemDef || itemDef.b === undefined) {
-    throw new Error("No itemDefinition found");
-  }
-
-  const recoveryBucketHash = BucketTypeHashArray[itemDef.b] ?? 0;
-  const definitionItem: DestinyItemDefinition = {
-    recoveryBucketHash,
-    itemType: ItemType.None,
-    itemSubType: ItemSubType.None,
-    tierType: TierType.Unknown,
-    destinyClass: DestinyClass.Unknown,
-    doesPostmasterPullHaveSideEffects: false,
-    maxStackSize: 1,
-    nonTransferrable: false,
-    equippable: false,
-  };
-
   const itemInstance: ItemInstance = {
     icon: "",
 
@@ -373,7 +356,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     primaryStat: 0,
   };
 
-  definitionItem.itemType = itemDef?.it ?? ItemType.None;
+  const itemDef = itemsDefinition[baseItem.itemHash];
+  if (!itemDef || itemDef.b === undefined) {
+    throw new Error("No itemDefinition found");
+  }
+
+  const definitionItem = getItemDefinition(baseItem.itemHash);
 
   if (baseItem.overrideStyleItemHash !== undefined) {
     const overrideDef = itemsDefinition[baseItem.overrideStyleItemHash];
@@ -388,19 +376,6 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       const icon = Icons[iconIndex];
       itemInstance.icon = `${iconUrl}/${icon}`;
     }
-  }
-
-  definitionItem.itemSubType = itemDef?.is ?? 0;
-  definitionItem.tierType = itemDef?.t ?? 0;
-  definitionItem.destinyClass = itemDef?.c ?? 3;
-  definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
-  definitionItem.maxStackSize = itemDef?.m ?? 1;
-  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? StackUniqueLabel[itemDef.su] : undefined;
-  definitionItem.nonTransferrable = itemDef?.nt === 1;
-  definitionItem.equippable = itemDef?.e === 1;
-
-  if (itemDef?.p?.p) {
-    definitionItem.plugCategoryIdentifier = PlugCategoryIdentifier[itemDef.p.p];
   }
 
   itemInstance.calculatedWaterMark = calculateWaterMark(baseItem, itemDef);
@@ -454,6 +429,60 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     previousCharacterId: "",
   });
   return destinyItem;
+}
+
+const itemDefinitionCache = new Map<number, DestinyItemDefinition>();
+function getItemDefinition(itemHash: number): DestinyItemDefinition {
+  if (itemDefinitionCache.has(itemHash)) {
+    return itemDefinitionCache.get(itemHash)!;
+  }
+
+  const definitionItem: DestinyItemDefinition = {
+    recoveryBucketHash: 0,
+    itemType: ItemType.None,
+    itemSubType: ItemSubType.None,
+    tierType: TierType.Unknown,
+    destinyClass: DestinyClass.Unknown,
+    doesPostmasterPullHaveSideEffects: false,
+    maxStackSize: 1,
+    nonTransferrable: false,
+    equippable: false,
+    investmentStats: [],
+    plugCategoryIdentifier: "",
+  };
+
+  const itemDef = itemsDefinition[itemHash];
+  if (!itemDef || itemDef.b === undefined) {
+    itemDefinitionCache.set(itemHash, definitionItem);
+    return definitionItem;
+  }
+
+  const investmentStats: InvestmentStat[] = [];
+  const investments = itemDef.iv;
+  if (investments) {
+    for (const iv in investments) {
+      const statTypeHash = Number(iv);
+      const value = investments[iv] ?? 0;
+      investmentStats.push({ statTypeHash, value });
+    }
+    definitionItem.investmentStats = investmentStats;
+  }
+  definitionItem.recoveryBucketHash = BucketTypeHashArray[itemDef.b] ?? 0;
+  definitionItem.itemType = itemDef?.it ?? ItemType.None;
+  definitionItem.itemSubType = itemDef?.is ?? 0;
+  definitionItem.tierType = itemDef?.t ?? 0;
+  definitionItem.destinyClass = itemDef?.c ?? 3;
+  definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
+  definitionItem.maxStackSize = itemDef?.m ?? 1;
+  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? StackUniqueLabel[itemDef.su] : undefined;
+  definitionItem.nonTransferrable = itemDef?.nt === 1;
+  definitionItem.equippable = itemDef?.e === 1;
+  if (itemDef.p?.p) {
+    definitionItem.plugCategoryIdentifier = PlugCategoryIdentifier[itemDef.p.p] ?? "";
+  }
+
+  itemDefinitionCache.set(itemHash, definitionItem);
+  return definitionItem;
 }
 
 function calculateWaterMark(destinyItem: DestinyItemBase, definition: MiniSingleItemDefinition): string | undefined {
