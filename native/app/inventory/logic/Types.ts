@@ -75,6 +75,17 @@ export type DestinyItemDefinition = {
 
 export type DestinyItem = DestinyItemBase & DestinyItemDefinition;
 
+export type SocketDefinition = {
+  name: string;
+  description: string;
+  icon: string;
+  itemType: ItemType;
+  tierType: TierType; // .Common means its an enhanced perk
+  itemTypeDisplayName: string;
+  uiItemDisplayStyle: string;
+  investmentStats: { statTypeHash: number; value: number }[];
+};
+
 export type DestinyItemSort = DestinyItem & {
   itemInstanceId: string;
   damageType: DamageType;

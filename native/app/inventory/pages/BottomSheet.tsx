@@ -22,6 +22,7 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 import ReusablePlugs from "@/app/inventory/pages/ReusablePlugs.tsx";
+import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 
 const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
@@ -46,18 +47,18 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
       const s = overrideDef?.s;
       const si = overrideDef?.si;
       if (s) {
-        screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${s}`;
+        screenshot = `${screenshotUrl}${s}`;
       }
       if (si) {
-        secondaryIcon = `https://www.bungie.net/common/destiny2_content/icons/${si}`;
+        secondaryIcon = `${iconUrl}${si}`;
       }
     }
   }
   if (screenshot === "" && itemDef?.s) {
-    screenshot = `https://www.bungie.net/common/destiny2_content/screenshots/${itemDef?.s}`;
+    screenshot = `${screenshotUrl}${itemDef?.s}`;
   }
   if (secondaryIcon === "" && itemDef?.si) {
-    secondaryIcon = `https://www.bungie.net/common/destiny2_content/icons/${itemDef?.si}`;
+    secondaryIcon = `${iconUrl}${itemDef?.si}`;
   }
   const name = itemDef?.n;
   const itd = itemDef?.itd;
