@@ -48,7 +48,8 @@ export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
-export let DestinyStatGroupDefinition: StatGroupDefinition;
+// export let DestinyStatGroupDefinition: StatGroupDefinition;
+export let StatGroupHelper: StatGroupHelper;
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
@@ -195,5 +196,39 @@ export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefin
 }
 
 export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
-  DestinyStatGroupDefinition = newDestinyStatGroupDefinition;
+  StatGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
+}
+
+type DisplayInterpolation = {
+  maximumValue: number;
+  displayInterpolation: { value: number; weight: number }[];
+};
+
+type StatGroupHelper = Map<number, Map<number, DisplayInterpolation>>;
+
+function buildStatGroupDefinitionHelper(definition: StatGroupDefinition): StatGroupHelper {
+  const helper = new Map<number, Map<number, DisplayInterpolation>>();
+  const statHashes = Object.keys(definition);
+
+  for (const statHash of statHashes) {
+    const statGroup = definition[statHash]?.scaledStats;
+    if (!statGroup) {
+      console.error("No statGroupDefinition found");
+      continue;
+    }
+    const statGroupData = new Map<number, DisplayInterpolation>();
+    for (const stat of statGroup) {
+      const statHash = stat.statHash;
+      const maximumValue = stat.maximumValue;
+      const table = stat.displayInterpolation;
+      const data = {
+        maximumValue,
+        displayInterpolation: table,
+      };
+      statGroupData.set(statHash, data);
+    }
+    const statHashNumber = Number(statHash);
+    helper.set(statHashNumber, statGroupData);
+  }
+  return helper;
 }
