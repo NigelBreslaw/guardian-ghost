@@ -2,7 +2,6 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { createSockets, type Sockets } from "@/app/inventory/logic/Sockets.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -21,8 +20,8 @@ import {
 } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
-import ReusablePlugs from "@/app/inventory/pages/ReusablePlugs.tsx";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
+import Stats from "@/app/stats/Stats";
 
 const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
@@ -32,11 +31,9 @@ type ViewData = {
   screenshot: string;
   secondaryIcon: string;
   name: string;
-  sockets: Sockets | null;
 };
 
 function buildViewData(destinyItem: DestinyItem): ViewData {
-  const sockets = createSockets(destinyItem);
   const itemDef = itemsDefinition[destinyItem.itemHash];
   let screenshot = "";
   let secondaryIcon = "";
@@ -69,7 +66,6 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
     secondaryIcon: secondaryIcon,
     name: name ? name.toLocaleUpperCase() : "",
     itemTypeDisplayName: itd ? ItemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
-    sockets,
   };
   return viewData;
 }
@@ -340,11 +336,7 @@ export default function BottomSheet({
                     </View>
                   )}
               </View>
-              <View style={{ width: "100%" }}>
-                {viewData.sockets?.socketCategories.map((category, _index) => {
-                  return <ReusablePlugs key={category.index} item={destinyItem} socketCategory={category} />;
-                })}
-              </View>
+              <Stats destinyItem={destinyItem} />
               <View>
                 <TransferEquipButtons
                   close={() => {

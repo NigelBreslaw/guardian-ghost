@@ -1,4 +1,4 @@
-import { SectionBuckets } from "@/app/bungie/Enums.ts";
+import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
 
@@ -180,6 +180,15 @@ export type DestinyItemIdentifier = {
   itemInstanceId: string | undefined;
   characterId: string;
 };
+
+export const ArmorStatInvestments = [
+  StatType.Mobility,
+  StatType.Resilience,
+  StatType.Recovery,
+  StatType.Discipline,
+  StatType.Intellect,
+  StatType.Strength,
+];
 
 export function getSectionDetails(bucket: SectionBuckets): { label: string; icon: string } {
   const section = localizedSectionNames[bucket];
