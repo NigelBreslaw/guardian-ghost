@@ -1,6 +1,6 @@
 import { StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
-import type { SocketCategory } from "@/app/inventory/logic/Sockets.ts";
+import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { StatGroupHelper } from "@/app/store/Definitions.ts";
 
@@ -13,13 +13,11 @@ export function interpolateStatValue(value: number, investment: StatType, socket
   }
   const statData = StatGroupHelper.get(socketTypeHash)?.get(investment);
   if (!statData) {
-    console.log("No statData found", investment, socketTypeHash);
     return value;
   }
   const interpolation = statData.displayInterpolation;
   // Clamp the value to prevent overfilling
   const v = Math.min(value, statData.maximumValue);
-  console.log("interpolation", statData);
 
   let endIndex = interpolation.findIndex((p) => p.value > v);
 
@@ -54,13 +52,35 @@ function bankersRounding(num: number): number {
   return Math.round(num);
 }
 
-export function socketDebug(destinyItem: DestinyItem, socketCategory: SocketCategory) {
-  const p1 = performance.now();
-  const stats = new Map<number, number>();
+export type ItemStats = Map<StatType, number>;
+
+export function createWeaponStats(destinyItem: DestinyItem, sockets: Sockets): ItemStats {
+  const stats = createBaseStats(destinyItem);
+
+  const weaponPerksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
+  if (weaponPerksCategory) {
+    addSocketStats(stats, weaponPerksCategory);
+  }
+  const weaponModsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
+  if (weaponModsCategory) {
+    addSocketStats(stats, weaponModsCategory);
+  }
+  applyStatInterpolation(stats, destinyItem.def.statGroupHash);
+  return stats;
+}
+
+function createBaseStats(destinyItem: DestinyItem): ItemStats {
+  const stats: ItemStats = new Map<number, number>();
 
   destinyItem.def.investmentStats.map((stat) => {
     stats.set(stat.statTypeHash, stat.value);
   });
+
+  return stats;
+}
+
+function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
+  const stats = statsArg;
 
   socketCategory.topLevelSockets.map((column) => {
     if (column) {
@@ -78,18 +98,22 @@ export function socketDebug(destinyItem: DestinyItem, socketCategory: SocketCate
       });
     }
   });
+}
 
-  // const statsGroupData = buildStatsInterpolationData(destinyItem.def.statGroupHash);
-  // console.log("StatGroupHash", destinyItem.def.statGroupHash);
-  const foo: Record<string, number> = {};
+function applyStatInterpolation(stats: ItemStats, statGroupHash: number) {
+  for (const [key, value] of stats) {
+    const interpolationValue = interpolateStatValue(value, key, statGroupHash);
+    stats.set(key, interpolationValue);
+  }
+}
+
+function _logStatsObject(stats: ItemStats) {
+  const d: Record<string, number> = {};
   for (const [key, value] of stats) {
     const keyName = StatType[key];
-    const newValue = interpolateStatValue(value, key, destinyItem.def.statGroupHash);
     if (keyName) {
-      foo[keyName] = newValue;
+      d[keyName] = value;
     }
   }
-  const p2 = performance.now();
-  console.log("debug", `${(p2 - p1).toFixed(4)} ms`);
-  console.log(foo);
+  console.log(d);
 }

@@ -1,6 +1,5 @@
 import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { socketDebug } from "@/app/stats/Logic.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
 import { View, StyleSheet, Text } from "react-native";
 
@@ -35,7 +34,6 @@ type ReusablePlugsProps = {
 export default function ReusablePlugs(props: ReusablePlugsProps) {
   switch (props.socketCategory.categoryStyle) {
     case CategoryStyle.Reusable: {
-      socketDebug(props.item, props.socketCategory);
       return (
         <View style={styles.root}>
           <Text style={styles.text}>{`${props.socketCategory.name}`}</Text>
