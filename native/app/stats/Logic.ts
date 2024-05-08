@@ -2,7 +2,7 @@ import { StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { DestinyStatGroupDefinition } from "@/app/store/Definitions.ts";
+import { StatGroupHelper } from "@/app/store/Definitions.ts";
 
 // CREDIT: DIM for this article and code that collates information from their app,
 // the community and info directly from Bungie.
@@ -11,14 +11,15 @@ export function interpolateStatValue(value: number, investment: StatType, socket
   if (ArmorStatInvestments.includes(investment)) {
     return value;
   }
-  const fullData = buildStatsInterpolationData(socketTypeHash);
-  const statData = fullData.get(investment);
+  const statData = StatGroupHelper.get(socketTypeHash)?.get(investment);
   if (!statData) {
+    console.log("No statData found", investment, socketTypeHash);
     return value;
   }
   const interpolation = statData.displayInterpolation;
   // Clamp the value to prevent overfilling
   const v = Math.min(value, statData.maximumValue);
+  console.log("interpolation", statData);
 
   let endIndex = interpolation.findIndex((p) => p.value > v);
 
@@ -91,44 +92,4 @@ export function socketDebug(destinyItem: DestinyItem, socketCategory: SocketCate
   const p2 = performance.now();
   console.log("debug", `${(p2 - p1).toFixed(4)} ms`);
   console.log(foo);
-}
-// log generic map
-
-function _logMap(map: Map<number, displayInterpolation>) {
-  const o: Record<string, displayInterpolation> = {};
-  for (const [key, value] of map) {
-    const keyName = StatType[key];
-    if (keyName) {
-      o[keyName] = value;
-    }
-  }
-  console.log(o);
-}
-
-type displayInterpolation = {
-  maximumValue: number;
-  displayInterpolation: { value: number; weight: number }[];
-};
-
-function buildStatsInterpolationData(socketTypeHash: number) {
-  const statGroupDefinition = DestinyStatGroupDefinition[socketTypeHash]?.scaledStats;
-  const statData = new Map<number, displayInterpolation>();
-
-  if (!statGroupDefinition) {
-    console.error("No statGroupDefinition found");
-    return statData;
-  }
-
-  for (const stat of statGroupDefinition) {
-    const statHash = stat.statHash;
-    const maximumValue = stat.maximumValue;
-    const table = stat.displayInterpolation;
-    const data = {
-      maximumValue,
-      displayInterpolation: table,
-    };
-    statData.set(statHash, data);
-  }
-
-  return statData;
 }
