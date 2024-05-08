@@ -12,6 +12,8 @@ Sentry.init({
 
   tracesSampleRate: 1.0,
   enabled: !__DEV__,
+  attachScreenshot: true,
+  enableAutoSessionTracking: true,
   integrations: [new Sentry.ReactNativeTracing({ routingInstrumentation })],
   _experiments: {
     // profilesSampleRate is relative to tracesSampleRate.
