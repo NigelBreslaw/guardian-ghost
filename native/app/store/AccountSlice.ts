@@ -6,7 +6,7 @@ import {
   type GGCharacterUiData,
   type Guardian,
   type VaultData,
-  type InvestmentStat,
+  type StatsCollection,
 } from "@/app/inventory/logic/Types.ts";
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
@@ -24,6 +24,7 @@ import {
   StackUniqueLabel,
   Icons,
   StatGroupHash,
+  StatHash,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -443,6 +444,7 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     nonTransferrable: false,
     equippable: false,
     investmentStats: [],
+    stats: [],
     plugCategoryIdentifier: "",
     icon: "",
     displayVersionWatermarkIcons: [],
@@ -478,15 +480,27 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     }
   }
 
-  const investmentStats: InvestmentStat[] = [];
+  const investmentStats: StatsCollection[] = [];
   const investments = itemDef.iv;
   if (investments) {
-    for (const iv in investments) {
-      const statTypeHash = Number(iv);
+    for (const iv of Object.keys(investments)) {
+      const statTypeHash = Number(StatHash[Number(iv)]);
       const value = investments[iv] ?? 0;
       investmentStats.push({ statTypeHash, value });
     }
+
     definitionItem.investmentStats = investmentStats;
+  }
+
+  const stats: StatsCollection[] = [];
+  const itemStats = itemDef.st?.s;
+  if (itemStats) {
+    for (const s of Object.keys(itemStats)) {
+      const statTypeHash = Number(StatHash[Number(s)]);
+      const value = itemStats[s] ?? 0;
+      stats.push({ statTypeHash, value });
+    }
+    definitionItem.stats = stats;
   }
 
   const statGroupHashIndex = itemDef.st?.sgs;

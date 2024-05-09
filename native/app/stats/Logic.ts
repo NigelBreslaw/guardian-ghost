@@ -1,7 +1,7 @@
 import { StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, StatsCollection } from "@/app/inventory/logic/Types.ts";
 import { StatGroupHelper } from "@/app/store/Definitions.ts";
 
 // CREDIT: DIM for this article and code that collates information from their app,
@@ -34,7 +34,7 @@ export function interpolateStatValue(value: number, investment: StatType, socket
     return start.weight;
   }
 
-  const t = (value - start.value) / (end.value - start.value);
+  const t = (v - start.value) / (end.value - start.value);
 
   const interpolationValue = start.weight + t * (end.weight - start.weight);
 
@@ -57,13 +57,13 @@ export type ItemStats = Map<StatType, number>;
 export function createWeaponStats(destinyItem: DestinyItem, sockets: Sockets): ItemStats {
   const stats = createBaseStats(destinyItem);
 
-  const weaponPerksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
-  if (weaponPerksCategory) {
-    addSocketStats(stats, weaponPerksCategory);
+  const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
+  if (perksCategory) {
+    addSocketStats(stats, perksCategory);
   }
-  const weaponModsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
-  if (weaponModsCategory) {
-    addSocketStats(stats, weaponModsCategory);
+  const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
+  if (modsCategory) {
+    addSocketStats(stats, modsCategory);
   }
   applyStatInterpolation(stats, destinyItem.def.statGroupHash);
   return stats;
@@ -73,10 +73,26 @@ function createBaseStats(destinyItem: DestinyItem): ItemStats {
   const stats: ItemStats = new Map<number, number>();
 
   destinyItem.def.investmentStats.map((stat) => {
-    stats.set(stat.statTypeHash, stat.value);
+    if (Math.abs(stat.value) > 0) {
+      stats.set(stat.statTypeHash, stat.value);
+    }
   });
 
   return stats;
+}
+const naughtStats = [
+  186337601, 266016299, 384158423, 758092021, 1154004463, 1639384016, 2697220197, 2993547493, 3128594062, 3803457565,
+];
+
+function fixNaughtyInvestments(statsCollection: StatsCollection[]): StatsCollection[] {
+  let largestStat: StatsCollection = { statTypeHash: 0, value: 0 };
+
+  for (const stat of statsCollection) {
+    if (stat.value > largestStat.value) {
+      largestStat = stat;
+    }
+  }
+  return [largestStat];
 }
 
 function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
@@ -85,15 +101,23 @@ function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
   socketCategory.topLevelSockets.map((column) => {
     if (column) {
       column.map((e) => {
-        if (e.isEnabled && e.socketDefinition?.investmentStats) {
-          e.socketDefinition.investmentStats.map((stat) => {
-            if (stats.has(stat.statTypeHash)) {
-              const currentValue = stats.get(stat.statTypeHash) ?? 0;
-              stats.set(stat.statTypeHash, currentValue + stat.value);
-            } else {
-              stats.set(stat.statTypeHash, stat.value);
+        if (e.isEnabled) {
+          let investments = e.socketDefinition?.investmentStats;
+          if (investments) {
+            // is e naughty?
+            if (e.socketTypeHash && naughtStats.includes(e.itemHash)) {
+              investments = fixNaughtyInvestments(investments);
             }
-          });
+
+            investments.map((stat) => {
+              if (stats.has(stat.statTypeHash)) {
+                const currentValue = stats.get(stat.statTypeHash) ?? 0;
+                stats.set(stat.statTypeHash, currentValue + stat.value);
+              } else {
+                stats.set(stat.statTypeHash, stat.value);
+              }
+            });
+          }
         }
       });
     }
