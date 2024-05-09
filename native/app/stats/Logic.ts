@@ -30,6 +30,7 @@ export function interpolateStatValue(value: number, investment: StatType, socket
   const start = interpolation[startIndex]!;
   const end = interpolation[endIndex]!;
   const range = end.value - start.value;
+
   if (range === 0) {
     return start.weight;
   }
@@ -73,9 +74,7 @@ function createBaseStats(destinyItem: DestinyItem): ItemStats {
   const stats: ItemStats = new Map<number, number>();
 
   destinyItem.def.investmentStats.map((stat) => {
-    if (Math.abs(stat.value) > 0) {
-      stats.set(stat.statTypeHash, stat.value);
-    }
+    stats.set(stat.statTypeHash, stat.value);
   });
 
   return stats;
