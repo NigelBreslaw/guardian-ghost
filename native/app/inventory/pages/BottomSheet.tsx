@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: 50 * scalar,
+    height: 30 * scalar,
     backgroundColor: "black",
     opacity: 0.3,
   },
@@ -229,7 +229,7 @@ export default function BottomSheet({
           navigation.goBack();
           useGGStore.getState().setSelectedItem(null);
         }}
-        height={700}
+        height={760}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent",
@@ -249,7 +249,7 @@ export default function BottomSheet({
               <View
                 style={{
                   width: "100%",
-                  height: (SCREEN_WIDTH / 1920) * 980,
+                  height: (SCREEN_WIDTH / 1920) * 850,
                   overflow: "hidden",
                 }}
               >
@@ -258,7 +258,7 @@ export default function BottomSheet({
                   style={[
                     {
                       position: "absolute",
-                      top: -((SCREEN_WIDTH / 1920) * 40),
+                      top: -((SCREEN_WIDTH / 1920) * 120),
                       width: "100%",
                       height: (SCREEN_WIDTH / 1920) * 1080,
                     },
