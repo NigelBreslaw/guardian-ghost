@@ -27,7 +27,7 @@ export default function Stats(props: StatsProps) {
 
   return (
     <View style={{ width: "100%" }}>
-      {stats && <StatBars stats={stats} />}
+      {stats && <StatBars stats={stats} destinyItem={props.destinyItem} />}
       {sockets?.socketCategories.map((category, _index) => {
         return <ReusablePlugs key={category.index} item={props.destinyItem} socketCategory={category} />;
       })}
