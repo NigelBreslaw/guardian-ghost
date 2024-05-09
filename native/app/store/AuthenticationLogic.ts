@@ -8,7 +8,6 @@ import {
   getAccessToken,
   getRefreshToken,
 } from "@/app/store/Utilities.ts";
-import { Store } from "@/constants/storage.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { object, safeParse, string } from "valibot";
 import { parse as linkingParse } from "expo-linking";
@@ -16,6 +15,7 @@ import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import { randomUUID } from "expo-crypto";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 import { linkedProfilesSchema } from "@/app/core/ApiResponse.ts";
+import { Store } from "@/app/store/Types.ts";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;

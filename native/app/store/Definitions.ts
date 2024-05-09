@@ -48,8 +48,7 @@ export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
-// export let DestinyStatGroupDefinition: StatGroupDefinition;
-export let StatGroupHelper: StatGroupHelper;
+export let StatGroupHelper: StatGroupHelper = new Map<number, Map<number, DisplayInterpolation>>();
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
