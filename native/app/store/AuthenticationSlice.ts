@@ -81,7 +81,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       console.warn("No user found");
       get().logoutCurrentUser();
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.log("An error occurred:", error);
 
       get().logoutCurrentUser();
     }

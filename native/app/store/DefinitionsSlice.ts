@@ -34,13 +34,12 @@ import {
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
-import { DatabaseStore, type StorageKey } from "@/app/store/Types.ts";
+import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite/legacy";
 import { Platform } from "react-native";
 import { parse, safeParse, string } from "valibot";
-import { Store } from "@/constants/storage.ts";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
 import {
@@ -90,6 +89,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     } catch (e) {
       console.log("No saved bungieDefinition version", e);
     }
+    SplashScreen.hideAsync();
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
@@ -108,7 +108,6 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       console.log("download a new version as KEY is different");
       await downloadAndStoreItemDefinition(set);
     }
-    SplashScreen.hideAsync();
   },
   loadBungieDefinitions: async (bungieManifest) => {
     if (bungieManifest === null) {
@@ -119,6 +118,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     }
     const storedVersion = get().bungieDefinitionVersions;
     const versionKey = bungieManifest?.Response.version;
+
     if (storedVersion === "") {
       // download a version
       await downloadAndStoreBungieDefinitions(bungieManifest);
@@ -150,7 +150,7 @@ async function loadLocalItemDefinitionVersion(set: DefinitionsSliceSetter): Prom
     set(parseAndSet(itemDefinition));
   } catch (e) {
     console.error("Failed to load itemDefinition version. Downloading new version...", e);
-    downloadAndStoreItemDefinition(set);
+    await downloadAndStoreItemDefinition(set);
   }
 }
 
@@ -193,11 +193,13 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     const completedDefinitions = await Promise.all(promises);
 
     if (completedDefinitions[0]) {
-      await setData(completedDefinitions[0], "DestinySocketCategoryDefinition", "downloadAndStoreBungieDefinitions()");
+      const stringifiedSocketCategoryDefinition = JSON.stringify(completedDefinitions[0]);
+      await setAsyncStorage("DestinySocketCategoryDefinition", stringifiedSocketCategoryDefinition);
       setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
     }
     if (completedDefinitions[1]) {
-      await setData(completedDefinitions[1], "DestinyStatGroupDefinition", "DestinyStatGroupDefinition()");
+      const stringifiedStatGroupDefinition = JSON.stringify(completedDefinitions[1]);
+      await setAsyncStorage("DestinyStatGroupDefinition", stringifiedStatGroupDefinition);
       setDestinySocketCategoryDefinition(completedDefinitions[1] as unknown as SocketCategoryDefinition);
     }
 
@@ -209,11 +211,13 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
 
 async function loadLocalBungieDefinitions(): Promise<void> {
   try {
-    const loadSocketTypeDefinition = await getData("DestinySocketCategoryDefinition", "loadLocalBungieDefinitions()");
-    setDestinySocketCategoryDefinition(loadSocketTypeDefinition as unknown as SocketCategoryDefinition);
+    const loadSocketTypeDefinition = await getAsyncStorage("DestinySocketCategoryDefinition");
+    const socketDefJson = JSON.parse(loadSocketTypeDefinition);
+    setDestinySocketCategoryDefinition(socketDefJson as SocketCategoryDefinition);
 
-    const loadStatGroupDefinition = await getData("DestinyStatGroupDefinition", "loadLocalBungieDefinitions()");
-    setDestinyStatGroupDefinition(loadStatGroupDefinition as unknown as StatGroupDefinition);
+    const loadStatGroupDefinition = await getAsyncStorage("DestinyStatGroupDefinition");
+    const statGroupDefJson = JSON.parse(loadStatGroupDefinition);
+    setDestinyStatGroupDefinition(statGroupDefJson as StatGroupDefinition);
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");
@@ -326,7 +330,7 @@ function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
               const json = JSON.parse(resultSet.rows.item(0).value);
               return resolve(json as JSON);
             }
-            console.log("No JSON found for the provided key", errorMessage);
+            console.log("No JSON found for the provided key", key, errorMessage);
             reject(new Error(errorMessage));
           },
           (_, error) => {
@@ -340,13 +344,20 @@ function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
   });
 }
 
-function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
-  return new Promise((resolve, _reject) => {
-    if (Platform.OS === "web") {
-      return resolve(setWebStore(data, storageKey, errorMessage));
+async function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
+  if (Platform.OS === "web") {
+    try {
+      await setWebStore(data, storageKey, errorMessage);
+    } catch (e) {
+      console.log("setData() ERROR", e);
     }
-    resolve(setNativeStore(data, storageKey, errorMessage));
-  });
+  } else {
+    try {
+      await setNativeStore(data, storageKey, errorMessage);
+    } catch (e) {
+      console.log("setData() ERROR", e);
+    }
+  }
 }
 
 function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
@@ -406,7 +417,7 @@ async function setNativeStore(json: object, key: string, errorMessage: string) {
     tx.executeSql(
       "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
       [key, jsonString],
-      (_) => console.log("JSON set successfully"),
+      (_) => console.log("JSON set successfully", key),
       (_, error) => {
         console.log("Error occurred while setting JSON", errorMessage);
         console.log(error);
@@ -414,6 +425,29 @@ async function setNativeStore(json: object, key: string, errorMessage: string) {
       },
     );
   });
+}
+
+export async function getAsyncStorage(key: AsyncStorageKey): Promise<string> {
+  const data = await AsyncStorage.getItem(key);
+  if (data) {
+    const validatedVersion = safeParse(string(), data);
+
+    if (validatedVersion.success) {
+      return validatedVersion.output;
+    }
+    throw new Error("Validation failed");
+  }
+  throw new Error(`No saved AsyncStorage found: ${key}`);
+}
+
+export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promise<void> {
+  try {
+    await AsyncStorage.setItem(key, data);
+    console.log("saved", key);
+  } catch (error: unknown) {
+    console.error("Failed to save", error, key);
+    throw new Error(`Failed to save AsyncStorage ${key}`);
+  }
 }
 
 export async function loadItemDefinitionVersion(): Promise<string> {
