@@ -2,13 +2,13 @@
   "name": "@gg-monorepo/starlight",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/starlight": "0.22.1",
+    "@astrojs/starlight": "0.22.2",
     "astro": "4.7.1",
     "rehype": "13.0.1",
     "sharp": "0.33.3"
   },
   "devDependencies": {
-    "@astrojs/check": "0.5.10",
+    "@astrojs/check": "0.6.0",
     "@vitest/coverage-v8": "1.5.3",
     "typescript": "5.4.5",
     "vitest": "1.5.3"
