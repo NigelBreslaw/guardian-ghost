@@ -332,7 +332,7 @@ export function modSort(b: DestinyItemSort, a: DestinyItemSort): number {
     return -1;
   }
 
-  /// critera 3: itemHash
+  /// criteria 3: itemHash
   return a.itemHash > b.itemHash ? 1 : -1;
 }
 

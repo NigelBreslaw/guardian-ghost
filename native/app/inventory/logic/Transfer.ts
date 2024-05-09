@@ -23,7 +23,7 @@ const responseSchema = object({
 export type TransferBundle = {
   // The main item to be transferred
   primaryItem: TransferItem;
-  // Other items that first need transferring e.g. unquip items
+  // Other items that first need transferring e.g. unequip items
   unequipItem: TransferItem | null;
   // Track failed transfers to see if the transfer should be retried.
   fails: number;
@@ -286,7 +286,7 @@ function getUnequipItem(sectionItems: DestinyItem[], allowExotics = false): Dest
 }
 
 function unequipError(destinyItem: DestinyItem, exotic = false) {
-  console.error("Failed to unquip item as section has no items");
+  console.error("Failed to unequip item as section has no items");
   const name = itemsDefinition[destinyItem.itemHash]?.n;
 
   if (exotic) {
@@ -677,7 +677,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   return unequipItem;
 }
 
-/// Character is used to identify the character this item would be equipped on and used to ignore underleveled or wrong class items
+/// Character is used to identify the character this item would be equipped on and used to ignore under leveled or wrong class items
 function returnNonBusyUnequipItem(
   itemToUnequip: DestinyItem,
   items: DestinyItem[],
