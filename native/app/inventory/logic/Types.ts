@@ -72,7 +72,8 @@ export type DestinyItemDefinition = {
   recoveryBucketHash: number;
   stackUniqueLabel?: string;
   plugCategoryIdentifier: string;
-  investmentStats: InvestmentStat[];
+  investmentStats: StatsCollection[];
+  stats: StatsCollection[];
   displayVersionWatermarkIcons: string[];
   watermark: string;
   statGroupHash: number;
@@ -86,7 +87,7 @@ export type DestinyItem = DestinyItemBase & {
   def: DestinyItemDefinition;
 };
 
-export type InvestmentStat = { statTypeHash: number; value: number };
+export type StatsCollection = { statTypeHash: number; value: number };
 
 export type SocketDefinition = {
   name: string;
@@ -96,7 +97,7 @@ export type SocketDefinition = {
   tierType: TierType; // .Common means its an enhanced perk
   itemTypeDisplayName: string;
   uiItemDisplayStyle: string;
-  investmentStats: InvestmentStat[];
+  investmentStats: StatsCollection[];
 };
 
 export type DestinyItemSort = DestinyItem & {

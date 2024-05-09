@@ -1,4 +1,4 @@
-import type { DestinyItem, InvestmentStat, SocketDefinition } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, StatsCollection, SocketDefinition } from "@/app/inventory/logic/Types.ts";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
   Descriptions,
@@ -12,11 +12,13 @@ import {
   SocketEntries,
   SocketIndexes,
   SocketTypeHash,
+  StatHash,
   itemsDefinition,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
+import { StatType } from "@/app/bungie/Enums.ts";
 
 export enum CategoryStyle {
   Unknown = 0,
@@ -291,7 +293,6 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     return null;
   }
   const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId];
-
   if (!liveSockets) {
     console.error("No liveSockets", destinyItem);
     return null;
@@ -511,11 +512,11 @@ function addSocketDefinition(socket: SocketEntry) {
   if (itemDefinitionIdex) {
     uiItemDisplayStyle = ItemTypeDisplayName[itemDefinitionIdex] ?? "";
   }
-  const investmentStats: InvestmentStat[] = [];
+  const investmentStats: StatsCollection[] = [];
   const investments = itemDefinition.iv;
   if (investments) {
     for (const iv of Object.keys(investments)) {
-      const statTypeHash = Number(iv);
+      const statTypeHash = Number(StatHash[Number(iv)]);
       const value = investments[iv] ?? 0;
       investmentStats.push({ statTypeHash, value });
     }

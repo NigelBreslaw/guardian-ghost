@@ -32,7 +32,7 @@ export let SocketIndexes: number[][];
 export let SocketTypeHash: number[];
 export let StackUniqueLabel: string[];
 export let StatGroupHash: number[];
-export let StatHash: string[];
+export let StatHash: number[];
 export let TalentGridHash: number[];
 export let TooltipNotifications: string[];
 export let TraitIds: string[];
@@ -139,7 +139,7 @@ export function setStatGroupHash(statGroupHashDefinition: number[]) {
   StatGroupHash = statGroupHashDefinition;
 }
 
-export function setStatHash(statHashDefinition: string[]) {
+export function setStatHash(statHashDefinition: number[]) {
   StatHash = statHashDefinition;
 }
 
