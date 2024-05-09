@@ -1546,9 +1546,9 @@ PODS:
     - Sentry/HybridSDK (= 8.25.0)
   - RNSVG (15.2.0):
     - React-Core
-  - SDWebImage (5.19.1):
-    - SDWebImage/Core (= 5.19.1)
-  - SDWebImage/Core (5.19.1)
+  - SDWebImage (5.19.2):
+    - SDWebImage/Core (= 5.19.2)
+  - SDWebImage/Core (5.19.2)
   - SDWebImageAVIFCoder (0.11.0):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
@@ -1929,7 +1929,7 @@ SPEC CHECKSUMS:
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
   RNSentry: f6a5aee809d646763640130714d1fdfe69aac36b
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
-  SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
+  SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
