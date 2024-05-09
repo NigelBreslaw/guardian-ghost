@@ -18,7 +18,6 @@ import {
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
-import { StatType } from "@/app/bungie/Enums.ts";
 
 export enum CategoryStyle {
   Unknown = 0,

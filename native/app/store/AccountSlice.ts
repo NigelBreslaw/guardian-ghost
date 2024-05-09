@@ -483,7 +483,6 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
   const investmentStats: StatsCollection[] = [];
   const investments = itemDef.iv;
   if (investments) {
-
     for (const iv of Object.keys(investments)) {
       const statTypeHash = Number(StatHash[Number(iv)]);
       const value = investments[iv] ?? 0;
@@ -496,7 +495,6 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
   const stats: StatsCollection[] = [];
   const itemStats = itemDef.st?.s;
   if (itemStats) {
-
     for (const s of Object.keys(itemStats)) {
       const statTypeHash = Number(StatHash[Number(s)]);
       const value = itemStats[s] ?? 0;
