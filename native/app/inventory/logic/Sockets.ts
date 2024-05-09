@@ -156,7 +156,7 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   // Create the socket categories and socket entries with the basic info from the itemDefinition
   // It's all been minified to the point where it's unreadable. So at this point we un-minify everything
   // and use the exact same property names as in the original itemDefinition.
-  const sockets = unMinifyAndCreateSockets(destinyItem.itemHash);
+  const sockets = expandAndCreateSockets(destinyItem.itemHash);
 
   if (!sockets) {
     console.error("Failed to create sockets for item", destinyItem.itemHash);
@@ -184,7 +184,15 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   return sockets;
 }
 
-function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
+const ExpandedSocketsCache = new Map<number, Sockets>();
+
+function expandAndCreateSockets(itemHash: number): Sockets | null {
+  if (ExpandedSocketsCache.has(itemHash)) {
+    const sockets = ExpandedSocketsCache.get(itemHash)!;
+    // Deep clone the object to prevent mutation
+    const socketCopy = JSON.parse(JSON.stringify(sockets)) as Sockets;
+    return socketCopy;
+  }
   /// The set of socketCategories an item has can only be discovered from the itemDefinition
   const sk = itemsDefinition[itemHash]?.sk;
 
@@ -269,7 +277,10 @@ function unMinifyAndCreateSockets(itemHash: number): Sockets | null {
     socketCategories,
   };
 
-  return sockets;
+  ExpandedSocketsCache.set(itemHash, sockets);
+  // Deep clone the object to prevent mutation
+  const socketCopy = JSON.parse(JSON.stringify(sockets)) as Sockets;
+  return socketCopy;
 }
 
 function addSocketCategoryDefinition(sockets: Sockets) {
@@ -479,7 +490,13 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
   }
 }
 
+const SocketDefinitionCache = new Map<number, SocketDefinition>();
+
 function addSocketDefinition(socket: SocketEntry) {
+  if (SocketDefinitionCache.has(socket.itemHash)) {
+    socket.socketDefinition = SocketDefinitionCache.get(socket.itemHash);
+    return;
+  }
   const itemDefinition = itemsDefinition[socket.itemHash];
   if (!itemDefinition) {
     return null;
@@ -531,6 +548,6 @@ function addSocketDefinition(socket: SocketEntry) {
     uiItemDisplayStyle,
     investmentStats,
   };
-
+  SocketDefinitionCache.set(socket.itemHash, socketDefinition);
   socket.socketDefinition = socketDefinition;
 }
