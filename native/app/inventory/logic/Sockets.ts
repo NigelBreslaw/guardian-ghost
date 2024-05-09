@@ -115,7 +115,7 @@ export type SocketEntry = {
   /// Used so mods can show the red border if needed. They need to know if the parent destinyItem is 'resonance completed', since it isn't shown in red border until completed.
   // destinyItemAttunementComplete: boolean;
 
-  /// Used for perk objectives such as forgable weapon materials and also kill counters <ObjectiveHash, Amount>
+  /// Used for perk objectives such as forge weapon materials and also kill counters <ObjectiveHash, Amount>
   // plugObjectiveValues: Record<string, number>;
 
   // TODO: Is this mode needed? It was in Ishtar
