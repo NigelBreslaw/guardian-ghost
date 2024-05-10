@@ -31,6 +31,7 @@ import {
   setDestinySocketCategoryDefinition,
   setDestinyStatGroupDefinition,
   setIcons,
+  setDestinyStatDefinition,
 } from "@/app/store/Definitions.ts";
 import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
@@ -44,9 +45,11 @@ import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
 import {
   ItemResponseSchema,
+  MiniStatSchema,
   type DefinitionKey,
   type ItemResponse,
   type SocketCategoryDefinition,
+  type StatDefinition,
   type StatGroupDefinition,
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
@@ -175,7 +178,11 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
   }
 }
 
-const BungieDefinitions: DefinitionKey[] = ["DestinySocketCategoryDefinition", "DestinyStatGroupDefinition"];
+const BungieDefinitions: DefinitionKey[] = [
+  "DestinySocketCategoryDefinition",
+  "DestinyStatGroupDefinition",
+  "DestinyStatDefinition",
+];
 
 const NonInterpolationTable = [
   { value: 0, weight: 0 },
@@ -230,6 +237,16 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
       setDestinyStatGroupDefinition(socketGroupDefinition);
     }
 
+    if (completedDefinitions[2]) {
+      const parsedStatDefinition = safeParse(MiniStatSchema, completedDefinitions[2]);
+      console.log("parsedStatDefinition", parsedStatDefinition.success, parsedStatDefinition.issues);
+      if (parsedStatDefinition.success) {
+        const stringifiedStatDefinition = JSON.stringify(parsedStatDefinition.output, null, 0);
+        await setAsyncStorage("DestinyStatDefinition", stringifiedStatDefinition);
+        setDestinyStatDefinition(parsedStatDefinition.output as unknown as StatDefinition);
+      }
+    }
+
     await saveBungieDefinitionsVersion(versionKey);
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
@@ -245,6 +262,10 @@ async function loadLocalBungieDefinitions(): Promise<void> {
     const loadStatGroupDefinition = await getAsyncStorage("DestinyStatGroupDefinition");
     const statGroupDefJson = JSON.parse(loadStatGroupDefinition);
     setDestinyStatGroupDefinition(statGroupDefJson as StatGroupDefinition);
+
+    const loadStatDefinition = await getAsyncStorage("DestinyStatDefinition");
+    const statDefJson = JSON.parse(loadStatDefinition);
+    setDestinyStatDefinition(statDefJson as StatDefinition);
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");

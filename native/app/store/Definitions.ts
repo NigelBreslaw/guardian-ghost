@@ -5,6 +5,7 @@ import type {
   MiniSingleItemDefinition,
   SocketCategoryDefinition,
   StatGroupDefinition,
+  StatDefinition,
 } from "@/app/core/BungieDefinitions";
 import type { ProfileData } from "@/app/core/GetProfile.ts";
 
@@ -48,6 +49,7 @@ export let generalVault: Record<number, DestinyItem[]> = {};
 export let guardians: Record<string, Guardian> = {};
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
+export let DestinyStatDefinition: StatDefinition;
 export let StatGroupHelper: StatGroupHelper = new Map<number, Map<number, DisplayInterpolation>>();
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
@@ -196,6 +198,10 @@ export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefin
 
 export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
   StatGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
+}
+
+export function setDestinyStatDefinition(newDestinyStatDefinition: StatDefinition) {
+  DestinyStatDefinition = newDestinyStatDefinition;
 }
 
 type DisplayInterpolation = {
