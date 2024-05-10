@@ -1,3 +1,4 @@
+import { TierType } from "@/app/bungie/Enums.ts";
 import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
@@ -43,8 +44,15 @@ export default function ReusablePlugs(props: ReusablePlugsProps) {
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 <View key={index} style={styles.column}>
                   {column.map((e, index) => {
-                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                    return <PerkCircle key={index} icon={e.socketDefinition?.icon} isEnabled={e.isEnabled} />;
+                    return (
+                      <PerkCircle
+                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        key={index}
+                        icon={e.socketDefinition?.icon}
+                        isEnabled={e.isEnabled}
+                        isEnhanced={e.socketDefinition?.tierType === TierType.Common}
+                      />
+                    );
                   })}
                 </View>
               );

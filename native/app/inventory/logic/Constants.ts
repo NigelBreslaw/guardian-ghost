@@ -11,6 +11,7 @@ export const vaultEmblemBackgroundPath = require("../../../images/vaultEmblem.we
 export const vaultEmblemPath = require("../../../images/vault-emblem-button.png");
 export const vaultSecondarySpecial = require("../../../images/vaultSecondary.webp");
 export const REFRESH_ICON = require("../../../images/icons/refresh.webp");
+export const ENHANCED_TRAIT = require("../../../images/enhanced-trait.png");
 
 const SOLAR_MINI_ICON_URI = require("../../../images/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../../images/void_mini.webp");
