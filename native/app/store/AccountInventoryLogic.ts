@@ -1,10 +1,9 @@
 import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
-import { getItemDefinition, type AccountSliceGetter, type AccountSliceSetter } from "@/app/store/AccountSlice.ts";
+import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
   consumables,
   generalVault,
   guardians,
-  itemsDefinition,
   mods,
   rawProfileData,
   setConsumables,
@@ -36,7 +35,7 @@ import {
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
 import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
-import { GGCharacterType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
+import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
 
 // ------------------------------
 // UI data creation
