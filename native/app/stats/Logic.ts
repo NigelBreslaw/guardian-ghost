@@ -79,11 +79,12 @@ function createBaseStats(destinyItem: DestinyItem): ItemStats {
 
   return stats;
 }
-const naughtStats = [
+
+const faultyMasterworkItems = [
   186337601, 266016299, 384158423, 758092021, 1154004463, 1639384016, 2697220197, 2993547493, 3128594062, 3803457565,
 ];
 
-function fixNaughtyInvestments(statsCollection: StatsCollection[]): StatsCollection[] {
+function fixFaultyMasterworkStats(statsCollection: StatsCollection[]): StatsCollection[] {
   let largestStat: StatsCollection = { statTypeHash: 0, value: 0 };
 
   for (const stat of statsCollection) {
@@ -103,9 +104,8 @@ function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
         if (e.isEnabled) {
           let investments = e.def?.investmentStats;
           if (investments) {
-            // is e naughty?
-            if (e.socketTypeHash && naughtStats.includes(e.itemHash)) {
-              investments = fixNaughtyInvestments(investments);
+            if (e.socketTypeHash && faultyMasterworkItems.includes(e.itemHash)) {
+              investments = fixFaultyMasterworkStats(investments);
             }
 
             investments.map((stat) => {
