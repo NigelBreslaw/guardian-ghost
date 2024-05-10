@@ -25,6 +25,7 @@ import {
   Icons,
   StatGroupHash,
   StatHash,
+  TraitIds,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -380,6 +381,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     itemInstance.masterwork = true;
   }
 
+  const destinyItem = Object.assign(baseItem, extras, {
+    def: definitionItem,
+    instance: itemInstance,
+    previousCharacterId: "",
+  });
+
   if (baseItem.itemInstanceId !== undefined) {
     const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
@@ -403,7 +410,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
             const crafted = bitmaskContains(baseItem.state, 8);
             if (crafted) {
               itemInstance.crafted = true;
-              itemInstance.masterwork = checkForCraftedMasterwork(baseItem.itemInstanceId);
+              itemInstance.masterwork = checkForCraftedMasterwork(destinyItem);
             }
           }
         }
@@ -419,16 +426,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     }
   }
 
-  const destinyItem = Object.assign(baseItem, extras, {
-    def: definitionItem,
-    instance: itemInstance,
-    previousCharacterId: "",
-  });
   return destinyItem;
 }
 
 const itemDefinitionCache = new Map<number, DestinyItemDefinition>();
-function getItemDefinition(itemHash: number): DestinyItemDefinition {
+
+export function getItemDefinition(itemHash: number): DestinyItemDefinition {
   if (itemDefinitionCache.has(itemHash)) {
     return itemDefinitionCache.get(itemHash)!;
   }
@@ -450,6 +453,7 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     displayVersionWatermarkIcons: [],
     watermark: "",
     statGroupHash: 0,
+    traitIds: [],
   };
 
   const itemDef = itemsDefinition[itemHash];
@@ -502,6 +506,19 @@ function getItemDefinition(itemHash: number): DestinyItemDefinition {
     }
     definitionItem.stats = stats;
   }
+
+  const traitIds: string[] = [];
+  const traitDef = itemDef?.tI;
+  if (traitDef) {
+    for (const trait of traitDef) {
+      const traitIndex = trait;
+      const traitId = TraitIds[traitIndex]!;
+      if (traitId) {
+        traitIds.push(traitId);
+      }
+    }
+  }
+  definitionItem.traitIds = traitIds;
 
   const statGroupHashIndex = itemDef.st?.sgs;
   if (statGroupHashIndex) {

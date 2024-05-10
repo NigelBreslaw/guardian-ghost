@@ -36,7 +36,7 @@ import {
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
 import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
-import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
+import { GGCharacterType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
 // ------------------------------
 // UI data creation
@@ -635,25 +635,34 @@ export function hasSocketedResonance(itemInstanceId: string): boolean {
 }
 
 // This function takes a lot of assumptions to work out if a crafted item has 2 enhanced perks
-export function checkForCraftedMasterwork(itemInstanceId: string): boolean {
+export function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
   // The enhanced plugs will be in the items reusable plugs
-  const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[itemInstanceId]?.plugs;
-  if (!reusablePlugs) {
-    return false;
+  const itemInstanceId = destinyItem.itemInstanceId;
+  if (itemInstanceId) {
+    if (destinyItem.def.tierType === TierType.Exotic) {
+      const _liveSocketJson = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
+      // console.log("liveSocketJson", liveSocketJson);
+    } else {
+      const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[itemInstanceId]?.plugs;
+      if (!reusablePlugs) {
+        return false;
+      }
+      // In the dictionary items "3" and "4" are currently the only slots for enhanced plugs.
+      // Even though there can be an array, presume position 0 is the only valid one.
+      // Get the plugItemHash
+      const third = reusablePlugs["3"]?.[0]?.plugItemHash;
+      const fourth = reusablePlugs["4"]?.[0]?.plugItemHash;
+
+      if (!third || !fourth) {
+        return false;
+      }
+
+      // If the tierType is equal to 3 it is enhanced
+      const thirdSocketIsEnhanced = itemsDefinition[third]?.t === 3;
+      const fourthSocketIsEnhanced = itemsDefinition[fourth]?.t === 3;
+
+      return thirdSocketIsEnhanced && fourthSocketIsEnhanced;
+    }
   }
-  // In the dictionary items "3" and "4" are currently the only slots for enhanced plugs.
-  // Even though there can be an array, presume position 0 is the only valid one.
-  // Get the plugItemHash
-  const third = reusablePlugs["3"]?.[0]?.plugItemHash;
-  const fourth = reusablePlugs["4"]?.[0]?.plugItemHash;
-
-  if (!third || !fourth) {
-    return false;
-  }
-
-  // If the tierType is equal to 3 it is enhanced
-  const thirdSocketIsEnhanced = itemsDefinition[third]?.t === 3;
-  const fourthSocketIsEnhanced = itemsDefinition[fourth]?.t === 3;
-
-  return thirdSocketIsEnhanced && fourthSocketIsEnhanced;
+  return false;
 }

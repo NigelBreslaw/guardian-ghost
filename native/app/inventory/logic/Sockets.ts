@@ -1,10 +1,7 @@
-import type { DestinyItem, StatsCollection, SocketDefinition } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, DestinyItemDefinition } from "@/app/inventory/logic/Types.ts";
 import type { PlugSet } from "@/app/core/GetProfile.ts";
 import {
-  Descriptions,
   DestinySocketCategoryDefinition,
-  Icons,
-  ItemTypeDisplayName,
   ReusablePlugSetHash,
   SingleInitialItemHash,
   SocketCategories,
@@ -12,12 +9,11 @@ import {
   SocketEntries,
   SocketIndexes,
   SocketTypeHash,
-  StatHash,
   itemsDefinition,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
-import { iconUrl } from "@/app/core/ApiResponse.ts";
+import { getItemDefinition } from "@/app/store/AccountSlice.ts";
 
 export enum CategoryStyle {
   Unknown = 0,
@@ -121,7 +117,7 @@ export type SocketEntry = {
   // TODO: Is this mode needed? It was in Ishtar
   // mode: .SocketEntry
 
-  socketDefinition?: SocketDefinition;
+  def?: DestinyItemDefinition;
 };
 
 export type Sockets = {
@@ -464,7 +460,7 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
 
     for (const column of category.topLevelSockets) {
       for (const socketEntry of column) {
-        addSocketDefinition(socketEntry);
+        socketEntry.def = getItemDefinition(socketEntry.itemHash);
 
         /// Add the data needed for inserting a free plug
         socketEntry.socketTypeHash = category.socketMaps[columnIndex]?.socketTypeHash ?? null;
@@ -488,66 +484,4 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
       columnIndex++;
     }
   }
-}
-
-const SocketDefinitionCache = new Map<number, SocketDefinition>();
-
-function addSocketDefinition(socket: SocketEntry) {
-  if (SocketDefinitionCache.has(socket.itemHash)) {
-    socket.socketDefinition = SocketDefinitionCache.get(socket.itemHash);
-    return;
-  }
-  const itemDefinition = itemsDefinition[socket.itemHash];
-  if (!itemDefinition) {
-    return null;
-  }
-
-  const name = itemDefinition.n ?? "";
-  let description = "";
-  const descriptionIndex = itemDefinition.d;
-  if (descriptionIndex) {
-    description = Descriptions[descriptionIndex] ?? "";
-  }
-  let icon = "";
-  const iconIndex = itemDefinition.i;
-  if (iconIndex) {
-    const iconPath = Icons[iconIndex];
-    if (iconPath) {
-      icon = `${iconUrl}${iconPath}`;
-    }
-  }
-  const itemType = itemDefinition.it ?? 0;
-  const tierType = itemDefinition.t ?? 0;
-  let itemTypeDisplayName = "";
-  const itdIndex = itemDefinition.itd;
-  if (itdIndex) {
-    itemTypeDisplayName = ItemTypeDisplayName[itdIndex] ?? "";
-  }
-  let uiItemDisplayStyle = "";
-  const itemDefinitionIdex = itemDefinition.ids;
-  if (itemDefinitionIdex) {
-    uiItemDisplayStyle = ItemTypeDisplayName[itemDefinitionIdex] ?? "";
-  }
-  const investmentStats: StatsCollection[] = [];
-  const investments = itemDefinition.iv;
-  if (investments) {
-    for (const iv of Object.keys(investments)) {
-      const statTypeHash = Number(StatHash[Number(iv)]);
-      const value = investments[iv] ?? 0;
-      investmentStats.push({ statTypeHash, value });
-    }
-  }
-
-  const socketDefinition: SocketDefinition = {
-    name,
-    description,
-    icon,
-    itemType,
-    tierType,
-    itemTypeDisplayName,
-    uiItemDisplayStyle,
-    investmentStats,
-  };
-  SocketDefinitionCache.set(socket.itemHash, socketDefinition);
-  socket.socketDefinition = socketDefinition;
 }
