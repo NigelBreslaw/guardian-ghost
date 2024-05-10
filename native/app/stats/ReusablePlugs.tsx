@@ -48,9 +48,9 @@ export default function ReusablePlugs(props: ReusablePlugsProps) {
                       <PerkCircle
                         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                         key={index}
-                        icon={e.socketDefinition?.icon}
+                        icon={e.def?.icon}
                         isEnabled={e.isEnabled}
-                        isEnhanced={e.socketDefinition?.tierType === TierType.Common}
+                        isEnhanced={e.def?.tierType === TierType.Common}
                       />
                     );
                   })}

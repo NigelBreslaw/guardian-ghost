@@ -77,6 +77,8 @@ export type DestinyItemDefinition = {
   displayVersionWatermarkIcons: string[];
   watermark: string;
   statGroupHash: number;
+  traitIds: string[];
+  uiItemDisplayStyle: string;
 };
 
 export type DestinyItem = DestinyItemBase & {
@@ -88,17 +90,6 @@ export type DestinyItem = DestinyItemBase & {
 };
 
 export type StatsCollection = { statTypeHash: number; value: number };
-
-export type SocketDefinition = {
-  name: string;
-  description: string;
-  icon: string;
-  itemType: ItemType;
-  tierType: TierType; // .Common means its an enhanced perk
-  itemTypeDisplayName: string;
-  uiItemDisplayStyle: string;
-  investmentStats: StatsCollection[];
-};
 
 export type DestinyItemSort = DestinyItem & {
   itemInstanceId: string;

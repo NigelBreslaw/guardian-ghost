@@ -101,7 +101,7 @@ function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
     if (column) {
       column.map((e) => {
         if (e.isEnabled) {
-          let investments = e.socketDefinition?.investmentStats;
+          let investments = e.itemDefinition?.investmentStats;
           if (investments) {
             // is e naughty?
             if (e.socketTypeHash && naughtStats.includes(e.itemHash)) {
