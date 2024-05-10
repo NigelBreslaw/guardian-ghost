@@ -22,7 +22,7 @@ export default function PerkCircle(props: PerkCircleProps) {
         backgroundColor: props.isEnabled ? "#5791BD" : "transparent",
       }}
     >
-      <Image source={props.icon} style={{ width: 30, height: 30 }} />
+      <Image source={props.icon} transition={200} style={{ width: 30, height: 30 }} />
       {props.isEnhanced && (
         <Image source={ENHANCED_TRAIT} tintColor="#F4D158" style={{ width: 51, height: 51, position: "absolute" }} />
       )}

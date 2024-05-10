@@ -132,6 +132,7 @@ const DestinyCell = (props: DestinyCellProps) => {
             cachePolicy="memory-disk"
             style={styles.innerFrameSize}
             recyclingKey={props.data.icon}
+            transition={150}
           />
 
           <Image
