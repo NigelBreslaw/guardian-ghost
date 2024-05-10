@@ -37,7 +37,6 @@ import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
   addInventoryItem,
-  checkForCraftedMasterwork,
   hasSocketedResonance,
   removeInventoryItem,
   swapEquipAndInventoryItem,
@@ -540,6 +539,49 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
 
   itemDefinitionCache.set(itemHash, definitionItem);
   return definitionItem;
+}
+
+// This function takes a lot of assumptions to work out if a crafted item has 2 enhanced perks
+function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
+  // The enhanced plugs will be in the items reusable plugs
+  const itemInstanceId = destinyItem.itemInstanceId;
+  if (itemInstanceId) {
+    if (destinyItem.def.tierType === TierType.Exotic) {
+      const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId]?.sockets;
+      if (!liveSockets) {
+        return false;
+      }
+      for (const socket of liveSockets) {
+        if (socket.plugHash) {
+          const socketDef = getItemDefinition(socket.plugHash);
+          if (socketDef.traitIds.includes("item.exotic_catalyst") && socket.isEnabled) {
+            return true;
+          }
+        }
+      }
+    } else {
+      const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[itemInstanceId]?.plugs;
+      if (!reusablePlugs) {
+        return false;
+      }
+      // In the dictionary items "3" and "4" are currently the only slots for enhanced plugs.
+      // Even though there can be an array, presume position 0 is the only valid one.
+      // Get the plugItemHash
+      const third = reusablePlugs["3"]?.[0]?.plugItemHash;
+      const fourth = reusablePlugs["4"]?.[0]?.plugItemHash;
+
+      if (!third || !fourth) {
+        return false;
+      }
+
+      // If the tierType is equal to 3 it is enhanced
+      const thirdSocketIsEnhanced = itemsDefinition[third]?.t === 3;
+      const fourthSocketIsEnhanced = itemsDefinition[fourth]?.t === 3;
+
+      return thirdSocketIsEnhanced && fourthSocketIsEnhanced;
+    }
+  }
+  return false;
 }
 
 function processVaultInventory(profile: ProfileData): VaultData {
