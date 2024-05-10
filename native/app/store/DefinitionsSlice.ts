@@ -66,6 +66,7 @@ export interface DefinitionsSlice {
   loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
+  clearCache: () => void;
 }
 
 export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set, get) => ({
@@ -141,6 +142,11 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     });
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
+  clearCache: () => {
+    saveItemDefinitionVersion("");
+    saveBungieDefinitionsVersion("");
+    set({ definitionsReady: false });
+  },
 });
 
 async function loadLocalItemDefinitionVersion(set: DefinitionsSliceSetter): Promise<void> {

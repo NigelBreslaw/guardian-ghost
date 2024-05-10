@@ -154,6 +154,17 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <Text style={styles.textDark}>Guardian Ghost</Text>
       </View>
       <View style={styles.bottomContainer}>
+        {__DEV__ && (
+          <TouchableOpacity
+            onPress={() => {
+              useGGStore.getState().clearCache();
+            }}
+          >
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Clear Cache</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           onPress={() => {
             props.navigation.closeDrawer();
