@@ -200,7 +200,7 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     if (completedDefinitions[1]) {
       const stringifiedStatGroupDefinition = JSON.stringify(completedDefinitions[1]);
       await setAsyncStorage("DestinyStatGroupDefinition", stringifiedStatGroupDefinition);
-      setDestinySocketCategoryDefinition(completedDefinitions[1] as unknown as SocketCategoryDefinition);
+      setDestinyStatGroupDefinition(completedDefinitions[1] as unknown as StatGroupDefinition);
     }
 
     await saveBungieDefinitionsVersion(versionKey);
