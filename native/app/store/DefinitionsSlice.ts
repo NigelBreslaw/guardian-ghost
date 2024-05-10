@@ -50,6 +50,7 @@ import {
   type StatGroupDefinition,
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
+import { deepEqual } from "fast-equals";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -176,6 +177,11 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
 
 const BungieDefinitions: DefinitionKey[] = ["DestinySocketCategoryDefinition", "DestinyStatGroupDefinition"];
 
+const NonInterpolationTable = [
+  { value: 0, weight: 0 },
+  { value: 100, weight: 100 },
+];
+
 async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest | null): Promise<void> {
   const versionKey = bungieManifest?.Response.version;
   if (!versionKey) {
@@ -200,13 +206,28 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
 
     if (completedDefinitions[0]) {
       const stringifiedSocketCategoryDefinition = JSON.stringify(completedDefinitions[0]);
+
       await setAsyncStorage("DestinySocketCategoryDefinition", stringifiedSocketCategoryDefinition);
       setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
     }
     if (completedDefinitions[1]) {
-      const stringifiedStatGroupDefinition = JSON.stringify(completedDefinitions[1]);
+      // Strip out the interpolation tables that do nothing and halve the size of the saved definition.
+      // This also saves interpolateStatValue() from having to do a calculation.
+      const socketGroupDefinition = completedDefinitions[1] as unknown as StatGroupDefinition;
+      for (const stat in socketGroupDefinition) {
+        const socketGroup = socketGroupDefinition[stat];
+        if (socketGroup) {
+          for (const statHash of socketGroup.scaledStats) {
+            if (deepEqual(statHash.displayInterpolation, NonInterpolationTable)) {
+              socketGroup.scaledStats = socketGroup.scaledStats.filter((s) => s.statHash !== statHash.statHash);
+            }
+          }
+        }
+      }
+      const stringifiedStatGroupDefinition = JSON.stringify(socketGroupDefinition, null, 0);
+
       await setAsyncStorage("DestinyStatGroupDefinition", stringifiedStatGroupDefinition);
-      setDestinyStatGroupDefinition(completedDefinitions[1] as unknown as StatGroupDefinition);
+      setDestinyStatGroupDefinition(socketGroupDefinition);
     }
 
     await saveBungieDefinitionsVersion(versionKey);
@@ -417,7 +438,7 @@ async function setNativeStore(json: object, key: string, errorMessage: string) {
     );
   });
 
-  const jsonString = JSON.stringify(json);
+  const jsonString = JSON.stringify(json, null, 0);
 
   nativeStore.transaction((tx) => {
     tx.executeSql(
