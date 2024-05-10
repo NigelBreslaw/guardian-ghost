@@ -2,6 +2,7 @@ import { ItemSubType, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
 import RecoilStat from "@/app/stats/RecoilStat.tsx";
+import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
 import { View, Text, StyleSheet } from "react-native";
 
 type UiStatType = "BAR" | "NUMERAL" | "RECOIL" | "SEPARATOR";
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     includeFontPadding: false,
-    top: 1,
+    top: 0,
     right: 5,
     pointerEvents: "none",
     position: "absolute",
@@ -179,19 +180,23 @@ const STAT_GAP = 8;
 
 export default function StatBars({ stats, destinyItem }: StatBarsProps) {
   const statUiData = getStatsUiData(destinyItem);
-  const labels = statUiData.map((UiData) => (
-    <View
-      key={UiData.statType}
-      style={{
-        height: UiData.statType === StatType.Separator ? STAT_GAP : HEIGHT,
-        borderColor: "black",
-        borderWidth: 0.3,
-        alignContent: "flex-end",
-      }}
-    >
-      <Text style={styles.text}>{UiData.statType === StatType.Separator ? "" : StatType[UiData.statType]}</Text>
-    </View>
-  ));
+  const labels = statUiData.map((UiData) => {
+    const name = DestinyStatDefinition[UiData.statType]?.displayProperties.name ?? "";
+
+    return (
+      <View
+        key={UiData.statType}
+        style={{
+          height: UiData.statType === StatType.Separator ? STAT_GAP : HEIGHT,
+          borderColor: "black",
+          borderWidth: 0.3,
+          alignContent: "flex-end",
+        }}
+      >
+        <Text style={styles.text}>{UiData.statType === StatType.Separator ? "" : name}</Text>
+      </View>
+    );
+  });
 
   const bars = statUiData.map((UiData) => {
     const value = stats.get(UiData.statType) ?? 0;
