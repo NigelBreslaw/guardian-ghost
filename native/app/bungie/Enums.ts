@@ -204,4 +204,5 @@ export enum StatType {
   VoidCost = 2399985800,
   VoidDamageResistance = 1546607980,
   Zoom = 3555269338,
+  Separator = 9999999999,
 }

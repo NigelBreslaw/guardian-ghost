@@ -25,9 +25,10 @@ const maxSpread = 180; // degrees
 const styles = StyleSheet.create({
   valueText: {
     color: "white",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
     includeFontPadding: false,
+    paddingLeft: 10,
   },
 });
 
@@ -50,11 +51,11 @@ export default function RecoilStat({ value }: { value: number }) {
   const xSpreadLess = Math.sin(direction - spread);
   const ySpreadLess = Math.cos(direction - spread);
 
-  const HEIGHT = 14;
+  const HEIGHT = 18;
   return (
     <View style={{ height: HEIGHT, flexDirection: "row", gap: 5 }}>
       <Text style={styles.valueText}>{value}</Text>
-      <Svg height="12" width="24" viewBox="0 0 2 1">
+      <Svg height="15" width="30" viewBox="0 0 2 1">
         <Circle r={1} cx={1} cy={1} fill="#666" />
         {value >= 95 ? (
           <Line x1={1 - x} y1={1 + y} x2={1 + x} y2={1 - y} stroke="white" strokeWidth="0.1" />
