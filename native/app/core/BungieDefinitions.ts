@@ -1,7 +1,7 @@
 import { object, optional, record, string, number, array, type Output, boolean, unknown, value } from "valibot";
 
 // Bungie definition list
-export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGroupDefinition";
+export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGroupDefinition" | "DestinyStatDefinition";
 
 // -------------------------------
 // The self hosted minified JSON response definition
@@ -188,6 +188,21 @@ export const MiniStatGroupSchema = record(
 );
 
 export type StatGroupDefinition = Output<typeof MiniStatGroupSchema>;
+
+// -------------------------------
+// DestinyStatDefinition
+// -------------------------------
+export const MiniStatSchema = record(
+  string(),
+  object({
+    displayProperties: object({
+      description: string(),
+      name: string(),
+    }),
+  }),
+);
+
+export type StatDefinition = Output<typeof MiniStatSchema>;
 
 // -------------------------------
 // DestinySocketCategoryDefinition Socket Category
