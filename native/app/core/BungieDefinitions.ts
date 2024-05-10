@@ -133,7 +133,7 @@ export type MiniSocketEntryItems = Output<typeof MiniSocketEntrySchema>;
 // -------------------------------
 // DestinyStatGroupDefinition Stat Group
 // -------------------------------
-const StatGroupSchema = record(
+export const StatGroupSchema = record(
   string(),
   object({
     maximumValue: number(),
@@ -160,7 +160,34 @@ const StatGroupSchema = record(
   }),
 );
 
-export type StatGroupDefinition = Output<typeof StatGroupSchema>;
+export const MiniStatGroupSchema = record(
+  string(),
+  object({
+    // maximumValue: number(),
+    // uiPosition: number(),
+    scaledStats: array(
+      object({
+        statHash: number(),
+        maximumValue: number(),
+        // displayAsNumeric: boolean(),
+        displayInterpolation: array(
+          object({
+            value: number(),
+            weight: number(),
+          }),
+        ),
+      }),
+    ),
+    // TODO: Fill in whatever this unknown is?
+    // overrides: unknown(),
+    // hash: number(),
+    // index: number(),
+    redacted: boolean(),
+    // blacklisted: boolean(),
+  }),
+);
+
+export type StatGroupDefinition = Output<typeof MiniStatGroupSchema>;
 
 // -------------------------------
 // DestinySocketCategoryDefinition Socket Category
