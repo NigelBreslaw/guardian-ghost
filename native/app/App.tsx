@@ -14,6 +14,7 @@ import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -106,34 +107,36 @@ function App() {
   }
 
   return (
-    <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
-      <RootStack.Navigator>
-        <RootStack.Group>
-          <RootStack.Screen
-            name="Root"
-            component={MainDrawer}
-            options={{
+    <GestureHandlerRootView>
+      <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
+        <RootStack.Navigator>
+          <RootStack.Group>
+            <RootStack.Screen
+              name="Root"
+              component={MainDrawer}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </RootStack.Group>
+          <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
+            <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
+          </RootStack.Group>
+          <RootStack.Group
+            screenOptions={{
+              presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
               headerShown: false,
+              cardStyle: {
+                backgroundColor: "transparent",
+              },
             }}
-          />
-        </RootStack.Group>
-        <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
-          <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
-        </RootStack.Group>
-        <RootStack.Group
-          screenOptions={{
-            presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
-            headerShown: false,
-            cardStyle: {
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <RootStack.Screen name="BottomSheet" component={BottomSheet} />
-        </RootStack.Group>
-      </RootStack.Navigator>
-      <Toast />
-    </NavigationContainer>
+          >
+            <RootStack.Screen name="BottomSheet" component={BottomSheet} />
+          </RootStack.Group>
+        </RootStack.Navigator>
+        <Toast />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
