@@ -1,5 +1,5 @@
-Masterworked exotic crafted items will now show with a yellow border.
-Enhanced trait perks now show with the border/arrow.
-The first time the app was launched perks would not draw. They now will.
-The details pane now scrolls. This means the transfer buttons are nearly always off screen.
-A later update will fix this.
+Stat labels now use full english text e.g. "Aim Assistance" instead of "AimAssistance".
+The details bottom sheet should now behave a bit better, but it's not perfect.
+You can now pan down to dismiss it. But if you have scrolled some content then you have
+to pan twice. Once to scroll to the top and again to dismiss the bottom sheet.
+The transfer buttons will no longer fire if you tap and scroll. 
