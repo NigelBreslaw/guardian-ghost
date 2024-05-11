@@ -4,22 +4,20 @@ import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
-import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import {
-  StatusBar,
   StyleSheet,
-  ScrollView,
   Text,
   View,
   useWindowDimensions,
   TextInput,
   Platform,
-  Keyboard,
   Dimensions,
+  ScrollView,
+  Pressable,
 } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+
 import RBSheet from "react-native-raw-bottom-sheet";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import Stats from "@/app/stats/Stats";
@@ -180,35 +178,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function BottomSheet({
-  navigation,
-  route,
-}: {
-  navigation: NavigationProp<ReactNavigation.RootParamList>;
-  route: RouteProp<ReactNavigation.RootParamList, "BottomSheet">;
-}) {
+export default function BottomSheet() {
+  // @ts-ignore
   const refRBSheet = useRef<RBSheet>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
-  const { characterId } = route.params.item;
-
+  const destinyItem = useGGStore.getState().selectedItem!;
   const [viewData, setViewData] = useState<ViewData | null>(null);
-  const destinyItem = useGGStore.getState().selectedItem;
 
   const quantity = useGGStore((state) => state.quantityToTransfer);
 
-  if (!destinyItem) {
-    return null;
-  }
+  const selectedItem = useGGStore((state) => state.selectedItem);
+
+  useEffect(() => {
+    if (selectedItem) {
+      refRBSheet.current?.open();
+    }
+  }, [selectedItem]);
 
   useEffect(() => {
     if (refRBSheet.current) {
       const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
       useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
       refRBSheet.current.open();
-      setViewData(buildViewData(route.params.item));
+      setViewData(buildViewData(destinyItem));
     }
-  }, [destinyItem, route.params.item]);
+  }, [destinyItem]);
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
@@ -217,150 +212,145 @@ export default function BottomSheet({
     }
   }
 
+  const [atTop, setAtTop] = useState(true);
+
+  if (!destinyItem) {
+    return null;
+  }
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "transparent",
+    <RBSheet
+      ref={refRBSheet}
+      draggable
+      closeOnPressMask={true}
+      dragOnContent={atTop}
+      onClose={() => {
+        useGGStore.getState().setSelectedItem(null);
+        setAtTop(true);
+      }}
+      height={680}
+      customStyles={{
+        wrapper: {
+          backgroundColor: "transparent",
+        },
+        draggableIcon: {
+          backgroundColor: "white",
+        },
+        container: {
+          backgroundColor: "#111116",
+          width: Platform.OS === "web" ? 500 : "100%",
+        },
       }}
     >
-      <StatusBar barStyle="light-content" />
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        dragFromTopOnly={true}
-        onClose={() => {
-          navigation.goBack();
-          useGGStore.getState().setSelectedItem(null);
-        }}
-        height={600}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent",
-          },
-          draggableIcon: {
-            backgroundColor: "white",
-          },
-          container: {
-            backgroundColor: "#111116",
-            width: Platform.OS === "web" ? 500 : "100%",
-          },
-        }}
-      >
-        <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} bounces={false} onScroll={(e) => setAtTop(e.nativeEvent.contentOffset.y === 0)}>
+        <Pressable>
           {viewData && (
-            <TouchableWithoutFeedback onPressIn={Keyboard.dismiss}>
-              <View style={{ height: "100%" }}>
-                <View
-                  style={{
-                    width: "100%",
-                    height: (SCREEN_WIDTH / 1920) * 850,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Image
-                    transition={200}
-                    style={[
-                      {
-                        position: "absolute",
-                        top: -((SCREEN_WIDTH / 1920) * 120),
-                        width: "100%",
-                        height: (SCREEN_WIDTH / 1920) * 1080,
-                      },
-                    ]}
-                    source={{ uri: viewData.screenshot }}
+            <View style={{ height: "100%" }}>
+              <View
+                style={{
+                  width: "100%",
+                  height: (SCREEN_WIDTH / 1920) * 850,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  transition={200}
+                  style={[
+                    {
+                      position: "absolute",
+                      top: -((SCREEN_WIDTH / 1920) * 120),
+                      width: "100%",
+                      height: (SCREEN_WIDTH / 1920) * 1080,
+                    },
+                  ]}
+                  source={{ uri: viewData.screenshot }}
+                />
+                {destinyItem.instance.masterwork && (
+                  <View style={styles.masterworkContainer}>
+                    <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                    <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                  </View>
+                )}
+                <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
+                <View style={styles.tierHeaderContainer}>
+                  <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+                  <View
+                    style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]}
                   />
-                  {destinyItem.instance.masterwork && (
-                    <View style={styles.masterworkContainer}>
-                      <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
-                      <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                </View>
+
+                <View style={styles.itemDetails}>
+                  <View style={{ flex: 1 }} />
+                  <View style={{ flex: 18 }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        color: "white",
+                        fontFamily: "Helvetica",
+                        includeFontPadding: false,
+                        lineHeight: 20,
+                      }}
+                    >
+                      {viewData.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: "white",
+                        opacity: 0.6,
+                        includeFontPadding: false,
+                        transform: [{ translateY: -4 }],
+                      }}
+                    >
+                      {viewData.itemTypeDisplayName}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ flex: 15 }} />
+                <View style={styles.screenshotFooter} />
+                {!destinyItem.def.nonTransferrable &&
+                  destinyItem.def.maxStackSize > 1 &&
+                  destinyItem.def.stackUniqueLabel === undefined && (
+                    <View style={styles.quantityRoot}>
+                      <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
+                      <View style={styles.quantity}>
+                        <TextInput
+                          inputMode="numeric"
+                          style={styles.quantityText}
+                          value={quantity === 0 ? "" : quantity.toString()}
+                          onChangeText={(value) => {
+                            const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+                            const valueAsNumber = Number.parseInt(value);
+                            if (valueAsNumber > maxAmount) {
+                              useGGStore.getState().setQuantityToTransfer(maxAmount);
+                            } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
+                              useGGStore.getState().setQuantityToTransfer(0);
+                            } else {
+                              useGGStore.getState().setQuantityToTransfer(valueAsNumber);
+                            }
+                          }}
+                        />
+                      </View>
                     </View>
                   )}
-                  <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
-                  <View style={styles.tierHeaderContainer}>
-                    <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
-                    <View
-                      style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]}
-                    />
-                  </View>
-
-                  <View style={styles.itemDetails}>
-                    <View style={{ flex: 1 }} />
-                    <View style={{ flex: 18 }}>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          fontWeight: "bold",
-                          color: "white",
-                          fontFamily: "Helvetica",
-                          includeFontPadding: false,
-                          lineHeight: 20,
-                        }}
-                      >
-                        {viewData.name}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 13,
-                          color: "white",
-                          opacity: 0.6,
-                          includeFontPadding: false,
-                          transform: [{ translateY: -4 }],
-                        }}
-                      >
-                        {viewData.itemTypeDisplayName}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={{ flex: 15 }} />
-                  <View style={styles.screenshotFooter} />
-                  {!destinyItem.def.nonTransferrable &&
-                    destinyItem.def.maxStackSize > 1 &&
-                    destinyItem.def.stackUniqueLabel === undefined && (
-                      <View style={styles.quantityRoot}>
-                        <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
-                        <View style={styles.quantity}>
-                          <TextInput
-                            inputMode="numeric"
-                            style={styles.quantityText}
-                            value={quantity === 0 ? "" : quantity.toString()}
-                            onChangeText={(value) => {
-                              const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-                              const valueAsNumber = Number.parseInt(value);
-                              if (valueAsNumber > maxAmount) {
-                                useGGStore.getState().setQuantityToTransfer(maxAmount);
-                              } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {
-                                useGGStore.getState().setQuantityToTransfer(0);
-                              } else {
-                                useGGStore.getState().setQuantityToTransfer(valueAsNumber);
-                              }
-                            }}
-                          />
-                        </View>
-                      </View>
-                    )}
-                </View>
-                <Stats destinyItem={destinyItem} />
-                <View>
-                  <TransferEquipButtons
-                    close={() => {
-                      if (refRBSheet.current) {
-                        refRBSheet.current.close();
-                      }
-                    }}
-                    destinyItem={destinyItem}
-                    startTransfer={transfer}
-                    currentCharacterId={characterId}
-                  />
-                </View>
               </View>
-            </TouchableWithoutFeedback>
+              <Stats destinyItem={destinyItem} />
+              <View>
+                <TransferEquipButtons
+                  close={() => {
+                    if (refRBSheet.current) {
+                      refRBSheet.current.close();
+                    }
+                  }}
+                  destinyItem={destinyItem}
+                  startTransfer={transfer}
+                  currentCharacterId={destinyItem.characterId}
+                />
+              </View>
+            </View>
           )}
-        </ScrollView>
-      </RBSheet>
-    </View>
+        </Pressable>
+      </ScrollView>
+    </RBSheet>
   );
 }

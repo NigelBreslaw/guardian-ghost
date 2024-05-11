@@ -6,9 +6,7 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { View, StyleSheet, Text } from "react-native";
-import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
-import { runOnJS } from "react-native-reanimated";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
@@ -95,47 +93,47 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
         ? GLOBAL_MODS_CHARACTER_ID
         : GLOBAL_CONSUMABLES_CHARACTER_ID;
-    const transferTap = Gesture.Tap().onBegin(() => {
-      runOnJS(props.startTransfer)(ggCharacterId, false);
-      runOnJS(props.close)();
-    });
+
     const globalButton = (
-      <GestureHandlerRootView style={{ flexDirection: "row", gap: 5 }}>
-        <GestureDetector gesture={transferTap}>
+      <TouchableOpacity
+        onPress={() => {
+          props.startTransfer(ggCharacterId, false);
+          props.close();
+        }}
+      >
+        <View
+          style={{
+            width: transferWidth,
+            height: transferHeight,
+            borderRadius,
+            overflow: "hidden",
+          }}
+        >
           <View
             style={{
-              width: transferWidth,
-              height: transferHeight,
-              borderRadius,
+              width: originalWidth,
               overflow: "hidden",
+              transformOrigin: "top left",
+              transform: [{ scale: scale }],
             }}
           >
-            <View
-              style={{
-                width: originalWidth,
-                overflow: "hidden",
-                transformOrigin: "top left",
-                transform: [{ scale: scale }],
-              }}
-            >
-              <Image source={GLOBAL_SPACE_EMBLEM} cachePolicy={"memory"} style={{ width: 474, height: 96 }} />
-              <Text style={styles.InventoryName}>{"Inventory"}</Text>
-            </View>
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                borderRadius,
-                borderWidth: 1,
-                borderColor: "grey",
-              }}
-            />
+            <Image source={GLOBAL_SPACE_EMBLEM} cachePolicy={"memory"} style={{ width: 474, height: 96 }} />
+            <Text style={styles.InventoryName}>{"Inventory"}</Text>
           </View>
-        </GestureDetector>
-      </GestureHandlerRootView>
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              borderRadius,
+              borderWidth: 1,
+              borderColor: "grey",
+            }}
+          />
+        </View>
+      </TouchableOpacity>
     );
     return (
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
@@ -203,24 +201,15 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       continue;
     }
 
-    const transferTap = Gesture.Tap().onBegin(() => {
-      if (isTransferDisabled) {
-        return;
-      }
-      runOnJS(props.startTransfer)(ggCharacter.characterId, false);
-      runOnJS(props.close)();
-    });
-    const transferAndEquipTap = Gesture.Tap().onBegin(() => {
-      if (isEquipDisabled) {
-        return;
-      }
-      runOnJS(props.startTransfer)(ggCharacter.characterId, true);
-      runOnJS(props.close)();
-    });
-
     rectangles.push(
-      <GestureHandlerRootView key={ggCharacter.characterId} style={{ flexDirection: "row", gap: 5 }}>
-        <GestureDetector gesture={transferTap}>
+      <View key={ggCharacter.characterId} style={{ flexDirection: "row", gap: 5 }}>
+        <TouchableOpacity
+          disabled={isTransferDisabled}
+          onPress={() => {
+            props.startTransfer(ggCharacter.characterId, false);
+            props.close();
+          }}
+        >
           <View
             style={{
               width: transferWidth,
@@ -258,8 +247,14 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
               }}
             />
           </View>
-        </GestureDetector>
-        <GestureDetector gesture={transferAndEquipTap}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={isEquipDisabled}
+          onPress={() => {
+            props.startTransfer(ggCharacter.characterId, true);
+            props.close();
+          }}
+        >
           <View
             style={{
               width: transferHeight,
@@ -291,8 +286,8 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
               }}
             />
           </View>
-        </GestureDetector>
-      </GestureHandlerRootView>,
+        </TouchableOpacity>
+      </View>,
     );
   }
 

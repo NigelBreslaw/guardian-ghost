@@ -4,6 +4,8 @@ import { createSockets } from "@/app/inventory/logic/Sockets.ts";
 import ReusablePlugs from "@/app/stats/ReusablePlugs";
 import { createWeaponStats } from "@/app/stats/Logic.ts";
 import StatBars from "@/app/stats/StatBars.tsx";
+import { useMemo } from "react";
+import React from "react";
 
 const _styles = StyleSheet.create({
   container: {
@@ -18,8 +20,8 @@ type StatsProps = {
   destinyItem: DestinyItem;
 };
 
-export default function Stats(props: StatsProps) {
-  const sockets = createSockets(props.destinyItem);
+function Stats(props: StatsProps) {
+  const sockets = useMemo(() => createSockets(props.destinyItem), [props.destinyItem]);
   if (!sockets) {
     return null;
   }
@@ -34,3 +36,5 @@ export default function Stats(props: StatsProps) {
     </View>
   );
 }
+
+export default React.memo(Stats);
