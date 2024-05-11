@@ -6,10 +6,8 @@ import { useEffect, useRef } from "react";
 import { getBungieManifest, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
-import { Platform, useWindowDimensions } from "react-native";
-import BottomSheet from "@/app/inventory/pages/BottomSheet.tsx";
+import { useWindowDimensions } from "react-native";
 import { enableFreeze } from "react-native-screens";
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
@@ -46,7 +44,6 @@ init();
 type RootStackParamList = {
   Login: undefined;
   Root: undefined;
-  BottomSheet: { item: DestinyItem };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -121,17 +118,6 @@ function App() {
           </RootStack.Group>
           <RootStack.Group screenOptions={{ presentation: "modal", gestureEnabled: false, headerShown: false }}>
             <RootStack.Screen name="Login" component={Login} options={{ title: "Login" }} />
-          </RootStack.Group>
-          <RootStack.Group
-            screenOptions={{
-              presentation: Platform.OS === "ios" ? "modal" : "transparentModal",
-              headerShown: false,
-              cardStyle: {
-                backgroundColor: "transparent",
-              },
-            }}
-          >
-            <RootStack.Screen name="BottomSheet" component={BottomSheet} />
           </RootStack.Group>
         </RootStack.Navigator>
         <Toast />
