@@ -1,4 +1,4 @@
-import { StatType } from "@/app/bungie/Enums.ts";
+import { ItemType, StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem, StatsCollection } from "@/app/inventory/logic/Types.ts";
@@ -55,19 +55,33 @@ function bankersRounding(num: number): number {
 
 export type ItemStats = Map<StatType, number>;
 
-export function createWeaponStats(destinyItem: DestinyItem, sockets: Sockets): ItemStats {
-  const stats = createBaseStats(destinyItem);
+export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemStats {
+  if (destinyItem.def.itemType === ItemType.Weapon) {
+    const stats = createBaseStats(destinyItem);
 
-  const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
-  if (perksCategory) {
-    addSocketStats(stats, perksCategory);
+    const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
+    if (perksCategory) {
+      addSocketStats(stats, perksCategory);
+    }
+    const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
+    if (modsCategory) {
+      addSocketStats(stats, modsCategory);
+    }
+    applyStatInterpolation(stats, destinyItem.def.statGroupHash);
+    return stats;
   }
-  const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
-  if (modsCategory) {
-    addSocketStats(stats, modsCategory);
+
+  if (destinyItem.def.itemType === ItemType.Armor) {
+    const stats: ItemStats = new Map<number, number>();
+
+    const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 3154740035);
+    if (perksCategory) {
+      addSocketStats(stats, perksCategory);
+    }
+    return stats;
   }
-  applyStatInterpolation(stats, destinyItem.def.statGroupHash);
-  return stats;
+
+  return new Map<number, number>();
 }
 
 function createBaseStats(destinyItem: DestinyItem): ItemStats {

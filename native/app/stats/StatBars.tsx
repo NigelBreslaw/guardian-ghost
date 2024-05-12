@@ -1,4 +1,4 @@
-import { ItemSubType, StatType } from "@/app/bungie/Enums.ts";
+import { ItemSubType, ItemType, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
 import RecoilStat from "@/app/stats/RecoilStat.tsx";
@@ -12,7 +12,15 @@ type UiStatData = {
   type: UiStatType;
 };
 
-// impact, range, stability, handling, reload speed, aim assistance, zoom, airborne, rounds per minute, magazine, recoil
+const DefaultArmorStats: UiStatData[] = [
+  { statType: StatType.Mobility, type: "BAR" },
+  { statType: StatType.Resilience, type: "BAR" },
+  { statType: StatType.Recovery, type: "BAR" },
+  { statType: StatType.Discipline, type: "BAR" },
+  { statType: StatType.Intellect, type: "BAR" },
+  { statType: StatType.Strength, type: "BAR" },
+];
+
 const DefaultWeaponStats: UiStatData[] = [
   { statType: StatType.Impact, type: "BAR" },
   { statType: StatType.Range, type: "BAR" },
@@ -153,22 +161,28 @@ function BarUi(props: BarUiProps) {
 }
 
 function getStatsUiData(destinyItem: DestinyItem): UiStatData[] {
-  switch (destinyItem.def.itemSubType) {
-    case ItemSubType.Glaive:
-      return GlaiveWeaponStats;
-    case ItemSubType.FusionRifle:
-    case ItemSubType.FusionRifleLine:
-      return FusionWeaponStats;
-    case ItemSubType.Sword:
-      return SwordWeaponStats;
-    case ItemSubType.GrenadeLauncher:
-    case ItemSubType.RocketLauncher:
-      return ExplosiveWeaponStats;
-    case ItemSubType.Bow:
-      return BowWeaponStats;
-    default:
-      return DefaultWeaponStats;
+  if (destinyItem.def.itemType === ItemType.Armor) {
+    return DefaultArmorStats;
   }
+  if (destinyItem.def.itemType === ItemType.Weapon) {
+    switch (destinyItem.def.itemSubType) {
+      case ItemSubType.Glaive:
+        return GlaiveWeaponStats;
+      case ItemSubType.FusionRifle:
+      case ItemSubType.FusionRifleLine:
+        return FusionWeaponStats;
+      case ItemSubType.Sword:
+        return SwordWeaponStats;
+      case ItemSubType.GrenadeLauncher:
+      case ItemSubType.RocketLauncher:
+        return ExplosiveWeaponStats;
+      case ItemSubType.Bow:
+        return BowWeaponStats;
+      default:
+        return DefaultWeaponStats;
+    }
+  }
+  return [];
 }
 
 type StatBarsProps = {
