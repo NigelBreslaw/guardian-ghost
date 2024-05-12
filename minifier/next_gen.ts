@@ -831,12 +831,12 @@ async function main() {
     await useContentPaths(jsonWorldComponentContentPaths, id);
     console.timeEnd("total-json-parse");
 
-    // const uniqueJsonManifest = {
-    //   version: id,
-    // };
+    const uniqueJsonManifest = {
+      version: id,
+    };
 
-    // const savePath = path.join(__dirname, `json/manifest.json`);
-    // await saveToJsonFile(uniqueJsonManifest, savePath);
+    const savePath = path.join(__dirname, `json/manifest.json`);
+    await saveToJsonFile(uniqueJsonManifest, savePath);
 
     // To avoid committing a 3MB JSON blob into this repo download the demo.json file
     // from the unintuitive.com site and save it to the json folder. This is only used
