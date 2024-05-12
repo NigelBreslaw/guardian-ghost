@@ -6,17 +6,7 @@ import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  useWindowDimensions,
-  TextInput,
-  Platform,
-  Dimensions,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView, Pressable } from "react-native";
 
 import RBSheet from "react-native-raw-bottom-sheet";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
@@ -70,7 +60,7 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
 }
 
 const { width } = Dimensions.get("window");
-const SCREEN_WIDTH = width;
+const SCREEN_WIDTH = Platform.OS === "web" ? Math.min(500, width) : width;
 const scalar = SCREEN_WIDTH / 1080;
 const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
 
@@ -140,8 +130,8 @@ const styles = StyleSheet.create({
   itemDetails: {
     position: "absolute",
     top: 100 * scalar,
-    flex: 4,
-    flexDirection: "row",
+    left: 50 * scalar,
+    flex: 1,
   },
   masterworkContainer: {
     position: "absolute",
@@ -176,13 +166,19 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     transform: [{ translateY: -4 }],
   },
+  nameText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: "Helvetica",
+    includeFontPadding: false,
+  },
 });
 
 export default function BottomSheet() {
   // @ts-ignore
   const refRBSheet = useRef<RBSheet>(null);
-  const { width } = useWindowDimensions();
-  const SCREEN_WIDTH = width;
+
   const destinyItem = useGGStore.getState().selectedItem!;
   const [viewData, setViewData] = useState<ViewData | null>(null);
 
@@ -279,32 +275,18 @@ export default function BottomSheet() {
                 </View>
 
                 <View style={styles.itemDetails}>
-                  <View style={{ flex: 1 }} />
-                  <View style={{ flex: 18 }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: "bold",
-                        color: "white",
-                        fontFamily: "Helvetica",
-                        includeFontPadding: false,
-                        lineHeight: 20,
-                      }}
-                    >
-                      {viewData.name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 13,
-                        color: "white",
-                        opacity: 0.6,
-                        includeFontPadding: false,
-                        transform: [{ translateY: -4 }],
-                      }}
-                    >
-                      {viewData.itemTypeDisplayName}
-                    </Text>
-                  </View>
+                  <Text style={styles.nameText}>{viewData.name}</Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "white",
+                      opacity: 0.6,
+                      includeFontPadding: false,
+                      transform: [{ translateY: -4 }],
+                    }}
+                  >
+                    {viewData.itemTypeDisplayName}
+                  </Text>
                 </View>
                 <View style={{ flex: 15 }} />
                 <View style={styles.screenshotFooter} />
