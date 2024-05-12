@@ -267,6 +267,7 @@ export default function BottomSheet() {
                       opacity: 0.9,
                       width: 1250,
                       height: 50,
+                      position: "absolute",
                       transformOrigin: [0, 0, 0],
                       transform: [{ scale: SCREEN_WIDTH / 1250 }],
                     }}
