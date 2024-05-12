@@ -7,7 +7,7 @@ export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGrou
 // The self hosted minified JSON response definition
 // -------------------------------
 
-const MINI_ITEM_DEFINITION_VERSION = 8;
+const MINI_ITEM_DEFINITION_VERSION = 9;
 
 export const ItemResponseSchema = object({
   helpers: object(
