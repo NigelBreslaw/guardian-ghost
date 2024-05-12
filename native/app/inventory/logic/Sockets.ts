@@ -331,7 +331,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
     for (const map of category.socketMaps) {
       const socket = sockets.socketEntries[map.socketIndex];
 
-      if (!socket?.isVisible) {
+      if (!socket) {
         continue;
       }
 

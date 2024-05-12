@@ -78,6 +78,7 @@ export type DestinyItemDefinition = {
   watermark: string;
   statGroupHash: number;
   traitIds: string[];
+  name: string;
 };
 
 export type DestinyItem = DestinyItemBase & {

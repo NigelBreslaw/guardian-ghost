@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { createSockets } from "@/app/inventory/logic/Sockets.ts";
 import ReusablePlugs from "@/app/stats/ReusablePlugs";
-import { createWeaponStats } from "@/app/stats/Logic.ts";
+import { createStats } from "@/app/stats/Logic.ts";
 import StatBars from "@/app/stats/StatBars.tsx";
 import { useMemo } from "react";
 import React from "react";
@@ -25,7 +25,7 @@ function Stats(props: StatsProps) {
   if (!sockets) {
     return null;
   }
-  const stats = createWeaponStats(props.destinyItem, sockets);
+  const stats = createStats(props.destinyItem, sockets);
 
   return (
     <View style={{ width: "100%" }}>

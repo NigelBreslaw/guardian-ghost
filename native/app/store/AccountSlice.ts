@@ -453,10 +453,11 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
     watermark: "",
     statGroupHash: 0,
     traitIds: [],
+    name: "",
   };
 
   const itemDef = itemsDefinition[itemHash];
-  if (!itemDef || itemDef.b === undefined) {
+  if (!itemDef) {
     itemDefinitionCache.set(itemHash, definitionItem);
     return definitionItem;
   }
@@ -523,7 +524,11 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
   if (statGroupHashIndex) {
     definitionItem.statGroupHash = StatGroupHash[statGroupHashIndex]!;
   }
-  definitionItem.recoveryBucketHash = BucketTypeHashArray[itemDef.b] ?? 0;
+  const bucketTypeIndex = itemDef.b;
+  if (bucketTypeIndex) {
+    definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? 0;
+  }
+  definitionItem.name = itemDef?.n ?? "";
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
   definitionItem.itemSubType = itemDef?.is ?? 0;
   definitionItem.tierType = itemDef?.t ?? 0;
