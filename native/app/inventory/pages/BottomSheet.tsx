@@ -11,6 +11,7 @@ import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView, Pr
 import RBSheet from "react-native-raw-bottom-sheet";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import Stats from "@/app/stats/Stats";
+import { MASTERWORK_TRIM } from "@/app/inventory/logic/Constants.ts";
 
 const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   tierHeaderContainer: {
     position: "absolute",
     width: SCREEN_WIDTH,
-    height: 25 * scalar,
+    height: 30 * scalar,
   },
   tierHeader: {
     flex: 1,
@@ -122,8 +123,8 @@ const styles = StyleSheet.create({
   },
   tierHeaderBottom: {
     width: SCREEN_WIDTH,
-    height: 4 * scalar,
-    opacity: 30 / 100,
+    height: 5 * scalar,
+    opacity: 50 / 100,
     bottom: 0,
     position: "absolute",
   },
@@ -260,6 +261,18 @@ export default function BottomSheet() {
                   ]}
                   source={{ uri: viewData.screenshot }}
                 />
+                {destinyItem.instance.masterwork && (
+                  <Image
+                    style={{
+                      opacity: 0.9,
+                      width: 1250,
+                      height: 50,
+                      transformOrigin: [0, 0, 0],
+                      transform: [{ scale: SCREEN_WIDTH / 1250 }],
+                    }}
+                    source={MASTERWORK_TRIM}
+                  />
+                )}
                 {destinyItem.instance.masterwork && (
                   <View style={styles.masterworkContainer}>
                     <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
