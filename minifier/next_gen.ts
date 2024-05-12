@@ -266,8 +266,6 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         const name = displayProperties.name;
         if (name) {
           item.n = name;
-        } else if (!redacted) {
-          continue;
         }
 
         const description = displayProperties.description;
