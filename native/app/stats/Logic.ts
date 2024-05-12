@@ -78,6 +78,11 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
     if (perksCategory) {
       addSocketStats(stats, perksCategory);
     }
+
+    const tierCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 760375309);
+    if (tierCategory) {
+      addSocketStats(stats, tierCategory);
+    }
     return stats;
   }
 
