@@ -248,7 +248,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     return repeatStringsMap[name].get(s)!;
   }
 
-  const processedData: ProcessedData = { helpers: {}, items: {}, version: 8, id: uniqueKey };
+  const processedData: ProcessedData = { helpers: {}, items: {}, version: 9, id: uniqueKey };
 
   const sortedDataKeys = Object.keys(jsonData).sort((a, b) => parseFloat(a) - parseFloat(b));
 
@@ -801,7 +801,7 @@ async function downloadAndMinifyDefinition(definitionUrl: string, key: string, u
   const processedData = createMiniDefinition(jsonData, uniqueKey);
   console.timeEnd(`${key} parse-took:`);
 
-  const outputFilePath = path.join(__dirname, `json/1/${key}.json`);
+  const outputFilePath = path.join(__dirname, `json/${key}.json`);
 
   console.time(`${key} save-took:`);
   await saveToJsonFile(processedData, outputFilePath);
@@ -816,10 +816,7 @@ async function main() {
   if (!fs.existsSync(jsonPath)) {
     fs.mkdirSync(jsonPath);
   }
-  const jsonPath1 = path.join(__dirname, `json/1`);
-  if (!fs.existsSync(jsonPath1)) {
-    fs.mkdirSync(jsonPath1);
-  }
+
   try {
     console.time("download-manifest");
 
@@ -844,10 +841,10 @@ async function main() {
     // To avoid committing a 3MB JSON blob into this repo download the demo.json file
     // from the unintuitive.com site and save it to the json folder. This is only used
     // for the apps demo mode.
-    // const demoJsonUrl = "https://unintuitive.com/demo.json";
-    // const demoJson = await downloadJsonFile(demoJsonUrl);
-    // const saveDemoPath = path.join(__dirname, `json/demo.json`);
-    // await saveToJsonFile(demoJson, saveDemoPath);
+    const demoJsonUrl = "https://unintuitive.com/demo.json";
+    const demoJson = await downloadJsonFile(demoJsonUrl);
+    const saveDemoPath = path.join(__dirname, `json/demo.json`);
+    await saveToJsonFile(demoJson, saveDemoPath);
   } catch (error) {
     console.error(error);
     process.exit(1);
