@@ -1,11 +1,12 @@
 import { ItemSubType, ItemType, StatType } from "@/app/bungie/Enums.ts";
+import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
 import RecoilStat from "@/app/stats/RecoilStat.tsx";
 import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
 import { View, Text, StyleSheet } from "react-native";
 
-type UiStatType = "BAR" | "NUMERAL" | "RECOIL" | "SEPARATOR";
+type UiStatType = "BAR" | "NUMERAL" | "RECOIL" | "SEPARATOR" | "ARMOR-TOTAL";
 
 type UiStatData = {
   statType: StatType;
@@ -19,6 +20,8 @@ const DefaultArmorStats: UiStatData[] = [
   { statType: StatType.Discipline, type: "BAR" },
   { statType: StatType.Intellect, type: "BAR" },
   { statType: StatType.Strength, type: "BAR" },
+  { statType: StatType.Separator, type: "SEPARATOR" },
+  { statType: StatType.ArmorTotal, type: "ARMOR-TOTAL" },
 ];
 
 const DefaultWeaponStats: UiStatData[] = [
@@ -122,6 +125,25 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
+type ArmorTotalUiProps = {
+  itemStats: ItemStats;
+};
+
+function ArmorTotal(props: ArmorTotalUiProps) {
+  let total = 0;
+
+  for (const [key, value] of props.itemStats) {
+    if (ArmorStatInvestments.includes(key)) {
+      total += value;
+    }
+  }
+
+  return (
+    <View style={{ height: HEIGHT, gap: 1 }}>
+      <Text style={[styles.valueText, { paddingLeft: 10 }]}>{total}</Text>
+    </View>
+  );
+}
 
 type NumericUiProps = {
   value: number;
@@ -136,10 +158,12 @@ function NumericUi(props: NumericUiProps) {
 }
 
 type BarUiProps = {
+  statType: StatType;
   value: number;
 };
 
 function BarUi(props: BarUiProps) {
+  const maxValue = ArmorStatInvestments.includes(props.statType) ? 42 : 100;
   const value = Math.min(props.value, 100);
 
   return (
@@ -149,7 +173,7 @@ function BarUi(props: BarUiProps) {
         <View
           style={{
             position: "absolute",
-            width: (value / 100) * 160,
+            width: (value / maxValue) * 160,
             height: "100%",
             backgroundColor: "white",
           }}
@@ -192,10 +216,21 @@ type StatBarsProps = {
 
 const STAT_GAP = 8;
 
+function getName(statType: StatType) {
+  switch (statType) {
+    case StatType.ArmorTotal:
+      return "Total:";
+    case StatType.Separator:
+      return "";
+    default:
+      return DestinyStatDefinition[statType]?.displayProperties.name ?? "";
+  }
+}
+
 export default function StatBars({ stats, destinyItem }: StatBarsProps) {
   const statUiData = getStatsUiData(destinyItem);
   const labels = statUiData.map((UiData) => {
-    const name = DestinyStatDefinition[UiData.statType]?.displayProperties.name ?? "";
+    const name = getName(UiData.statType);
 
     return (
       <View
@@ -217,15 +252,17 @@ export default function StatBars({ stats, destinyItem }: StatBarsProps) {
 
     switch (UiData.type) {
       case "BAR":
-        return <BarUi key={UiData.statType} value={value} />;
+        return <BarUi key={UiData.statType} value={value} statType={UiData.statType} />;
       case "NUMERAL":
         return <NumericUi key={UiData.statType} value={value} />;
       case "RECOIL":
         return <RecoilStat key={UiData.statType} value={value} />;
       case "SEPARATOR":
         return <View key={UiData.statType} style={{ height: STAT_GAP }} />;
+      case "ARMOR-TOTAL":
+        return <ArmorTotal itemStats={stats} />;
       default:
-        return <BarUi key={UiData.statType} value={value} />;
+        return <BarUi key={UiData.statType} value={value} statType={UiData.statType} />;
     }
   });
 
