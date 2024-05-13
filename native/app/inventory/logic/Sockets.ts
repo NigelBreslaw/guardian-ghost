@@ -242,7 +242,7 @@ function expandAndCreateSockets(itemHash: number): Sockets | null {
   for (const socketCategory of minifiedSocketCategories) {
     const socketCategoryHash = SocketCategoryHash[socketCategory.h] ?? null;
     const socketIndexes = SocketIndexes[socketCategory.i];
-    if (!socketIndexes || !socketIndexes) {
+    if (!socketIndexes) {
       console.log("No socketIndexes!! return null");
       return null;
     }
