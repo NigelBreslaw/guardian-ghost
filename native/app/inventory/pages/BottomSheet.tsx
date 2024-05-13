@@ -244,6 +244,7 @@ export default function BottomSheet() {
       <ScrollView
         style={[styles.scroll, { marginBottom: insets.bottom }]}
         bounces={false}
+        overScrollMode="never"
         onScroll={(e) => setAtTop(e.nativeEvent.contentOffset.y === 0)}
       >
         <Pressable>
