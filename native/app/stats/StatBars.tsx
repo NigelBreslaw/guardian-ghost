@@ -24,9 +24,7 @@ const DefaultArmorStats: UiStatData[] = [
   { statType: StatType.ArmorTotal, type: "ARMOR-TOTAL" },
 ];
 
-const DefaultWeaponStats: UiStatData[] = [
-  { statType: StatType.Impact, type: "BAR" },
-  { statType: StatType.Range, type: "BAR" },
+const SharedWeaponStats: UiStatData[] = [
   { statType: StatType.Stability, type: "BAR" },
   { statType: StatType.Handling, type: "BAR" },
   { statType: StatType.ReloadSpeed, type: "BAR" },
@@ -37,6 +35,12 @@ const DefaultWeaponStats: UiStatData[] = [
   { statType: StatType.RoundsPerMinute, type: "NUMERAL" },
   { statType: StatType.Magazine, type: "NUMERAL" },
   { statType: StatType.RecoilDirection, type: "RECOIL" },
+];
+
+const DefaultWeaponStats: UiStatData[] = [
+  { statType: StatType.Impact, type: "BAR" },
+  { statType: StatType.Range, type: "BAR" },
+  ...SharedWeaponStats,
 ];
 
 const BowWeaponStats: UiStatData[] = [
@@ -56,16 +60,7 @@ const BowWeaponStats: UiStatData[] = [
 const ExplosiveWeaponStats: UiStatData[] = [
   { statType: StatType.BlastRadius, type: "BAR" },
   { statType: StatType.Velocity, type: "BAR" },
-  { statType: StatType.Stability, type: "BAR" },
-  { statType: StatType.Handling, type: "BAR" },
-  { statType: StatType.ReloadSpeed, type: "BAR" },
-  { statType: StatType.AimAssistance, type: "BAR" },
-  { statType: StatType.Zoom, type: "BAR" },
-  { statType: StatType.AirborneEffectiveness, type: "BAR" },
-  { statType: StatType.Separator, type: "SEPARATOR" },
-  { statType: StatType.RoundsPerMinute, type: "NUMERAL" },
-  { statType: StatType.Magazine, type: "NUMERAL" },
-  { statType: StatType.RecoilDirection, type: "RECOIL" },
+  ...SharedWeaponStats,
 ];
 
 const FusionWeaponStats: UiStatData[] = [
