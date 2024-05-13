@@ -35,7 +35,7 @@ export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = f
       })
       .catch((error) => {
         console.error("getRefreshToken", error);
-        reject(error);
+        reject(new Error("Failed to get authToken"));
       });
   });
 }

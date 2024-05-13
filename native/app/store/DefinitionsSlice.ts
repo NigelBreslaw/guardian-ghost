@@ -329,7 +329,7 @@ function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON
 
     openRequest.onerror = () => {
       console.error("setWebStore Error", errorMessage, openRequest.error);
-      reject(errorMessage);
+      reject(new Error(`setWebStore Error ${errorMessage}`));
     };
 
     openRequest.onsuccess = () => {
@@ -421,7 +421,7 @@ function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): 
 
     openRequest.onerror = () => {
       console.error("setWebStore Error", errorMessage, openRequest.error);
-      reject(errorMessage);
+      reject(new Error(`setWebStore Error ${errorMessage}`));
     };
 
     openRequest.onsuccess = () => {
@@ -436,7 +436,7 @@ function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): 
       };
       request.onerror = () => {
         console.error("Error", request.error);
-        reject(errorMessage);
+        reject(new Error(`setWebStore Error ${errorMessage}`));
       };
     };
   });
@@ -563,7 +563,7 @@ async function getBungieDefinition(definitionUrl: string): Promise<JSON> {
       })
       .catch((error) => {
         console.error("getBungieDefinition", definitionUrl, error);
-        reject(error);
+        reject(new Error(`getBungieDefinition Error ${error}`));
       });
   });
 }

@@ -44,12 +44,12 @@ export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
           return resolve(validatedToken);
         } catch (error) {
           console.error("went wrong here");
-          return reject(error);
+          return reject(new Error(`getRefreshToken Error ${error}`));
         }
       })
       .catch((error) => {
         console.error("getRefreshToken", error);
-        reject(error);
+        reject(new Error(`getRefreshToken Error ${error}`));
       });
   });
 }
@@ -81,7 +81,7 @@ export function getAccessToken(token: AuthToken): Promise<JSON> {
         return resolve(responseJson);
       })
       .catch((error) => {
-        reject(error);
+        reject(new Error(`getAccessToken Error ${error}`));
       });
   });
 }

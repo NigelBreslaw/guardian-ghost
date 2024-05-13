@@ -34,7 +34,7 @@ export function getCustomItemDefinition(language = "en"): Promise<JSON> {
       })
       .catch((error) => {
         console.error("Failed to download custom Item Definition", error);
-        reject(error);
+        reject(new Error(`Failed to download custom Item Definition ${error}`));
       });
   });
 }
@@ -59,7 +59,7 @@ export function getCustomManifest(): Promise<JSON> {
       })
       .catch((error) => {
         console.error("Failed to download custom manifest", error);
-        reject(error);
+        reject(new Error("Failed to download custom manifest", error));
       });
   });
 }

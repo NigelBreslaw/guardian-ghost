@@ -509,7 +509,7 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
         })
         .catch((error) => {
           console.error("moveItem()", error);
-          reject(error);
+          reject(new Error("moveItem()", error));
         });
     });
   }
@@ -561,7 +561,7 @@ async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem
         })
         .catch((error) => {
           console.error("equipItem()", error);
-          reject(error);
+          reject(new Error("equipItem()", error));
         });
     });
   }
@@ -616,7 +616,7 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
         })
         .catch((error) => {
           console.error("PullFromPostmaster()", error);
-          reject(error);
+          reject(new Error("PullFromPostmaster()", error));
         });
     });
   }
