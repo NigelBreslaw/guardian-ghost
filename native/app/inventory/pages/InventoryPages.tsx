@@ -5,7 +5,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "expo-image";
 import { StyleSheet, View } from "react-native";
-import BottomSheet from "@/app/inventory/pages/BottomSheet.tsx";
+import BottomSheet from "@/app/inventory/pages/bottomSheet/BottomSheet";
 
 const WEAPONS_TAB_ICON = require("../../../images/weapons_tab.webp");
 const ARMOR_TAB_ICON = require("../../../images/armor_tab.webp");

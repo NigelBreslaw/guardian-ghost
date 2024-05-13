@@ -1,65 +1,15 @@
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
-import { ItemTypeDisplayName, itemsDefinition } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { TierTypeToColor } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView, Pressable } from "react-native";
-
 import RBSheet from "react-native-raw-bottom-sheet";
-import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import Stats from "@/app/stats/Stats";
-import { LARGE_CRAFTED, MASTERWORK_TRIM } from "@/app/inventory/logic/Constants.ts";
+import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
-
-type ViewData = {
-  itemInstanceId: string | undefined;
-  itemTypeDisplayName: string;
-  screenshot: string;
-  secondaryIcon: string;
-  name: string;
-};
-
-function buildViewData(destinyItem: DestinyItem): ViewData {
-  const itemDef = itemsDefinition[destinyItem.itemHash];
-  let screenshot = "";
-  let secondaryIcon = "";
-
-  if (destinyItem.overrideStyleItemHash !== undefined) {
-    const overrideDef = itemsDefinition[destinyItem.overrideStyleItemHash];
-    if (overrideDef) {
-      const s = overrideDef?.s;
-      const si = overrideDef?.si;
-      if (s) {
-        screenshot = `${screenshotUrl}${s}`;
-      }
-      if (si) {
-        secondaryIcon = `${iconUrl}${si}`;
-      }
-    }
-  }
-  if (screenshot === "" && itemDef?.s) {
-    screenshot = `${screenshotUrl}${itemDef?.s}`;
-  }
-  if (secondaryIcon === "" && itemDef?.si) {
-    secondaryIcon = `${iconUrl}${itemDef?.si}`;
-  }
-  const name = itemDef?.n;
-  const itd = itemDef?.itd;
-
-  const viewData: ViewData = {
-    itemInstanceId: destinyItem.itemInstanceId,
-    screenshot: screenshot,
-    secondaryIcon: secondaryIcon,
-    name: name ? name.toLocaleUpperCase() : "",
-    itemTypeDisplayName: itd ? ItemTypeDisplayName[itd]?.toLocaleUpperCase() ?? "" : "",
-  };
-  return viewData;
-}
+import { buildViewData, type ViewData } from "@/app/inventory/pages/bottomSheet/Logic.ts";
 
 const { width } = Dimensions.get("window");
 
@@ -195,8 +145,10 @@ export default function BottomSheet() {
   const [viewData, setViewData] = useState<ViewData | null>(null);
 
   const quantity = useGGStore((state) => state.quantityToTransfer);
-
   const selectedItem = useGGStore((state) => state.selectedItem);
+
+  // This is used to control if the bottom sheet should be panned or scrolled.
+  const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
     if (selectedItem) {
@@ -219,8 +171,6 @@ export default function BottomSheet() {
       startTransfer(targetId, destinyItem, transferQuantity, equipOnTarget);
     }
   }
-
-  const [atTop, setAtTop] = useState(true);
 
   if (!destinyItem) {
     return null;
@@ -312,18 +262,20 @@ export default function BottomSheet() {
                 )}
 
                 <View style={styles.itemDetails}>
-                  <Text style={styles.nameText}>{viewData.name}</Text>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: "white",
-                      opacity: 0.6,
-                      includeFontPadding: false,
-                      transform: [{ translateY: -4 }],
-                    }}
-                  >
-                    {viewData.itemTypeDisplayName}
-                  </Text>
+                  <View>
+                    <Text style={styles.nameText}>{viewData.name}</Text>
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: "white",
+                        opacity: 0.6,
+                        includeFontPadding: false,
+                        transform: [{ translateY: -4 }],
+                      }}
+                    >
+                      {viewData.itemTypeDisplayName}
+                    </Text>
+                  </View>
                 </View>
                 <View style={{ flex: 15 }} />
                 <View style={styles.screenshotFooter} />
