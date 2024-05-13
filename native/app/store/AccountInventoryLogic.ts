@@ -348,7 +348,7 @@ function calcTotalVaultItems(): number {
   return total;
 }
 
-function returnDestinyIconData(item: DestinyItem): DestinyIconData {
+export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const damageTypeIconUri = getDamageTypeIconUri(item.instance.damageType);
   const primaryStat = item.instance.primaryStat;
   const borderColor = returnBorderColor(item);
@@ -376,7 +376,7 @@ function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   return iconData;
 }
 
-function returnBorderColor(item: DestinyItem): string {
+export function returnBorderColor(item: DestinyItem): string {
   if (item.instance.deepSightResonance) {
     return "#FF603E";
   }

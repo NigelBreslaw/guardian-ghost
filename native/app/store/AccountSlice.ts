@@ -347,7 +347,7 @@ function processCharacterInventory(
 function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
   const itemInstance: ItemInstance = {
     icon: "",
-
+    screenshot: "",
     damageType: DamageType.None,
     deepSightResonance: false,
     masterwork: false,
@@ -361,9 +361,11 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
     if (overrideDef) {
       itemInstance.icon = overrideDef.icon;
+      itemInstance.screenshot = overrideDef.screenshot;
     }
   } else {
     itemInstance.icon = definitionItem.icon;
+    itemInstance.screenshot = definitionItem.screenshot;
   }
 
   if (baseItem.versionNumber !== undefined) {

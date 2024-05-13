@@ -51,6 +51,7 @@ export type BungieUser = Output<typeof BungieUserSchema>;
 
 export type ItemInstance = {
   icon: string;
+  screenshot: string;
   calculatedWaterMark?: string;
   crafted?: boolean;
   damageType?: DamageType;
