@@ -1,7 +1,7 @@
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
-import { TierTypeToColor } from "@/app/utilities/UISize.ts";
+import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView, Pressable } from "react-native";
@@ -9,6 +9,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import Stats from "@/app/stats/Stats";
 import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import IconCell from "@/app/inventory/pages/IconCell.tsx";
 
 const { width } = Dimensions.get("window");
 
@@ -89,9 +90,36 @@ const styles = StyleSheet.create({
   },
   itemDetails: {
     position: "absolute",
-    top: 100 * scalar,
-    left: 50 * scalar,
-    flex: 1,
+    top: 70 * scalar,
+    left: 33 * scalar,
+    flexDirection: "row",
+    gap: 15 * scalar,
+    height: 80 * scalar,
+  },
+  icon: {
+    width: 80 * scalar,
+    height: 80 * scalar,
+    transformOrigin: "top left",
+    transform: [{ scale: (80 / ICON_SIZE) * scalar }],
+  },
+  nameText: {
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: "Helvetica",
+    includeFontPadding: false,
+    alignSelf: "center",
+    lineHeight: 21,
+    letterSpacing: -0.5,
+    textTransform: "uppercase",
+  },
+  itemTypeText: {
+    fontSize: 13,
+    color: "white",
+    opacity: 0.6,
+    includeFontPadding: false,
+    transform: [{ translateY: -4 }],
+    textTransform: "uppercase",
   },
   masterworkContainer: {
     position: "absolute",
@@ -125,13 +153,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     includeFontPadding: false,
     transform: [{ translateY: -4 }],
-  },
-  nameText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-    fontFamily: "Helvetica",
-    includeFontPadding: false,
   },
 });
 
@@ -182,7 +203,7 @@ export default function BottomSheet() {
         useGGStore.getState().setSelectedItem(null);
         setAtTop(true);
       }}
-      height={680}
+      height={720}
       customStyles={{
         wrapper: {
           backgroundColor: "transparent",
@@ -222,7 +243,7 @@ export default function BottomSheet() {
                       height: (SCREEN_WIDTH / 1920) * 1080,
                     },
                   ]}
-                  source={{ uri: destinyItem.def.screenshot }}
+                  source={{ uri: destinyItem.instance.screenshot }}
                 />
 
                 {destinyItem.instance.masterwork && (
@@ -259,19 +280,13 @@ export default function BottomSheet() {
                 )}
 
                 <View style={styles.itemDetails}>
+                  <View style={styles.icon}>
+                    <IconCell destinyItem={destinyItem} />
+                  </View>
+
                   <View>
                     <Text style={styles.nameText}>{destinyItem.def.name}</Text>
-                    <Text
-                      style={{
-                        fontSize: 13,
-                        color: "white",
-                        opacity: 0.6,
-                        includeFontPadding: false,
-                        transform: [{ translateY: -4 }],
-                      }}
-                    >
-                      {destinyItem.def.itemTypeDisplayName}
-                    </Text>
+                    <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
                   </View>
                 </View>
                 <View style={{ flex: 15 }} />
