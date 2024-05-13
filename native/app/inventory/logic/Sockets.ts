@@ -294,17 +294,14 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     console.error("No liveSockets", destinyItem);
     return null;
   }
-
-  let index = 0;
-  for (const s of liveSockets.sockets) {
+  liveSockets.sockets.forEach((socket, index) => {
     const se = sockets.socketEntries[index];
     if (se) {
-      se.itemHash = s.plugHash ?? 0;
-      se.isVisible = s.isVisible;
-      se.isEnabled = s.isEnabled;
+      se.itemHash = socket.plugHash ?? 0;
+      se.isVisible = socket.isVisible;
+      se.isEnabled = socket.isEnabled;
     }
-    index++;
-  }
+  });
 }
 
 // Populate the sockets with real data. This can do things such as create the weapon perks columns
@@ -446,30 +443,12 @@ function makeSocketEntryColumn(
 
 function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: DestinyItem) {
   for (const category of sockets.socketCategories) {
-    let columnIndex = 0;
-
-    for (const column of category.topLevelSockets) {
+    category.topLevelSockets.forEach((column, columnIndex) => {
       for (const socketEntry of column) {
         socketEntry.def = getItemDefinition(socketEntry.itemHash);
-
-        /// Add the data needed for inserting a free plug
         socketEntry.socketTypeHash = category.socketMaps[columnIndex]?.socketTypeHash ?? null;
         socketEntry.socketIndex = category.socketMaps[columnIndex]?.socketIndex ?? null;
-
-        // socketEntry.itemInstanceId = destinyItem.itemInstanceId
-
-        // let characterIdArg = "";
-
-        // if (destinyItem.characterId === VAULT_CHARACTER_ID) {
-        //   characterIdArg = useGGStore.getState().ggCharacters[0]?.characterId ?? "";
-        // } else {
-        //   characterIdArg = destinyItem.characterId;
-        // }
-
-        // socketEntry.characterId = characterIdArg
       }
-
-      columnIndex++;
-    }
+    });
   }
 }
