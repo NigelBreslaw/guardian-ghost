@@ -513,7 +513,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
       }
 
       /// Stats
-      var stats = jsonData[key].stats;
+      const stats = jsonData[key].stats;
       if (stats) {
         const st: any = {};
 
@@ -530,7 +530,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
           st.s = s;
         }
 
-        var statGroupHash = stats.statGroupHash;
+        const statGroupHash = stats.statGroupHash;
         if (statGroupHash) {
           st.sgs = getRepeatStringIndexMap(RepeatStringsName.StatGroupHash, statGroupHash);
         }
@@ -540,7 +540,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         }
       }
 
-      var previewVendorHash = jsonData[key].preview?.previewVendorHash;
+      const previewVendorHash = jsonData[key].preview?.previewVendorHash;
 
       if (previewVendorHash) {
         const p = previewVendorHash;
@@ -596,7 +596,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
           if (perkHash) {
             jPerk.ph = perkHash;
           }
-          var perkVisibility = perk.perkVisibility;
+          const perkVisibility = perk.perkVisibility;
           if (perkVisibility) {
             jPerk.pv = perkVisibility;
           }
@@ -611,7 +611,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         }
       }
 
-      var plug = jsonData[key].plug;
+      const plug = jsonData[key].plug;
       if (plug) {
         const p: any = {};
 
@@ -629,7 +629,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
           getRepeatStringIndexMap(RepeatStringsName.PlugCategoryIdentifier, plugCategoryIdentifier);
         }
 
-        var uiPlugLabel = plug.uiPlugLabel;
+        const uiPlugLabel = plug.uiPlugLabel;
         if (uiPlugLabel) {
           p.pl = getRepeatStringIndexMap(RepeatStringsName.UiPlugLabel, uiPlugLabel);
         }
@@ -647,7 +647,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         }
       }
 
-      var traitIds = jsonData[key].traitIds;
+      const traitIds = jsonData[key].traitIds;
       if (traitIds) {
         const ti: any[] = [];
 
@@ -704,13 +704,13 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         for (const socketCategory of sockets.socketCategories) {
           const socCatEntry: any = {};
 
-          var h = socketCategory?.socketCategoryHash;
+          const h = socketCategory?.socketCategoryHash;
           if (h) {
             socCatEntry.h = getRepeatStringIndexMap(RepeatStringsName.SocketCategoryHash, h);
           }
 
           /// NOTE: In ishtar you want to Json.parse the string you get to turn it into a json array.
-          var socketIndexes = socketCategory?.socketIndexes;
+          const socketIndexes = socketCategory?.socketIndexes;
           if (socketIndexes) {
             socCatEntry.i = getRepeatStringIndexMap(RepeatStringsName.SocketIndexes, JSON.stringify(socketIndexes));
             scJson.push(socCatEntry);
@@ -752,7 +752,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         break;
       }
       case RepeatStringsName.SocketCategories:
-      case RepeatStringsName.SocketEntries:
+      case RepeatStringsName.SocketEntries: {
         const entries = repeatStrings[RepeatStringsName[enumName]];
         const si: JSON[][] = [];
         for (const entry of entries) {
@@ -760,6 +760,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
         }
         processedData.helpers[enumName] = si;
         break;
+      }
       default: {
         const stringArray = repeatStrings[RepeatStringsName[enumName]];
         processedData.helpers[enumName] = stringArray;
