@@ -22,7 +22,7 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
 }
 
 type InventoryPageProps = {
-  inventoryPages: InventoryPageEnums;
+  readonly inventoryPages: InventoryPageEnums;
 };
 
 const rootStyles = StyleSheet.create({

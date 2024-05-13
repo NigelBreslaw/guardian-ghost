@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 });
 
 type SeparatorUIProps = {
-  label: string;
-  info?: string;
+  readonly label: string;
+  readonly info?: string;
 };
 
 function SeparatorUI(props: SeparatorUIProps) {

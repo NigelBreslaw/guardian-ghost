@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 });
 
 type DestinyCellProps = {
-  data: DestinyIconData;
+  readonly data: DestinyIconData;
 };
 
 const ArtifactCell = (props: DestinyCellProps) => {

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 });
 
 type CharacterEquipmentProps = {
-  data: EquipSection;
+  readonly data: EquipSection;
 };
 
 function CharacterEquipmentUI(props: CharacterEquipmentProps) {

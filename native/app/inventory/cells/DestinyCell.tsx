@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 });
 
 type DestinyCellProps = {
-  data: DestinyIconData;
+  readonly data: DestinyIconData;
 };
 
 const DestinyCell = (props: DestinyCellProps) => {

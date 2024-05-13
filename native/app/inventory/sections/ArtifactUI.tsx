@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 type ArtifactProps = {
-  equipped: DestinyIconData | null;
+  readonly equipped: DestinyIconData | null;
 };
 
 function ArtifactUI(props: ArtifactProps) {

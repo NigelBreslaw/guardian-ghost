@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
 });
 
 type ReusablePlugsProps = {
-  socketCategory: SocketCategory;
-
-  item: DestinyItem;
+  readonly socketCategory: SocketCategory;
+  readonly item: DestinyItem;
 };
 
 export default function ReusablePlugs(props: ReusablePlugsProps) {

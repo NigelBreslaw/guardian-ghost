@@ -3,9 +3,9 @@ import { Image } from "expo-image";
 import { ENHANCED_TRAIT } from "@/app/inventory/logic/Constants.ts";
 
 type PerkCircleProps = {
-  icon: string | undefined;
-  isEnabled: boolean;
-  isEnhanced: boolean;
+  readonly icon: string | undefined;
+  readonly isEnabled: boolean;
+  readonly isEnhanced: boolean;
 };
 
 export default function PerkCircle(props: PerkCircleProps) {

@@ -17,7 +17,7 @@ const _styles = StyleSheet.create({
 });
 
 type StatsProps = {
-  destinyItem: DestinyItem;
+  readonly destinyItem: DestinyItem;
 };
 
 function Stats(props: StatsProps) {
