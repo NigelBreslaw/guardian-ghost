@@ -67,7 +67,6 @@ enum IconType {
   Plug = 1,
   TopLevel = 2,
 }
-// // TODO: Add values, I made these up
 // enum ModType {
 //   Normal = 1,
 //   Artifact = 2,
@@ -80,7 +79,6 @@ export type SocketEntry = {
   iconType: IconType; // default is.Plug
   // modType: ModType; // default is.Normal
 
-  // TODO: The itemHash should not be here. SocketEntries are a type of destinyItem and maybe should be
   // extending that type? But right now it's not been needed.
   itemHash: number;
   plugSources: number; // This is a bitmask
@@ -114,7 +112,6 @@ export type SocketEntry = {
   /// Used for perk objectives such as forge weapon materials and also kill counters <ObjectiveHash, Amount>
   // plugObjectiveValues: Record<string, number>;
 
-  // TODO: Is this mode needed? It was in Ishtar
   // mode: .SocketEntry
 
   def?: DestinyItemDefinition;
@@ -161,17 +158,11 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
   addSocketCategoryDefinition(sockets);
 
-  // TODO: The categories now have an 'index' property gained from the definition. Should this be used
-  // to sort the visual order the categories are displayed in?
-
   updateSocketEntriesWithLiveData(sockets, destinyItem);
 
   updateSocketCategoriesWithData(sockets, destinyItem);
 
   addDefinitionsToTopLevelSockets(sockets, destinyItem);
-
-  // TODO: addMasterworkInvestments() should be added. But it presumes addDefinitionsToTopLevelSockets has done
-  // it's job and right now some research is needed to see if it's really needed.
 
   // TODO: addDeepsightResonance() should all be added.
   const p2 = performance.now();
@@ -356,7 +347,6 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
 
             switch (plugSourceEnum) {
               case SocketPlugSources.InventorySourced: {
-                // TODO: Check if anything is using these. At one point shaders and mods did, but they seem to be in the api now.
                 break;
               }
               case SocketPlugSources.ReusablePlugItems: {
@@ -466,7 +456,6 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
         socketEntry.socketTypeHash = category.socketMaps[columnIndex]?.socketTypeHash ?? null;
         socketEntry.socketIndex = category.socketMaps[columnIndex]?.socketIndex ?? null;
 
-        // TODO: add back when this extends destinyItem?
         // socketEntry.itemInstanceId = destinyItem.itemInstanceId
 
         // let characterIdArg = "";
@@ -476,7 +465,6 @@ function addDefinitionsToTopLevelSockets(sockets: Sockets, _destinyItem: Destiny
         // } else {
         //   characterIdArg = destinyItem.characterId;
         // }
-        // TODO: add back when this extends destinyItem?
 
         // socketEntry.characterId = characterIdArg
       }

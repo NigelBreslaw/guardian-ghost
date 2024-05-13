@@ -33,7 +33,6 @@ export type BungieManifest = Output<typeof bungieManifestSchema>;
 // Authenticated API Responses
 // -------------------------------
 
-// TODO: Should this also have 'Response'?
 export const bungieResponseSchema = object({
   ErrorCode: number(),
   ErrorStatus: string(),

@@ -151,7 +151,6 @@ export const StatGroupSchema = record(
         ),
       }),
     ),
-    // TODO: Fill in whatever this unknown is?
     overrides: unknown(),
     hash: number(),
     index: number(),
@@ -163,13 +162,10 @@ export const StatGroupSchema = record(
 export const MiniStatGroupSchema = record(
   string(),
   object({
-    // maximumValue: number(),
-    // uiPosition: number(),
     scaledStats: array(
       object({
         statHash: number(),
         maximumValue: number(),
-        // displayAsNumeric: boolean(),
         displayInterpolation: array(
           object({
             value: number(),
@@ -178,12 +174,7 @@ export const MiniStatGroupSchema = record(
         ),
       }),
     ),
-    // TODO: Fill in whatever this unknown is?
-    // overrides: unknown(),
-    // hash: number(),
-    // index: number(),
     redacted: boolean(),
-    // blacklisted: boolean(),
   }),
 );
 
