@@ -20,6 +20,7 @@ const _KINETIC_MINI_ICON_URI = require("../../../images/kinetic_mini.webp");
 const STASIS_MINI_ICON_URI = require("../../../images/stasis_mini.webp");
 const STRAND_MINI_ICON_URI = require("../../../images/strand_mini.webp");
 export const MASTERWORK_TRIM = require("../../../images/details-masterwork-trim.png");
+export const LARGE_CRAFTED = require("../../../images/large-crafted.webp");
 
 export function getDamageTypeIconUri(damageType: DamageType | undefined): number | null {
   switch (damageType) {

@@ -11,7 +11,7 @@ import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView, Pr
 import RBSheet from "react-native-raw-bottom-sheet";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import Stats from "@/app/stats/Stats";
-import { MASTERWORK_TRIM } from "@/app/inventory/logic/Constants.ts";
+import { LARGE_CRAFTED, MASTERWORK_TRIM } from "@/app/inventory/logic/Constants.ts";
 
 const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
@@ -272,13 +272,30 @@ export default function BottomSheet() {
                       transform: [{ scale: SCREEN_WIDTH / 1250 }],
                     }}
                     source={MASTERWORK_TRIM}
+                    cachePolicy={"none"}
                   />
                 )}
                 {destinyItem.instance.masterwork && (
                   <View style={styles.masterworkContainer}>
-                    <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} />
-                    <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} />
+                    <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
+                    <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
                   </View>
+                )}
+                {destinyItem.instance.crafted && (
+                  <Image
+                    style={{
+                      opacity: 0.8,
+                      width: 400,
+                      height: 292,
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      transformOrigin: "bottom left",
+                      transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
+                    }}
+                    source={LARGE_CRAFTED}
+                    cachePolicy="none"
+                  />
                 )}
                 <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
                 <View style={styles.tierHeaderContainer}>
