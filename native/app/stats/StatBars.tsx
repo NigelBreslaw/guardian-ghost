@@ -261,7 +261,7 @@ export default function StatBars({ stats, destinyItem }: StatBarsProps) {
       case "SEPARATOR":
         return <View key={UiData.statType} style={{ height: STAT_GAP }} />;
       case "ARMOR-TOTAL":
-        return <ArmorTotal itemStats={stats} />;
+        return <ArmorTotal key={UiData.statType} itemStats={stats} />;
       default:
         return <BarUi key={UiData.statType} value={value} statType={UiData.statType} />;
     }
