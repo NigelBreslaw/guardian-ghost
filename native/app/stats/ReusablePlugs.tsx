@@ -39,6 +39,11 @@ export default function ReusablePlugs(props: ReusablePlugsProps) {
           <Text style={styles.text}>{`${props.socketCategory.name}`}</Text>
           <View style={styles.container}>
             {props.socketCategory.topLevelSockets.map((column, index) => {
+              // Don't draw columns with no icons
+              const valid = column.some((e) => e.def?.icon);
+              if (!valid) {
+                return null;
+              }
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 <View key={index} style={styles.column}>
