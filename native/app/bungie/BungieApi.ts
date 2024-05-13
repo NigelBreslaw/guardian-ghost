@@ -5,6 +5,8 @@ import { apiKey } from "@/constants/env.ts";
 import { isoTimestamp, safeParse, string } from "valibot";
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
+export const BUNGIE_MANIFEST_URL = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+export const CUSTOM_MANIFEST_URL = "https://app.guardianghost.com/json/manifest.json";
 
 export async function getFullProfile() {
   useGGStore.getState().setLastRefreshTime();
@@ -97,13 +99,14 @@ async function getProfile(): Promise<JSON> {
   });
 }
 
-export async function getBungieManifest(): Promise<JSON> {
+export function getJsonBlob(jsonUrl: string): Promise<JSON> {
   const requestOptions: RequestInit = {
+    cache: "no-store",
     method: "GET",
   };
 
   return new Promise((resolve, reject) => {
-    fetch("https://www.bungie.net/Platform/Destiny2/Manifest/", requestOptions)
+    fetch(jsonUrl, requestOptions)
       .then((response) => {
         if (!response.ok) {
           console.error(response);
@@ -115,8 +118,8 @@ export async function getBungieManifest(): Promise<JSON> {
         resolve(data);
       })
       .catch((error) => {
-        console.error("getManifest", error);
-        reject(new Error("getManifest", error));
+        console.error("Failed to download getJsonBlog", error);
+        reject(new Error("Failed to download getJsonBlog", error));
       });
   });
 }

@@ -3,12 +3,11 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useRef } from "react";
-import { getBungieManifest, getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
 import { useWindowDimensions } from "react-native";
 import { enableFreeze } from "react-native-screens";
-import { getCustomManifest } from "@/app/utilities/Helpers.ts";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
@@ -25,8 +24,8 @@ enableFreeze(true);
 
 async function init() {
   try {
-    const customManifest = getCustomManifest();
-    const bungieManifest = getBungieManifest();
+    const customManifest = getJsonBlob(CUSTOM_MANIFEST_URL);
+    const bungieManifest = getJsonBlob(BUNGIE_MANIFEST_URL);
 
     const manifest = await Promise.all([customManifest, bungieManifest]);
     const parsedManifest = parse(object({ version: string() }), manifest[0]);
