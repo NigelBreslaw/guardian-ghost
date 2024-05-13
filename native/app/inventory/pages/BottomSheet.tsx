@@ -114,6 +114,14 @@ const styles = StyleSheet.create({
     width: SCREENSHOT_HEIGHT / 2,
     opacity: 50 / 100,
   },
+  masterworkTrim: {
+    width: 1250,
+    height: 50,
+    position: "absolute",
+    top: -15 * scalar,
+    transformOrigin: [0, 0, 0],
+    transform: [{ scale: SCREEN_WIDTH / 1250 }],
+  },
   tierHeaderContainer: {
     position: "absolute",
     width: SCREEN_WIDTH,
@@ -138,7 +146,7 @@ const styles = StyleSheet.create({
   },
   masterworkContainer: {
     position: "absolute",
-    bottom: -20 * scalar,
+    bottom: -10 * scalar,
     alignSelf: "center",
     flexDirection: "row",
   },
@@ -269,20 +277,7 @@ export default function BottomSheet() {
                   ]}
                   source={{ uri: viewData.screenshot }}
                 />
-                {destinyItem.instance.masterwork && (
-                  <Image
-                    style={{
-                      opacity: 0.9,
-                      width: 1250,
-                      height: 50,
-                      position: "absolute",
-                      transformOrigin: [0, 0, 0],
-                      transform: [{ scale: SCREEN_WIDTH / 1250 }],
-                    }}
-                    source={MASTERWORK_TRIM}
-                    cachePolicy={"none"}
-                  />
-                )}
+
                 {destinyItem.instance.masterwork && (
                   <View style={styles.masterworkContainer}>
                     <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
@@ -312,6 +307,9 @@ export default function BottomSheet() {
                     style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]}
                   />
                 </View>
+                {destinyItem.instance.masterwork && (
+                  <Image style={styles.masterworkTrim} source={MASTERWORK_TRIM} cachePolicy={"none"} />
+                )}
 
                 <View style={styles.itemDetails}>
                   <Text style={styles.nameText}>{viewData.name}</Text>
