@@ -92,7 +92,7 @@ async function getProfile(): Promise<JSON> {
       })
       .catch((error) => {
         console.error("getProfile", error);
-        reject(error);
+        reject(new Error("getProfile", error));
       });
   });
 }
@@ -116,7 +116,7 @@ export async function getBungieManifest(): Promise<JSON> {
       })
       .catch((error) => {
         console.error("getManifest", error);
-        reject(error);
+        reject(new Error("getManifest", error));
       });
   });
 }
