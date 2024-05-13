@@ -71,30 +71,22 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
 }
 
 function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[][]): UISections[][] | null {
-  const newPages: UISections[][] = [];
-  let foundNewItems = false;
-  let index = 0;
-
-  for (const page of newPageData) {
+  const newPages: UISections[][] = newPageData.map((page, index) => {
     if (!deepEqual(previousPages[index], page)) {
-      newPages.push(page);
-      foundNewItems = true;
-    } else {
-      const emptySection: UISections[] = [];
-      newPages.push(emptySection);
+      return page;
     }
-    index++;
-  }
+    return [];
+  });
+
+  const foundNewItems = newPages.some((page) => page.length > 0);
 
   if (foundNewItems) {
     const updatedPages = create(previousPages, (draft) => {
-      let indexPages = 0;
-      for (const page of newPages) {
+      newPages.forEach((page, index) => {
         if (page.length > 0) {
-          draft[indexPages] = page;
+          draft[index] = page;
         }
-        indexPages++;
-      }
+      });
     });
     return updatedPages;
   }

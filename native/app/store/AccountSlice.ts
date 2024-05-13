@@ -206,13 +206,11 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
     set({ ggCharacters: newGGCharacters });
   } else {
     const ggCharacters = create(previousGGCharacters, (draft) => {
-      let index = 0;
-      for (const ggCharacter of draft) {
+      draft.forEach((ggCharacter, index) => {
         ggCharacter.emblemBackgroundPath = newGGCharacters[index]?.emblemBackgroundPath ?? "";
         ggCharacter.emblemPath = newGGCharacters[index]?.emblemPath ?? "";
         ggCharacter.secondarySpecial = newGGCharacters[index]?.secondarySpecial ?? "";
-        index++;
-      }
+      });
     });
     set({ ggCharacters });
   }
