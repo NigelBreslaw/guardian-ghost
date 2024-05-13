@@ -395,18 +395,16 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
         if (primaryStat) {
           itemInstance.primaryStat = primaryStat;
         }
-        if (definitionItem.itemType !== ItemType.Vehicle) {
-          if (definitionItem.itemType === ItemType.Weapon) {
-            const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
-            if (deepSightResonance) {
-              itemInstance.deepSightResonance = true;
-            }
-            itemInstance.damageType = itemComponent.damageType;
-            const crafted = bitmaskContains(baseItem.state, 8);
-            if (crafted) {
-              itemInstance.crafted = true;
-              itemInstance.masterwork = checkForCraftedMasterwork(destinyItem);
-            }
+        if (definitionItem.itemType === ItemType.Weapon) {
+          const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
+          if (deepSightResonance) {
+            itemInstance.deepSightResonance = true;
+          }
+          itemInstance.damageType = itemComponent.damageType;
+          const crafted = bitmaskContains(baseItem.state, 8);
+          if (crafted) {
+            itemInstance.crafted = true;
+            itemInstance.masterwork = checkForCraftedMasterwork(destinyItem);
           }
         }
       }
