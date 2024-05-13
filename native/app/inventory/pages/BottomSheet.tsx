@@ -12,6 +12,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import Stats from "@/app/stats/Stats";
 import { LARGE_CRAFTED, MASTERWORK_TRIM } from "@/app/inventory/logic/Constants.ts";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SCREENSHOT_MASTERWORK_OVERLAY = require("../../../images/masterwork-landscape-overlay.png");
 
@@ -61,6 +62,7 @@ function buildViewData(destinyItem: DestinyItem): ViewData {
 }
 
 const { width } = Dimensions.get("window");
+
 const SCREEN_WIDTH = Platform.OS === "web" ? Math.min(500, width) : width;
 const scalar = SCREEN_WIDTH / 1080;
 const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
 export default function BottomSheet() {
   // @ts-ignore
   const refRBSheet = useRef<RBSheet>(null);
+  const insets = useSafeAreaInsets();
 
   const destinyItem = useGGStore.getState().selectedItem!;
   const [viewData, setViewData] = useState<ViewData | null>(null);
@@ -238,7 +241,11 @@ export default function BottomSheet() {
         },
       }}
     >
-      <ScrollView style={styles.scroll} bounces={false} onScroll={(e) => setAtTop(e.nativeEvent.contentOffset.y === 0)}>
+      <ScrollView
+        style={[styles.scroll, { marginBottom: insets.bottom }]}
+        bounces={false}
+        onScroll={(e) => setAtTop(e.nativeEvent.contentOffset.y === 0)}
+      >
         <Pressable>
           {viewData && (
             <View style={{ height: "100%" }}>
