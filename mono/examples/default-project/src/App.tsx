@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import viteLogo from "/vite.svg";
+import viteLogo from "./vite.svg";
 import "./App.css";
 import solidLogo from "./assets/solid.svg";
 
