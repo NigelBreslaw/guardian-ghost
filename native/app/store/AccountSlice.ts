@@ -177,7 +177,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     if (character) {
       const itemDefinition = itemsDefinition[itemHash];
       if (itemDefinition?.ss) {
-        character.secondarySpecial = `${iconUrl}/${itemDefinition.ss}`;
+        character.secondarySpecial = `${iconUrl}${itemDefinition.ss}`;
       }
     }
   },
@@ -461,7 +461,7 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
   const iconIndex = itemDef?.i;
   if (iconIndex) {
     const icon = Icons[iconIndex];
-    definitionItem.icon = `${iconUrl}/${icon}`;
+    definitionItem.icon = `${iconUrl}${icon}`;
   }
 
   const waterMarkIndex = itemDef.iw;
