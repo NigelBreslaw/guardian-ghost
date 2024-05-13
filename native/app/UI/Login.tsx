@@ -146,7 +146,7 @@ function LocalWebLogin() {
   );
 }
 
-export default function Login({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
+export default function Login({ navigation }: { readonly navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const colorScheme = useColorScheme();
   const authenticated = useGGStore((state) => state.authenticated);
   const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);

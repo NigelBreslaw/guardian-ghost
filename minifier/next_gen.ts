@@ -107,7 +107,6 @@ function stripImageUrl(url: string): string {
   return shortUrl;
 }
 
-// TODO: Update to retry a couple of times instead of failing right away
 async function downloadJsonFile(url: string): Promise<any> {
   try {
     const response = await fetch(url);

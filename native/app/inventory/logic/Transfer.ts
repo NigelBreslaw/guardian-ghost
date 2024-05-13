@@ -583,7 +583,6 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
     membershipType,
     itemReferenceHash: transferItem.destinyItem.itemHash,
     itemId: transferItem.destinyItem?.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
-    // TODO: If the quantity is larger than can be moved should there be some logic to set it to the max possible?
     stackSize: transferItem.destinyItem.quantity,
     characterId: transferItem.destinyItem.characterId,
   };
