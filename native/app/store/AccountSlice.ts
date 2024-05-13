@@ -310,9 +310,7 @@ function processCharacterEquipment(
                 get().setSecondarySpecial(character, item.itemHash);
               }
             }
-          } catch {
-            // console.error("Failed to add item", e);
-          }
+          } catch {}
         }
       }
     }
@@ -337,9 +335,7 @@ function processCharacterInventory(
           try {
             const destinyItem = addDefinition(item, characterAsId);
             characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
-          } catch {
-            // console.error("Failed to add item", e);
-          }
+          } catch {}
         }
       }
     }

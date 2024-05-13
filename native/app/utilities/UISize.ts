@@ -38,7 +38,7 @@ enum TierTintColor {
   Rare = "#497190",
   Common = "#275B32",
   Uncommon = "#BCB5AC",
-  Unknown = "#BCB5AC",
+  Unknown = "transparent",
 }
 
 export const TierTypeToColor = {
