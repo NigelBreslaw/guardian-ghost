@@ -60,25 +60,27 @@ export type ItemInstance = {
 };
 
 export type DestinyItemDefinition = {
-  icon: string;
   destinyClass: DestinyClass;
+  displayVersionWatermarkIcons: string[];
   doesPostmasterPullHaveSideEffects: boolean;
   equippable: boolean;
+  icon: string;
+  investmentStats: StatsCollection[];
   itemSubType: ItemSubType;
   itemType: ItemType;
+  itemTypeDisplayName: string;
   maxStackSize: number;
-  nonTransferrable: boolean;
-  tierType: TierType;
-  recoveryBucketHash: number;
-  stackUniqueLabel?: string;
-  plugCategoryIdentifier: string;
-  investmentStats: StatsCollection[];
-  stats: StatsCollection[];
-  displayVersionWatermarkIcons: string[];
-  watermark: string;
-  statGroupHash: number;
-  traitIds: string[];
   name: string;
+  nonTransferrable: boolean;
+  plugCategoryIdentifier: string;
+  recoveryBucketHash: number;
+  screenshot: string;
+  stackUniqueLabel?: string;
+  statGroupHash: number;
+  stats: StatsCollection[];
+  tierType: TierType;
+  traitIds: string[];
+  watermark: string;
 };
 
 export type DestinyItem = DestinyItemBase & {

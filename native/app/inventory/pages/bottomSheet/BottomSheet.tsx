@@ -9,7 +9,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import Stats from "@/app/stats/Stats";
 import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { buildViewData, type ViewData } from "@/app/inventory/pages/bottomSheet/Logic.ts";
 
 const { width } = Dimensions.get("window");
 
@@ -142,7 +141,6 @@ export default function BottomSheet() {
   const insets = useSafeAreaInsets();
 
   const destinyItem = useGGStore.getState().selectedItem!;
-  const [viewData, setViewData] = useState<ViewData | null>(null);
 
   const quantity = useGGStore((state) => state.quantityToTransfer);
   const selectedItem = useGGStore((state) => state.selectedItem);
@@ -161,7 +159,6 @@ export default function BottomSheet() {
       const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
       useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
       refRBSheet.current.open();
-      setViewData(buildViewData(destinyItem));
     }
   }, [destinyItem]);
 
@@ -194,7 +191,7 @@ export default function BottomSheet() {
           backgroundColor: "white",
         },
         container: {
-          backgroundColor: "#111116",
+          backgroundColor: "#17101F",
           width: Platform.OS === "web" ? 500 : "100%",
         },
       }}
@@ -206,7 +203,7 @@ export default function BottomSheet() {
         onScroll={(e) => setAtTop(e.nativeEvent.contentOffset.y === 0)}
       >
         <Pressable>
-          {viewData && (
+          {destinyItem && (
             <View style={{ height: "100%" }}>
               <View
                 style={{
@@ -225,7 +222,7 @@ export default function BottomSheet() {
                       height: (SCREEN_WIDTH / 1920) * 1080,
                     },
                   ]}
-                  source={{ uri: viewData.screenshot }}
+                  source={{ uri: destinyItem.def.screenshot }}
                 />
 
                 {destinyItem.instance.masterwork && (
@@ -250,7 +247,7 @@ export default function BottomSheet() {
                     cachePolicy="none"
                   />
                 )}
-                <Image transition={200} style={styles.secondaryIcon} source={{ uri: viewData.secondaryIcon }} />
+                {/* <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.secondaryIcon }} /> */}
                 <View style={styles.tierHeaderContainer}>
                   <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
                   <View
@@ -263,7 +260,7 @@ export default function BottomSheet() {
 
                 <View style={styles.itemDetails}>
                   <View>
-                    <Text style={styles.nameText}>{viewData.name}</Text>
+                    <Text style={styles.nameText}>{destinyItem.def.name}</Text>
                     <Text
                       style={{
                         fontSize: 13,
@@ -273,7 +270,7 @@ export default function BottomSheet() {
                         transform: [{ translateY: -4 }],
                       }}
                     >
-                      {viewData.itemTypeDisplayName}
+                      {destinyItem.def.itemTypeDisplayName}
                     </Text>
                   </View>
                 </View>

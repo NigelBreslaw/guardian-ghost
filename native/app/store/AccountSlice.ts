@@ -26,6 +26,7 @@ import {
   StatGroupHash,
   StatHash,
   TraitIds,
+  ItemTypeDisplayName,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -47,7 +48,7 @@ import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
 import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
-import { iconUrl } from "@/app/core/ApiResponse.ts";
+import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
@@ -430,24 +431,27 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
   }
 
   const definitionItem: DestinyItemDefinition = {
-    recoveryBucketHash: 0,
-    itemType: ItemType.None,
-    itemSubType: ItemSubType.None,
-    tierType: TierType.Unknown,
     destinyClass: DestinyClass.Unknown,
-    doesPostmasterPullHaveSideEffects: false,
-    maxStackSize: 1,
-    nonTransferrable: false,
-    equippable: false,
-    investmentStats: [],
-    stats: [],
-    plugCategoryIdentifier: "",
-    icon: "",
     displayVersionWatermarkIcons: [],
-    watermark: "",
-    statGroupHash: 0,
-    traitIds: [],
+    doesPostmasterPullHaveSideEffects: false,
+    equippable: false,
+    icon: "",
+    investmentStats: [],
+    itemSubType: ItemSubType.None,
+    itemType: ItemType.None,
+    itemTypeDisplayName: "",
+    maxStackSize: 1,
     name: "",
+    nonTransferrable: false,
+    plugCategoryIdentifier: "",
+    recoveryBucketHash: -1,
+    screenshot: "",
+    stackUniqueLabel: "",
+    statGroupHash: -1,
+    stats: [],
+    tierType: TierType.Unknown,
+    traitIds: [],
+    watermark: "",
   };
 
   const itemDef = itemsDefinition[itemHash];
@@ -456,15 +460,21 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
     return definitionItem;
   }
 
-  const iconIndex = itemDef?.i;
-  if (iconIndex) {
-    const icon = Icons[iconIndex];
+  if (itemDef?.i) {
+    const icon = Icons[itemDef.i];
     definitionItem.icon = `${iconUrl}${icon}`;
   }
 
-  const waterMarkIndex = itemDef.iw;
-  if (waterMarkIndex) {
-    const waterMark = IconWaterMarks[waterMarkIndex];
+  if (itemDef?.itd) {
+    definitionItem.itemTypeDisplayName = ItemTypeDisplayName[itemDef.itd]!;
+  }
+
+  if (itemDef?.s) {
+    definitionItem.screenshot = `${screenshotUrl}${itemDef.s}`;
+  }
+
+  if (itemDef?.iw) {
+    const waterMark = IconWaterMarks[itemDef.iw];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
   }
 
