@@ -101,7 +101,6 @@ async function getProfile(): Promise<JSON> {
 
 export function getJsonBlob(jsonUrl: string): Promise<JSON> {
   const requestOptions: RequestInit = {
-    cache: "no-store",
     method: "GET",
   };
 
