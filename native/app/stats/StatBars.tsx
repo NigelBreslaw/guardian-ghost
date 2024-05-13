@@ -125,8 +125,9 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
+
 type ArmorTotalUiProps = {
-  itemStats: ItemStats;
+  readonly itemStats: ItemStats;
 };
 
 function ArmorTotal(props: ArmorTotalUiProps) {
@@ -146,7 +147,7 @@ function ArmorTotal(props: ArmorTotalUiProps) {
 }
 
 type NumericUiProps = {
-  value: number;
+  readonly value: number;
 };
 
 function NumericUi(props: NumericUiProps) {
@@ -158,8 +159,8 @@ function NumericUi(props: NumericUiProps) {
 }
 
 type BarUiProps = {
-  statType: StatType;
-  value: number;
+  readonly statType: StatType;
+  readonly value: number;
 };
 
 function BarUi(props: BarUiProps) {
@@ -210,8 +211,8 @@ function getStatsUiData(destinyItem: DestinyItem): UiStatData[] {
 }
 
 type StatBarsProps = {
-  stats: ItemStats;
-  destinyItem: DestinyItem;
+  readonly stats: ItemStats;
+  readonly destinyItem: DestinyItem;
 };
 
 const STAT_GAP = 8;

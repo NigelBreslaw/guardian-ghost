@@ -8,7 +8,7 @@ import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 const array25 = Array.from({ length: 25 });
 
 type Vault5x5Props = {
-  data: DestinyIconData[];
+  readonly data: DestinyIconData[];
 };
 
 const styles = StyleSheet.create({

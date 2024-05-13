@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 });
 
 type DestinyCellProps = {
-  data: DestinyIconData;
+  readonly data: DestinyIconData;
 };
 
 const EngramCell = (props: DestinyCellProps) => {

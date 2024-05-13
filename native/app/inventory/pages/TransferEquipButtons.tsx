@@ -13,8 +13,8 @@ import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
 
 type TransferEquipButtonsProps = {
-  currentCharacterId: string;
-  destinyItem: DestinyItem;
+  readonly currentCharacterId: string;
+  readonly destinyItem: DestinyItem;
   close: () => void;
   startTransfer: (toCharacterId: string, equipOnTarget: boolean) => void;
 };

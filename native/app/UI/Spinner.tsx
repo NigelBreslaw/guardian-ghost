@@ -12,8 +12,8 @@ import Animated, {
 import Svg, { Circle, G } from "react-native-svg";
 
 type SpinnerProps = {
-  color?: string;
-  size?: number;
+  readonly color?: string;
+  readonly size?: number;
 };
 
 export default function Spinner(props: SpinnerProps) {

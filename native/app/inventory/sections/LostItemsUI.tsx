@@ -8,7 +8,7 @@ import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 type EngramsProps = {
-  data: DestinyIconData[];
+  readonly data: DestinyIconData[];
 };
 
 function LostItemsUI(props: EngramsProps) {

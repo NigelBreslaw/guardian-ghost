@@ -6,8 +6,8 @@ import { StyleSheet, View } from "react-native";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 type VaultFlexProps = {
-  data: DestinyIconData[];
-  minimumSpacerHeight?: number;
+  readonly data: DestinyIconData[];
+  readonly minimumSpacerHeight?: number;
 };
 
 function VaultFlexUI(props: VaultFlexProps) {

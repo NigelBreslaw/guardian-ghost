@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 type EngramsProps = {
-  data: DestinyIconData[];
+  readonly data: DestinyIconData[];
 };
 
 function EngramsUI(props: EngramsProps) {

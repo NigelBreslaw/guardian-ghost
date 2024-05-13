@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 type VaultSpacerProps = {
-  size: number;
+  readonly size: number;
 };
 
 function VaultSpacer(props: VaultSpacerProps) {
