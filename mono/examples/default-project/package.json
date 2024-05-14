@@ -1,9 +1,9 @@
 {
-  "name": "example web app",
-  "private": true,
+  "name": "vite-template-solid",
   "version": "0.0.0",
-  "type": "module",
+  "description": "",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "build:ci": "turbo build --remote-only --api=$TURBO_URL --token=$TURBO_CODE --team=CI",
@@ -13,16 +13,17 @@
     "lint": "biome lint ./src",
     "lint:fix": "biome check --apply ./src",
     "preview": "vite preview",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "solid-devtools": "0.30.1",
+    "typescript": "5.4.5",
+    "vite": "5.2.11",
+    "vite-plugin-solid": "2.10.2"
   },
   "dependencies": {
     "solid-js": "1.8.17"
-  },
-  "devDependencies": {
-    "@vitest/coverage-v8": "1.6.0",
-    "typescript": "5.4.5",
-    "vite": "5.2.11",
-    "vite-plugin-solid": "2.10.2",
-    "vitest": "1.6.0"
   }
 }

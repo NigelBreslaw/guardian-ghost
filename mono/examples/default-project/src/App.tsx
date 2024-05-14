@@ -1,30 +1,27 @@
-import { createSignal } from "solid-js";
-import viteLogo from "./vite.svg";
-import "./App.css";
-import solidLogo from "./assets/solid.svg";
+import type { Component } from 'solid-js';
 
-function App() {
-  const [count, setCount] = createSignal(0);
+import logo from './logo.svg';
+import styles from './App.module.css';
 
+const App: Component = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
+    <div class={styles.App}>
+      <header class={styles.header}>
+        <img src={logo} class={styles.logo} alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          class={styles.link}
+          href="https://github.com/solidjs/solid"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn Solid
         </a>
-        <a href="https://solidjs.com" target="_blank" rel="noreferrer">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
-      </div>
-      <h1>Placeholder for dashboard!</h1>
-      <div class="card">
-        <button type="button" onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>Developer stats coming soon.</p>
-      </div>
-    </>
+      </header>
+    </div>
   );
-}
+};
 
 export default App;
