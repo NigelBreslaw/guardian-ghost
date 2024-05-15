@@ -6,12 +6,12 @@ import {
   PRIMARY_STAT_FONT_SIZE,
   RIGHT_ALIGNMENT,
 } from "@/app/utilities/UISize.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
-import React, { useCallback } from "react";
+import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import { useNavigation } from "@react-navigation/native";
 
 const common = StyleSheet.create({
   quantity: {
@@ -115,13 +115,14 @@ type DestinyCellProps = {
 };
 
 const DestinyCell = (props: DestinyCellProps) => {
-  const handlePress = useCallback(() => {
-    useGGStore.getState().setSelectedItem({
-      itemInstanceId: props.data.itemInstanceId,
-      itemHash: props.data.itemHash,
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate("Details", {
       characterId: props.data.characterId,
+      itemHash: props.data.itemHash,
+      itemInstanceId: props.data.itemInstanceId,
     });
-  }, [props.data.itemInstanceId, props.data.itemHash, props.data.characterId]);
+  };
 
   return (
     <TouchableOpacity onPress={handlePress}>

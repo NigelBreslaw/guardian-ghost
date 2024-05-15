@@ -77,7 +77,6 @@ export interface AccountSlice {
   setCurrentListIndex: (payload: number) => void;
   setJumpToIndex: (payload: { index: number; animate: boolean }) => void;
   updateProfile: (profile: ProfileData) => void;
-  setSelectedItem: (itemIdentifier: DestinyItemIdentifier | null) => void;
   setQuantityToTransfer: (quantityToTransfer: number) => void;
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
   moveItem: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => void;
@@ -121,15 +120,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   updateProfile: (profile) => {
     updateProfile(get, set, profile);
-  },
-
-  setSelectedItem: (itemIdentifier) => {
-    if (!itemIdentifier) {
-      set({ selectedItem: null });
-      return;
-    }
-    const selectedItem = findDestinyItem(itemIdentifier);
-    set({ selectedItem });
   },
 
   setQuantityToTransfer: (quantityToTransfer) => {

@@ -3,13 +3,16 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { StyleSheet, Text, View, TextInput, Platform, Dimensions, ScrollView } from "react-native";
 import Stats from "@/app/stats/Stats";
 import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconCell from "@/app/inventory/pages/IconCell.tsx";
-import { useNavigation } from "@react-navigation/native";
+import type { NavigationProp, RouteProp } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import type { RootStackParamList } from "@/app/App.tsx";
+import { findDestinyItem } from "@/app/store/AccountLogic.ts";
 
 const { width } = Dimensions.get("window");
 
@@ -156,21 +159,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DetailsView() {
+export default function DetailsView({
+  route,
+  navigation,
+}: {
+  readonly route: RouteProp<RootStackParamList, "Details">;
+  readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
+}) {
   const insets = useSafeAreaInsets();
-  const destinyItem = useGGStore.getState().selectedItem!;
+  const destinyItem = findDestinyItem(route.params);
   const quantity = useGGStore((state) => state.quantityToTransfer);
-  const navigation = useNavigation();
 
-  useEffect(() => {
-    const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-    useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
-    const unsubscribe = navigation.addListener("blur", () => {
-      useGGStore.getState().setSelectedItem(null);
-    });
-
-    return unsubscribe;
-  }, [navigation, destinyItem]);
+  useFocusEffect(
+    useCallback(() => {
+      const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+      useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
+    }, [destinyItem]),
+  );
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;

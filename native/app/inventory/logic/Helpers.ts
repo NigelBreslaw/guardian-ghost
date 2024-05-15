@@ -176,9 +176,9 @@ export type UISections =
   | VaultSpacerSection;
 
 export type DestinyItemIdentifier = {
+  characterId: string;
   itemHash: number;
   itemInstanceId: string | undefined;
-  characterId: string;
 };
 
 export const ArmorStatInvestments = [
