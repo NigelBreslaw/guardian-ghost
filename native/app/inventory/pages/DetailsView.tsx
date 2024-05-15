@@ -9,7 +9,7 @@ import Stats from "@/app/stats/Stats";
 import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconCell from "@/app/inventory/pages/IconCell.tsx";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
