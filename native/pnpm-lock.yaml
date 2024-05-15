@@ -89,9 +89,6 @@ importers:
       react-native-gesture-handler:
         specifier: 2.16.2
         version: 2.16.2(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
-      react-native-raw-bottom-sheet:
-        specifier: 3.0.0
-        version: 3.0.0
       react-native-reanimated:
         specifier: 3.11.0
         version: 3.11.0(@babel/core@7.24.5)(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
@@ -3579,9 +3576,6 @@ packages:
     peerDependencies:
       react: '*'
       react-native: '*'
-
-  react-native-raw-bottom-sheet@3.0.0:
-    resolution: {integrity: sha512-kHR7j2ExCLqf/AO3MECozMJXi48O1+YxUYSRgRo/5Ftm7mEcrxJEzvjqMmqUbVhhKlfk5hLCGFnEQ5Z9OHCUtg==}
 
   react-native-reanimated@3.11.0:
     resolution: {integrity: sha512-BNw/XDgUfs8UhfY1X6IniU8kWpnotWGyt8qmQviaHisTi5lvwnaOdXQKfN1KGONx6ekdFRHRP5EFwLi0UajwKA==}
@@ -8717,8 +8711,6 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
       react-native: 0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1)
-
-  react-native-raw-bottom-sheet@3.0.0: {}
 
   react-native-reanimated@3.11.0(@babel/core@7.24.5)(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1):
     dependencies:
