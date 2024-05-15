@@ -1,10 +1,10 @@
 import { INNER_FRAME_SIZE, PRIMARY_STAT_FONT_SIZE } from "@/app/utilities/UISize.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import { Image } from "expo-image";
-import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
 
 const DEFAULT_BORDER_COLOR = "#303036";
 
@@ -42,13 +42,15 @@ type DestinyCellProps = {
 };
 
 const EngramCell = (props: DestinyCellProps) => {
-  const handlePress = useCallback(() => {
-    useGGStore.getState().setSelectedItem({
-      itemInstanceId: props.data.itemInstanceId,
-      itemHash: props.data.itemHash,
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate("Details", {
       characterId: props.data.characterId,
+      itemHash: props.data.itemHash,
+      itemInstanceId: props.data.itemInstanceId,
     });
-  }, [props.data.itemInstanceId, props.data.itemHash, props.data.characterId]);
+  };
 
   return (
     <TouchableOpacity onPress={handlePress}>

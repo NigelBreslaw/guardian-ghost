@@ -388,7 +388,6 @@ function hasBlockingExotic(destinyItem: DestinyItem): boolean {
 
 function hasSuccessfullyTransferred(transferBundle: TransferBundle) {
   if (transferBundle.unequipItem) {
-    console.log("hasSuccessfullyTransferred unequipItem detected");
     if (itemSuccessfullyTransferred(transferBundle.unequipItem)) {
       transferBundle.unequipItem = null;
     }
