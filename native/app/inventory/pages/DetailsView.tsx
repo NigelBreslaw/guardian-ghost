@@ -160,15 +160,17 @@ export default function DetailsView() {
   const insets = useSafeAreaInsets();
   const destinyItem = useGGStore.getState().selectedItem!;
   const quantity = useGGStore((state) => state.quantityToTransfer);
-  const isFocused = useIsFocused();
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (isFocused) {
-      const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-      useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
-    }
-  }, [isFocused, destinyItem]);
+    const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+    useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
+    const unsubscribe = navigation.addListener("blur", () => {
+      useGGStore.getState().setSelectedItem(null);
+    });
+
+    return unsubscribe;
+  }, [navigation, destinyItem]);
 
   function transfer(targetId: string, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
