@@ -233,7 +233,6 @@ export default function DetailsView({
                 cachePolicy="none"
               />
             )}
-            {/* <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.secondaryIcon }} /> */}
             <View style={styles.tierHeaderContainer}>
               <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
               <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
