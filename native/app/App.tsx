@@ -6,12 +6,13 @@ import { useEffect, useRef } from "react";
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
-import { useWindowDimensions } from "react-native";
+import { useWindowDimensions, StyleSheet } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import DetailsView from "@/app/inventory/pages/DetailsView.tsx";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,6 +44,7 @@ init();
 type RootStackParamList = {
   Login: undefined;
   Root: undefined;
+  Details: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -71,6 +73,17 @@ function App() {
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
+
+  const selectedItem = useGGStore((state) => state.selectedItem);
+
+  useEffect(() => {
+    if (selectedItem) {
+      if (navigationRef.current) {
+        console.log("selectedItem", selectedItem.def.name);
+        navigationRef.current.navigate("Details");
+      }
+    }
+  }, [selectedItem]);
 
   useEffect(() => {
     if (SCREEN_WIDTH) {
@@ -112,6 +125,19 @@ function App() {
               component={MainDrawer}
               options={{
                 headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Details"
+              component={DetailsView}
+              options={{
+                headerBackTitle: "Back",
+                headerStyle: {
+                  backgroundColor: "#17101F",
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                  borderBottomColor: "#2A1D38",
+                },
+                headerTintColor: "white",
               }}
             />
           </RootStack.Group>
