@@ -229,7 +229,11 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
                 transform: [{ scale: scale }],
               }}
             >
-              <Image source={ggCharacter.emblemBackgroundPath} style={{ width: 474, height: 96 }} />
+              <Image
+                source={ggCharacter.emblemBackgroundPath}
+                cachePolicy="memory"
+                style={{ width: 474, height: 96 }}
+              />
 
               <Text style={styles.transferClassName}>{`${getGuardianClassType(ggCharacter.guardianClassType)}`}</Text>
               <Text style={styles.transferRaceName}>{`${getGuardianRaceType(ggCharacter.raceType)}`}</Text>
@@ -271,7 +275,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
                 transform: [{ scale: scale }],
               }}
             >
-              <Image source={ggCharacter.emblemPath} style={{ width: 96, height: 96 }} />
+              <Image source={ggCharacter.emblemPath} cachePolicy={"memory"} style={{ width: 96, height: 96 }} />
             </View>
             <View
               style={{
