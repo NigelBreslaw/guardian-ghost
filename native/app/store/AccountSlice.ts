@@ -343,6 +343,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     deepSightResonance: false,
     masterwork: false,
     primaryStat: 0,
+    id: baseItem.itemInstanceId ?? Math.random().toString(),
   };
 
   const definitionItem = getItemDefinition(baseItem.itemHash);

@@ -50,6 +50,7 @@ export const BungieUserSchema = object({
 export type BungieUser = Output<typeof BungieUserSchema>;
 
 export type ItemInstance = {
+  id: string;
   icon: string;
   screenshot: string;
   calculatedWaterMark?: string;
