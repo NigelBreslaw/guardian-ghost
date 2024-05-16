@@ -6,7 +6,7 @@ import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef } from "react";
-import { ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
 const pageEstimatedFlashListItemSize = [130, 130, 130, 130];
 
@@ -134,8 +134,17 @@ export default function InventoryPage(props: InventoryPageProps) {
                 ref={(ref) => {
                   listRefs.current[index] = ref;
                 }}
-                onRefresh={() => getFullProfile(true)}
-                refreshing={pullRefreshing}
+                refreshControl={
+                  <RefreshControl
+                    enabled={true}
+                    tintColor="white"
+                    colors={["white", "white"]}
+                    refreshing={pullRefreshing}
+                    onRefresh={() => {
+                      getFullProfile(true);
+                    }}
+                  />
+                }
                 data={mainData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
