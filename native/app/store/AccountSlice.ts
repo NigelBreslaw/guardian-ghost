@@ -344,6 +344,7 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     masterwork: false,
     primaryStat: 0,
     id: baseItem.itemInstanceId ?? Math.random().toString(),
+    search: "",
   };
 
   const definitionItem = getItemDefinition(baseItem.itemHash);
@@ -420,12 +421,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
 function addSpecialSearchClues(destinyItem: DestinyItem) {
   if (destinyItem.instance.masterwork) {
-    destinyItem.def.search += "masterworked";
+    destinyItem.instance.search += "masterworked";
   }
   if (destinyItem.instance.crafted) {
-    destinyItem.def.search += "crafted";
+    destinyItem.instance.search += "crafted";
   }
-  destinyItem.def.search += returnDamageType(destinyItem.instance.damageType);
+  destinyItem.instance.search += returnDamageType(destinyItem.instance.damageType);
 }
 
 function returnDamageType(damageType: DamageType | undefined): string {
