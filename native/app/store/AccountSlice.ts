@@ -165,6 +165,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
       itemHash: itemDetails.itemHash,
       itemInstanceId: itemDetails.itemInstanceId,
       characterId: itemDetails.characterId,
+      bucketHash: itemDetails.bucketHash,
     }),
 
   setSecondarySpecial: (characterId, itemHash) => {

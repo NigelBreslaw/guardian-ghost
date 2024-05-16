@@ -1,13 +1,5 @@
 import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/inventory/logic/Types.ts";
-import {
-  BucketTypeHashArray,
-  consumables,
-  generalVault,
-  guardians,
-  itemsDefinition,
-  lostItems,
-  mods,
-} from "@/app/store/Definitions.ts";
+import { consumables, generalVault, guardians, lostItems, mods } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_LOST_ITEMS_CHARACTER_ID,
@@ -19,7 +11,7 @@ import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
 import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/inventory/logic/Constants.ts";
 import { bungieUrl } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
-import { GGCharacterType, GuardianClassType } from "@/app/bungie/Enums.ts";
+import { GGCharacterType, GuardianClassType, SectionBuckets } from "@/app/bungie/Enums.ts";
 
 export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
   const ggCharacters: GGCharacterUiData[] = [];
@@ -77,82 +69,81 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // instanced the characterId and itemHash are needed. Because you could have a non instanced item such as upgrade
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
 export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyItem {
-  const itemDefinition = itemsDefinition[itemIdentifier.itemHash];
-  if (!itemDefinition) {
-    throw new Error("No itemDefinition found");
+  if (itemIdentifier.bucketHash === SectionBuckets.LostItem) {
+    const guardianLostItems = guardians[itemIdentifier.characterId]?.items[SectionBuckets.LostItem]?.inventory;
+    if (guardianLostItems) {
+      try {
+        const item = findDestinyItemInArray(guardianLostItems, itemIdentifier);
+        return item;
+      } catch {
+        console.error("Failed to find item in lost items");
+      }
+    }
   }
 
-  if (itemDefinition.b !== undefined) {
-    const defaultBucket = BucketTypeHashArray[itemDefinition.b];
+  switch (itemIdentifier.characterId) {
+    case VAULT_CHARACTER_ID: {
+      const vaultSectionInventory = generalVault[itemIdentifier.bucketHash];
+      if (vaultSectionInventory) {
+        try {
+          const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
+          return item;
+        } catch {
+          console.error("Failed to find item in VAULT");
+        }
+      }
+      break;
+    }
+    case GLOBAL_MODS_CHARACTER_ID: {
+      if (mods) {
+        try {
+          const item = findDestinyItemInArray(mods, itemIdentifier);
+          return item;
+        } catch {
+          console.error("Failed to find item in GLOBAL_MODS");
+        }
+      }
+      break;
+    }
+    case GLOBAL_CONSUMABLES_CHARACTER_ID: {
+      if (consumables) {
+        try {
+          const item = findDestinyItemInArray(consumables, itemIdentifier);
+          return item;
+        } catch {
+          console.error("Failed to find item in GLOBAL_CONSUMABLES");
+        }
+      }
+      break;
+    }
+    case GLOBAL_LOST_ITEMS_CHARACTER_ID: {
+      if (lostItems) {
+        try {
+          const item = findDestinyItemInArray(lostItems, itemIdentifier);
+          return item;
+        } catch {
+          console.error("Failed to find item in GLOBAL_LOST_ITEMS");
+        }
+      }
+      break;
+    }
+    default: {
+      const section = guardians[itemIdentifier.characterId]?.items[itemIdentifier.bucketHash];
 
-    if (defaultBucket) {
-      if (itemIdentifier.characterId === VAULT_CHARACTER_ID) {
-        const vaultSectionInventory = generalVault[defaultBucket];
-        if (vaultSectionInventory) {
-          try {
-            const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
-            return item;
-          } catch {
-            console.error("Failed to find item in VAULT");
-          }
-        }
-      } else if (itemIdentifier.characterId === GLOBAL_MODS_CHARACTER_ID) {
-        if (mods) {
-          try {
-            const item = findDestinyItemInArray(mods, itemIdentifier);
-            return item;
-          } catch {
-            console.error("Failed to find item in GLOBAL_MODS");
-          }
-        }
-      } else if (itemIdentifier.characterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
-        if (consumables) {
-          try {
-            const item = findDestinyItemInArray(consumables, itemIdentifier);
-            return item;
-          } catch {
-            console.error("Failed to find item in GLOBAL_CONSUMABLES");
-          }
-        }
-      } else if (itemIdentifier.characterId === GLOBAL_LOST_ITEMS_CHARACTER_ID) {
-        if (lostItems) {
-          try {
-            const item = findDestinyItemInArray(lostItems, itemIdentifier);
-            return item;
-          } catch {
-            console.error("Failed to find item in GLOBAL_LOST_ITEMS");
-          }
-        }
-      } else {
-        const section = guardians[itemIdentifier.characterId]?.items[defaultBucket];
-
-        if (section) {
-          if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
-            return section.equipped;
-          }
-
-          for (const item of section.inventory) {
-            if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
-              return item;
-            }
-          }
+      if (section) {
+        if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
+          return section.equipped;
         }
 
-        // Check the lost items
-        const lostItems = guardians[itemIdentifier.characterId]?.items[215593132]?.inventory;
-        if (lostItems) {
-          try {
-            const item = findDestinyItemInArray(lostItems, itemIdentifier);
+        for (const item of section.inventory) {
+          if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
             return item;
-          } catch {
-            console.error("Failed to find item in lost items");
           }
         }
       }
-    } else {
-      console.error("No default bucket");
     }
   }
+
   throw new Error("No DestinyItem found");
 }
 
