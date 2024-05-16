@@ -45,8 +45,8 @@ export let rawProfileData: ProfileData | null;
 export let lostItems: DestinyItem[] = [];
 export let consumables: DestinyItem[] = [];
 export let mods: DestinyItem[] = [];
-export let generalVault: Record<number, DestinyItem[]> = {};
-export let guardians: Record<string, Guardian> = {};
+export let generalVault: Map<number, DestinyItem[]> = new Map<number, DestinyItem[]>();
+export let guardians: Map<string, Guardian> = new Map<string, Guardian>();
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
 export let DestinyStatDefinition: StatDefinition;
@@ -184,11 +184,11 @@ export function setMods(newMods: DestinyItem[]) {
   mods = newMods;
 }
 
-export function setGeneralVault(newGeneralVault: Record<number, DestinyItem[]>) {
+export function setGeneralVault(newGeneralVault: Map<number, DestinyItem[]>) {
   generalVault = newGeneralVault;
 }
 
-export function setGuardians(newGuardians: Record<string, Guardian>) {
+export function setGuardians(newGuardians: Map<string, Guardian>) {
   guardians = newGuardians;
 }
 

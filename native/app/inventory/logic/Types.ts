@@ -16,12 +16,12 @@ import type { Output } from "valibot";
 
 export type GuardiansAndVault = {
   vault: VaultData;
-  guardians: Record<string, Guardian>;
+  guardians: Map<string, Guardian>;
 };
 
 export type Guardian = {
   data: GuardianData;
-  items: Record<number, GuardianGear>;
+  items: Map<number, GuardianGear>;
 };
 
 export type GuardianGear = {
@@ -30,7 +30,7 @@ export type GuardianGear = {
 };
 
 export type VaultData = {
-  generalVault: Record<number, DestinyItem[]>;
+  generalVault: Map<number, DestinyItem[]>;
   consumables: DestinyItem[];
   mods: DestinyItem[];
   lostItems: DestinyItem[];

@@ -99,7 +99,8 @@ function createUIData(get: AccountSliceGetter) {
   let maxLostItemsColumns = 0;
   for (const ggCharacter of ggCharacters) {
     if (ggCharacter.ggCharacterType !== GGCharacterType.Vault) {
-      const totalLostItems = guardians[ggCharacter.characterId]?.items[SectionBuckets.LostItem]?.inventory.length;
+      const totalLostItems = guardians.get(ggCharacter.characterId)?.items.get(SectionBuckets.LostItem)
+        ?.inventory.length;
       if (totalLostItems) {
         const totalRows = Math.ceil(totalLostItems / 5);
         if (totalRows > maxLostItemsColumns) {
@@ -119,121 +120,118 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
     return characterDataArray;
   }
 
-  for (const character in guardians) {
-    const characterData = guardians[character];
-    if (characterData) {
-      const dataArray: UISections[] = [];
-      for (const bucket of itemBuckets) {
-        const sectionDetails = getSectionDetails(bucket);
-        const bucketItems = characterData.items[bucket];
+  for (const [_key, characterData] of guardians) {
+    const dataArray: UISections[] = [];
+    for (const bucket of itemBuckets) {
+      const sectionDetails = getSectionDetails(bucket);
+      const bucketItems = characterData.items.get(bucket);
 
-        const getInfo = (bucket: SectionBuckets): string | undefined => {
-          switch (bucket) {
-            case SectionBuckets.Consumables:
-              return `${consumables.length}/50`;
-            case SectionBuckets.Mods:
-              return `${mods.length}/50`;
-            case SectionBuckets.LostItem:
-              return `${bucketItems?.inventory.length}/21`;
-            default:
-              return undefined;
-          }
+      const getInfo = (bucket: SectionBuckets): string | undefined => {
+        switch (bucket) {
+          case SectionBuckets.Consumables:
+            return `${consumables.length}/50`;
+          case SectionBuckets.Mods:
+            return `${mods.length}/50`;
+          case SectionBuckets.LostItem:
+            return `${bucketItems?.inventory.length}/21`;
+          default:
+            return undefined;
+        }
+      };
+
+      const info: string | undefined = getInfo(bucket);
+      // create section separators
+      const separator: SeparatorSection = {
+        id: `${bucket}_separator`,
+        type: UISection.Separator,
+        label: sectionDetails.label,
+        info,
+      };
+      dataArray.push(separator);
+
+      if (bucket === SectionBuckets.Consumables) {
+        const globalConsumables: VaultFlexSection = {
+          id: `${bucket}_global_consumables_section`,
+          type: UISection.VaultFlex,
+          inventory: [],
         };
+        if (consumables) {
+          globalConsumables.inventory = returnInventoryArray(consumables, bucket);
+        }
+        dataArray.push(globalConsumables);
+        continue;
+      }
 
-        const info: string | undefined = getInfo(bucket);
-        // create section separators
-        const separator: SeparatorSection = {
-          id: `${bucket}_separator`,
-          type: UISection.Separator,
-          label: sectionDetails.label,
-          info,
+      if (bucket === SectionBuckets.Mods) {
+        const globalMods: VaultFlexSection = {
+          id: `${bucket}_global_mods_section`,
+          type: UISection.VaultFlex,
+          inventory: [],
         };
-        dataArray.push(separator);
-
-        if (bucket === SectionBuckets.Consumables) {
-          const globalConsumables: VaultFlexSection = {
-            id: `${bucket}_global_consumables_section`,
-            type: UISection.VaultFlex,
-            inventory: [],
-          };
-          if (consumables) {
-            globalConsumables.inventory = returnInventoryArray(consumables, bucket);
-          }
-          dataArray.push(globalConsumables);
-          continue;
+        if (mods) {
+          globalMods.inventory = returnInventoryArray(mods, bucket);
         }
+        dataArray.push(globalMods);
+        continue;
+      }
 
-        if (bucket === SectionBuckets.Mods) {
-          const globalMods: VaultFlexSection = {
-            id: `${bucket}_global_mods_section`,
-            type: UISection.VaultFlex,
-            inventory: [],
-          };
-          if (mods) {
-            globalMods.inventory = returnInventoryArray(mods, bucket);
-          }
-          dataArray.push(globalMods);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.Engram) {
-          const engramsSection: EngramsSection = {
-            id: `${bucket}_engrams_section`,
-            type: UISection.Engrams,
-            inventory: [],
-          };
-          if (bucketItems) {
-            engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-          }
-          dataArray.push(engramsSection);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.LostItem) {
-          const lostItemsSection: LostItemsSection = {
-            id: `${bucket}_lost_items_section`,
-            type: UISection.LostItems,
-            inventory: [],
-          };
-          if (bucketItems) {
-            lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-          }
-          dataArray.push(lostItemsSection);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.Artifact) {
-          const artifactSection: ArtifactSection = {
-            id: `${bucket}_artifact_section`,
-            type: UISection.Artifact,
-            equipped: null,
-          };
-          if (bucketItems?.equipped) {
-            artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
-          }
-          dataArray.push(artifactSection);
-          continue;
-        }
-
-        const equipSectionCell: EquipSection = {
-          id: `${bucket}_equip_section`,
-          type: UISection.CharacterEquipment,
-          equipped: null,
+      if (bucket === SectionBuckets.Engram) {
+        const engramsSection: EngramsSection = {
+          id: `${bucket}_engrams_section`,
+          type: UISection.Engrams,
           inventory: [],
         };
         if (bucketItems) {
-          const equipped = bucketItems.equipped;
-
-          if (equipped) {
-            equipSectionCell.equipped = returnDestinyIconData(equipped);
-          }
-          equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-
-          dataArray.push(equipSectionCell);
+          engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
         }
+        dataArray.push(engramsSection);
+        continue;
       }
-      characterDataArray.push(dataArray);
+
+      if (bucket === SectionBuckets.LostItem) {
+        const lostItemsSection: LostItemsSection = {
+          id: `${bucket}_lost_items_section`,
+          type: UISection.LostItems,
+          inventory: [],
+        };
+        if (bucketItems) {
+          lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+        }
+        dataArray.push(lostItemsSection);
+        continue;
+      }
+
+      if (bucket === SectionBuckets.Artifact) {
+        const artifactSection: ArtifactSection = {
+          id: `${bucket}_artifact_section`,
+          type: UISection.Artifact,
+          equipped: null,
+        };
+        if (bucketItems?.equipped) {
+          artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
+        }
+        dataArray.push(artifactSection);
+        continue;
+      }
+
+      const equipSectionCell: EquipSection = {
+        id: `${bucket}_equip_section`,
+        type: UISection.CharacterEquipment,
+        equipped: null,
+        inventory: [],
+      };
+      if (bucketItems) {
+        const equipped = bucketItems.equipped;
+
+        if (equipped) {
+          equipSectionCell.equipped = returnDestinyIconData(equipped);
+        }
+        equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+
+        dataArray.push(equipSectionCell);
+      }
     }
+    characterDataArray.push(dataArray);
   }
   // Now build the vault data
   const vaultUiData = returnVaultUiData(get, itemBuckets, generalVault);
@@ -245,13 +243,13 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
 function returnVaultUiData(
   get: AccountSliceGetter,
   itemBuckets: number[],
-  generalVault: Record<number, DestinyItem[]>,
+  generalVault: Map<number, DestinyItem[]>,
 ): UISections[] {
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
 
   for (const bucket of itemBuckets) {
-    const bucketItems = generalVault[bucket];
+    const bucketItems = generalVault.get(bucket);
     const sectionDetails = getSectionDetails(bucket);
     if (bucketItems) {
       const separator: SeparatorSection = {
@@ -332,7 +330,7 @@ function returnVaultUiData(
 function calcTotalVaultItems(): number {
   let total = 0;
   for (const bucket of section_buckets) {
-    const section = generalVault[bucket as number];
+    const section = generalVault.get(bucket as number);
     if (section) {
       total += section.length;
     }
@@ -415,10 +413,10 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
   }
 
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
-    const previousInventory = generalVault[destinyItem.bucketHash];
+    const previousInventory = generalVault.get(destinyItem.bucketHash);
     if (previousInventory) {
       const updatedInventory = removeLogic(previousInventory, destinyItem, stackableQuantityToMove);
-      generalVault[destinyItem.bucketHash] = updatedInventory;
+      generalVault.set(destinyItem.bucketHash, updatedInventory);
     }
   } else if (destinyItem.previousCharacterId === GLOBAL_MODS_CHARACTER_ID) {
     const updatedMods = removeLogic(mods, destinyItem, stackableQuantityToMove);
@@ -427,31 +425,33 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
     const updatedConsumables = removeLogic(consumables, destinyItem, stackableQuantityToMove);
     setConsumables(updatedConsumables);
   } else {
-    const previousInventory = guardians[destinyItem.previousCharacterId]?.items[destinyItem.bucketHash]?.inventory;
+    const previousInventory = guardians
+      .get(destinyItem.previousCharacterId)
+      ?.items.get(destinyItem.bucketHash)?.inventory;
     const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
     if (!updatedInventory) {
       console.error("updatedInventory or previousGuardian is undefined");
       return;
     }
 
-    const updatedGuardian = guardians[destinyItem.previousCharacterId];
+    const updatedGuardian = guardians.get(destinyItem.previousCharacterId);
     if (!updatedGuardian) {
       console.error("updatedGuardian is undefined");
       return;
     }
-    const equippedItem = updatedGuardian.items[destinyItem.bucketHash]?.equipped ?? null;
-    updatedGuardian.items[destinyItem.bucketHash] = { equipped: equippedItem, inventory: updatedInventory };
+    const equippedItem = updatedGuardian.items.get(destinyItem.bucketHash)?.equipped ?? null;
+    updatedGuardian.items.set(destinyItem.bucketHash, { equipped: equippedItem, inventory: updatedInventory });
   }
 }
 
 export function addInventoryItem(destinyItem: DestinyItem, stackableQuantityToMove: number) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
-    const previousSection = generalVault[destinyItem.bucketHash];
+    const previousSection = generalVault.get(destinyItem.bucketHash);
 
     if (previousSection) {
       const updatedSection = addLogic(previousSection, destinyItem, stackableQuantityToMove);
-      generalVault[destinyItem.bucketHash] = updatedSection;
+      generalVault.set(destinyItem.bucketHash, updatedSection);
     }
   } else {
     // Is this a mod, consumable or other?
@@ -467,7 +467,7 @@ export function addInventoryItem(destinyItem: DestinyItem, stackableQuantityToMo
         break;
       }
       default: {
-        guardians[destinyItem.characterId]?.items[destinyItem.bucketHash]?.inventory.push(destinyItem);
+        guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash)?.inventory.push(destinyItem);
         break;
       }
     }
@@ -559,7 +559,7 @@ function rebuildStackableItems(total: number, destinyItem: DestinyItem, mode: "A
 }
 
 export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
-  const previousInventorySection = guardians[destinyItem.characterId]?.items[destinyItem.bucketHash];
+  const previousInventorySection = guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash);
 
   const updatedInventory = previousInventorySection?.inventory?.filter(
     (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
@@ -574,12 +574,12 @@ export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
     updatedInventory.push(previousEquippedItem);
   }
 
-  const updatedGuardian = guardians[destinyItem.characterId];
+  const updatedGuardian = guardians.get(destinyItem.characterId);
   if (!updatedGuardian) {
     console.error("updatedGuardian is undefined");
     return;
   }
-  updatedGuardian.items[destinyItem.bucketHash] = { equipped: destinyItem, inventory: updatedInventory };
+  updatedGuardian.items.set(destinyItem.bucketHash, { equipped: destinyItem, inventory: updatedInventory });
 }
 
 export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
