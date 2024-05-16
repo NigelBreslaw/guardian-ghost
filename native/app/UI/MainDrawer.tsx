@@ -2,17 +2,32 @@ import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { type DrawerContentComponentProps, createDrawerNavigator } from "@react-navigation/drawer";
+import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { Image } from "expo-image";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { LOGO_DARK, REFRESH_ICON } from "@/app/inventory/logic/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
+import SearchView from "@/app/inventory/pages/SearchView.tsx";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: "100%",
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  top: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   iconButton: {
     width: 40,
     height: 40,
@@ -29,6 +44,29 @@ const styles = StyleSheet.create({
     height: 20,
     alignSelf: "center",
     position: "absolute",
+  },
+  textDark: {
+    color: "#F1EDFE",
+    fontSize: 50,
+    fontWeight: "bold",
+    letterSpacing: -2,
+    lineHeight: 48,
+  },
+  button: {
+    width: "100%",
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#6750A4",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    includeFontPadding: false,
   },
 });
 
@@ -103,84 +141,65 @@ function CharacterHeaderButtons() {
 
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+function CustomDrawerContent(props: DrawerContentComponentProps) {
   const insets = useSafeAreaInsets();
-  const logoutCurrentUser = useGGStore((state) => state.logoutCurrentUser);
-
-  const styles = StyleSheet.create({
-    drawerContainer: {
-      paddingTop: insets.top + 20,
-      paddingBottom: insets.bottom + 20,
-      paddingLeft: insets.left + 20,
-      paddingRight: insets.right + 20,
-      flex: 1,
-    },
-    bottomContainer: {
-      flex: 1,
-      flexDirection: "column-reverse",
-    },
-    textDark: {
-      color: "#F1EDFE",
-      fontSize: 50,
-      fontWeight: "bold",
-      letterSpacing: -2,
-      lineHeight: 48,
-    },
-    button: {
-      width: "100%",
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: "#6750A4",
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: 20,
-      flexDirection: "row",
-      gap: 4,
-    },
-    buttonText: {
-      color: "white",
-      fontSize: 16,
-      includeFontPadding: false,
-    },
-  });
 
   return (
-    <View style={styles.drawerContainer}>
-      <View style={{ flex: 4 }}>
+    <View style={[styles.container, { paddingTop: insets.top + 4, paddingBottom: insets.bottom + 4 }]}>
+      <View style={styles.top}>
+        <DrawerItem
+          label="Inventory"
+          activeTintColor="white"
+          inactiveTintColor="grey"
+          activeBackgroundColor="#ffffff20"
+          focused={props.state.index === 0}
+          onPress={() => props.navigation.navigate("Inventory")}
+        />
+        <DrawerItem
+          label="Search"
+          activeTintColor="white"
+          inactiveTintColor="grey"
+          focused={props.state.index === 1}
+          activeBackgroundColor="#ffffff20"
+          onPress={() => props.navigation.navigate("Search")}
+        />
+      </View>
+
+      <View style={styles.bottom}>
         <Image source={LOGO_DARK} style={{ width: 100, height: 100 }} />
         <Text style={styles.textDark}>Guardian Ghost</Text>
-      </View>
-      <View style={styles.bottomContainer}>
-        {__DEV__ && (
+        <View>
+          {__DEV__ && (
+            <TouchableOpacity
+              onPress={() => {
+                useGGStore.getState().clearCache();
+              }}
+            >
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Clear Cache</Text>
+              </View>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             onPress={() => {
-              useGGStore.getState().clearCache();
+              props.navigation.closeDrawer();
+              useGGStore.getState().logoutCurrentUser();
+            }}
+            onPressIn={() => {
+              if (Platform.OS !== "web") {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }
             }}
           >
             <View style={styles.button}>
-              <Text style={styles.buttonText}>Clear Cache</Text>
+              <Text style={styles.buttonText}>Logout</Text>
             </View>
           </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.closeDrawer();
-            logoutCurrentUser();
-          }}
-          onPressIn={() => {
-            if (Platform.OS !== "web") {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            }
-          }}
-        >
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Logout</Text>
-          </View>
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
-};
+}
 
 export default function MainDrawer() {
   const ggGuardians = useGGStore((state) => state.ggCharacters);
@@ -189,9 +208,10 @@ export default function MainDrawer() {
 
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerContent={CustomDrawerContent}
       screenOptions={{
         swipeEdgeWidth: 0,
+        drawerType: "front",
       }}
     >
       <Drawer.Screen
@@ -199,10 +219,7 @@ export default function MainDrawer() {
         component={InventoryPages}
         options={{
           title: `${guardianClassType}`,
-          drawerType: "back",
-          drawerStyle: {
-            backgroundColor: "black",
-          },
+
           sceneContainerStyle: {
             backgroundColor: "#17101F",
           },
@@ -216,6 +233,16 @@ export default function MainDrawer() {
           headerRight: RefreshButton,
           headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,
+        }}
+      />
+      <Drawer.Screen
+        name="Search"
+        component={SearchView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#17101F",
+          },
+          headerTintColor: "white",
         }}
       />
     </Drawer.Navigator>

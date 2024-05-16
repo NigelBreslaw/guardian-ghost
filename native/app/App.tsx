@@ -46,6 +46,8 @@ export type RootStackParamList = {
   Login: undefined;
   Root: undefined;
   Details: DestinyItemIdentifier;
+  Search: undefined;
+  Inventory: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
