@@ -121,6 +121,7 @@ const DestinyCell = (props: DestinyCellProps) => {
       characterId: props.data.characterId,
       itemHash: props.data.itemHash,
       itemInstanceId: props.data.itemInstanceId,
+      bucketHash: props.data.bucketHash,
     });
   };
 

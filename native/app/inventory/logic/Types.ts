@@ -149,6 +149,7 @@ export type DestinyIconData = {
   crafted?: boolean;
   stackSizeMaxed?: boolean;
   engram?: boolean;
+  bucketHash: number;
 };
 
 export const DestinyIconDataEmpty: DestinyIconData = {
@@ -162,4 +163,5 @@ export const DestinyIconDataEmpty: DestinyIconData = {
   calculatedWaterMark: "",
   masterwork: false,
   borderColor: "#555555",
+  bucketHash: -1,
 };

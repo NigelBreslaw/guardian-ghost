@@ -179,6 +179,7 @@ export type DestinyItemIdentifier = {
   characterId: string;
   itemHash: number;
   itemInstanceId: string | undefined;
+  bucketHash: number;
 };
 
 export const ArmorStatInvestments = [

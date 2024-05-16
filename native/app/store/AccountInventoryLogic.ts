@@ -341,6 +341,7 @@ function calcTotalVaultItems(): number {
 }
 
 export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
+  const bucketHash = item.bucketHash;
   const damageTypeIconUri = getDamageTypeIconUri(item.instance.damageType);
   const primaryStat = item.instance.primaryStat;
   const borderColor = returnBorderColor(item);
@@ -364,6 +365,7 @@ export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     quantity,
     stackSizeMaxed,
     engram,
+    bucketHash,
   };
   return iconData;
 }
