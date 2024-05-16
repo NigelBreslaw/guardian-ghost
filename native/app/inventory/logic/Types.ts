@@ -82,6 +82,7 @@ export type DestinyItemDefinition = {
   tierType: TierType;
   traitIds: string[];
   watermark: string;
+  search: string;
 };
 
 export type DestinyItem = DestinyItemBase & {
