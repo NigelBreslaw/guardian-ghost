@@ -57,6 +57,7 @@ export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], Account
 export interface AccountSlice {
   appStartupTime: number;
   refreshing: boolean;
+  pullRefreshing: boolean;
   lastRefreshTime: number;
   currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
@@ -74,6 +75,7 @@ export interface AccountSlice {
 
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
+  setPullRefreshing: (pullRefreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
   setJumpToIndex: (payload: { index: number; animate: boolean }) => void;
   updateProfile: (profile: ProfileData) => void;
@@ -92,6 +94,7 @@ export interface AccountSlice {
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
   appStartupTime: 0,
   refreshing: false,
+  pullRefreshing: false,
   lastRefreshTime: 0,
   currentListIndex: 0,
   animateToInventoryPage: { index: 0, animate: false },
@@ -110,6 +113,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
+  setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
 
   setCurrentListIndex: (currentListIndex) => {
     set({ currentListIndex, animateToInventoryPage: { index: currentListIndex, animate: false } });
