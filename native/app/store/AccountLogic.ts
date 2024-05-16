@@ -13,11 +13,11 @@ import { bungieUrl } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, GuardianClassType, SectionBuckets } from "@/app/bungie/Enums.ts";
 
-export function getCharactersAndVault(guardians: Record<string, Guardian>): GGCharacterUiData[] {
+export function getCharactersAndVault(guardians: Map<string, Guardian>): GGCharacterUiData[] {
   const ggCharacters: GGCharacterUiData[] = [];
 
-  for (const guardian in guardians) {
-    const fullCharacter = guardians[guardian]?.data;
+  for (const [_key, guardian] of guardians) {
+    const fullCharacter = guardian?.data;
 
     if (fullCharacter) {
       const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
@@ -70,7 +70,7 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
 export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyItem {
   if (itemIdentifier.bucketHash === SectionBuckets.LostItem) {
-    const guardianLostItems = guardians[itemIdentifier.characterId]?.items[SectionBuckets.LostItem]?.inventory;
+    const guardianLostItems = guardians.get(itemIdentifier.characterId)?.items.get(SectionBuckets.LostItem)?.inventory;
     if (guardianLostItems) {
       try {
         const item = findDestinyItemInArray(guardianLostItems, itemIdentifier);
@@ -83,7 +83,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
 
   switch (itemIdentifier.characterId) {
     case VAULT_CHARACTER_ID: {
-      const vaultSectionInventory = generalVault[itemIdentifier.bucketHash];
+      const vaultSectionInventory = generalVault.get(itemIdentifier.bucketHash);
       if (vaultSectionInventory) {
         try {
           const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
@@ -128,7 +128,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
       break;
     }
     default: {
-      const section = guardians[itemIdentifier.characterId]?.items[itemIdentifier.bucketHash];
+      const section = guardians.get(itemIdentifier.characterId)?.items.get(itemIdentifier.bucketHash);
 
       if (section) {
         if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
@@ -160,7 +160,7 @@ export function findMaxQuantityToTransfer(destinyItem: DestinyItem): number {
       return totalStackedQuantity;
     }
     case VAULT_CHARACTER_ID: {
-      const vaultSectionInventory = generalVault[destinyItem.bucketHash];
+      const vaultSectionInventory = generalVault.get(destinyItem.bucketHash);
       if (!vaultSectionInventory) {
         console.error("Failed to find section inventory");
         return 1;

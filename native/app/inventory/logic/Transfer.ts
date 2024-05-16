@@ -172,7 +172,7 @@ async function equipItemLogic(transferBundle: TransferBundle, transferItem: Tran
     // is there an unequip item for the other exotic?
     const itemToUnequip = returnBlockingExotic(transferItem.destinyItem);
     if (itemToUnequip) {
-      const sectionItems = guardians[itemToUnequip.characterId]?.items[itemToUnequip.bucketHash]?.inventory;
+      const sectionItems = guardians.get(itemToUnequip.characterId)?.items.get(itemToUnequip.bucketHash)?.inventory;
 
       if (sectionItems && sectionItems.length > 0) {
         const unequipItem = getUnequipItem(sectionItems, false);
@@ -253,14 +253,14 @@ function returnBlockingExotic(destinyItem: DestinyItem): DestinyItem | null {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = guardians[characterId]?.items;
+  const guardiansItems = guardians.get(characterId)?.items;
 
   if (!guardiansItems) {
     return null;
   }
 
   for (const bucket of searchBuckets) {
-    const equippedItem = guardiansItems[bucket]?.equipped;
+    const equippedItem = guardiansItems.get(bucket)?.equipped;
     if (equippedItem && equippedItem?.def.tierType === TierType.Exotic) {
       return equippedItem;
     }
@@ -303,8 +303,9 @@ function unequipError(destinyItem: DestinyItem, exotic = false) {
 function unequipItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
   try {
     // Bail if the section has no items
-    const sectionItems =
-      guardians[transferItem.destinyItem.characterId]?.items[transferItem.destinyItem.bucketHash]?.inventory;
+    const sectionItems = guardians
+      .get(transferItem.destinyItem.characterId)
+      ?.items.get(transferItem.destinyItem.bucketHash)?.inventory;
     if (!sectionItems || sectionItems.length === 0) {
       unequipError(transferItem.destinyItem);
       return;
@@ -367,19 +368,19 @@ function hasBlockingExotic(destinyItem: DestinyItem): boolean {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = guardians[characterId]?.items;
+  const guardiansItems = guardians.get(characterId)?.items;
 
   if (!guardiansItems) {
     return false;
   }
-  const currentEquippedItem = guardiansItems[destinyItem.bucketHash]?.equipped;
+  const currentEquippedItem = guardiansItems.get(destinyItem.bucketHash)?.equipped;
   if (currentEquippedItem && currentEquippedItem.def.tierType === TierType.Exotic) {
     return false;
   }
 
   // If the currently equipped item in this section is an exotic then its fine to equip another
   for (const bucket of searchBuckets) {
-    if (guardiansItems[bucket]?.equipped?.def.tierType === TierType.Exotic) {
+    if (guardiansItems.get(bucket)?.equipped?.def.tierType === TierType.Exotic) {
       return true;
     }
   }
@@ -634,7 +635,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   console.log("do not include exotics", doNotIncludeExotics);
 
   /// Is there an item in this section that can unequip the item?
-  let itemsInSection = guardians[itemToUnequip.characterId]?.items[itemToUnequip.bucketHash]?.inventory;
+  let itemsInSection = guardians.get(itemToUnequip.characterId)?.items.get(itemToUnequip.bucketHash)?.inventory;
   if (!itemsInSection) {
     throw new Error("No items in section");
   }
@@ -651,7 +652,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   if (!unequipItem) {
     console.log("now trying vault");
     /// failed to find any on that character so now lets try the vault
-    itemsInSection = guardians[VAULT_CHARACTER_ID]?.items[itemToUnequip.bucketHash]?.inventory;
+    itemsInSection = guardians.get(VAULT_CHARACTER_ID)?.items.get(itemToUnequip.bucketHash)?.inventory;
     if (!itemsInSection) {
       throw new Error("No items in section");
     }

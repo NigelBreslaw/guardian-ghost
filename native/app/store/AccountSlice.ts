@@ -7,6 +7,7 @@ import {
   type Guardian,
   type VaultData,
   type StatsCollection,
+  type GuardianGear,
 } from "@/app/inventory/logic/Types.ts";
 import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
 import {
@@ -251,23 +252,23 @@ function setTimestamps(
   });
 }
 
-function createInitialGuardiansData(profile: ProfileData): Record<string, Guardian> {
+function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian> {
   const characters = profile.Response.characters.data;
-  const guardians: Record<string, Guardian> = {};
+  const guardians: Map<string, Guardian> = new Map<string, Guardian>();
   for (const character in characters) {
     const characterData = characters[character];
 
     if (characterData) {
       const initialCharacterData = {
         data: characterData,
-        items: {} as { [key: number]: { equipped: DestinyItem | null; inventory: DestinyItem[] } },
+        items: new Map<number, GuardianGear>(),
       };
 
       for (const bucket of characterBuckets) {
-        initialCharacterData.items[bucket] = { equipped: null, inventory: [] };
+        initialCharacterData.items.set(bucket, { equipped: null, inventory: [] });
       }
 
-      guardians[character] = initialCharacterData;
+      guardians.set(character, initialCharacterData);
     }
   }
   return guardians;
@@ -276,27 +277,27 @@ function createInitialGuardiansData(profile: ProfileData): Record<string, Guardi
 function processCharacterEquipment(
   get: AccountSliceGetter,
   profile: ProfileData,
-  guardians: Record<string, Guardian>,
-): Record<string, Guardian> {
+  guardians: Map<string, Guardian>,
+): Map<string, Guardian> {
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
     const characterAsId = { characterId: character, equipped: true };
 
     if (characterEquipment) {
-      const characterItems = guardians[character];
+      const characterItems = guardians.get(character);
       if (!characterItems) {
         throw new Error("Character items not found");
       }
       // create all the sections first
       for (const bucket of characterBuckets) {
-        characterItems.items[bucket] = { equipped: null, inventory: [] };
+        characterItems.items.set(bucket, { equipped: null, inventory: [] });
       }
       for (const item of characterEquipment.items) {
         if (characterItems) {
           try {
             const destinyItem = addDefinition(item, characterAsId);
-            characterItems.items[item.bucketHash] = { equipped: destinyItem, inventory: [] };
+            characterItems.items.set(item.bucketHash, { equipped: destinyItem, inventory: [] });
             if (item.bucketHash === SectionBuckets.Emblem) {
               if (item.overrideStyleItemHash) {
                 get().setSecondarySpecial(character, item.overrideStyleItemHash);
@@ -312,10 +313,7 @@ function processCharacterEquipment(
   return guardians;
 }
 
-function processCharacterInventory(
-  profile: ProfileData,
-  guardians: Record<string, Guardian>,
-): Record<string, Guardian> {
+function processCharacterInventory(profile: ProfileData, guardians: Map<string, Guardian>): Map<string, Guardian> {
   const charactersInventory = profile.Response.characterInventories.data;
 
   for (const character in charactersInventory) {
@@ -323,12 +321,12 @@ function processCharacterInventory(
     const characterAsId = { characterId: character, equipped: false, previousCharacterId: "" };
 
     if (characterInventory) {
-      const characterItems = guardians[character];
+      const characterItems = guardians.get(character);
       for (const item of characterInventory.items) {
         if (characterItems) {
           try {
             const destinyItem = addDefinition(item, characterAsId);
-            characterItems.items[item.bucketHash]?.inventory.push(destinyItem);
+            characterItems.items.get(item.bucketHash)?.inventory.push(destinyItem);
           } catch {}
         }
       }
@@ -611,7 +609,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
   };
 
   const vaultData: VaultData = {
-    generalVault: {},
+    generalVault: new Map<number, DestinyItem[]>(),
     consumables: [],
     mods: [],
     lostItems: [],
@@ -619,7 +617,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
 
   // create all the sections first
   for (const bucket of characterBuckets) {
-    vaultData.generalVault[bucket] = [];
+    vaultData.generalVault.set(bucket, []);
   }
 
   if (vaultInventory) {
@@ -633,7 +631,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
             destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? 0;
 
             if (destinyItem.bucketHash !== 0) {
-              vaultData.generalVault[destinyItem.bucketHash]?.push(destinyItem);
+              vaultData.generalVault.get(destinyItem.bucketHash)?.push(destinyItem);
             }
           } catch {
             continue;
