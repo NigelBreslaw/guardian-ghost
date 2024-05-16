@@ -1,3 +1,4 @@
+import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 import { InventoryPageEnums, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -114,6 +115,7 @@ export default function InventoryPage(props: InventoryPageProps) {
   }
 
   const mainData = getData(props.inventoryPages) ?? [];
+  const refreshing = useGGStore((state) => state.refreshing);
 
   return (
     <View style={rootStyles.root}>
@@ -132,6 +134,8 @@ export default function InventoryPage(props: InventoryPageProps) {
                 ref={(ref) => {
                   listRefs.current[index] = ref;
                 }}
+                onRefresh={() => getFullProfile()}
+                refreshing={refreshing}
                 data={mainData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
