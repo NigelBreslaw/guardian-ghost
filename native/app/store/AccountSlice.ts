@@ -445,6 +445,7 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
     tierType: TierType.Unknown,
     traitIds: [],
     watermark: "",
+    search: "",
   };
 
   const itemDef = itemsDefinition[itemHash];
@@ -460,6 +461,7 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
 
   if (itemDef?.itd) {
     definitionItem.itemTypeDisplayName = ItemTypeDisplayName[itemDef.itd]!;
+    definitionItem.search = definitionItem.search + definitionItem.itemTypeDisplayName.toLowerCase();
   }
 
   if (itemDef?.s) {
@@ -526,6 +528,8 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
     definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? 0;
   }
   definitionItem.name = itemDef?.n ?? "";
+
+  definitionItem.search = definitionItem.search + definitionItem.name.toLowerCase();
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
   definitionItem.itemSubType = itemDef?.is ?? 0;
   definitionItem.tierType = itemDef?.t ?? 0;
