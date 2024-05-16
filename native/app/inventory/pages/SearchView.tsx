@@ -2,8 +2,12 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { consumables, generalVault, guardians, mods } from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
-import { Image } from "expo-image";
 import { TextInput } from "react-native-gesture-handler";
+import { FlashList } from "@shopify/flash-list";
+import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
+import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
+import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 
 function getAllItems(): DestinyItem[] {
   const items = [];
@@ -46,6 +50,37 @@ function find(text: string): DestinyItem[] {
   return foundItems;
 }
 
+const keyExtractor = (item: DestinyItem) => item.instance.id;
+
+export const UiCellRenderItem = ({ item }: { item: DestinyItem }) => {
+  return (
+    <View
+      key={item.itemInstanceId}
+      style={{
+        width: ICON_SIZE + ICON_MARGIN,
+        height: ICON_SIZE + ICON_MARGIN,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <DestinyCell2
+        characterId={item.characterId}
+        itemHash={item.itemHash}
+        itemInstanceId={item.itemInstanceId}
+        bucketHash={item.bucketHash}
+        icon={item.instance.icon}
+        calculatedWaterMark={item.instance.calculatedWaterMark ?? ""}
+        damageTypeIconUri={getDamageTypeIconUri(item.instance.damageType)}
+        crafted={item.instance.crafted ?? false}
+        stackSizeMaxed={item.quantity === item.def.maxStackSize}
+        primaryStat={item.instance.primaryStat}
+        quantity={item.quantity}
+        borderColor={returnBorderColor(item)}
+      />
+    </View>
+  );
+};
+
 function SearchView() {
   const [searchText, setSearchText] = useState("");
   const [items, setItems] = useState<DestinyItem[]>([]);
@@ -71,19 +106,16 @@ function SearchView() {
       <View style={{ height: 50 }} />
       <View
         style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignContent: "space-between",
+          flex: 1,
         }}
       >
-        {items.map((item) => {
-          return (
-            <View key={item.itemInstanceId} style={{ width: 100, height: 100 }}>
-              <Image source={{ uri: item.instance.icon }} style={{ width: 40, height: 40 }} />
-            </View>
-          );
-        })}
+        <FlashList
+          data={items}
+          renderItem={UiCellRenderItem}
+          numColumns={5}
+          estimatedItemSize={100}
+          keyExtractor={keyExtractor}
+        />
       </View>
     </View>
   );
