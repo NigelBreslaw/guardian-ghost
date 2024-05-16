@@ -8,9 +8,12 @@ export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,30
 export const BUNGIE_MANIFEST_URL = "https://www.bungie.net/Platform/Destiny2/Manifest/";
 export const CUSTOM_MANIFEST_URL = "https://app.guardianghost.com/json/manifest.json";
 
-export async function getFullProfile() {
+export async function getFullProfile(pullToRefresh = false) {
   useGGStore.getState().setLastRefreshTime();
   useGGStore.getState().setRefreshing(true);
+  if (pullToRefresh) {
+    useGGStore.getState().setPullRefreshing(true);
+  }
   try {
     const profile = (await getProfile()) as unknown as ProfileData;
     // The returned data is often old and won't reflect recent transfers. This check ensures the data
@@ -31,6 +34,7 @@ export async function getFullProfile() {
     console.error("Failed to validate profile!", e);
   } finally {
     useGGStore.getState().setRefreshing(false);
+    useGGStore.getState().setPullRefreshing(false);
   }
 }
 

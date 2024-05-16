@@ -115,7 +115,7 @@ export default function InventoryPage(props: InventoryPageProps) {
   }
 
   const mainData = getData(props.inventoryPages) ?? [];
-  const refreshing = useGGStore((state) => state.refreshing);
+  const pullRefreshing = useGGStore((state) => state.pullRefreshing);
 
   return (
     <View style={rootStyles.root}>
@@ -134,8 +134,8 @@ export default function InventoryPage(props: InventoryPageProps) {
                 ref={(ref) => {
                   listRefs.current[index] = ref;
                 }}
-                onRefresh={() => getFullProfile()}
-                refreshing={refreshing}
+                onRefresh={() => getFullProfile(true)}
+                refreshing={pullRefreshing}
                 data={mainData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
