@@ -412,8 +412,40 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
       }
     }
   }
+  addSpecialSearchClues(destinyItem);
 
   return destinyItem;
+}
+
+function addSpecialSearchClues(destinyItem: DestinyItem) {
+  if (destinyItem.instance.masterwork) {
+    destinyItem.def.search += "masterworked";
+  }
+  if (destinyItem.instance.crafted) {
+    destinyItem.def.search += "crafted";
+  }
+  destinyItem.def.search += returnDamageType(destinyItem.instance.damageType);
+}
+
+function returnDamageType(damageType: DamageType | undefined): string {
+  switch (damageType) {
+    case DamageType.None:
+      return "";
+    case DamageType.Kinetic:
+      return "kinetic";
+    case DamageType.Arc:
+      return "arc";
+    case DamageType.Solar:
+      return "solar";
+    case DamageType.Void:
+      return "void";
+    case DamageType.Stasis:
+      return "stasis";
+    case DamageType.Strand:
+      return "strand";
+    default:
+      return "";
+  }
 }
 
 const itemDefinitionCache = new Map<number, DestinyItemDefinition>();
