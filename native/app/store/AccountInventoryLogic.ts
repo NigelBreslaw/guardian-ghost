@@ -121,119 +121,117 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
   }
 
   for (const [_key, characterData] of guardians) {
+    const dataArray: UISections[] = [];
+    for (const bucket of itemBuckets) {
+      const sectionDetails = getSectionDetails(bucket);
+      const bucketItems = characterData.items.get(bucket);
 
-      const dataArray: UISections[] = [];
-      for (const bucket of itemBuckets) {
-        const sectionDetails = getSectionDetails(bucket);
-        const bucketItems = characterData.items.get(bucket);
+      const getInfo = (bucket: SectionBuckets): string | undefined => {
+        switch (bucket) {
+          case SectionBuckets.Consumables:
+            return `${consumables.length}/50`;
+          case SectionBuckets.Mods:
+            return `${mods.length}/50`;
+          case SectionBuckets.LostItem:
+            return `${bucketItems?.inventory.length}/21`;
+          default:
+            return undefined;
+        }
+      };
 
-        const getInfo = (bucket: SectionBuckets): string | undefined => {
-          switch (bucket) {
-            case SectionBuckets.Consumables:
-              return `${consumables.length}/50`;
-            case SectionBuckets.Mods:
-              return `${mods.length}/50`;
-            case SectionBuckets.LostItem:
-              return `${bucketItems?.inventory.length}/21`;
-            default:
-              return undefined;
-          }
+      const info: string | undefined = getInfo(bucket);
+      // create section separators
+      const separator: SeparatorSection = {
+        id: `${bucket}_separator`,
+        type: UISection.Separator,
+        label: sectionDetails.label,
+        info,
+      };
+      dataArray.push(separator);
+
+      if (bucket === SectionBuckets.Consumables) {
+        const globalConsumables: VaultFlexSection = {
+          id: `${bucket}_global_consumables_section`,
+          type: UISection.VaultFlex,
+          inventory: [],
         };
+        if (consumables) {
+          globalConsumables.inventory = returnInventoryArray(consumables, bucket);
+        }
+        dataArray.push(globalConsumables);
+        continue;
+      }
 
-        const info: string | undefined = getInfo(bucket);
-        // create section separators
-        const separator: SeparatorSection = {
-          id: `${bucket}_separator`,
-          type: UISection.Separator,
-          label: sectionDetails.label,
-          info,
+      if (bucket === SectionBuckets.Mods) {
+        const globalMods: VaultFlexSection = {
+          id: `${bucket}_global_mods_section`,
+          type: UISection.VaultFlex,
+          inventory: [],
         };
-        dataArray.push(separator);
-
-        if (bucket === SectionBuckets.Consumables) {
-          const globalConsumables: VaultFlexSection = {
-            id: `${bucket}_global_consumables_section`,
-            type: UISection.VaultFlex,
-            inventory: [],
-          };
-          if (consumables) {
-            globalConsumables.inventory = returnInventoryArray(consumables, bucket);
-          }
-          dataArray.push(globalConsumables);
-          continue;
+        if (mods) {
+          globalMods.inventory = returnInventoryArray(mods, bucket);
         }
+        dataArray.push(globalMods);
+        continue;
+      }
 
-        if (bucket === SectionBuckets.Mods) {
-          const globalMods: VaultFlexSection = {
-            id: `${bucket}_global_mods_section`,
-            type: UISection.VaultFlex,
-            inventory: [],
-          };
-          if (mods) {
-            globalMods.inventory = returnInventoryArray(mods, bucket);
-          }
-          dataArray.push(globalMods);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.Engram) {
-          const engramsSection: EngramsSection = {
-            id: `${bucket}_engrams_section`,
-            type: UISection.Engrams,
-            inventory: [],
-          };
-          if (bucketItems) {
-            engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-          }
-          dataArray.push(engramsSection);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.LostItem) {
-          const lostItemsSection: LostItemsSection = {
-            id: `${bucket}_lost_items_section`,
-            type: UISection.LostItems,
-            inventory: [],
-          };
-          if (bucketItems) {
-            lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-          }
-          dataArray.push(lostItemsSection);
-          continue;
-        }
-
-        if (bucket === SectionBuckets.Artifact) {
-          const artifactSection: ArtifactSection = {
-            id: `${bucket}_artifact_section`,
-            type: UISection.Artifact,
-            equipped: null,
-          };
-          if (bucketItems?.equipped) {
-            artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
-          }
-          dataArray.push(artifactSection);
-          continue;
-        }
-
-        const equipSectionCell: EquipSection = {
-          id: `${bucket}_equip_section`,
-          type: UISection.CharacterEquipment,
-          equipped: null,
+      if (bucket === SectionBuckets.Engram) {
+        const engramsSection: EngramsSection = {
+          id: `${bucket}_engrams_section`,
+          type: UISection.Engrams,
           inventory: [],
         };
         if (bucketItems) {
-          const equipped = bucketItems.equipped;
-
-          if (equipped) {
-            equipSectionCell.equipped = returnDestinyIconData(equipped);
-          }
-          equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
-
-          dataArray.push(equipSectionCell);
+          engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
         }
+        dataArray.push(engramsSection);
+        continue;
       }
-      characterDataArray.push(dataArray);
-    
+
+      if (bucket === SectionBuckets.LostItem) {
+        const lostItemsSection: LostItemsSection = {
+          id: `${bucket}_lost_items_section`,
+          type: UISection.LostItems,
+          inventory: [],
+        };
+        if (bucketItems) {
+          lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+        }
+        dataArray.push(lostItemsSection);
+        continue;
+      }
+
+      if (bucket === SectionBuckets.Artifact) {
+        const artifactSection: ArtifactSection = {
+          id: `${bucket}_artifact_section`,
+          type: UISection.Artifact,
+          equipped: null,
+        };
+        if (bucketItems?.equipped) {
+          artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
+        }
+        dataArray.push(artifactSection);
+        continue;
+      }
+
+      const equipSectionCell: EquipSection = {
+        id: `${bucket}_equip_section`,
+        type: UISection.CharacterEquipment,
+        equipped: null,
+        inventory: [],
+      };
+      if (bucketItems) {
+        const equipped = bucketItems.equipped;
+
+        if (equipped) {
+          equipSectionCell.equipped = returnDestinyIconData(equipped);
+        }
+        equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+
+        dataArray.push(equipSectionCell);
+      }
+    }
+    characterDataArray.push(dataArray);
   }
   // Now build the vault data
   const vaultUiData = returnVaultUiData(get, itemBuckets, generalVault);
