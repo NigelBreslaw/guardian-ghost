@@ -45,7 +45,9 @@ function find(text: string): DestinyItem[] {
   }
   const textToLowercase = text.toLowerCase();
   const items = getAllItems();
-  const foundItems = items.filter((item) => item.def.search.includes(textToLowercase));
+  const foundItems = items.filter((item) => {
+    return item.def.search.includes(textToLowercase) || item.instance.search.includes(textToLowercase);
+  });
 
   return foundItems;
 }
@@ -91,8 +93,12 @@ function SearchView() {
   }, [searchText]);
 
   const searchItems = useCallback((clue: string) => {
+    const p1 = performance.now();
     const foundItems = find(clue);
+
     setItems(foundItems);
+    const p2 = performance.now();
+    console.log("searchItems", `${(p2 - p1).toFixed(4)} ms`);
   }, []);
   return (
     <View style={{ height: "100%" }}>

@@ -59,6 +59,7 @@ export type ItemInstance = {
   deepSightResonance?: boolean;
   masterwork?: boolean;
   primaryStat: number;
+  search: string;
 };
 
 export type DestinyItemDefinition = {
