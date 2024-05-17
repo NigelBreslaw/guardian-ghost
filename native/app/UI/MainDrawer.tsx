@@ -8,7 +8,7 @@ import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { Image } from "expo-image";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
-import { LOGO_DARK, REFRESH_ICON } from "@/app/inventory/logic/Constants.ts";
+import { LOGO_DARK, REFRESH_ICON, SEARCH_ICON } from "@/app/inventory/logic/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -156,7 +156,12 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           onPress={() => props.navigation.navigate("Inventory")}
         />
         <DrawerItem
-          label="Search"
+          label={({ focused, color }) => (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+              <Text style={{ color }}>{"Search"}</Text>
+              <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: focused ? 1 : 0.4 }} />
+            </View>
+          )}
           activeTintColor="white"
           inactiveTintColor="grey"
           focused={props.state.index === 1}
