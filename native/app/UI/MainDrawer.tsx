@@ -245,7 +245,7 @@ export default function MainDrawer() {
         component={SearchView}
         options={{
           headerStyle: {
-            backgroundColor: "#17101F",
+            backgroundColor: "#1C1C1C",
           },
           headerTintColor: "white",
         }}
