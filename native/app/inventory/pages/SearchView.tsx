@@ -2,12 +2,13 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { consumables, generalVault, guardians, mods } from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
+import { Image } from "expo-image";
 import { TextInput } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
-import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 
 function getAllItems(): DestinyItem[] {
   const items = [];
@@ -43,10 +44,21 @@ function find(text: string): DestinyItem[] {
   if (text === "") {
     return [];
   }
-  const textToLowercase = text.toLowerCase();
+
+  const words = text
+    .toLocaleLowerCase()
+    .split(" ")
+    .filter((word) => word.trim() !== "");
   const items = getAllItems();
   const foundItems = items.filter((item) => {
-    return item.def.search.includes(textToLowercase) || item.instance.search.includes(textToLowercase);
+    for (const word of words) {
+      if (item.def.search.includes(word)) {
+        return true;
+      }
+      if (item.instance.search.includes(word)) {
+        return true;
+      }
+    }
   });
 
   return foundItems;
@@ -87,28 +99,43 @@ function SearchView() {
   const [searchText, setSearchText] = useState("");
   const [items, setItems] = useState<DestinyItem[]>([]);
 
-  // useEffect to update items when searchText changes
   useEffect(() => {
     searchItems(searchText);
   }, [searchText]);
 
   const searchItems = useCallback((clue: string) => {
-    const p1 = performance.now();
     const foundItems = find(clue);
 
     setItems(foundItems);
-    const p2 = performance.now();
-    console.log("searchItems", `${(p2 - p1).toFixed(4)} ms`);
   }, []);
   return (
     <View style={{ height: "100%" }}>
-      <TextInput
-        style={{ borderWidth: 1, borderColor: "white", height: 50, width: "100%", color: "white" }}
-        onChangeText={(value) => {
-          setSearchText(value);
-        }}
-        value={searchText}
-      />
+      <View style={{ width: "100%", height: 40, paddingLeft: 20, paddingRight: 20, alignContent: "center" }}>
+        <View style={{ flex: 1, backgroundColor: "white", opacity: 0.14, borderRadius: 10 }} />
+        <View style={{ flexDirection: "row", gap: 5, position: "absolute", left: 30, top: 10, marginRight: 10 }}>
+          <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: 0.4 }} />
+          <TextInput
+            keyboardAppearance="dark"
+            cursorColor="white"
+            selectionColor={"#ffffff20"}
+            textContentType="none"
+            enterKeyHint="search"
+            autoComplete="off"
+            placeholder="Search"
+            placeholderTextColor="grey"
+            clearButtonMode="always"
+            selectTextOnFocus={false}
+            style={{
+              flex: 1,
+              color: "white",
+              fontSize: 18,
+            }}
+            onChangeText={(value) => {
+              setSearchText(value);
+            }}
+          />
+        </View>
+      </View>
       <View style={{ height: 50 }} />
       <View
         style={{
