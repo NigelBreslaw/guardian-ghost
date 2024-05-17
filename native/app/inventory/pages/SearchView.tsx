@@ -1,9 +1,8 @@
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { consumables, generalVault, guardians, mods } from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
+import { KeyboardAvoidingView, TextInput, Platform, View } from "react-native";
 import { Image } from "expo-image";
-import { TextInput } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
@@ -109,48 +108,74 @@ function SearchView() {
     setItems(foundItems);
   }, []);
   return (
-    <View style={{ height: "100%" }}>
-      <View style={{ width: "100%", height: 40, paddingLeft: 20, paddingRight: 20, alignContent: "center" }}>
-        <View style={{ flex: 1, backgroundColor: "white", opacity: 0.14, borderRadius: 10 }} />
-        <View style={{ flexDirection: "row", gap: 5, position: "absolute", left: 30, top: 10, marginRight: 10 }}>
-          <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: 0.4 }} />
-          <TextInput
-            keyboardAppearance="dark"
-            cursorColor="white"
-            selectionColor={"#ffffff20"}
-            textContentType="none"
-            enterKeyHint="search"
-            autoComplete="off"
-            placeholder="Search"
-            placeholderTextColor="grey"
-            clearButtonMode="always"
-            selectTextOnFocus={false}
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <View style={{ height: "100%" }}>
+        <View style={{ width: "100%", height: 70, backgroundColor: "#1C1C1C" }} />
+        <View
+          style={{
+            width: "100%",
+            height: 40,
+            paddingLeft: 15,
+            paddingRight: 15,
+            alignContent: "center",
+            position: "absolute",
+            top: 15,
+          }}
+        >
+          <View style={{ flex: 1, backgroundColor: "white", opacity: 0.14, borderRadius: 10 }} />
+          <View
             style={{
-              flex: 1,
-              color: "white",
-              fontSize: 18,
+              width: "100%",
+              height: 40,
+              flexDirection: "row",
+              gap: 5,
+              position: "absolute",
+              left: 30,
+              paddingRight: 20,
             }}
-            onChangeText={(value) => {
-              setSearchText(value);
-            }}
+          >
+            <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: 0.4, alignSelf: "center" }} />
+            <TextInput
+              keyboardAppearance="dark"
+              cursorColor="white"
+              selectionColor={"white"}
+              selectionHandleColor={"white"}
+              selectTextOnFocus={true}
+              textContentType={"none"}
+              enterKeyHint="search"
+              autoComplete={"off"}
+              spellCheck={false}
+              autoCapitalize="none"
+              placeholder="Search"
+              placeholderTextColor="grey"
+              clearButtonMode="always"
+              style={{
+                flex: 1,
+                color: "white",
+                fontSize: 18,
+              }}
+              onChangeText={(value) => {
+                setSearchText(value);
+              }}
+            />
+          </View>
+        </View>
+        <View style={{ height: 50 }} />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <FlashList
+            data={items}
+            renderItem={UiCellRenderItem}
+            numColumns={5}
+            estimatedItemSize={100}
+            keyExtractor={keyExtractor}
           />
         </View>
       </View>
-      <View style={{ height: 50 }} />
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <FlashList
-          data={items}
-          renderItem={UiCellRenderItem}
-          numColumns={5}
-          estimatedItemSize={100}
-          keyExtractor={keyExtractor}
-        />
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
