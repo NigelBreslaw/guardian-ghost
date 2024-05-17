@@ -189,6 +189,7 @@ function SearchView() {
         >
           <FlashList
             keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="always"
             data={items}
             renderItem={UiCellRenderItem}
             numColumns={5}
