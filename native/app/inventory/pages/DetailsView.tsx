@@ -188,7 +188,7 @@ export default function DetailsView({
     return null;
   }
   return (
-    <ScrollView style={[styles.scroll, { marginBottom: insets.bottom }]}>
+    <ScrollView keyboardShouldPersistTaps="always" style={[styles.scroll, { marginBottom: insets.bottom }]}>
       {destinyItem && (
         <View style={{ height: "100%" }}>
           <View
