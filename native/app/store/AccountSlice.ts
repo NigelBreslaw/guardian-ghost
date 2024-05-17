@@ -421,12 +421,12 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
 
 function addSpecialSearchClues(destinyItem: DestinyItem) {
   if (destinyItem.instance.masterwork) {
-    destinyItem.instance.search += "masterworked";
+    destinyItem.instance.search += " masterworked";
   }
   if (destinyItem.instance.crafted) {
-    destinyItem.instance.search += "crafted";
+    destinyItem.instance.search += " crafted";
   }
-  destinyItem.instance.search += returnDamageType(destinyItem.instance.damageType);
+  destinyItem.instance.search += ` ${returnDamageType(destinyItem.instance.damageType)}`;
 }
 
 function returnDamageType(damageType: DamageType | undefined): string {
@@ -495,7 +495,7 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
 
   if (itemDef?.itd) {
     definitionItem.itemTypeDisplayName = ItemTypeDisplayName[itemDef.itd]!;
-    definitionItem.search = definitionItem.search + definitionItem.itemTypeDisplayName.toLowerCase();
+    definitionItem.search = `${definitionItem.itemTypeDisplayName.toLowerCase()} ${definitionItem.search}`;
   }
 
   if (itemDef?.s) {
@@ -563,7 +563,7 @@ export function getItemDefinition(itemHash: number): DestinyItemDefinition {
   }
   definitionItem.name = itemDef?.n ?? "";
 
-  definitionItem.search = definitionItem.search + definitionItem.name.toLowerCase();
+  definitionItem.search = `${definitionItem.name.toLowerCase()} ${definitionItem.search}`;
   definitionItem.itemType = itemDef?.it ?? ItemType.None;
   definitionItem.itemSubType = itemDef?.is ?? 0;
   definitionItem.tierType = itemDef?.t ?? 0;
