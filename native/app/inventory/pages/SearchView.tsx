@@ -1,17 +1,19 @@
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { consumables, generalVault, guardians, mods } from "@/app/store/Definitions.ts";
-import React, { useCallback, useEffect, useState } from "react";
-import { KeyboardAvoidingView, TextInput, Platform, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import { useDrawerStatus } from "@react-navigation/drawer";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
 
 function getAllItems(): DestinyItem[] {
   const items = [];
-
   for (const [_key, guardian] of guardians) {
     for (const [_key, bucket] of guardian.items) {
       if (bucket.equipped) {
@@ -70,8 +72,8 @@ export const UiCellRenderItem = ({ item }: { item: DestinyItem }) => {
     <View
       key={item.itemInstanceId}
       style={{
-        width: ICON_SIZE + ICON_MARGIN,
         height: ICON_SIZE + ICON_MARGIN,
+        width: ICON_SIZE,
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -95,8 +97,21 @@ export const UiCellRenderItem = ({ item }: { item: DestinyItem }) => {
 };
 
 function SearchView() {
+  const drawerStatus = useDrawerStatus();
+  const insets = useSafeAreaInsets();
   const [searchText, setSearchText] = useState("");
   const [items, setItems] = useState<DestinyItem[]>([]);
+  const textInputRef = useRef<TextInput>(null);
+
+  useFocusEffect(() => {
+    textInputRef.current?.focus();
+  });
+
+  useEffect(() => {
+    if (drawerStatus === "open") {
+      Keyboard.dismiss();
+    }
+  }, [drawerStatus]);
 
   useEffect(() => {
     searchItems(searchText);
@@ -107,8 +122,12 @@ function SearchView() {
 
     setItems(foundItems);
   }, []);
+
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1, marginBottom: insets.bottom }}
+    >
       <View style={{ height: "100%" }}>
         <View style={{ width: "100%", height: 70, backgroundColor: "#1C1C1C" }} />
         <View
@@ -136,11 +155,12 @@ function SearchView() {
           >
             <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: 0.4, alignSelf: "center" }} />
             <TextInput
+              ref={textInputRef}
               keyboardAppearance="dark"
               cursorColor="white"
               selectionColor={"white"}
               selectionHandleColor={"white"}
-              selectTextOnFocus={true}
+              selectTextOnFocus={false}
               textContentType={"none"}
               enterKeyHint="search"
               autoComplete={"off"}
@@ -160,13 +180,15 @@ function SearchView() {
             />
           </View>
         </View>
-        <View style={{ height: 50 }} />
         <View
           style={{
             flex: 1,
+            paddingLeft: 15,
+            paddingRight: 0,
           }}
         >
           <FlashList
+            keyboardDismissMode="on-drag"
             data={items}
             renderItem={UiCellRenderItem}
             numColumns={5}
