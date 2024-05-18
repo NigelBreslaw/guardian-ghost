@@ -45,39 +45,44 @@ function getAllItems(): DestinyItem[] {
   for (const item of consumables) {
     items.push(item);
   }
-  addSocketSearchClues(items);
+
+  for (const item of items) {
+    addSocketSearchClues(item);
+  }
+
   return items;
 }
 
-function addSocketSearchClues(allItems: DestinyItem[]) {
-  const p1 = performance.now();
-  for (const item of allItems) {
-    speedSearchClues(item);
-  }
-  const p2 = performance.now();
-  console.log("addSocketSearchClues", `${(p2 - p1).toFixed(4)} ms`);
-}
+// These are plugs such as 'empty mod socket', 'upgrade armor' and 'default shader'. Ignore these.
+const plugsToIgnore = new Set<number>([
+  1078080765, 1803434835, 1980618587, 2240097604, 2248916756, 2248916760, 2248916766, 2248916767, 2269836811,
+  2285636663, 2492112475, 2492112476, 3003114975, 3003114968, 3003114969, 3003114970, 3020065856, 3020065861,
+  3020065862, 3020065863, 3003114974, 3200810407, 3482456146, 3482456151, 3738398030, 3820147479, 4003902345,
+  4048086882, 4048086883, 4048086885, 4197017640, 4197017642, 4197017643, 4197017644, 4197017645, 4248210736, 702981643,
+  3020065869, 3482456147, 3482456150, 3003114964, 4048086884, 4048086887, 4048086888, 24886320, 3482456152, 3003114971,
+  2248916761, 2765543780, 4197017639, 2492112474, 2492112478, 2492112477, 3482456149, 4048086889, 24886325, 4264493517,
+  3482456148, 4003902347, 2248916763, 2248916757, 3020065868, 1282082331, 3003114972, 3482456145, 2248916764,
+  2768425135, 3361747053, 4048086880, 3361747054, 3361747050, 3003114965, 1282082334, 1282082335, 1282082328, 334475187,
+  902052880, 1282082329, 2294891641, 24886323, 4197017647, 2663272111, 545118500, 4197017638, 2492112473, 4048086886,
+  24886324, 4003902348, 2248916762, 3361747052, 792151595, 4003902346, 2931483505, 1390587439, 1959648454, 2323986101,
+  2909846572, 1961918267, 4043342755, 3251563851, 321296654, 3207138885, 2111549310, 1498917124, 4055462131, 1715180370,
+  1180997867, 3819991001, 3479021389,
+]);
 
-function speedSearchClues(destinyItem: DestinyItem) {
+function addSocketSearchClues(destinyItem: DestinyItem) {
   if (!destinyItem.itemInstanceId) {
     return;
   }
 
-  const foundPlugHashes: number[] = [
-    1078080765, 1803434835, 1980618587, 2240097604, 2248916756, 2248916760, 2248916766, 2248916767, 2269836811,
-    2285636663, 2492112475, 2492112476, 3003114975, 3003114968, 3003114969, 3003114970, 3020065856, 3020065861,
-    3020065862, 3020065863, 3003114974, 3200810407, 3482456146, 3482456151, 3738398030, 3820147479, 4003902345,
-    4048086882, 4048086883, 4048086885, 4197017640, 4197017642, 4197017643, 4197017644, 4197017645, 4248210736,
-    702981643,
-  ];
+  const foundPlugHashes: number[] = [];
 
   const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId]?.sockets;
   if (liveSockets) {
     for (const socket of liveSockets) {
       const plugHash = socket.plugHash;
-      if (plugHash && !foundPlugHashes.includes(plugHash)) {
+      if (plugHash && !plugsToIgnore.has(plugHash) && !foundPlugHashes.includes(plugHash)) {
         const itemName = itemsDefinition[plugHash]?.n;
-        if (itemName && itemName !== "undefined") {
+        if (itemName) {
           destinyItem.instance.search += ` ${itemName.toLowerCase()}`;
         }
         foundPlugHashes.push(plugHash);
@@ -91,11 +96,11 @@ function speedSearchClues(destinyItem: DestinyItem) {
         if (column) {
           for (const plug of column) {
             const plugHash = plug.plugItemHash;
-            if (!foundPlugHashes.includes(plugHash)) {
+            if (!plugsToIgnore.has(plugHash) && !foundPlugHashes.includes(plugHash)) {
               const def = itemsDefinition[plugHash];
-              const name = def?.n;
-              if (name) {
-                destinyItem.instance.search += ` ${name.toLocaleLowerCase()}`;
+              const itemName = def?.n;
+              if (itemName) {
+                destinyItem.instance.search += ` ${itemName.toLocaleLowerCase()}`;
               }
               foundPlugHashes.push(plugHash);
             }
