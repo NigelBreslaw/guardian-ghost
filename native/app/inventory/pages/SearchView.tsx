@@ -1,5 +1,5 @@
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { consumables, generalVault, getAllItems, guardians, mods } from "@/app/store/Definitions.ts";
+import { getAllItems } from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
 import { Image } from "expo-image";
@@ -10,8 +10,7 @@ import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { set } from "mutative/dist/utils/draft";
+import { useIsFocused } from "@react-navigation/native";
 
 function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
   if (text === "") {
