@@ -139,7 +139,7 @@ export type SocketCategory = {
 };
 
 export function createSockets(destinyItem: DestinyItem): Sockets | null {
-  const p1 = performance.now();
+  // const p1 = performance.now();
 
   // Non instanced items have no sockets.
   if (!destinyItem.itemInstanceId) {
@@ -152,11 +152,9 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   const sockets = expandAndCreateSockets(destinyItem.itemHash);
 
   if (!sockets) {
-    console.error("Failed to create sockets for item", destinyItem.itemHash);
+    // console.error("Failed to create sockets for item", destinyItem.itemHash);
     return null;
   }
-
-  addSocketCategoryDefinition(sockets);
 
   updateSocketEntriesWithLiveData(sockets, destinyItem);
 
@@ -165,8 +163,8 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   addDefinitionsToTopLevelSockets(sockets, destinyItem);
 
   // TODO: addDeepsightResonance() should all be added.
-  const p2 = performance.now();
-  console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
+  // const p2 = performance.now();
+  // console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
   // console.log("sockets", sockets);
   return sockets;
 }
@@ -263,6 +261,8 @@ function expandAndCreateSockets(itemHash: number): Sockets | null {
     socketEntries,
     socketCategories,
   };
+
+  addSocketCategoryDefinition(sockets);
 
   ExpandedSocketsCache.set(itemHash, sockets);
   // Deep clone the object to prevent mutation

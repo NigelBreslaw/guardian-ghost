@@ -1,5 +1,12 @@
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { getAllItems } from "@/app/store/Definitions.ts";
+import {
+  consumables,
+  generalVault,
+  guardians,
+  itemsDefinition,
+  mods,
+  rawProfileData,
+} from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
 import { Image } from "expo-image";
@@ -11,6 +18,93 @@ import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constan
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
+
+function getAllItems(): DestinyItem[] {
+  const items = [];
+  for (const [_key, guardian] of guardians) {
+    for (const [_key, bucket] of guardian.items) {
+      if (bucket.equipped) {
+        items.push(bucket.equipped);
+      }
+      for (const item of bucket.inventory) {
+        items.push(item);
+      }
+    }
+  }
+
+  for (const [_key, bucket] of generalVault) {
+    for (const item of bucket) {
+      items.push(item);
+    }
+  }
+
+  for (const item of mods) {
+    items.push(item);
+  }
+
+  for (const item of consumables) {
+    items.push(item);
+  }
+  addSocketSearchClues(items);
+  return items;
+}
+
+function addSocketSearchClues(allItems: DestinyItem[]) {
+  const p1 = performance.now();
+  for (const item of allItems) {
+    speedSearchClues(item);
+  }
+  const p2 = performance.now();
+  console.log("addSocketSearchClues", `${(p2 - p1).toFixed(4)} ms`);
+}
+
+function speedSearchClues(destinyItem: DestinyItem) {
+  if (!destinyItem.itemInstanceId) {
+    return;
+  }
+
+  const foundPlugHashes: number[] = [
+    1078080765, 1803434835, 1980618587, 2240097604, 2248916756, 2248916760, 2248916766, 2248916767, 2269836811,
+    2285636663, 2492112475, 2492112476, 3003114975, 3003114968, 3003114969, 3003114970, 3020065856, 3020065861,
+    3020065862, 3020065863, 3003114974, 3200810407, 3482456146, 3482456151, 3738398030, 3820147479, 4003902345,
+    4048086882, 4048086883, 4048086885, 4197017640, 4197017642, 4197017643, 4197017644, 4197017645, 4248210736,
+    702981643,
+  ];
+
+  const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId]?.sockets;
+  if (liveSockets) {
+    for (const socket of liveSockets) {
+      const plugHash = socket.plugHash;
+      if (plugHash && !foundPlugHashes.includes(plugHash)) {
+        const itemName = itemsDefinition[plugHash]?.n;
+        if (itemName && itemName !== "undefined") {
+          destinyItem.instance.search += ` ${itemName.toLowerCase()}`;
+        }
+        foundPlugHashes.push(plugHash);
+      }
+    }
+
+    const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
+    if (reusablePlugs) {
+      for (const key in reusablePlugs) {
+        const column = reusablePlugs[key];
+        if (column) {
+          for (const plug of column) {
+            const plugHash = plug.plugItemHash;
+            if (!foundPlugHashes.includes(plugHash)) {
+              const def = itemsDefinition[plugHash];
+              const name = def?.n;
+              if (name) {
+                destinyItem.instance.search += ` ${name.toLocaleLowerCase()}`;
+              }
+              foundPlugHashes.push(plugHash);
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
   if (text === "") {
