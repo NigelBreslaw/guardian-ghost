@@ -26,9 +26,6 @@ function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
 
   const foundItems = allItems.filter((item) => {
     for (const word of words) {
-      if (item.def.search.includes(word)) {
-        return true;
-      }
       if (item.instance.search.includes(word)) {
         return true;
       }

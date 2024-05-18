@@ -426,7 +426,10 @@ function addSpecialSearchClues(destinyItem: DestinyItem) {
   if (destinyItem.instance.crafted) {
     destinyItem.instance.search += " crafted";
   }
-  destinyItem.instance.search += ` ${returnDamageType(destinyItem.instance.damageType)}`;
+  destinyItem.instance.search += ` ${returnDamageType(destinyItem.instance.damageType)} `;
+
+  // Now add all the definition search clues
+  destinyItem.instance.search += destinyItem.def.search;
 }
 
 function returnDamageType(damageType: DamageType | undefined): string {
