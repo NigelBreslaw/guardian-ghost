@@ -237,3 +237,32 @@ function buildStatGroupDefinitionHelper(definition: StatGroupDefinition): StatGr
   }
   return helper;
 }
+
+export function getAllItems(): DestinyItem[] {
+  const items = [];
+  for (const [_key, guardian] of guardians) {
+    for (const [_key, bucket] of guardian.items) {
+      if (bucket.equipped) {
+        items.push(bucket.equipped);
+      }
+      for (const item of bucket.inventory) {
+        items.push(item);
+      }
+    }
+  }
+
+  for (const [_key, bucket] of generalVault) {
+    for (const item of bucket) {
+      items.push(item);
+    }
+  }
+
+  for (const item of mods) {
+    items.push(item);
+  }
+
+  for (const item of consumables) {
+    items.push(item);
+  }
+  return items;
+}

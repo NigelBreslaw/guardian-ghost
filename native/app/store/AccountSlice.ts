@@ -215,14 +215,14 @@ function updateProfile(get: AccountSliceGetter, set: AccountSliceSetter, profile
   const guardiansWithEquipment = processCharacterEquipment(get, profile, basicGuardians);
   const guardiansWithInventory = processCharacterInventory(profile, guardiansWithEquipment);
   const vaultData = processVaultInventory(profile);
-  const p2 = performance.now();
-  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
 
   setLostItems(vaultData.lostItems);
   setConsumables(vaultData.consumables);
   setMods(vaultData.mods);
   setGeneralVault(vaultData.generalVault);
   setGuardians(guardiansWithInventory);
+  const p2 = performance.now();
+  console.info("process Inventory took:", `${(p2 - p1).toFixed(4)} ms`);
   updateAllPages(get, set);
 }
 

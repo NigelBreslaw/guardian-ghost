@@ -1,5 +1,5 @@
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { consumables, generalVault, guardians, mods } from "@/app/store/Definitions.ts";
+import { getAllItems } from "@/app/store/Definitions.ts";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
 import { Image } from "expo-image";
@@ -10,48 +10,21 @@ import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
-function getAllItems(): DestinyItem[] {
-  const items = [];
-  for (const [_key, guardian] of guardians) {
-    for (const [_key, bucket] of guardian.items) {
-      if (bucket.equipped) {
-        items.push(bucket.equipped);
-      }
-      for (const item of bucket.inventory) {
-        items.push(item);
-      }
-    }
-  }
-
-  for (const [_key, bucket] of generalVault) {
-    for (const item of bucket) {
-      items.push(item);
-    }
-  }
-
-  for (const item of mods) {
-    items.push(item);
-  }
-
-  for (const item of consumables) {
-    items.push(item);
-  }
-  return items;
-}
-
-function find(text: string): DestinyItem[] {
+function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
   if (text === "") {
     return [];
   }
+
+  const p1 = performance.now();
 
   const words = text
     .toLocaleLowerCase()
     .split(" ")
     .filter((word) => word.trim() !== "");
-  const items = getAllItems();
-  const foundItems = items.filter((item) => {
+
+  const foundItems = allItems.filter((item) => {
     for (const word of words) {
       if (item.def.search.includes(word)) {
         return true;
@@ -61,6 +34,9 @@ function find(text: string): DestinyItem[] {
       }
     }
   });
+
+  const p2 = performance.now();
+  console.log("find", `${(p2 - p1).toFixed(4)} ms`);
 
   return foundItems;
 }
@@ -100,12 +76,18 @@ function SearchView() {
   const drawerStatus = useDrawerStatus();
   const insets = useSafeAreaInsets();
   const [searchText, setSearchText] = useState("");
-  const [items, setItems] = useState<DestinyItem[]>([]);
+  const [foundItems, setFoundItems] = useState<DestinyItem[]>([]);
   const textInputRef = useRef<TextInput>(null);
+  const focus = useIsFocused();
 
-  useFocusEffect(() => {
-    textInputRef.current?.focus();
-  });
+  const [allItems, setAllItems] = useState<DestinyItem[]>([]);
+
+  useEffect(() => {
+    if (focus) {
+      textInputRef.current?.focus();
+      setAllItems(getAllItems());
+    }
+  }, [focus]);
 
   useEffect(() => {
     if (drawerStatus === "open") {
@@ -117,11 +99,13 @@ function SearchView() {
     searchItems(searchText);
   }, [searchText]);
 
-  const searchItems = useCallback((clue: string) => {
-    const foundItems = find(clue);
-
-    setItems(foundItems);
-  }, []);
+  const searchItems = useCallback(
+    (clue: string) => {
+      const foundItems = find(clue, allItems);
+      setFoundItems(foundItems);
+    },
+    [allItems],
+  );
 
   return (
     <KeyboardAvoidingView
@@ -190,7 +174,7 @@ function SearchView() {
           <FlashList
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="always"
-            data={items}
+            data={foundItems}
             renderItem={UiCellRenderItem}
             numColumns={5}
             estimatedItemSize={100}
