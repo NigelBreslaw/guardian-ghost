@@ -1,14 +1,16 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
 import DetailsView from "@/app/inventory/pages/DetailsView.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+// Native app uses a native stack navigator which has no animations on web.
+// so this is a workaround to get the animations working.
+const RootStack = createStackNavigator<RootStackParamList>();
 
 function App() {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator screenOptions={{ animationEnabled: true }}>
       <RootStack.Group>
         <RootStack.Screen
           name="Root"

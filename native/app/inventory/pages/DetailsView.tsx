@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconCell from "@/app/inventory/pages/IconCell.tsx";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
-import type { RootStackParamList } from "@/app/App.tsx";
+import type { RootStackParamList } from "@/app/Root.tsx";
 import { findDestinyItem } from "@/app/store/AccountLogic.ts";
 
 const { width } = Dimensions.get("window");
