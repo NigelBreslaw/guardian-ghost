@@ -96,20 +96,20 @@ function getUpdatedItems(previousPages: UISections[][], newPageData: UISections[
 
 function createUIData(get: AccountSliceGetter) {
   const ggCharacters = get().ggCharacters;
-  let maxLostItemsColumns = 0;
+  let maxLostItemsRows = 0;
   for (const ggCharacter of ggCharacters) {
     if (ggCharacter.ggCharacterType !== GGCharacterType.Vault) {
       const totalLostItems = guardians.get(ggCharacter.characterId)?.items.get(SectionBuckets.LostItem)
         ?.inventory.length;
       if (totalLostItems) {
         const totalRows = Math.ceil(totalLostItems / 5);
-        if (totalRows > maxLostItemsColumns) {
-          maxLostItemsColumns = totalRows;
+        if (totalRows > maxLostItemsRows) {
+          maxLostItemsRows = totalRows;
         }
       }
     }
   }
-  get().setLostItemsColumns(maxLostItemsColumns);
+  get().setLostItemsRows(maxLostItemsRows);
 }
 
 function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
