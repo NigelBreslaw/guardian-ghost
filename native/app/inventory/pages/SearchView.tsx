@@ -262,7 +262,8 @@ function SearchView() {
         </View>
         <View
           style={{
-            flex: 1,
+            maxWidth: ICON_SIZE * 5 + ICON_MARGIN * 1.5 * 4,
+            flex: 5,
             paddingLeft: 15,
             paddingRight: 0,
           }}

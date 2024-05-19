@@ -1,4 +1,4 @@
-import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
 import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -13,11 +13,19 @@ type EngramsProps = {
 
 function LostItemsUI(props: EngramsProps) {
   const maxLostItemsRows = useGGStore.getState().maxLostItemsRows;
+  const minimumSpacerHeight = ICON_SIZE * maxLostItemsRows + ICON_MARGIN * (maxLostItemsRows - 1);
+
+  const normalHeight = ICON_SIZE * maxLostItemsRows + ICON_MARGIN * (maxLostItemsRows - 1);
+
   const styles = StyleSheet.create({
     root: {
-      height: ICON_SIZE * maxLostItemsRows + (maxLostItemsRows - 1) * ICON_MARGIN,
-      paddingLeft: DEFAULT_MARGIN,
-      paddingRight: DEFAULT_MARGIN,
+      height: minimumSpacerHeight,
+    },
+    container: {
+      maxHeight: normalHeight,
+      marginLeft: DEFAULT_MARGIN,
+      marginRight: DEFAULT_MARGIN,
+      maxWidth: INV_MAX_WIDTH,
       flex: 5,
       flexDirection: "row",
       flexWrap: "wrap",
@@ -33,25 +41,27 @@ function LostItemsUI(props: EngramsProps) {
   return (
     <View>
       <View style={styles.root}>
-        {totalItems.map((_v, index) => {
-          const item = props.data[index];
-          if (item) {
-            if (item.engram) {
+        <View style={styles.container}>
+          {totalItems.map((_v, index) => {
+            const item = props.data[index];
+            if (item) {
+              if (item.engram) {
+                return (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
+                  <EngramCell key={index} data={item} />
+                );
+              }
               return (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-                <EngramCell key={index} data={item} />
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                <DestinyCell key={index} data={item} />
               );
             }
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <DestinyCell key={index} data={item} />
+              <EmptyCell key={index} />
             );
-          }
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <EmptyCell key={index} />
-          );
-        })}
+          })}
+        </View>
       </View>
       <View style={styles.footer} />
     </View>
