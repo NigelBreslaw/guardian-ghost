@@ -8,7 +8,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 // so this is a workaround to get the animations working.
 const RootStack = createStackNavigator<RootStackParamList>();
 
+// Injects a style tag to remove the ugly focus outline on web TextInput
+export const injectWebCss = () => {
+  const style = document.createElement("style");
+  // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+  style.textContent = `textarea, select, input, button { outline: none!important; }`;
+  return document.head.append(style);
+};
+
 function App() {
+  injectWebCss();
+
   return (
     <RootStack.Navigator screenOptions={{ animationEnabled: true }}>
       <RootStack.Group>
