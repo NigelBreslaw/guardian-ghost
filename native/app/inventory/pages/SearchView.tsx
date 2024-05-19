@@ -12,7 +12,7 @@ import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
-import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
+import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 import { useDrawerStatus } from "@react-navigation/drawer";
