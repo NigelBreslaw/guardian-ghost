@@ -54,6 +54,7 @@ import {
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import { deepEqual } from "fast-equals";
+import type { ItemHash } from "@/app/core/GetProfile.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -288,7 +289,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setPlugCategoryHash(itemDefinition.helpers.PlugCategoryHash);
   setPlugCategoryIdentifier(itemDefinition.helpers.PlugCategoryIdentifier);
   setReusablePlugSetHash(itemDefinition.helpers.ReusablePlugSetHash);
-  setSingleInitialItemHash(itemDefinition.helpers.SingleInitialItemHash);
+  setSingleInitialItemHash(itemDefinition.helpers.SingleInitialItemHash as ItemHash[]);
   setSocketCategories(itemDefinition.helpers.SocketCategories);
   setSocketCategoryHash(itemDefinition.helpers.SocketCategoryHash);
   setSocketEntries(itemDefinition.helpers.SocketEntries);

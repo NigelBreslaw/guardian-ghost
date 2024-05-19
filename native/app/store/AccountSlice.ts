@@ -47,7 +47,7 @@ import {
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
-import type { DestinyItemBase, ProfileData } from "@/app/core/GetProfile.ts";
+import type { DestinyItemBase, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
@@ -87,7 +87,7 @@ export interface AccountSlice {
   pullFromPostmaster: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   findMaxQuantityToTransfer: (destinyItem: DestinyItem) => number;
-  setSecondarySpecial: (characterId: string, itemHash: number) => void;
+  setSecondarySpecial: (characterId: string, itemHash: ItemHash) => void;
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
 }
@@ -294,15 +294,16 @@ function processCharacterEquipment(
         characterItems.items.set(bucket, { equipped: null, inventory: [] });
       }
       for (const item of characterEquipment.items) {
+        const baseItem = item as DestinyItemBase;
         if (characterItems) {
           try {
-            const destinyItem = addDefinition(item, characterAsId);
+            const destinyItem = addDefinition(baseItem, characterAsId);
             characterItems.items.set(item.bucketHash, { equipped: destinyItem, inventory: [] });
-            if (item.bucketHash === SectionBuckets.Emblem) {
-              if (item.overrideStyleItemHash) {
-                get().setSecondarySpecial(character, item.overrideStyleItemHash);
+            if (baseItem.bucketHash === SectionBuckets.Emblem) {
+              if (baseItem.overrideStyleItemHash) {
+                get().setSecondarySpecial(character, baseItem.overrideStyleItemHash);
               } else {
-                get().setSecondarySpecial(character, item.itemHash);
+                get().setSecondarySpecial(character, baseItem.itemHash);
               }
             }
           } catch {}
@@ -325,7 +326,7 @@ function processCharacterInventory(profile: ProfileData, guardians: Map<string, 
       for (const item of characterInventory.items) {
         if (characterItems) {
           try {
-            const destinyItem = addDefinition(item, characterAsId);
+            const destinyItem = addDefinition(item as DestinyItemBase, characterAsId);
             characterItems.items.get(item.bucketHash)?.inventory.push(destinyItem);
           } catch {}
         }
@@ -455,7 +456,7 @@ function returnDamageType(damageType: DamageType | undefined): string {
 
 const itemDefinitionCache = new Map<number, DestinyItemDefinition>();
 
-export function getItemDefinition(itemHash: number): DestinyItemDefinition {
+export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   if (itemDefinitionCache.has(itemHash)) {
     return itemDefinitionCache.get(itemHash)!;
   }
@@ -596,7 +597,7 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
       }
       for (const socket of liveSockets) {
         if (socket.plugHash) {
-          const socketDef = getItemDefinition(socket.plugHash);
+          const socketDef = getItemDefinition(socket.plugHash as ItemHash);
           if (socketDef.traitIds.includes("item.exotic_catalyst") && socket.isEnabled) {
             return true;
           }
@@ -663,12 +664,13 @@ function processVaultInventory(profile: ProfileData): VaultData {
 
   if (vaultInventory) {
     for (const item of vaultInventory) {
+      const baseItem = item as DestinyItemBase;
       let destinyItem: DestinyItem;
 
       switch (item.bucketHash) {
         case 138197802:
           try {
-            destinyItem = addDefinition(item, characterIsVault);
+            destinyItem = addDefinition(baseItem, characterIsVault);
             destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? 0;
 
             if (destinyItem.bucketHash !== 0) {
@@ -679,15 +681,15 @@ function processVaultInventory(profile: ProfileData): VaultData {
           }
           break;
         case SectionBuckets.Consumables:
-          destinyItem = addDefinition(item, characterIsGlobalConsumables);
+          destinyItem = addDefinition(baseItem, characterIsGlobalConsumables);
           vaultData.consumables.push(destinyItem);
           break;
         case SectionBuckets.Mods:
-          destinyItem = addDefinition(item, characterIsGlobalMods);
+          destinyItem = addDefinition(baseItem, characterIsGlobalMods);
           vaultData.mods.push(destinyItem);
           break;
         default:
-          destinyItem = addDefinition(item, characterIsGlobalLostItems);
+          destinyItem = addDefinition(baseItem, characterIsGlobalLostItems);
           vaultData.lostItems.push(destinyItem);
           break;
       }
