@@ -16,15 +16,15 @@ export type UIDataSliceSetter = Parameters<StateCreator<IStore, [], [], UIDataSl
 export type UIDataSliceGetter = Parameters<StateCreator<IStore, [], [], UIDataSlice>>[1];
 
 export interface UIDataSlice {
-  maxLostItemsColumns: number;
-  setLostItemsColumns: (maxLostItemsColumns: number) => void;
+  maxLostItemsRows: number;
+  setLostItemsRows: (maxLostItemsRows: number) => void;
   getVaultSpacerSize: (bucket: SectionBuckets) => number;
 }
 
 export const createUIDataSlice: StateCreator<IStore, [], [], UIDataSlice> = (set, get) => ({
-  maxLostItemsColumns: 0,
-  setLostItemsColumns: (maxLostItemsColumns) => {
-    set({ maxLostItemsColumns });
+  maxLostItemsRows: 0,
+  setLostItemsRows: (maxLostItemsRows) => {
+    set({ maxLostItemsRows });
   },
   getVaultSpacerSize: (bucket) => {
     return getVaultSpacerSize(get, bucket);
@@ -41,9 +41,9 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
   }
 
   if (bucket === SectionBuckets.LostItem) {
-    const maxLostItemsColumns = get().maxLostItemsColumns;
+    const maxLostItemsRows = get().maxLostItemsRows;
 
-    return ICON_SIZE * maxLostItemsColumns + (maxLostItemsColumns - 1) * ICON_MARGIN + FOOTER_HEIGHT;
+    return ICON_SIZE * maxLostItemsRows + (maxLostItemsRows - 1) * ICON_MARGIN + FOOTER_HEIGHT;
   }
 
   if (bucket === SectionBuckets.Artifact) {

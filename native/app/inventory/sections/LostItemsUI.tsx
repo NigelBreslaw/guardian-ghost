@@ -12,10 +12,10 @@ type EngramsProps = {
 };
 
 function LostItemsUI(props: EngramsProps) {
-  const maxLostItemsColumns = useGGStore.getState().maxLostItemsColumns;
+  const maxLostItemsRows = useGGStore.getState().maxLostItemsRows;
   const styles = StyleSheet.create({
     root: {
-      height: ICON_SIZE * maxLostItemsColumns + (maxLostItemsColumns - 1) * ICON_MARGIN,
+      height: ICON_SIZE * maxLostItemsRows + (maxLostItemsRows - 1) * ICON_MARGIN,
       paddingLeft: DEFAULT_MARGIN,
       paddingRight: DEFAULT_MARGIN,
       flex: 5,
@@ -28,7 +28,7 @@ function LostItemsUI(props: EngramsProps) {
       height: FOOTER_HEIGHT,
     },
   });
-  const totalItems = Array.from({ length: 5 * maxLostItemsColumns });
+  const totalItems = Array.from({ length: 5 * maxLostItemsRows });
 
   return (
     <View>
