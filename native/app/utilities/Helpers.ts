@@ -1,6 +1,10 @@
 import type { GuardianClassType } from "@/app/bungie/Enums.ts";
 import type { DestinyItemSort } from "@/app/inventory/logic/Types.ts";
 
+declare const __brand: unique symbol;
+type Brand<B> = { [__brand]: B };
+export type Branded<T, B> = T & Brand<B>;
+
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 export const debounce = (func: Function, delay = 0) => {
   let timeoutId: string | number | NodeJS.Timeout | undefined;

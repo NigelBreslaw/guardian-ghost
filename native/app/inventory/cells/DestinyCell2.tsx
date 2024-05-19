@@ -11,6 +11,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CRAFTED_OVERLAY, DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
 import { useNavigation } from "@react-navigation/native";
+import type { ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 const common = StyleSheet.create({
   quantity: {
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
 
 type DestinyCellProps = {
   readonly characterId: string;
-  readonly itemHash: number;
-  readonly itemInstanceId: string | undefined;
+  readonly itemHash: ItemHash;
+  readonly itemInstanceId: ItemInstanceId | undefined;
   readonly bucketHash: number;
   readonly icon: string;
   readonly calculatedWaterMark: string;

@@ -1,5 +1,5 @@
 import type { DestinyItem, DestinyItemDefinition } from "@/app/inventory/logic/Types.ts";
-import type { PlugSet } from "@/app/core/GetProfile.ts";
+import type { ItemHash, PlugSet } from "@/app/core/GetProfile.ts";
 import {
   DestinySocketCategoryDefinition,
   ReusablePlugSetHash,
@@ -80,7 +80,7 @@ export type SocketEntry = {
   // modType: ModType; // default is.Normal
 
   // extending that type? But right now it's not been needed.
-  itemHash: number;
+  itemHash: ItemHash;
   plugSources: number; // This is a bitmask
 
   reusablePlugSocketIndex: number | null;
@@ -91,7 +91,7 @@ export type SocketEntry = {
 
   socketIndex: number | null;
   socketTypeHash: number | null;
-  singleInitialItemHash: number | null;
+  singleInitialItemHash: ItemHash | null;
 
   reusablePlugSetHash: number | null;
 
@@ -171,7 +171,7 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
 const ExpandedSocketsCache = new Map<number, Sockets>();
 
-function expandAndCreateSockets(itemHash: number): Sockets | null {
+function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
   if (ExpandedSocketsCache.has(itemHash)) {
     const sockets = ExpandedSocketsCache.get(itemHash)!;
     // Deep clone the object to prevent mutation
@@ -211,7 +211,7 @@ function expandAndCreateSockets(itemHash: number): Sockets | null {
     }
 
     const se: SocketEntry = {
-      itemHash: 0,
+      itemHash: 0 as ItemHash,
       isVisible: false,
       isEnabled: false,
       iconType: IconType.Plug,
@@ -297,7 +297,7 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
   liveSockets.sockets.forEach((socket, index) => {
     const se = sockets.socketEntries[index];
     if (se) {
-      se.itemHash = socket.plugHash ?? 0;
+      se.itemHash = (socket.plugHash ?? 0) as ItemHash;
       se.isVisible = socket.isVisible;
       se.isEnabled = socket.isEnabled;
     }
@@ -410,7 +410,7 @@ function makeSocketEntryColumn(
         socketToAppend = socketEntry;
       } else {
         const s: SocketEntry = {
-          itemHash: 0,
+          itemHash: 0 as ItemHash,
           iconType: IconType.Plug,
           plugSourcesAsEnums: [],
           plugSources: 0,
@@ -423,7 +423,7 @@ function makeSocketEntryColumn(
           reusablePlugSetHash: null,
           reusablePlugSocketIndex: null,
         };
-        s.itemHash = plugItemHash;
+        s.itemHash = plugItemHash as ItemHash;
         socketToAppend = s;
       }
 

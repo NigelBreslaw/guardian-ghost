@@ -1,6 +1,7 @@
 import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
+import type { ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 export enum InventoryPageEnums {
   Unknown = 0,
@@ -177,8 +178,8 @@ export type UISections =
 
 export type DestinyItemIdentifier = {
   characterId: string;
-  itemHash: number;
-  itemInstanceId: string | undefined;
+  itemHash: ItemHash;
+  itemInstanceId: ItemInstanceId | undefined;
   bucketHash: number;
 };
 

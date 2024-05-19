@@ -7,7 +7,7 @@ import type {
   StatGroupDefinition,
   StatDefinition,
 } from "@/app/core/BungieDefinitions";
-import type { ProfileData } from "@/app/core/GetProfile.ts";
+import type { ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
@@ -25,7 +25,7 @@ export let InsertionMaterialRequirementHash: number[];
 export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
 export let ReusablePlugSetHash: number[];
-export let SingleInitialItemHash: number[];
+export let SingleInitialItemHash: ItemHash[];
 export let SocketCategories: MiniSocketCategoryItems; // These strings are JSON objects
 export let SocketCategoryHash: number[];
 export let SocketEntries: MiniSocketEntryItems;
@@ -108,7 +108,7 @@ export function setReusablePlugSetHash(reusablePlugSetHashDefinition: number[]) 
   ReusablePlugSetHash = reusablePlugSetHashDefinition;
 }
 
-export function setSingleInitialItemHash(singleInitialItemHashDefinition: number[]) {
+export function setSingleInitialItemHash(singleInitialItemHashDefinition: ItemHash[]) {
   SingleInitialItemHash = singleInitialItemHashDefinition;
 }
 

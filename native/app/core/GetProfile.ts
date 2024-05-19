@@ -4,6 +4,7 @@
 // -------------------------------
 
 import { bungieResponseSchema } from "@/app/core/ApiResponse.ts";
+import type { Branded } from "@/app/utilities/Helpers.ts";
 import {
   array,
   boolean,
@@ -68,7 +69,15 @@ export const ItemSchema = object({
   versionNumber: optional(number()),
 });
 
-export type DestinyItemBase = Output<typeof ItemSchema>;
+export type ItemHash = Branded<number, "ItemHash">;
+export type ItemInstanceId = Branded<string, "ItemInstanceId">;
+
+type RawDestinyItemBase = Output<typeof ItemSchema>;
+export type DestinyItemBase = Omit<RawDestinyItemBase, "itemHash" | "itemInstanceId" | "overrideStyleItemHash"> & {
+  itemHash: ItemHash;
+  itemInstanceId?: ItemInstanceId;
+  overrideStyleItemHash?: ItemHash;
+};
 
 export const GuardiansSchema = object({
   baseCharacterLevel: number(),

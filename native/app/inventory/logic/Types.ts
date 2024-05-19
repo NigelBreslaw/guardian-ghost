@@ -10,7 +10,7 @@ import {
   type ItemType,
   type TierType,
 } from "@/app/bungie/Enums.ts";
-import type { DestinyItemBase, GuardianData } from "@/app/core/GetProfile.ts";
+import type { DestinyItemBase, GuardianData, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 import { number, object, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -139,8 +139,8 @@ export const characterBuckets = [
 ];
 
 export type DestinyIconData = {
-  itemHash: number;
-  itemInstanceId: string | undefined;
+  itemHash: ItemHash;
+  itemInstanceId: ItemInstanceId | undefined;
   characterId: string;
   icon: string;
   damageTypeIconUri: number | null;
@@ -156,8 +156,8 @@ export type DestinyIconData = {
 };
 
 export const DestinyIconDataEmpty: DestinyIconData = {
-  itemHash: 0,
-  itemInstanceId: "",
+  itemHash: 0 as ItemHash,
+  itemInstanceId: "" as ItemInstanceId,
   characterId: "",
   icon: "",
   damageTypeIconUri: null,
