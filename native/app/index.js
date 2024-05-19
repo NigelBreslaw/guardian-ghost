@@ -1,7 +1,7 @@
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import * as Sentry from "@sentry/react-native";
 import { registerRootComponent } from "expo";
-import App from "./App.tsx";
+import Root from "./Root.tsx";
 
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
   enableTimeToInitialDisplay: true,
@@ -24,4 +24,4 @@ Sentry.init({
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(Sentry.wrap(App));
+registerRootComponent(Sentry.wrap(Root));
