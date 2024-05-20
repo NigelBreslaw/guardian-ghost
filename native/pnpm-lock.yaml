@@ -971,9 +971,6 @@ packages:
   '@expo/config-types@51.0.0':
     resolution: {integrity: sha512-acn03/u8mQvBhdTQtA7CNhevMltUhbSrpI01FYBJwpVntufkU++ncQujWKlgY/OwIajcfygk1AY4xcNZ5ImkRA==}
 
-  '@expo/config@9.0.1':
-    resolution: {integrity: sha512-0tjaXBstTbXmD4z+UMFBkh2SZFwilizSQhW6DlaTMnPG5ezuw93zSFEWAuEC3YzkpVtNQTmYzxAYjxwh6seOGg==}
-
   '@expo/config@9.0.2':
     resolution: {integrity: sha512-BKQ4/qBf3OLT8hHp5kjObk2vxwoRQ1yYQBbG/OM9Jdz32yYtrU8opTbKRAxfZEWH5i3ZHdLrPdC1rO0I6WxtTw==}
 
@@ -5587,22 +5584,6 @@ snapshots:
 
   '@expo/config-types@51.0.0': {}
 
-  '@expo/config@9.0.1':
-    dependencies:
-      '@babel/code-frame': 7.10.4
-      '@expo/config-plugins': 8.0.4
-      '@expo/config-types': 51.0.0
-      '@expo/json-file': 8.3.1
-      getenv: 1.0.0
-      glob: 7.1.6
-      require-from-string: 2.0.2
-      resolve-from: 5.0.0
-      semver: 7.6.0
-      slugify: 1.6.6
-      sucrase: 3.34.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@expo/config@9.0.2':
     dependencies:
       '@babel/code-frame': 7.10.4
@@ -5723,7 +5704,7 @@ snapshots:
 
   '@expo/prebuild-config@7.0.3(expo-modules-autolinking@1.11.1)':
     dependencies:
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       '@expo/config-plugins': 8.0.4
       '@expo/config-types': 51.0.0
       '@expo/image-utils': 0.5.1
@@ -7282,7 +7263,7 @@ snapshots:
 
   expo-constants@16.0.1(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))):
     dependencies:
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       expo: 51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))
     transitivePeerDependencies:
       - supports-color
@@ -7362,7 +7343,7 @@ snapshots:
 
   expo-manifests@0.14.1(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))):
     dependencies:
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       expo: 51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))
       expo-json-utils: 0.13.1
     transitivePeerDependencies:
