@@ -1,7 +1,7 @@
 import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
-import type { ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 export enum InventoryPageEnums {
   Unknown = 0,
@@ -177,10 +177,10 @@ export type UISections =
   | VaultSpacerSection;
 
 export type DestinyItemIdentifier = {
-  characterId: string;
+  characterId: CharacterId;
   itemHash: ItemHash;
   itemInstanceId: ItemInstanceId | undefined;
-  bucketHash: number;
+  bucketHash: BucketHash;
 };
 
 export const ArmorStatInvestments = [

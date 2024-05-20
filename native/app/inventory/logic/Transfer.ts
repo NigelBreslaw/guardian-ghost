@@ -8,6 +8,7 @@ import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Cons
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
 import { number, object, optional, safeParse, string } from "valibot";
+import type { CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 const DEBUG_TRANSFER = false;
 
@@ -33,13 +34,13 @@ export type TransferBundle = {
 
 export type TransferItem = {
   destinyItem: DestinyItem;
-  finalTargetId: string;
+  finalTargetId: CharacterId;
   quantityToMove: number;
   equipOnTarget: boolean;
 };
 
 function createTransferBundle(
-  toCharacterId: string,
+  toCharacterId: CharacterId,
   destinyItem: DestinyItem,
   quantityToMove = 1,
   equipOnTarget = false,
@@ -58,7 +59,7 @@ function createTransferBundle(
 }
 
 export function startTransfer(
-  toCharacterId: string,
+  toCharacterId: CharacterId,
   destinyItem: DestinyItem,
   quantityToMove = 1,
   equipOnTarget = false,
@@ -424,10 +425,10 @@ function hasReachedTarget(item: TransferItem) {
 
 type TransferItemData = {
   membershipType: number;
-  itemReferenceHash: number;
-  itemId: string;
+  itemReferenceHash: ItemHash;
+  itemId: ItemInstanceId;
   stackSize: number;
-  characterId: string;
+  characterId: CharacterId;
   transferToVault: boolean;
 };
 
@@ -438,7 +439,7 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
   }
 
   let toVault = false;
-  let characterId = "";
+  let characterId = "" as CharacterId;
 
   if (transferItem.destinyItem.characterId !== VAULT_CHARACTER_ID) {
     if (GLOBAL_INVENTORY_NAMES.includes(transferItem.destinyItem.characterId)) {
@@ -471,7 +472,7 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
   const data: TransferItemData = {
     membershipType,
     itemReferenceHash: transferItem.destinyItem.itemHash,
-    itemId: transferItem.destinyItem.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
+    itemId: transferItem.destinyItem.itemInstanceId ? transferItem.destinyItem.itemInstanceId : ("0" as ItemInstanceId),
     stackSize: transferItem.quantityToMove,
     characterId,
     transferToVault: toVault,
@@ -518,9 +519,9 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
 
 type EquipItemData = {
   membershipType: number;
-  itemId: string;
-  itemReferenceHash: number;
-  characterId: string;
+  itemId: ItemInstanceId;
+  itemReferenceHash: ItemHash;
+  characterId: CharacterId;
 };
 
 async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]> {
@@ -528,7 +529,7 @@ async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem
 
   const data: EquipItemData = {
     membershipType,
-    itemId: transferItem.destinyItem.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
+    itemId: transferItem.destinyItem.itemInstanceId ? transferItem.destinyItem.itemInstanceId : ("0" as ItemInstanceId),
     itemReferenceHash: transferItem.destinyItem.itemHash,
     characterId: transferItem.finalTargetId,
   };
@@ -570,10 +571,10 @@ async function equipItem(transferItem: TransferItem): Promise<[JSON, DestinyItem
 
 type PostmasterItemData = {
   membershipType: number;
-  itemReferenceHash: number;
-  itemId: string;
+  itemReferenceHash: ItemHash;
+  itemId: ItemInstanceId;
   stackSize: number;
-  characterId: string;
+  characterId: CharacterId;
 };
 
 async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, DestinyItem]> {
@@ -582,7 +583,9 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
   const data: PostmasterItemData = {
     membershipType,
     itemReferenceHash: transferItem.destinyItem.itemHash,
-    itemId: transferItem.destinyItem?.itemInstanceId ? transferItem.destinyItem.itemInstanceId : "0",
+    itemId: transferItem.destinyItem?.itemInstanceId
+      ? transferItem.destinyItem.itemInstanceId
+      : ("0" as ItemInstanceId),
     stackSize: transferItem.destinyItem.quantity,
     characterId: transferItem.destinyItem.characterId,
   };

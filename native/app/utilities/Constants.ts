@@ -1,7 +1,9 @@
-export const VAULT_CHARACTER_ID = "VAULT" as const;
-export const GLOBAL_MODS_CHARACTER_ID = "GLOBAL_MODS_CHARACTER_ID" as const;
-export const GLOBAL_CONSUMABLES_CHARACTER_ID = "GLOBAL_CONSUMABLES_CHARACTER_ID" as const;
-export const GLOBAL_LOST_ITEMS_CHARACTER_ID = "GLOBAL_LOST_ITEMS_CHARACTER_ID" as const;
+import type { CharacterId } from "@/app/core/GetProfile.ts";
+
+export const VAULT_CHARACTER_ID = "VAULT" as CharacterId;
+export const GLOBAL_MODS_CHARACTER_ID = "GLOBAL_MODS_CHARACTER_ID" as CharacterId;
+export const GLOBAL_CONSUMABLES_CHARACTER_ID = "GLOBAL_CONSUMABLES_CHARACTER_ID" as CharacterId;
+export const GLOBAL_LOST_ITEMS_CHARACTER_ID = "GLOBAL_LOST_ITEMS_CHARACTER_ID" as CharacterId;
 
 export const GLOBAL_INVENTORY_NAMES = [
   GLOBAL_MODS_CHARACTER_ID,

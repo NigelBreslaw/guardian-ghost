@@ -71,12 +71,18 @@ export const ItemSchema = object({
 
 export type ItemHash = Branded<number, "ItemHash">;
 export type ItemInstanceId = Branded<string, "ItemInstanceId">;
+export type CharacterId = Branded<string, "characterId">;
+export type BucketHash = Branded<number, "bucketHash">;
 
 type RawDestinyItemBase = Output<typeof ItemSchema>;
-export type DestinyItemBase = Omit<RawDestinyItemBase, "itemHash" | "itemInstanceId" | "overrideStyleItemHash"> & {
+export type DestinyItemBase = Omit<
+  RawDestinyItemBase,
+  "itemHash" | "itemInstanceId" | "overrideStyleItemHash" | "bucketHash"
+> & {
   itemHash: ItemHash;
   itemInstanceId?: ItemInstanceId;
   overrideStyleItemHash?: ItemHash;
+  bucketHash: BucketHash;
 };
 
 export const GuardiansSchema = object({
@@ -116,7 +122,7 @@ export const GuardiansSchema = object({
   titleRecordHash: optional(number()),
 });
 
-export type GuardianData = Output<typeof GuardiansSchema>;
+export type GuardianData = Omit<Output<typeof GuardiansSchema>, "characterId"> & { characterId: CharacterId };
 
 const ReusablePlugSetSchema = object({
   plugs: record(string(), PlugSetsSchema),

@@ -10,7 +10,14 @@ import {
   type ItemType,
   type TierType,
 } from "@/app/bungie/Enums.ts";
-import type { DestinyItemBase, GuardianData, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import type {
+  BucketHash,
+  CharacterId,
+  DestinyItemBase,
+  GuardianData,
+  ItemHash,
+  ItemInstanceId,
+} from "@/app/core/GetProfile.ts";
 import { number, object, string } from "valibot";
 import type { Output } from "valibot";
 
@@ -76,7 +83,7 @@ export type DestinyItemDefinition = {
   name: string;
   nonTransferrable: boolean;
   plugCategoryIdentifier: string;
-  recoveryBucketHash: number;
+  recoveryBucketHash: BucketHash;
   screenshot: string;
   stackUniqueLabel?: string;
   statGroupHash: number;
@@ -88,8 +95,8 @@ export type DestinyItemDefinition = {
 };
 
 export type DestinyItem = DestinyItemBase & {
-  characterId: string;
-  previousCharacterId: string; //Used by the transfer system to update the UI
+  characterId: CharacterId;
+  previousCharacterId: CharacterId; //Used by the transfer system to update the UI
   equipped: boolean;
   instance: ItemInstance;
   def: DestinyItemDefinition;
@@ -98,12 +105,12 @@ export type DestinyItem = DestinyItemBase & {
 export type StatsCollection = { statTypeHash: number; value: number };
 
 export type DestinyItemSort = DestinyItem & {
-  itemInstanceId: string;
+  itemInstanceId: ItemInstanceId;
   damageType: DamageType;
 };
 
 export type GGCharacterUiData = {
-  characterId: string;
+  characterId: CharacterId;
   guardianClassType: GuardianClassType;
   genderType: GuardianGenderType;
   raceType: GuardianRaceType;
@@ -141,7 +148,7 @@ export const characterBuckets = [
 export type DestinyIconData = {
   itemHash: ItemHash;
   itemInstanceId: ItemInstanceId | undefined;
-  characterId: string;
+  characterId: CharacterId;
   icon: string;
   damageTypeIconUri: number | null;
   primaryStat: number;
@@ -152,13 +159,13 @@ export type DestinyIconData = {
   crafted?: boolean;
   stackSizeMaxed?: boolean;
   engram?: boolean;
-  bucketHash: number;
+  bucketHash: BucketHash;
 };
 
 export const DestinyIconDataEmpty: DestinyIconData = {
   itemHash: 0 as ItemHash,
   itemInstanceId: "" as ItemInstanceId,
-  characterId: "",
+  characterId: "" as CharacterId,
   icon: "",
   damageTypeIconUri: null,
   primaryStat: 0,
@@ -166,5 +173,5 @@ export const DestinyIconDataEmpty: DestinyIconData = {
   calculatedWaterMark: "",
   masterwork: false,
   borderColor: "#555555",
-  bucketHash: -1,
+  bucketHash: -1 as BucketHash,
 };
