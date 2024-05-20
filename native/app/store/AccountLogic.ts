@@ -22,7 +22,7 @@ export function getCharactersAndVault(guardians: Map<string, Guardian>): GGChara
     if (fullCharacter) {
       const parseCharacter = safeParse(GuardiansSchema, fullCharacter);
       if (parseCharacter.success) {
-        const ggCharacter = addCharacterDefinition(parseCharacter.output);
+        const ggCharacter = addCharacterDefinition(parseCharacter.output as GuardianData);
         ggCharacters.push(ggCharacter);
       }
     }

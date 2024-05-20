@@ -7,12 +7,12 @@ import type {
   StatGroupDefinition,
   StatDefinition,
 } from "@/app/core/BungieDefinitions";
-import type { ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
+import type { BucketHash, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
 export let itemsDefinition: ItemsDefinition = {};
-export let BucketTypeHashArray: number[];
+export let BucketTypeHashArray: BucketHash[];
 export let DamageTypeHashes: number[];
 export let Descriptions: string[];
 export let DisplaySources: string[];
@@ -57,7 +57,7 @@ export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
 }
 
 export function setBucketTypeHashArray(bucketTypeHashDefinition: number[]) {
-  BucketTypeHashArray = bucketTypeHashDefinition;
+  BucketTypeHashArray = bucketTypeHashDefinition as BucketHash[];
 }
 
 export function setDamageTypeHashes(damageTypeHashesDefinition: number[]) {

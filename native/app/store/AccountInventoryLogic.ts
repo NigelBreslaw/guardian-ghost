@@ -36,6 +36,7 @@ import {
 } from "@/app/inventory/logic/Helpers.ts";
 import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
 import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
+import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 // ------------------------------
 // UI data creation
@@ -112,7 +113,7 @@ function createUIData(get: AccountSliceGetter) {
   get().setLostItemsRows(maxLostItemsRows);
 }
 
-function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections[][] {
+function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISections[][] {
   const characterDataArray: UISections[][] = [];
 
   if (!rawProfileData || !guardians || !generalVault) {
@@ -122,7 +123,7 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
 
   for (const [_key, characterData] of guardians) {
     const dataArray: UISections[] = [];
-    for (const bucket of itemBuckets) {
+    for (const bucket of sectionBuckets as BucketHash[]) {
       const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
 
@@ -234,7 +235,7 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
     characterDataArray.push(dataArray);
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(get, itemBuckets, generalVault);
+  const vaultUiData = returnVaultUiData(get, sectionBuckets, generalVault);
   characterDataArray.push(vaultUiData);
 
   return characterDataArray;
@@ -242,13 +243,13 @@ function buildUIData(get: AccountSliceGetter, itemBuckets: number[]): UISections
 
 function returnVaultUiData(
   get: AccountSliceGetter,
-  itemBuckets: number[],
+  sectionBuckets: number[],
   generalVault: Map<number, DestinyItem[]>,
 ): UISections[] {
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
 
-  for (const bucket of itemBuckets) {
+  for (const bucket of sectionBuckets as BucketHash[]) {
     const bucketItems = generalVault.get(bucket);
     const sectionDetails = getSectionDetails(bucket);
     if (bucketItems) {
@@ -352,7 +353,7 @@ export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const iconData: DestinyIconData = {
     itemHash: item.itemHash,
     itemInstanceId: item.itemInstanceId,
-    characterId: item.characterId,
+    characterId: item.characterId as CharacterId,
     icon: item.instance.icon,
     primaryStat,
     calculatedWaterMark: item.instance.calculatedWaterMark,
@@ -378,7 +379,7 @@ export function returnBorderColor(item: DestinyItem): string {
   return "#555555";
 }
 
-function returnInventoryArray(dataArray: DestinyItem[], bucketHash: number): DestinyIconData[] {
+function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyIconData[] {
   const inventoryArray: DestinyIconData[] = [];
 
   let existingArray = dataArray as DestinyItemSort[];
@@ -583,7 +584,7 @@ export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
 }
 
 export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyItem): DestinyItem {
-  let characterId: string;
+  let characterId: CharacterId;
   console.log(
     "transformSuccessfulPullFromPostmasterItem",
     destinyItem.characterId,
@@ -602,7 +603,7 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
       characterId = destinyItem.characterId;
     }
   }
-  const bucketHash = destinyItem.def.recoveryBucketHash;
+  const bucketHash = destinyItem.def.recoveryBucketHash as BucketHash;
   const newDestinyItem: DestinyItem = {
     ...destinyItem,
     characterId,
@@ -614,7 +615,7 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
 
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
 
-export function hasSocketedResonance(itemInstanceId: string): boolean {
+export function hasSocketedResonance(itemInstanceId: ItemInstanceId): boolean {
   const liveSocketJson = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
   if (!liveSocketJson) {
     return false;

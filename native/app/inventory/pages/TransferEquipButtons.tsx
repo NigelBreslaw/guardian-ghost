@@ -11,12 +11,13 @@ import { Image } from "expo-image";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
+import type { CharacterId } from "@/app/core/GetProfile.ts";
 
 type TransferEquipButtonsProps = {
-  readonly currentCharacterId: string;
+  readonly currentCharacterId: CharacterId;
   readonly destinyItem: DestinyItem;
   close: () => void;
-  startTransfer: (toCharacterId: string, equipOnTarget: boolean) => void;
+  startTransfer: (toCharacterId: CharacterId, equipOnTarget: boolean) => void;
 };
 
 export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
@@ -143,7 +144,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     );
   }
 
-  function calcEquipOpacity(buttonCharacterId: string): number {
+  function calcEquipOpacity(buttonCharacterId: CharacterId): number {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
       return 0;
     }
@@ -156,7 +157,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     return 1;
   }
 
-  function calcTransferOpacity(buttonCharacterId: string): number {
+  function calcTransferOpacity(buttonCharacterId: CharacterId): number {
     if (props.destinyItem.def.nonTransferrable) {
       return 0;
     }
@@ -167,7 +168,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
 
   // only call this if you already checked the item is equippable
-  function calcEquipButtonDisabled(buttonCharacterId: string): boolean {
+  function calcEquipButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
     if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
       if (props.destinyItem.equipped) {
@@ -178,7 +179,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     return false;
   }
 
-  function calcTransferButtonDisabled(buttonCharacterId: string): boolean {
+  function calcTransferButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
     if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
       return true;

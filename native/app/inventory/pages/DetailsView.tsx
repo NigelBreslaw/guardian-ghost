@@ -13,6 +13,7 @@ import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 import type { RootStackParamList } from "@/app/Root.tsx";
 import { findDestinyItem } from "@/app/store/AccountLogic.ts";
+import type { CharacterId } from "@/app/core/GetProfile.ts";
 
 const { width } = Dimensions.get("window");
 
@@ -177,7 +178,7 @@ export default function DetailsView({
     }, [destinyItem]),
   );
 
-  function transfer(targetId: string, equipOnTarget = false) {
+  function transfer(targetId: CharacterId, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
     if (destinyItem) {
       startTransfer(targetId, destinyItem, transferQuantity, equipOnTarget);

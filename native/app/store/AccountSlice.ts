@@ -47,7 +47,14 @@ import {
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { create } from "mutative";
-import type { DestinyItemBase, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
+import type {
+  BucketHash,
+  CharacterId,
+  DestinyItemBase,
+  GuardianData,
+  ItemHash,
+  ProfileData,
+} from "@/app/core/GetProfile.ts";
 import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
@@ -87,7 +94,7 @@ export interface AccountSlice {
   pullFromPostmaster: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => DestinyItem;
   findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   findMaxQuantityToTransfer: (destinyItem: DestinyItem) => number;
-  setSecondarySpecial: (characterId: string, itemHash: ItemHash) => void;
+  setSecondarySpecial: (characterId: CharacterId, itemHash: ItemHash) => void;
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
 }
@@ -256,10 +263,10 @@ function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian>
   const characters = profile.Response.characters.data;
   const guardians: Map<string, Guardian> = new Map<string, Guardian>();
   for (const character in characters) {
-    const characterData = characters[character];
+    const characterData = characters[character] as GuardianData;
 
     if (characterData) {
-      const initialCharacterData = {
+      const initialCharacterData: Guardian = {
         data: characterData,
         items: new Map<number, GuardianGear>(),
       };
@@ -282,7 +289,7 @@ function processCharacterEquipment(
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
-    const characterAsId = { characterId: character, equipped: true };
+    const characterAsId = { characterId: character as CharacterId, equipped: true };
 
     if (characterEquipment) {
       const characterItems = guardians.get(character);
@@ -301,9 +308,9 @@ function processCharacterEquipment(
             characterItems.items.set(item.bucketHash, { equipped: destinyItem, inventory: [] });
             if (baseItem.bucketHash === SectionBuckets.Emblem) {
               if (baseItem.overrideStyleItemHash) {
-                get().setSecondarySpecial(character, baseItem.overrideStyleItemHash);
+                get().setSecondarySpecial(character as CharacterId, baseItem.overrideStyleItemHash);
               } else {
-                get().setSecondarySpecial(character, baseItem.itemHash);
+                get().setSecondarySpecial(character as CharacterId, baseItem.itemHash);
               }
             }
           } catch {}
@@ -319,7 +326,11 @@ function processCharacterInventory(profile: ProfileData, guardians: Map<string, 
 
   for (const character in charactersInventory) {
     const characterInventory = charactersInventory[character];
-    const characterAsId = { characterId: character, equipped: false, previousCharacterId: "" };
+    const characterAsId = {
+      characterId: character as CharacterId,
+      equipped: false,
+      previousCharacterId: "" as CharacterId,
+    };
 
     if (characterInventory) {
       const characterItems = guardians.get(character);
@@ -336,7 +347,10 @@ function processCharacterInventory(profile: ProfileData, guardians: Map<string, 
   return guardians;
 }
 
-function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string; equipped: boolean }): DestinyItem {
+function addDefinition(
+  baseItem: DestinyItemBase,
+  extras: { characterId: CharacterId; equipped: boolean },
+): DestinyItem {
   const itemInstance: ItemInstance = {
     icon: "",
     screenshot: "",
@@ -373,10 +387,10 @@ function addDefinition(baseItem: DestinyItemBase, extras: { characterId: string;
     itemInstance.masterwork = true;
   }
 
-  const destinyItem = Object.assign(baseItem, extras, {
+  const destinyItem: DestinyItem = Object.assign(baseItem, extras, {
     def: definitionItem,
     instance: itemInstance,
-    previousCharacterId: "",
+    previousCharacterId: "" as CharacterId,
   });
 
   if (baseItem.itemInstanceId !== undefined) {
@@ -475,7 +489,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     name: "",
     nonTransferrable: false,
     plugCategoryIdentifier: "",
-    recoveryBucketHash: -1,
+    recoveryBucketHash: -1 as BucketHash,
     screenshot: "",
     stackUniqueLabel: "",
     statGroupHash: -1,
@@ -563,7 +577,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
   const bucketTypeIndex = itemDef.b;
   if (bucketTypeIndex) {
-    definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? 0;
+    definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? (0 as BucketHash);
   }
   definitionItem.name = itemDef?.n ?? "";
 
@@ -671,7 +685,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
         case 138197802:
           try {
             destinyItem = addDefinition(baseItem, characterIsVault);
-            destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? 0;
+            destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? (0 as BucketHash);
 
             if (destinyItem.bucketHash !== 0) {
               vaultData.generalVault.get(destinyItem.bucketHash)?.push(destinyItem);
