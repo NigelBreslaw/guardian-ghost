@@ -71,7 +71,11 @@ The Biome linter enforces this rule.
 
 ### TypeScript
 
-To avoid TSX parsing issues with < > arrays are declared as `any[]` and not `Array<T>`.
+Strict mode is enabled in the project. The hot reloading system does not care about strict mode so while editing
+code it's possible to use 'any' while working things out. It's also the case that many other type errors that show
+up during refactoring won't break the hot reloading so long as the code is still valid typescript/javascript.
+
+But the CI will reject any PR that doesn't pass the strict mode check.
 
 ```ts
 // Valid
@@ -80,6 +84,14 @@ const myArray: any[] = [];
 // Not valid
 const myArray: Array<T> = [];
 ```
+
+#### Branded Types 
+Branded types can be used to narrow down certain types for example characterId, bucketHash, itemHash and itemInstanceId.
+There is a helper to create them as per https://egghead.io/blog/using-branded-types-in-typescript
+
+As of May 2024 some minor refactoring to tidy the use of branded types might be required. But the main use case is
+to stop the hard to spot mistakes of using 'itemHash' instead of 'itemInstanceId' which is easily done and not
+helped by some questionable end point naming that is outside this apps control.
 
 # Semantic Commit Messages
 
