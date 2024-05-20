@@ -66,7 +66,6 @@ const navigationContainerTheme: Theme = {
 };
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
-  console.log("App native");
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);

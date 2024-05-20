@@ -300,17 +300,16 @@ function processCharacterEquipment(
       for (const bucket of characterBuckets) {
         characterItems.items.set(bucket, { equipped: null, inventory: [] });
       }
-      for (const item of characterEquipment.items) {
-        const baseItem = item as DestinyItemBase;
+      for (const item of characterEquipment.items as DestinyItemBase[]) {
         if (characterItems) {
           try {
-            const destinyItem = addDefinition(baseItem, characterAsId);
+            const destinyItem = addDefinition(item, characterAsId);
             characterItems.items.set(item.bucketHash, { equipped: destinyItem, inventory: [] });
-            if (baseItem.bucketHash === SectionBuckets.Emblem) {
-              if (baseItem.overrideStyleItemHash) {
-                get().setSecondarySpecial(character as CharacterId, baseItem.overrideStyleItemHash);
+            if (item.bucketHash === SectionBuckets.Emblem) {
+              if (item.overrideStyleItemHash) {
+                get().setSecondarySpecial(character as CharacterId, item.overrideStyleItemHash);
               } else {
-                get().setSecondarySpecial(character as CharacterId, baseItem.itemHash);
+                get().setSecondarySpecial(character as CharacterId, item.itemHash);
               }
             }
           } catch {}
@@ -677,14 +676,13 @@ function processVaultInventory(profile: ProfileData): VaultData {
   }
 
   if (vaultInventory) {
-    for (const item of vaultInventory) {
-      const baseItem = item as DestinyItemBase;
+    for (const item of vaultInventory as DestinyItemBase[]) {
       let destinyItem: DestinyItem;
 
       switch (item.bucketHash) {
         case 138197802:
           try {
-            destinyItem = addDefinition(baseItem, characterIsVault);
+            destinyItem = addDefinition(item, characterIsVault);
             destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? (0 as BucketHash);
 
             if (destinyItem.bucketHash !== 0) {
@@ -695,15 +693,15 @@ function processVaultInventory(profile: ProfileData): VaultData {
           }
           break;
         case SectionBuckets.Consumables:
-          destinyItem = addDefinition(baseItem, characterIsGlobalConsumables);
+          destinyItem = addDefinition(item, characterIsGlobalConsumables);
           vaultData.consumables.push(destinyItem);
           break;
         case SectionBuckets.Mods:
-          destinyItem = addDefinition(baseItem, characterIsGlobalMods);
+          destinyItem = addDefinition(item, characterIsGlobalMods);
           vaultData.mods.push(destinyItem);
           break;
         default:
-          destinyItem = addDefinition(baseItem, characterIsGlobalLostItems);
+          destinyItem = addDefinition(item, characterIsGlobalLostItems);
           vaultData.lostItems.push(destinyItem);
           break;
       }
