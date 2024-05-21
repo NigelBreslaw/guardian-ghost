@@ -39,7 +39,7 @@ function InventoryPages() {
         <Tab.Screen
           name="tab-weapons"
           options={{
-            tabBarLabel: `${insets.bottom}`,
+            tabBarLabel: "Weapons",
             headerStyle: {
               height: 0,
             },
