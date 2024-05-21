@@ -233,8 +233,6 @@ export default function StatBars({ stats, destinyItem }: StatBarsProps) {
         key={UiData.statType}
         style={{
           height: UiData.statType === StatType.Separator ? STAT_GAP : HEIGHT,
-          borderColor: "black",
-          borderWidth: 0.3,
           alignContent: "flex-end",
         }}
       >
