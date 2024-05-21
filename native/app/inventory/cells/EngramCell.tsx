@@ -1,12 +1,10 @@
-import { INNER_FRAME_SIZE, PRIMARY_STAT_FONT_SIZE } from "@/app/utilities/UISize.ts";
+import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-
-const DEFAULT_BORDER_COLOR = "#303036";
 
 const styles = StyleSheet.create({
   frameSize: {
@@ -15,25 +13,12 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   primaryStat: {
-    paddingLeft: 2,
-    paddingRight: 2,
-    paddingTop: 1,
-    paddingBottom: 1,
-    borderRadius: 4,
-    backgroundColor: DEFAULT_BORDER_COLOR,
-    position: "absolute",
+    ...common.primaryStat,
     bottom: 0,
     right: -4,
-    justifyContent: "center",
-    alignItems: "center",
   },
   powerLevelText: {
-    color: "white",
-    fontSize: PRIMARY_STAT_FONT_SIZE,
-    fontWeight: "bold",
-    alignContent: "center",
-    includeFontPadding: false,
-    pointerEvents: "none",
+    ...common.primaryStatText,
   },
 });
 

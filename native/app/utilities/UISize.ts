@@ -52,7 +52,29 @@ export const TierTypeToColor = {
   [TierType.Currency]: TierTintColor.Unknown,
 };
 
-const common = StyleSheet.create({
+export const common = StyleSheet.create({
+  primaryStat: {
+    paddingLeft: 2 * GLOBAL_SCALAR,
+    paddingRight: 2 * GLOBAL_SCALAR,
+    paddingTop: 1.5 * GLOBAL_SCALAR,
+    paddingBottom: 0,
+    borderRadius: 5 * GLOBAL_SCALAR,
+    backgroundColor: DEFAULT_OVERLAP_COLOR,
+    position: "absolute",
+    bottom: -7,
+    right: -8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  primaryStatText: {
+    color: "white",
+    fontSize: PRIMARY_STAT_FONT_SIZE,
+    fontWeight: "bold",
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
+    lineHeight: PRIMARY_STAT_FONT_SIZE,
+  },
   quantity: {
     paddingLeft: 2,
     paddingRight: 2,
@@ -111,26 +133,10 @@ export const DestinyIconStyles = StyleSheet.create({
     pointerEvents: "none",
   },
   primaryStat: {
-    paddingLeft: 2 * GLOBAL_SCALAR,
-    paddingRight: 2 * GLOBAL_SCALAR,
-    paddingTop: 1.5 * GLOBAL_SCALAR,
-    paddingBottom: 0,
-    borderRadius: 5 * GLOBAL_SCALAR,
-    backgroundColor: DEFAULT_OVERLAP_COLOR,
-    position: "absolute",
-    bottom: -7,
-    right: -8,
-    justifyContent: "center",
-    alignItems: "center",
+    ...common.primaryStat,
   },
   primaryStatText: {
-    color: "white",
-    fontSize: PRIMARY_STAT_FONT_SIZE,
-    fontWeight: "bold",
-    alignContent: "center",
-    includeFontPadding: false,
-    pointerEvents: "none",
-    lineHeight: PRIMARY_STAT_FONT_SIZE,
+    ...common.primaryStatText,
   },
   miniIconBurnSize: {
     width: MINI_BURN_SIZE,
