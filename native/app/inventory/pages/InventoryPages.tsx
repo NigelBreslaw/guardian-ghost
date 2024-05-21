@@ -26,7 +26,7 @@ function InventoryPages() {
             borderTopColor: "grey",
             borderTopWidth: StyleSheet.hairlineWidth,
             height: insets.bottom > 0 ? 60 : 30,
-            marginBottom: insets.bottom > 0 ? 0 : 15,
+            marginBottom: insets.bottom > 0 ? 10 : 15,
           },
           tabBarIconStyle: {
             display: "none",
