@@ -1,36 +1,37 @@
 import { TierType } from "@/app/bungie/Enums.ts";
-import { Dimensions } from "react-native";
+import { DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
+import { Dimensions, StyleSheet } from "react-native";
 
 const { width } = Dimensions.get("window");
 
 const MIN_WIDTH = 16 * 2 + 5 * 72 + 4 * 16;
 
-let SCALAR = 1;
+export let GLOBAL_SCALAR = 1;
 if (width < MIN_WIDTH) {
-  SCALAR = width / MIN_WIDTH;
+  GLOBAL_SCALAR = width / MIN_WIDTH;
 }
 
-export const INV_MAX_WIDTH = Math.ceil((MIN_WIDTH - 16 * 2) * SCALAR);
+export const INV_MAX_WIDTH = Math.ceil((MIN_WIDTH - 16 * 2) * GLOBAL_SCALAR);
 
-export const ICON_SIZE = Math.ceil(72 * SCALAR);
-export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.95);
-export const ICON_MARGIN = Math.ceil(16 * SCALAR);
-export const DEFAULT_MARGIN = Math.ceil(16 * SCALAR);
-export const MINI_ICON_SIZE = Math.ceil(18 * SCALAR);
+export const ICON_SIZE = Math.ceil(72 * GLOBAL_SCALAR);
+export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.96);
+export const ICON_MARGIN = Math.ceil(16 * GLOBAL_SCALAR);
+export const DEFAULT_MARGIN = Math.ceil(16 * GLOBAL_SCALAR);
+export const MINI_ICON_SIZE = Math.ceil(18 * GLOBAL_SCALAR);
 export const MINI_BURN_SIZE = Math.ceil(MINI_ICON_SIZE * 0.83);
-export const PRIMARY_STAT_FONT_SIZE = Math.ceil(14 * SCALAR);
-export const RIGHT_ALIGNMENT = Math.ceil(-9 * SCALAR);
+export const PRIMARY_STAT_FONT_SIZE = Math.ceil(14 * GLOBAL_SCALAR);
+export const RIGHT_ALIGNMENT = Math.ceil(-9 * GLOBAL_SCALAR);
 
 export const DEFAULT_SECTION_4_WIDTH = 4 * ICON_SIZE + 3 * ICON_MARGIN;
 export const EQUIP_SECTION_HEIGHT = 3 * ICON_SIZE + 2 * ICON_MARGIN;
-export const FOOTER_HEIGHT = Math.ceil(18 * SCALAR);
+export const FOOTER_HEIGHT = Math.ceil(18 * GLOBAL_SCALAR);
 
 export const ENGRAMS_SECTION_HEIGHT = ICON_SIZE * 2;
-export const ENGRAMS_SECTION_WIDTH = ICON_SIZE * 5 + 20 * SCALAR;
+export const ENGRAMS_SECTION_WIDTH = ICON_SIZE * 5 + 20 * GLOBAL_SCALAR;
 
 export const VAULT_5x5_HEIGHT = ICON_SIZE * 5 + ICON_MARGIN * 4;
 export const EQUIP_SECTION_SIZE = ICON_SIZE * 3 + 2 * ICON_MARGIN;
-export const SEPARATOR_HEIGHT = 70 * SCALAR;
+export const SEPARATOR_HEIGHT = 70 * GLOBAL_SCALAR;
 
 enum TierTintColor {
   Exotic = "#CEAF33",
@@ -50,3 +51,101 @@ export const TierTypeToColor = {
   [TierType.Unknown]: TierTintColor.Unknown,
   [TierType.Currency]: TierTintColor.Unknown,
 };
+
+const common = StyleSheet.create({
+  quantity: {
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderRadius: 4,
+    position: "absolute",
+    bottom: 2,
+    right: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export const DestinyIconStyles = StyleSheet.create({
+  container: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+  },
+  icon: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 2,
+    pointerEvents: "none",
+  },
+  innerFrameSize: {
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
+    position: "absolute",
+    top: -0.5,
+    left: -0.5,
+    pointerEvents: "none",
+  },
+  quantity: {
+    ...common.quantity,
+    backgroundColor: "#AEAEAE",
+  },
+  quantityMaxed: {
+    ...common.quantity,
+    backgroundColor: "#A48F36",
+  },
+  quantityLevelText: {
+    color: "black",
+    fontSize: PRIMARY_STAT_FONT_SIZE,
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
+  },
+  quantityLevelTextMaxed: {
+    color: "#F7F8E3",
+    fontSize: PRIMARY_STAT_FONT_SIZE,
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
+  },
+  primaryStat: {
+    paddingLeft: 2 * GLOBAL_SCALAR,
+    paddingRight: 2 * GLOBAL_SCALAR,
+    paddingTop: 1.5 * GLOBAL_SCALAR,
+    paddingBottom: 0,
+    borderRadius: 5 * GLOBAL_SCALAR,
+    backgroundColor: DEFAULT_OVERLAP_COLOR,
+    position: "absolute",
+    bottom: -7,
+    right: -8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  primaryStatText: {
+    color: "white",
+    fontSize: PRIMARY_STAT_FONT_SIZE,
+    fontWeight: "bold",
+    alignContent: "center",
+    includeFontPadding: false,
+    pointerEvents: "none",
+    lineHeight: PRIMARY_STAT_FONT_SIZE,
+  },
+  miniIconBurnSize: {
+    width: MINI_BURN_SIZE,
+    height: MINI_BURN_SIZE,
+    pointerEvents: "none",
+  },
+  miniIconBurn: {
+    width: MINI_ICON_SIZE,
+    height: MINI_ICON_SIZE,
+    borderRadius: 9,
+    backgroundColor: DEFAULT_OVERLAP_COLOR,
+    position: "absolute",
+    bottom: 16,
+    right: RIGHT_ALIGNMENT,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
