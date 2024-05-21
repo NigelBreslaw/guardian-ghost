@@ -3,7 +3,7 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,13 +18,13 @@ function InventoryPages() {
           tabBarStyle: {
             borderTopColor: "grey",
             borderTopWidth: StyleSheet.hairlineWidth,
-            height: 60,
+            height: Platform.OS === "ios" ? 60 : 30,
+            marginBottom: Platform.OS === "ios" ? 0 : 15,
           },
           tabBarIconStyle: {
             display: "none",
           },
           tabBarLabelStyle: {
-            alignSelf: "center",
             fontSize: 13,
           },
         })}
