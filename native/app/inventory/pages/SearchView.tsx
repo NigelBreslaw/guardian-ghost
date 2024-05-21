@@ -209,7 +209,7 @@ function SearchView() {
       style={{ flex: 1, marginBottom: insets.bottom }}
     >
       <View style={{ height: "100%" }}>
-        <View style={{ width: "100%", height: 70, backgroundColor: "#1C1C1C" }} />
+        <View style={{ width: "100%", height: 60, backgroundColor: "#1C1C1C" }} />
         <View
           style={{
             width: "100%",
@@ -218,7 +218,7 @@ function SearchView() {
             paddingRight: 15,
             alignContent: "center",
             position: "absolute",
-            top: 15,
+            top: 5,
           }}
         >
           <View style={{ flex: 1, backgroundColor: "white", opacity: 0.14, borderRadius: 10 }} />

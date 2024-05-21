@@ -244,6 +244,7 @@ export default function MainDrawer() {
         name="Search"
         component={SearchView}
         options={{
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: "#1C1C1C",
           },
