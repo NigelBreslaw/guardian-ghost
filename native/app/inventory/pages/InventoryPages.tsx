@@ -3,11 +3,18 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Platform, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
 function InventoryPages() {
+  const insets = useSafeAreaInsets();
+
+  // The hack on height and marginBottom is because something is bugged with either this component
+  // layout or the bottom tab bar. The height depends on the existence of a safeArea. Web, android and
+  // older iOS devices with no bottom safeArea will size the bar differently to iOS devices with a safeArea.
+  // So the height now depends on this safeArea being larger than zero.
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
@@ -18,8 +25,8 @@ function InventoryPages() {
           tabBarStyle: {
             borderTopColor: "grey",
             borderTopWidth: StyleSheet.hairlineWidth,
-            height: Platform.OS === "ios" ? 60 : 30,
-            marginBottom: Platform.OS === "ios" ? 0 : 15,
+            height: insets.bottom > 0 ? 60 : 30,
+            marginBottom: insets.bottom > 0 ? 0 : 15,
           },
           tabBarIconStyle: {
             display: "none",
@@ -32,7 +39,7 @@ function InventoryPages() {
         <Tab.Screen
           name="tab-weapons"
           options={{
-            tabBarLabel: "Weapons",
+            tabBarLabel: `${insets.bottom}`,
             headerStyle: {
               height: 0,
             },
