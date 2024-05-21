@@ -84,6 +84,7 @@ export type DestinyItemDefinition = {
   nonTransferrable: boolean;
   plugCategoryIdentifier: string;
   recoveryBucketHash: BucketHash;
+  secondaryIcon: string;
   screenshot: string;
   stackUniqueLabel?: string;
   statGroupHash: number;

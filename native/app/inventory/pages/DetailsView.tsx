@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     height: 50,
     position: "absolute",
     top: -15 * scalar,
-    transformOrigin: [0, 0, 0],
+    left: 0,
+    transformOrigin: "top left",
     transform: [{ scale: SCREEN_WIDTH / 1250 }],
   },
   tierHeaderContainer: {
@@ -195,7 +196,7 @@ export default function DetailsView({
           <View
             style={{
               width: "100%",
-              height: (SCREEN_WIDTH / 1920) * 850,
+              height: (SCREEN_WIDTH / 1920) * 1080,
               overflow: "hidden",
             }}
           >
@@ -204,7 +205,6 @@ export default function DetailsView({
               style={[
                 {
                   position: "absolute",
-                  top: -((SCREEN_WIDTH / 1920) * 120),
                   width: "100%",
                   height: (SCREEN_WIDTH / 1920) * 1080,
                 },
@@ -234,6 +234,7 @@ export default function DetailsView({
                 cachePolicy="none"
               />
             )}
+            <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.def.secondaryIcon }} />
             <View style={styles.tierHeaderContainer}>
               <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
               <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />

@@ -489,6 +489,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     nonTransferrable: false,
     plugCategoryIdentifier: "",
     recoveryBucketHash: -1 as BucketHash,
+    secondaryIcon: "",
     screenshot: "",
     stackUniqueLabel: "",
     statGroupHash: -1,
@@ -522,6 +523,10 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   if (itemDef?.iw) {
     const waterMark = IconWaterMarks[itemDef.iw];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
+  }
+
+  if (itemDef?.si) {
+    definitionItem.secondaryIcon = `${iconUrl}${itemDef.si}`;
   }
 
   const dvwi = itemDef.dvwi;
