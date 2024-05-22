@@ -74,6 +74,7 @@ export type DestinyItemDefinition = {
   displayVersionWatermarkIcons: string[];
   doesPostmasterPullHaveSideEffects: boolean;
   equippable: boolean;
+  flavorText: string;
   icon: string;
   investmentStats: StatsCollection[];
   itemSubType: ItemSubType;
@@ -84,6 +85,7 @@ export type DestinyItemDefinition = {
   nonTransferrable: boolean;
   plugCategoryIdentifier: string;
   recoveryBucketHash: BucketHash;
+  search: string;
   secondaryIcon: string;
   screenshot: string;
   stackUniqueLabel?: string;
@@ -92,7 +94,6 @@ export type DestinyItemDefinition = {
   tierType: TierType;
   traitIds: string[];
   watermark: string;
-  search: string;
 };
 
 export type DestinyItem = DestinyItemBase & {

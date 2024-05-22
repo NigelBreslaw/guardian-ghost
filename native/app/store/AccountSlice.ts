@@ -479,6 +479,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     displayVersionWatermarkIcons: [],
     doesPostmasterPullHaveSideEffects: false,
     equippable: false,
+    flavorText: "",
     icon: "",
     investmentStats: [],
     itemSubType: ItemSubType.None,
@@ -489,6 +490,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     nonTransferrable: false,
     plugCategoryIdentifier: "",
     recoveryBucketHash: -1 as BucketHash,
+    search: "",
     secondaryIcon: "",
     screenshot: "",
     stackUniqueLabel: "",
@@ -497,7 +499,6 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     tierType: TierType.Unknown,
     traitIds: [],
     watermark: "",
-    search: "",
   };
 
   const itemDef = itemsDefinition[itemHash];
@@ -527,6 +528,10 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   if (itemDef?.si) {
     definitionItem.secondaryIcon = `${iconUrl}${itemDef.si}`;
+  }
+
+  if (itemDef?.f) {
+    definitionItem.flavorText = itemDef.f;
   }
 
   const dvwi = itemDef.dvwi;

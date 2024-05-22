@@ -97,9 +97,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 70 * scalar,
     left: 33 * scalar,
+
+    height: 80 * scalar,
+  },
+  itemIconAndName: {
     flexDirection: "row",
     gap: 15 * scalar,
-    height: 80 * scalar,
   },
   icon: {
     width: 80 * scalar,
@@ -113,7 +116,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Helvetica",
     includeFontPadding: false,
-    alignSelf: "center",
     lineHeight: 21,
     letterSpacing: -0.5,
     textTransform: "uppercase",
@@ -125,6 +127,16 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     transform: [{ translateY: -4 }],
     textTransform: "uppercase",
+  },
+  flavorText: {
+    fontSize: 13,
+    color: "#FFFFFFDD",
+    includeFontPadding: false,
+    maxWidth: SCREEN_WIDTH - 200 * scalar,
+    transform: [{ translateY: 20 * scalar }],
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   masterworkContainer: {
     position: "absolute",
@@ -244,14 +256,17 @@ export default function DetailsView({
             )}
 
             <View style={styles.itemDetails}>
-              <View style={styles.icon}>
-                <IconCell destinyItem={destinyItem} />
-              </View>
+              <View style={styles.itemIconAndName}>
+                <View style={styles.icon}>
+                  <IconCell destinyItem={destinyItem} />
+                </View>
 
-              <View>
-                <Text style={styles.nameText}>{destinyItem.def.name}</Text>
-                <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
+                <View>
+                  <Text style={styles.nameText}>{destinyItem.def.name}</Text>
+                  <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
+                </View>
               </View>
+              <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
             </View>
             <View style={{ flex: 15 }} />
             <View style={styles.screenshotFooter} />
