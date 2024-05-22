@@ -62,6 +62,9 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       position: "absolute",
       top: 10,
       left: 85,
+      textShadowColor: "black",
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 1,
     },
     transferRaceName: {
       fontSize: 20,
@@ -71,6 +74,9 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       position: "absolute",
       top: 40,
       left: 85,
+      textShadowColor: "black",
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 1,
     },
     InventoryName: {
       fontSize: 25,
