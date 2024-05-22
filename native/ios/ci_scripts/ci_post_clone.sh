@@ -7,7 +7,7 @@ set -x
 
 # Xcode cloud could x86 or arm64 architecture. So detect it and install node accordingly.
 arch
-node_version=20.11.1
+node_version=20.13.1
 
 if [ "$ARCHITECTURE" == "arm64" ]; then
     # For arm64 architecture (Apple Silicon)
