@@ -14,7 +14,6 @@ import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
 
 type TransferEquipButtonsProps = {
-  readonly currentCharacterId: CharacterId;
   readonly destinyItem: DestinyItem;
   close: () => void;
   startTransfer: (toCharacterId: CharacterId, equipOnTarget: boolean) => void;
@@ -92,7 +91,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   // is this a vault item that will be transferred to the Mods or Consumables page section?
   if (
-    (props.currentCharacterId === VAULT_CHARACTER_ID &&
+    (props.destinyItem.characterId === VAULT_CHARACTER_ID &&
       props.destinyItem.def.recoveryBucketHash === SectionBuckets.Consumables) ||
     props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
   ) {
@@ -176,7 +175,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   // only call this if you already checked the item is equippable
   function calcEquipButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
-    if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
+    if (buttonCharacterId === props.destinyItem.characterId && props.destinyItem.bucketHash !== 215593132) {
       if (props.destinyItem.equipped) {
         return true;
       }
@@ -187,7 +186,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   function calcTransferButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
-    if (buttonCharacterId === props.currentCharacterId && props.destinyItem.bucketHash !== 215593132) {
+    if (buttonCharacterId === props.destinyItem.characterId && props.destinyItem.bucketHash !== 215593132) {
       return true;
     }
     return false;
@@ -204,7 +203,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
     const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
 
-    if (props.destinyItem.def.nonTransferrable && ggCharacter.characterId !== props.currentCharacterId) {
+    if (props.destinyItem.def.nonTransferrable && ggCharacter.characterId !== props.destinyItem.characterId) {
       continue;
     }
 
