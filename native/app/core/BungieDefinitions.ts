@@ -69,6 +69,7 @@ export const miniItemSchema = object({
   e: optional(number()),
   em: optional(number()),
   et: optional(number()),
+  f: optional(string()),
   i: optional(number()),
   if: optional(array(array(number()))),
   is: optional(number()),
