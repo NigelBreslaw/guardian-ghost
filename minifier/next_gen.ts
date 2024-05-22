@@ -37,6 +37,7 @@ enum RepeatStringsName {
 // Interface (Schema) for the DestinyItemDefinition
 interface JsonData {
   [key: string]: {
+    flavorText: any;
     sockets: any;
     plug: any;
     perks: any;
@@ -315,6 +316,11 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
       const allowActions = jsonData[key].allowActions;
       if (!allowActions) {
         item.a = 0;
+      }
+
+      const flavorText = jsonData[key].flavorText;
+      if (flavorText) {
+        item.f = stripImageUrl(flavorText);
       }
 
       const nonTransferrable = jsonData[key].nonTransferrable;
