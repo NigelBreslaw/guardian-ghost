@@ -104,23 +104,6 @@ const GlaiveWeaponStats: UiStatData[] = [
 ];
 
 const HEIGHT = 18;
-const styles = StyleSheet.create({
-  text: {
-    color: "white",
-    fontSize: 14,
-    includeFontPadding: false,
-    top: 0,
-    right: 5,
-    pointerEvents: "none",
-    position: "absolute",
-  },
-  valueText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-    includeFontPadding: false,
-  },
-});
 
 type ArmorTotalUiProps = {
   readonly itemStats: ItemStats;
@@ -272,3 +255,21 @@ export default function StatBars({ stats, destinyItem }: StatBarsProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: "white",
+    fontSize: 14,
+    includeFontPadding: false,
+    top: 0,
+    right: 5,
+    pointerEvents: "none",
+    position: "absolute",
+  },
+  valueText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+    includeFontPadding: false,
+  },
+});

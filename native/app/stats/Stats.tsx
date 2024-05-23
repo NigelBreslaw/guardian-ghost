@@ -7,15 +7,6 @@ import { createStats } from "@/app/stats/Logic.ts";
 import ReusablePlugs from "@/app/stats/ReusablePlugs.tsx";
 import StatBars from "@/app/stats/StatBars.tsx";
 
-const _styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
 type StatsProps = {
   readonly destinyItem: DestinyItem;
 };
@@ -38,3 +29,12 @@ function Stats(props: StatsProps) {
 }
 
 export default React.memo(Stats);
+
+const _styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

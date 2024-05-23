@@ -13,85 +13,6 @@ import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/logic/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
 
-const styles = StyleSheet.create({
-  topContainerLight: {
-    flex: 1,
-    backgroundColor: "#F2F5FC",
-  },
-  topContainerDark: {
-    flex: 1,
-    backgroundColor: "#171321",
-  },
-  textLight: {
-    color: "black",
-    fontSize: 22,
-  },
-  textDark: {
-    color: "#F1EDFE",
-    fontSize: 22,
-  },
-  container: {
-    flex: 1,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  imageContainer: {
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 16,
-    overflow: "hidden",
-  },
-  spacer: {
-    marginTop: 10,
-  },
-  button: {
-    width: "100%",
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#6750A4",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    flexDirection: "row",
-    gap: 4,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    includeFontPadding: false,
-  },
-  demoButton: {
-    width: 130,
-    height: 40,
-    borderRadius: 20,
-    borderColor: "#6750A4AA",
-    borderWidth: 1,
-    backgroundColor: "transparent",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    flexDirection: "row",
-    gap: 4,
-  },
-  demoButtonText: {
-    color: "#6750A4",
-    fontSize: 14,
-    includeFontPadding: false,
-  },
-});
-
 function startAuth(): void {
   function cancelLogin() {
     console.info("Failed to complete auth session");
@@ -232,3 +153,82 @@ export default function Login({ navigation }: { readonly navigation: NavigationP
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  topContainerLight: {
+    flex: 1,
+    backgroundColor: "#F2F5FC",
+  },
+  topContainerDark: {
+    flex: 1,
+    backgroundColor: "#171321",
+  },
+  textLight: {
+    color: "black",
+    fontSize: 22,
+  },
+  textDark: {
+    color: "#F1EDFE",
+    fontSize: 22,
+  },
+  container: {
+    flex: 1,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  imageContainer: {
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  spacer: {
+    marginTop: 10,
+  },
+  button: {
+    width: "100%",
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#6750A4",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    includeFontPadding: false,
+  },
+  demoButton: {
+    width: 130,
+    height: 40,
+    borderRadius: 20,
+    borderColor: "#6750A4AA",
+    borderWidth: 1,
+    backgroundColor: "transparent",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  demoButtonText: {
+    color: "#6750A4",
+    fontSize: 14,
+    includeFontPadding: false,
+  },
+});
