@@ -14,24 +14,24 @@ import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 const array9 = Array.from({ length: 9 });
 
-type CharacterEquipmentProps = {
-  readonly data: EquipSection;
+type Props = {
+  readonly equipSection: EquipSection;
 };
 
-function CharacterEquipmentUI(props: CharacterEquipmentProps) {
+function CharacterEquipmentUI({ equipSection }: Props) {
   return (
     <View style={styles.root}>
       <View style={styles.equipAndInventoryHolder}>
         <View style={styles.equip}>
-          {props.data.equipped !== null ? <DestinyCell data={props.data.equipped} /> : <EmptyCell />}
+          {equipSection.equipped !== null ? <DestinyCell iconData={equipSection.equipped} /> : <EmptyCell />}
         </View>
         <View style={styles.inventoryGrid}>
           {array9.map((_, index) => {
-            const item = props.data.inventory[index];
+            const item = equipSection.inventory[index];
             if (item) {
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <DestinyCell key={index} data={item} />
+                <DestinyCell key={index} iconData={item} />
               );
             }
             return (

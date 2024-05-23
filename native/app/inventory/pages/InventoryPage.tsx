@@ -23,7 +23,7 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
   useGGStore.getState().setCurrentListIndex(index);
 }
 
-type InventoryPageProps = {
+type Props = {
   readonly inventoryPages: InventoryPageEnums;
 };
 
@@ -38,7 +38,7 @@ const rootStyles = StyleSheet.create({
 const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
-export default function InventoryPage(props: InventoryPageProps) {
+export default function InventoryPage({ inventoryPages }: Props) {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
@@ -115,7 +115,7 @@ export default function InventoryPage(props: InventoryPageProps) {
     }
   }
 
-  const mainData = getData(props.inventoryPages) ?? [];
+  const mainData = getData(inventoryPages) ?? [];
   const pullRefreshing = useGGStore((state) => state.pullRefreshing);
 
   return (

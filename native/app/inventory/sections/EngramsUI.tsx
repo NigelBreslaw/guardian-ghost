@@ -7,18 +7,18 @@ import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 
 const array10 = Array.from({ length: 10 });
 
-type EngramsProps = {
-  readonly data: DestinyIconData[];
+type Props = {
+  readonly iconData: DestinyIconData[];
 };
 
-function EngramsUI(props: EngramsProps) {
+function EngramsUI({ iconData }: Props) {
   return (
     <View style={styles.container}>
       {array10.map((_v, index) => {
-        const item = props.data[index];
+        const item = iconData[index];
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          <EngramCell key={index} data={item ?? DestinyIconDataEmpty} />
+          <EngramCell key={index} iconData={item ?? DestinyIconDataEmpty} />
         );
       })}
     </View>

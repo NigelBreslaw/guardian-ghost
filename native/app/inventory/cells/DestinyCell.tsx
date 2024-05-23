@@ -7,67 +7,65 @@ import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
-type DestinyCellProps = {
-  readonly data: DestinyIconData;
+type Props = {
+  readonly iconData: DestinyIconData;
 };
 
-const DestinyCell = (props: DestinyCellProps) => {
+const DestinyCell = ({ iconData }: Props) => {
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: props.data.characterId,
-      itemHash: props.data.itemHash,
-      itemInstanceId: props.data.itemInstanceId,
-      bucketHash: props.data.bucketHash,
+      characterId: iconData.characterId,
+      itemHash: iconData.itemHash,
+      itemInstanceId: iconData.itemInstanceId,
+      bucketHash: iconData.bucketHash,
     });
   };
 
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={DestinyIconStyles.container}>
-        <View style={[DestinyIconStyles.icon, { borderColor: props.data.borderColor }]}>
+        <View style={[DestinyIconStyles.icon, { borderColor: iconData.borderColor }]}>
           <Image
-            source={{ uri: props.data.icon }}
+            source={{ uri: iconData.icon }}
             cachePolicy="memory-disk"
             style={DestinyIconStyles.innerFrameSize}
-            recyclingKey={props.data.icon}
+            recyclingKey={iconData.icon}
           />
 
           <Image
-            source={{ uri: props.data.calculatedWaterMark }}
+            source={{ uri: iconData.calculatedWaterMark }}
             cachePolicy="memory-disk"
             style={DestinyIconStyles.innerFrameSize}
-            recyclingKey={props.data.calculatedWaterMark}
+            recyclingKey={iconData.calculatedWaterMark}
           />
 
-          {props.data.crafted && (
+          {iconData.crafted && (
             <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
           )}
         </View>
-        {props.data.primaryStat > 0 && (
+        {iconData.primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>
-            <Text style={DestinyIconStyles.primaryStatText}>{props.data.primaryStat}</Text>
+            <Text style={DestinyIconStyles.primaryStatText}>{iconData.primaryStat}</Text>
           </View>
         )}
-        {props.data.damageTypeIconUri && (
+        {iconData.damageTypeIconUri && (
           <View style={DestinyIconStyles.miniIconBurn}>
             <Image
               style={DestinyIconStyles.miniIconBurnSize}
-              source={props.data.damageTypeIconUri}
+              source={iconData.damageTypeIconUri}
               cachePolicy="memory"
             />
           </View>
         )}
-        {props.data.quantity > 1 && (
-          <View style={props.data.stackSizeMaxed ? DestinyIconStyles.quantityMaxed : DestinyIconStyles.quantity}>
+        {iconData.quantity > 1 && (
+          <View style={iconData.stackSizeMaxed ? DestinyIconStyles.quantityMaxed : DestinyIconStyles.quantity}>
             <Text
               style={
-                props.data.stackSizeMaxed
-                  ? DestinyIconStyles.quantityLevelTextMaxed
-                  : DestinyIconStyles.quantityLevelText
+                iconData.stackSizeMaxed ? DestinyIconStyles.quantityLevelTextMaxed : DestinyIconStyles.quantityLevelText
               }
             >
-              {props.data.quantity}
+              {iconData.quantity}
             </Text>
           </View>
         )}

@@ -59,6 +59,39 @@ import { myFunction } from './my-file.ts';
 import { myFunction } from './my-file';
 ```
 
+### Props
+
+Props are declared in the following style. As a type called 'Props', and then a destructured
+object with the properties. This means a bit less typing i.e. no 'props.foo' and also the
+linter can detect unused properties in the prop.
+
+```ts
+// Valid
+type Props = {
+  readonly route: RouteProp<RootStackParamList, "Details">;
+  readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
+};
+
+export default function StatBars({ route, navigation }: Props) {
+
+// Not valid
+type Props = {
+  readonly stats: ItemStats;
+  readonly destinyItem: DestinyItem;
+};
+
+export default function StatBars(props: Props) {
+
+// Also not valid
+function DetailsView({
+  route,
+  navigation,
+}: {
+  readonly route: RouteProp<RootStackParamList, "Details">;
+  readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
+}) {
+```
+
 ### Exports
 A common problem is the use of 'barrel files' which export everything from a folder.
 This can cause performance issues, especially in a monorepo. You need just one function
@@ -128,6 +161,7 @@ More Examples:
 - `refactor`: (refactoring production code, eg. renaming a variable)
 - `test`: (adding missing tests, refactoring tests; no production code change)
 - `chore`: (updating grunt tasks etc; no production code change)
+- `ux`: (user experience changes)
 
 References:
 - https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716

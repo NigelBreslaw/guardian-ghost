@@ -7,19 +7,19 @@ import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
 import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
-type DestinyCellProps = {
-  readonly data: DestinyIconData;
+type Props = {
+  readonly iconData: DestinyIconData;
 };
 
-const EngramCell = (props: DestinyCellProps) => {
+const EngramCell = ({ iconData }: Props) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: props.data.characterId,
-      itemHash: props.data.itemHash,
-      itemInstanceId: props.data.itemInstanceId,
-      bucketHash: props.data.bucketHash,
+      characterId: iconData.characterId,
+      itemHash: iconData.itemHash,
+      itemInstanceId: iconData.itemInstanceId,
+      bucketHash: iconData.bucketHash,
     });
   };
 
@@ -27,14 +27,14 @@ const EngramCell = (props: DestinyCellProps) => {
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.frameSize}>
         <Image
-          source={props.data?.icon ? props.data.icon : EMPTY_ENGRAM}
+          source={iconData?.icon ? iconData.icon : EMPTY_ENGRAM}
           cachePolicy="memory"
           style={styles.frameSize}
-          recyclingKey={props.data?.icon}
+          recyclingKey={iconData?.icon}
         />
-        {props.data.primaryStat > 0 && (
+        {iconData.primaryStat > 0 && (
           <View style={styles.primaryStat}>
-            <Text style={styles.powerLevelText}>{props.data.primaryStat}</Text>
+            <Text style={styles.powerLevelText}>{iconData.primaryStat}</Text>
           </View>
         )}
       </View>

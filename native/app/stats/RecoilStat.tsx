@@ -22,7 +22,11 @@ const verticalScale = 0.8;
 // The maximum angle of the pie, where zero recoil is the widest and 100 recoil is the narrowest
 const maxSpread = 180; // degrees
 
-export default function RecoilStat({ value }: { value: number }) {
+type Props = {
+  value: number;
+};
+
+export default function RecoilStat({ value }: Props) {
   const direction = recoilDirection(value) * verticalScale * (Math.PI / 180); // Convert to radians
   const x = Math.sin(direction);
   const y = Math.cos(direction);

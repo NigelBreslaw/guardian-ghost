@@ -6,15 +6,13 @@ import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
-type ArtifactProps = {
-  readonly equipped: DestinyIconData | null;
+type Props = {
+  readonly iconData: DestinyIconData | null;
 };
 
-function ArtifactUI(props: ArtifactProps) {
+function ArtifactUI({ iconData }: Props) {
   return (
-    <View style={styles.container}>
-      {props.equipped !== null ? <ArtifactCell data={props.equipped} /> : <EmptyCell />}
-    </View>
+    <View style={styles.container}>{iconData !== null ? <ArtifactCell iconData={iconData} /> : <EmptyCell />}</View>
   );
 }
 

@@ -11,28 +11,28 @@ type IconCellProps = {
   readonly destinyItem: DestinyItem;
 };
 
-function IconCell(props: IconCellProps) {
-  const borderColor = returnBorderColor(props.destinyItem);
+function IconCell({ destinyItem }: IconCellProps) {
+  const borderColor = returnBorderColor(destinyItem);
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer} />
       <View style={[styles.icon, { borderColor }]}>
         <Image
-          source={{ uri: props.destinyItem.instance.icon }}
+          source={{ uri: destinyItem.instance.icon }}
           cachePolicy="memory-disk"
           style={styles.innerFrameSize}
-          recyclingKey={props.destinyItem.instance.icon}
+          recyclingKey={destinyItem.instance.icon}
         />
 
         <Image
-          source={{ uri: props.destinyItem.instance.calculatedWaterMark }}
+          source={{ uri: destinyItem.instance.calculatedWaterMark }}
           cachePolicy="memory-disk"
           style={styles.innerFrameSize}
-          recyclingKey={props.destinyItem.instance.calculatedWaterMark}
+          recyclingKey={destinyItem.instance.calculatedWaterMark}
         />
 
-        {props.destinyItem.instance.crafted && (
+        {destinyItem.instance.crafted && (
           <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.innerFrameSize} />
         )}
       </View>

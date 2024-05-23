@@ -85,7 +85,7 @@ function CharacterHeaderButtons() {
 
 const Drawer = createDrawerNavigator();
 
-function CustomDrawerContent(props: DrawerContentComponentProps) {
+function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -96,8 +96,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           activeTintColor="white"
           inactiveTintColor="grey"
           activeBackgroundColor="#ffffff20"
-          focused={props.state.index === 0}
-          onPress={() => props.navigation.navigate("Inventory")}
+          focused={state.index === 0}
+          onPress={() => navigation.navigate("Inventory")}
         />
         <DrawerItem
           label={({ focused, color }) => (
@@ -108,9 +108,9 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           )}
           activeTintColor="white"
           inactiveTintColor="grey"
-          focused={props.state.index === 1}
+          focused={state.index === 1}
           activeBackgroundColor="#ffffff20"
-          onPress={() => props.navigation.navigate("Search")}
+          onPress={() => navigation.navigate("Search")}
         />
       </View>
 
@@ -131,7 +131,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           )}
           <TouchableOpacity
             onPress={() => {
-              props.navigation.closeDrawer();
+              navigation.closeDrawer();
               useGGStore.getState().logoutCurrentUser();
             }}
             onPressIn={() => {

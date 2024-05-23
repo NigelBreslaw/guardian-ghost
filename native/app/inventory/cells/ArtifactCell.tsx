@@ -7,43 +7,43 @@ import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 
-type DestinyCellProps = {
-  readonly data: DestinyIconData;
+type Props = {
+  readonly iconData: DestinyIconData;
 };
 
-const ArtifactCell = (props: DestinyCellProps) => {
+const ArtifactCell = ({ iconData }: Props) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: props.data.characterId,
-      itemHash: props.data.itemHash,
-      itemInstanceId: props.data.itemInstanceId,
-      bucketHash: props.data.bucketHash,
+      characterId: iconData.characterId,
+      itemHash: iconData.itemHash,
+      itemInstanceId: iconData.itemInstanceId,
+      bucketHash: iconData.bucketHash,
     });
   };
 
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
-        <View style={[styles.icon, { borderColor: props.data.borderColor }]}>
+        <View style={[styles.icon, { borderColor: iconData.borderColor }]}>
           <Image
-            source={{ uri: props.data.icon }}
+            source={{ uri: iconData.icon }}
             cachePolicy="memory-disk"
             style={styles.innerFrameSize}
-            recyclingKey={props.data.icon}
+            recyclingKey={iconData.icon}
           />
 
           <Image
-            source={{ uri: props.data.calculatedWaterMark }}
+            source={{ uri: iconData.calculatedWaterMark }}
             cachePolicy="memory-disk"
             style={styles.innerFrameSize}
-            recyclingKey={props.data.calculatedWaterMark}
+            recyclingKey={iconData.calculatedWaterMark}
           />
         </View>
-        {props.data.primaryStat > 0 && (
+        {iconData.primaryStat > 0 && (
           <View style={styles.primaryStat}>
-            <Text style={styles.primaryStatText}>{`+${props.data.primaryStat}`}</Text>
+            <Text style={styles.primaryStatText}>{`+${iconData.primaryStat}`}</Text>
           </View>
         )}
       </View>

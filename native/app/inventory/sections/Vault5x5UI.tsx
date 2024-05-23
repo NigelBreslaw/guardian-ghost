@@ -8,20 +8,20 @@ import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 const array25 = Array.from({ length: 25 });
 
-type Vault5x5Props = {
-  readonly data: DestinyIconData[];
+type Props = {
+  readonly iconData: DestinyIconData[];
 };
 
-function Vault5x5UI(props: Vault5x5Props) {
+function Vault5x5UI({ iconData }: Props) {
   return (
     <View>
       <View style={styles.container}>
         {array25.map((_v, index) => {
-          const item = props.data[index];
+          const item = iconData[index];
           if (item) {
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <DestinyCell key={index} data={item} />
+              <DestinyCell key={index} iconData={item} />
             );
           }
           return (

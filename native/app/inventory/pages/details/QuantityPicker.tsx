@@ -3,11 +3,11 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 
-type QuantityPickerProps = {
+type Props = {
   readonly destinyItem: DestinyItem;
 };
 
-function QuantityPicker(props: QuantityPickerProps) {
+function QuantityPicker({ destinyItem }: Props) {
   const quantity = useGGStore((state) => state.quantityToTransfer);
 
   return (
@@ -19,7 +19,7 @@ function QuantityPicker(props: QuantityPickerProps) {
           style={styles.quantityText}
           value={quantity === 0 ? "" : quantity.toString()}
           onChangeText={(value) => {
-            const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(props.destinyItem);
+            const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
             const valueAsNumber = Number.parseInt(value);
             if (valueAsNumber > maxAmount) {
               useGGStore.getState().setQuantityToTransfer(maxAmount);

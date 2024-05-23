@@ -105,14 +105,14 @@ const GlaiveWeaponStats: UiStatData[] = [
 
 const HEIGHT = 18;
 
-type ArmorTotalUiProps = {
+type ArmorProps = {
   readonly itemStats: ItemStats;
 };
 
-function ArmorTotal(props: ArmorTotalUiProps) {
+function ArmorTotal({ itemStats }: ArmorProps) {
   let total = 0;
 
-  for (const [key, value] of props.itemStats) {
+  for (const [key, value] of itemStats) {
     if (ArmorStatInvestments.includes(key)) {
       total += value;
     }
@@ -129,22 +129,22 @@ type NumericUiProps = {
   readonly value: number;
 };
 
-function NumericUi(props: NumericUiProps) {
+function NumericUi({ value }: NumericUiProps) {
   return (
     <View style={{ height: HEIGHT, gap: 1 }}>
-      <Text style={[styles.valueText, { paddingLeft: 10 }]}>{props.value}</Text>
+      <Text style={[styles.valueText, { paddingLeft: 10 }]}>{value}</Text>
     </View>
   );
 }
 
-type BarUiProps = {
+type BarProps = {
   readonly statType: StatType;
   readonly value: number;
 };
 
-function BarUi(props: BarUiProps) {
-  const maxValue = ArmorStatInvestments.includes(props.statType) ? 42 : 100;
-  const value = Math.min(props.value, 100);
+function BarUi({ statType, value }: BarProps) {
+  const maxValue = ArmorStatInvestments.includes(statType) ? 42 : 100;
+  const internalValue = Math.min(value, 100);
 
   return (
     <View style={{ height: HEIGHT, flexDirection: "row", gap: 10 }}>
@@ -153,13 +153,13 @@ function BarUi(props: BarUiProps) {
         <View
           style={{
             position: "absolute",
-            width: (value / maxValue) * 160,
+            width: (internalValue / maxValue) * 160,
             height: "100%",
             backgroundColor: "white",
           }}
         />
       </View>
-      <Text style={styles.valueText}>{value}</Text>
+      <Text style={styles.valueText}>{internalValue}</Text>
     </View>
   );
 }
@@ -189,11 +189,6 @@ function getStatsUiData(destinyItem: DestinyItem): UiStatData[] {
   return [];
 }
 
-type StatBarsProps = {
-  readonly stats: ItemStats;
-  readonly destinyItem: DestinyItem;
-};
-
 const STAT_GAP = 8;
 
 function getName(statType: StatType) {
@@ -206,6 +201,11 @@ function getName(statType: StatType) {
       return DestinyStatDefinition[statType]?.displayProperties.name ?? "";
   }
 }
+
+type StatBarsProps = {
+  readonly stats: ItemStats;
+  readonly destinyItem: DestinyItem;
+};
 
 export default function StatBars({ stats, destinyItem }: StatBarsProps) {
   const statUiData = getStatsUiData(destinyItem);
