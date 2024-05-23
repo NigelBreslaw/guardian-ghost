@@ -1,7 +1,7 @@
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
@@ -10,6 +10,16 @@ const styles = StyleSheet.create({
   container: {
     width: ICON_SIZE,
     height: ICON_SIZE,
+  },
+  innerContainer: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    position: "absolute",
+    top: 2,
+    left: 2,
+    pointerEvents: "none",
+    backgroundColor: "#313131",
+    borderRadius: 12,
   },
   icon: {
     width: ICON_SIZE,
@@ -37,29 +47,28 @@ function IconCell(props: IconCellProps) {
   const borderColor = returnBorderColor(props.destinyItem);
 
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
-        <View style={[styles.icon, { borderColor }]}>
-          <Image
-            source={{ uri: props.destinyItem.instance.icon }}
-            cachePolicy="memory-disk"
-            style={styles.innerFrameSize}
-            recyclingKey={props.destinyItem.instance.icon}
-          />
+    <View style={styles.container}>
+      <View style={styles.innerContainer} />
+      <View style={[styles.icon, { borderColor }]}>
+        <Image
+          source={{ uri: props.destinyItem.instance.icon }}
+          cachePolicy="memory-disk"
+          style={styles.innerFrameSize}
+          recyclingKey={props.destinyItem.instance.icon}
+        />
 
-          <Image
-            source={{ uri: props.destinyItem.instance.calculatedWaterMark }}
-            cachePolicy="memory-disk"
-            style={styles.innerFrameSize}
-            recyclingKey={props.destinyItem.instance.calculatedWaterMark}
-          />
+        <Image
+          source={{ uri: props.destinyItem.instance.calculatedWaterMark }}
+          cachePolicy="memory-disk"
+          style={styles.innerFrameSize}
+          recyclingKey={props.destinyItem.instance.calculatedWaterMark}
+        />
 
-          {props.destinyItem.instance.crafted && (
-            <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.innerFrameSize} />
-          )}
-        </View>
+        {props.destinyItem.instance.crafted && (
+          <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.innerFrameSize} />
+        )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 

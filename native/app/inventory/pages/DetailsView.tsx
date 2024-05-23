@@ -140,6 +140,9 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: -0.5,
     textTransform: "uppercase",
+    textShadowColor: "#000000AA",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   itemTypeText: {
     fontSize: 13,
@@ -148,6 +151,9 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     transform: [{ translateY: -4 }],
     textTransform: "uppercase",
+    textShadowColor: "#000000AA",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   flavorText: {
     fontSize: 13,
