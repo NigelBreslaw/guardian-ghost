@@ -1,10 +1,11 @@
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Image } from "expo-image";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
-import { Image } from "expo-image";
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {

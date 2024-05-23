@@ -1,8 +1,9 @@
-import { ENGRAMS_SECTION_WIDTH, ENGRAMS_SECTION_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
-import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+
+import { ENGRAMS_SECTION_WIDTH, ENGRAMS_SECTION_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import { DestinyIconDataEmpty, type DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 
 const array10 = Array.from({ length: 10 });
 

@@ -1,6 +1,7 @@
+import { parse } from "valibot";
+
 import type { AuthToken } from "@/app/store/Utilities.ts";
 import { apiKey } from "@/constants/env.ts";
-import { parse } from "valibot";
 import type { BungieUser } from "../inventory/logic/Types.ts";
 import { BungieProfileSchema, type BungieProfile, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
 

@@ -1,7 +1,8 @@
+import type { StateCreator } from "zustand";
+
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import { equipSectionBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { consumables, mods } from "@/app/store/Definitions.ts";
-
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
   ENGRAMS_SECTION_HEIGHT,
@@ -10,7 +11,6 @@ import {
   ICON_MARGIN,
   ICON_SIZE,
 } from "@/app/utilities/UISize.ts";
-import type { StateCreator } from "zustand";
 
 export type UIDataSliceSetter = Parameters<StateCreator<IStore, [], [], UIDataSlice>>[0];
 export type UIDataSliceGetter = Parameters<StateCreator<IStore, [], [], UIDataSlice>>[1];

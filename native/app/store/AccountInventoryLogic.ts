@@ -1,3 +1,6 @@
+import { create } from "mutative";
+import { deepEqual } from "fast-equals";
+
 import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
@@ -15,8 +18,6 @@ import {
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
-import { create } from "mutative";
-import { deepEqual } from "fast-equals";
 import {
   UISection,
   armorPageBuckets,

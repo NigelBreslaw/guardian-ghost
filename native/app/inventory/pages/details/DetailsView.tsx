@@ -1,15 +1,8 @@
-import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
-import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Platform, ScrollView } from "react-native";
-import Stats from "@/app/stats/Stats";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
-import type { RootStackParamList } from "@/app/Root.tsx";
-import { findDestinyItem } from "@/app/store/AccountLogic.ts";
-import type { CharacterId } from "@/app/core/GetProfile.ts";
 import BottomSheet from "@gorhom/bottom-sheet";
 import Animated, {
   Extrapolation,
@@ -19,7 +12,15 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { TouchableOpacity } from "react-native-gesture-handler";
+
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
+import { findDestinyItem } from "@/app/store/AccountLogic.ts";
+import type { CharacterId } from "@/app/core/GetProfile.ts";
+import Stats from "@/app/stats/Stats.tsx";
+import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
+import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 
 const styles = StyleSheet.create({
   scroll: {

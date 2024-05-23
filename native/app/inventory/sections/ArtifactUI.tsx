@@ -1,9 +1,10 @@
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+
 import ArtifactCell from "@/app/inventory/cells/ArtifactCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 const styles = StyleSheet.create({
   container: {

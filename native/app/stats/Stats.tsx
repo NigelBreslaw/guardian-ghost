@@ -1,11 +1,11 @@
+import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
+
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { createSockets } from "@/app/inventory/logic/Sockets.ts";
-import ReusablePlugs from "@/app/stats/ReusablePlugs";
 import { createStats } from "@/app/stats/Logic.ts";
+import ReusablePlugs from "@/app/stats/ReusablePlugs.tsx";
 import StatBars from "@/app/stats/StatBars.tsx";
-import { useMemo } from "react";
-import React from "react";
 
 const _styles = StyleSheet.create({
   container: {

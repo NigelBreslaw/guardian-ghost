@@ -1,3 +1,6 @@
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
+
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import {
@@ -6,8 +9,6 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Image } from "expo-image";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";

@@ -1,8 +1,9 @@
+import { createStackNavigator } from "@react-navigation/stack";
+
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
 import DetailsView from "@/app/inventory/pages/details/DetailsView.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";
-import { createStackNavigator } from "@react-navigation/stack";
 
 // Native app uses a native stack navigator which has no animations on web.
 // so this is a workaround to get the animations working.

@@ -1,3 +1,11 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useDrawerStatus } from "@react-navigation/drawer";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
+import { Image } from "expo-image";
+import { FlashList } from "@shopify/flash-list";
+
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import {
   consumables,
@@ -7,17 +15,10 @@ import {
   mods,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
-import { Image } from "expo-image";
-import { FlashList } from "@shopify/flash-list";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
-import { useDrawerStatus } from "@react-navigation/drawer";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useIsFocused } from "@react-navigation/native";
+import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
 
 function getAllItems(): DestinyItem[] {
   const items = [];

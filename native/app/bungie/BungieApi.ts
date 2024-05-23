@@ -1,8 +1,9 @@
+import { isoTimestamp, safeParse, string } from "valibot";
+
 import { basePath } from "@/app/core/ApiResponse.ts";
 import { getSimpleProfileSchema, type ProfileData } from "@/app/core/GetProfile.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { apiKey } from "@/constants/env.ts";
-import { isoTimestamp, safeParse, string } from "valibot";
 
 export const profileComponents = "100,102,103,104,200,201,202,205,206,300,301,305,307,309,310,1200";
 export const BUNGIE_MANIFEST_URL = "https://www.bungie.net/Platform/Destiny2/Manifest/";

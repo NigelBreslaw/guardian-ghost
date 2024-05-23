@@ -1,6 +1,7 @@
-import { ICON_SIZE } from "@/app/utilities/UISize.ts";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+
+import { ICON_SIZE } from "@/app/utilities/UISize.ts";
 
 const BORDER_COLOR = "#555555";
 const BORDER_RADIUS = 10;

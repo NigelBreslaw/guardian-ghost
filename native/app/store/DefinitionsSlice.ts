@@ -1,3 +1,12 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SQLite from "expo-sqlite/legacy";
+import { Platform } from "react-native";
+import { parse, safeParse, string } from "valibot";
+import type { StateCreator } from "zustand";
+import Toast from "react-native-toast-message";
+import * as SplashScreen from "expo-splash-screen";
+import { deepEqual } from "fast-equals";
+
 import {
   setItemDefinition,
   type ItemsDefinition,
@@ -33,16 +42,9 @@ import {
   setIcons,
   setDestinyStatDefinition,
 } from "@/app/store/Definitions.ts";
-import * as SplashScreen from "expo-splash-screen";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SQLite from "expo-sqlite/legacy";
-import { Platform } from "react-native";
-import { parse, safeParse, string } from "valibot";
-import type { StateCreator } from "zustand";
-import Toast from "react-native-toast-message";
 import {
   ItemResponseSchema,
   MiniStatSchema,
@@ -53,7 +55,6 @@ import {
   type StatGroupDefinition,
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
-import { deepEqual } from "fast-equals";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];

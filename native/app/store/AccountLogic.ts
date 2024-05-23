@@ -1,3 +1,5 @@
+import { safeParse } from "valibot";
+
 import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { consumables, generalVault, guardians, lostItems, mods } from "@/app/store/Definitions.ts";
 import {
@@ -6,7 +8,6 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { safeParse } from "valibot";
 import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
 import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/inventory/logic/Constants.ts";
 import { bungieUrl } from "@/app/core/ApiResponse.ts";

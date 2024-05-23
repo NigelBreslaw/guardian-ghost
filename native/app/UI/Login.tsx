@@ -1,6 +1,3 @@
-import { stateID } from "@/app/store/AuthenticationLogic.ts";
-import { useGGStore } from "@/app/store/GGStore";
-import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
@@ -9,8 +6,12 @@ import { Image, Platform, StyleSheet, Text, TextInput, View, useColorScheme } fr
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Spinner from "@/app/UI/Spinner.tsx";
+
+import { stateID } from "@/app/store/AuthenticationLogic.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/logic/Constants.ts";
+import Spinner from "@/app/UI/Spinner.tsx";
 
 const styles = StyleSheet.create({
   topContainerLight: {

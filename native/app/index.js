@@ -1,6 +1,7 @@
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import * as Sentry from "@sentry/react-native";
 import { registerRootComponent } from "expo";
+
 import Root from "./Root.tsx";
 
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({

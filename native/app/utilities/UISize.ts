@@ -1,6 +1,7 @@
+import { Dimensions, StyleSheet } from "react-native";
+
 import { TierType } from "@/app/bungie/Enums.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/inventory/logic/Constants.ts";
-import { Dimensions, StyleSheet } from "react-native";
 
 const { width } = Dimensions.get("window");
 

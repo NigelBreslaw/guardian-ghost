@@ -1,10 +1,11 @@
+import { View, Text, StyleSheet } from "react-native";
+
 import { ItemSubType, ItemType, StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
-import RecoilStat from "@/app/stats/RecoilStat.tsx";
 import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
-import { View, Text, StyleSheet } from "react-native";
+import RecoilStat from "@/app/stats/RecoilStat.tsx";
 
 type UiStatType = "BAR" | "NUMERAL" | "RECOIL" | "SEPARATOR" | "ARMOR-TOTAL";
 

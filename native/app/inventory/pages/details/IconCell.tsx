@@ -1,7 +1,8 @@
-import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+
+import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";

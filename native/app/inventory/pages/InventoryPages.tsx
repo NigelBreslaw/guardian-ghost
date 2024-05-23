@@ -1,10 +1,11 @@
-import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
-import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
-import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
+import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
+import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 
 const Tab = createBottomTabNavigator();
 
