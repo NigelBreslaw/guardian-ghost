@@ -1,6 +1,6 @@
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
-import DetailsView from "@/app/inventory/pages/DetailsView.tsx";
+import DetailsView from "@/app/inventory/pages/details/DetailsView";
 import type { RootStackParamList } from "@/app/Root.tsx";
 import { createStackNavigator } from "@react-navigation/stack";
 
