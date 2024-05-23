@@ -6,23 +6,23 @@ import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
-type VaultFlexProps = {
-  readonly data: DestinyIconData[];
+type Props = {
+  readonly iconData: DestinyIconData[];
   readonly minimumSpacerHeight?: number;
 };
 
-function VaultFlexUI(props: VaultFlexProps) {
-  const sectionRows = Math.ceil(props.data.length / 5);
+function VaultFlexUI({ iconData, minimumSpacerHeight }: Props) {
+  const sectionRows = Math.ceil(iconData.length / 5);
   const totalItems = sectionRows * 5;
-  const minimumSpacerHeight = Math.max(
-    props.minimumSpacerHeight ?? 0,
+  const minimumSpacerHeightInternal = Math.max(
+    minimumSpacerHeight ?? 0,
     ICON_SIZE * sectionRows + ICON_MARGIN * (sectionRows - 1),
   );
   const normalHeight = ICON_SIZE * sectionRows + ICON_MARGIN * (sectionRows - 1);
 
   const styles = StyleSheet.create({
     root: {
-      height: minimumSpacerHeight,
+      height: minimumSpacerHeightInternal,
     },
     container: {
       maxHeight: normalHeight,
@@ -41,11 +41,11 @@ function VaultFlexUI(props: VaultFlexProps) {
     <View style={styles.root}>
       <View style={styles.container}>
         {Array.from({ length: totalItems }).map((_v, index) => {
-          const item = props.data[index];
+          const item = iconData[index];
           if (item) {
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <DestinyCell key={index} data={item} />
+              <DestinyCell key={index} iconData={item} />
             );
           }
           return (

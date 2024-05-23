@@ -3,13 +3,13 @@ import { Image } from "expo-image";
 
 import { ENHANCED_TRAIT } from "@/app/inventory/logic/Constants.ts";
 
-type PerkCircleProps = {
+type Props = {
   readonly icon: string | undefined;
   readonly isEnabled: boolean;
   readonly isEnhanced: boolean;
 };
 
-export default function PerkCircle(props: PerkCircleProps) {
+export default function PerkCircle({ icon, isEnabled, isEnhanced }: Props) {
   return (
     <View
       style={{
@@ -20,11 +20,11 @@ export default function PerkCircle(props: PerkCircleProps) {
         borderRadius: 25,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: props.isEnabled ? "#5791BD" : "transparent",
+        backgroundColor: isEnabled ? "#5791BD" : "transparent",
       }}
     >
-      <Image source={props.icon} cachePolicy={"memory-disk"} style={{ width: 30, height: 30 }} />
-      {props.isEnhanced && (
+      <Image source={icon} cachePolicy={"memory-disk"} style={{ width: 30, height: 30 }} />
+      {isEnhanced && (
         <Image source={ENHANCED_TRAIT} tintColor="#F4D158" style={{ width: 51, height: 51, position: "absolute" }} />
       )}
     </View>

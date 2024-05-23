@@ -2,22 +2,20 @@ import { View, StyleSheet, Text } from "react-native";
 
 import { TierType } from "@/app/bungie/Enums.ts";
 import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Sockets.ts";
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
 
-type ReusablePlugsProps = {
+type Props = {
   readonly socketCategory: SocketCategory;
-  readonly item: DestinyItem;
 };
 
-export default function ReusablePlugs(props: ReusablePlugsProps) {
-  switch (props.socketCategory.categoryStyle) {
+export default function ReusablePlugs({ socketCategory }: Props) {
+  switch (socketCategory.categoryStyle) {
     case CategoryStyle.Reusable: {
       return (
         <View style={styles.root}>
-          <Text style={styles.text}>{`${props.socketCategory.name}`}</Text>
+          <Text style={styles.text}>{`${socketCategory.name}`}</Text>
           <View style={styles.container}>
-            {props.socketCategory.topLevelSockets.map((column, index) => {
+            {socketCategory.topLevelSockets.map((column, index) => {
               // Don't draw columns with no icons
               const valid = column.some((e) => e.def?.icon);
               if (!valid) {

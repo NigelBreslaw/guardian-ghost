@@ -11,14 +11,14 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Circle, G } from "react-native-svg";
 
-type SpinnerProps = {
+type Props = {
   readonly color?: string;
   readonly size?: number;
 };
 
-export default function Spinner(props: SpinnerProps) {
+export default function Spinner({ color, size }: Props) {
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-  const CIRCUMFERENCE = props.size ?? 50;
+  const CIRCUMFERENCE = size ?? 50;
   const R = CIRCUMFERENCE / (2 * Math.PI);
   const STROKE_WIDTH = 3;
   const HALF_CIRCLE = R + STROKE_WIDTH;
@@ -66,7 +66,7 @@ export default function Spinner(props: SpinnerProps) {
               r={R}
               animatedProps={animatedCircleProps}
               strokeWidth={STROKE_WIDTH}
-              stroke={props.color ?? "white"}
+              stroke={color ?? "white"}
               fill={"transparent"}
               strokeDasharray={CIRCUMFERENCE}
             />

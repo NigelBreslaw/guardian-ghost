@@ -14,7 +14,11 @@ const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
 
 const masterworkScalar = SCREEN_WIDTH / 2 / 500;
 
-function ScreenInfo({ destinyItem }: { readonly destinyItem: DestinyItem }) {
+type Props = {
+  readonly destinyItem: DestinyItem;
+};
+
+function ScreenInfo({ destinyItem }: Props) {
   return (
     <View
       style={{

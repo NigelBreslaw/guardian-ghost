@@ -14,13 +14,13 @@ import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
 
-type TransferEquipButtonsProps = {
+type Props = {
   readonly destinyItem: DestinyItem;
   close: () => void;
   startTransfer: (toCharacterId: CharacterId, equipOnTarget: boolean) => void;
 };
 
-export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
+export default function TransferEquipButtons({ destinyItem, close, startTransfer }: Props) {
   const rectangles = [];
 
   const scale = 0.55;
@@ -92,20 +92,20 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   // is this a vault item that will be transferred to the Mods or Consumables page section?
   if (
-    (props.destinyItem.characterId === VAULT_CHARACTER_ID &&
-      props.destinyItem.def.recoveryBucketHash === SectionBuckets.Consumables) ||
-    props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
+    (destinyItem.characterId === VAULT_CHARACTER_ID &&
+      destinyItem.def.recoveryBucketHash === SectionBuckets.Consumables) ||
+    destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
   ) {
     const ggCharacterId =
-      props.destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
+      destinyItem.def.recoveryBucketHash === SectionBuckets.Mods
         ? GLOBAL_MODS_CHARACTER_ID
         : GLOBAL_CONSUMABLES_CHARACTER_ID;
 
     const globalButton = (
       <TouchableOpacity
         onPress={() => {
-          props.startTransfer(ggCharacterId, false);
-          props.close();
+          startTransfer(ggCharacterId, false);
+          close();
         }}
       >
         <View
@@ -154,7 +154,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     if (buttonCharacterId === VAULT_CHARACTER_ID) {
       return 0;
     }
-    if (!props.destinyItem.def.equippable) {
+    if (!destinyItem.def.equippable) {
       return 0;
     }
     if (calcEquipButtonDisabled(buttonCharacterId)) {
@@ -164,7 +164,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   }
 
   function calcTransferOpacity(buttonCharacterId: CharacterId): number {
-    if (props.destinyItem.def.nonTransferrable) {
+    if (destinyItem.def.nonTransferrable) {
       return 0;
     }
     if (calcTransferButtonDisabled(buttonCharacterId)) {
@@ -176,8 +176,8 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   // only call this if you already checked the item is equippable
   function calcEquipButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
-    if (buttonCharacterId === props.destinyItem.characterId && props.destinyItem.bucketHash !== 215593132) {
-      if (props.destinyItem.equipped) {
+    if (buttonCharacterId === destinyItem.characterId && destinyItem.bucketHash !== 215593132) {
+      if (destinyItem.equipped) {
         return true;
       }
       return false;
@@ -187,7 +187,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   function calcTransferButtonDisabled(buttonCharacterId: CharacterId): boolean {
     // is this item already on the character, but not in the postmaster?
-    if (buttonCharacterId === props.destinyItem.characterId && props.destinyItem.bucketHash !== 215593132) {
+    if (buttonCharacterId === destinyItem.characterId && destinyItem.bucketHash !== 215593132) {
       return true;
     }
     return false;
@@ -195,7 +195,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
 
   for (const ggCharacter of ggCharacters) {
     // Global items can only be transferred to the vault
-    if (GLOBAL_INVENTORY_NAMES.includes(props.destinyItem.characterId)) {
+    if (GLOBAL_INVENTORY_NAMES.includes(destinyItem.characterId)) {
       if (ggCharacter.characterId !== VAULT_CHARACTER_ID) {
         continue;
       }
@@ -204,7 +204,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
     const isTransferDisabled = calcTransferButtonDisabled(ggCharacter.characterId);
     const isEquipDisabled = calcEquipButtonDisabled(ggCharacter.characterId);
 
-    if (props.destinyItem.def.nonTransferrable && ggCharacter.characterId !== props.destinyItem.characterId) {
+    if (destinyItem.def.nonTransferrable && ggCharacter.characterId !== destinyItem.characterId) {
       continue;
     }
 
@@ -213,8 +213,8 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
         <TouchableOpacity
           disabled={isTransferDisabled}
           onPress={() => {
-            props.startTransfer(ggCharacter.characterId, false);
-            props.close();
+            startTransfer(ggCharacter.characterId, false);
+            close();
           }}
         >
           <View
@@ -262,8 +262,8 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
         <TouchableOpacity
           disabled={isEquipDisabled}
           onPress={() => {
-            props.startTransfer(ggCharacter.characterId, true);
-            props.close();
+            startTransfer(ggCharacter.characterId, true);
+            close();
           }}
         >
           <View
@@ -309,9 +309,7 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
       <Text style={styles.transferToText}>Transfer to</Text>
-      <Text style={[styles.equipOnText, { display: props.destinyItem.def.equippable ? "flex" : "none" }]}>
-        Equip on
-      </Text>
+      <Text style={[styles.equipOnText, { display: destinyItem.def.equippable ? "flex" : "none" }]}>Equip on</Text>
 
       {rectangles}
     </View>

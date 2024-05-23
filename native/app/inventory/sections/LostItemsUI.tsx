@@ -8,11 +8,11 @@ import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 
-type EngramsProps = {
-  readonly data: DestinyIconData[];
+type Props = {
+  readonly iconsData: DestinyIconData[];
 };
 
-function LostItemsUI(props: EngramsProps) {
+function LostItemsUI({ iconsData }: Props) {
   const maxLostItemsRows = useGGStore.getState().maxLostItemsRows;
   const minimumSpacerHeight = ICON_SIZE * maxLostItemsRows + ICON_MARGIN * (maxLostItemsRows - 1);
 
@@ -44,17 +44,17 @@ function LostItemsUI(props: EngramsProps) {
       <View style={styles.root}>
         <View style={styles.container}>
           {totalItems.map((_v, index) => {
-            const item = props.data[index];
+            const item = iconsData[index];
             if (item) {
               if (item.engram) {
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-                  <EngramCell key={index} data={item} />
+                  <EngramCell key={index} iconData={item} />
                 );
               }
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <DestinyCell key={index} data={item} />
+                <DestinyCell key={index} iconData={item} />
               );
             }
             return (

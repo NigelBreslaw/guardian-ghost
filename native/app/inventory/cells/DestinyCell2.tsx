@@ -7,7 +7,7 @@ import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
-type DestinyCellProps = {
+type Props = {
   readonly characterId: CharacterId;
   readonly itemHash: ItemHash;
   readonly itemInstanceId: ItemInstanceId | undefined;
@@ -22,57 +22,66 @@ type DestinyCellProps = {
   readonly quantity: number;
 };
 
-const DestinyCell2 = (props: DestinyCellProps) => {
+const DestinyCell2 = ({
+  characterId,
+  itemHash,
+  itemInstanceId,
+  bucketHash,
+  icon,
+  calculatedWaterMark,
+  crafted,
+  damageTypeIconUri,
+  borderColor,
+  stackSizeMaxed,
+  primaryStat,
+  quantity,
+}: Props) => {
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: props.characterId,
-      itemHash: props.itemHash,
-      itemInstanceId: props.itemInstanceId,
-      bucketHash: props.bucketHash,
+      characterId,
+      itemHash,
+      itemInstanceId,
+      bucketHash,
     });
   };
 
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={DestinyIconStyles.container}>
-        <View style={[DestinyIconStyles.icon, { borderColor: props.borderColor }]}>
+        <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>
           <Image
-            source={{ uri: props.icon }}
+            source={{ uri: icon }}
             cachePolicy="memory-disk"
             style={DestinyIconStyles.innerFrameSize}
-            recyclingKey={props.icon}
+            recyclingKey={icon}
           />
 
           <Image
-            source={{ uri: props.calculatedWaterMark }}
+            source={{ uri: calculatedWaterMark }}
             cachePolicy="memory-disk"
             style={DestinyIconStyles.innerFrameSize}
-            recyclingKey={props.calculatedWaterMark}
+            recyclingKey={calculatedWaterMark}
           />
 
-          {props.crafted && (
-            <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
-          )}
+          {crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />}
         </View>
-        {props.primaryStat > 0 && (
+        {primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>
-            <Text style={DestinyIconStyles.primaryStatText}>{props.primaryStat}</Text>
+            <Text style={DestinyIconStyles.primaryStatText}>{primaryStat}</Text>
           </View>
         )}
-        {props.damageTypeIconUri && (
+        {damageTypeIconUri && (
           <View style={DestinyIconStyles.miniIconBurn}>
-            <Image style={DestinyIconStyles.miniIconBurnSize} source={props.damageTypeIconUri} cachePolicy="memory" />
+            <Image style={DestinyIconStyles.miniIconBurnSize} source={damageTypeIconUri} cachePolicy="memory" />
           </View>
         )}
-        {props.quantity > 1 && (
-          <View style={props.stackSizeMaxed ? DestinyIconStyles.quantityMaxed : DestinyIconStyles.quantity}>
+        {quantity > 1 && (
+          <View style={stackSizeMaxed ? DestinyIconStyles.quantityMaxed : DestinyIconStyles.quantity}>
             <Text
-              style={
-                props.stackSizeMaxed ? DestinyIconStyles.quantityLevelTextMaxed : DestinyIconStyles.quantityLevelText
-              }
+              style={stackSizeMaxed ? DestinyIconStyles.quantityLevelTextMaxed : DestinyIconStyles.quantityLevelText}
             >
-              {props.quantity}
+              {quantity}
             </Text>
           </View>
         )}

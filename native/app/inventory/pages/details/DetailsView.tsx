@@ -22,13 +22,12 @@ import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 
-export default function DetailsView({
-  route,
-  navigation,
-}: {
+type Props = {
   readonly route: RouteProp<RootStackParamList, "Details">;
   readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
-}) {
+};
+
+export default function DetailsView({ route, navigation }: Props) {
   const insets = useSafeAreaInsets();
   const destinyItem = findDestinyItem(route.params);
 
