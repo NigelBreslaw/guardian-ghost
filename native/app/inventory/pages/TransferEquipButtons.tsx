@@ -73,8 +73,8 @@ export default function TransferEquipButtons(props: TransferEquipButtonsProps) {
       position: "absolute",
       top: 40,
       left: 85,
-      textShadowColor: "black",
-      textShadowOffset: { width: 1, height: 1 },
+      textShadowColor: "#000000DD",
+      textShadowOffset: { width: 0.5, height: 0.5 },
       textShadowRadius: 1,
     },
     InventoryName: {
