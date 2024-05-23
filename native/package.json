@@ -14,7 +14,7 @@
     "lint": "biome lint ./app",
     "lint:fix": "biome check --apply ./app",
     "type-check": "time tsc --noEmit",
-    "test": "eslint"
+    "eslint": "eslint"
   },
   "dependencies": {
     "@expo/metro-runtime": "3.2.1",
