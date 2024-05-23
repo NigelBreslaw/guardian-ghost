@@ -27,6 +27,7 @@ type Props = {
 };
 
 export default function RecoilStat({ value }: Props) {
+  "use memo";
   const direction = recoilDirection(value) * verticalScale * (Math.PI / 180); // Convert to radians
   const x = Math.sin(direction);
   const y = Math.cos(direction);

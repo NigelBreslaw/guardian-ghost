@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
@@ -11,7 +10,8 @@ type Props = {
   readonly iconData: DestinyIconData;
 };
 
-const ArtifactCell = ({ iconData }: Props) => {
+export default function ArtifactCell({ iconData }: Props) {
+  "use memo";
   const navigation = useNavigation();
 
   const handlePress = () => {
@@ -49,7 +49,7 @@ const ArtifactCell = ({ iconData }: Props) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -94,5 +94,3 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
 });
-
-export default React.memo(ArtifactCell);

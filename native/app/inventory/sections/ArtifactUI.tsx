@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
 
 import ArtifactCell from "@/app/inventory/cells/ArtifactCell.tsx";
@@ -10,7 +9,8 @@ type Props = {
   readonly iconData: DestinyIconData | null;
 };
 
-function ArtifactUI({ iconData }: Props) {
+export default function ArtifactUI({ iconData }: Props) {
+  "use memo";
   return (
     <View style={styles.container}>{iconData !== null ? <ArtifactCell iconData={iconData} /> : <EmptyCell />}</View>
   );
@@ -23,5 +23,3 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
-export default React.memo(ArtifactUI);

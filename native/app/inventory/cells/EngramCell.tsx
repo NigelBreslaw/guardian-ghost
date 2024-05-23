@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -11,7 +10,8 @@ type Props = {
   readonly iconData: DestinyIconData;
 };
 
-const EngramCell = ({ iconData }: Props) => {
+export default function EngramCell({ iconData }: Props) {
+  "use memo";
   const navigation = useNavigation();
 
   const handlePress = () => {
@@ -40,7 +40,7 @@ const EngramCell = ({ iconData }: Props) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   frameSize: {
@@ -57,5 +57,3 @@ const styles = StyleSheet.create({
     ...common.primaryStatText,
   },
 });
-
-export default React.memo(EngramCell);

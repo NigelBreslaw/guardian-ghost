@@ -15,6 +15,7 @@ import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 
 function RefreshButton() {
+  "use memo";
   const refreshing = useGGStore((state) => state.refreshing);
 
   return (
@@ -32,6 +33,7 @@ function RefreshButton() {
 }
 
 function CharacterHeaderButtons() {
+  "use memo";
   const ggCharacters = useGGStore((state) => state.ggCharacters);
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const scale = 0.4;
@@ -86,6 +88,7 @@ function CharacterHeaderButtons() {
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps) {
+  "use memo";
   const insets = useSafeAreaInsets();
 
   return (
@@ -151,6 +154,7 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
 }
 
 export default function MainDrawer() {
+  "use memo";
   const ggGuardians = useGGStore((state) => state.ggCharacters);
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const guardianClassType = getGuardianClassType(ggGuardians[currentListIndex]?.guardianClassType);

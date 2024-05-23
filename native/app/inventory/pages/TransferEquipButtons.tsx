@@ -21,6 +21,7 @@ type Props = {
 };
 
 export default function TransferEquipButtons({ destinyItem, close, startTransfer }: Props) {
+  "use memo";
   const rectangles = [];
 
   const scale = 0.55;

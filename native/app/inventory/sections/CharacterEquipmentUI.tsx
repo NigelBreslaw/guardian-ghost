@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import {
@@ -18,7 +17,8 @@ type Props = {
   readonly equipSection: EquipSection;
 };
 
-function CharacterEquipmentUI({ equipSection }: Props) {
+export default function CharacterEquipmentUI({ equipSection }: Props) {
+  "use memo";
   return (
     <View style={styles.root}>
       <View style={styles.equipAndInventoryHolder}>
@@ -77,5 +77,3 @@ const styles = StyleSheet.create({
     alignContent: "space-between",
   },
 });
-
-export default React.memo(CharacterEquipmentUI);

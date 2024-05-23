@@ -110,6 +110,7 @@ type ArmorProps = {
 };
 
 function ArmorTotal({ itemStats }: ArmorProps) {
+  "use memo";
   let total = 0;
 
   for (const [key, value] of itemStats) {
@@ -130,6 +131,7 @@ type NumericUiProps = {
 };
 
 function NumericUi({ value }: NumericUiProps) {
+  "use memo";
   return (
     <View style={{ height: HEIGHT, gap: 1 }}>
       <Text style={[styles.valueText, { paddingLeft: 10 }]}>{value}</Text>
@@ -143,6 +145,7 @@ type BarProps = {
 };
 
 function BarUi({ statType, value }: BarProps) {
+  "use memo";
   const maxValue = ArmorStatInvestments.includes(statType) ? 42 : 100;
   const internalValue = Math.min(value, 100);
 
@@ -208,6 +211,7 @@ type StatBarsProps = {
 };
 
 export default function StatBars({ stats, destinyItem }: StatBarsProps) {
+  "use memo";
   const statUiData = getStatsUiData(destinyItem);
   const labels = statUiData.map((UiData) => {
     const name = getName(UiData.statType);

@@ -18,7 +18,8 @@ type Props = {
   readonly destinyItem: DestinyItem;
 };
 
-function ScreenInfo({ destinyItem }: Props) {
+export default function ScreenInfo({ destinyItem }: Props) {
+  "use memo";
   return (
     <View
       style={{
@@ -199,5 +200,3 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
 });
-
-export default ScreenInfo;

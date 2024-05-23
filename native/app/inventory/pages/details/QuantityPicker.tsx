@@ -7,7 +7,8 @@ type Props = {
   readonly destinyItem: DestinyItem;
 };
 
-function QuantityPicker({ destinyItem }: Props) {
+export default function QuantityPicker({ destinyItem }: Props) {
+  "use memo";
   const quantity = useGGStore((state) => state.quantityToTransfer);
 
   return (
@@ -64,5 +65,3 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-
-export default QuantityPicker;

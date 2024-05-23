@@ -1,4 +1,3 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,7 +8,8 @@ import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 
 const Tab = createBottomTabNavigator();
 
-function InventoryPages() {
+export default function InventoryPages() {
+  "use memo";
   const insets = useSafeAreaInsets();
 
   // The hack on height and marginBottom is because something is bugged with either this component
@@ -71,5 +71,3 @@ function InventoryPages() {
     </View>
   );
 }
-
-export default React.memo(InventoryPages);

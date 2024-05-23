@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
 
-function InventoryHeader() {
+export default function InventoryHeader() {
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const characterBackgroundEmblem = useGGStore((state) => state.ggCharacters[currentListIndex]?.secondarySpecial);
 
@@ -13,5 +13,3 @@ function InventoryHeader() {
     </View>
   );
 }
-
-export default InventoryHeader;

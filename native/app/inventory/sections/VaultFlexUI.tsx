@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
@@ -11,7 +10,8 @@ type Props = {
   readonly minimumSpacerHeight?: number;
 };
 
-function VaultFlexUI({ iconData, minimumSpacerHeight }: Props) {
+export default function VaultFlexUI({ iconData, minimumSpacerHeight }: Props) {
+  "use memo";
   const sectionRows = Math.ceil(iconData.length / 5);
   const totalItems = sectionRows * 5;
   const minimumSpacerHeightInternal = Math.max(
@@ -57,5 +57,3 @@ function VaultFlexUI({ iconData, minimumSpacerHeight }: Props) {
     </View>
   );
 }
-
-export default React.memo(VaultFlexUI);

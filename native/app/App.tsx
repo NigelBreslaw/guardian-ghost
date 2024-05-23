@@ -8,6 +8,8 @@ import type { RootStackParamList } from "@/app/Root.tsx";
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
+  "use memo";
+
   return (
     <RootStack.Navigator>
       <RootStack.Group>

@@ -73,6 +73,7 @@ type Props = {
 };
 
 export default function Login({ navigation }: Props) {
+  "use memo";
   const colorScheme = useColorScheme();
   const authenticated = useGGStore((state) => state.authenticated);
   const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);

@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
@@ -11,8 +10,9 @@ type Props = {
   readonly destinyItem: DestinyItem;
 };
 
-function Stats({ destinyItem }: Props) {
-  const sockets = useMemo(() => createSockets(destinyItem), [destinyItem]);
+export default function Stats({ destinyItem }: Props) {
+  "use memo";
+  const sockets = createSockets(destinyItem);
   if (!sockets) {
     return null;
   }
@@ -27,8 +27,6 @@ function Stats({ destinyItem }: Props) {
     </View>
   );
 }
-
-export default React.memo(Stats);
 
 const _styles = StyleSheet.create({
   container: {

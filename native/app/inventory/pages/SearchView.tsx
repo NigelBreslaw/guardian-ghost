@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -169,7 +169,8 @@ export const UiCellRenderItem = ({ item }: { item: DestinyItem }) => {
   );
 };
 
-function SearchView() {
+export default function SearchView() {
+  "use memo";
   const drawerStatus = useDrawerStatus();
   const insets = useSafeAreaInsets();
   const [searchText, setSearchText] = useState("");
@@ -196,13 +197,10 @@ function SearchView() {
     searchItems(searchText);
   }, [searchText]);
 
-  const searchItems = useCallback(
-    (clue: string) => {
-      const foundItems = find(clue, allItems);
-      setFoundItems(foundItems);
-    },
-    [allItems],
-  );
+  function searchItems(clue: string) {
+    const foundItems = find(clue, allItems);
+    setFoundItems(foundItems);
+  }
 
   return (
     <KeyboardAvoidingView
@@ -283,5 +281,3 @@ function SearchView() {
     </KeyboardAvoidingView>
   );
 }
-
-export default React.memo(SearchView);
