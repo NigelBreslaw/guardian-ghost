@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { ICON_SIZE } from "@/app/utilities/UISize.ts";
@@ -8,7 +7,8 @@ const BORDER_RADIUS = 10;
 const BORDER_SIZE = 15;
 const BORDER_WIDTH = 1;
 
-function EmptyCell() {
+export default function EmptyCell() {
+  "use memo";
   return (
     <View style={styles.square}>
       <View style={topLeft} />
@@ -64,5 +64,3 @@ const topLeft = StyleSheet.flatten([styles.topLeft, styles.corner]);
 const topRight = StyleSheet.flatten([styles.topRight, styles.corner]);
 const bottomLeft = StyleSheet.flatten([styles.bottomLeft, styles.corner]);
 const bottomRight = StyleSheet.flatten([styles.bottomRight, styles.corner]);
-
-export default React.memo(EmptyCell);

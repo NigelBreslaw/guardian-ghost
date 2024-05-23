@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { StyleSheet, Text, View, Platform, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import Animated, {
   Extrapolation,
@@ -28,18 +28,20 @@ type Props = {
 };
 
 export default function DetailsView({ route, navigation }: Props) {
+  "use memo";
   const insets = useSafeAreaInsets();
   const destinyItem = findDestinyItem(route.params);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [60, 300], []);
+  const snapPoints = [60, 300];
+  const focus = useIsFocused();
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    if (focus) {
       const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
       useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
-    }, [destinyItem]),
-  );
+    }
+  }, [focus, destinyItem]);
 
   function transfer(targetId: CharacterId, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;

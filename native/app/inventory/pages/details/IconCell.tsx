@@ -1,5 +1,4 @@
 import { Image } from "expo-image";
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
@@ -7,11 +6,12 @@ import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 
-type IconCellProps = {
+type Props = {
   readonly destinyItem: DestinyItem;
 };
 
-function IconCell({ destinyItem }: IconCellProps) {
+export default function IconCell({ destinyItem }: Props) {
+  "use memo";
   const borderColor = returnBorderColor(destinyItem);
 
   return (
@@ -72,5 +72,3 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
 });
-
-export default React.memo(IconCell);

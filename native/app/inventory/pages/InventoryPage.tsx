@@ -1,6 +1,6 @@
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
@@ -39,6 +39,7 @@ const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
 export default function InventoryPage({ inventoryPages }: Props) {
+  "use memo";
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
@@ -83,23 +84,20 @@ export default function InventoryPage({ inventoryPages }: Props) {
 
   let lastOffsetY = 0;
 
-  const listMoved = useCallback(
-    (toY: number) => {
-      if (lastOffsetY !== toY) {
-        lastOffsetY = toY;
-        for (let i = 0; i < listRefs.current.length; i++) {
-          if (i === currentListIndex) {
-            continue;
-          }
-          const lRef = listRefs.current[i];
-          if (lRef) {
-            lRef.scrollToOffset({ offset: toY, animated: false });
-          }
+  const listMoved = (toY: number) => {
+    if (lastOffsetY !== toY) {
+      lastOffsetY = toY;
+      for (let i = 0; i < listRefs.current.length; i++) {
+        if (i === currentListIndex) {
+          continue;
+        }
+        const lRef = listRefs.current[i];
+        if (lRef) {
+          lRef.scrollToOffset({ offset: toY, animated: false });
         }
       }
-    },
-    [currentListIndex, lastOffsetY],
-  );
+    }
+  };
 
   const debouncedMove = debounce(listMoved, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);

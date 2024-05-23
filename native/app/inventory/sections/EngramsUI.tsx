@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { ENGRAMS_SECTION_WIDTH, ENGRAMS_SECTION_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
@@ -11,7 +10,8 @@ type Props = {
   readonly iconData: DestinyIconData[];
 };
 
-function EngramsUI({ iconData }: Props) {
+export default function EngramsUI({ iconData }: Props) {
+  "use memo";
   return (
     <View style={styles.container}>
       {array10.map((_v, index) => {
@@ -38,5 +38,3 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
-export default React.memo(EngramsUI);

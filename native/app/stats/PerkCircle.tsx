@@ -10,6 +10,7 @@ type Props = {
 };
 
 export default function PerkCircle({ icon, isEnabled, isEnhanced }: Props) {
+  "use memo";
   return (
     <View
       style={{

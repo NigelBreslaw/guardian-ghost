@@ -17,6 +17,7 @@ type Props = {
 };
 
 export default function Spinner({ color, size }: Props) {
+  "use memo";
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const CIRCUMFERENCE = size ?? 50;
   const R = CIRCUMFERENCE / (2 * Math.PI);

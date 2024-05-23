@@ -18,6 +18,8 @@ export const injectWebCss = () => {
 };
 
 function App() {
+  "use memo";
+
   injectWebCss();
 
   return (

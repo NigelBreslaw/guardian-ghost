@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
@@ -12,7 +11,8 @@ type Props = {
   readonly iconsData: DestinyIconData[];
 };
 
-function LostItemsUI({ iconsData }: Props) {
+export default function LostItemsUI({ iconsData }: Props) {
+  "use memo";
   const maxLostItemsRows = useGGStore.getState().maxLostItemsRows;
   const minimumSpacerHeight = ICON_SIZE * maxLostItemsRows + ICON_MARGIN * (maxLostItemsRows - 1);
 
@@ -68,5 +68,3 @@ function LostItemsUI({ iconsData }: Props) {
     </View>
   );
 }
-
-export default React.memo(LostItemsUI);

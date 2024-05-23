@@ -1,11 +1,10 @@
 import { View } from "react-native";
 
-type VaultSpacerProps = {
+type Props = {
   readonly size: number;
 };
 
-function VaultSpacer(props: VaultSpacerProps) {
-  return <View style={{ height: props.size }} />;
+export default function VaultSpacer({ size }: Props) {
+  "use memo";
+  return <View style={{ height: size }} />;
 }
-
-export default VaultSpacer;

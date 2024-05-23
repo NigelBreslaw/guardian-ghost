@@ -9,6 +9,7 @@ type Props = {
 };
 
 export default function ReusablePlugs({ socketCategory }: Props) {
+  "use memo";
   switch (socketCategory.categoryStyle) {
     case CategoryStyle.Reusable: {
       return (

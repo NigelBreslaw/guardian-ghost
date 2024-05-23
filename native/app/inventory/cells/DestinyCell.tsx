@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
@@ -12,6 +11,8 @@ type Props = {
 };
 
 const DestinyCell = ({ iconData }: Props) => {
+  "use memo";
+
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -74,4 +75,4 @@ const DestinyCell = ({ iconData }: Props) => {
   );
 };
 
-export default React.memo(DestinyCell);
+export default DestinyCell;

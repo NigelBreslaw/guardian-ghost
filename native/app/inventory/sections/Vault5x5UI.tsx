@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { DEFAULT_MARGIN, ICON_MARGIN, INV_MAX_WIDTH, VAULT_5x5_HEIGHT } from "@/app/utilities/UISize.ts";
@@ -12,7 +11,8 @@ type Props = {
   readonly iconData: DestinyIconData[];
 };
 
-function Vault5x5UI({ iconData }: Props) {
+export default function Vault5x5UI({ iconData }: Props) {
+  "use memo";
   return (
     <View>
       <View style={styles.container}>
@@ -49,5 +49,3 @@ const styles = StyleSheet.create({
     alignContent: "space-between",
   },
 });
-
-export default React.memo(Vault5x5UI);
