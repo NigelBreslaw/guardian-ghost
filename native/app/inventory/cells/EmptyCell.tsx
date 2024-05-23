@@ -8,6 +8,17 @@ const BORDER_RADIUS = 10;
 const BORDER_SIZE = 15;
 const BORDER_WIDTH = 1;
 
+function EmptyCell() {
+  return (
+    <View style={styles.square}>
+      <View style={topLeft} />
+      <View style={topRight} />
+      <View style={bottomLeft} />
+      <View style={bottomRight} />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   square: {
     width: ICON_SIZE,
@@ -53,16 +64,5 @@ const topLeft = StyleSheet.flatten([styles.topLeft, styles.corner]);
 const topRight = StyleSheet.flatten([styles.topRight, styles.corner]);
 const bottomLeft = StyleSheet.flatten([styles.bottomLeft, styles.corner]);
 const bottomRight = StyleSheet.flatten([styles.bottomRight, styles.corner]);
-
-function EmptyCell() {
-  return (
-    <View style={styles.square}>
-      <View style={topLeft} />
-      <View style={topRight} />
-      <View style={bottomLeft} />
-      <View style={bottomRight} />
-    </View>
-  );
-}
 
 export default React.memo(EmptyCell);

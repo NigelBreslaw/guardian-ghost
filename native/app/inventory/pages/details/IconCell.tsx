@@ -7,39 +7,6 @@ import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 
-const styles = StyleSheet.create({
-  container: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-  },
-  innerContainer: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-    position: "absolute",
-    top: 2,
-    left: 2,
-    pointerEvents: "none",
-    backgroundColor: "#313131",
-    borderRadius: 12,
-  },
-  icon: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-    borderRadius: 12,
-    overflow: "hidden",
-    borderWidth: 2,
-    pointerEvents: "none",
-  },
-  innerFrameSize: {
-    width: INNER_FRAME_SIZE,
-    height: INNER_FRAME_SIZE,
-    position: "absolute",
-    top: -0.5,
-    left: -0.5,
-    pointerEvents: "none",
-  },
-});
-
 type IconCellProps = {
   readonly destinyItem: DestinyItem;
 };
@@ -72,5 +39,38 @@ function IconCell(props: IconCellProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+  },
+  innerContainer: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    position: "absolute",
+    top: 2,
+    left: 2,
+    pointerEvents: "none",
+    backgroundColor: "#313131",
+    borderRadius: 12,
+  },
+  icon: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 2,
+    pointerEvents: "none",
+  },
+  innerFrameSize: {
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
+    position: "absolute",
+    top: -0.5,
+    left: -0.5,
+    pointerEvents: "none",
+  },
+});
 
 export default React.memo(IconCell);

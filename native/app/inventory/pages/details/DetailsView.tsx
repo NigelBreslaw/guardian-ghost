@@ -22,21 +22,6 @@ import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 
-const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-  transferHint: {
-    color: "white",
-    fontSize: 15,
-    padding: 10,
-    fontWeight: "bold",
-    includeFontPadding: false,
-  },
-});
-
 export default function DetailsView({
   route,
   navigation,
@@ -135,3 +120,18 @@ export default function DetailsView({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  transferHint: {
+    color: "white",
+    fontSize: 15,
+    padding: 10,
+    fontWeight: "bold",
+    includeFontPadding: false,
+  },
+});

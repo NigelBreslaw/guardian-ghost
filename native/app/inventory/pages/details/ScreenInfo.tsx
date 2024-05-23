@@ -14,6 +14,80 @@ const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
 
 const masterworkScalar = SCREEN_WIDTH / 2 / 500;
 
+function ScreenInfo({ destinyItem }: { readonly destinyItem: DestinyItem }) {
+  return (
+    <View
+      style={{
+        width: "100%",
+        height: (SCREEN_WIDTH / 1920) * 1080,
+        overflow: "hidden",
+      }}
+    >
+      <Image
+        transition={200}
+        style={[
+          {
+            position: "absolute",
+            width: "100%",
+            height: (SCREEN_WIDTH / 1920) * 1080,
+          },
+        ]}
+        source={{ uri: destinyItem.instance.screenshot }}
+      />
+
+      {destinyItem.instance.masterwork && (
+        <View style={styles.masterworkContainer}>
+          <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
+          <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
+        </View>
+      )}
+      {destinyItem.instance.crafted && (
+        <Image
+          style={{
+            opacity: 0.8,
+            width: 400,
+            height: 292,
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            transformOrigin: "bottom left",
+            transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
+          }}
+          source={LARGE_CRAFTED}
+          cachePolicy="none"
+        />
+      )}
+      <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.def.secondaryIcon }} />
+      <View style={styles.tierHeaderContainer}>
+        <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+        <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+      </View>
+      {destinyItem.instance.masterwork && (
+        <Image style={styles.masterworkTrim} source={MASTERWORK_TRIM} cachePolicy={"none"} />
+      )}
+
+      <View style={styles.itemDetails}>
+        <View style={styles.itemIconAndName}>
+          <View style={styles.icon}>
+            <IconCell destinyItem={destinyItem} />
+          </View>
+
+          <View>
+            <Text style={styles.nameText}>{destinyItem.def.name}</Text>
+            <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
+          </View>
+        </View>
+        <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
+      </View>
+      <View style={{ flex: 15 }} />
+      <View style={styles.screenshotFooter} />
+      {!destinyItem.def.nonTransferrable &&
+        destinyItem.def.maxStackSize > 1 &&
+        destinyItem.def.stackUniqueLabel === undefined && <QuantityPicker destinyItem={destinyItem} />}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   secondaryIcon: {
     height: SCREENSHOT_HEIGHT / 2,
@@ -121,79 +195,5 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
 });
-
-function ScreenInfo({ destinyItem }: { readonly destinyItem: DestinyItem }) {
-  return (
-    <View
-      style={{
-        width: "100%",
-        height: (SCREEN_WIDTH / 1920) * 1080,
-        overflow: "hidden",
-      }}
-    >
-      <Image
-        transition={200}
-        style={[
-          {
-            position: "absolute",
-            width: "100%",
-            height: (SCREEN_WIDTH / 1920) * 1080,
-          },
-        ]}
-        source={{ uri: destinyItem.instance.screenshot }}
-      />
-
-      {destinyItem.instance.masterwork && (
-        <View style={styles.masterworkContainer}>
-          <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
-          <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
-        </View>
-      )}
-      {destinyItem.instance.crafted && (
-        <Image
-          style={{
-            opacity: 0.8,
-            width: 400,
-            height: 292,
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            transformOrigin: "bottom left",
-            transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
-          }}
-          source={LARGE_CRAFTED}
-          cachePolicy="none"
-        />
-      )}
-      <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.def.secondaryIcon }} />
-      <View style={styles.tierHeaderContainer}>
-        <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
-        <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
-      </View>
-      {destinyItem.instance.masterwork && (
-        <Image style={styles.masterworkTrim} source={MASTERWORK_TRIM} cachePolicy={"none"} />
-      )}
-
-      <View style={styles.itemDetails}>
-        <View style={styles.itemIconAndName}>
-          <View style={styles.icon}>
-            <IconCell destinyItem={destinyItem} />
-          </View>
-
-          <View>
-            <Text style={styles.nameText}>{destinyItem.def.name}</Text>
-            <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
-          </View>
-        </View>
-        <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
-      </View>
-      <View style={{ flex: 15 }} />
-      <View style={styles.screenshotFooter} />
-      {!destinyItem.def.nonTransferrable &&
-        destinyItem.def.maxStackSize > 1 &&
-        destinyItem.def.stackUniqueLabel === undefined && <QuantityPicker destinyItem={destinyItem} />}
-    </View>
-  );
-}
 
 export default ScreenInfo;

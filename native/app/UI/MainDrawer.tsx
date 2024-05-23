@@ -14,63 +14,6 @@ import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: "100%",
-    justifyContent: "space-between",
-    padding: 10,
-  },
-  top: {
-    flex: 1,
-    justifyContent: "flex-start",
-  },
-  bottom: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-  iconImage: {
-    width: 20,
-    height: 20,
-    alignSelf: "center",
-  },
-  spinner: {
-    width: 20,
-    height: 20,
-    alignSelf: "center",
-    position: "absolute",
-  },
-  textDark: {
-    color: "#F1EDFE",
-    fontSize: 50,
-    fontWeight: "bold",
-    letterSpacing: -2,
-    lineHeight: 48,
-  },
-  button: {
-    width: "100%",
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#6750A4",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    flexDirection: "row",
-    gap: 4,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    includeFontPadding: false,
-  },
-});
-
 function RefreshButton() {
   const refreshing = useGGStore((state) => state.refreshing);
 
@@ -255,3 +198,60 @@ export default function MainDrawer() {
     </Drawer.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: "100%",
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  top: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  iconImage: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+  },
+  spinner: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+    position: "absolute",
+  },
+  textDark: {
+    color: "#F1EDFE",
+    fontSize: 50,
+    fontWeight: "bold",
+    letterSpacing: -2,
+    lineHeight: 48,
+  },
+  button: {
+    width: "100%",
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#6750A4",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 4,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    includeFontPadding: false,
+  },
+});

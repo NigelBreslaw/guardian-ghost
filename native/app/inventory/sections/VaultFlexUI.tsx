@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
@@ -20,26 +20,22 @@ function VaultFlexUI(props: VaultFlexProps) {
   );
   const normalHeight = ICON_SIZE * sectionRows + ICON_MARGIN * (sectionRows - 1);
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        root: {
-          height: minimumSpacerHeight,
-        },
-        container: {
-          maxHeight: normalHeight,
-          marginLeft: DEFAULT_MARGIN,
-          marginRight: DEFAULT_MARGIN,
-          maxWidth: INV_MAX_WIDTH,
-          flex: 5,
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignContent: "space-between",
-        },
-      }),
-    [minimumSpacerHeight, normalHeight],
-  );
+  const styles = StyleSheet.create({
+    root: {
+      height: minimumSpacerHeight,
+    },
+    container: {
+      maxHeight: normalHeight,
+      marginLeft: DEFAULT_MARGIN,
+      marginRight: DEFAULT_MARGIN,
+      maxWidth: INV_MAX_WIDTH,
+      flex: 5,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      alignContent: "space-between",
+    },
+  });
 
   return (
     <View style={styles.root}>

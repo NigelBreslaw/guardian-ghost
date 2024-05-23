@@ -3,36 +3,6 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 
-const styles = StyleSheet.create({
-  quantityRoot: {
-    left: 20,
-    position: "absolute",
-    bottom: 20,
-  },
-  quantity: {
-    width: 100,
-    height: 30,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: "grey",
-  },
-  quantityText: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    includeFontPadding: false,
-    height: "100%",
-    width: "100%",
-    paddingLeft: 5,
-  },
-  quantityTitle: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    includeFontPadding: false,
-  },
-});
-
 type QuantityPickerProps = {
   readonly destinyItem: DestinyItem;
 };
@@ -64,5 +34,35 @@ function QuantityPicker(props: QuantityPickerProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  quantityRoot: {
+    left: 20,
+    position: "absolute",
+    bottom: 20,
+  },
+  quantity: {
+    width: 100,
+    height: 30,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "grey",
+  },
+  quantityText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    includeFontPadding: false,
+    height: "100%",
+    width: "100%",
+    paddingLeft: 5,
+  },
+  quantityTitle: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    includeFontPadding: false,
+  },
+});
 
 export default QuantityPicker;

@@ -22,16 +22,6 @@ const verticalScale = 0.8;
 // The maximum angle of the pie, where zero recoil is the widest and 100 recoil is the narrowest
 const maxSpread = 180; // degrees
 
-const styles = StyleSheet.create({
-  valueText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-    includeFontPadding: false,
-    paddingLeft: 10,
-  },
-});
-
 export default function RecoilStat({ value }: { value: number }) {
   const direction = recoilDirection(value) * verticalScale * (Math.PI / 180); // Convert to radians
   const x = Math.sin(direction);
@@ -71,3 +61,13 @@ export default function RecoilStat({ value }: { value: number }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  valueText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+    includeFontPadding: false,
+    paddingLeft: 10,
+  },
+});

@@ -5,28 +5,6 @@ import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Socket
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
 
-const styles = StyleSheet.create({
-  root: {},
-  container: {
-    paddingLeft: 20,
-    flexDirection: "row",
-    gap: 15,
-  },
-  text: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    includeFontPadding: false,
-    height: 30,
-    paddingLeft: 20,
-  },
-  column: {
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    gap: 10,
-  },
-});
-
 type ReusablePlugsProps = {
   readonly socketCategory: SocketCategory;
   readonly item: DestinyItem;
@@ -71,3 +49,25 @@ export default function ReusablePlugs(props: ReusablePlugsProps) {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  root: {},
+  container: {
+    paddingLeft: 20,
+    flexDirection: "row",
+    gap: 15,
+  },
+  text: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    includeFontPadding: false,
+    height: 30,
+    paddingLeft: 20,
+  },
+  column: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    gap: 10,
+  },
+});

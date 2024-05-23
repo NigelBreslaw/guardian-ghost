@@ -14,38 +14,6 @@ import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 const array9 = Array.from({ length: 9 });
 
-const styles = StyleSheet.create({
-  root: {
-    width: DEFAULT_SECTION_4_WIDTH,
-
-    alignSelf: "center",
-  },
-  footer: {
-    height: FOOTER_HEIGHT,
-  },
-  container: {
-    flex: 3,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  equip: {
-    width: ICON_SIZE + ICON_MARGIN,
-  },
-  equipAndInventoryHolder: {
-    flexDirection: "row",
-    height: EQUIP_SECTION_HEIGHT,
-  },
-  inventoryGrid: {
-    flex: 3,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    alignContent: "space-between",
-  },
-});
-
 type CharacterEquipmentProps = {
   readonly data: EquipSection;
 };
@@ -77,5 +45,37 @@ function CharacterEquipmentUI(props: CharacterEquipmentProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    width: DEFAULT_SECTION_4_WIDTH,
+
+    alignSelf: "center",
+  },
+  footer: {
+    height: FOOTER_HEIGHT,
+  },
+  container: {
+    flex: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  equip: {
+    width: ICON_SIZE + ICON_MARGIN,
+  },
+  equipAndInventoryHolder: {
+    flexDirection: "row",
+    height: EQUIP_SECTION_HEIGHT,
+  },
+  inventoryGrid: {
+    flex: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+  },
+});
 
 export default React.memo(CharacterEquipmentUI);

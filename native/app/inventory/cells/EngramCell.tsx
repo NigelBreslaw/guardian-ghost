@@ -7,22 +7,6 @@ import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
 import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
-const styles = StyleSheet.create({
-  frameSize: {
-    width: INNER_FRAME_SIZE,
-    height: INNER_FRAME_SIZE,
-    pointerEvents: "none",
-  },
-  primaryStat: {
-    ...common.primaryStat,
-    bottom: 0,
-    right: -4,
-  },
-  powerLevelText: {
-    ...common.primaryStatText,
-  },
-});
-
 type DestinyCellProps = {
   readonly data: DestinyIconData;
 };
@@ -57,5 +41,21 @@ const EngramCell = (props: DestinyCellProps) => {
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  frameSize: {
+    width: INNER_FRAME_SIZE,
+    height: INNER_FRAME_SIZE,
+    pointerEvents: "none",
+  },
+  primaryStat: {
+    ...common.primaryStat,
+    bottom: 0,
+    right: -4,
+  },
+  powerLevelText: {
+    ...common.primaryStatText,
+  },
+});
 
 export default React.memo(EngramCell);

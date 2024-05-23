@@ -7,20 +7,6 @@ import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 
 const array10 = Array.from({ length: 10 });
 
-const styles = StyleSheet.create({
-  container: {
-    width: ENGRAMS_SECTION_WIDTH,
-    marginLeft: DEFAULT_MARGIN,
-    marginRight: DEFAULT_MARGIN,
-    height: ENGRAMS_SECTION_HEIGHT,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    alignContent: "space-between",
-    alignSelf: "center",
-  },
-});
-
 type EngramsProps = {
   readonly data: DestinyIconData[];
 };
@@ -38,5 +24,19 @@ function EngramsUI(props: EngramsProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: ENGRAMS_SECTION_WIDTH,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    height: ENGRAMS_SECTION_HEIGHT,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+    alignSelf: "center",
+  },
+});
 
 export default React.memo(EngramsUI);

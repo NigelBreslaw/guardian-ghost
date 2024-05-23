@@ -12,21 +12,6 @@ type Vault5x5Props = {
   readonly data: DestinyIconData[];
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: DEFAULT_MARGIN,
-    marginRight: DEFAULT_MARGIN,
-    maxWidth: INV_MAX_WIDTH,
-    height: VAULT_5x5_HEIGHT,
-    minHeight: VAULT_5x5_HEIGHT,
-    flex: 5,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    alignContent: "space-between",
-  },
-});
-
 function Vault5x5UI(props: Vault5x5Props) {
   return (
     <View>
@@ -49,5 +34,20 @@ function Vault5x5UI(props: Vault5x5Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    maxWidth: INV_MAX_WIDTH,
+    height: VAULT_5x5_HEIGHT,
+    minHeight: VAULT_5x5_HEIGHT,
+    flex: 5,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+  },
+});
 
 export default React.memo(Vault5x5UI);
