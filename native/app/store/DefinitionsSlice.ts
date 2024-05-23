@@ -94,8 +94,9 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       set({ bungieDefinitionVersions: bungieDefinitionVersion });
     } catch (e) {
       console.log("No saved bungieDefinition version", e);
+    } finally {
+      SplashScreen.hideAsync();
     }
-    SplashScreen.hideAsync();
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
