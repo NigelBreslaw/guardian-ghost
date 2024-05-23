@@ -4,7 +4,13 @@ module.exports = function (api) {
     presets: ["babel-preset-expo"],
     env: {
       production: {
-        plugins: ["react-native-reanimated/plugin"],
+        plugins: [
+          "babel-plugin-react-compiler",
+          {
+            runtimeModule: "react-compiler-runtime",
+          },
+          "react-native-reanimated/plugin",
+        ],
       },
     },
   };
