@@ -13,7 +13,8 @@
     "analyze:android": "source-map-explorer 'dist/_expo/static/js/android/*.js' 'dist/_expo/static/js/android/*.js.map'",
     "lint": "biome lint ./app",
     "lint:fix": "biome check --apply ./app",
-    "type-check": "time tsc --noEmit"
+    "type-check": "time tsc --noEmit",
+    "test": "eslint"
   },
   "dependencies": {
     "@expo/metro-runtime": "3.2.1",
@@ -27,6 +28,7 @@
     "@sentry/react-native": "5.22.2",
     "@shopify/flash-list": "1.6.4",
     "babel-plugin-react-compiler": "0.0.0-experimental-592953e-20240517",
+    "eslint": "8.57.0",
     "expo": "51.0.8",
     "expo-build-properties": "0.12.1",
     "expo-crypto": "13.0.2",
@@ -61,8 +63,10 @@
     "@total-typescript/ts-reset": "0.5.1",
     "@types/react": "18.3.2",
     "@types/react-dom": "18.3.0",
+    "eslint-plugin-react-compiler": "0.0.0-experimental-c8b3f72-20240517",
     "source-map-explorer": "2.5.3",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "typescript-eslint": "7.10.0"
   },
   "main": "app/index.js",
   "name": "native_gg",
