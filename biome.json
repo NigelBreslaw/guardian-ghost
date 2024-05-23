@@ -7,7 +7,16 @@
     "indentWidth": 2,
     "indentStyle": "space",
     "lineWidth": 120,
-    "ignore": ["dist/**", "ios/**", "android/**", "node_modules/**", ".expo/**", "app.json", "eas.json"]
+    "ignore": [
+      "dist/**",
+      "ios/**",
+      "android/**",
+      "node_modules/**",
+      ".expo/**",
+      "app.json",
+      "eas.json",
+      "react-compiler-runtime/**"
+    ]
   },
   "linter": {
     "enabled": true,
