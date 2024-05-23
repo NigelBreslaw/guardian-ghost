@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   flavorText: {
     fontSize: 13,
     color: "#FFFFFFDD",
+    fontStyle: "italic",
     includeFontPadding: false,
     maxWidth: SCREEN_WIDTH - 200 * scalar,
     transform: [{ translateY: 20 * scalar }],
