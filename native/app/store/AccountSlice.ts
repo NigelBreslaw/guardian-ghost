@@ -1,3 +1,6 @@
+import type { StateCreator } from "zustand";
+import { create } from "mutative";
+
 import {
   characterBuckets,
   type DestinyItem,
@@ -35,7 +38,6 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 import {
   addInventoryItem,
@@ -46,7 +48,6 @@ import {
   updateAllPages,
 } from "@/app/store/AccountInventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
-import { create } from "mutative";
 import type {
   BucketHash,
   CharacterId,

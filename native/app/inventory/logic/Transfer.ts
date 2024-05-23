@@ -1,3 +1,5 @@
+import { number, object, optional, safeParse, string } from "valibot";
+
 import { DestinyClass, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { basePath } from "@/app/core/ApiResponse.ts";
@@ -7,7 +9,6 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import { apiKey } from "@/constants/env.ts";
-import { number, object, optional, safeParse, string } from "valibot";
 import type { CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 const DEBUG_TRANSFER = false;

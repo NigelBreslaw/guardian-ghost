@@ -1,6 +1,7 @@
-import { SEPARATOR_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+
+import { SEPARATOR_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 
 const styles = StyleSheet.create({
   root: {

@@ -1,10 +1,11 @@
-import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
-import { Image } from "expo-image";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Image } from "expo-image";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
+import { EMPTY_ENGRAM } from "@/app/inventory/logic/Constants.ts";
+import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 
 const styles = StyleSheet.create({
   frameSize: {

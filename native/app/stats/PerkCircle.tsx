@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Image } from "expo-image";
+
 import { ENHANCED_TRAIT } from "@/app/inventory/logic/Constants.ts";
 
 type PerkCircleProps = {

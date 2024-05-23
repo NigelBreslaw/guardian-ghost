@@ -1,3 +1,5 @@
+import { number, object, string, type Output } from "valibot";
+
 import {
   SectionBuckets,
   type DamageType,
@@ -18,8 +20,6 @@ import type {
   ItemHash,
   ItemInstanceId,
 } from "@/app/core/GetProfile.ts";
-import { number, object, string } from "valibot";
-import type { Output } from "valibot";
 
 export type GuardiansAndVault = {
   vault: VaultData;

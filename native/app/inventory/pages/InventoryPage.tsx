@@ -1,12 +1,13 @@
-import { getFullProfile } from "@/app/bungie/BungieApi.ts";
-import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import { InventoryPageEnums, type UISections } from "@/app/inventory/logic/Helpers.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
-import { debounce } from "@/app/utilities/Helpers.ts";
 import { useIsFocused } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useCallback, useEffect, useRef } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+
+import { getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { InventoryPageEnums, type UISections } from "@/app/inventory/logic/Helpers.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { debounce } from "@/app/utilities/Helpers.ts";
+import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 
 const pageEstimatedFlashListItemSize = [130, 130, 130, 130];
 

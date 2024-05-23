@@ -3,8 +3,6 @@
 // lives here in its own file
 // -------------------------------
 
-import { bungieResponseSchema } from "@/app/core/ApiResponse.ts";
-import type { Branded } from "@/app/utilities/Helpers.ts";
 import {
   array,
   boolean,
@@ -18,6 +16,9 @@ import {
   unknown,
   type Output,
 } from "valibot";
+
+import { bungieResponseSchema } from "@/app/core/ApiResponse.ts";
+import type { Branded } from "@/app/utilities/Helpers.ts";
 
 // -------------------------------
 // PlugSets are used all over the API. Not just in getProfile

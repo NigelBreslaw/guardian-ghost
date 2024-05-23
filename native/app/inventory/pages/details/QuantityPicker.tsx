@@ -1,6 +1,7 @@
+import { View, Text, TextInput, StyleSheet } from "react-native";
+
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { View, Text, TextInput, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   quantityRoot: {

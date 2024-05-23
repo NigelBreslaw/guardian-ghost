@@ -1,9 +1,10 @@
-import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
+import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
+
+import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
-import { useNavigation } from "@react-navigation/native";
 import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 type DestinyCellProps = {

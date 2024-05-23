@@ -1,8 +1,9 @@
+import { View, StyleSheet, Text } from "react-native";
+
 import { TierType } from "@/app/bungie/Enums.ts";
 import { CategoryStyle, type SocketCategory } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
-import { View, StyleSheet, Text } from "react-native";
 
 const styles = StyleSheet.create({
   root: {},

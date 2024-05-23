@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Image } from "expo-image";
+
 import { useGGStore } from "@/app/store/GGStore.ts";
 
 function InventoryHeader() {

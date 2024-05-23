@@ -1,14 +1,15 @@
 import * as SplashScreen from "expo-splash-screen";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useWindowDimensions } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
-import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import App from "@/app/App"; // Do not use the file extension or the web version will fail to be used.
 

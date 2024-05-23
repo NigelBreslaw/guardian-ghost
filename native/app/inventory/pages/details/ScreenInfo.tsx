@@ -1,5 +1,6 @@
 import { View, StyleSheet, Platform, Dimensions, Text } from "react-native";
 import { Image } from "expo-image";
+
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";

@@ -1,6 +1,6 @@
+import { isoTimestamp, number, object, parse, string, type Output } from "valibot";
+
 import { apiKey, clientID, clientSecret } from "@/constants/env.ts";
-import { isoTimestamp, number, object, parse, string } from "valibot";
-import type { Output } from "valibot";
 
 export const authTokenSchema = object({
   access_token: string(),

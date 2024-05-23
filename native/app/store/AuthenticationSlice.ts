@@ -1,3 +1,5 @@
+import type { StateCreator } from "zustand";
+
 import type { BungieUser } from "@/app/inventory/logic/Types.ts";
 import {
   deleteUserData,
@@ -10,7 +12,6 @@ import {
   urlToToken,
 } from "@/app/store/AuthenticationLogic.ts";
 import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
-import type { StateCreator } from "zustand";
 import type { IStore } from "@/app/store/GGStore.ts";
 
 const initialBungieUser = {

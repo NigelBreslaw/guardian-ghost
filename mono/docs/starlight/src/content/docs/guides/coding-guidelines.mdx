@@ -44,6 +44,13 @@ myArray.map((item) => {
 When importing functions from the project (not NPM) use file extensions. This means the
 monorepo tools don't need to do extra work trying a range of extensions on hundreds of files.
 The project is set up so you can rely on autocomplete for imports and it will add the extension for you.
+
+WARNING!!! Don't use the file extension on an import for files that have platform specific alternatives
+e.g. 'myComponent.tsx' because it will fail to load 'myComponent.android.tsx' or 'myComponent.web.tsx'. 
+Here you should just import 'myComponent' and let the bundler work out the correct file.
+
+Imports are grouped with 3rd party npm packages first, then local files.
+
 ```ts
 // Valid
 import { myFunction } from './my-file.ts';

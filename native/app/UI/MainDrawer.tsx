@@ -1,17 +1,18 @@
-import { getFullProfile } from "@/app/bungie/BungieApi.ts";
-import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
-import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { Image } from "expo-image";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { LOGO_DARK, REFRESH_ICON, SEARCH_ICON } from "@/app/inventory/logic/Constants.ts";
+import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
+import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   container: {
