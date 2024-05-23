@@ -1,0 +1,197 @@
+import { View, StyleSheet, Platform, Dimensions, Text } from "react-native";
+import { Image } from "expo-image";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
+import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
+import IconCell from "@/app/inventory/pages/details/IconCell.tsx";
+import QuantityPicker from "@/app/inventory/pages/details/QuantityPicker.tsx";
+
+const { width } = Dimensions.get("window");
+const SCREEN_WIDTH = Platform.OS === "web" ? Math.min(500, width) : width;
+const scalar = SCREEN_WIDTH / 1080;
+const SCREENSHOT_HEIGHT = (SCREEN_WIDTH / 1920) * 1080;
+
+const masterworkScalar = SCREEN_WIDTH / 2 / 500;
+
+const styles = StyleSheet.create({
+  secondaryIcon: {
+    height: SCREENSHOT_HEIGHT / 2,
+    width: SCREENSHOT_HEIGHT / 2,
+    opacity: 50 / 100,
+  },
+
+  tierHeaderContainer: {
+    position: "absolute",
+    width: SCREEN_WIDTH,
+    height: 30 * scalar,
+  },
+  tierHeader: {
+    flex: 1,
+    opacity: 40 / 100,
+  },
+  tierHeaderBottom: {
+    width: SCREEN_WIDTH,
+    height: 5 * scalar,
+    opacity: 50 / 100,
+    bottom: 0,
+    position: "absolute",
+  },
+  masterworkTrim: {
+    width: 1250,
+    height: 50,
+    position: "absolute",
+    top: -15 * scalar,
+    left: 0,
+    transformOrigin: "top left",
+    transform: [{ scale: SCREEN_WIDTH / 1250 }],
+  },
+  itemDetails: {
+    position: "absolute",
+    top: 70 * scalar,
+    left: 33 * scalar,
+    height: 80 * scalar,
+  },
+  itemIconAndName: {
+    flexDirection: "row",
+    gap: 15 * scalar,
+  },
+  icon: {
+    width: 80 * scalar,
+    height: 80 * scalar,
+    transformOrigin: "top left",
+    transform: [{ scale: (80 / ICON_SIZE) * scalar }],
+  },
+  nameText: {
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: "Helvetica",
+    includeFontPadding: false,
+    lineHeight: 21,
+    letterSpacing: -0.5,
+    textTransform: "uppercase",
+    textShadowColor: "#000000AA",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  itemTypeText: {
+    fontSize: 13,
+    color: "white",
+    opacity: 0.6,
+    includeFontPadding: false,
+    transform: [{ translateY: -4 }],
+    textTransform: "uppercase",
+    textShadowColor: "#000000AA",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+  },
+  flavorText: {
+    fontSize: 13,
+    color: "#FFFFFFDD",
+    includeFontPadding: false,
+    maxWidth: SCREEN_WIDTH - 200 * scalar,
+    transform: [{ translateY: 20 * scalar }],
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+  },
+  masterworkContainer: {
+    position: "absolute",
+    bottom: -10 * scalar,
+    alignSelf: "center",
+    flexDirection: "row",
+  },
+  masterworkLeft: {
+    width: 700 * masterworkScalar,
+    height: 264 * masterworkScalar,
+  },
+  masterworkRight: {
+    width: 700 * masterworkScalar,
+    height: 264 * masterworkScalar,
+    transform: [{ scaleX: -1 }],
+  },
+  screenshotFooter: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 30 * scalar,
+    backgroundColor: "black",
+    opacity: 0.3,
+  },
+});
+
+function ScreenInfo({ destinyItem }: { readonly destinyItem: DestinyItem }) {
+  return (
+    <View
+      style={{
+        width: "100%",
+        height: (SCREEN_WIDTH / 1920) * 1080,
+        overflow: "hidden",
+      }}
+    >
+      <Image
+        transition={200}
+        style={[
+          {
+            position: "absolute",
+            width: "100%",
+            height: (SCREEN_WIDTH / 1920) * 1080,
+          },
+        ]}
+        source={{ uri: destinyItem.instance.screenshot }}
+      />
+
+      {destinyItem.instance.masterwork && (
+        <View style={styles.masterworkContainer}>
+          <Image style={styles.masterworkLeft} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
+          <Image style={styles.masterworkRight} source={SCREENSHOT_MASTERWORK_OVERLAY} cachePolicy="none" />
+        </View>
+      )}
+      {destinyItem.instance.crafted && (
+        <Image
+          style={{
+            opacity: 0.8,
+            width: 400,
+            height: 292,
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            transformOrigin: "bottom left",
+            transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
+          }}
+          source={LARGE_CRAFTED}
+          cachePolicy="none"
+        />
+      )}
+      <Image transition={200} style={styles.secondaryIcon} source={{ uri: destinyItem.def.secondaryIcon }} />
+      <View style={styles.tierHeaderContainer}>
+        <View style={[styles.tierHeader, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+        <View style={[styles.tierHeaderBottom, { backgroundColor: TierTypeToColor[destinyItem.def.tierType] }]} />
+      </View>
+      {destinyItem.instance.masterwork && (
+        <Image style={styles.masterworkTrim} source={MASTERWORK_TRIM} cachePolicy={"none"} />
+      )}
+
+      <View style={styles.itemDetails}>
+        <View style={styles.itemIconAndName}>
+          <View style={styles.icon}>
+            <IconCell destinyItem={destinyItem} />
+          </View>
+
+          <View>
+            <Text style={styles.nameText}>{destinyItem.def.name}</Text>
+            <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
+          </View>
+        </View>
+        <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
+      </View>
+      <View style={{ flex: 15 }} />
+      <View style={styles.screenshotFooter} />
+      {!destinyItem.def.nonTransferrable &&
+        destinyItem.def.maxStackSize > 1 &&
+        destinyItem.def.stackUniqueLabel === undefined && <QuantityPicker destinyItem={destinyItem} />}
+    </View>
+  );
+}
+
+export default ScreenInfo;
