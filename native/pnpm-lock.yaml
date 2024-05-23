@@ -108,8 +108,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
       react-native-web:
-        specifier: 0.19.11
-        version: 0.19.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.19.12
+        version: 0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       valibot:
         specifier: 0.30.0
         version: 0.30.0
@@ -3675,8 +3675,8 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-web@0.19.11:
-    resolution: {integrity: sha512-51Qcjr0AtIgskwLqLsBByUMPs2nAWZ+6QF7x/siC72svNPcJ1/daXoPTNuHR2fX4oOrDATC4Vmc/SXOYPH19rw==}
+  react-native-web@0.19.12:
+    resolution: {integrity: sha512-o2T0oztoVDQjztt4YksO9S1XRjoH/AqcSvifgWLrPJgGVbMWsfhILgl6lfUdEamVZzZSVV/2gqDVMAk/qq7mZw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -8904,7 +8904,7 @@ snapshots:
       react: 18.3.1
       react-native: 0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(react@18.3.1)
 
-  react-native-web@0.19.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.24.5
       '@react-native/normalize-colors': 0.74.83
