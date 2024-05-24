@@ -1,41 +1,37 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
-import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
-import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
+import { CRAFTED_OVERLAY, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 type Props = {
-  readonly characterId: CharacterId;
-  readonly itemHash: ItemHash;
-  readonly itemInstanceId: ItemInstanceId | undefined;
-  readonly bucketHash: BucketHash;
-  readonly icon: string;
-  readonly calculatedWaterMark: string;
-  readonly crafted: boolean;
-  readonly damageTypeIconUri: number | null;
-  readonly borderColor: string;
-  readonly stackSizeMaxed: boolean;
-  readonly primaryStat: number;
-  readonly quantity: number;
+  readonly destinyItem: DestinyItem | undefined;
 };
 
-const DestinyCell2 = ({
-  characterId,
-  itemHash,
-  itemInstanceId,
-  bucketHash,
-  icon,
-  calculatedWaterMark,
-  crafted,
-  damageTypeIconUri,
-  borderColor,
-  stackSizeMaxed,
-  primaryStat,
-  quantity,
-}: Props) => {
+export default function DestinyCell3({ destinyItem }: Props) {
   "use memo";
+
+  if (destinyItem === undefined) {
+    return (
+      <View style={styles.container}>
+        <EmptyCell />
+      </View>
+    );
+  }
+  const { characterId, itemHash, itemInstanceId, bucketHash, quantity } = destinyItem;
+
+  const icon = destinyItem.instance.icon;
+  const calculatedWaterMark = destinyItem.instance.calculatedWaterMark ?? "";
+  const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
+  const crafted = destinyItem.instance.crafted ?? false;
+  const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
+  const primaryStat = destinyItem.instance.primaryStat;
+  const borderColor = returnBorderColor(destinyItem);
+
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate("Details", {
@@ -88,6 +84,11 @@ const DestinyCell2 = ({
       </View>
     </TouchableOpacity>
   );
-};
+}
 
-export default DestinyCell2;
+const styles = StyleSheet.create({
+  container: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+  },
+});
