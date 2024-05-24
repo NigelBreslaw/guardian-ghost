@@ -53,13 +53,13 @@ function getVaultSpacerSize(get: UIDataSliceGetter, bucket: SectionBuckets): num
   if (bucket === SectionBuckets.Consumables) {
     const totalConsumables = consumables.length;
     const totalRows = Math.ceil(totalConsumables / 5);
-    return ICON_SIZE * totalRows + ICON_MARGIN * (totalRows - 1);
+    return (ICON_SIZE + ICON_MARGIN) * totalRows;
   }
 
   if (bucket === SectionBuckets.Mods) {
     const totalMods = mods.length;
     const totalRows = Math.ceil(totalMods / 5);
-    return ICON_SIZE * totalRows + ICON_MARGIN * (totalRows - 1);
+    return (ICON_SIZE + ICON_MARGIN) * totalRows;
   }
   return 0;
 }
