@@ -14,6 +14,6 @@ Full documentation and details about the project can be found [here](https://doc
 
 Landing/Marketing page [guardianghost.com](https://guardianghost.com)
 
-Web app site [app.guardianghost.com](https://app.guardianghost.com)
+Web app site (Mobile only!!, desktop will come later) [app.guardianghost.com](https://app.guardianghost.com)
 
 Documentation [docs.guardianghost.com](https://docs.guardianghost.com)
