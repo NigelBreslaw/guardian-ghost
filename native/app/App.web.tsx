@@ -36,6 +36,9 @@ function App() {
           name="Details"
           component={DetailsView}
           options={{
+            cardStyle: {
+              flex: 1,
+            },
             headerBackTitle: "Back",
             headerStyle: {
               backgroundColor: "#17101F",
