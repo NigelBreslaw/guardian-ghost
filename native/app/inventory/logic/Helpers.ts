@@ -110,12 +110,12 @@ export enum UiRowType {
 export enum UISection {
   Separator = 0,
   CharacterEquipment = 1,
-  Vault5x5 = 2,
-  VaultFlex = 3,
-  Engrams = 4,
-  LostItems = 5,
-  Artifact = 6,
-  VaultSpacer = 7,
+  VaultFlex = 2,
+  Engrams = 3,
+  LostItems = 4,
+  Artifact = 5,
+  VaultSpacer = 6,
+  LootIconRow = 7,
 }
 
 export type BaseSection = {
@@ -140,15 +140,15 @@ export type EquipSection = BaseSection & {
   inventory: DestinyIconData[];
 };
 
-export type Vault5x5Section = BaseSection & {
-  type: UISection.Vault5x5;
-  inventory: DestinyIconData[];
-};
-
 export type VaultFlexSection = BaseSection & {
   type: UISection.VaultFlex;
   inventory: DestinyIconData[];
   minimumSpacerHeight?: number;
+};
+
+export type LootIconSection = BaseSection & {
+  type: UISection.LootIconRow;
+  inventory: DestinyIconData[];
 };
 
 export type LostItemsSection = BaseSection & {
@@ -169,12 +169,12 @@ export type VaultSpacerSection = BaseSection & {
 export type UISections =
   | SeparatorSection
   | EquipSection
-  | Vault5x5Section
   | VaultFlexSection
   | EngramsSection
   | LostItemsSection
   | ArtifactSection
-  | VaultSpacerSection;
+  | VaultSpacerSection
+  | LootIconSection;
 
 export type DestinyItemIdentifier = {
   characterId: CharacterId;
