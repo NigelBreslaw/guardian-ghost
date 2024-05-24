@@ -1,17 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
-import { DestinyIconStyles } from "@/app/utilities/UISize.ts";
+import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 type Props = {
-  readonly iconData: DestinyIconData;
+  readonly iconData: DestinyIconData | undefined;
 };
 
-export default function DestinyCell({ iconData }: Props) {
+export default function DestinyCell2({ iconData }: Props) {
   "use memo";
+
+  if (iconData === undefined) {
+    return (
+      <View style={styles.container}>
+        <EmptyCell />
+      </View>
+    );
+  }
 
   const navigation = useNavigation();
   const handlePress = () => {
@@ -74,3 +83,10 @@ export default function DestinyCell({ iconData }: Props) {
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+  },
+});

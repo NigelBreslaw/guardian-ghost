@@ -28,10 +28,10 @@ import {
   type ArtifactSection,
   type EngramsSection,
   type EquipSection,
+  type LootIconSection,
   type LostItemsSection,
   type SeparatorSection,
   type UISections,
-  type Vault5x5Section,
   type VaultFlexSection,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
@@ -275,58 +275,81 @@ function returnVaultUiData(
         continue;
       }
 
-      let itemsLeft = totalItemsArray.length;
-      let count = 0;
-      const needsMinimumSpacer = totalItemsArray.length < 20;
-      while (itemsLeft > 0) {
-        // is there 21 or more items left?
-        if (itemsLeft > 20) {
-          const vault5x5Cell: Vault5x5Section = {
-            id: `${bucket}_5x5_section${count}`,
-            type: UISection.Vault5x5,
-            inventory: [],
-          };
+      const lootIconSections = getLootIconSections(totalItemsArray, bucket.toString());
+      // push each section to the dataArray
+      dataArray.push(...lootIconSections);
 
-          const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
+      // let itemsLeft = totalItemsArray.length;
+      // let count = 0;
+      // const needsMinimumSpacer = totalItemsArray.length < 20;
+      // while (itemsLeft > 0) {
+      //   // is there 21 or more items left?
+      //   if (itemsLeft > 20) {
+      //     const vault5x5Cell: Vault5x5Section = {
+      //       id: `${bucket}_5x5_section${count}`,
+      //       type: UISection.Vault5x5,
+      //       inventory: [],
+      //     };
 
-          const itemsToAdd: DestinyIconData[] = [];
-          for (let i = startingPoint; i < startingPoint + 25; i++) {
-            const item = totalItemsArray[i];
-            if (item) {
-              itemsToAdd.push(item);
-            } else {
-              break;
-            }
-          }
-          vault5x5Cell.inventory = itemsToAdd;
-          dataArray.push(vault5x5Cell);
-          itemsLeft -= 25;
-          count++;
-        } else {
-          const vaultFlexCell: VaultFlexSection = {
-            id: `${bucket}_flex_section`,
-            type: UISection.VaultFlex,
-            inventory: [],
-            minimumSpacerHeight: needsMinimumSpacer ? get().getVaultSpacerSize(bucket) : undefined,
-          };
+      //     const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
 
-          const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
+      //     const itemsToAdd: DestinyIconData[] = [];
+      //     for (let i = startingPoint; i < startingPoint + 25; i++) {
+      //       const item = totalItemsArray[i];
+      //       if (item) {
+      //         itemsToAdd.push(item);
+      //       } else {
+      //         break;
+      //       }
+      //     }
+      //     vault5x5Cell.inventory = itemsToAdd;
+      //     dataArray.push(vault5x5Cell);
+      //     itemsLeft -= 25;
+      //     count++;
+      //   } else {
+      //     const vaultFlexCell: VaultFlexSection = {
+      //       id: `${bucket}_flex_section`,
+      //       type: UISection.VaultFlex,
+      //       inventory: [],
+      //       minimumSpacerHeight: needsMinimumSpacer ? get().getVaultSpacerSize(bucket) : undefined,
+      //     };
 
-          const itemsToAdd: DestinyIconData[] = [];
-          for (let i = startingPoint; i < startingPoint + itemsLeft; i++) {
-            const item = totalItemsArray[i];
-            if (item) {
-              itemsToAdd.push(item);
-            }
-          }
-          vaultFlexCell.inventory = itemsToAdd;
-          dataArray.push(vaultFlexCell);
-          itemsLeft = 0;
-        }
-      }
+      //     const startingPoint = Math.max(0, totalItemsArray.length - itemsLeft);
+
+      //     const itemsToAdd: DestinyIconData[] = [];
+      //     for (let i = startingPoint; i < startingPoint + itemsLeft; i++) {
+      //       const item = totalItemsArray[i];
+      //       if (item) {
+      //         itemsToAdd.push(item);
+      //       }
+      //     }
+      //     vaultFlexCell.inventory = itemsToAdd;
+      //     dataArray.push(vaultFlexCell);
+      //     itemsLeft = 0;
+      //   }
+      // }
     }
   }
   return dataArray;
+}
+
+function getLootIconSections(items: DestinyIconData[], id: string): LootIconSection[] {
+  const itemsPerSection = 5;
+
+  const LootSections: LootIconSection[] = Array.from(
+    { length: Math.ceil(items.length / itemsPerSection) },
+    (_, sectionId) => {
+      const startIndex = sectionId * itemsPerSection;
+      const inventory = items.slice(startIndex, startIndex + itemsPerSection);
+      return {
+        id: `${id}_${sectionId}`,
+        type: UISection.LootIconRow,
+        inventory,
+      };
+    },
+  );
+
+  return LootSections;
 }
 
 function calcTotalVaultItems(): number {
