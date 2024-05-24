@@ -9,7 +9,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 
-const pageEstimatedFlashListItemSize = [130, 130, 130, 130];
+const pageEstimatedFlashListItemSize = [84, 84, 84, 84];
 
 function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
   const internalOffset = posX - PAGE_WIDTH / 2;
