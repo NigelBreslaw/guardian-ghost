@@ -18,7 +18,6 @@ export default function LootItemRow({ iconData }: Props) {
         flexDirection: "row",
         justifyContent: "space-between",
         alignContent: "space-between",
-        alignItems: "center",
         marginLeft: DEFAULT_MARGIN,
         marginRight: DEFAULT_MARGIN,
         maxWidth: INV_MAX_WIDTH,
