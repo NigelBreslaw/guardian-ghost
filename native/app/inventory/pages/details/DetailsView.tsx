@@ -59,13 +59,21 @@ export default function DetailsView({ route, navigation }: Props) {
     opacity: interpolate(opacity.value, [0, 1], [1, 0], Extrapolation.CLAMP),
   }));
 
+  const BOTTOM_SHEET_COLOR = "#131425";
+
+  function dismissBottomSheet() {
+    if (Platform.OS !== "web") {
+      bottomSheetRef.current?.snapToIndex(0);
+    }
+  }
+
   if (!destinyItem) {
     return null;
   }
 
   return (
-    <View style={{ flex: 1, marginBottom: insets.bottom }}>
-      <ScrollView keyboardShouldPersistTaps="always">
+    <View style={{ flex: 1 }}>
+      <ScrollView keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
         {destinyItem && (
           <View style={{ height: "100%" }}>
             <ScreenInfo destinyItem={destinyItem} />
@@ -90,9 +98,15 @@ export default function DetailsView({ route, navigation }: Props) {
           index={1}
           snapPoints={snapPoints}
           animateOnMount={false}
-          handleStyle={{ backgroundColor: "black" }}
+          handleStyle={{
+            backgroundColor: BOTTOM_SHEET_COLOR,
+            borderRadius: 15,
+          }}
           handleIndicatorStyle={{ backgroundColor: "white" }}
-          backgroundStyle={{ backgroundColor: "#17101F" }}
+          backgroundStyle={{
+            backgroundColor: BOTTOM_SHEET_COLOR,
+          }}
+          bottomInset={insets.bottom}
           onAnimate={(_a, b) => {
             opacity.value = withSpring(b);
           }}
@@ -117,6 +131,19 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         </BottomSheet>
       )}
+      {Platform.OS !== "web" && (
+        <View
+          style={{
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderColor: "grey",
+            position: "absolute",
+            width: "100%",
+            backgroundColor: BOTTOM_SHEET_COLOR,
+            height: insets.bottom,
+            bottom: 0,
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -125,8 +152,8 @@ const styles = StyleSheet.create({
   transferHint: {
     color: "white",
     fontSize: 15,
-    padding: 10,
     fontWeight: "bold",
     includeFontPadding: false,
+    paddingRight: 20,
   },
 });
