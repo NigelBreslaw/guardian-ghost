@@ -15,10 +15,9 @@ import {
   mods,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
-import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { SEARCH_ICON, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
-import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
+import { SEARCH_ICON } from "@/app/inventory/logic/Constants.ts";
+import ResultsSectionUI, { type ResultsSection } from "@/app/inventory/pages/ResultsSectionUI.tsx";
 
 function getAllItems(): DestinyItem[] {
   const items = [];
@@ -112,7 +111,7 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
   }
 }
 
-function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
+function find(text: string, allItems: DestinyItem[]): ResultsSection[] {
   if (text === "") {
     return [];
   }
@@ -132,41 +131,30 @@ function find(text: string, allItems: DestinyItem[]): DestinyItem[] {
     }
   });
 
-  const p2 = performance.now();
-  console.log("find", `${(p2 - p1).toFixed(4)} ms`);
+  const itemsPerSection = 5;
 
-  return foundItems;
+  const ResultsSections: ResultsSection[] = Array.from(
+    { length: Math.ceil(foundItems.length / itemsPerSection) },
+    (_, sectionId) => {
+      const startIndex = sectionId * itemsPerSection;
+      const items = foundItems.slice(startIndex, startIndex + itemsPerSection);
+      return {
+        id: `${sectionId}`,
+        items,
+      };
+    },
+  );
+
+  const p2 = performance.now();
+  console.log("find 2", `${(p2 - p1).toFixed(4)} ms`);
+
+  return ResultsSections;
 }
 
-const keyExtractor = (item: DestinyItem) => item.instance.id;
+const keyExtractor = (resultsSection: ResultsSection) => resultsSection.id;
 
-export const UiCellRenderItem = ({ item }: { item: DestinyItem }) => {
-  return (
-    <View
-      key={item.itemInstanceId}
-      style={{
-        height: ICON_SIZE + ICON_MARGIN,
-        width: ICON_SIZE,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <DestinyCell2
-        characterId={item.characterId}
-        itemHash={item.itemHash}
-        itemInstanceId={item.itemInstanceId}
-        bucketHash={item.bucketHash}
-        icon={item.instance.icon}
-        calculatedWaterMark={item.instance.calculatedWaterMark ?? ""}
-        damageTypeIconUri={getDamageTypeIconUri(item.instance.damageType)}
-        crafted={item.instance.crafted ?? false}
-        stackSizeMaxed={item.quantity === item.def.maxStackSize}
-        primaryStat={item.instance.primaryStat}
-        quantity={item.quantity}
-        borderColor={returnBorderColor(item)}
-      />
-    </View>
-  );
+export const UiCellRenderItem = ({ item }: { item: ResultsSection }) => {
+  return <ResultsSectionUI items={item.items} key={item.id} />;
 };
 
 export default function SearchView() {
@@ -174,11 +162,11 @@ export default function SearchView() {
   const drawerStatus = useDrawerStatus();
   const insets = useSafeAreaInsets();
   const [searchText, setSearchText] = useState("");
-  const [foundItems, setFoundItems] = useState<DestinyItem[]>([]);
   const textInputRef = useRef<TextInput>(null);
   const focus = useIsFocused();
 
   const [allItems, setAllItems] = useState<DestinyItem[]>([]);
+  const [foundItems, setFoundItems] = useState<ResultsSection[]>([]);
 
   useEffect(() => {
     if (focus) {
@@ -198,8 +186,8 @@ export default function SearchView() {
   }, [searchText]);
 
   function searchItems(clue: string) {
-    const foundItems = find(clue, allItems);
-    setFoundItems(foundItems);
+    const newFoundItems = find(clue, allItems);
+    setFoundItems(newFoundItems);
   }
 
   return (
@@ -232,7 +220,7 @@ export default function SearchView() {
               paddingRight: 20,
             }}
           >
-            <Image source={SEARCH_ICON} style={{ width: 20, height: 20, opacity: 0.4, alignSelf: "center" }} />
+            <Image source={SEARCH_ICON} style={{ width: 28, height: 28, opacity: 0.4, alignSelf: "center" }} />
             <TextInput
               ref={textInputRef}
               keyboardAppearance="dark"
@@ -261,10 +249,8 @@ export default function SearchView() {
         </View>
         <View
           style={{
-            maxWidth: ICON_SIZE * 5 + ICON_MARGIN * 1.5 * 4,
-            flex: 5,
+            flex: 1,
             paddingLeft: 15,
-            paddingRight: 0,
           }}
         >
           <FlashList
@@ -272,8 +258,7 @@ export default function SearchView() {
             keyboardShouldPersistTaps="always"
             data={foundItems}
             renderItem={UiCellRenderItem}
-            numColumns={5}
-            estimatedItemSize={100}
+            estimatedItemSize={ICON_SIZE + ICON_MARGIN}
             keyExtractor={keyExtractor}
           />
         </View>
