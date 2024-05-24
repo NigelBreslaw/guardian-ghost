@@ -64,8 +64,8 @@ export default function DetailsView({ route, navigation }: Props) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView keyboardShouldPersistTaps="always" style={[styles.scroll, { marginBottom: insets.bottom }]}>
+    <View style={{ flex: 1, marginBottom: insets.bottom }}>
+      <ScrollView keyboardShouldPersistTaps="always">
         {destinyItem && (
           <View style={{ height: "100%" }}>
             <ScreenInfo destinyItem={destinyItem} />
@@ -92,7 +92,6 @@ export default function DetailsView({ route, navigation }: Props) {
           animateOnMount={false}
           handleStyle={{ backgroundColor: "black" }}
           handleIndicatorStyle={{ backgroundColor: "white" }}
-          bottomInset={insets.bottom}
           backgroundStyle={{ backgroundColor: "#17101F" }}
           onAnimate={(_a, b) => {
             opacity.value = withSpring(b);
@@ -123,11 +122,6 @@ export default function DetailsView({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
   transferHint: {
     color: "white",
     fontSize: 15,
