@@ -18,6 +18,11 @@ const SOLAR_MINI_ICON_URI = require("../../../images/damage/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../../images/damage/void_mini.webp");
 const ARC_MINI_ICON_URI = require("../../../images/damage/arc_mini.webp");
 const _KINETIC_MINI_ICON_URI = require("../../../images/damage/kinetic_mini.webp");
+const STASIS_ICON_URI = require("../../../images/damage/stasis_mini.webp");
+const STRAND_ICON_URI = require("../../../images/damage/strand_mini.webp");
+const SOLAR_ICON_URI = require("../../../images/damage/solar_mini.webp");
+const VOID_ICON_URI = require("../../../images/damage/void_mini.webp");
+const ARC_ICON_URI = require("../../../images/damage/arc_mini.webp");
 const STASIS_MINI_ICON_URI = require("../../../images/damage/stasis_mini.webp");
 const STRAND_MINI_ICON_URI = require("../../../images/damage/strand_mini.webp");
 export const MASTERWORK_TRIM = require("../../../images/details-masterwork-trim.png");
@@ -36,6 +41,23 @@ export function getDamageTypeIconUri(damageType: DamageType | undefined): number
       return STASIS_MINI_ICON_URI;
     case DamageType.Strand:
       return STRAND_MINI_ICON_URI;
+    default:
+      return null;
+  }
+}
+
+export function getLargeDamageTypeIconUri(damageType: DamageType | undefined): number | null {
+  switch (damageType) {
+    case DamageType.Solar:
+      return SOLAR_ICON_URI;
+    case DamageType.Arc:
+      return ARC_ICON_URI;
+    case DamageType.Void:
+      return VOID_ICON_URI;
+    case DamageType.Stasis:
+      return STASIS_ICON_URI;
+    case DamageType.Strand:
+      return STRAND_ICON_URI;
     default:
       return null;
   }

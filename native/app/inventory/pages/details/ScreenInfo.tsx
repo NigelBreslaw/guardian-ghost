@@ -2,10 +2,17 @@ import { View, StyleSheet, Platform, Dimensions, Text } from "react-native";
 import { Image } from "expo-image";
 
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { LARGE_CRAFTED, MASTERWORK_TRIM, SCREENSHOT_MASTERWORK_OVERLAY } from "@/app/inventory/logic/Constants.ts";
+import {
+  LARGE_CRAFTED,
+  MASTERWORK_TRIM,
+  SCREENSHOT_MASTERWORK_OVERLAY,
+  getLargeDamageTypeIconUri,
+} from "@/app/inventory/logic/Constants.ts";
 import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
 import IconCell from "@/app/inventory/pages/details/IconCell.tsx";
 import QuantityPicker from "@/app/inventory/pages/details/QuantityPicker.tsx";
+import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
+import { ItemType } from "@/app/bungie/Enums.ts";
 
 const { width } = Dimensions.get("window");
 const SCREEN_WIDTH = Platform.OS === "web" ? Math.min(500, width) : width;
@@ -84,6 +91,7 @@ export default function ScreenInfo({ destinyItem }: Props) {
         </View>
         <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
       </View>
+      {destinyItem.instance.primaryStat > 0 && <PrimaryStatUI destinyItem={destinyItem} />}
       <View style={{ flex: 15 }} />
       <View style={styles.screenshotFooter} />
       {!destinyItem.def.nonTransferrable &&
@@ -93,13 +101,73 @@ export default function ScreenInfo({ destinyItem }: Props) {
   );
 }
 
+function PrimaryStatUI({ destinyItem }: { destinyItem: DestinyItem }) {
+  "use memo";
+  const POWER_NAME =
+    destinyItem.def.itemType === ItemType.Weapon ? DestinyStatDefinition[1935470627]?.displayProperties.name : "";
+
+  return (
+    <View style={styles.primaryStat}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {getLargeDamageTypeIconUri(destinyItem.instance.damageType) !== null && (
+          <Image style={styles.primaryStatIcon} source={getLargeDamageTypeIconUri(destinyItem.instance.damageType)} />
+        )}
+        <Text style={styles.primaryStatText}>{destinyItem.instance.primaryStat}</Text>
+        <View style={{ width: 3 }} />
+        <View>
+          <View style={{ height: 7 }} />
+          <View
+            style={{
+              height: 8,
+              width: StyleSheet.hairlineWidth,
+              backgroundColor: "white",
+              transform: [{ translateX: 1 }],
+            }}
+          />
+          <View style={{ height: 2 }} />
+          <Text style={styles.powerText}>{POWER_NAME}</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  primaryStat: {
+    position: "absolute",
+    bottom: 120 * scalar,
+    right: 170 * scalar,
+  },
+  primaryStatText: {
+    color: "white",
+    fontSize: 30,
+    letterSpacing: -1,
+    includeFontPadding: false,
+    height: 30,
+    fontWeight: "600",
+    textShadowColor: "#000000",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
+  },
+  primaryStatIcon: {
+    width: 23,
+    height: 23,
+    transform: [{ translateY: 3 }],
+  },
+  powerText: {
+    color: "white",
+    fontSize: 10,
+    includeFontPadding: false,
+    textTransform: "uppercase",
+    textShadowColor: "#000000AA",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
   secondaryIcon: {
     height: SCREENSHOT_HEIGHT / 2,
     width: SCREENSHOT_HEIGHT / 2,
     opacity: 50 / 100,
   },
-
   tierHeaderContainer: {
     position: "absolute",
     width: SCREEN_WIDTH,
@@ -195,7 +263,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: 30 * scalar,
+    height: 50 * scalar,
     backgroundColor: "black",
     opacity: 0.3,
   },
