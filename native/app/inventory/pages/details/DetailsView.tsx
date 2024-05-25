@@ -21,6 +21,15 @@ import Stats from "@/app/stats/Stats.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import { ItemType } from "@/app/bungie/Enums.ts";
+
+function showBottomSheet(destinyItem: DestinyItem): boolean {
+  if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
+    return false;
+  }
+  return Platform.OS !== "web" && !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
+}
 
 type Props = {
   readonly route: RouteProp<RootStackParamList, "Details">;
@@ -59,7 +68,7 @@ export default function DetailsView({ route, navigation }: Props) {
     opacity: interpolate(opacity.value, [0, 1], [1, 0], Extrapolation.CLAMP),
   }));
 
-  const BOTTOM_SHEET_COLOR = "#131425";
+  const BOTTOM_SHEET_COLOR = "black";
 
   function dismissBottomSheet() {
     if (Platform.OS !== "web") {
@@ -92,7 +101,7 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         )}
       </ScrollView>
-      {Platform.OS !== "web" && (
+      {showBottomSheet(destinyItem) && (
         <BottomSheet
           ref={bottomSheetRef}
           index={1}
