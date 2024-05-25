@@ -101,10 +101,19 @@ export default function ScreenInfo({ destinyItem }: Props) {
   );
 }
 
+function getPrimaryStatLabel(destinyItem: DestinyItem): string {
+  if (destinyItem.def.itemType === ItemType.Weapon) {
+    return DestinyStatDefinition[1935470627]?.displayProperties.name!;
+  }
+  if (destinyItem.def.itemType === ItemType.Vehicle) {
+    return DestinyStatDefinition[1501155019]?.displayProperties.name!;
+  }
+  return "";
+}
+
 function PrimaryStatUI({ destinyItem }: { destinyItem: DestinyItem }) {
   "use memo";
-  const POWER_NAME =
-    destinyItem.def.itemType === ItemType.Weapon ? DestinyStatDefinition[1935470627]?.displayProperties.name : "";
+  const POWER_NAME = getPrimaryStatLabel(destinyItem);
 
   return (
     <View style={styles.primaryStat}>
