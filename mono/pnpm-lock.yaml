@@ -18,17 +18,17 @@ importers:
   apps/site:
     dependencies:
       astro:
-        specifier: 4.9.1
-        version: 4.9.1(typescript@5.4.5)
+        specifier: 4.9.2
+        version: 4.9.2(typescript@5.4.5)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.23.1
-        version: 0.23.1(astro@4.9.1(typescript@5.4.5))
+        version: 0.23.1(astro@4.9.2(typescript@5.4.5))
       astro:
-        specifier: 4.9.1
-        version: 4.9.1(typescript@5.4.5)
+        specifier: 4.9.2
+        version: 4.9.2(typescript@5.4.5)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -1155,8 +1155,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.9.1:
-    resolution: {integrity: sha512-9TsoAu0WBPiqyAIj9H0JW7R+tIjPjFsPKo70Nja6WL3imTTuUJQmnCre4ZVmoNV3oicTTlb+N4zjRYANW0Ty9A==}
+  astro@4.9.2:
+    resolution: {integrity: sha512-apzpRoISk6L8g99m3zKIW5SYxw2GhOju/1Gq0Ccf3SH+X2UcFXF+MTdxPOFl5yJUQg7X0qsVQDOIVf8zHRRKFg==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -1542,6 +1542,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   globals@11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -2984,12 +2985,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.0.0(astro@4.9.1(typescript@5.4.5))':
+  '@astrojs/mdx@3.0.0(astro@4.9.2(typescript@5.4.5))':
     dependencies:
       '@astrojs/markdown-remark': 5.1.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.11.3
-      astro: 4.9.1(typescript@5.4.5)
+      astro: 4.9.2(typescript@5.4.5)
       es-module-lexer: 1.5.2
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -3015,15 +3016,15 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.23.1(astro@4.9.1(typescript@5.4.5))':
+  '@astrojs/starlight@0.23.1(astro@4.9.2(typescript@5.4.5))':
     dependencies:
-      '@astrojs/mdx': 3.0.0(astro@4.9.1(typescript@5.4.5))
+      '@astrojs/mdx': 3.0.0(astro@4.9.2(typescript@5.4.5))
       '@astrojs/sitemap': 3.1.4
       '@pagefind/default-ui': 1.1.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.3
-      astro: 4.9.1(typescript@5.4.5)
-      astro-expressive-code: 0.35.3(astro@4.9.1(typescript@5.4.5))
+      astro: 4.9.2(typescript@5.4.5)
+      astro-expressive-code: 0.35.3(astro@4.9.2(typescript@5.4.5))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -3995,12 +3996,12 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.35.3(astro@4.9.1(typescript@5.4.5)):
+  astro-expressive-code@0.35.3(astro@4.9.2(typescript@5.4.5)):
     dependencies:
-      astro: 4.9.1(typescript@5.4.5)
+      astro: 4.9.2(typescript@5.4.5)
       rehype-expressive-code: 0.35.3
 
-  astro@4.9.1(typescript@5.4.5):
+  astro@4.9.2(typescript@5.4.5):
     dependencies:
       '@astrojs/compiler': 2.8.0
       '@astrojs/internal-helpers': 0.4.0
