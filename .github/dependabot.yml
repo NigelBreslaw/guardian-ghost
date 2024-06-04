@@ -48,6 +48,12 @@ updates:
       react-navigation:
         patterns:
           - "@react-navigation*"
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+          - "eslint-plugin-react-compiler"
+          - "babel-plugin-react-compiler"
       babel:
         patterns:
           - "@babel*"
