@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "devDependencies": {
     "@biomejs/biome": "1.8.0",
-    "turbo": "1.13.3"
+    "turbo": "2.0.1"
   },
   "private": true,
   "scripts": {
@@ -17,5 +17,6 @@
     "type-check": "pnpm --stream -r type-check"
   },
   "type": "module",
-  "workspaces": ["apps/*", "docs/*"]
+  "workspaces": ["apps/*", "docs/*"],
+  "packageManager": "pnpm@9.1.4"
 }
