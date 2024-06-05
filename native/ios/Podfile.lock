@@ -6,7 +6,7 @@ PODS:
   - EXJSONUtils (0.13.1)
   - EXManifests (0.14.1):
     - ExpoModulesCore
-  - Expo (51.0.9):
+  - Expo (51.0.10):
     - ExpoModulesCore
   - expo-dev-client (4.0.15):
     - EXManifests
@@ -215,7 +215,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoAsset (10.0.6):
+  - ExpoAsset (10.0.7):
     - ExpoModulesCore
   - ExpoCrypto (13.0.2):
     - ExpoModulesCore
@@ -225,7 +225,7 @@ PODS:
     - ExpoModulesCore
   - ExpoHaptics (13.0.1):
     - ExpoModulesCore
-  - ExpoImage (1.12.9):
+  - ExpoImage (1.12.10):
     - ExpoModulesCore
     - libavif/libdav1d
     - SDWebImage (~> 5.19.1)
@@ -236,7 +236,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.12):
+  - ExpoModulesCore (1.12.13):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -265,7 +265,7 @@ PODS:
     - "sqlite3/bytecodevtab (~> 3.45.3+1)"
     - "sqlite3/fts (~> 3.45.3+1)"
     - "sqlite3/fts5 (~> 3.45.3+1)"
-  - ExpoSystemUI (3.0.4):
+  - ExpoSystemUI (3.0.5):
     - ExpoModulesCore
   - ExpoWebBrowser (13.0.3):
     - ExpoModulesCore
@@ -1852,22 +1852,22 @@ SPEC CHECKSUMS:
   EXConstants: 9a008dbf262550884e6280dea95b81b51f65ea6f
   EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
   EXManifests: 7832a9a6562afc89e57190d5a8702affc0cfe77e
-  Expo: 6381470c669c3f31c8ac0ebd8e88686f925146ad
+  Expo: 3bc69739da02780763c1fd66dde56f84fc46d0d8
   expo-dev-client: 48494556ca0cef533fb646443bda456d0280827f
   expo-dev-launcher: 39b26f372ede78fb636cd404e6e3ddbc59331e5a
   expo-dev-menu: 8559d77f4037c6105b21a424dec68f235496c391
   expo-dev-menu-interface: be32c09f1e03833050f0ee290dcc86b3ad0e73e4
-  ExpoAsset: 9b7433ecc5f1b608ccbb823492e062bde944abd2
+  ExpoAsset: 9605d71f50ff0554c618d415c991106f13df63f9
   ExpoCrypto: 156078f266bf28f80ecf5e2a9c3a0d6ffce07a1c
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: c84702079267ae51161c20bb8b925670907ffa2f
   ExpoHaptics: 5a3a88971af384255baf2504f38b41189cec6984
-  ExpoImage: eab004b9363e388d3f6a118f18716de6dcfb8e8d
+  ExpoImage: c4b076fb901821b6cf7293761045fa517733288d
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
   ExpoLinearGradient: 8cec4a09426d8934c433e83cb36262d72c667fce
-  ExpoModulesCore: 828d63de45d4fbacabe2963fc406a8e9daeed992
+  ExpoModulesCore: a4b45b5f081f5fe9b8e87667906d180cd52f32d7
   ExpoSQLite: 0091da247fdd8095f2cc213d98f812dba0ec7ca3
-  ExpoSystemUI: b5ecc4b6781b6369fb8b3a0903bea36fae3dd090
+  ExpoSystemUI: 93bc4d64a7463de78d5fd57de4ce9bc3b33bb9a7
   ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
   EXSplashScreen: d439ca817211886dc80a00f3761e3b6d861d7205
   EXUpdatesInterface: 996527fd7d1a5d271eb523258d603f8f92038f24
