@@ -1011,9 +1011,6 @@ packages:
   '@expo/code-signing-certificates@0.0.5':
     resolution: {integrity: sha512-BNhXkY1bblxKZpltzAx98G2Egj9g1Q+JRcvR7E99DOj862FTCX+ZPsAUtPTr7aHxwtrL7+fL3r0JSmM9kBm+Bw==}
 
-  '@expo/config-plugins@8.0.4':
-    resolution: {integrity: sha512-Hi+xuyNWE2LT4LVbGttHJgl9brnsdWAhEB42gWKb5+8ae86Nr/KwUBQJsJppirBYTeLjj5ZlY0glYnAkDa2jqw==}
-
   '@expo/config-plugins@8.0.5':
     resolution: {integrity: sha512-VGseKX1dYvaf2qHUDGzIQwSOJrO5fomH0gE5cKSQyi6wn+Q6rcV2Dj2E5aga+9aKNPL6FxZ0dqRFC3t2sbhaSA==}
 
@@ -1293,9 +1290,6 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': '*'
-
-  '@react-native/normalize-colors@0.74.83':
-    resolution: {integrity: sha512-jhCY95gRDE44qYawWVvhTjTplW1g+JtKTKM3f8xYT1dJtJ8QWv+gqEtKcfmOHfDkSDaMKG0AGBaDTSK8GXLH8Q==}
 
   '@react-native/normalize-colors@0.74.84':
     resolution: {integrity: sha512-Y5W6x8cC5RuakUcTVUFNAIhUZ/tYpuqHZlRBoAuakrTwVuoNHXfQki8lj1KsYU7rW6e3VWgdEx33AfOQpdNp6A==}
@@ -5946,26 +5940,6 @@ snapshots:
       node-forge: 1.3.1
       nullthrows: 1.1.1
 
-  '@expo/config-plugins@8.0.4':
-    dependencies:
-      '@expo/config-types': 51.0.0
-      '@expo/json-file': 8.3.1
-      '@expo/plist': 0.1.1
-      '@expo/sdk-runtime-versions': 1.0.0
-      chalk: 4.1.2
-      debug: 4.3.4
-      find-up: 5.0.0
-      getenv: 1.0.0
-      glob: 7.1.6
-      resolve-from: 5.0.0
-      semver: 7.6.0
-      slash: 3.0.0
-      slugify: 1.6.6
-      xcode: 3.0.1
-      xml2js: 0.6.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@expo/config-plugins@8.0.5':
     dependencies:
       '@expo/config-types': 51.0.0
@@ -6007,7 +5981,7 @@ snapshots:
   '@expo/config@9.0.2':
     dependencies:
       '@babel/code-frame': 7.10.4
-      '@expo/config-plugins': 8.0.4
+      '@expo/config-plugins': 8.0.5
       '@expo/config-types': 51.0.0
       '@expo/json-file': 8.3.1
       getenv: 1.0.0
@@ -6148,7 +6122,7 @@ snapshots:
   '@expo/prebuild-config@7.0.6(expo-modules-autolinking@1.11.1)':
     dependencies:
       '@expo/config': 9.0.2
-      '@expo/config-plugins': 8.0.4
+      '@expo/config-plugins': 8.0.5
       '@expo/config-types': 51.0.0
       '@expo/image-utils': 0.5.1
       '@expo/json-file': 8.3.1
@@ -6619,8 +6593,6 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/preset-env'
       - supports-color
-
-  '@react-native/normalize-colors@0.74.83': {}
 
   '@react-native/normalize-colors@0.74.84': {}
 
@@ -9602,7 +9574,7 @@ snapshots:
   react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.24.5
-      '@react-native/normalize-colors': 0.74.83
+      '@react-native/normalize-colors': 0.74.84
       fbjs: 3.0.5
       inline-style-prefixer: 6.0.4
       memoize-one: 6.0.0
