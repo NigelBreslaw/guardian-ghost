@@ -1,4 +1,4 @@
-import { isoTimestamp, number, object, parse, string, type Output } from "valibot";
+import { isoTimestamp, number, object, parse, string, type InferOutput, pipe } from "valibot";
 
 import { apiKey, clientID, clientSecret } from "@/constants/env.ts";
 
@@ -8,11 +8,11 @@ export const authTokenSchema = object({
   membership_id: string(),
   refresh_expires_in: number(),
   refresh_token: string(),
-  time_stamp: string([isoTimestamp()]),
+  time_stamp: pipe(string(), isoTimestamp()),
   token_type: string(),
 });
 
-export type AuthToken = Output<typeof authTokenSchema>;
+export type AuthToken = InferOutput<typeof authTokenSchema>;
 
 export function getRefreshToken(bungieCode: string): Promise<AuthToken> {
   const headers = new Headers();

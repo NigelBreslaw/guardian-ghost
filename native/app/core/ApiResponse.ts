@@ -1,4 +1,15 @@
-import { array, boolean, isoTimestamp, merge, number, object, optional, record, string, type Output } from "valibot";
+import {
+  array,
+  boolean,
+  isoTimestamp,
+  number,
+  object,
+  optional,
+  record,
+  string,
+  type InferOutput,
+  pipe,
+} from "valibot";
 
 // -------------------------------
 // URL constants
@@ -27,7 +38,7 @@ export const bungieManifestSchema = object({
   }),
 });
 
-export type BungieManifest = Output<typeof bungieManifestSchema>;
+export type BungieManifest = InferOutput<typeof bungieManifestSchema>;
 
 // -------------------------------
 // Authenticated API Responses
@@ -41,7 +52,7 @@ export const bungieResponseSchema = object({
   ThrottleSeconds: optional(number()),
 });
 
-export type BungieResponse = Output<typeof bungieResponseSchema>;
+export type BungieResponse = InferOutput<typeof bungieResponseSchema>;
 
 // -------------------------------
 // getLinkedProfiles API Responses | Used only during login
@@ -58,7 +69,7 @@ export const BnetMembershipSchema = object({
   supplementalDisplayName: string(),
 });
 
-export type BnetMembership = Output<typeof BnetMembershipSchema>;
+export type BnetMembership = InferOutput<typeof BnetMembershipSchema>;
 
 const PlatformSilverSchema = object({
   itemHash: number(),
@@ -78,7 +89,7 @@ export const BungieProfileSchema = object({
   bungieGlobalDisplayName: string(),
   bungieGlobalDisplayNameCode: number(),
   crossSaveOverride: number(),
-  dateLastPlayed: string([isoTimestamp()]),
+  dateLastPlayed: pipe(string(), isoTimestamp()),
   displayName: string(),
   isCrossSavePrimary: boolean(),
   isOverridden: boolean(),
@@ -98,16 +109,16 @@ export const BungieProfileSchema = object({
   }),
 });
 
-export type BungieProfile = Output<typeof BungieProfileSchema>;
+export type BungieProfile = InferOutput<typeof BungieProfileSchema>;
 
-export const linkedProfilesSchema = merge([
-  bungieResponseSchema,
-  object({
+export const linkedProfilesSchema = object({
+  ...bungieResponseSchema.entries,
+  ...object({
     Response: object({
       bnetMembership: BnetMembershipSchema,
       profiles: optional(array(BungieProfileSchema)),
     }),
-  }),
-]);
+  }).entries,
+});
 
-export type LinkedProfiles = Output<typeof linkedProfilesSchema>;
+export type LinkedProfiles = InferOutput<typeof linkedProfilesSchema>;

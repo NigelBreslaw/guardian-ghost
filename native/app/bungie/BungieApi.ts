@@ -1,4 +1,4 @@
-import { isoTimestamp, safeParse, string } from "valibot";
+import { isoTimestamp, safeParse, string, pipe } from "valibot";
 
 import { basePath } from "@/app/core/ApiResponse.ts";
 import { getSimpleProfileSchema, type ProfileData } from "@/app/core/GetProfile.ts";
@@ -40,9 +40,9 @@ export async function getFullProfile(pullToRefresh = false) {
 }
 
 function isProfileNewer(profile: ProfileData): boolean {
-  const responseMintedTimestamp = safeParse(string([isoTimestamp()]), profile.Response.responseMintedTimestamp);
+  const responseMintedTimestamp = safeParse(pipe(string(), isoTimestamp()), profile.Response.responseMintedTimestamp);
   const secondaryComponentsMintedTimestamp = safeParse(
-    string([isoTimestamp()]),
+    pipe(string(), isoTimestamp()),
     profile.Response.secondaryComponentsMintedTimestamp,
   );
 
