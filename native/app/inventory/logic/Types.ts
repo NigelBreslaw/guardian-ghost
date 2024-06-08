@@ -1,4 +1,4 @@
-import { number, object, string, type Output } from "valibot";
+import { number, object, string, type InferOutput } from "valibot";
 
 import {
   SectionBuckets,
@@ -54,7 +54,7 @@ export const BungieUserSchema = object({
   }),
 });
 
-export type BungieUser = Output<typeof BungieUserSchema>;
+export type BungieUser = InferOutput<typeof BungieUserSchema>;
 
 export type ItemInstance = {
   id: string;

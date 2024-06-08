@@ -7,14 +7,14 @@ import {
   array,
   boolean,
   isoTimestamp,
-  merge,
   number,
   object,
   optional,
   record,
   string,
   unknown,
-  type Output,
+  type InferOutput,
+  pipe,
 } from "valibot";
 
 import { bungieResponseSchema } from "@/app/core/ApiResponse.ts";
@@ -45,7 +45,7 @@ export const PlugSetsSchema = array(
   }),
 );
 
-export type PlugSet = Output<typeof PlugSetsSchema>;
+export type PlugSet = InferOutput<typeof PlugSetsSchema>;
 
 // -------------------------------
 // sub schemas that getProfile uses
@@ -55,7 +55,7 @@ export const ItemSchema = object({
   bindStatus: number(),
   bucketHash: number(),
   dismantlePermission: number(),
-  expirationDate: optional(string([isoTimestamp()])),
+  expirationDate: optional(pipe(string(), isoTimestamp())),
   isWrapper: boolean(),
   itemHash: number(),
   itemInstanceId: optional(string()),
@@ -75,7 +75,7 @@ export type ItemInstanceId = Branded<string, "ItemInstanceId">;
 export type CharacterId = Branded<string, "characterId">;
 export type BucketHash = Branded<number, "bucketHash">;
 
-type RawDestinyItemBase = Output<typeof ItemSchema>;
+type RawDestinyItemBase = InferOutput<typeof ItemSchema>;
 export type DestinyItemBase = Omit<
   RawDestinyItemBase,
   "itemHash" | "itemInstanceId" | "overrideStyleItemHash" | "bucketHash"
@@ -91,7 +91,7 @@ export const GuardiansSchema = object({
   characterId: string(),
   classHash: number(),
   classType: number(),
-  dateLastPlayed: string([isoTimestamp()]),
+  dateLastPlayed: pipe(string(), isoTimestamp()),
   emblemBackgroundPath: string(),
   emblemColor: object({}),
   emblemHash: number(),
@@ -123,7 +123,7 @@ export const GuardiansSchema = object({
   titleRecordHash: optional(number()),
 });
 
-export type GuardianData = Omit<Output<typeof GuardiansSchema>, "characterId"> & { characterId: CharacterId };
+export type GuardianData = Omit<InferOutput<typeof GuardiansSchema>, "characterId"> & { characterId: CharacterId };
 
 const ReusablePlugSetSchema = object({
   plugs: record(string(), PlugSetsSchema),
@@ -159,7 +159,7 @@ const instancesSchema = record(
   }),
 );
 
-export type GGInstances = Output<typeof instancesSchema>;
+export type GGInstances = InferOutput<typeof instancesSchema>;
 
 export const SocketSchema = object({
   sockets: array(
@@ -172,7 +172,7 @@ export const SocketSchema = object({
   ),
 });
 
-export type SocketData = Output<typeof SocketSchema>;
+export type SocketData = InferOutput<typeof SocketSchema>;
 
 // -------------------------------
 // getProfile
@@ -181,9 +181,9 @@ export type SocketData = Output<typeof SocketSchema>;
 // rest of the response is valid. This means the validation takes around 30ms instead of 1000ms.
 // -------------------------------
 
-export const getProfileSchema = merge([
-  bungieResponseSchema,
-  object({
+export const getProfileSchema = object({
+  ...bungieResponseSchema.entries,
+  ...object({
     Response: object({
       characterEquipment: object({
         data: record(string(), object({ items: array(ItemSchema) })),
@@ -228,17 +228,17 @@ export const getProfileSchema = merge([
       }),
       profileProgression: object({}),
       profileStringVariables: object({}),
-      responseMintedTimestamp: string([isoTimestamp()]),
-      secondaryComponentsMintedTimestamp: string([isoTimestamp()]),
+      responseMintedTimestamp: pipe(string(), isoTimestamp()),
+      secondaryComponentsMintedTimestamp: pipe(string(), isoTimestamp()),
     }),
-  }),
-]);
+  }).entries,
+});
 
-export type ProfileData = Output<typeof getProfileSchema>;
+export type ProfileData = InferOutput<typeof getProfileSchema>;
 
-export const getSimpleProfileSchema = merge([
-  bungieResponseSchema,
-  object({
+export const getSimpleProfileSchema = object({
+  ...bungieResponseSchema.entries,
+  ...object({
     Response: object({
       characterEquipment: object({
         data: record(string(), unknown()),
@@ -281,8 +281,8 @@ export const getSimpleProfileSchema = merge([
       ),
       profileProgression: object({}),
       profileStringVariables: object({}),
-      responseMintedTimestamp: string([isoTimestamp()]),
-      secondaryComponentsMintedTimestamp: string([isoTimestamp()]),
+      responseMintedTimestamp: pipe(string(), isoTimestamp()),
+      secondaryComponentsMintedTimestamp: pipe(string(), isoTimestamp()),
     }),
-  }),
-]);
+  }).entries,
+});

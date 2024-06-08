@@ -1,4 +1,17 @@
-import { object, optional, record, string, number, array, type Output, boolean, unknown, value } from "valibot";
+import {
+  object,
+  optional,
+  record,
+  string,
+  number,
+  array,
+  type InferOutput,
+  boolean,
+  unknown,
+  value,
+  looseObject,
+  pipe,
+} from "valibot";
 
 // Bungie definition list
 export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGroupDefinition" | "DestinyStatDefinition";
@@ -10,47 +23,44 @@ export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGrou
 const MINI_ITEM_DEFINITION_VERSION = 9;
 
 export const ItemResponseSchema = object({
-  helpers: object(
-    {
-      BucketTypeHash: array(number()),
-      DamageTypeHashes: array(number()),
-      Descriptions: array(string()),
-      DisplaySources: array(string()),
-      ExpirationTooltip: array(string()),
-      ExpiredInActivityMessage: array(string()),
-      IconWaterMark: array(string()),
-      InsertionMaterialRequirementHash: array(number()),
-      ItemTypeDisplayName: array(string()),
-      ItemValue: array(number()),
-      PlugCategoryHash: array(number()),
-      PlugCategoryIdentifier: array(string()),
-      ReusablePlugSetHash: array(number()),
-      SingleInitialItemHash: array(number()),
-      SocketCategories: unknown(),
-      SocketCategoryHash: array(number()),
-      SocketEntries: unknown(),
-      SocketIndexes: unknown(),
-      SocketTypeHash: array(number()),
-      StackUniqueLabel: array(string()),
-      StatGroupHash: array(number()),
-      StatHash: array(number()),
-      TalentGridHash: array(number()),
-      TooltipNotifications: array(string()),
-      TraitIds: array(string()),
-      UiItemDisplayStyle: array(string()),
-      UiPlugLabel: array(string()),
-      Icons: array(string()),
-      Versions: array(number()),
-    },
-    unknown(),
-  ),
+  helpers: looseObject({
+    BucketTypeHash: array(number()),
+    DamageTypeHashes: array(number()),
+    Descriptions: array(string()),
+    DisplaySources: array(string()),
+    ExpirationTooltip: array(string()),
+    ExpiredInActivityMessage: array(string()),
+    IconWaterMark: array(string()),
+    InsertionMaterialRequirementHash: array(number()),
+    ItemTypeDisplayName: array(string()),
+    ItemValue: array(number()),
+    PlugCategoryHash: array(number()),
+    PlugCategoryIdentifier: array(string()),
+    ReusablePlugSetHash: array(number()),
+    SingleInitialItemHash: array(number()),
+    SocketCategories: unknown(),
+    SocketCategoryHash: array(number()),
+    SocketEntries: unknown(),
+    SocketIndexes: unknown(),
+    SocketTypeHash: array(number()),
+    StackUniqueLabel: array(string()),
+    StatGroupHash: array(number()),
+    StatHash: array(number()),
+    TalentGridHash: array(number()),
+    TooltipNotifications: array(string()),
+    TraitIds: array(string()),
+    UiItemDisplayStyle: array(string()),
+    UiPlugLabel: array(string()),
+    Icons: array(string()),
+    Versions: array(number()),
+  }),
 
   items: record(string(), unknown()),
-  version: number([value(MINI_ITEM_DEFINITION_VERSION)]),
+  version: pipe(number(), value(MINI_ITEM_DEFINITION_VERSION)),
   id: string(),
 });
 
-export type ItemResponse = Output<typeof ItemResponseSchema>;
+export type ItemResponse = InferOutput<typeof ItemResponseSchema>;
 
 // -------------------------------
 // All the minified item definitions
@@ -114,10 +124,10 @@ export const miniItemSchema = object({
   ttn: optional(array(number())),
 });
 
-export type MiniSingleItemDefinition = Output<typeof miniItemSchema>;
+export type MiniSingleItemDefinition = InferOutput<typeof miniItemSchema>;
 
 export const MiniSocketCategorySchema = array(array(object({ h: number(), i: number() })));
-export type MiniSocketCategoryItems = Output<typeof MiniSocketCategorySchema>;
+export type MiniSocketCategoryItems = InferOutput<typeof MiniSocketCategorySchema>;
 
 const MiniSocketEntrySchema = array(
   array(
@@ -129,7 +139,7 @@ const MiniSocketEntrySchema = array(
     }),
   ),
 );
-export type MiniSocketEntryItems = Output<typeof MiniSocketEntrySchema>;
+export type MiniSocketEntryItems = InferOutput<typeof MiniSocketEntrySchema>;
 
 // -------------------------------
 // DestinyStatGroupDefinition Stat Group
@@ -179,7 +189,7 @@ export const MiniStatGroupSchema = record(
   }),
 );
 
-export type StatGroupDefinition = Output<typeof MiniStatGroupSchema>;
+export type StatGroupDefinition = InferOutput<typeof MiniStatGroupSchema>;
 
 // -------------------------------
 // DestinyStatDefinition
@@ -194,7 +204,7 @@ export const MiniStatSchema = record(
   }),
 );
 
-export type StatDefinition = Output<typeof MiniStatSchema>;
+export type StatDefinition = InferOutput<typeof MiniStatSchema>;
 
 // -------------------------------
 // DestinySocketCategoryDefinition Socket Category
@@ -216,4 +226,4 @@ const SocketCategorySchema = record(
     uiCategoryStyle: number(),
   }),
 );
-export type SocketCategoryDefinition = Output<typeof SocketCategorySchema>;
+export type SocketCategoryDefinition = InferOutput<typeof SocketCategorySchema>;
