@@ -387,7 +387,8 @@ function addDefinition(
     itemInstance.masterwork = true;
   }
 
-  const destinyItem: DestinyItem = Object.assign(baseItem, extras, {
+  // Make the target object of Object.assign a new empty object so everything gets copied to it.
+  const destinyItem: DestinyItem = Object.assign({}, baseItem, extras, {
     def: definitionItem,
     instance: itemInstance,
     previousCharacterId: "" as CharacterId,
