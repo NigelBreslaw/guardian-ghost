@@ -6,18 +6,18 @@ PODS:
   - EXJSONUtils (0.13.1)
   - EXManifests (0.14.3):
     - ExpoModulesCore
-  - Expo (51.0.12):
+  - Expo (51.0.13):
     - ExpoModulesCore
-  - expo-dev-client (4.0.16):
+  - expo-dev-client (4.0.17):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (4.0.18):
+  - expo-dev-launcher (4.0.19):
     - DoubleConversion
     - EXManifests
-    - expo-dev-launcher/Main (= 4.0.18)
+    - expo-dev-launcher/Main (= 4.0.19)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -43,7 +43,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Main (4.0.18):
+  - expo-dev-launcher/Main (4.0.19):
     - DoubleConversion
     - EXManifests
     - expo-dev-launcher/Unsafe
@@ -72,7 +72,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Unsafe (4.0.18):
+  - expo-dev-launcher/Unsafe (4.0.19):
     - DoubleConversion
     - EXManifests
     - expo-dev-menu
@@ -1852,9 +1852,9 @@ SPEC CHECKSUMS:
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
   EXManifests: c1fab4c3237675e7b0299ea8df0bcb14baca4f42
-  Expo: be0f48f4f1aa08d863d88480c2810b956e05e813
-  expo-dev-client: bdb07dec9277c99f5045b02ef8398575aa3fb907
-  expo-dev-launcher: d6d7d43b65527194d855b20d4b7781d417397b7f
+  Expo: 5fb0613e7cfc806c500400eabb96b1a75473be1b
+  expo-dev-client: 63d21cc03a7d137cdf365889f43b0d0913e6611c
+  expo-dev-launcher: ed75b8c2267d642a05ce3dce13734a257e4015d0
   expo-dev-menu: 9b9886b383163f14821e624f3eb51a2084491aa2
   expo-dev-menu-interface: be32c09f1e03833050f0ee290dcc86b3ad0e73e4
   ExpoAsset: 100b840e5dc1e1619df2d7c76441d33fb84a3202
