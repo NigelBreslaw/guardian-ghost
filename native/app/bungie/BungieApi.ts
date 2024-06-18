@@ -32,7 +32,12 @@ export async function getFullProfile(pullToRefresh = false) {
       console.info("No new profile");
     }
   } catch (e) {
-    console.error("Failed to validate profile!", e);
+    if (e instanceof Error && e.message === "SystemDisabled") {
+      useGGStore.getState().showSnackBar("Bungie API is currently disabled");
+      useGGStore.getState().setSystemDisabled(true);
+    } else {
+      console.error("Failed to validate profile!!", e);
+    }
   } finally {
     useGGStore.getState().setRefreshing(false);
     useGGStore.getState().setPullRefreshing(false);
@@ -84,24 +89,30 @@ async function getProfile(): Promise<JSON> {
 
   const parameters = `?components=${profileComponents}`;
 
-  return new Promise((resolve, reject) => {
-    fetch(`${endPoint}${parameters}`, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          console.error(response);
+  try {
+    const response = await fetch(`${endPoint}${parameters}`, requestOptions);
 
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!response.ok) {
+      try {
+        const message = await response.json();
+        if (message.ErrorStatus === "SystemDisabled") {
+          throw new Error("SystemDisabled");
         }
-        return response.json();
-      })
-      .then((data) => {
-        resolve(data as JSON);
-      })
-      .catch((error) => {
-        console.error("getProfile", error);
-        reject(new Error("getProfile", error));
-      });
-  });
+        throw new Error("Failed to get profile");
+      } catch (e) {
+        console.error("Failed to get profile!", e);
+        const err = e as Error;
+        throw new Error(err.message);
+      }
+    } else {
+      const data = await response.json();
+      return data as JSON;
+    }
+  } catch (e) {
+    console.error("Failed to get profile!!!!!", e);
+    const err = e as Error;
+    throw new Error(err.message);
+  }
 }
 
 export function getJsonBlob(jsonUrl: string): Promise<JSON> {
