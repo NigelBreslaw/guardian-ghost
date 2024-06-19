@@ -120,8 +120,8 @@ importers:
         specifier: 0.19.12
         version: 0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       valibot:
-        specifier: 0.32.0
-        version: 0.32.0
+        specifier: 0.33.1
+        version: 0.33.1
       zustand:
         specifier: 4.5.2
         version: 4.5.2(@types/react@18.3.3)(react@18.3.1)
@@ -4811,8 +4811,8 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
 
-  valibot@0.32.0:
-    resolution: {integrity: sha512-FXBnJl4bNOmeg7lQv+jfvo/wADsRBN8e9C3r+O77Re3dEnDma8opp7p4hcIbF7XJJ30h/5SVohdjer17/sHOsQ==}
+  valibot@0.33.1:
+    resolution: {integrity: sha512-rmAlZGIcuvTir4HGFxBKn4vH003w+wr9qUiScMAG46np7TAedj7foYAR7Im4v9W/gW0CyW2Qmaygrmhd96yreQ==}
 
   valid-url@1.0.9:
     resolution: {integrity: sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA==}
@@ -10744,7 +10744,7 @@ snapshots:
 
   uuid@8.3.2: {}
 
-  valibot@0.32.0: {}
+  valibot@0.33.1: {}
 
   valid-url@1.0.9: {}
 
