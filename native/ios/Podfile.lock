@@ -1543,11 +1543,11 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (5.24.0):
+  - RNSentry (5.24.1):
     - hermes-engine
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.28.0)
+    - Sentry/HybridSDK (= 8.29.1)
   - RNSVG (15.3.0):
     - React-Core
   - SDWebImage (5.19.2):
@@ -1561,7 +1561,7 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.28.0)
+  - Sentry/HybridSDK (8.29.1)
   - SocketRocket (0.7.0)
   - "sqlite3 (3.45.3+1)":
     - "sqlite3/common (= 3.45.3+1)"
@@ -1931,13 +1931,13 @@ SPEC CHECKSUMS:
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7
   RNReanimated: f9192536fa8a312c737eaf15c905f78831193ef1
   RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
-  RNSentry: 29360f46d9770060fceafd06c3ae097de1a1847e
+  RNSentry: e9aa15bb2f3e18c822c002eea13bbd3b222ab493
   RNSVG: a48668fd382115bc89761ce291a81c4ca5f2fd2e
   SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: 1482a20b132098929714143f436a4fe574ad0517
+  Sentry: c446963245407030e17f1b926a83c6337dc99f4e
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
