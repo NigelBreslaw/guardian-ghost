@@ -32,7 +32,7 @@ export async function getFullProfile(pullToRefresh = false) {
       console.info("No new profile");
     }
   } catch (e) {
-    if (e instanceof Error && e.message === "SystemDisabled") {
+    if (e instanceof Error && e.message === "Bungie API is currently disabled") {
       useGGStore.getState().showSnackBar("Bungie API is currently disabled");
       useGGStore.getState().setSystemDisabled(true);
     } else {
@@ -69,49 +69,40 @@ function isProfileNewer(profile: ProfileData): boolean {
   return false;
 }
 
-async function getProfile(): Promise<JSON> {
-  const authToken = await useGGStore.getState().getTokenAsync("getProfile");
-  const headers = new Headers();
-  headers.append("Authorization", `Bearer ${authToken?.access_token}`);
-  headers.append("X-API-Key", apiKey);
-
-  const requestOptions: RequestInit = {
-    method: "GET",
-    headers: headers,
-    cache: "no-store",
-  };
-
-  const account = useGGStore.getState().bungieUser;
-  const membershipType = account.profile.membershipType;
-  const membershipId = account.profile.membershipId;
-
-  const endPoint = `${basePath}/Destiny2/${membershipType}/Profile/${membershipId}/`;
-
-  const parameters = `?components=${profileComponents}`;
-
+export async function getProfile(): Promise<JSON> {
   try {
+    const authToken = await useGGStore.getState().getTokenAsync("getProfile");
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${authToken?.access_token}`);
+    headers.append("X-API-Key", apiKey);
+
+    const requestOptions: RequestInit = {
+      method: "GET",
+      headers: headers,
+      cache: "no-store",
+    };
+
+    const account = useGGStore.getState().bungieUser;
+    const { membershipType, membershipId } = account.profile;
+
+    const endPoint = `${basePath}/Destiny2/${membershipType}/Profile/${membershipId}/`;
+    const parameters = `?components=${profileComponents}`;
+
     const response = await fetch(`${endPoint}${parameters}`, requestOptions);
 
     if (!response.ok) {
-      try {
-        const message = await response.json();
-        if (message.ErrorStatus === "SystemDisabled") {
-          throw new Error("SystemDisabled");
-        }
-        throw new Error("Failed to get profile");
-      } catch (e) {
-        console.error("Failed to get profile!", e);
-        const err = e as Error;
-        throw new Error(err.message);
+      const message = await response.json();
+      if (message.ErrorStatus === "SystemDisabled") {
+        throw new Error("Bungie API is currently disabled");
       }
-    } else {
-      const data = await response.json();
-      return data as JSON;
+      throw new Error(`Failed to get profile. Status: ${response.status}`);
     }
-  } catch (e) {
-    console.error("Failed to get profile!!!!!", e);
-    const err = e as Error;
-    throw new Error(err.message);
+
+    const data = await response.json();
+    return data as JSON;
+  } catch (error) {
+    console.error("Failed to get profile!", error);
+    throw new Error("An error occurred while fetching the profile.");
   }
 }
 
