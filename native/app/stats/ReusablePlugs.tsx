@@ -6,7 +6,6 @@ import PerkCircle from "@/app/stats/PerkCircle.tsx";
 import { useEffect, useState } from "react";
 import Animated, {
   Extrapolation,
-  ReduceMotion,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
@@ -14,7 +13,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { hermesProfilingIntegration } from "@sentry/react-native";
 
 type Props = {
   readonly socketCategory: SocketCategory;
