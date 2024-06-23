@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
 import { DestinyIconStyles } from "@/app/utilities/UISize.ts";

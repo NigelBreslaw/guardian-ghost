@@ -70,6 +70,7 @@ export type ItemInstance = {
 };
 
 export type DestinyItemDefinition = {
+  description: string;
   destinyClass: DestinyClass;
   displayVersionWatermarkIcons: string[];
   doesPostmasterPullHaveSideEffects: boolean;

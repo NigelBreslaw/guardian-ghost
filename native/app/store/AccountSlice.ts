@@ -31,6 +31,7 @@ import {
   StatHash,
   TraitIds,
   ItemTypeDisplayName,
+  Descriptions,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -70,6 +71,7 @@ export interface AccountSlice {
   lastRefreshTime: number;
   currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
+  showingPerks: boolean;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -82,6 +84,7 @@ export interface AccountSlice {
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
 
+  showPerks: (show: boolean) => void;
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
   setPullRefreshing: (pullRefreshing: boolean) => void;
@@ -107,6 +110,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   lastRefreshTime: 0,
   currentListIndex: 0,
   animateToInventoryPage: { index: 0, animate: false },
+  showingPerks: false,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -120,6 +124,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
 
+  showPerks(show) {
+    if (get().showingPerks !== show) {
+      set({ showingPerks: show });
+    }
+  },
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
   setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
@@ -477,6 +486,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   const definitionItem: DestinyItemDefinition = {
+    description: "",
     destinyClass: DestinyClass.Unknown,
     displayVersionWatermarkIcons: [],
     doesPostmasterPullHaveSideEffects: false,
@@ -534,6 +544,10 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   if (itemDef?.f) {
     definitionItem.flavorText = itemDef.f;
+  }
+
+  if (itemDef?.d) {
+    definitionItem.description = Descriptions[itemDef.d] ?? "";
   }
 
   const dvwi = itemDef.dvwi;

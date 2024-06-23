@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { createSockets } from "@/app/inventory/logic/Sockets.ts";
+import { CategoryStyle, createSockets } from "@/app/inventory/logic/Sockets.ts";
 import { createStats } from "@/app/stats/Logic.ts";
 import ReusablePlugs from "@/app/stats/ReusablePlugs.tsx";
 import StatBars from "@/app/stats/StatBars.tsx";
@@ -22,7 +22,9 @@ export default function Stats({ destinyItem }: Props) {
     <View style={{ width: "100%" }}>
       {stats && <StatBars stats={stats} destinyItem={destinyItem} />}
       {sockets?.socketCategories.map((category, _index) => {
-        return <ReusablePlugs key={category.index} socketCategory={category} />;
+        if (category.categoryStyle === CategoryStyle.Reusable) {
+          return <ReusablePlugs key={category.index} socketCategory={category} />;
+        }
       })}
     </View>
   );
