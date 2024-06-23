@@ -89,10 +89,10 @@ export default function ScreenInfo({ destinyItem }: Props) {
             <Text style={styles.itemTypeText}>{destinyItem.def.itemTypeDisplayName}</Text>
           </View>
         </View>
-        <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
       </View>
+      <Text style={styles.flavorText}>{destinyItem.def.flavorText}</Text>
       {destinyItem.instance.primaryStat > 0 && <PrimaryStatUI destinyItem={destinyItem} />}
-      <View style={{ flex: 15 }} />
+
       <View style={styles.screenshotFooter} />
       {!destinyItem.def.nonTransferrable &&
         destinyItem.def.maxStackSize > 1 &&
@@ -243,15 +243,17 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
   },
   flavorText: {
-    fontSize: 13,
-    color: "#FFFFFFDD",
+    position: "absolute",
+    left: 40 * scalar,
+    top: 180 * scalar,
+    fontSize: 33 * scalar,
+    color: "#FFFFFF",
     fontStyle: "italic",
     includeFontPadding: false,
-    maxWidth: SCREEN_WIDTH - 200 * scalar,
-    transform: [{ translateY: 20 * scalar }],
+    width: SCREEN_WIDTH * 0.92,
     textShadowColor: "black",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
+    textShadowOffset: { width: 3 * scalar, height: 3 * scalar },
+    textShadowRadius: 1 * scalar,
   },
   masterworkContainer: {
     position: "absolute",

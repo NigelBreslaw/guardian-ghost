@@ -47,6 +47,7 @@ export default function DetailsView({ route, navigation }: Props) {
 
   useEffect(() => {
     if (focus) {
+      useGGStore.getState().showPerks(false);
       const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
       useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
     }
