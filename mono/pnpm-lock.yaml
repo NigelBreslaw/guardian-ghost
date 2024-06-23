@@ -19,16 +19,16 @@ importers:
     dependencies:
       astro:
         specifier: 4.11.0
-        version: 4.11.0(typescript@5.4.5)
+        version: 4.11.0(typescript@5.5.2)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.24.4
-        version: 0.24.4(astro@4.11.0(typescript@5.4.5))
+        version: 0.24.4(astro@4.11.0(typescript@5.5.2))
       astro:
         specifier: 4.11.0
-        version: 4.11.0(typescript@5.4.5)
+        version: 4.11.0(typescript@5.5.2)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
