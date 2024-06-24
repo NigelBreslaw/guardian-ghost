@@ -20,6 +20,7 @@ import {
 import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import {
   UISection,
+  armorBuckets,
   armorPageBuckets,
   generalPageBuckets,
   getSectionDetails,
@@ -348,6 +349,10 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash):
 
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
+    existingArray = existingArray.sort(typeAndPowerSort);
+  }
+
+  if (armorBuckets.includes(bucketHash)) {
     existingArray = existingArray.sort(typeAndPowerSort);
   }
 
