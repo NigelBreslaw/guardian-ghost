@@ -10,7 +10,7 @@ import {
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
-import { GLOBAL_SPACE_EMBLEM } from "@/app/inventory/logic/Constants.ts";
+import { GLOBAL_SPACE_EMBLEM } from "@/app/utilities/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
 

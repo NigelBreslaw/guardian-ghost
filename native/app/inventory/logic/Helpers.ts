@@ -2,6 +2,7 @@ import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
 import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import { DestinyInventoryBucketDefinition } from "@/app/store/Definitions.ts";
 
 export enum InventoryPageEnums {
   Unknown = 0,
@@ -11,30 +12,6 @@ export enum InventoryPageEnums {
 }
 
 export const weaponBuckets = [SectionBuckets.Kinetic, SectionBuckets.Energy, SectionBuckets.Power];
-
-const localizedSectionNames = {
-  [SectionBuckets.Kinetic]: "/ Kinetic Weapons",
-  [SectionBuckets.Energy]: "/ Energy Weapons",
-  [SectionBuckets.Power]: "/ Power Weapons",
-  [SectionBuckets.Helmet]: "/ Helmet",
-  [SectionBuckets.Gauntlets]: "/ Gauntlets",
-  [SectionBuckets.Chest]: "/ Chest Armor",
-  [SectionBuckets.Leg]: "/ Leg Armor",
-  [SectionBuckets.Class]: "/ Class Armor",
-  [SectionBuckets.Ghost]: "/ Ghost",
-  [SectionBuckets.Vehicle]: "/ Vehicle",
-  [SectionBuckets.Ship]: "/ Ships",
-  [SectionBuckets.Subclass]: "/ Subclass",
-  [SectionBuckets.Banner]: "/ Banner",
-  [SectionBuckets.Emblem]: "/ Emblems",
-  [SectionBuckets.Finisher]: "/ Finishers",
-  [SectionBuckets.Emote]: "/ Emotes",
-  [SectionBuckets.Artifact]: "/ Artifact",
-  [SectionBuckets.Engram]: "/ Engrams",
-  [SectionBuckets.LostItem]: "/ Postmaster",
-  [SectionBuckets.Consumables]: "/ Consumables",
-  [SectionBuckets.Mods]: "/ Modifications",
-};
 
 export const sectionSupportsBlockingExotic = [
   SectionBuckets.Kinetic,
@@ -193,8 +170,8 @@ export const ArmorStatInvestments = [
 ];
 
 export function getSectionDetails(bucket: SectionBuckets): { label: string; icon: string } {
-  const section = localizedSectionNames[bucket];
-  return { label: section, icon: iconUrl };
+  const section = DestinyInventoryBucketDefinition[bucket]?.displayProperties?.name ?? "";
+  return { label: `\\ ${section}`, icon: iconUrl };
 }
 
 export function getInventoryPage(bucket: number): InventoryPageEnums {

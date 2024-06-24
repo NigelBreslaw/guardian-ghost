@@ -9,7 +9,7 @@ import {
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
-import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/inventory/logic/Constants.ts";
+import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/utilities/Constants.ts";
 import { bungieUrl } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, GuardianClassType, SectionBuckets } from "@/app/bungie/Enums.ts";

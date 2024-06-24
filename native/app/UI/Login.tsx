@@ -10,7 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { stateID } from "@/app/store/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
-import { LOGO_DARK, LOGO_LIGHT } from "@/app/inventory/logic/Constants.ts";
+import { LOGO_DARK, LOGO_LIGHT } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
 
 function startAuth(): void {

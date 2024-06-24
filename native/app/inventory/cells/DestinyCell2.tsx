@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY } from "@/app/inventory/logic/Constants.ts";
+import { CRAFTED_OVERLAY } from "@/app/utilities/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 

@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
-import { ENHANCED_TRAIT } from "@/app/inventory/logic/Constants.ts";
+import { ENHANCED_TRAIT } from "@/app/utilities/Constants.ts";
 
 type Props = {
   readonly icon: string | undefined;
