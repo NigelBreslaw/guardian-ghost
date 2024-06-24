@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
+import { CRAFTED_OVERLAY, ENHANCED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
@@ -28,6 +28,7 @@ export default function DestinyCell3({ destinyItem }: Props) {
   const calculatedWaterMark = destinyItem.instance.calculatedWaterMark ?? "";
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
   const crafted = destinyItem.instance.crafted ?? false;
+  const enhanced = destinyItem.instance.enhanced ?? false;
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
   const primaryStat = destinyItem.instance.primaryStat;
   const borderColor = returnBorderColor(destinyItem);
@@ -61,6 +62,9 @@ export default function DestinyCell3({ destinyItem }: Props) {
           />
 
           {crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />}
+          {enhanced && (
+            <Image source={ENHANCED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
+          )}
         </View>
         {primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>

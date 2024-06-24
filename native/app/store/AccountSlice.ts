@@ -32,6 +32,8 @@ import {
   TraitIds,
   ItemTypeDisplayName,
   Descriptions,
+  SocketEntries,
+  SingleInitialItemHash,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -424,7 +426,12 @@ function addDefinition(
           itemInstance.damageType = itemComponent.damageType;
           const crafted = bitmaskContains(baseItem.state, 8);
           if (crafted) {
-            itemInstance.crafted = true;
+            const craftedType = getCraftedType(baseItem.itemHash);
+            if (craftedType === "enhanced") {
+              itemInstance.enhanced = true;
+            } else {
+              itemInstance.crafted = true;
+            }
             itemInstance.masterwork = checkForCraftedMasterwork(destinyItem);
           }
         }
@@ -444,12 +451,34 @@ function addDefinition(
   return destinyItem;
 }
 
+function getCraftedType(itemHash: ItemHash): "crafted" | "enhanced" {
+  const socketsIndex = itemsDefinition[itemHash]?.sk?.se;
+  if (socketsIndex) {
+    const se = SocketEntries[socketsIndex];
+    if (se !== undefined) {
+      const initialIndex = se[12]?.s;
+      if (initialIndex !== undefined) {
+        const singleInitialItemHash = SingleInitialItemHash[initialIndex];
+
+        if (singleInitialItemHash === 253922071) {
+          return "enhanced";
+        }
+        return "crafted";
+      }
+    }
+  }
+  return "crafted";
+}
+
 function addSpecialSearchClues(destinyItem: DestinyItem) {
   if (destinyItem.instance.masterwork) {
     destinyItem.instance.search += " masterworked";
   }
   if (destinyItem.instance.crafted) {
     destinyItem.instance.search += " crafted";
+  }
+  if (destinyItem.instance.enhanced) {
+    destinyItem.instance.search += " enhanced";
   }
   destinyItem.instance.search += ` ${returnDamageType(destinyItem.instance.damageType)} `;
 

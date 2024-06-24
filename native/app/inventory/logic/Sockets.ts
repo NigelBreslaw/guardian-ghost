@@ -171,7 +171,7 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
 const ExpandedSocketsCache = new Map<number, Sockets>();
 
-function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
+export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
   if (ExpandedSocketsCache.has(itemHash)) {
     const sockets = ExpandedSocketsCache.get(itemHash)!;
     // Deep clone the object to prevent mutation

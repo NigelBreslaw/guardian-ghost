@@ -310,6 +310,7 @@ export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
   const borderColor = returnBorderColor(item);
   const masterwork = item.instance.masterwork ?? false;
   const crafted = item.instance.crafted;
+  const enhanced = item.instance.enhanced;
   const quantity = item.quantity;
   const stackSizeMaxed = item.quantity === item.def.maxStackSize;
   const engram = item.def.itemType === ItemType.Engram;
@@ -325,6 +326,7 @@ export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
     masterwork,
     borderColor,
     crafted,
+    enhanced,
     quantity,
     stackSizeMaxed,
     engram,
