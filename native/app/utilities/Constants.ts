@@ -35,6 +35,7 @@ export const DEFAULT_OVERLAP_COLOR = "#242429CC";
 export const LOGO_DARK = require("../../images/gg-logo-dark.webp");
 export const LOGO_LIGHT = require("../../images/gg-logo-light.webp");
 export const CRAFTED_OVERLAY = require("../../images/crafted.webp");
+export const ENHANCED_OVERLAY = require("../../images/enhanced.webp");
 export const EMPTY_ENGRAM = require("../../images/engram-empty.webp");
 export const GLOBAL_SPACE_EMBLEM = require("../../images/globalEmblem.webp");
 export const vaultEmblemBackgroundPath = require("../../images/vaultEmblem.webp");
@@ -58,6 +59,7 @@ const STRAND_MINI_ICON_URI = require("../../images/damage/strand_mini.webp");
 export const MASTERWORK_TRIM = require("../../images/details-masterwork-trim.png");
 export const SCREENSHOT_MASTERWORK_OVERLAY = require("../../images/masterwork-landscape-overlay.png");
 export const LARGE_CRAFTED = require("../../images/large-crafted.webp");
+export const LARGE_ENHANCED = require("../../images/large-enhanced.webp");
 
 export function getDamageTypeIconUri(damageType: DamageType | undefined): number | null {
   switch (damageType) {
