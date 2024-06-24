@@ -221,17 +221,17 @@ export function itemHashAndQuantitySort(a: DestinyItemSort, b: DestinyItemSort):
 }
 
 export function typeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
-  if (a.def.itemSubType > b.def.itemSubType) {
-    return 1;
-  }
-  if (a.def.itemSubType < b.def.itemSubType) {
-    return -1;
-  }
-
   if (a.instance.primaryStat < b.instance.primaryStat) {
     return 1;
   }
   if (a.instance.primaryStat > b.instance.primaryStat) {
+    return -1;
+  }
+
+  if (a.def.itemSubType > b.def.itemSubType) {
+    return 1;
+  }
+  if (a.def.itemSubType < b.def.itemSubType) {
     return -1;
   }
 
