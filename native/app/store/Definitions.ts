@@ -6,6 +6,7 @@ import type {
   SocketCategoryDefinition,
   StatGroupDefinition,
   StatDefinition,
+  InventoryBucketDefinition,
 } from "@/app/core/BungieDefinitions";
 import type { BucketHash, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
 
@@ -51,6 +52,7 @@ export let guardians: Map<string, Guardian> = new Map<string, Guardian>();
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
 export let DestinyStatDefinition: StatDefinition;
 export let StatGroupHelper: StatGroupHelper = new Map<number, Map<number, DisplayInterpolation>>();
+export let DestinyInventoryBucketDefinition: InventoryBucketDefinition;
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
@@ -202,6 +204,10 @@ export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: Sta
 
 export function setDestinyStatDefinition(newDestinyStatDefinition: StatDefinition) {
   DestinyStatDefinition = newDestinyStatDefinition;
+}
+
+export function setDestinyInventoryBucketDefinition(newDestinyInventoryBucketDefinition: InventoryBucketDefinition) {
+  DestinyInventoryBucketDefinition = newDestinyInventoryBucketDefinition;
 }
 
 type DisplayInterpolation = {

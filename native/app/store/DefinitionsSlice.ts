@@ -41,6 +41,7 @@ import {
   setDestinyStatGroupDefinition,
   setIcons,
   setDestinyStatDefinition,
+  setDestinyInventoryBucketDefinition,
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
@@ -53,6 +54,8 @@ import {
   type SocketCategoryDefinition,
   type StatDefinition,
   type StatGroupDefinition,
+  type InventoryBucketDefinition,
+  InventoryBucketSchema,
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
@@ -185,6 +188,7 @@ const BungieDefinitions: DefinitionKey[] = [
   "DestinySocketCategoryDefinition",
   "DestinyStatGroupDefinition",
   "DestinyStatDefinition",
+  "DestinyInventoryBucketDefinition",
 ];
 
 const NonInterpolationTable = [
@@ -250,6 +254,18 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
       }
     }
 
+    if (completedDefinitions[3]) {
+      const parsedInventoryBucketDefinition = safeParse(InventoryBucketSchema, completedDefinitions[3]);
+
+      if (parsedInventoryBucketDefinition.success) {
+        const stringifiedInventoryBucketDefinition = JSON.stringify(parsedInventoryBucketDefinition.output, null, 0);
+        await setAsyncStorage("DestinyInventoryBucketDefinition", stringifiedInventoryBucketDefinition);
+        setDestinyInventoryBucketDefinition(
+          parsedInventoryBucketDefinition.output as unknown as InventoryBucketDefinition,
+        );
+      }
+    }
+
     await saveBungieDefinitionsVersion(versionKey);
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
@@ -269,6 +285,10 @@ async function loadLocalBungieDefinitions(): Promise<void> {
     const loadStatDefinition = await getAsyncStorage("DestinyStatDefinition");
     const statDefJson = JSON.parse(loadStatDefinition);
     setDestinyStatDefinition(statDefJson as StatDefinition);
+
+    const loadInventoryBucketDefinition = await getAsyncStorage("DestinyInventoryBucketDefinition");
+    const inventoryBucketDefJson = JSON.parse(loadInventoryBucketDefinition);
+    setDestinyInventoryBucketDefinition(inventoryBucketDefJson as InventoryBucketDefinition);
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");

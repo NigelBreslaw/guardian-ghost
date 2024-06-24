@@ -14,7 +14,11 @@ import {
 } from "valibot";
 
 // Bungie definition list
-export type DefinitionKey = "DestinySocketCategoryDefinition" | "DestinyStatGroupDefinition" | "DestinyStatDefinition";
+export type DefinitionKey =
+  | "DestinySocketCategoryDefinition"
+  | "DestinyStatGroupDefinition"
+  | "DestinyStatDefinition"
+  | "DestinyInventoryBucketDefinition";
 
 // -------------------------------
 // The self hosted minified JSON response definition
@@ -227,3 +231,21 @@ const SocketCategorySchema = record(
   }),
 );
 export type SocketCategoryDefinition = InferOutput<typeof SocketCategorySchema>;
+
+// -------------------------------
+// DestinyInventoryBucketDefinition
+// -------------------------------
+
+export const InventoryBucketSchema = record(
+  string(),
+  object({
+    displayProperties: optional(
+      object({
+        // description: optional(string()), // No need for the description currently
+        name: optional(string()),
+      }),
+    ),
+    itemCount: optional(number()),
+  }),
+);
+export type InventoryBucketDefinition = InferOutput<typeof InventoryBucketSchema>;

@@ -31,6 +31,7 @@ export const bungieManifestSchema = object({
         DestinySocketCategoryDefinition: string(),
         DestinyStatGroupDefinition: string(),
         DestinyStatDefinition: string(),
+        DestinyInventoryBucketDefinition: string(),
       }),
     ),
 
