@@ -13,6 +13,7 @@ import {
   setMods,
 } from "@/app/store/Definitions.ts";
 import {
+  BUCKET_SIZES,
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
@@ -35,7 +36,7 @@ import {
   type UISections,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
-import { getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import { getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
 import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
@@ -131,11 +132,9 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
       const getInfo = (bucket: SectionBuckets): string | undefined => {
         switch (bucket) {
           case SectionBuckets.Consumables:
-            return `${consumables.length}/50`;
           case SectionBuckets.Mods:
-            return `${mods.length}/50`;
           case SectionBuckets.LostItem:
-            return `${bucketItems?.inventory.length}/21`;
+            return `${bucketItems?.inventory.length}/${BUCKET_SIZES[bucket]}`;
           default:
             return undefined;
         }
@@ -250,7 +249,7 @@ function returnVaultUiData(
         id: `${bucket}_separator`,
         type: UISection.Separator,
         label: sectionDetails.label,
-        info: `${totalVaultItems}/600`,
+        info: `${totalVaultItems}/${BUCKET_SIZES[SectionBuckets.Vault]}`,
       };
       dataArray.push(separator);
 

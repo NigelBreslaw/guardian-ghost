@@ -7,7 +7,7 @@ import {
   MASTERWORK_TRIM,
   SCREENSHOT_MASTERWORK_OVERLAY,
   getLargeDamageTypeIconUri,
-} from "@/app/inventory/logic/Constants.ts";
+} from "@/app/utilities/Constants.ts";
 import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
 import IconCell from "@/app/inventory/pages/details/IconCell.tsx";
 import QuantityPicker from "@/app/inventory/pages/details/QuantityPicker.tsx";

@@ -16,7 +16,7 @@ import {
   rawProfileData,
 } from "@/app/store/Definitions.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { SEARCH_ICON } from "@/app/inventory/logic/Constants.ts";
+import { SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import ResultsSectionUI, { type ResultsSection } from "@/app/inventory/pages/ResultsSectionUI.tsx";
 
 function getAllItems(): DestinyItem[] {

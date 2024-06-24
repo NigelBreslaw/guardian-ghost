@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY, getDamageTypeIconUri } from "@/app/inventory/logic/Constants.ts";
+import { CRAFTED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";

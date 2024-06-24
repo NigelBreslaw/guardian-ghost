@@ -122,6 +122,7 @@ export enum SectionBuckets {
   LostItem = 215593132,
   Consumables = 1469714392,
   Mods = 3313201758,
+  Vault = 138197802,
 }
 
 export enum GGCharacterType {
