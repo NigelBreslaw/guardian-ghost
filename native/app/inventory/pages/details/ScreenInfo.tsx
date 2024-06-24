@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import {
   LARGE_CRAFTED,
+  LARGE_ENHANCED,
   MASTERWORK_TRIM,
   SCREENSHOT_MASTERWORK_OVERLAY,
   getLargeDamageTypeIconUri,
@@ -66,6 +67,22 @@ export default function ScreenInfo({ destinyItem }: Props) {
             transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
           }}
           source={LARGE_CRAFTED}
+          cachePolicy="none"
+        />
+      )}
+      {destinyItem.instance.enhanced && (
+        <Image
+          style={{
+            opacity: 0.8,
+            width: 400,
+            height: 292,
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            transformOrigin: "bottom left",
+            transform: [{ scale: SCREEN_WIDTH / 3 / 400 }],
+          }}
+          source={LARGE_ENHANCED}
           cachePolicy="none"
         />
       )}

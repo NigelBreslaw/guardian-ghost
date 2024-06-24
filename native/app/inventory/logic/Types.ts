@@ -62,6 +62,7 @@ export type ItemInstance = {
   screenshot: string;
   calculatedWaterMark?: string;
   crafted?: boolean;
+  enhanced?: boolean;
   damageType?: DamageType;
   deepSightResonance?: boolean;
   masterwork?: boolean;
@@ -160,6 +161,7 @@ export type DestinyIconData = {
   masterwork: boolean;
   borderColor: string;
   crafted?: boolean;
+  enhanced?: boolean;
   stackSizeMaxed?: boolean;
   engram?: boolean;
   bucketHash: BucketHash;

@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY } from "@/app/utilities/Constants.ts";
+import { CRAFTED_OVERLAY, ENHANCED_OVERLAY } from "@/app/utilities/Constants.ts";
 import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
@@ -52,6 +52,9 @@ export default function DestinyCell2({ iconData }: Props) {
 
           {iconData.crafted && (
             <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
+          )}
+          {iconData.enhanced && (
+            <Image source={ENHANCED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
           )}
         </View>
         {iconData.primaryStat > 0 && (
