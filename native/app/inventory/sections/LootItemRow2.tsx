@@ -1,14 +1,14 @@
 import { View } from "react-native";
 
 import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
-import DestinyCell2 from "@/app/inventory/cells/DestinyCell2.tsx";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
 
 type Props = {
-  readonly iconData: DestinyIconData[];
+  readonly items: DestinyItem[];
 };
 
-export default function LootItemRow({ iconData }: Props) {
+export default function LootItemRow2({ items }: Props) {
   "use memo";
   return (
     <View
@@ -23,11 +23,11 @@ export default function LootItemRow({ iconData }: Props) {
         maxWidth: INV_MAX_WIDTH,
       }}
     >
-      <DestinyCell2 iconData={iconData[0]} />
-      <DestinyCell2 iconData={iconData[1]} />
-      <DestinyCell2 iconData={iconData[2]} />
-      <DestinyCell2 iconData={iconData[3]} />
-      <DestinyCell2 iconData={iconData[4]} />
+      <DestinyCell3 destinyItem={items[0]} />
+      <DestinyCell3 destinyItem={items[1]} />
+      <DestinyCell3 destinyItem={items[2]} />
+      <DestinyCell3 destinyItem={items[3]} />
+      <DestinyCell3 destinyItem={items[4]} />
     </View>
   );
 }

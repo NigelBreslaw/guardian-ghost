@@ -30,7 +30,7 @@ import {
   type ArtifactSection,
   type EngramsSection,
   type EquipSection,
-  type LootIconSection,
+  type LootSection,
   type LostItemsSection,
   type SeparatorSection,
   type UISections,
@@ -152,18 +152,16 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
 
       if (bucket === SectionBuckets.Consumables) {
         if (consumables) {
-          const consumableIcons = returnInventoryArray(consumables, bucket);
-          const lootIconSections = getLootIconSections(consumableIcons, "global_consumables_section");
-          dataArray.push(...lootIconSections);
+          const lootSections = getLootSections(consumables, "global_consumables_section");
+          dataArray.push(...lootSections);
         }
         continue;
       }
 
       if (bucket === SectionBuckets.Mods) {
         if (mods) {
-          const modsIcons = returnInventoryArray(mods, bucket);
-          const lootIconSections = getLootIconSections(modsIcons, "global_mods_section");
-          dataArray.push(...lootIconSections);
+          const lootSections = getLootSections(mods, "global_mods_section");
+          dataArray.push(...lootSections);
         }
         continue;
       }
@@ -254,8 +252,7 @@ function returnVaultUiData(
       dataArray.push(separator);
 
       // get an array of all the items
-      const totalItemsArray = returnInventoryArray(bucketItems, bucket);
-      if (totalItemsArray.length === 0) {
+      if (bucketItems.length === 0) {
         const vaultSpacerSize = get().getVaultSpacerSize(bucket);
         const vaultSpacer: VaultSpacerSection = {
           id: `${bucket}_vault_spacer`,
@@ -266,24 +263,24 @@ function returnVaultUiData(
         continue;
       }
 
-      const lootIconSections = getLootIconSections(totalItemsArray, bucket.toString());
+      const lootIconSections = getLootSections(bucketItems, bucket.toString());
       dataArray.push(...lootIconSections);
     }
   }
   return dataArray;
 }
 
-function getLootIconSections(items: DestinyIconData[], id: string): LootIconSection[] {
+function getLootSections(items: DestinyItem[], id: string): LootSection[] {
   const itemsPerSection = 5;
 
-  const LootSections: LootIconSection[] = Array.from(
+  const LootSections: LootSection[] = Array.from(
     { length: Math.ceil(items.length / itemsPerSection) },
     (_, sectionId) => {
       const startIndex = sectionId * itemsPerSection;
       const inventory = items.slice(startIndex, startIndex + itemsPerSection);
       return {
         id: `${id}_${sectionId}`,
-        type: UISection.LootIconRow,
+        type: UISection.LootRow,
         inventory,
       };
     },

@@ -6,7 +6,7 @@ import VaultFlexUI from "@/app/inventory/sections/VaultFlexUI.tsx";
 import LostItemsUI from "@/app/inventory/sections/LostItemsUI.tsx";
 import ArtifactUI from "@/app/inventory/sections/ArtifactUI.tsx";
 import VaultSpacerUI from "@/app/inventory/sections/VaultSpacerUI.tsx";
-import LootItemRow from "@/app/inventory/sections/LootItemRow.tsx";
+import LootItemRow2 from "@/app/inventory/sections/LootItemRow2.tsx";
 
 type Props = {
   readonly item: UISections;
@@ -28,7 +28,7 @@ export const UiCellRenderItem = ({ item }: Props) => {
       return <ArtifactUI iconData={item.equipped} />;
     case UISection.VaultSpacer:
       return <VaultSpacerUI size={item.size} />;
-    case UISection.LootIconRow:
-      return <LootItemRow iconData={item.inventory} />;
+    case UISection.LootRow:
+      return <LootItemRow2 items={item.inventory} />;
   }
 };
