@@ -2,48 +2,59 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/utilities/Constants.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
+import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
+import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
 
 type Props = {
-  readonly iconData: DestinyIconData;
+  readonly destinyItem: DestinyItem | undefined;
 };
 
-export default function ArtifactCell({ iconData }: Props) {
+export default function ArtifactCell({ destinyItem }: Props) {
   "use memo";
+
+  if (destinyItem === undefined) {
+    return (
+      <View style={styles.container}>
+        <EmptyCell />
+      </View>
+    );
+  }
+  const borderColor = returnBorderColor(destinyItem);
   const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: iconData.characterId,
-      itemHash: iconData.itemHash,
-      itemInstanceId: iconData.itemInstanceId,
-      bucketHash: iconData.bucketHash,
+      characterId: destinyItem.characterId,
+      itemHash: destinyItem.itemHash,
+      itemInstanceId: destinyItem.itemInstanceId,
+      bucketHash: destinyItem.bucketHash,
     });
   };
 
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
-        <View style={[styles.icon, { borderColor: iconData.borderColor }]}>
+        <View style={[styles.icon, { borderColor }]}>
           <Image
-            source={{ uri: iconData.icon }}
+            source={{ uri: destinyItem.instance.icon }}
             cachePolicy="memory-disk"
             style={styles.innerFrameSize}
-            recyclingKey={iconData.icon}
+            recyclingKey={destinyItem.instance.icon}
           />
 
           <Image
-            source={{ uri: iconData.calculatedWaterMark }}
+            source={{ uri: destinyItem.instance.calculatedWaterMark }}
             cachePolicy="memory-disk"
             style={styles.innerFrameSize}
-            recyclingKey={iconData.calculatedWaterMark}
+            recyclingKey={destinyItem.instance.calculatedWaterMark}
           />
         </View>
-        {iconData.primaryStat > 0 && (
+        {destinyItem.instance.primaryStat > 0 && (
           <View style={styles.primaryStat}>
-            <Text style={styles.primaryStatText}>{`+${iconData.primaryStat}`}</Text>
+            <Text style={styles.primaryStatText}>{`+${destinyItem.instance.primaryStat}`}</Text>
           </View>
         )}
       </View>

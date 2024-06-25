@@ -196,10 +196,10 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
         const artifactSection: ArtifactSection = {
           id: `${bucket}_artifact_section`,
           type: UISection.Artifact,
-          equipped: null,
+          equipped: undefined,
         };
         if (bucketItems?.equipped) {
-          artifactSection.equipped = returnDestinyIconData(bucketItems.equipped);
+          artifactSection.equipped = bucketItems.equipped;
         }
         dataArray.push(artifactSection);
         continue;

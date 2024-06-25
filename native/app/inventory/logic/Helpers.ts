@@ -135,7 +135,7 @@ export type LostItemsSection = BaseSection & {
 
 export type ArtifactSection = BaseSection & {
   type: UISection.Artifact;
-  equipped: DestinyIconData | null;
+  equipped: DestinyItem | undefined;
 };
 
 export type VaultSpacerSection = BaseSection & {
