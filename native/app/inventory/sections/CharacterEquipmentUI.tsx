@@ -8,8 +8,7 @@ import {
   ICON_SIZE,
 } from "@/app/utilities/UISize.ts";
 import type { EquipSection } from "@/app/inventory/logic/Helpers.ts";
-import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
-import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
+import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
 
 const array9 = Array.from({ length: 9 });
 
@@ -23,20 +22,14 @@ export default function CharacterEquipmentUI({ equipSection }: Props) {
     <View style={styles.root}>
       <View style={styles.equipAndInventoryHolder}>
         <View style={styles.equip}>
-          {equipSection.equipped !== null ? <DestinyCell iconData={equipSection.equipped} /> : <EmptyCell />}
+          <DestinyCell3 destinyItem={equipSection.equipped} />
         </View>
         <View style={styles.inventoryGrid}>
           {array9.map((_, index) => {
             const item = equipSection.inventory[index];
-            if (item) {
-              return (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <DestinyCell key={index} iconData={item} />
-              );
-            }
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <EmptyCell key={index} />
+              <DestinyCell3 key={index} destinyItem={item} />
             );
           })}
         </View>

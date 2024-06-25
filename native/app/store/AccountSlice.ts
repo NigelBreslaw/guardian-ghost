@@ -284,7 +284,7 @@ function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian>
       };
 
       for (const bucket of characterBuckets) {
-        initialCharacterData.items.set(bucket, { equipped: null, inventory: [] });
+        initialCharacterData.items.set(bucket, { equipped: undefined, inventory: [] });
       }
 
       guardians.set(character, initialCharacterData);
@@ -310,7 +310,7 @@ function processCharacterEquipment(
       }
       // create all the sections first
       for (const bucket of characterBuckets) {
-        characterItems.items.set(bucket, { equipped: null, inventory: [] });
+        characterItems.items.set(bucket, { equipped: undefined, inventory: [] });
       }
       for (const item of characterEquipment.items as DestinyItemBase[]) {
         if (characterItems) {
