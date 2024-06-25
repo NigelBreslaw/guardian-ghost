@@ -2,16 +2,17 @@ import { StyleSheet, View } from "react-native";
 
 import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
-import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
+import { ItemType } from "@/app/bungie/Enums.ts";
 
 type Props = {
-  readonly iconsData: DestinyIconData[];
+  readonly items: DestinyItem[];
 };
 
-export default function LostItemsUI({ iconsData }: Props) {
+export default function LostItemsUI({ items: destinyItems }: Props) {
   "use memo";
   const maxLostItemsRows = useGGStore.getState().maxLostItemsRows;
   const minimumSpacerHeight = ICON_SIZE * maxLostItemsRows + ICON_MARGIN * (maxLostItemsRows - 1);
@@ -44,17 +45,17 @@ export default function LostItemsUI({ iconsData }: Props) {
       <View style={styles.root}>
         <View style={styles.container}>
           {totalItems.map((_v, index) => {
-            const item = iconsData[index];
+            const item = destinyItems[index];
             if (item) {
-              if (item.engram) {
+              if (item.def.itemType === ItemType.Engram) {
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
-                  <EngramCell key={index} iconData={item} />
+                  <EngramCell key={index} destinyItem={item} />
                 );
               }
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <DestinyCell key={index} iconData={item} />
+                <DestinyCell3 key={index} destinyItem={item} />
               );
             }
             return (

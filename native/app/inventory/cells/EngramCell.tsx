@@ -4,22 +4,30 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
 import { EMPTY_ENGRAM } from "@/app/utilities/Constants.ts";
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 
 type Props = {
-  readonly iconData: DestinyIconData;
+  readonly destinyItem: DestinyItem | undefined;
 };
 
-export default function EngramCell({ iconData }: Props) {
+export default function EngramCell({ destinyItem }: Props) {
   "use memo";
+
+  if (destinyItem === undefined) {
+    return (
+      <View style={styles.frameSize}>
+        <Image source={EMPTY_ENGRAM} cachePolicy="memory" style={styles.frameSize} />
+      </View>
+    );
+  }
   const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {
-      characterId: iconData.characterId,
-      itemHash: iconData.itemHash,
-      itemInstanceId: iconData.itemInstanceId,
-      bucketHash: iconData.bucketHash,
+      characterId: destinyItem.characterId,
+      itemHash: destinyItem.itemHash,
+      itemInstanceId: destinyItem.itemInstanceId,
+      bucketHash: destinyItem.bucketHash,
     });
   };
 
@@ -27,14 +35,14 @@ export default function EngramCell({ iconData }: Props) {
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.frameSize}>
         <Image
-          source={iconData?.icon ? iconData.icon : EMPTY_ENGRAM}
+          source={destinyItem.instance.icon}
           cachePolicy="memory"
           style={styles.frameSize}
-          recyclingKey={iconData?.icon}
+          recyclingKey={destinyItem.instance.icon}
         />
-        {iconData.primaryStat > 0 && (
+        {destinyItem.instance.primaryStat > 0 && (
           <View style={styles.primaryStat}>
-            <Text style={styles.powerLevelText}>{iconData.primaryStat}</Text>
+            <Text style={styles.powerLevelText}>{destinyItem.instance.primaryStat}</Text>
           </View>
         )}
       </View>
