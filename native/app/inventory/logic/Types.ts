@@ -12,14 +12,7 @@ import {
   type ItemType,
   type TierType,
 } from "@/app/bungie/Enums.ts";
-import type {
-  BucketHash,
-  CharacterId,
-  DestinyItemBase,
-  GuardianData,
-  ItemHash,
-  ItemInstanceId,
-} from "@/app/core/GetProfile.ts";
+import type { BucketHash, CharacterId, DestinyItemBase, GuardianData, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 export type GuardiansAndVault = {
   vault: VaultData;
@@ -148,35 +141,3 @@ export const characterBuckets = [
   SectionBuckets.Consumables,
   SectionBuckets.Mods,
 ];
-
-export type DestinyIconData = {
-  itemHash: ItemHash;
-  itemInstanceId: ItemInstanceId | undefined;
-  characterId: CharacterId;
-  icon: string;
-  damageTypeIconUri: number | null;
-  primaryStat: number;
-  quantity: number;
-  calculatedWaterMark: string | undefined;
-  masterwork: boolean;
-  borderColor: string;
-  crafted?: boolean;
-  enhanced?: boolean;
-  stackSizeMaxed?: boolean;
-  engram?: boolean;
-  bucketHash: BucketHash;
-};
-
-export const DestinyIconDataEmpty: DestinyIconData = {
-  itemHash: 0 as ItemHash,
-  itemInstanceId: "" as ItemInstanceId,
-  characterId: "" as CharacterId,
-  icon: "",
-  damageTypeIconUri: null,
-  primaryStat: 0,
-  quantity: 0,
-  calculatedWaterMark: "",
-  masterwork: false,
-  borderColor: "#555555",
-  bucketHash: -1 as BucketHash,
-};
