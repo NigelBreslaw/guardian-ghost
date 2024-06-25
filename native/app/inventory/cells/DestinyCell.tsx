@@ -12,7 +12,7 @@ type Props = {
   readonly destinyItem: DestinyItem | undefined;
 };
 
-export default function DestinyCell3({ destinyItem }: Props) {
+export default function DestinyCell({ destinyItem }: Props) {
   "use memo";
 
   if (destinyItem === undefined) {
