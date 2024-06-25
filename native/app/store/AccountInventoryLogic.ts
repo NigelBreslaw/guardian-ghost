@@ -1,7 +1,7 @@
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
-import type { DestinyIconData, DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
 import {
   consumables,
@@ -36,8 +36,7 @@ import {
   type UISections,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
-import { getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
-import { GGCharacterType, ItemType, SectionBuckets } from "@/app/bungie/Enums.ts";
+import { GGCharacterType, SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
 // ------------------------------
@@ -295,38 +294,6 @@ function calcTotalVaultItems(): number {
     }
   }
   return total;
-}
-
-export function returnDestinyIconData(item: DestinyItem): DestinyIconData {
-  const bucketHash = item.bucketHash;
-  const damageTypeIconUri = getDamageTypeIconUri(item.instance.damageType);
-  const primaryStat = item.instance.primaryStat;
-  const borderColor = returnBorderColor(item);
-  const masterwork = item.instance.masterwork ?? false;
-  const crafted = item.instance.crafted;
-  const enhanced = item.instance.enhanced;
-  const quantity = item.quantity;
-  const stackSizeMaxed = item.quantity === item.def.maxStackSize;
-  const engram = item.def.itemType === ItemType.Engram;
-
-  const iconData: DestinyIconData = {
-    itemHash: item.itemHash,
-    itemInstanceId: item.itemInstanceId,
-    characterId: item.characterId as CharacterId,
-    icon: item.instance.icon,
-    primaryStat,
-    calculatedWaterMark: item.instance.calculatedWaterMark,
-    damageTypeIconUri,
-    masterwork,
-    borderColor,
-    crafted,
-    enhanced,
-    quantity,
-    stackSizeMaxed,
-    engram,
-    bucketHash,
-  };
-  return iconData;
 }
 
 export function returnBorderColor(item: DestinyItem): string {

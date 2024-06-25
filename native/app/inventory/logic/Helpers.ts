@@ -1,5 +1,5 @@
 import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
-import type { DestinyIconData, DestinyItem } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
 import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
 import { DestinyInventoryBucketDefinition } from "@/app/store/Definitions.ts";
@@ -87,12 +87,11 @@ export enum UiRowType {
 export enum UISection {
   Separator = 0,
   CharacterEquipment = 1,
-  VaultFlex = 2,
-  Engrams = 3,
-  LostItems = 4,
-  Artifact = 5,
-  VaultSpacer = 6,
-  LootRow = 7,
+  Engrams = 2,
+  LostItems = 3,
+  Artifact = 4,
+  VaultSpacer = 5,
+  LootRow = 6,
 }
 
 export type BaseSection = {
@@ -115,12 +114,6 @@ export type EquipSection = BaseSection & {
   type: UISection.CharacterEquipment;
   equipped: DestinyItem | undefined;
   inventory: DestinyItem[];
-};
-
-export type VaultFlexSection = BaseSection & {
-  type: UISection.VaultFlex;
-  inventory: DestinyIconData[];
-  minimumSpacerHeight?: number;
 };
 
 export type LootSection = BaseSection & {
@@ -146,7 +139,6 @@ export type VaultSpacerSection = BaseSection & {
 export type UISections =
   | SeparatorSection
   | EquipSection
-  | VaultFlexSection
   | EngramsSection
   | LostItemsSection
   | ArtifactSection
