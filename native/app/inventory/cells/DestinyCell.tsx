@@ -23,14 +23,9 @@ export default function DestinyCell({ destinyItem }: Props) {
     );
   }
   const { characterId, itemHash, itemInstanceId, bucketHash, quantity } = destinyItem;
-
-  const icon = destinyItem.instance.icon;
-  const calculatedWaterMark = destinyItem.instance.calculatedWaterMark ?? "";
+  const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
-  const crafted = destinyItem.instance.crafted ?? false;
-  const enhanced = destinyItem.instance.enhanced ?? false;
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
-  const primaryStat = destinyItem.instance.primaryStat;
   const borderColor = returnBorderColor(destinyItem);
 
   const navigation = useNavigation();
