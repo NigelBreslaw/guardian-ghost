@@ -102,7 +102,10 @@ export async function getProfile(): Promise<JSON> {
     return data as JSON;
   } catch (error) {
     console.error("Failed to get profile!", error);
-    throw new Error("An error occurred while fetching the profile.");
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Unknown error occurred");
   }
 }
 
