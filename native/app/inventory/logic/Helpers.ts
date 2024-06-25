@@ -113,8 +113,8 @@ export type EngramsSection = BaseSection & {
 
 export type EquipSection = BaseSection & {
   type: UISection.CharacterEquipment;
-  equipped: DestinyIconData | null;
-  inventory: DestinyIconData[];
+  equipped: DestinyItem | undefined;
+  inventory: DestinyItem[];
 };
 
 export type VaultFlexSection = BaseSection & {

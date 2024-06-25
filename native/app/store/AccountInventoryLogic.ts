@@ -208,15 +208,12 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
       const equipSectionCell: EquipSection = {
         id: `${bucket}_equip_section`,
         type: UISection.CharacterEquipment,
-        equipped: null,
+        equipped: undefined,
         inventory: [],
       };
       if (bucketItems) {
-        const equipped = bucketItems.equipped;
+        equipSectionCell.equipped = bucketItems.equipped;
 
-        if (equipped) {
-          equipSectionCell.equipped = returnDestinyIconData(equipped);
-        }
         equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
 
         dataArray.push(equipSectionCell);
@@ -342,9 +339,7 @@ export function returnBorderColor(item: DestinyItem): string {
   return "#555555";
 }
 
-function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyIconData[] {
-  const inventoryArray: DestinyIconData[] = [];
-
+function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
     existingArray = existingArray.sort(typeAndPowerSort);
@@ -362,12 +357,7 @@ function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash):
     existingArray = existingArray.sort(modSort);
   }
 
-  for (const item of existingArray) {
-    const iconData = returnDestinyIconData(item);
-    inventoryArray.push(iconData);
-  }
-
-  return inventoryArray;
+  return existingArray;
 }
 
 // ------------------------------
@@ -407,7 +397,7 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
       console.error("updatedGuardian is undefined");
       return;
     }
-    const equippedItem = updatedGuardian.items.get(destinyItem.bucketHash)?.equipped ?? null;
+    const equippedItem = updatedGuardian.items.get(destinyItem.bucketHash)?.equipped ?? undefined;
     updatedGuardian.items.set(destinyItem.bucketHash, { equipped: equippedItem, inventory: updatedInventory });
   }
 }

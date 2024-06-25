@@ -32,7 +32,7 @@ export type Guardian = {
 };
 
 export type GuardianGear = {
-  equipped: DestinyItem | null;
+  equipped: DestinyItem | undefined;
   inventory: DestinyItem[];
 };
 
