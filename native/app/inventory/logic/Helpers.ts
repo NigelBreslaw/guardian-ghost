@@ -108,7 +108,7 @@ export type SeparatorSection = BaseSection & {
 
 export type EngramsSection = BaseSection & {
   type: UISection.Engrams;
-  inventory: DestinyIconData[];
+  inventory: DestinyItem[];
 };
 
 export type EquipSection = BaseSection & {
@@ -130,7 +130,7 @@ export type LootSection = BaseSection & {
 
 export type LostItemsSection = BaseSection & {
   type: UISection.LostItems;
-  inventory: DestinyIconData[];
+  inventory: DestinyItem[];
 };
 
 export type ArtifactSection = BaseSection & {

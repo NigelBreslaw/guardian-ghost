@@ -21,9 +21,9 @@ export const UiCellRenderItem = ({ item }: Props) => {
     case UISection.VaultFlex:
       return <VaultFlexUI iconData={item.inventory} minimumSpacerHeight={item.minimumSpacerHeight} />;
     case UISection.Engrams:
-      return <EngramsUI iconData={item.inventory} />;
+      return <EngramsUI items={item.inventory} />;
     case UISection.LostItems:
-      return <LostItemsUI iconsData={item.inventory} />;
+      return <LostItemsUI items={item.inventory} />;
     case UISection.Artifact:
       return <ArtifactUI item={item.equipped} />;
     case UISection.VaultSpacer:

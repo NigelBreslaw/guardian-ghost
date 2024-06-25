@@ -173,7 +173,7 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
           inventory: [],
         };
         if (bucketItems) {
-          engramsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+          engramsSection.inventory = bucketItems.inventory;
         }
         dataArray.push(engramsSection);
         continue;
@@ -186,7 +186,7 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
           inventory: [],
         };
         if (bucketItems) {
-          lostItemsSection.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+          lostItemsSection.inventory = bucketItems.inventory;
         }
         dataArray.push(lostItemsSection);
         continue;
