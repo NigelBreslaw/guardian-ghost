@@ -8,7 +8,7 @@ type Props = {
   readonly items: DestinyItem[];
 };
 
-export default function LootItemRow2({ items }: Props) {
+export default function LootItemRow({ items }: Props) {
   "use memo";
   return (
     <View

@@ -1,18 +1,19 @@
 import { View, StyleSheet } from "react-native";
 
 import ArtifactCell from "@/app/inventory/cells/ArtifactCell.tsx";
-import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { DEFAULT_SECTION_4_WIDTH, ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import type { DestinyIconData } from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 
 type Props = {
-  readonly iconData: DestinyIconData | null;
+  readonly item: DestinyItem | undefined;
 };
 
-export default function ArtifactUI({ iconData }: Props) {
+export default function ArtifactUI({ item }: Props) {
   "use memo";
   return (
-    <View style={styles.container}>{iconData !== null ? <ArtifactCell iconData={iconData} /> : <EmptyCell />}</View>
+    <View style={styles.container}>
+      <ArtifactCell destinyItem={item} />
+    </View>
   );
 }
 
