@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 
@@ -26,11 +26,11 @@ export default function ResultsSectionUI({ items }: ResultsSectionUIProps) {
         alignItems: "center",
       }}
     >
-      <DestinyCell3 destinyItem={items[0]} />
-      <DestinyCell3 destinyItem={items[1]} />
-      <DestinyCell3 destinyItem={items[2]} />
-      <DestinyCell3 destinyItem={items[3]} />
-      <DestinyCell3 destinyItem={items[4]} />
+      <DestinyCell destinyItem={items[0]} />
+      <DestinyCell destinyItem={items[1]} />
+      <DestinyCell destinyItem={items[2]} />
+      <DestinyCell destinyItem={items[3]} />
+      <DestinyCell destinyItem={items[4]} />
     </View>
   );
 }

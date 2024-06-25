@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { DEFAULT_MARGIN, FOOTER_HEIGHT, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import EngramCell from "@/app/inventory/cells/EngramCell.tsx";
 import { ItemType } from "@/app/bungie/Enums.ts";
@@ -55,7 +55,7 @@ export default function LostItemsUI({ items: destinyItems }: Props) {
               }
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <DestinyCell3 key={index} destinyItem={item} />
+                <DestinyCell key={index} destinyItem={item} />
               );
             }
             return (

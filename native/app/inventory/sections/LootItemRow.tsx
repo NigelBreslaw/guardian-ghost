@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 import { DEFAULT_MARGIN, ICON_MARGIN, ICON_SIZE, INV_MAX_WIDTH } from "@/app/utilities/UISize.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 
 type Props = {
   readonly items: DestinyItem[];
@@ -23,11 +23,11 @@ export default function LootItemRow({ items }: Props) {
         maxWidth: INV_MAX_WIDTH,
       }}
     >
-      <DestinyCell3 destinyItem={items[0]} />
-      <DestinyCell3 destinyItem={items[1]} />
-      <DestinyCell3 destinyItem={items[2]} />
-      <DestinyCell3 destinyItem={items[3]} />
-      <DestinyCell3 destinyItem={items[4]} />
+      <DestinyCell destinyItem={items[0]} />
+      <DestinyCell destinyItem={items[1]} />
+      <DestinyCell destinyItem={items[2]} />
+      <DestinyCell destinyItem={items[3]} />
+      <DestinyCell destinyItem={items[4]} />
     </View>
   );
 }

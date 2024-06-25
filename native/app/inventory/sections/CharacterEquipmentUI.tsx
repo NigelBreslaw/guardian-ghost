@@ -8,7 +8,7 @@ import {
   ICON_SIZE,
 } from "@/app/utilities/UISize.ts";
 import type { EquipSection } from "@/app/inventory/logic/Helpers.ts";
-import DestinyCell3 from "@/app/inventory/cells/DestinyCell3.tsx";
+import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 
 const array9 = Array.from({ length: 9 });
 
@@ -22,14 +22,14 @@ export default function CharacterEquipmentUI({ equipSection }: Props) {
     <View style={styles.root}>
       <View style={styles.equipAndInventoryHolder}>
         <View style={styles.equip}>
-          <DestinyCell3 destinyItem={equipSection.equipped} />
+          <DestinyCell destinyItem={equipSection.equipped} />
         </View>
         <View style={styles.inventoryGrid}>
           {array9.map((_, index) => {
             const item = equipSection.inventory[index];
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <DestinyCell3 key={index} destinyItem={item} />
+              <DestinyCell key={index} destinyItem={item} />
             );
           })}
         </View>
