@@ -116,8 +116,6 @@ function find(text: string, allItems: DestinyItem[]): ResultsSection[] {
     return [];
   }
 
-  const p1 = performance.now();
-
   const words = text
     .toLocaleLowerCase()
     .split(" ")
@@ -144,9 +142,6 @@ function find(text: string, allItems: DestinyItem[]): ResultsSection[] {
       };
     },
   );
-
-  const p2 = performance.now();
-  console.log("find 2", `${(p2 - p1).toFixed(4)} ms`);
 
   return ResultsSections;
 }
