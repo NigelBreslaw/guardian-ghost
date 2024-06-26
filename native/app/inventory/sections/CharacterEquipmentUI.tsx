@@ -10,14 +10,13 @@ import {
 import type { EquipSection } from "@/app/inventory/logic/Helpers.ts";
 import DestinyCell from "@/app/inventory/cells/DestinyCell.tsx";
 
-const array9 = Array.from({ length: 9 });
-
 type Props = {
   readonly equipSection: EquipSection;
 };
 
 export default function CharacterEquipmentUI({ equipSection }: Props) {
   "use memo";
+
   return (
     <View style={styles.root}>
       <View style={styles.equipAndInventoryHolder}>
@@ -25,13 +24,15 @@ export default function CharacterEquipmentUI({ equipSection }: Props) {
           <DestinyCell destinyItem={equipSection.equipped} />
         </View>
         <View style={styles.inventoryGrid}>
-          {array9.map((_, index) => {
-            const item = equipSection.inventory[index];
-            return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <DestinyCell key={index} destinyItem={item} />
-            );
-          })}
+          <DestinyCell destinyItem={equipSection.inventory[0]} />
+          <DestinyCell destinyItem={equipSection.inventory[1]} />
+          <DestinyCell destinyItem={equipSection.inventory[2]} />
+          <DestinyCell destinyItem={equipSection.inventory[3]} />
+          <DestinyCell destinyItem={equipSection.inventory[4]} />
+          <DestinyCell destinyItem={equipSection.inventory[5]} />
+          <DestinyCell destinyItem={equipSection.inventory[6]} />
+          <DestinyCell destinyItem={equipSection.inventory[7]} />
+          <DestinyCell destinyItem={equipSection.inventory[8]} />
         </View>
       </View>
       <View style={styles.footer} />
@@ -42,7 +43,7 @@ export default function CharacterEquipmentUI({ equipSection }: Props) {
 const styles = StyleSheet.create({
   root: {
     width: DEFAULT_SECTION_4_WIDTH,
-
+    height: EQUIP_SECTION_HEIGHT + FOOTER_HEIGHT,
     alignSelf: "center",
   },
   footer: {

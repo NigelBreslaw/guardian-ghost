@@ -9,8 +9,6 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
 
-const pageEstimatedFlashListItemSize = [84, 84, 84, 84];
-
 function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
   const internalOffset = posX - PAGE_WIDTH / 2;
   let index = 0;
@@ -25,6 +23,7 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
 
 type Props = {
   readonly inventoryPages: InventoryPageEnums;
+  readonly pageEstimatedFlashListItemSize: number[];
 };
 
 const rootStyles = StyleSheet.create({
@@ -38,7 +37,7 @@ const rootStyles = StyleSheet.create({
 const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
-export default function InventoryPage({ inventoryPages }: Props) {
+export default function InventoryPage({ inventoryPages, pageEstimatedFlashListItemSize }: Props) {
   "use memo";
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();

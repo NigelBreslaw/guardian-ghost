@@ -3,5 +3,7 @@ import InventoryPage from "@/app/inventory/pages/InventoryPage.tsx";
 
 export default function GeneralPage() {
   "use memo";
-  return <InventoryPage inventoryPages={InventoryPageEnums.General} />;
+  return (
+    <InventoryPage inventoryPages={InventoryPageEnums.General} pageEstimatedFlashListItemSize={[82, 82, 82, 200]} />
+  );
 }
