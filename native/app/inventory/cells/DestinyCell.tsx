@@ -49,12 +49,14 @@ export default function DestinyCell({ destinyItem }: Props) {
             recyclingKey={icon}
           />
 
-          <Image
-            source={{ uri: calculatedWaterMark }}
-            cachePolicy="memory-disk"
-            style={DestinyIconStyles.innerFrameSize}
-            recyclingKey={calculatedWaterMark}
-          />
+          {calculatedWaterMark && (
+            <Image
+              source={{ uri: calculatedWaterMark }}
+              cachePolicy="memory-disk"
+              style={DestinyIconStyles.innerFrameSize}
+              recyclingKey={calculatedWaterMark}
+            />
+          )}
 
           {crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />}
           {enhanced && (
