@@ -47,7 +47,7 @@ export enum GuardianClassType {
   Hunter = 1,
   Warlock = 2,
   Unknown = 3,
-  Vault = 100,
+  Vault = 138197802,
 }
 
 export enum DestinyClass {
@@ -127,7 +127,7 @@ export enum SectionBuckets {
 
 export enum GGCharacterType {
   Guardian = 0,
-  Vault = 1,
+  Vault = 138197802,
 }
 
 export enum DamageType {

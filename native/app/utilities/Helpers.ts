@@ -1,4 +1,4 @@
-import type { GuardianClassType } from "@/app/bungie/Enums.ts";
+import { GuardianClassType } from "@/app/bungie/Enums.ts";
 import type { DestinyItemSort } from "@/app/inventory/logic/Types.ts";
 
 declare const __brand: unique symbol;
@@ -323,7 +323,7 @@ export function getGuardianClassType(classType: GuardianClassType | undefined) {
       return "Hunter";
     case 2:
       return "Warlock";
-    case 100:
+    case GuardianClassType.Vault:
       return "Vault";
     default:
       return "";
