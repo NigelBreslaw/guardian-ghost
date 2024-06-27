@@ -92,6 +92,7 @@ export enum UISection {
   Artifact = 4,
   VaultSpacer = 5,
   LootRow = 6,
+  GuardianDetails = 7,
 }
 
 export type BaseSection = {
@@ -136,6 +137,11 @@ export type VaultSpacerSection = BaseSection & {
   size: number;
 };
 
+export type GuardianDetailsSection = BaseSection & {
+  type: UISection.GuardianDetails;
+  characterIndex: number;
+};
+
 export type UISections =
   | SeparatorSection
   | EquipSection
@@ -143,7 +149,8 @@ export type UISections =
   | LostItemsSection
   | ArtifactSection
   | VaultSpacerSection
-  | LootSection;
+  | LootSection
+  | GuardianDetailsSection;
 
 export type DestinyItemIdentifier = {
   characterId: CharacterId;

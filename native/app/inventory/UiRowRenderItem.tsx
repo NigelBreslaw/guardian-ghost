@@ -6,6 +6,7 @@ import LostItemsUI from "@/app/inventory/sections/LostItemsUI.tsx";
 import ArtifactUI from "@/app/inventory/sections/ArtifactUI.tsx";
 import VaultSpacerUI from "@/app/inventory/sections/VaultSpacerUI.tsx";
 import LootItemRow from "@/app/inventory/sections/LootItemRow.tsx";
+import GuardianDetails from "@/app/inventory/sections/GuardianDetails.tsx";
 
 type Props = {
   readonly item: UISections;
@@ -27,5 +28,7 @@ export const UiCellRenderItem = ({ item }: Props) => {
       return <VaultSpacerUI size={item.size} />;
     case UISection.LootRow:
       return <LootItemRow items={item.inventory} />;
+    case UISection.GuardianDetails:
+      return <GuardianDetails characterIndex={item.characterIndex} />;
   }
 };
