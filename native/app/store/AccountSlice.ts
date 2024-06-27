@@ -735,7 +735,7 @@ function processVaultInventory(profile: ProfileData): VaultData {
       let destinyItem: DestinyItem;
 
       switch (item.bucketHash) {
-        case 138197802:
+        case SectionBuckets.Vault:
           try {
             destinyItem = addDefinition(item, characterIsVault);
             destinyItem.bucketHash = destinyItem.def.recoveryBucketHash ?? (0 as BucketHash);
