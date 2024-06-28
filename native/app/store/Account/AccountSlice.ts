@@ -103,6 +103,7 @@ export interface AccountSlice {
   setSecondarySpecial: (characterId: CharacterId, itemHash: ItemHash) => void;
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
+  getCharacterIndex: (characterId: CharacterId) => number;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -206,6 +207,10 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     set({ authenticated: "DEMO-MODE" });
     const demoData = await fetch("https://app.guardianghost.com/json/demo.json");
     updateProfile(get, set, await demoData.json());
+  },
+  getCharacterIndex: (characterId: CharacterId) => {
+    const characterIndex = get().ggCharacters.findIndex((character) => character.characterId === characterId);
+    return characterIndex;
   },
 });
 

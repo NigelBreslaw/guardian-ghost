@@ -139,7 +139,7 @@ export type VaultSpacerSection = BaseSection & {
 
 export type GuardianDetailsSection = BaseSection & {
   type: UISection.GuardianDetails;
-  characterId?: CharacterId;
+  characterIndex: number;
 };
 
 export type UISections =

@@ -40,6 +40,7 @@ import {
 } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 
 // ------------------------------
 // UI data creation
@@ -144,7 +145,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
       const guardianDetails: GuardianDetailsSection = {
         id: "guardian_details",
         type: UISection.GuardianDetails,
-        characterId: characterId,
+        characterIndex: get().getCharacterIndex(characterId),
       };
       dataArray.push(guardianDetails);
     }
@@ -266,6 +267,7 @@ function returnVaultUiData(
     const guardianDetails: GuardianDetailsSection = {
       id: "guardian_details",
       type: UISection.GuardianDetails,
+      characterIndex: get().getCharacterIndex(VAULT_CHARACTER_ID),
     };
     dataArray.push(guardianDetails);
   }

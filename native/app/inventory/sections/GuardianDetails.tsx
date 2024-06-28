@@ -1,11 +1,11 @@
-import type { CharacterId } from "@/app/core/GetProfile.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
 import { StyleSheet, View, Text } from "react-native";
 
 type Props = {
-  readonly characterId?: CharacterId;
+  readonly characterIndex: number;
 };
 
-export default function GuardianDetails({ characterId }: Props) {
+export default function GuardianDetails({ characterIndex }: Props) {
   "use memo";
 
   const styles = StyleSheet.create({
@@ -16,6 +16,8 @@ export default function GuardianDetails({ characterId }: Props) {
       color: "white",
     },
   });
+
+  const characterId = useGGStore.getState().ggCharacters[characterIndex]?.characterId;
 
   return (
     <View style={styles.root}>
