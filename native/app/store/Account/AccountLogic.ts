@@ -41,6 +41,7 @@ export function getCharactersAndVault(guardians: Map<string, Guardian>): GGChara
     secondarySpecial: vaultSecondarySpecial,
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Vault,
+    lightLevel: 0,
   };
   ggCharacters.push(vaultData);
 
@@ -63,6 +64,7 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
     secondarySpecial: "",
     lastActiveCharacter: false,
     ggCharacterType: GGCharacterType.Guardian,
+    lightLevel: 0,
   };
 
   return data;

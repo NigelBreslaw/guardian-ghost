@@ -34,6 +34,7 @@ import {
   Descriptions,
   SocketEntries,
   SingleInitialItemHash,
+  guardians,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -59,7 +60,7 @@ import type {
   ItemHash,
   ProfileData,
 } from "@/app/core/GetProfile.ts";
-import type { DestinyItemIdentifier, UISections } from "@/app/inventory/logic/Helpers.ts";
+import { lightLevelBuckets, type DestinyItemIdentifier, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
@@ -104,6 +105,7 @@ export interface AccountSlice {
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
   getCharacterIndex: (characterId: CharacterId) => number;
+  updateLightLevel: () => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -145,6 +147,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   updateProfile: (profile) => {
     updateProfile(get, set, profile);
+    get().updateLightLevel();
   },
 
   setQuantityToTransfer: (quantityToTransfer) => {
@@ -167,6 +170,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(updatedDestinyItem);
     updateAllPages(get, set);
+    get().updateLightLevel();
   },
   pullFromPostmaster: (updatedDestinyItem, stackableQuantityToMove) => {
     // remove the item from the lost items
@@ -211,6 +215,25 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   getCharacterIndex: (characterId: CharacterId) => {
     const characterIndex = get().ggCharacters.findIndex((character) => character.characterId === characterId);
     return characterIndex;
+  },
+  updateLightLevel: () => {
+    const previousGGCharacters = get().ggCharacters;
+    const ggCharacters = create(previousGGCharacters, (draft) => {
+      draft.forEach((ggCharacter, _index) => {
+        let lightLevel = 0;
+        let foundItems = 0;
+        for (const bucket of lightLevelBuckets) {
+          const equippedItem = guardians.get(ggCharacter.characterId)?.items.get(bucket)?.equipped;
+          if (equippedItem) {
+            lightLevel += equippedItem.instance.primaryStat;
+            foundItems++;
+          }
+        }
+        ggCharacter.lightLevel = Math.floor(lightLevel / foundItems);
+      });
+    });
+
+    set({ ggCharacters });
   },
 });
 
