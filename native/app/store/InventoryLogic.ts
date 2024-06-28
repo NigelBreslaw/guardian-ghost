@@ -20,6 +20,7 @@ import {
 } from "@/app/utilities/Constants.ts";
 import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
 import {
+  InventoryPageEnums,
   UISection,
   armorBuckets,
   armorPageBuckets,
@@ -51,19 +52,19 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   // For each page use a deepEqual compare to see if the data has changed.
   // If it has changed then update just that page.
   const ggWeapons = get().ggWeapons;
-  const newWeaponsPageData = buildUIData(get, weaponsPageBuckets);
+  const newWeaponsPageData = buildUIData(get, InventoryPageEnums.Weapons);
   const updatedWeapons = getUpdatedItems(ggWeapons, newWeaponsPageData);
   if (updatedWeapons) {
     set({ ggWeapons: updatedWeapons });
   }
   const ggArmor = get().ggArmor;
-  const newArmorPageData = buildUIData(get, armorPageBuckets);
+  const newArmorPageData = buildUIData(get, InventoryPageEnums.Armor);
   const updatedArmor = getUpdatedItems(ggArmor, newArmorPageData);
   if (updatedArmor) {
     set({ ggArmor: updatedArmor });
   }
   const ggGeneral = get().ggGeneral;
-  const newGeneralPageData = buildUIData(get, generalPageBuckets);
+  const newGeneralPageData = buildUIData(get, InventoryPageEnums.General);
   const updatedGeneral = getUpdatedItems(ggGeneral, newGeneralPageData);
   if (updatedGeneral) {
     set({ ggGeneral: updatedGeneral });
@@ -114,8 +115,21 @@ function createUIData(get: AccountSliceGetter) {
   get().setLostItemsRows(maxLostItemsRows);
 }
 
-function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISections[][] {
+function getSectionBuckets(inventoryPage: InventoryPageEnums): SectionBuckets[] {
+  switch (inventoryPage) {
+    case InventoryPageEnums.Armor:
+      return armorPageBuckets;
+    case InventoryPageEnums.General:
+      return generalPageBuckets;
+    case InventoryPageEnums.Weapons:
+      return weaponsPageBuckets;
+  }
+  return [];
+}
+
+function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums): UISections[][] {
   const characterDataArray: UISections[][] = [];
+  const sectionBuckets = getSectionBuckets(inventoryPage);
 
   if (!rawProfileData || !guardians || !generalVault) {
     console.error("No profile, guardians or generalVault");
@@ -222,7 +236,7 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
     characterDataArray.push(dataArray);
   }
   // Now build the vault data
-  const vaultUiData = returnVaultUiData(get, sectionBuckets, generalVault);
+  const vaultUiData = returnVaultUiData(get, inventoryPage, generalVault);
   characterDataArray.push(vaultUiData);
 
   return characterDataArray;
@@ -230,9 +244,10 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
 
 function returnVaultUiData(
   get: AccountSliceGetter,
-  sectionBuckets: number[],
+  inventoryPage: InventoryPageEnums,
   generalVault: Map<number, DestinyItem[]>,
 ): UISections[] {
+  const sectionBuckets = getSectionBuckets(inventoryPage);
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
 
