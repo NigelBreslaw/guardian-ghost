@@ -40,7 +40,6 @@ import {
 } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
 
 // ------------------------------
 // UI data creation
