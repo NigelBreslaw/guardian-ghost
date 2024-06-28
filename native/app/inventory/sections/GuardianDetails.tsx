@@ -1,10 +1,11 @@
+import type { CharacterId } from "@/app/core/GetProfile.ts";
 import { StyleSheet, View, Text } from "react-native";
 
 type Props = {
-  readonly characterIndex: number;
+  readonly characterId?: CharacterId;
 };
 
-export default function GuardianDetails({ characterIndex }: Props) {
+export default function GuardianDetails({ characterId }: Props) {
   "use memo";
 
   const styles = StyleSheet.create({
@@ -18,7 +19,7 @@ export default function GuardianDetails({ characterIndex }: Props) {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.primaryStatText}>{`Guardian ${characterIndex}`}</Text>
+      <Text style={styles.primaryStatText}>{`Guardian ${characterId}`}</Text>
     </View>
   );
 }

@@ -31,6 +31,7 @@ import {
   type ArtifactSection,
   type EngramsSection,
   type EquipSection,
+  type GuardianDetailsSection,
   type LootSection,
   type LostItemsSection,
   type SeparatorSection,
@@ -136,8 +137,18 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
     return characterDataArray;
   }
 
-  for (const [_key, characterData] of guardians) {
+  for (const [characterId, characterData] of guardians) {
     const dataArray: UISections[] = [];
+
+    if (inventoryPage === InventoryPageEnums.Weapons) {
+      const guardianDetails: GuardianDetailsSection = {
+        id: "guardian_details",
+        type: UISection.GuardianDetails,
+        characterId: characterId,
+      };
+      dataArray.push(guardianDetails);
+    }
+
     for (const bucket of sectionBuckets as BucketHash[]) {
       const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
@@ -250,6 +261,14 @@ function returnVaultUiData(
   const sectionBuckets = getSectionBuckets(inventoryPage);
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
+
+  if (inventoryPage === InventoryPageEnums.Weapons) {
+    const guardianDetails: GuardianDetailsSection = {
+      id: "guardian_details",
+      type: UISection.GuardianDetails,
+    };
+    dataArray.push(guardianDetails);
+  }
 
   for (const bucket of sectionBuckets as BucketHash[]) {
     const bucketItems = generalVault.get(bucket);

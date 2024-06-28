@@ -8,7 +8,7 @@ import type {
   StatDefinition,
   InventoryBucketDefinition,
 } from "@/app/core/BungieDefinitions";
-import type { BucketHash, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
+import type { BucketHash, CharacterId, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
@@ -47,7 +47,7 @@ export let lostItems: DestinyItem[] = [];
 export let consumables: DestinyItem[] = [];
 export let mods: DestinyItem[] = [];
 export let generalVault: Map<number, DestinyItem[]> = new Map<number, DestinyItem[]>();
-export let guardians: Map<string, Guardian> = new Map<string, Guardian>();
+export let guardians: Map<CharacterId, Guardian> = new Map<CharacterId, Guardian>();
 
 export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
 export let DestinyStatDefinition: StatDefinition;
@@ -190,7 +190,7 @@ export function setGeneralVault(newGeneralVault: Map<number, DestinyItem[]>) {
   generalVault = newGeneralVault;
 }
 
-export function setGuardians(newGuardians: Map<string, Guardian>) {
+export function setGuardians(newGuardians: Map<CharacterId, Guardian>) {
   guardians = newGuardians;
 }
 

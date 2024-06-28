@@ -29,6 +29,6 @@ export const UiCellRenderItem = ({ item }: Props) => {
     case UISection.LootRow:
       return <LootItemRow items={item.inventory} />;
     case UISection.GuardianDetails:
-      return <GuardianDetails characterIndex={item.characterIndex} />;
+      return <GuardianDetails characterId={item.characterId} />;
   }
 };
