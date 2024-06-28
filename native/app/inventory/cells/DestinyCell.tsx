@@ -5,7 +5,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY, ENHANCED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
+import { returnBorderColor } from "@/app/store/InventoryLogic.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 
 type Props = {

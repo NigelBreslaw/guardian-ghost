@@ -6,7 +6,7 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/utilities/Constants.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
-import { returnBorderColor } from "@/app/store/AccountInventoryLogic.ts";
+import { returnBorderColor } from "@/app/store/InventoryLogic.ts";
 
 type Props = {
   readonly destinyItem: DestinyItem | undefined;
