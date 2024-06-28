@@ -112,13 +112,11 @@ export async function processTransfer(transferBundle: TransferBundle) {
   if (reachedTarget) {
     // This is only possible if the item needs to equipped
     equipItemLogic(transferBundle, transferItem);
+  } else if (transferItem.destinyItem.equipped) {
+    unequipItemLogic(transferBundle, transferItem);
   } else {
-    if (transferItem.destinyItem.equipped) {
-      unequipItemLogic(transferBundle, transferItem);
-    } else {
-      // Move the item
-      moveItemLogic(transferBundle, transferItem);
-    }
+    // Move the item
+    moveItemLogic(transferBundle, transferItem);
   }
 }
 

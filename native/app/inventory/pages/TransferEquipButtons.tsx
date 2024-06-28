@@ -7,17 +7,17 @@ import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_INVENTORY_NAMES,
   GLOBAL_MODS_CHARACTER_ID,
+  GLOBAL_SPACE_EMBLEM,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import { getGuardianRaceType, getGuardianClassType } from "@/app/utilities/Helpers.ts";
-import { GLOBAL_SPACE_EMBLEM } from "@/app/utilities/Constants.ts";
 import { SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
 
 type Props = {
   readonly destinyItem: DestinyItem;
-  close: () => void;
-  startTransfer: (toCharacterId: CharacterId, equipOnTarget: boolean) => void;
+  readonly close: () => void;
+  readonly startTransfer: (toCharacterId: CharacterId, equipOnTarget: boolean) => void;
 };
 
 export default function TransferEquipButtons({ destinyItem, close, startTransfer }: Props) {
