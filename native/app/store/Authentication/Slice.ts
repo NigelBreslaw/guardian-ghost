@@ -10,8 +10,8 @@ import {
   saveBungieUser,
   saveToken,
   urlToToken,
-} from "@/app/store/AuthenticationLogic.ts";
-import { isValidAccessToken, type AuthToken } from "@/app/store/Utilities.ts";
+} from "@/app/store/Authentication/Logic.ts";
+import { isValidAccessToken, type AuthToken } from "@/app/store/Authentication/Utilities.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 
 const initialBungieUser = {
