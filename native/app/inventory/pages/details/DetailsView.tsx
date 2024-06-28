@@ -15,7 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
-import { findDestinyItem } from "@/app/store/AccountLogic.ts";
+import { findDestinyItem } from "@/app/store/Account/AccountLogic";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
 import Stats from "@/app/stats/Stats.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";

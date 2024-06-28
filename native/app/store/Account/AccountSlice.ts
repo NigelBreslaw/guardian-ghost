@@ -12,7 +12,7 @@ import {
   type StatsCollection,
   type GuardianGear,
 } from "@/app/inventory/logic/Types.ts";
-import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/AccountLogic.ts";
+import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/Account/AccountLogic";
 import {
   PlugCategoryIdentifier,
   BucketTypeHashArray,
@@ -49,7 +49,7 @@ import {
   swapEquipAndInventoryItem,
   transformSuccessfulPullFromPostmasterItem,
   updateAllPages,
-} from "@/app/store/AccountInventoryLogic.ts";
+} from "@/app/store/InventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
 import type {
   BucketHash,

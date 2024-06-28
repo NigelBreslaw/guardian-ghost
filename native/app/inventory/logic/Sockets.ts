@@ -13,7 +13,7 @@ import {
   rawProfileData,
 } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
-import { getItemDefinition } from "@/app/store/AccountSlice.ts";
+import { getItemDefinition } from "@/app/store/Account/AccountSlice";
 
 export enum CategoryStyle {
   Unknown = 0,

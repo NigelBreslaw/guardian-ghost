@@ -2,7 +2,7 @@ import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
 import type { DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
-import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/AccountSlice.ts";
+import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/Account/AccountSlice";
 import {
   consumables,
   generalVault,
@@ -128,6 +128,7 @@ function buildUIData(get: AccountSliceGetter, sectionBuckets: number[]): UISecti
       const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
 
+      // TODO: replace switch that relies on drop through, with a check of these buckets
       const getInfo = (bucket: SectionBuckets): string | undefined => {
         switch (bucket) {
           case SectionBuckets.Consumables:

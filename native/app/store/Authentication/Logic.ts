@@ -13,7 +13,7 @@ import {
   getRefreshToken,
 } from "@/app/store/Authentication/Utilities.ts";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
-import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
+import type { AccountSliceGetter } from "@/app/store/Account/AccountSlice";
 import { linkedProfilesSchema } from "@/app/core/ApiResponse.ts";
 import { Store } from "@/app/store/Types.ts";
 
