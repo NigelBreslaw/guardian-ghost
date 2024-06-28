@@ -11,7 +11,7 @@ import {
   type AuthToken,
   getAccessToken,
   getRefreshToken,
-} from "@/app/store/Utilities.ts";
+} from "@/app/store/Authentication/Utilities.ts";
 import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
 import type { AccountSliceGetter } from "@/app/store/AccountSlice.ts";
 import { linkedProfilesSchema } from "@/app/core/ApiResponse.ts";
