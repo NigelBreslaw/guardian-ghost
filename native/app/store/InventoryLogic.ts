@@ -144,7 +144,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
       const guardianDetails: GuardianDetailsSection = {
         id: "guardian_details",
         type: UISection.GuardianDetails,
-        characterId: characterId,
+        characterIndex: get().getCharacterIndex(characterId),
       };
       dataArray.push(guardianDetails);
     }
@@ -266,6 +266,7 @@ function returnVaultUiData(
     const guardianDetails: GuardianDetailsSection = {
       id: "guardian_details",
       type: UISection.GuardianDetails,
+      characterIndex: get().getCharacterIndex(VAULT_CHARACTER_ID),
     };
     dataArray.push(guardianDetails);
   }
