@@ -18,10 +18,11 @@ export default function GuardianDetails({ characterIndex }: Props) {
   });
 
   const characterId = useGGStore.getState().ggCharacters[characterIndex]?.characterId;
+  const lightLevel = useGGStore((state) => state.ggCharacters[characterIndex]?.lightLevel);
 
   return (
     <View style={styles.root}>
-      <Text style={styles.primaryStatText}>{`Guardian ${characterId}`}</Text>
+      <Text style={styles.primaryStatText}>{`Guardian ${characterId} ${lightLevel}`}</Text>
     </View>
   );
 }

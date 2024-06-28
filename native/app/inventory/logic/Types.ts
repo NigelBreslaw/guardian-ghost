@@ -116,6 +116,7 @@ export type GGCharacterUiData = {
   secondarySpecial: string;
   lastActiveCharacter: boolean;
   ggCharacterType: GGCharacterType;
+  lightLevel: number;
 };
 
 export const characterBuckets = [

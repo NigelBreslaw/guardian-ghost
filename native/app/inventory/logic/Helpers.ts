@@ -77,6 +77,17 @@ export const equipSectionBuckets = [
   SectionBuckets.Finisher,
 ];
 
+export const lightLevelBuckets = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+];
+
 export enum UiRowType {
   Header = 0,
   CharacterEquipped = 1,
