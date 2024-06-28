@@ -271,9 +271,9 @@ function setTimestamps(
   });
 }
 
-function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian> {
+function createInitialGuardiansData(profile: ProfileData): Map<CharacterId, Guardian> {
   const characters = profile.Response.characters.data;
-  const guardians: Map<string, Guardian> = new Map<string, Guardian>();
+  const guardians: Map<CharacterId, Guardian> = new Map<CharacterId, Guardian>();
   for (const character in characters) {
     const characterData = characters[character] as GuardianData;
 
@@ -287,7 +287,7 @@ function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian>
         initialCharacterData.items.set(bucket, { equipped: undefined, inventory: [] });
       }
 
-      guardians.set(character, initialCharacterData);
+      guardians.set(character as CharacterId, initialCharacterData);
     }
   }
   return guardians;
@@ -296,15 +296,15 @@ function createInitialGuardiansData(profile: ProfileData): Map<string, Guardian>
 function processCharacterEquipment(
   get: AccountSliceGetter,
   profile: ProfileData,
-  guardians: Map<string, Guardian>,
-): Map<string, Guardian> {
+  guardians: Map<CharacterId, Guardian>,
+): Map<CharacterId, Guardian> {
   const charactersEquipment = profile.Response.characterEquipment.data;
   for (const character in charactersEquipment) {
     const characterEquipment = charactersEquipment[character];
     const characterAsId = { characterId: character as CharacterId, equipped: true };
 
     if (characterEquipment) {
-      const characterItems = guardians.get(character);
+      const characterItems = guardians.get(character as CharacterId);
       if (!characterItems) {
         throw new Error("Character items not found");
       }
@@ -332,7 +332,10 @@ function processCharacterEquipment(
   return guardians;
 }
 
-function processCharacterInventory(profile: ProfileData, guardians: Map<string, Guardian>): Map<string, Guardian> {
+function processCharacterInventory(
+  profile: ProfileData,
+  guardians: Map<CharacterId, Guardian>,
+): Map<CharacterId, Guardian> {
   const charactersInventory = profile.Response.characterInventories.data;
 
   for (const character in charactersInventory) {
@@ -344,7 +347,7 @@ function processCharacterInventory(profile: ProfileData, guardians: Map<string, 
     };
 
     if (characterInventory) {
-      const characterItems = guardians.get(character);
+      const characterItems = guardians.get(character as CharacterId);
       for (const item of characterInventory.items) {
         if (characterItems) {
           try {
