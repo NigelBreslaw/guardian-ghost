@@ -67,17 +67,10 @@ enum IconType {
   Plug = 1,
   TopLevel = 2,
 }
-// enum ModType {
-//   Normal = 1,
-//   Artifact = 2,
-// }
 
 export type SocketEntry = {
-  // extends DestinyItem
-
   /// This is a bitmask
   iconType: IconType; // default is.Plug
-  // modType: ModType; // default is.Normal
 
   // extending that type? But right now it's not been needed.
   itemHash: ItemHash;
@@ -87,7 +80,6 @@ export type SocketEntry = {
 
   plugSourcesAsEnums: SocketPlugSources[];
   plugCreationSource: SocketPlugSources;
-  // categoryStyle: CategoryStyle;
 
   socketIndex: number | null;
   socketTypeHash: number | null;
@@ -95,13 +87,10 @@ export type SocketEntry = {
 
   reusablePlugSetHash: number | null;
 
-  /// What plug is socketed if any?
+  // What plug is socketed if any?
   isVisible: boolean;
   isEnabled: boolean;
-  // isActive: boolean;
-  // canInsert: boolean;
-
-  /// What is already socketed? This is used to know if this plug is already socketed so it can be dimmed
+  // What is already socketed? This is used to know if this plug is already socketed so it can be dimmed
   // socketedDestinyItemHash: number;
 
   /// Used so mods can show the gold trim if needed. They need to know if the parent destinyItem is a masterwork
@@ -111,9 +100,6 @@ export type SocketEntry = {
 
   /// Used for perk objectives such as forge weapon materials and also kill counters <ObjectiveHash, Amount>
   // plugObjectiveValues: Record<string, number>;
-
-  // mode: .SocketEntry
-
   def?: DestinyItemDefinition;
 };
 
@@ -139,8 +125,6 @@ export type SocketCategory = {
 };
 
 export function createSockets(destinyItem: DestinyItem): Sockets | null {
-  // const p1 = performance.now();
-
   // Non instanced items have no sockets.
   if (!destinyItem.itemInstanceId) {
     return null;
@@ -162,10 +146,6 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
 
   addDefinitionsToTopLevelSockets(sockets, destinyItem);
 
-  // TODO: addDeepsightResonance() should all be added.
-  // const p2 = performance.now();
-  // console.log("createSockets", `${(p2 - p1).toFixed(4)} ms`);
-  // console.log("sockets", sockets);
   return sockets;
 }
 

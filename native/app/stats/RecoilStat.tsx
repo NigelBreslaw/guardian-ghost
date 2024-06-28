@@ -23,7 +23,7 @@ const verticalScale = 0.8;
 const maxSpread = 180; // degrees
 
 type Props = {
-  value: number;
+  readonly value: number;
 };
 
 export default function RecoilStat({ value }: Props) {

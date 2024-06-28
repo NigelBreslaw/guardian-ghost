@@ -7,9 +7,11 @@ import {
   GLOBAL_LOST_ITEMS_CHARACTER_ID,
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
+  vaultEmblemBackgroundPath,
+  vaultEmblemPath,
+  vaultSecondarySpecial,
 } from "@/app/utilities/Constants.ts";
 import { GuardiansSchema, type GuardianData } from "@/app/core/GetProfile.ts";
-import { vaultEmblemBackgroundPath, vaultEmblemPath, vaultSecondarySpecial } from "@/app/utilities/Constants.ts";
 import { bungieUrl } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, GuardianClassType, SectionBuckets } from "@/app/bungie/Enums.ts";

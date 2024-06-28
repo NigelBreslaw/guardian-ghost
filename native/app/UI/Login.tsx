@@ -69,7 +69,7 @@ function LocalWebLogin() {
 }
 
 type Props = {
-  navigation: NavigationProp<ReactNavigation.RootParamList>;
+  readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
 };
 
 export default function Login({ navigation }: Props) {
