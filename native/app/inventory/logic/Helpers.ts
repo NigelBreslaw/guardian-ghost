@@ -172,17 +172,3 @@ export function getSectionDetails(bucket: SectionBuckets): { label: string; icon
   const section = DestinyInventoryBucketDefinition[bucket]?.displayProperties?.name ?? "";
   return { label: `\\ ${section}`, icon: iconUrl };
 }
-
-export function getInventoryPage(bucket: number): InventoryPageEnums {
-  if (weaponsPageBuckets.includes(bucket)) {
-    return InventoryPageEnums.Weapons;
-  }
-  if (armorPageBuckets.includes(bucket)) {
-    return InventoryPageEnums.Armor;
-  }
-  if (generalPageBuckets.includes(bucket)) {
-    return InventoryPageEnums.General;
-  }
-  console.log("Unknown page", bucket);
-  return InventoryPageEnums.Unknown;
-}
