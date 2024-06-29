@@ -1,13 +1,17 @@
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { StyleSheet, View, Text } from "react-native";
 import { Image } from "expo-image";
-import { POWER_LEVEL } from "@/app/utilities/Constants.ts";
+import { POWER_LEVEL, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 
 const styles = StyleSheet.create({
   root: {
     height: 40,
     paddingStart: 16,
     paddingTop: 10,
+  },
+  rootHidden: {
+    height: 40,
+    opacity: 0,
   },
   powerLevelText: {
     color: "#ECDF49",
@@ -39,6 +43,7 @@ type Props = {
 export default function GuardianDetails({ characterIndex }: Props) {
   "use memo";
 
+  const characterId = useGGStore((state) => state.ggCharacters[characterIndex]?.characterId);
   const artifactBonus = useGGStore((state) => state.ggCharacters[characterIndex]?.artifactBonus);
   const basePowerLevel = useGGStore((state) => state.ggCharacters[characterIndex]?.basePowerLevel);
 
@@ -50,7 +55,7 @@ export default function GuardianDetails({ characterIndex }: Props) {
   const powerLevel = getPowerLevel(basePowerLevel, artifactBonus);
 
   return (
-    <View style={styles.root}>
+    <View style={characterId === VAULT_CHARACTER_ID ? styles.rootHidden : styles.root}>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
         <Image source={POWER_LEVEL} style={styles.powerIcon} tintColor={"#ECDF49"} />
         <View style={{ gap: 0 }}>
