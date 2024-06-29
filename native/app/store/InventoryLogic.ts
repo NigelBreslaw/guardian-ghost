@@ -140,14 +140,12 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   for (const [characterId, characterData] of guardians) {
     const dataArray: UISections[] = [];
 
-    if (inventoryPage === InventoryPageEnums.Weapons) {
-      const guardianDetails: GuardianDetailsSection = {
-        id: "guardian_details",
-        type: UISection.GuardianDetails,
-        characterIndex: get().getCharacterIndex(characterId),
-      };
-      dataArray.push(guardianDetails);
-    }
+    const guardianDetails: GuardianDetailsSection = {
+      id: "guardian_details",
+      type: UISection.GuardianDetails,
+      characterIndex: get().getCharacterIndex(characterId),
+    };
+    dataArray.push(guardianDetails);
 
     for (const bucket of sectionBuckets as BucketHash[]) {
       const sectionDetails = getSectionDetails(bucket);
@@ -262,14 +260,12 @@ function returnVaultUiData(
   const dataArray: UISections[] = [];
   const totalVaultItems = calcTotalVaultItems();
 
-  if (inventoryPage === InventoryPageEnums.Weapons) {
-    const guardianDetails: GuardianDetailsSection = {
-      id: "guardian_details",
-      type: UISection.GuardianDetails,
-      characterIndex: get().getCharacterIndex(VAULT_CHARACTER_ID),
-    };
-    dataArray.push(guardianDetails);
-  }
+  const guardianDetails: GuardianDetailsSection = {
+    id: "guardian_details",
+    type: UISection.GuardianDetails,
+    characterIndex: get().getCharacterIndex(VAULT_CHARACTER_ID),
+  };
+  dataArray.push(guardianDetails);
 
   for (const bucket of sectionBuckets as BucketHash[]) {
     const bucketItems = generalVault.get(bucket);
