@@ -175,6 +175,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
 
       if (bucket === SectionBuckets.Consumables) {
         if (consumables) {
+          sortInventoryArray(consumables, bucket);
           const lootSections = getLootSections(consumables, "global_consumables_section");
           dataArray.push(...lootSections);
         }
@@ -237,7 +238,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
       if (bucketItems) {
         equipSectionCell.equipped = bucketItems.equipped;
 
-        equipSectionCell.inventory = returnInventoryArray(bucketItems.inventory, bucket);
+        equipSectionCell.inventory = sortInventoryArray(bucketItems.inventory, bucket);
 
         dataArray.push(equipSectionCell);
       }
@@ -292,7 +293,7 @@ function returnVaultUiData(
       }
 
       // sort the items
-      const sortedItems = returnInventoryArray(bucketItems, bucket);
+      const sortedItems = sortInventoryArray(bucketItems, bucket);
 
       const lootIconSections = getLootSections(sortedItems, bucket.toString());
       dataArray.push(...lootIconSections);
@@ -341,7 +342,7 @@ export function returnBorderColor(item: DestinyItem): string {
   return "#555555";
 }
 
-function returnInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
+function sortInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
     existingArray = existingArray.sort(typeAndPowerSort);
