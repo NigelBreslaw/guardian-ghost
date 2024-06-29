@@ -345,19 +345,19 @@ export function returnBorderColor(item: DestinyItem): string {
 function sortInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
-    existingArray = existingArray.sort(typeAndPowerSort);
+    existingArray = existingArray.slice(0).sort(typeAndPowerSort);
   }
 
   if (armorBuckets.includes(bucketHash)) {
-    existingArray = existingArray.sort(typeAndPowerSort);
+    existingArray = existingArray.slice(0).sort(typeAndPowerSort);
   }
 
   if (bucketHash === SectionBuckets.Consumables) {
-    existingArray = existingArray.sort(itemHashAndQuantitySort);
+    existingArray = existingArray.slice(0).sort(itemHashAndQuantitySort);
   }
 
   if (bucketHash === SectionBuckets.Mods) {
-    existingArray = existingArray.sort(modSort);
+    existingArray = existingArray.slice(0).sort(modSort);
   }
 
   return existingArray;
