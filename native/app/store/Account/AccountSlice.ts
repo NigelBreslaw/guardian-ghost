@@ -229,7 +229,10 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
             foundItems++;
           }
         }
-        ggCharacter.lightLevel = Math.floor(lightLevel / foundItems);
+        ggCharacter.basePowerLevel = Math.floor(lightLevel / foundItems);
+        const artifactPrimaryStat = guardians.get(ggCharacter.characterId)?.items.get(SectionBuckets.Artifact)?.equipped
+          ?.instance.primaryStat;
+        ggCharacter.artifactBonus = artifactPrimaryStat ?? 0;
       });
     });
 

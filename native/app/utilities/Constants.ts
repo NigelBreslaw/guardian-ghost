@@ -44,6 +44,7 @@ export const vaultSecondarySpecial = require("../../images/vaultSecondary.webp")
 export const REFRESH_ICON = require("../../images/icons/refresh.webp");
 export const SEARCH_ICON = require("../../images/icons/search.png");
 export const ENHANCED_TRAIT = require("../../images/enhanced-trait.png");
+export const POWER_LEVEL = require("../../images/icons/power-icon.png");
 
 const SOLAR_MINI_ICON_URI = require("../../images/damage/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../images/damage/void_mini.webp");
