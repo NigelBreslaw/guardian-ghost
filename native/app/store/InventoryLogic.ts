@@ -291,7 +291,10 @@ function returnVaultUiData(
         continue;
       }
 
-      const lootIconSections = getLootSections(bucketItems, bucket.toString());
+      // sort the items
+      const sortedItems = returnInventoryArray(bucketItems, bucket);
+
+      const lootIconSections = getLootSections(sortedItems, bucket.toString());
       dataArray.push(...lootIconSections);
     }
   }
