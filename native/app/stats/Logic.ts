@@ -83,6 +83,11 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
     if (tierCategory) {
       addSocketStats(stats, tierCategory);
     }
+
+    const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 590099826);
+    if (modsCategory) {
+      addSocketStats(stats, modsCategory);
+    }
     return stats;
   }
 
