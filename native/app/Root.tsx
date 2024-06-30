@@ -12,7 +12,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import App from "@/app/App"; // Do not use the file extension or the web version will fail to be used.
-import { updateBucketSizes } from "@/app/utilities/Constants.ts";
+import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,6 +34,7 @@ async function init() {
     await useGGStore.getState().loadCustomDefinitions(parsedManifest.version);
     await useGGStore.getState().loadBungieDefinitions(parsedBungieManifest);
     updateBucketSizes();
+    updateDestinyText();
   } catch (e) {
     // If the network call fails try to use the already downloaded version.
     console.error("Failed to load custom manifest", e);
