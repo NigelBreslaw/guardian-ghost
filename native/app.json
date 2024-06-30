@@ -6,6 +6,7 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
+    "orientation": "portrait",
     "ios": {
       "associatedDomains": ["applinks:app.guardianghost.com"],
       "bundleIdentifier": "com.guardianghost.mobile",
@@ -29,6 +30,7 @@
       "translucent": true
     },
     "android": {
+      
       "package": "com.guardianghost",
       "backgroundColor": "#17101F",
       "splash": {
