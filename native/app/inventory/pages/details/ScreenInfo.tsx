@@ -169,11 +169,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     letterSpacing: -1,
     includeFontPadding: false,
-    height: 30,
     fontWeight: "600",
     textShadowColor: "#000000",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 4,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   primaryStatIcon: {
     width: 23,

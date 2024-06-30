@@ -9,6 +9,10 @@ export function updateBucketSizes() {
   BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition[SectionBuckets.Vault]?.itemCount ?? 5;
 }
 
+export function updateDestinyText() {
+  DESTINY_TEXT.POWER = DestinyStatDefinition[1935470627]?.displayProperties.name ?? "";
+}
+
 export const VAULT_CHARACTER_ID = "VAULT" as CharacterId;
 export const GLOBAL_MODS_CHARACTER_ID = "GLOBAL_MODS_CHARACTER_ID" as CharacterId;
 export const GLOBAL_CONSUMABLES_CHARACTER_ID = "GLOBAL_CONSUMABLES_CHARACTER_ID" as CharacterId;
@@ -27,8 +31,12 @@ export const BUCKET_SIZES = {
   [SectionBuckets.Vault]: 500,
 };
 
+export const DESTINY_TEXT = {
+  POWER: "",
+};
+
 import { DamageType } from "@/app/bungie/Enums.ts";
-import { DestinyInventoryBucketDefinition } from "@/app/store/Definitions.ts";
+import { DestinyInventoryBucketDefinition, DestinyStatDefinition } from "@/app/store/Definitions.ts";
 
 export const DEFAULT_OVERLAP_COLOR = "#242429CC";
 

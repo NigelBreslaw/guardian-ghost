@@ -1,23 +1,24 @@
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { StyleSheet, View, Text } from "react-native";
 import { Image } from "expo-image";
-import { POWER_LEVEL, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { DESTINY_TEXT, POWER_LEVEL, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { getGuardianClassType, getGuardianRaceType } from "@/app/utilities/Helpers.ts";
 
 const styles = StyleSheet.create({
   root: {
-    height: 40,
-    paddingStart: 16,
-    paddingTop: 10,
+    height: 50,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 5,
   },
   rootHidden: {
-    height: 40,
+    height: 50,
     opacity: 0,
   },
   powerLevelText: {
     color: "#ECDF49",
     fontSize: 22,
     fontWeight: "bold",
-    letterSpacing: 1,
     height: 25,
   },
   basePowerLevelText: {
@@ -29,10 +30,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   powerIcon: {
-    alignSelf: "flex-start",
-    marginTop: 5,
+    position: "absolute",
+    top: 0,
+    left: -10,
     width: 10,
     height: 10,
+  },
+  powerText: {
+    position: "absolute",
+    top: -6,
+    right: 0,
+    color: "white",
+    fontSize: 8,
+  },
+  classText: {
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  raceText: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
+    opacity: 0.6,
+    transform: [{ translateY: -5 }],
   },
 });
 
@@ -42,6 +63,11 @@ type Props = {
 
 export default function GuardianDetails({ characterIndex }: Props) {
   "use memo";
+
+  const destinyClassType = useGGStore.getState().ggCharacters[characterIndex]?.guardianClassType;
+  const destinyClassName = getGuardianClassType(destinyClassType);
+  const destinyRaceType = useGGStore.getState().ggCharacters[characterIndex]?.raceType!;
+  const destinyRaceName = getGuardianRaceType(destinyRaceType).toUpperCase();
 
   const characterId = useGGStore((state) => state.ggCharacters[characterIndex]?.characterId);
   const artifactBonus = useGGStore((state) => state.ggCharacters[characterIndex]?.artifactBonus);
@@ -56,13 +82,21 @@ export default function GuardianDetails({ characterIndex }: Props) {
 
   return (
     <View style={characterId === VAULT_CHARACTER_ID ? styles.rootHidden : styles.root}>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-        <Image source={POWER_LEVEL} style={styles.powerIcon} tintColor={"#ECDF49"} />
-        <View style={{ gap: 0 }}>
-          <Text style={styles.powerLevelText}>{`${powerLevel}`}</Text>
-          <View style={{ flexDirection: "row", position: "absolute", right: 0, top: 23, gap: 3 }}>
-            <Text style={styles.basePowerLevelText}>{`${basePowerLevel}`}</Text>
-            <Text style={styles.artifactLevelText}>{`+${artifactBonus}`}</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View>
+          <Text style={styles.classText}>{`${destinyClassName}`}</Text>
+          <Text style={styles.raceText}>{`${destinyRaceName}`}</Text>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 40 }}>
+          <View style={{ gap: 0 }}>
+            <Image source={POWER_LEVEL} style={styles.powerIcon} tintColor={"#ECDF49"} />
+
+            <Text style={styles.powerLevelText}>{`${powerLevel}`}</Text>
+            <Text style={styles.powerText}>{DESTINY_TEXT.POWER.toUpperCase()}</Text>
+            <View style={{ flexDirection: "row", position: "absolute", right: 0, top: 24, gap: 3 }}>
+              <Text style={styles.basePowerLevelText}>{`${basePowerLevel}`}</Text>
+              <Text style={styles.artifactLevelText}>{`+${artifactBonus}`}</Text>
+            </View>
           </View>
         </View>
       </View>
