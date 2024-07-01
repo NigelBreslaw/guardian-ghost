@@ -151,7 +151,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
     }
   }
 
-  throw new Error("No DestinyItem found");
+  throw new Error(`No DestinyItem found ${JSON.stringify(itemIdentifier)}`);
 }
 
 export function findMaxQuantityToTransfer(destinyItem: DestinyItem): number {
