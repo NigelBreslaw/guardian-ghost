@@ -6,7 +6,7 @@ PODS:
   - EXJSONUtils (0.13.1)
   - EXManifests (0.14.3):
     - ExpoModulesCore
-  - Expo (51.0.16):
+  - Expo (51.0.17):
     - ExpoModulesCore
   - expo-dev-client (4.0.19):
     - EXManifests
@@ -236,7 +236,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.17):
+  - ExpoModulesCore (1.12.18):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1244,7 +1244,7 @@ PODS:
   - React-Mapbuffer (0.74.2):
     - glog
     - React-debug
-  - react-native-safe-area-context (4.10.5):
+  - react-native-safe-area-context (4.10.7):
     - React-Core
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1852,7 +1852,7 @@ SPEC CHECKSUMS:
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
   EXManifests: c1fab4c3237675e7b0299ea8df0bcb14baca4f42
-  Expo: 3f3e1ec56e4d9e14f2352fe030595d906c969928
+  Expo: 675a5642b5860771507237259da50b921c03a9f3
   expo-dev-client: bcca43a56437123873b32a36ea31568e4212c1ca
   expo-dev-launcher: ab76344f7a72c7b6bb255280a66202655ecf1965
   expo-dev-menu: 9b9886b383163f14821e624f3eb51a2084491aa2
@@ -1865,7 +1865,7 @@ SPEC CHECKSUMS:
   ExpoImage: 2ccccff1219ebc765e344f3338f2430af2df4824
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
   ExpoLinearGradient: 8cec4a09426d8934c433e83cb36262d72c667fce
-  ExpoModulesCore: b19baadc38e15895b6c3d0d61f75e7b2972f82d6
+  ExpoModulesCore: 30e1ed4659356cb9a84e0e5ddf1d090d735973c1
   ExpoSQLite: ef3beaedbf5ea4573892f0099ef5514796db6066
   ExpoSystemUI: 65007dd0537cb38649ee55b4670a6ed222769b3a
   ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
@@ -1902,7 +1902,7 @@ SPEC CHECKSUMS:
   React-jsitracing: 0fa7f78d8fdda794667cb2e6f19c874c1cf31d7e
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
-  react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
+  react-native-safe-area-context: 422017db8bcabbada9ad607d010996c56713234c
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
