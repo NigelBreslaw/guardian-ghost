@@ -130,19 +130,23 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     const storedVersion = get().bungieDefinitionVersions;
     const versionKey = bungieManifest?.Response.version;
 
-    if (storedVersion === "") {
-      // download a version
-      await downloadAndStoreBungieDefinitions(bungieManifest);
-    } else if (versionKey === null) {
-      // try to use the already downloaded version
-      await loadLocalBungieDefinitions();
-    } else if (versionKey === storedVersion) {
-      // use the already downloaded version
-      await loadLocalBungieDefinitions();
-    } else {
-      // download a new version
-      console.log("download a new bungie definitions as KEY is different");
-      await downloadAndStoreBungieDefinitions(bungieManifest);
+    try {
+      if (storedVersion === "") {
+        // download a version
+        await downloadAndStoreBungieDefinitions(bungieManifest);
+      } else if (versionKey === null) {
+        // try to use the already downloaded version
+        await loadLocalBungieDefinitions();
+      } else if (versionKey === storedVersion) {
+        // use the already downloaded version
+        await loadLocalBungieDefinitions();
+      } else {
+        // download a new version
+        console.log("download a new bungie definitions as KEY is different");
+        await downloadAndStoreBungieDefinitions(bungieManifest);
+      }
+    } catch (e) {
+      console.error("Failed to load bungieDefinition version. Downloading new version...", e);
     }
   },
   showSnackBar: (message) => {
@@ -287,7 +291,7 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     } else {
       // show error toast
       console.error("Failed to download and save bungieDefinition", e);
-      useGGStore.getState().showSnackBar("Failed to download and save bungieDefinition");
+      throw new Error("Failed to download and save bungieDefinition");
     }
   }
 }
