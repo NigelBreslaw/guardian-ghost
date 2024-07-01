@@ -43,7 +43,7 @@ import {
   setDestinyStatDefinition,
   setDestinyInventoryBucketDefinition,
 } from "@/app/store/Definitions.ts";
-import type { IStore } from "@/app/store/GGStore.ts";
+import { useGGStore, type IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import {
@@ -196,6 +196,8 @@ const NonInterpolationTable = [
   { value: 100, weight: 100 },
 ];
 
+let failCount = 0;
+
 async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest | null): Promise<void> {
   const versionKey = bungieManifest?.Response.version;
   if (!versionKey) {
@@ -223,7 +225,10 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
 
       await setAsyncStorage("DestinySocketCategoryDefinition", stringifiedSocketCategoryDefinition);
       setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
+    } else {
+      throw new Error("No DestinySocketCategoryDefinition");
     }
+
     if (completedDefinitions[1]) {
       // Strip out the interpolation tables that do nothing and halve the size of the saved definition.
       // This also saves interpolateStatValue() from having to do a calculation.
@@ -242,6 +247,8 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
 
       await setAsyncStorage("DestinyStatGroupDefinition", stringifiedStatGroupDefinition);
       setDestinyStatGroupDefinition(socketGroupDefinition);
+    } else {
+      throw new Error("No DestinyStatGroupDefinition");
     }
 
     if (completedDefinitions[2]) {
@@ -252,6 +259,8 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
         await setAsyncStorage("DestinyStatDefinition", stringifiedStatDefinition);
         setDestinyStatDefinition(parsedStatDefinition.output as unknown as StatDefinition);
       }
+    } else {
+      throw new Error("No DestinyStatGroupDefinition");
     }
 
     if (completedDefinitions[3]) {
@@ -264,11 +273,22 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
           parsedInventoryBucketDefinition.output as unknown as InventoryBucketDefinition,
         );
       }
+    } else {
+      throw new Error("No DestinyInventoryBucketDefinition");
     }
 
     await saveBungieDefinitionsVersion(versionKey);
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
+    if (failCount < 3) {
+      failCount++;
+      console.error("Failed to download and save bungieDefinition", e);
+      await downloadAndStoreBungieDefinitions(bungieManifest);
+    } else {
+      // show error toast
+      console.error("Failed to download and save bungieDefinition", e);
+      useGGStore.getState().showSnackBar("Failed to download and save bungieDefinition");
+    }
   }
 }
 
