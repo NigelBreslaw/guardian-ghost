@@ -43,7 +43,7 @@ import {
   setDestinyStatDefinition,
   setDestinyInventoryBucketDefinition,
 } from "@/app/store/Definitions.ts";
-import { useGGStore, type IStore } from "@/app/store/GGStore.ts";
+import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import {
