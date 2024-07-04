@@ -12,9 +12,9 @@ import {
   getAccessToken,
   getRefreshToken,
 } from "@/app/store/Authentication/Utilities.ts";
-import { getBungieUser, getLinkedProfiles } from "@/app/bungie/Account.ts";
+import { getLinkedProfiles } from "@/app/bungie/Account.ts";
 import type { AccountSliceGetter } from "@/app/store/Account/AccountSlice";
-import { linkedProfilesSchema } from "@/app/core/ApiResponse.ts";
+import { linkedProfilesSchema, type BungieMembershipProfiles, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
 import { Store } from "@/app/store/Types.ts";
 
 const queue: (() => Promise<void>)[] = [];
@@ -173,14 +173,20 @@ export async function urlToToken(url: string): Promise<AuthToken> {
   throw new Error("Invalid URL");
 }
 
-export async function getBungieAccount(authToken: AuthToken): Promise<BungieUser> {
+export async function getBungieAccount(get: AccountSliceGetter, authToken: AuthToken): Promise<LinkedProfiles> {
   let rawLinkedProfiles = await getLinkedProfiles(authToken);
   let parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
 
   if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
     rawLinkedProfiles = await getLinkedProfiles(authToken, true);
     parsedProfiles = safeParse(linkedProfilesSchema, rawLinkedProfiles);
-    console.error("NOT IMPLEMENTED SPECIAL ACCOUNT SUPPORT: Contact support@guardianghost.com");
+
+    if (parsedProfiles.success) {
+      const bungieMembershipProfiles = parsedProfiles.output.Response.profiles as BungieMembershipProfiles;
+      get().setBungieMembershipProfiles(bungieMembershipProfiles);
+    } else {
+      throw new Error("Failed to parse Bungie multiple profiles");
+    }
   }
 
   if (parsedProfiles.success && parsedProfiles.output.Response.profiles?.length === 0) {
@@ -189,11 +195,9 @@ export async function getBungieAccount(authToken: AuthToken): Promise<BungieUser
   }
 
   if (parsedProfiles.success) {
-    const bungieUser = getBungieUser(parsedProfiles.output);
-    return bungieUser;
+    return parsedProfiles.output;
   }
   // This is a catastrophic failure. The user is logged in but we can't get their linked profiles.
-  // It needs some kind of big alert and then a logout.
   console.error("Error in buildBungieAccount", parsedProfiles.output);
   throw new Error("Unable to find valid Destiny 2 user");
 }

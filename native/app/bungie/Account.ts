@@ -1,9 +1,7 @@
-import { parse } from "valibot";
-
 import type { AuthToken } from "@/app/store/Authentication/Utilities.ts";
 import { apiKey } from "@/constants/env.ts";
 import type { BungieUser } from "../inventory/logic/Types.ts";
-import { BungieProfileSchema, type BungieProfile, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
+import type { BungieProfile } from "@/app/core/ApiResponse.ts";
 
 export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = false): Promise<JSON> {
   const headers = new Headers();
@@ -41,28 +39,12 @@ export async function getLinkedProfiles(authToken: AuthToken, getAllAccounts = f
   });
 }
 
-export function getBungieUser(linkedProfiles: LinkedProfiles): BungieUser {
-  const profiles = linkedProfiles.Response?.profiles;
-
-  try {
-    if (profiles) {
-      const bungieProfile: BungieProfile = parse(BungieProfileSchema, profiles[0]);
-
-      return {
-        supplementalDisplayName: linkedProfiles.Response.bnetMembership.supplementalDisplayName,
-        iconPath: linkedProfiles.Response.bnetMembership.iconPath,
-        topLevelAccountMembershipId: linkedProfiles.Response.bnetMembership.membershipId,
-        profile: {
-          membershipId: bungieProfile.membershipId,
-          membershipType: bungieProfile.membershipType,
-          displayName: bungieProfile.displayName,
-        },
-      };
-    }
-    console.error("No profiles found");
-    throw new Error("Unable to find valid Destiny 2 user");
-  } catch (e) {
-    console.error(e);
-    throw new Error("Unable to find valid Destiny 2 user");
-  }
+export function getBungieUser(bungieProfile: BungieProfile): BungieUser {
+  return {
+    profile: {
+      membershipId: bungieProfile.membershipId,
+      membershipType: bungieProfile.membershipType,
+      displayName: bungieProfile.displayName,
+    },
+  };
 }
