@@ -61,7 +61,7 @@ export default function DetailsView({ route, navigation }: Props) {
   }
 
   // BottomSheet animation
-  const opacity = useSharedValue(1);
+  const opacity = useSharedValue(0);
   const transferButtonStyle = useAnimatedStyle(() => ({
     opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
   }));
