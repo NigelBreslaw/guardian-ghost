@@ -83,7 +83,13 @@ export default function DetailsView({ route, navigation }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        onScrollBeginDrag={dismissBottomSheet}
+        onTouchEnd={() => {
+          dismissBottomSheet();
+        }}
+      >
         {destinyItem && (
           <View style={{ height: "100%" }}>
             <ScreenInfo destinyItem={destinyItem} />
@@ -105,7 +111,7 @@ export default function DetailsView({ route, navigation }: Props) {
       {showBottomSheet(destinyItem) && (
         <BottomSheet
           ref={bottomSheetRef}
-          index={1}
+          index={0}
           snapPoints={snapPoints}
           animateOnMount={false}
           handleStyle={{
