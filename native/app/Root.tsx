@@ -6,6 +6,7 @@ import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Text } from "react-native";
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -72,6 +73,17 @@ const navigationContainerTheme: Theme = {
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
   "use memo";
+
+  // TODO: This hack turns off the font scaling on iOS. At some point accessibility will be added to the app.
+  interface TextWithDefaultProps extends Text {
+    defaultProps?: { allowFontScaling?: boolean };
+  }
+
+  (Text as unknown as TextWithDefaultProps).defaultProps = {
+    ...((Text as unknown as TextWithDefaultProps).defaultProps || {}),
+    allowFontScaling: false,
+  };
+
   const definitionsReady = useGGStore((state) => state.definitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
