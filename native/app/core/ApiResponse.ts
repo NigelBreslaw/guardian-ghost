@@ -123,3 +123,6 @@ export const linkedProfilesSchema = object({
 });
 
 export type LinkedProfiles = InferOutput<typeof linkedProfilesSchema>;
+
+const BungieMembershipProfiles = array(BungieProfileSchema);
+export type BungieMembershipProfiles = InferOutput<typeof BungieMembershipProfiles>;

@@ -37,9 +37,6 @@ export type VaultData = {
 };
 
 export const BungieUserSchema = object({
-  supplementalDisplayName: string(),
-  iconPath: string(),
-  topLevelAccountMembershipId: string(),
   profile: object({
     membershipId: string(),
     membershipType: number(),
