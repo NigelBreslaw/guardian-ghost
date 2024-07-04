@@ -42,7 +42,7 @@ export interface AuthenticationSlice {
   startedLoginFlow: () => void;
   setBungieMembershipProfiles: (bungieMembershipProfiles: BungieMembershipProfiles) => void;
   processBungieMembershipProfiles: (authToken: AuthToken, linkedProfiles: LinkedProfiles) => void;
-  setSuccessfulLogin: (authToken: AuthToken, bungieUser: BungieUser) => void;
+  setSuccessfulLogin: (bungieUser: BungieUser) => void;
 }
 
 export const createAuthenticationSlice: StateCreator<IStore, [], [], AuthenticationSlice> = (set, get) => ({
@@ -80,11 +80,10 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
     try {
       const bungieUser = await loadBungieUser();
       if (bungieUser) {
-        set({ bungieUser });
         const membershipId = get().bungieUser.profile.membershipId;
         const authToken = await loadToken(membershipId);
         if (authToken) {
-          return set({ authToken, authenticated: "AUTHENTICATED" });
+          return set({ bungieUser, authToken, authenticated: "AUTHENTICATED" });
         }
       }
       console.warn("No user found");
@@ -115,7 +114,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
   createAuthenticatedAccount: async (url: string) => {
     try {
       const authToken = await urlToToken(url);
-      const linkedProfiles = await getBungieAccount(get, authToken);
+      const linkedProfiles = await getBungieAccount(authToken);
       get().processBungieMembershipProfiles(authToken, linkedProfiles);
     } catch (error) {
       console.error("Failed to create authenticated account", error);
@@ -124,11 +123,13 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
     }
   },
   processBungieMembershipProfiles: (authToken: AuthToken, linkedProfiles: LinkedProfiles) => {
+    set({ authToken });
+
     if (linkedProfiles.Response.profiles && linkedProfiles.Response.profiles.length === 1) {
       const bungieProfile = safeParse(BungieProfileSchema, linkedProfiles.Response.profiles[0]);
       if (bungieProfile.success) {
         const bungieUser = getBungieUser(bungieProfile.output);
-        get().setSuccessfulLogin(authToken, bungieUser);
+        get().setSuccessfulLogin(bungieUser);
       } else {
         console.error("Failed to processBungieMembershipProfiles");
       }
@@ -139,20 +140,27 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       // TODO: Show alert as login modal overlaps snackbar
     }
   },
-  setSuccessfulLogin: (authToken: AuthToken, bungieUser: BungieUser) => {
+  setSuccessfulLogin: (bungieUser: BungieUser) => {
+    console.log("setSuccessfulLogin", bungieUser);
+    set({ bungieMembershipProfiles: [] });
+    const authToken = get().authToken;
     set({
       bungieUser,
-      authToken,
       authenticated: "AUTHENTICATED",
     });
-    saveToken(authToken, bungieUser.profile.membershipId);
-    saveBungieUser(bungieUser);
+    if (authToken) {
+      saveToken(authToken, bungieUser.profile.membershipId);
+      saveBungieUser(bungieUser);
+    } else {
+      console.error("Unexpectedly no authToken");
+    }
   },
   cancelLogin: () => {
     get().logoutCurrentUser();
   },
   startedLoginFlow: () => set({ authenticated: "LOGIN-FLOW" }),
   setBungieMembershipProfiles: (bungieMembershipProfiles) => {
+    console.log("setBungieMembershipProfiles", bungieMembershipProfiles.length);
     set({ bungieMembershipProfiles });
   },
 });
