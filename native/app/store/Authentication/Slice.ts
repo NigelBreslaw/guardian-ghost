@@ -80,7 +80,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
     try {
       const bungieUser = await loadBungieUser();
       if (bungieUser) {
-        const membershipId = get().bungieUser.profile.membershipId;
+        const membershipId = bungieUser.profile.membershipId;
         const authToken = await loadToken(membershipId);
         if (authToken) {
           return set({ bungieUser, authToken, authenticated: "AUTHENTICATED" });
@@ -142,13 +142,13 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
   },
   setSuccessfulLogin: (bungieUser: BungieUser) => {
     console.log("setSuccessfulLogin", bungieUser);
-    set({ bungieMembershipProfiles: [] });
     const authToken = get().authToken;
-    set({
-      bungieUser,
-      authenticated: "AUTHENTICATED",
-    });
     if (authToken) {
+      set({
+        bungieUser,
+        authenticated: "AUTHENTICATED",
+        bungieMembershipProfiles: [],
+      });
       saveToken(authToken, bungieUser.profile.membershipId);
       saveBungieUser(bungieUser);
     } else {
