@@ -97,17 +97,20 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
   },
   setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
   logoutCurrentUser: () => {
-    const membershipId = get().bungieUser.profile.membershipId;
-    deleteUserData(membershipId);
     set({
       bungieUser: initialBungieUser,
       authToken: null,
       authenticated: "NO-AUTHENTICATION",
       ggCharacters: [],
+      ggArmor: [],
+      ggWeapons: [],
+      ggGeneral: [],
       responseMintedTimestamp: new Date(1977),
       secondaryComponentsMintedTimestamp: new Date(1977),
       bungieMembershipProfiles: [],
     });
+    const membershipId = get().bungieUser.profile.membershipId;
+    deleteUserData(membershipId);
   },
   createAuthenticatedAccount: async (url: string) => {
     try {
