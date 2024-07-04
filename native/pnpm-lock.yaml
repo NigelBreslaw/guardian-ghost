@@ -1014,9 +1014,6 @@ packages:
   '@expo/config-plugins@8.0.7':
     resolution: {integrity: sha512-7xZCWTRA3SFjbLSCx4Rge8gvgaGbkduETrZx+l4r1hiUdFcG5BAt1CwcOYvTYrOy1nkvloIYJxeU/9AwADeevA==}
 
-  '@expo/config-types@51.0.1':
-    resolution: {integrity: sha512-5JuzUFobFImrUgnq93LeucP44ZMxq8WMXmCtIUf3ZC3mJSwjvvHJBMO2fS/sIlmgvvQk9eq4VnX06/7tgDFMSg==}
-
   '@expo/config-types@51.0.2':
     resolution: {integrity: sha512-IglkIoiDwJMY01lYkF/ZSBoe/5cR+O3+Gx6fpLFjLfgZGBTdyPkKa1g8NWoWQCk+D3cKL2MDbszT2DyRRB0YqQ==}
 
@@ -6092,7 +6089,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
       '@expo/code-signing-certificates': 0.0.5
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       '@expo/config-plugins': 8.0.7
       '@expo/devcert': 1.1.2
       '@expo/env': 0.3.0
@@ -6199,8 +6196,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@expo/config-types@51.0.1': {}
-
   '@expo/config-types@51.0.2': {}
 
   '@expo/config@9.0.1':
@@ -6290,7 +6285,7 @@ snapshots:
       '@babel/generator': 7.24.7
       '@babel/parser': 7.24.7
       '@babel/types': 7.24.7
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       '@expo/env': 0.3.0
       '@expo/json-file': 8.3.3
       '@expo/spawn-async': 1.7.2
@@ -6341,7 +6336,7 @@ snapshots:
     dependencies:
       '@expo/config': 9.0.2
       '@expo/config-plugins': 8.0.7
-      '@expo/config-types': 51.0.1
+      '@expo/config-types': 51.0.2
       '@expo/image-utils': 0.5.1
       '@expo/json-file': 8.3.3
       '@react-native/normalize-colors': 0.74.84
@@ -6357,7 +6352,7 @@ snapshots:
 
   '@expo/prebuild-config@7.0.7(expo-modules-autolinking@1.11.1)':
     dependencies:
-      '@expo/config': 9.0.1
+      '@expo/config': 9.0.2
       '@expo/config-plugins': 8.0.7
       '@expo/config-types': 51.0.2
       '@expo/image-utils': 0.5.1
@@ -9963,7 +9958,7 @@ snapshots:
   react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.24.7
-      '@react-native/normalize-colors': 0.74.84
+      '@react-native/normalize-colors': 0.74.85
       fbjs: 3.0.5
       inline-style-prefixer: 6.0.4
       memoize-one: 6.0.0
