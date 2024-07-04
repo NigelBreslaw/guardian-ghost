@@ -12,6 +12,14 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
+import PSN from "@/images/svg/psn.svg";
+import Xbox from "@/images/svg/xbox.svg";
+import Steam from "@/images/svg/steam.svg";
+import Epic from "@/images/svg/epic.svg";
+import { getBungieUser } from "@/app/bungie/Account.ts";
+
+const CROSS_SAVE_IMAGE = require("../../images/cross-save.png");
+const defaultSize = 30;
 
 function startAuth(): void {
   function cancelLogin() {
@@ -74,6 +82,7 @@ type Props = {
 
 export default function Login({ navigation }: Props) {
   "use memo";
+  const bungieMembershipProfiles = useGGStore((state) => state.bungieMembershipProfiles);
   const colorScheme = useColorScheme();
   const authenticated = useGGStore((state) => state.authenticated);
   const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);
@@ -119,44 +128,119 @@ export default function Login({ navigation }: Props) {
         <View style={{ marginTop: 40 }} />
         <Image source={logoSource} style={{ width: 100, height: 100 }} />
         <View style={{ marginTop: 20 }} />
-        <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
-          {"Welcome to Guardian Ghost"}
-        </Text>
-        <View style={{ marginTop: 40 }} />
-        <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
-        <View style={{ marginTop: 20 }} />
-        <TouchableOpacity
-          disabled={authenticated === "LOGIN-FLOW"}
-          onPress={() => startAuth()}
-          onPressIn={() => {
-            if (Platform.OS !== "web") {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            }
-          }}
-        >
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-            {authenticated === "LOGIN-FLOW" && <Spinner />}
+
+        {bungieMembershipProfiles.length === 0 && (
+          <View>
+            <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
+              {"Welcome to Guardian Ghost"}
+            </Text>
+            <View style={{ marginTop: 40 }} />
+            <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
+            <View style={{ marginTop: 20 }} />
+            <TouchableOpacity
+              disabled={authenticated === "LOGIN-FLOW"}
+              onPress={() => startAuth()}
+              onPressIn={() => {
+                if (Platform.OS !== "web") {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+              }}
+            >
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Login</Text>
+                {authenticated === "LOGIN-FLOW" && <Spinner />}
+              </View>
+            </TouchableOpacity>
+            {isLocalWeb && <LocalWebLogin />}
+            <View style={{ marginTop: 80 }} />
+            <TouchableOpacity
+              disabled={authenticated === "DEMO-MODE"}
+              onPress={() => useGGStore.getState().setDemoMode()}
+              onPressIn={() => {
+                if (Platform.OS !== "web") {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+              }}
+            >
+              <View style={styles.demoButton}>
+                <Text style={styles.demoButtonText}>Demo Mode</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        {isLocalWeb && <LocalWebLogin />}
-        <View style={{ marginTop: 80 }} />
-        <TouchableOpacity
-          disabled={authenticated === "DEMO-MODE"}
-          onPress={() => useGGStore.getState().setDemoMode()}
-          onPressIn={() => {
-            if (Platform.OS !== "web") {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            }
-          }}
-        >
-          <View style={styles.demoButton}>
-            <Text style={styles.demoButtonText}>Demo Mode</Text>
+        )}
+        {bungieMembershipProfiles.length > 0 && (
+          <View>
+            <Text style={themeTextStyle}>Select your Destiny 2 account</Text>
+            <View style={{ marginTop: 20 }} />
+            <View style={{ gap: 10 }}>
+              {bungieMembershipProfiles.map((profile) => {
+                return (
+                  <TouchableOpacity
+                    key={profile.membershipId}
+                    onPress={() => {
+                      const bungieUser = getBungieUser(profile);
+                      useGGStore.getState().setSuccessfulLogin(bungieUser);
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        height: 50,
+                        borderRadius: 25,
+                        borderWidth: 1,
+                        borderColor: "grey",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View style={{ width: 16 }} />
+                      {profile.isCrossSavePrimary ? (
+                        <Image
+                          tintColor={"white"}
+                          style={{ width: defaultSize, height: defaultSize }}
+                          source={CROSS_SAVE_IMAGE}
+                        />
+                      ) : (
+                        returnMembershipIcon(profile.membershipType)
+                      )}
+                      <Text style={{ marginLeft: 10, color: "white", fontSize: 16 }}>{profile.displayName}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
-        </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
+}
+
+enum BungieMembershipType {
+  None = 0,
+  Xbox = 1,
+  Psn = 2,
+  Steam = 3,
+  Blizzard = 4,
+  Stadia = 5,
+  Egs = 6,
+  Demon = 10,
+  BungieNext = 254,
+}
+
+function returnMembershipIcon(bungieMembershipType: BungieMembershipType) {
+  switch (bungieMembershipType) {
+    case BungieMembershipType.Xbox:
+      return <Xbox width={defaultSize} height={defaultSize} />;
+    case BungieMembershipType.Psn:
+      return <PSN width={defaultSize} height={defaultSize} />;
+    case BungieMembershipType.Steam:
+      return <Steam width={defaultSize} height={defaultSize} />;
+    case BungieMembershipType.Egs:
+      return <Epic width={defaultSize} height={defaultSize} />;
+    default:
+      return null;
+  }
 }
 
 const styles = StyleSheet.create({
