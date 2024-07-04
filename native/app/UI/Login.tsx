@@ -2,7 +2,7 @@ import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
-import { Image, Platform, StyleSheet, Text, TextInput, View, useColorScheme } from "react-native";
+import { Image, Platform, ScrollView, StyleSheet, Text, TextInput, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -124,94 +124,97 @@ export default function Login({ navigation }: Props) {
 
   return (
     <SafeAreaView style={themeContainerStyle}>
-      <View style={styles.container}>
-        <View style={{ marginTop: 40 }} />
-        <Image source={logoSource} style={{ width: 100, height: 100 }} />
-        <View style={{ marginTop: 20 }} />
+      <ScrollView bounces={false}>
+        <View style={styles.container}>
+          <View style={{ marginTop: 40 }} />
+          <Image source={logoSource} style={{ width: 100, height: 100 }} />
+          <View style={{ marginTop: 20 }} />
 
-        {bungieMembershipProfiles.length === 0 && (
-          <View>
-            <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
-              {"Welcome to Guardian Ghost"}
-            </Text>
-            <View style={{ marginTop: 40 }} />
-            <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
-            <View style={{ marginTop: 20 }} />
-            <TouchableOpacity
-              disabled={authenticated === "LOGIN-FLOW"}
-              onPress={() => startAuth()}
-              onPressIn={() => {
-                if (Platform.OS !== "web") {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }
-              }}
-            >
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
-                {authenticated === "LOGIN-FLOW" && <Spinner />}
-              </View>
-            </TouchableOpacity>
-            {isLocalWeb && <LocalWebLogin />}
-            <View style={{ marginTop: 80 }} />
-            <TouchableOpacity
-              disabled={authenticated === "DEMO-MODE"}
-              onPress={() => useGGStore.getState().setDemoMode()}
-              onPressIn={() => {
-                if (Platform.OS !== "web") {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }
-              }}
-            >
-              <View style={styles.demoButton}>
-                <Text style={styles.demoButtonText}>Demo Mode</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-        {bungieMembershipProfiles.length > 0 && (
-          <View>
-            <Text style={themeTextStyle}>Select your Destiny 2 account</Text>
-            <View style={{ marginTop: 20 }} />
-            <View style={{ gap: 10 }}>
-              {bungieMembershipProfiles.map((profile) => {
-                return (
-                  <TouchableOpacity
-                    key={profile.membershipId}
-                    onPress={() => {
-                      const bungieUser = getBungieUser(profile);
-                      useGGStore.getState().setSuccessfulLogin(bungieUser);
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        height: 50,
-                        borderRadius: 25,
-                        borderWidth: 1,
-                        borderColor: "grey",
-                        alignItems: "center",
+          {bungieMembershipProfiles.length === 0 && (
+            <View>
+              <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
+                {"Welcome to Guardian Ghost"}
+              </Text>
+              <View style={{ marginTop: 40 }} />
+              <Text style={themeTextStyle}>To take your Destiny 2 experience to the next level, please login.</Text>
+              <View style={{ marginTop: 20 }} />
+              <TouchableOpacity
+                disabled={authenticated === "LOGIN-FLOW"}
+                onPress={() => startAuth()}
+                onPressIn={() => {
+                  if (Platform.OS !== "web") {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                }}
+              >
+                <View style={styles.button}>
+                  <Text style={styles.buttonText}>Login</Text>
+                  {authenticated === "LOGIN-FLOW" && <Spinner />}
+                </View>
+              </TouchableOpacity>
+              {isLocalWeb && <LocalWebLogin />}
+              <View style={{ marginTop: 80 }} />
+              <TouchableOpacity
+                disabled={authenticated === "DEMO-MODE"}
+                onPress={() => useGGStore.getState().setDemoMode()}
+                onPressIn={() => {
+                  if (Platform.OS !== "web") {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                }}
+              >
+                <View style={styles.demoButton}>
+                  <Text style={styles.demoButtonText}>Demo Mode</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+          {bungieMembershipProfiles.length > 0 && (
+            <View>
+              <Text style={themeTextStyle}>Select your Destiny 2 account</Text>
+              <View style={{ marginTop: 20 }} />
+              <View style={{ gap: 10 }}>
+                {bungieMembershipProfiles.map((profile) => {
+                  return (
+                    <TouchableOpacity
+                      key={profile.membershipId}
+                      onPress={() => {
+                        const bungieUser = getBungieUser(profile);
+                        useGGStore.getState().setSuccessfulLogin(bungieUser);
                       }}
                     >
-                      <View style={{ width: 16 }} />
-                      {profile.isCrossSavePrimary ? (
-                        <Image
-                          tintColor={"white"}
-                          style={{ width: defaultSize, height: defaultSize }}
-                          source={CROSS_SAVE_IMAGE}
-                        />
-                      ) : (
-                        returnMembershipIcon(profile.membershipType)
-                      )}
-                      <Text style={{ marginLeft: 10, color: "white", fontSize: 16 }}>{profile.displayName}</Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          width: "100%",
+                          height: 50,
+                          borderRadius: 25,
+                          borderWidth: 1,
+                          borderColor: "grey",
+                          alignItems: "center",
+                          backgroundColor: "#6750A4AA",
+                        }}
+                      >
+                        <View style={{ width: 16 }} />
+                        {profile.isCrossSavePrimary ? (
+                          <Image
+                            tintColor={"white"}
+                            style={{ width: defaultSize, height: defaultSize }}
+                            source={CROSS_SAVE_IMAGE}
+                          />
+                        ) : (
+                          returnMembershipIcon(profile.membershipType)
+                        )}
+                        <Text style={{ marginLeft: 10, color: "white", fontSize: 16 }}>{profile.displayName}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
