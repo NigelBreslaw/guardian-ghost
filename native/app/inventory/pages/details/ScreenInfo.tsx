@@ -13,7 +13,7 @@ import { ICON_SIZE, TierTypeToColor } from "@/app/utilities/UISize.ts";
 import IconCell from "@/app/inventory/pages/details/IconCell.tsx";
 import QuantityPicker from "@/app/inventory/pages/details/QuantityPicker.tsx";
 import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
-import { ItemType } from "@/app/bungie/Enums.ts";
+import { ItemType, StatType } from "@/app/bungie/Enums.ts";
 
 const { width } = Dimensions.get("window");
 const SCREEN_WIDTH = Platform.OS === "web" ? Math.min(500, width) : width;
@@ -120,10 +120,10 @@ export default function ScreenInfo({ destinyItem }: Props) {
 
 function getPrimaryStatLabel(destinyItem: DestinyItem): string {
   if (destinyItem.def.itemType === ItemType.Weapon) {
-    return DestinyStatDefinition[1935470627]?.displayProperties.name!;
+    return DestinyStatDefinition[StatType.Power]?.displayProperties.name ?? "";
   }
   if (destinyItem.def.itemType === ItemType.Vehicle) {
-    return DestinyStatDefinition[1501155019]?.displayProperties.name!;
+    return DestinyStatDefinition[StatType.Speed]?.displayProperties.name ?? "";
   }
   return "";
 }
