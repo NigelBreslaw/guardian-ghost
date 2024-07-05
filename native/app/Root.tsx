@@ -1,12 +1,11 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { StatusBar, useWindowDimensions } from "react-native";
+import { StatusBar, useWindowDimensions, Text } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Text } from "react-native";
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";

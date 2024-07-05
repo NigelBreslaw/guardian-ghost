@@ -12,7 +12,7 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
-import PSN from "@/images/svg/psn.svg";
+import Psn from "@/images/svg/psn.svg";
 import Xbox from "@/images/svg/xbox.svg";
 import Steam from "@/images/svg/steam.svg";
 import Epic from "@/images/svg/epic.svg";
@@ -236,7 +236,7 @@ function returnMembershipIcon(bungieMembershipType: BungieMembershipType) {
     case BungieMembershipType.Xbox:
       return <Xbox width={defaultSize} height={defaultSize} />;
     case BungieMembershipType.Psn:
-      return <PSN width={defaultSize} height={defaultSize} />;
+      return <Psn width={defaultSize} height={defaultSize} />;
     case BungieMembershipType.Steam:
       return <Steam width={defaultSize} height={defaultSize} />;
     case BungieMembershipType.Egs:
