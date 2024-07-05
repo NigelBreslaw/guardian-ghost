@@ -36,8 +36,8 @@ importers:
         specifier: 5.24.1
         version: 5.24.1(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7)))(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       '@shopify/flash-list':
-        specifier: 1.6.4
-        version: 1.6.4(@babel/runtime@7.24.7)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: 1.7.0
+        version: 1.7.0(@babel/runtime@7.24.7)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       babel-plugin-react-compiler:
         specifier: 0.0.0-experimental-696af53-20240625
         version: 0.0.0-experimental-696af53-20240625
@@ -1483,8 +1483,8 @@ packages:
     resolution: {integrity: sha512-KkcLY8643SGBiDyPvMQOubBkwVX5IPknMHInc7jYC8pDVncGp7C65Wi506bCNPpKCWspUd/0VDNWOOen51/qKA==}
     engines: {node: '>=8'}
 
-  '@shopify/flash-list@1.6.4':
-    resolution: {integrity: sha512-M2momcnY7swsvmpHIFDVbdOaFw4aQocJXA/lFP0Gpz+alQjFylqVKvszxl4atYO2SNbjxlb2L6hEP9WEcAknGQ==}
+  '@shopify/flash-list@1.7.0':
+    resolution: {integrity: sha512-Uys8mWTb0Y34Ts1hD97KrVFbFH9oY7qbj/u1oSrAS5PJAackDFbndUEVuTYyXSyWxHY0sRutF5HgS1yNdhj+0A==}
     peerDependencies:
       '@babel/runtime': '*'
       react: '*'
@@ -4121,8 +4121,8 @@ packages:
     resolution: {integrity: sha512-hjMmLaUXAm1hIuTqOdeYObMslq/q+Xff6QE3Y2P+uoHAg2nmVlLBps2hzh1UJDdMtDTMXOFewK6ky51JQIeECg==}
     engines: {node: '>= 4'}
 
-  recyclerlistview@4.2.0:
-    resolution: {integrity: sha512-uuBCi0c+ggqHKwrzPX4Z/mJOzsBbjZEAwGGmlwpD/sD7raXixdAbdJ6BTcAmuWG50Cg4ru9p12M94Njwhr/27A==}
+  recyclerlistview@4.2.1:
+    resolution: {integrity: sha512-NtVYjofwgUCt1rEsTp6jHQg/47TWjnO92TU2kTVgJ9wsc/ely4HnizHHa+f/dI7qaw4+zcSogElrLjhMltN2/g==}
     peerDependencies:
       react: '>= 15.2.1'
       react-native: '>= 0.30.0'
@@ -4630,9 +4630,6 @@ packages:
 
   ts-object-utils@0.0.5:
     resolution: {integrity: sha512-iV0GvHqOmilbIKJsfyfJY9/dNHCs969z3so90dQWsO1eMMozvTpnB1MEaUbb3FYtZTGjv5sIy/xmslEz0Rg2TA==}
-
-  tslib@2.4.0:
-    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
 
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
@@ -7058,13 +7055,13 @@ snapshots:
     dependencies:
       '@sentry/types': 7.117.0
 
-  '@shopify/flash-list@1.6.4(@babel/runtime@7.24.7)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
+  '@shopify/flash-list@1.7.0(@babel/runtime@7.24.7)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.3.1
       react-native: 0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1)
-      recyclerlistview: 4.2.0(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
-      tslib: 2.4.0
+      recyclerlistview: 4.2.1(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+      tslib: 2.6.3
 
   '@sideway/address@4.1.5':
     dependencies:
@@ -10057,7 +10054,7 @@ snapshots:
       source-map: 0.6.1
       tslib: 2.6.3
 
-  recyclerlistview@4.2.0(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
+  recyclerlistview@4.2.1(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
     dependencies:
       lodash.debounce: 4.0.8
       prop-types: 15.8.1
@@ -10582,8 +10579,6 @@ snapshots:
   ts-interface-checker@0.1.13: {}
 
   ts-object-utils@0.0.5: {}
-
-  tslib@2.4.0: {}
 
   tslib@2.6.3: {}
 
