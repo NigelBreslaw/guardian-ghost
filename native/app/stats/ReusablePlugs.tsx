@@ -1,17 +1,9 @@
 import { View, StyleSheet, Text } from "react-native";
+import { useState } from "react";
 
 import { TierType } from "@/app/bungie/Enums.ts";
 import type { SocketCategory, SocketEntry } from "@/app/inventory/logic/Sockets.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
-import { useEffect, useState } from "react";
-import Animated, {
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import { useGGStore } from "@/app/store/GGStore.ts";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type Props = {
@@ -21,33 +13,9 @@ type Props = {
 export default function ReusablePlugs({ socketCategory }: Props) {
   "use memo";
   const [selectedPerk, setSelectedPerk] = useState<SocketEntry | null>(null);
-  const animatedHeight = useSharedValue(0);
-  const transferButtonStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(animatedHeight.value, [0, 100], [0, 1], Extrapolation.CLAMP),
-  }));
-
-  const showingPerks = useGGStore((state) => state.showingPerks);
-  useEffect(() => {
-    if (showingPerks) {
-      animatedHeight.value = withSpring(100, {
-        duration: 400,
-        dampingRatio: 1,
-        stiffness: 100,
-        overshootClamping: false,
-        restDisplacementThreshold: 0.01,
-        restSpeedThreshold: 2,
-      });
-    } else {
-      animatedHeight.value = withSpring(0, {
-        duration: 300,
-        dampingRatio: 1,
-        stiffness: 100,
-      });
-    }
-  }, [showingPerks, animatedHeight]);
 
   return (
-    <View style={styles.root}>
+    <View>
       <Text style={styles.text}>{`${socketCategory.name}`}</Text>
 
       <View style={styles.container}>
@@ -70,7 +38,6 @@ export default function ReusablePlugs({ socketCategory }: Props) {
                     isEnhanced={e.def?.tierType === TierType.Common}
                     onPress={() => {
                       setSelectedPerk(e);
-                      useGGStore.getState().showPerks(true);
                     }}
                   />
                 );
@@ -80,8 +47,8 @@ export default function ReusablePlugs({ socketCategory }: Props) {
         })}
       </View>
       <View style={{ height: 10 }} />
-      <TouchableWithoutFeedback onPress={() => useGGStore.getState().showPerks(false)}>
-        <Animated.View style={[styles.perkInfo, transferButtonStyle, { height: animatedHeight }]}>
+      <TouchableWithoutFeedback onPress={() => setSelectedPerk(null)}>
+        <View style={[styles.perkInfo, { height: 300, opacity: selectedPerk !== null ? 1 : 0 }]}>
           <View style={{ width: "100%", height: 2, backgroundColor: "#A9A9A9" }} />
           <View style={{ width: "100%", height: 2 }} />
 
@@ -97,7 +64,8 @@ export default function ReusablePlugs({ socketCategory }: Props) {
             <Text style={styles.perkInfoDescription}>{`${selectedPerk?.def?.description}`}</Text>
             <View style={{ width: "100%", height: 5 }} />
           </View>
-        </Animated.View>
+          <View style={{ height: 50 }} />
+        </View>
       </TouchableWithoutFeedback>
     </View>
   );
