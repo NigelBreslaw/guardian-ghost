@@ -57,7 +57,7 @@ export const common = StyleSheet.create({
   primaryStat: {
     paddingLeft: 2 * GLOBAL_SCALAR,
     paddingRight: 2 * GLOBAL_SCALAR,
-    paddingTop: 1.5 * GLOBAL_SCALAR,
+    paddingTop: 0,
     paddingBottom: 0,
     borderRadius: 5 * GLOBAL_SCALAR,
     backgroundColor: DEFAULT_OVERLAP_COLOR,
@@ -74,7 +74,6 @@ export const common = StyleSheet.create({
     alignContent: "center",
     includeFontPadding: false,
     pointerEvents: "none",
-    lineHeight: PRIMARY_STAT_FONT_SIZE,
   },
   quantity: {
     paddingLeft: 2,
