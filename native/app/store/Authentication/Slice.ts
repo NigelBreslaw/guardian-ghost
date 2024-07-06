@@ -141,7 +141,6 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
     }
   },
   setSuccessfulLogin: (bungieUser: BungieUser) => {
-    console.log("setSuccessfulLogin", bungieUser);
     const authToken = get().authToken;
     if (authToken) {
       set({
