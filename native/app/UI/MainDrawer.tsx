@@ -1,36 +1,16 @@
 import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { Image } from "expo-image";
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
-import { LOGO_DARK, REFRESH_ICON, SEARCH_ICON } from "@/app/utilities/Constants.ts";
+import { LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
-import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
-
-function RefreshButton() {
-  "use memo";
-  const refreshing = useGGStore((state) => state.refreshing);
-
-  return (
-    <TouchableWithoutFeedback onPress={() => getFullProfile()}>
-      <View style={styles.iconButton}>
-        <Image source={REFRESH_ICON} style={[styles.iconImage, { opacity: refreshing ? 0 : 1 }]} />
-        {refreshing && (
-          <View style={styles.spinner}>
-            <Spinner size={52} />
-          </View>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
-  );
-}
+import { MyMenu } from "@/app/components/menu.tsx";
 
 function CharacterHeaderButtons() {
   "use memo";
@@ -183,7 +163,7 @@ export default function MainDrawer() {
           },
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
-          headerRight: RefreshButton,
+          headerRight: MyMenu,
           headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,
         }}
@@ -217,23 +197,6 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     justifyContent: "flex-end",
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-  iconImage: {
-    width: 20,
-    height: 20,
-    alignSelf: "center",
-  },
-  spinner: {
-    width: 20,
-    height: 20,
-    alignSelf: "center",
-    position: "absolute",
   },
   textDark: {
     color: "#F1EDFE",
