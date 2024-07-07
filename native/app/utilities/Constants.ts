@@ -103,3 +103,69 @@ export function getLargeDamageTypeIconUri(damageType: DamageType | undefined): n
       return null;
   }
 }
+// arc.png
+// autorifle.png
+// bow.png
+// currency.png
+// finalblows.png
+// fusion.png
+// glaive.png
+// grenade.png
+// grenadelauncher.png
+// handcannon.png
+// headshot.png
+// large blocker.png
+// linearfusion.png
+// lost sector.png
+// machinegun.png
+// medium blocker.png
+// melee.png
+// pulse.png
+// quest.png
+// rocket.png
+// scout.png
+// shotgun.png
+// sidearm.png
+// small blocker.png
+// smg.png
+// sniper.png
+// solar.png
+// special grenade launcher.png
+// stasis.png
+// sword.png
+// tracerifle.png
+// void.png
+
+// Objectives icons
+export const ARC_OBJECTIVE_ICON = require("../../images/objectives/arc.png");
+export const AUTO_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/auto rifle.png");
+export const BOW_OBJECTIVE_ICON = require("../../images/objectives/bow.png");
+export const CURRENCY_OBJECTIVE_ICON = require("../../images/objectives/currency.png");
+export const FINAL_BLOWS_OBJECTIVE_ICON = require("../../images/objectives/final blows.png");
+export const FUSION_OBJECTIVE_ICON = require("../../images/objectives/fusion.png");
+export const GLAIVE_OBJECTIVE_ICON = require("../../images/objectives/glaive.png");
+export const GRENADE_OBJECTIVE_ICON = require("../../images/objectives/grenade.png");
+export const GRENADE_LAUNCHER_OBJECTIVE_ICON = require("../../images/objectives/grenade launcher.png");
+export const HAND_CANNON_OBJECTIVE_ICON = require("../../images/objectives/hand cannon.png");
+export const HEADSHOT_OBJECTIVE_ICON = require("../../images/objectives/headshot.png");
+export const LARGE_BLOCKER_OBJECTIVE_ICON = require("../../images/objectives/large blocker.png");
+export const LINEAR_FUSION_OBJECTIVE_ICON = require("../../images/objectives/linear fusion.png");
+export const LOST_SECTOR_OBJECTIVE_ICON = require("../../images/objectives/lost sector.png");
+export const MACHINE_GUN_OBJECTIVE_ICON = require("../../images/objectives/machine gun.png");
+export const MEDIUM_BLOCKER_OBJECTIVE_ICON = require("../../images/objectives/medium blocker.png");
+export const MELEE_OBJECTIVE_ICON = require("../../images/objectives/melee.png");
+export const PULSE_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/pulse rifle.png");
+export const QUEST_OBJECTIVE_ICON = require("../../images/objectives/quest.png");
+export const ROCKET_LAUNCHER_OBJECTIVE_ICON = require("../../images/objectives/rocket launcher.png");
+export const SCOUT_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/scout rifle.png");
+export const SHOTGUN_OBJECTIVE_ICON = require("../../images/objectives/shotgun.png");
+export const SIDEARM_OBJECTIVE_ICON = require("../../images/objectives/sidearm.png");
+export const SMALL_BLOCKER_OBJECTIVE_ICON = require("../../images/objectives/small blocker.png");
+export const SMG_OBJECTIVE_ICON = require("../../images/objectives/smg.png");
+export const SNIPER_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/sniper rifle.png");
+export const SOLAR_OBJECTIVE_ICON = require("../../images/objectives/solar.png");
+export const SPECIAL_GRENADE_LAUNCHER_OBJECTIVE_ICON = require("../../images/objectives/special grenade launcher.png");
+export const STASIS_OBJECTIVE_ICON = require("../../images/objectives/stasis.png");
+export const SWORD_OBJECTIVE_ICON = require("../../images/objectives/sword.png");
+export const TRACE_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/trace rifle.png");
+export const VOID_OBJECTIVE_ICON = require("../../images/objectives/void.png");
