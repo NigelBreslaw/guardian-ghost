@@ -147,7 +147,7 @@ type BarProps = {
 function BarUi({ statType, value }: BarProps) {
   "use memo";
   const maxValue = ArmorStatInvestments.includes(statType) ? 42 : 100;
-  const internalValue = Math.min(value, 100);
+  const internalValue = Math.min(value, maxValue);
 
   return (
     <View style={{ height: HEIGHT, flexDirection: "row", gap: 10 }}>
@@ -238,7 +238,7 @@ export default function StatBars({ stats, destinyItem }: StatBarsProps) {
       case "NUMERAL":
         return <NumericUi key={UiData.statType} value={value} />;
       case "RECOIL":
-        return <RecoilStat key={UiData.statType} value={value} />;
+        return <RecoilStat key={UiData.statType} value={Math.min(100, value)} />;
       case "SEPARATOR":
         return <View key={UiData.statType} style={{ height: STAT_GAP }} />;
       case "ARMOR-TOTAL":

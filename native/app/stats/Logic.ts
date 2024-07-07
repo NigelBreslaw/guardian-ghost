@@ -149,7 +149,7 @@ function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
 
 function applyStatInterpolation(stats: ItemStats, statGroupHash: number) {
   for (const [key, value] of stats) {
-    const interpolationValue = Math.min(100, interpolateStatValue(value, key, statGroupHash));
+    const interpolationValue = interpolateStatValue(value, key, statGroupHash);
     stats.set(key, interpolationValue);
   }
 }
