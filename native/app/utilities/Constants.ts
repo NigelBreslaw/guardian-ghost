@@ -103,38 +103,6 @@ export function getLargeDamageTypeIconUri(damageType: DamageType | undefined): n
       return null;
   }
 }
-// arc.png
-// autorifle.png
-// bow.png
-// currency.png
-// finalblows.png
-// fusion.png
-// glaive.png
-// grenade.png
-// grenadelauncher.png
-// handcannon.png
-// headshot.png
-// large blocker.png
-// linearfusion.png
-// lost sector.png
-// machinegun.png
-// medium blocker.png
-// melee.png
-// pulse.png
-// quest.png
-// rocket.png
-// scout.png
-// shotgun.png
-// sidearm.png
-// small blocker.png
-// smg.png
-// sniper.png
-// solar.png
-// special grenade launcher.png
-// stasis.png
-// sword.png
-// tracerifle.png
-// void.png
 
 // Objectives icons
 export const ARC_OBJECTIVE_ICON = require("../../images/objectives/arc.png");
