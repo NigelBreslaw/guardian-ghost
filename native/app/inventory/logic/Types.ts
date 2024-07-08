@@ -14,11 +14,6 @@ import {
 } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, DestinyItemBase, GuardianData, ItemInstanceId } from "@/app/core/GetProfile.ts";
 
-export type GuardiansAndVault = {
-  vault: VaultData;
-  guardians: Map<string, Guardian>;
-};
-
 export type Guardian = {
   data: GuardianData;
   items: Map<number, GuardianGear>;
