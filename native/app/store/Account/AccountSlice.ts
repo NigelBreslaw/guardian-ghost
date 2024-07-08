@@ -12,7 +12,7 @@ import {
   type StatsCollection,
   type GuardianGear,
 } from "@/app/inventory/logic/Types.ts";
-import { findDestinyItem, findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/Account/AccountLogic";
+import { findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/Account/AccountLogic";
 import {
   PlugCategoryIdentifier,
   BucketTypeHashArray,
@@ -60,7 +60,7 @@ import type {
   ItemHash,
   ProfileData,
 } from "@/app/core/GetProfile.ts";
-import { lightLevelBuckets, type DestinyItemIdentifier, type UISections } from "@/app/inventory/logic/Helpers.ts";
+import { lightLevelBuckets, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 
@@ -97,7 +97,6 @@ export interface AccountSlice {
   moveItem: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => void;
   equipItem: (updatedDestinyItem: DestinyItem) => void;
   pullFromPostmaster: (updatedDestinyItem: DestinyItem, stackableQuantityToMove: number) => DestinyItem;
-  findDestinyItem: (itemDetails: DestinyItemIdentifier) => DestinyItem;
   findMaxQuantityToTransfer: (destinyItem: DestinyItem) => number;
   setSecondarySpecial: (characterId: CharacterId, itemHash: ItemHash) => void;
   setLastRefreshTime: () => void;
@@ -177,14 +176,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
     return transformedItem;
   },
-
-  findDestinyItem: (itemDetails) =>
-    findDestinyItem({
-      itemHash: itemDetails.itemHash,
-      itemInstanceId: itemDetails.itemInstanceId,
-      characterId: itemDetails.characterId,
-      bucketHash: itemDetails.bucketHash,
-    }),
 
   setSecondarySpecial: (characterId, itemHash) => {
     const character = get().ggCharacters.find((c) => c.characterId === characterId);
