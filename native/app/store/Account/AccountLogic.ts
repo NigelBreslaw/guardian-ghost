@@ -75,7 +75,7 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // These are the fewest arguments possible. itemInstanceId would be enough for all instanced items. But for non
 // instanced the characterId and itemHash are needed. Because you could have a non instanced item such as upgrade
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
-export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyItem {
+export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyItem | null {
   if (itemIdentifier.bucketHash === SectionBuckets.LostItem) {
     const guardianLostItems = guardians.get(itemIdentifier.characterId)?.items.get(SectionBuckets.LostItem)?.inventory;
     if (guardianLostItems) {
@@ -98,6 +98,11 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
         } catch {
           console.error("Failed to find item in VAULT");
         }
+      }
+      // If that failed search all the guardians
+      const item = searchAllGuardians(itemIdentifier);
+      if (item) {
+        return item;
       }
       break;
     }
@@ -148,10 +153,50 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
           }
         }
       }
+
+      // If that failed search all the guardians
+      const item = searchAllGuardians(itemIdentifier);
+      if (item) {
+        return item;
+      }
     }
   }
 
-  throw new Error(`No DestinyItem found ${JSON.stringify(itemIdentifier)}`);
+  console.error(`No DestinyItem found ${JSON.stringify(itemIdentifier)}`);
+  return null;
+}
+
+function searchAllGuardians(itemIdentifier: DestinyItemIdentifier): DestinyItem | null {
+  for (const [characterId, guardian] of guardians) {
+    if (characterId === VAULT_CHARACTER_ID) {
+      continue;
+    }
+
+    const section = guardian?.items.get(itemIdentifier.bucketHash);
+
+    if (section) {
+      if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
+        return section.equipped;
+      }
+      for (const item of section.inventory) {
+        if (item.itemInstanceId === itemIdentifier.itemInstanceId) {
+          return item;
+        }
+      }
+    }
+  }
+  // Search the vault
+  const vaultSectionInventory = generalVault.get(itemIdentifier.bucketHash);
+  if (vaultSectionInventory) {
+    try {
+      const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
+      return item;
+    } catch {
+      console.error("Failed to find item in VAULT");
+    }
+  }
+  console.log(`No DestinyItem found ${JSON.stringify(itemIdentifier)}`);
+  return null;
 }
 
 export function findMaxQuantityToTransfer(destinyItem: DestinyItem): number {
