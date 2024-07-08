@@ -47,10 +47,15 @@ export default function DetailsView({ route, navigation }: Props) {
 
   useEffect(() => {
     if (focus) {
-      const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-      useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
+      if (destinyItem) {
+        const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
+        useGGStore.getState().setQuantityToTransfer(maxQuantityToTransfer);
+      } else {
+        navigation.goBack();
+        useGGStore.getState().showSnackBar("Failed to find item");
+      }
     }
-  }, [focus, destinyItem]);
+  }, [focus, destinyItem, navigation]);
 
   function transfer(targetId: CharacterId, equipOnTarget = false) {
     const transferQuantity = useGGStore.getState().quantityToTransfer;
