@@ -155,9 +155,6 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
 
 export default function MainDrawer() {
   "use memo";
-  const ggGuardians = useGGStore((state) => state.ggCharacters);
-  const currentListIndex = useGGStore((state) => state.currentListIndex);
-  const guardianClassType = getGuardianClassType(ggGuardians[currentListIndex]?.guardianClassType);
 
   return (
     <Drawer.Navigator
@@ -171,8 +168,6 @@ export default function MainDrawer() {
         name="Inventory"
         component={InventoryPages}
         options={{
-          title: `${guardianClassType}`,
-
           sceneContainerStyle: {
             backgroundColor: "#17101F",
           },
