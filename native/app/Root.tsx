@@ -1,13 +1,11 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
-import { StatusBar, useWindowDimensions, Text, Platform } from "react-native";
+import { useEffect, useRef } from "react";
+import { StatusBar, useWindowDimensions, Text } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ThemeProvider } from "@react-navigation/native";
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -15,18 +13,7 @@ import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import App from "@/app/App"; // Do not use the file extension or the web version will fail to be used.
 import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
-import { NAV_THEME } from "@/lib/constants";
-import { useColorScheme } from "@/lib/useColorScheme";
 import "@/global.css";
-
-const LIGHT_THEME: Theme = {
-  dark: false,
-  colors: NAV_THEME.light,
-};
-const DARK_THEME: Theme = {
-  dark: true,
-  colors: NAV_THEME.dark,
-};
 
 SplashScreen.preventAutoHideAsync();
 
@@ -63,6 +50,7 @@ export type RootStackParamList = {
   Details: DestinyItemIdentifier;
   Search: undefined;
   Inventory: undefined;
+  Settings: undefined;
 };
 
 declare global {
@@ -86,34 +74,6 @@ const navigationContainerTheme: Theme = {
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
   "use memo";
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    (async () => {
-      const theme = await AsyncStorage.getItem("theme");
-      if (Platform.OS === "web") {
-        // Adds the background color to the html element to prevent white background on overscroll.
-        document.documentElement.classList.add("bg-background");
-      }
-      if (!theme) {
-        AsyncStorage.setItem("theme", colorScheme);
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      const colorTheme = theme === "dark" ? "dark" : "light";
-      if (colorTheme !== colorScheme) {
-        setColorScheme(colorTheme);
-
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      SplashScreen.hideAsync();
-    });
-  }, []);
 
   // TODO: This hack turns off the font scaling on iOS. At some point accessibility will be added to the app.
   interface TextWithDefaultProps extends Text {
@@ -161,20 +121,14 @@ function Root() {
     }
   }
 
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
-
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <GestureHandlerRootView>
-        <StatusBar barStyle={"light-content"} />
-        <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
-          <App />
-          <Toast />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+    <GestureHandlerRootView>
+      <StatusBar barStyle={"light-content"} />
+      <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
+        <App />
+        <Toast />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
