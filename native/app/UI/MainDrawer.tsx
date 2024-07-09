@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { getGuardianClassType } from "@/app/utilities/Helpers.ts";
 import { LOGO_DARK, REFRESH_ICON, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
@@ -155,9 +154,6 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
 
 export default function MainDrawer() {
   "use memo";
-  const ggGuardians = useGGStore((state) => state.ggCharacters);
-  const currentListIndex = useGGStore((state) => state.currentListIndex);
-  const guardianClassType = getGuardianClassType(ggGuardians[currentListIndex]?.guardianClassType);
 
   return (
     <Drawer.Navigator
@@ -171,8 +167,6 @@ export default function MainDrawer() {
         name="Inventory"
         component={InventoryPages}
         options={{
-          title: `${guardianClassType}`,
-
           sceneContainerStyle: {
             backgroundColor: "#17101F",
           },
