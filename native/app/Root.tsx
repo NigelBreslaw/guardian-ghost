@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { StatusBar, useWindowDimensions, Text } from "react-native";
+import { StatusBar, useWindowDimensions, Text, Platform, Appearance } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
@@ -16,6 +16,9 @@ import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.
 import "@/global.css";
 
 SplashScreen.preventAutoHideAsync();
+if (Platform.OS !== "web") {
+  Appearance.setColorScheme("dark");
+}
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
