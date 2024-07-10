@@ -459,7 +459,7 @@ function addDefinition(
         const quality = itemComponent.quality;
         const total = itemLevel + quality;
         if (total > 0) {
-          itemInstance.primaryStat = Math.max(1600, itemLevel + quality);
+          itemInstance.primaryStat = Math.max(1900, itemLevel + quality);
         }
       }
     }
