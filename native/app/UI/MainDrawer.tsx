@@ -12,6 +12,7 @@ import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
+import Settings from "@/app/screens/Settings.tsx";
 
 function RefreshButton() {
   "use memo";
@@ -114,6 +115,14 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
           activeBackgroundColor="#ffffff20"
           onPress={() => navigation.navigate("Search")}
         />
+        <DrawerItem
+          label="Settings"
+          activeTintColor="white"
+          inactiveTintColor="grey"
+          activeBackgroundColor="#ffffff20"
+          focused={state.index === 2}
+          onPress={() => navigation.navigate("Settings")}
+        />
       </View>
 
       <View style={styles.bottom}>
@@ -185,6 +194,17 @@ export default function MainDrawer() {
       <Drawer.Screen
         name="Search"
         component={SearchView}
+        options={{
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: "#1C1C1C",
+          },
+          headerTintColor: "white",
+        }}
+      />
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
         options={{
           headerShadowVisible: false,
           headerStyle: {
