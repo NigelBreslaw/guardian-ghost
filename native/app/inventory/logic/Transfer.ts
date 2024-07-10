@@ -210,8 +210,7 @@ async function equipItemLogic(transferBundle: TransferBundle, transferItem: Tran
         transferItem.destinyItem = { ...result[1] };
         // If the bundle has an unequipItem then check if the primary would have been replaced by it. If so mark the primary destinyItem as equipped: false
         useGGStore.getState().equipItem(result[1]);
-        // TODO: Investigate why this needs to be copied as otherwise the bundle is not mutated.
-        // I'm not understanding something to do with accessing objects by reference.
+        // Copy the bundle as it should not be directly mutated.
         const transferBundleCopy = JSON.parse(JSON.stringify(transferBundle)) as TransferBundle;
         if (transferBundleCopy.unequipItem) {
           const primaryItem = transferBundle.primaryItem.destinyItem;
