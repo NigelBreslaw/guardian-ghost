@@ -345,19 +345,19 @@ export function returnBorderColor(item: DestinyItem): string {
 function sortInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
-    existingArray = existingArray.slice(0).sort(typeAndPowerSort);
+    existingArray = existingArray.sort(typeAndPowerSort);
   }
 
   if (armorBuckets.includes(bucketHash)) {
-    existingArray = existingArray.slice(0).sort(typeAndPowerSort);
+    existingArray = existingArray.sort(typeAndPowerSort);
   }
 
   if (bucketHash === SectionBuckets.Consumables) {
-    existingArray = existingArray.slice(0).sort(itemHashAndQuantitySort);
+    existingArray = existingArray.sort(itemHashAndQuantitySort);
   }
 
   if (bucketHash === SectionBuckets.Mods) {
-    existingArray = existingArray.slice(0).sort(modSort);
+    existingArray = existingArray.sort(modSort);
   }
 
   return existingArray;
@@ -428,7 +428,17 @@ export function addInventoryItem(destinyItem: DestinyItem, stackableQuantityToMo
         break;
       }
       default: {
-        guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash)?.inventory.push(destinyItem);
+        const currentInventory = guardians
+          .get(destinyItem.characterId)
+          ?.items.get(destinyItem.bucketHash)
+          ?.inventory.slice(0);
+        if (currentInventory) {
+          currentInventory.push(destinyItem);
+          const section = guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash);
+          if (section) {
+            section.inventory = currentInventory;
+          }
+        }
         break;
       }
     }
