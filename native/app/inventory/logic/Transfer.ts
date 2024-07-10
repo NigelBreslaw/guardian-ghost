@@ -588,7 +588,7 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
     characterId: transferItem.destinyItem.characterId,
   };
 
-  const authToken = await useGGStore.getState().getTokenAsync("equipItem");
+  const authToken = await useGGStore.getState().getTokenAsync("pullFromPostmaster");
   if (authToken) {
     const headers = new Headers();
     headers.append("Authorization", `Bearer ${authToken.access_token}`);
@@ -601,25 +601,20 @@ async function pullFromPostmaster(transferItem: TransferItem): Promise<[JSON, De
     };
     //TODO: Currently hardcode to en. This should be a parameter
     const endPoint = `${basePath}/Destiny2/Actions/Items/PullFromPostmaster/`;
-    return new Promise((resolve, reject) => {
-      fetch(endPoint, requestOptions)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          // The UI remove system relies on the previousCharacterId to delete items.
-          const previousCharacterId = transferItem.destinyItem.characterId;
-          const updatedDestinyItem: DestinyItem = {
-            ...transferItem.destinyItem,
-            previousCharacterId,
-          };
-          resolve([data as JSON, updatedDestinyItem]);
-        })
-        .catch((error) => {
-          console.error("PullFromPostmaster()", error);
-          reject(new Error("PullFromPostmaster()", error));
-        });
-    });
+    try {
+      const response = await fetch(endPoint, requestOptions);
+      const responseData = await response.json();
+      const updatedDestinyItem: DestinyItem = {
+        ...transferItem.destinyItem,
+        // The UI remove system relies on the previousCharacterId to delete items.
+        previousCharacterId: transferItem.destinyItem.characterId,
+      };
+
+      return [responseData, updatedDestinyItem];
+    } catch (error) {
+      console.error("PullFromPostmaster()", error);
+      throw error;
+    }
   }
   throw new Error("No auth token");
 }
