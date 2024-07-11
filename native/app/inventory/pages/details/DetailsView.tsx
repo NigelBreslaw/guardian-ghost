@@ -23,6 +23,7 @@ import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { ItemType } from "@/app/bungie/Enums.ts";
+import { ShowBottomSheet } from "@/app/store/SettingsSlice.ts";
 
 function showBottomSheet(destinyItem: DestinyItem): boolean {
   if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
@@ -65,7 +66,7 @@ export default function DetailsView({ route, navigation }: Props) {
   }
 
   // BottomSheet animation
-  const opacity = useSharedValue(0);
+  const opacity = useSharedValue(useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0);
   const transferButtonStyle = useAnimatedStyle(() => ({
     opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
   }));
@@ -115,7 +116,7 @@ export default function DetailsView({ route, navigation }: Props) {
       {showBottomSheet(destinyItem) && (
         <BottomSheet
           ref={bottomSheetRef}
-          index={0}
+          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
           snapPoints={snapPoints}
           animateOnMount={false}
           handleStyle={{
