@@ -2,19 +2,22 @@ import * as React from "react";
 import { View } from "react-native";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils.ts";
+
 export default function Settings() {
-  const [value, setValue] = React.useState("Comfortable");
-  function onLabelPress(label: string) {
-    return () => {
-      setValue(label);
-    };
-  }
+  const [value, setValue] = React.useState("Auto");
+
   return (
-    <View className="flex-1 justify-center items-center p-6">
+    <View className="flex-1 p-6  gap-3">
+      <View>
+        <Label className={cn("pb-1 native:pb-2 px-px")} nativeID={"label-for-show-bottom-sheet"}>
+          Show the transfer buttons
+        </Label>
+      </View>
       <RadioGroup value={value} onValueChange={setValue} className="gap-3">
-        <RadioGroupItemWithLabel value="Default" onLabelPress={onLabelPress("Default")} />
-        <RadioGroupItemWithLabel value="Comfortable" onLabelPress={onLabelPress("Comfortable")} />
-        <RadioGroupItemWithLabel value="Compact" onLabelPress={onLabelPress("Compact")} />
+        <RadioGroupItemWithLabel value="Auto" onLabelPress={() => setValue("Auto")} />
+        <RadioGroupItemWithLabel value="Always showing" onLabelPress={() => setValue("Always showing")} />
+        <RadioGroupItemWithLabel value="Always minimized" onLabelPress={() => setValue("Always minimized")} />
       </RadioGroup>
     </View>
   );
