@@ -5,8 +5,9 @@ import { type AccountSlice, createAccountSlice } from "./Account/AccountSlice.ts
 import { type AuthenticationSlice, createAuthenticationSlice } from "./Authentication/Slice.ts";
 import { type DefinitionsSlice, createDefinitionsSlice } from "./DefinitionsSlice.ts";
 import { type UIDataSlice, createUIDataSlice } from "./UIDataSlice.ts";
+import { type SettingsSlice, createSettingsSlice } from "./SettingsSlice.ts";
 
-export interface IStore extends AccountSlice, AuthenticationSlice, DefinitionsSlice, UIDataSlice {}
+export interface IStore extends AccountSlice, AuthenticationSlice, DefinitionsSlice, UIDataSlice, SettingsSlice {}
 
 export const useGGStore = create<IStore>()(
   subscribeWithSelector((...a) => ({
@@ -14,5 +15,6 @@ export const useGGStore = create<IStore>()(
     ...createAuthenticationSlice(...a),
     ...createDefinitionsSlice(...a),
     ...createUIDataSlice(...a),
+    ...createSettingsSlice(...a),
   })),
 );
