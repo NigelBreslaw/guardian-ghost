@@ -39,9 +39,7 @@ jobs:
         run: cd native && echo '${{ secrets.CLIENT_SECRETS_WEB }}' > .env
       - name: build # Plus workaround cloudflare not uploading the node_modules folder
         run: |
-          cd native 
-          rm -rf metro.config.js
-          mv metro.config.web metro.config.js
+          cd native
           pnpm expo export --source-maps --platform web
           mv dist/assets/node_modules/* dist/assets/
           find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
