@@ -18,6 +18,7 @@ export enum ShowBottomSheet {
 export interface SettingsSlice {
   showBottomSheetPreference: ShowBottomSheetPreference;
   showNextBottomSheet: ShowBottomSheet;
+  setShowBottomSheet: (showBottomSheet: ShowBottomSheet) => void;
 }
 
 export const createSettingsSlice: StateCreator<IStore, [], [], SettingsSlice> = (set, get) => ({

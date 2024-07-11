@@ -117,6 +117,13 @@ export default function DetailsView({ route, navigation }: Props) {
         <BottomSheet
           ref={bottomSheetRef}
           index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
+          onChange={(e) => {
+            if (e === 0) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
+            } else if (e === 1) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
+            }
+          }}
           snapPoints={snapPoints}
           animateOnMount={false}
           handleStyle={{
