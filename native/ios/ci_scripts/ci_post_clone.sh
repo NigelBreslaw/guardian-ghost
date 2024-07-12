@@ -32,7 +32,7 @@ set -x
 
 # Install node.
 echo "============> Installing node <============"
-brew install node@20
+brew install node
 
 # Check node and npm version
 node -v
