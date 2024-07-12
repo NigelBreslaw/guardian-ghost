@@ -83,8 +83,9 @@
       [
         "@sentry/react-native/expo",
         {
-          "organization": "nigel-breslaw",
-          "project": "guardian-ghost"
+          "url": "https://sentry.io/",
+          "project": "guardian-ghost",
+          "organization": "nigel-breslaw"
         }
       ]
     ]

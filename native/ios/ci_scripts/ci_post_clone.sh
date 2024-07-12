@@ -6,29 +6,33 @@ set -e
 set -x
 
 # Xcode cloud could x86 or arm64 architecture. So detect it and install node accordingly.
-arch
-node_version=20.15.0
+# arch
+# node_version=20.15.0
 
-if [ "$ARCHITECTURE" == "arm64" ]; then
-    # For arm64 architecture (Apple Silicon)
-    arch=arm64
-else
-    # For x86 architecture
-    arch=x64
-fi
+# if [ "$ARCHITECTURE" == "arm64" ]; then
+#     # For arm64 architecture (Apple Silicon)
+#     arch=arm64
+# else
+#     # For x86 architecture
+#     arch=x64
+# fi
 
-# Echo for debugging logs purposes
-echo $HOME
-echo "============> Installing Node <============"
+# # Echo for debugging logs purposes
+# echo $HOME
+# echo "============> Installing Node <============"
 
-# Download and install node
-curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
-cd $CI_WORKSPACE_PATH
-tar -xf "$HOME/Downloads/node.tar.gz"
-NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
-echo $NODE_PATH
-PATH+=":$NODE_PATH"
-export PATH
+# # Download and install node
+# curl "https://nodejs.org/dist/v$node_version/node-v$node_version-darwin-$arch.tar.gz" -o $HOME/Downloads/node.tar.gz
+# cd $CI_WORKSPACE_PATH
+# tar -xf "$HOME/Downloads/node.tar.gz"
+# NODE_PATH="$PWD/node-v$node_version-darwin-$arch/bin"
+# echo $NODE_PATH
+# PATH+=":$NODE_PATH"
+# export PATH
+
+# Install node.
+echo "============> Installing node <============"
+brew install node
 
 # Check node and npm version
 node -v
@@ -38,7 +42,7 @@ npm -v
 echo "============> Installing cocoapods <============"
 brew install cocoapods
 
-# Install yarn
+# Install pnpm
 npm install -g pnpm@9.5.0
 pnpm -v
 
