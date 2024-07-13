@@ -274,7 +274,7 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
               borderRadius,
               overflow: "hidden",
               opacity: calcEquipOpacity(ggCharacter.characterId),
-              display: calcTransferOpacity(ggCharacter.characterId) === 0 ? "none" : "flex",
+              display: calcEquipOpacity(ggCharacter.characterId) === 0 ? "none" : "flex",
             }}
           >
             <View
@@ -309,7 +309,9 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
 
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
-      <Text style={styles.transferToText}>Transfer to</Text>
+      <Text style={[styles.transferToText, { display: destinyItem.def.nonTransferrable ? "none" : "flex" }]}>
+        Transfer to
+      </Text>
       <Text style={[styles.equipOnText, { display: destinyItem.def.equippable ? "flex" : "none" }]}>Equip on</Text>
 
       {rectangles}
