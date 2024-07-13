@@ -15,7 +15,7 @@ type Props = {
 export const UiCellRenderItem = ({ item }: Props) => {
   switch (item.type) {
     case UISection.Separator:
-      return <SeparatorUI label={item.label} info={item.info} />;
+      return <SeparatorUI label={item.label} />;
     case UISection.CharacterEquipment:
       return <CharacterEquipmentUI equipSection={item} />;
     case UISection.Engrams:
