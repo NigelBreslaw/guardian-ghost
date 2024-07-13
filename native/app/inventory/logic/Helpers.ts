@@ -114,7 +114,8 @@ export type BaseSection = {
 export type SeparatorSection = BaseSection & {
   type: UISection.Separator;
   label: string;
-  info?: string;
+  bucketHash: BucketHash;
+  characterId: CharacterId;
 };
 
 export type EngramsSection = BaseSection & {

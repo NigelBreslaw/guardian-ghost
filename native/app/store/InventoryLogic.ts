@@ -13,7 +13,6 @@ import {
   setMods,
 } from "@/app/store/Definitions.ts";
 import {
-  BUCKET_SIZES,
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
@@ -151,25 +150,13 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
       const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
 
-      // TODO: replace switch that relies on drop through, with a check of these buckets
-      const getInfo = (bucket: SectionBuckets): string | undefined => {
-        switch (bucket) {
-          case SectionBuckets.Consumables:
-          case SectionBuckets.Mods:
-          case SectionBuckets.LostItem:
-            return `${bucketItems?.inventory.length}/${BUCKET_SIZES[bucket]}`;
-          default:
-            return undefined;
-        }
-      };
-
-      const info: string | undefined = getInfo(bucket);
       // create section separators
       const separator: SeparatorSection = {
         id: `${bucket}_separator`,
         type: UISection.Separator,
         label: sectionDetails.label,
-        info,
+        bucketHash: bucket,
+        characterId,
       };
       dataArray.push(separator);
 
@@ -259,7 +246,6 @@ function returnVaultUiData(
 ): UISections[] {
   const sectionBuckets = getSectionBuckets(inventoryPage);
   const dataArray: UISections[] = [];
-  const totalVaultItems = calcTotalVaultItems();
 
   const guardianDetails: GuardianDetailsSection = {
     id: "guardian_details",
@@ -276,7 +262,8 @@ function returnVaultUiData(
         id: `${bucket}_separator`,
         type: UISection.Separator,
         label: sectionDetails.label,
-        info: `${totalVaultItems}/${BUCKET_SIZES[SectionBuckets.Vault]}`,
+        bucketHash: bucket,
+        characterId: VAULT_CHARACTER_ID,
       };
       dataArray.push(separator);
 
@@ -321,7 +308,7 @@ function getLootSections(items: DestinyItem[], id: string): LootSection[] {
   return LootSections;
 }
 
-function calcTotalVaultItems(): number {
+export function calcTotalVaultItems(): number {
   let total = 0;
   for (const bucket of section_buckets) {
     const section = generalVault.get(bucket as number);
