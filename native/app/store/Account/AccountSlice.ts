@@ -387,7 +387,6 @@ function addDefinition(
     deepSightResonance: false,
     masterwork: false,
     primaryStat: 0,
-    id: baseItem.itemInstanceId ?? Math.random().toString(),
     search: "",
   };
 

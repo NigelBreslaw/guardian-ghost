@@ -42,7 +42,6 @@ export const BungieUserSchema = object({
 export type BungieUser = InferOutput<typeof BungieUserSchema>;
 
 export type ItemInstance = {
-  id: string;
   icon: string;
   screenshot: string;
   calculatedWaterMark?: string;
