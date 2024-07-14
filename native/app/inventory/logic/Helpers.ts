@@ -77,6 +77,22 @@ export const equipSectionBuckets = [
   SectionBuckets.Finisher,
 ];
 
+export const vaultItemBuckets = [
+  SectionBuckets.Kinetic,
+  SectionBuckets.Energy,
+  SectionBuckets.Power,
+  SectionBuckets.Ghost,
+  SectionBuckets.Helmet,
+  SectionBuckets.Gauntlets,
+  SectionBuckets.Chest,
+  SectionBuckets.Leg,
+  SectionBuckets.Class,
+  SectionBuckets.Ship,
+  SectionBuckets.Vehicle,
+  SectionBuckets.Mods,
+  SectionBuckets.Consumables,
+];
+
 export const lightLevelBuckets = [
   SectionBuckets.Kinetic,
   SectionBuckets.Energy,

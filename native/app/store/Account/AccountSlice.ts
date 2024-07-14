@@ -79,6 +79,10 @@ export interface AccountSlice {
   ggWeapons: UISections[][];
   ggArmor: UISections[][];
   ggGeneral: UISections[][];
+  ggLostItemCount: number[];
+  ggVaultCount: number;
+  ggModsCount: number;
+  ggConsumablesCount: number;
 
   selectedItem: DestinyItem | null;
   quantityToTransfer: number;
@@ -118,6 +122,10 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   ggWeapons: [],
   ggArmor: [],
   ggGeneral: [],
+  ggLostItemCount: [],
+  ggVaultCount: 0,
+  ggModsCount: 0,
+  ggConsumablesCount: 0,
 
   selectedItem: null,
   quantityToTransfer: 1,
