@@ -84,7 +84,7 @@ export default function SeparatorUI({ label, bucketHash, characterId }: Props) {
       <View style={styles.spacer} />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={styles.label}>{label}</Text>
-        {true && <Text style={styles.label}>{`${info}`}</Text>}
+        <Text style={styles.label}>{`${info}`}</Text>
       </View>
       <View style={styles.spacer2} />
       <View style={styles.bar} />
