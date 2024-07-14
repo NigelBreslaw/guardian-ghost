@@ -203,6 +203,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     set({ authenticated: "DEMO-MODE" });
     const demoData = await fetch("https://app.guardianghost.com/json/demo.json");
     updateProfile(get, set, await demoData.json());
+    get().updateLightLevel();
   },
   getCharacterIndex: (characterId: CharacterId) => {
     const characterIndex = get().ggCharacters.findIndex((character) => character.characterId === characterId);
