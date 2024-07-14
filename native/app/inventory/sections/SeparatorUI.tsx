@@ -1,20 +1,90 @@
 import { StyleSheet, View, Text } from "react-native";
 
 import { SEPARATOR_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+import { BUCKET_SIZES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import type { BucketHash, CharacterId } from "@/app/core/GetProfile.ts";
+import { vaultItemBuckets } from "@/app/inventory/logic/Helpers.ts";
+import { useEffect, useState } from "react";
+import { SectionBuckets } from "@/app/bungie/Enums.ts";
 
 type Props = {
   readonly label: string;
-  readonly info?: string;
+  readonly bucketHash?: BucketHash;
+  readonly characterId?: CharacterId;
 };
 
-export default function SeparatorUI({ label, info }: Props) {
+export default function SeparatorUI({ label, bucketHash, characterId }: Props) {
   "use memo";
+
+  const [info, setInfo] = useState("");
+
+  useEffect(() => {
+    if (bucketHash && characterId === VAULT_CHARACTER_ID && vaultItemBuckets.includes(bucketHash)) {
+      const unsubscribe = useGGStore.subscribe(
+        (state) => state.ggVaultCount,
+        (vaultCount, previousVaultCount) => {
+          if (info === "" || vaultCount !== previousVaultCount) {
+            const totalVaultItems = useGGStore.getState().ggVaultCount;
+            setInfo(`${totalVaultItems}/${BUCKET_SIZES[SectionBuckets.Vault]}`);
+          }
+        },
+        { fireImmediately: true },
+      );
+
+      return unsubscribe;
+    }
+
+    if (characterId && bucketHash === SectionBuckets.LostItem && characterId !== VAULT_CHARACTER_ID) {
+      const characterIndex = useGGStore.getState().getCharacterIndex(characterId);
+      const unsubscribe = useGGStore.subscribe(
+        (state) => state.ggLostItemCount[characterIndex],
+        (lostItemsCount, previousLostItemsCount) => {
+          if (info === "" || lostItemsCount !== previousLostItemsCount) {
+            setInfo(`${lostItemsCount}/${BUCKET_SIZES[SectionBuckets.LostItem]}`);
+          }
+        },
+        { fireImmediately: true },
+      );
+
+      return unsubscribe;
+    }
+
+    if (characterId && bucketHash === SectionBuckets.Mods && characterId !== VAULT_CHARACTER_ID) {
+      const unsubscribe = useGGStore.subscribe(
+        (state) => state.ggModsCount,
+        (modsCount, previousModsCount) => {
+          if (info === "" || modsCount !== previousModsCount) {
+            setInfo(`${modsCount}/${BUCKET_SIZES[SectionBuckets.Mods]}`);
+          }
+        },
+        { fireImmediately: true },
+      );
+
+      return unsubscribe;
+    }
+
+    if (characterId && bucketHash === SectionBuckets.Consumables && characterId !== VAULT_CHARACTER_ID) {
+      const unsubscribe = useGGStore.subscribe(
+        (state) => state.ggConsumablesCount,
+        (consumablesCount, previousConsumablesCount) => {
+          if (info === "" || consumablesCount !== previousConsumablesCount) {
+            setInfo(`${consumablesCount}/${BUCKET_SIZES[SectionBuckets.Consumables]}`);
+          }
+        },
+        { fireImmediately: true },
+      );
+
+      return unsubscribe;
+    }
+  }, [bucketHash, characterId, info]);
+
   return (
     <View style={styles.root}>
       <View style={styles.spacer} />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={styles.label}>{label}</Text>
-        {info && <Text style={styles.label}>{info}</Text>}
+        <Text style={styles.label}>{`${info}`}</Text>
       </View>
       <View style={styles.spacer2} />
       <View style={styles.bar} />

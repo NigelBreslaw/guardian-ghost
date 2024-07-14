@@ -25,6 +25,7 @@ import {
   armorPageBuckets,
   generalPageBuckets,
   getSectionDetails,
+  vaultItemBuckets,
   weaponBuckets,
   weaponsPageBuckets,
   type ArtifactSection,
@@ -43,12 +44,22 @@ import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProf
 // ------------------------------
 // UI data creation
 // ------------------------------
-const SectionBucketsValues = Object.values(SectionBuckets);
-const section_buckets = SectionBucketsValues.filter((v) => !Number.isNaN(v));
 
 export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
   createUIData(get);
   const p1 = performance.now();
+  const totalVaultItems = calcTotalVaultItems();
+  const vaultCount = get().ggVaultCount;
+  if (totalVaultItems !== vaultCount) {
+    set({ ggVaultCount: totalVaultItems });
+  }
+
+  const totalLostItems = calcTotalLostItems();
+  set({ ggLostItemCount: totalLostItems });
+
+  set({ ggModsCount: mods.length });
+  set({ ggConsumablesCount: consumables.length });
+
   // For each page use a deepEqual compare to see if the data has changed.
   // If it has changed then update just that page.
   const ggWeapons = get().ggWeapons;
@@ -200,6 +211,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
           lostItemsSection.inventory = bucketItems.inventory;
         }
         dataArray.push(lostItemsSection);
+
         continue;
       }
 
@@ -310,13 +322,22 @@ function getLootSections(items: DestinyItem[], id: string): LootSection[] {
 
 export function calcTotalVaultItems(): number {
   let total = 0;
-  for (const bucket of section_buckets) {
-    const section = generalVault.get(bucket as number);
+  for (const bucket of vaultItemBuckets) {
+    const section = generalVault.get(bucket);
     if (section) {
       total += section.length;
     }
   }
   return total;
+}
+
+export function calcTotalLostItems(): number[] {
+  const totals: number[] = [];
+  for (const [_characterId, characterData] of guardians) {
+    const lostItems = characterData.items.get(SectionBuckets.LostItem);
+    totals.push(lostItems?.inventory.length ?? 0);
+  }
+  return totals;
 }
 
 export function returnBorderColor(item: DestinyItem): string {
