@@ -5,13 +5,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
 import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
+import type { RouteProp } from "@react-navigation/native";
+import type { GGDrawerType } from "@/app/UI/MainDrawer.tsx";
 
 const Tab = createBottomTabNavigator();
 
-export default function InventoryPages() {
+type Props = {
+  readonly route: RouteProp<GGDrawerType, "Inventory">;
+};
+
+export default function InventoryPages({ route }: Props) {
   "use memo";
   const insets = useSafeAreaInsets();
-
+  console.log("route", route.params?.itemId);
   // The hack on height and marginBottom is because something is bugged with either this component
   // layout or the bottom tab bar. The height depends on the existence of a safeArea. Web, android and
   // older iOS devices with no bottom safeArea will size the bar differently to iOS devices with a safeArea.

@@ -84,8 +84,15 @@ function CharacterHeaderButtons() {
     </View>
   );
 }
+type InventoryRouteParams = { itemId: number };
 
-const Drawer = createDrawerNavigator();
+export type GGDrawerType = {
+  Inventory: InventoryRouteParams;
+  Search: undefined;
+  Settings: undefined;
+};
+
+const Drawer = createDrawerNavigator<GGDrawerType>();
 
 function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps) {
   "use memo";
