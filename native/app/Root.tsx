@@ -48,12 +48,9 @@ async function init() {
 init();
 
 export type RootStackParamList = {
-  Login: undefined;
   Root: undefined;
+  Login: undefined;
   Details: DestinyItemIdentifier;
-  Search: undefined;
-  Inventory: undefined;
-  Settings: undefined;
 };
 
 declare global {
