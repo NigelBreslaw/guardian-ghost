@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
 import { type AccountSlice, createAccountSlice } from "./Account/AccountSlice.ts";
-import { type AuthenticationSlice, createAuthenticationSlice } from "./Authentication/Slice.ts";
+import { type AuthenticationSlice, createAuthenticationSlice } from "./Authentication/AuthenticationSlice.ts";
 import { type DefinitionsSlice, createDefinitionsSlice } from "./DefinitionsSlice.ts";
 import { type UIDataSlice, createUIDataSlice } from "./UIDataSlice.ts";
 import { type SettingsSlice, createSettingsSlice } from "./SettingsSlice.ts";
