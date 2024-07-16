@@ -13,7 +13,6 @@ import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
-import DropdownMenuScreen from "@/app/screens/DropdownMenuScreen.tsx";
 import Ellipses from "@/images/svg/ellipses-horizontal.svg";
 
 export function RefreshButton() {
