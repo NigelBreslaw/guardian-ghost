@@ -10,7 +10,7 @@ import {
   saveBungieUser,
   saveToken,
   urlToToken,
-} from "@/app/store/Authentication/Logic.ts";
+} from "@/app/store/Authentication/AuthenticationLogic.ts";
 import { isValidAccessToken, type AuthToken } from "@/app/store/Authentication/Utilities.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { BungieProfileSchema, type BungieMembershipProfiles, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
