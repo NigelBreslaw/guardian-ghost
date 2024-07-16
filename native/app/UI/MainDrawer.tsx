@@ -36,7 +36,7 @@ export function RefreshButton() {
 function MenuButton() {
   "use memo";
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => useGGStore.getState().showInventoryMenu(true)}>
       <View style={styles.iconButton}>
         <Ellipses width={24} height={24} />
       </View>
