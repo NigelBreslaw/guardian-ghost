@@ -127,8 +127,8 @@ function Root() {
       <StatusBar barStyle={"light-content"} />
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
-        <Toast />
         <PortalHost />
+        <Toast />
       </NavigationContainer>
     </GestureHandlerRootView>
   );
