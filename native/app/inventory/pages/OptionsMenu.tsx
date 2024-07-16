@@ -20,6 +20,7 @@ import { Swords } from "@/lib/icons/Swords.tsx";
 import { RefreshCcw } from "@/lib/icons/Refresh-ccw.tsx";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useGGStore } from "@/app/store/GGStore.ts";
+import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 
 export default function OptionsMenu() {
   "use memo";
@@ -78,7 +79,7 @@ export default function OptionsMenu() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <RefreshCcw className="text-foreground" size={14} />
+            <RefreshCcw className="text-foreground" size={14} onPress={() => getFullProfile(true)} />
             <Text>Refresh</Text>
           </DropdownMenuItem>
         </DropdownMenuContent>
