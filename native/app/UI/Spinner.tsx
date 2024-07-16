@@ -57,7 +57,14 @@ export default function Spinner({ color, size }: Props) {
     };
   }, []);
   return (
-    <View style={{ justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        width: DIAMETER,
+        height: DIAMETER,
+      }}
+    >
       <Animated.View style={animatedViewStyle}>
         <Svg width={DIAMETER} height={DIAMETER} viewBox={`0 0 ${DIAMETER} ${DIAMETER}`}>
           <G origin={`${HALF_CIRCLE}, ${HALF_CIRCLE}`} rotation={"-90"}>

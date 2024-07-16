@@ -1,13 +1,11 @@
 import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { Image } from "expo-image";
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { LOGO_DARK, REFRESH_ICON, SEARCH_ICON } from "@/app/utilities/Constants.ts";
+import { LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
@@ -15,30 +13,19 @@ import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
 import Ellipses from "@/images/svg/ellipses-horizontal.svg";
 
-export function RefreshButton() {
+function MenuButton() {
   "use memo";
   const refreshing = useGGStore((state) => state.refreshing);
 
   return (
-    <TouchableWithoutFeedback onPress={() => getFullProfile()}>
-      <View style={styles.iconButton}>
-        <Image source={REFRESH_ICON} style={[styles.iconImage, { opacity: refreshing ? 0 : 1 }]} />
-        {refreshing && (
-          <View style={styles.spinner}>
-            <Spinner size={52} />
-          </View>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
-  );
-}
-
-function MenuButton() {
-  "use memo";
-  return (
     <TouchableOpacity onPress={() => useGGStore.getState().showInventoryMenu(true)}>
       <View style={styles.iconButton}>
-        <Ellipses width={24} height={24} />
+        {refreshing && (
+          <View style={styles.spinner}>
+            <Spinner size={70} />
+          </View>
+        )}
+        <Ellipses style={styles.iconImage} width={24} height={24} />
       </View>
     </TouchableOpacity>
   );
@@ -252,21 +239,22 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   iconButton: {
-    width: 40,
-    height: 40,
-    alignSelf: "center",
+    width: 30,
+    height: 30,
+    marginRight: 10,
     justifyContent: "center",
+    alignContent: "center",
   },
   iconImage: {
-    width: 20,
-    height: 20,
-    alignSelf: "center",
-  },
-  spinner: {
-    width: 20,
-    height: 20,
+    width: 10,
+    height: 10,
     alignSelf: "center",
     position: "absolute",
+  },
+  spinner: {
+    alignSelf: "center",
+    position: "absolute",
+    opacity: 0.4,
   },
   textDark: {
     color: "#F1EDFE",
