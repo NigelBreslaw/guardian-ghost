@@ -74,6 +74,7 @@ export interface AccountSlice {
   lastRefreshTime: number;
   currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
+  activateInventoryMenu: boolean;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -107,6 +108,7 @@ export interface AccountSlice {
   setDemoMode: () => Promise<void>;
   getCharacterIndex: (characterId: CharacterId) => number;
   updateLightLevel: () => void;
+  showInventoryMenu: (show: boolean) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -117,6 +119,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   currentListIndex: 0,
   animateToInventoryPage: { index: 0, animate: false },
   showingPerks: false,
+  activateInventoryMenu: false,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -230,6 +233,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     });
 
     set({ ggCharacters });
+  },
+  showInventoryMenu: (show) => {
+    set({ activateInventoryMenu: show });
   },
 });
 
