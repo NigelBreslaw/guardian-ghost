@@ -205,7 +205,7 @@ export default function MainDrawer() {
           },
           headerTintColor: "white",
           drawerActiveBackgroundColor: "blue",
-          headerRight: RefreshButton,
+          headerRight: MenuButton,
           headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,
         }}
