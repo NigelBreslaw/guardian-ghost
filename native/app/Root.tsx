@@ -6,6 +6,7 @@ import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PortalHost } from "@rn-primitives/portal";
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -127,6 +128,7 @@ function Root() {
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
         <Toast />
+        <PortalHost />
       </NavigationContainer>
     </GestureHandlerRootView>
   );
