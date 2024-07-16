@@ -13,8 +13,10 @@ import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
+import DropdownMenuScreen from "@/app/screens/DropdownMenuScreen.tsx";
+import Ellipses from "@/images/svg/ellipses-horizontal.svg";
 
-function RefreshButton() {
+export function RefreshButton() {
   "use memo";
   const refreshing = useGGStore((state) => state.refreshing);
 
@@ -29,6 +31,17 @@ function RefreshButton() {
         )}
       </View>
     </TouchableWithoutFeedback>
+  );
+}
+
+function MenuButton() {
+  "use memo";
+  return (
+    <TouchableOpacity>
+      <View style={styles.iconButton}>
+        <Ellipses width={24} height={24} />
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -84,12 +97,12 @@ function CharacterHeaderButtons() {
     </View>
   );
 }
-type InventoryRouteParams = { itemId: number };
 
 export type GGDrawerType = {
-  Inventory: InventoryRouteParams;
+  Inventory: undefined;
   Search: undefined;
   Settings: undefined;
+  DropdownMenu: undefined;
 };
 
 const Drawer = createDrawerNavigator<GGDrawerType>();
