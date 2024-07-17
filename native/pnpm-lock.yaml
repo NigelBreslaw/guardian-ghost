@@ -51,8 +51,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       '@sentry/react-native':
-        specifier: 5.25.0
-        version: 5.25.0(expo@51.0.21(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: 5.26.0
+        version: 5.26.0(expo@51.0.21(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       '@shopify/flash-list':
         specifier: 1.7.0
         version: 1.7.0(@babel/runtime@7.24.8)(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
@@ -1877,6 +1877,10 @@ packages:
     resolution: {integrity: sha512-fAIyijNvKBZNA12IcKo+dOYDRTNrzNsdzbm3DP37vJRKVQu19ucqP4Y6InvKokffDP2HZPzFPDoGXYuXkDhUZg==}
     engines: {node: '>=8'}
 
+  '@sentry/babel-plugin-component-annotate@2.20.1':
+    resolution: {integrity: sha512-4mhEwYTK00bIb5Y9UWIELVUfru587Vaeg0DQGswv4aIRHIiMKLyNqCEejaaybQ/fNChIZOKmvyqXk430YVd7Qg==}
+    engines: {node: '>= 14'}
+
   '@sentry/browser@7.117.0':
     resolution: {integrity: sha512-29X9HlvDEKIaWp6XKlNPPSNND0U6P/ede5WA2nVHfs1zJLWdZ7/ijuMc0sH/CueEkqHe/7gt94hBcI7HOU/wSw==}
     engines: {node: '>=8'}
@@ -1939,8 +1943,8 @@ packages:
     resolution: {integrity: sha512-U3suSZysmU9EiQqg0ga5CxveAyNbi9IVdsapMDq5EQGNcVDvheXtULs+BOc11WYP3Kw2yWB38VDqLepfc/Fg2g==}
     engines: {node: '>=8'}
 
-  '@sentry/react-native@5.25.0':
-    resolution: {integrity: sha512-AjT3NYRnPJNCturcHhLHSmyoQgEp9/zjxGgZc7p8mAi2VdimeV695CVu6JNM5qhrh8hcUkf5s3nGd52VoNA5BQ==}
+  '@sentry/react-native@5.26.0':
+    resolution: {integrity: sha512-ao3+nmtZ+NmemW2d04zJ4+Yl7K2Gn2Rt97JHYcNzmPRwk97GoZx+/vF4ZfWsBFF8Ii2rHRLwXZmGiU6qdLCiAg==}
     hasBin: true
     peerDependencies:
       expo: '>=49.0.0'
@@ -8234,6 +8238,8 @@ snapshots:
       '@sentry/types': 7.117.0
       '@sentry/utils': 7.117.0
 
+  '@sentry/babel-plugin-component-annotate@2.20.1': {}
+
   '@sentry/browser@7.117.0':
     dependencies:
       '@sentry-internal/feedback': 7.117.0
@@ -8303,8 +8309,9 @@ snapshots:
       '@sentry/utils': 7.117.0
       localforage: 1.10.0
 
-  '@sentry/react-native@5.25.0(expo@51.0.21(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
+  '@sentry/react-native@5.26.0(expo@51.0.21(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
     dependencies:
+      '@sentry/babel-plugin-component-annotate': 2.20.1
       '@sentry/browser': 7.117.0
       '@sentry/cli': 2.31.2
       '@sentry/core': 7.117.0
