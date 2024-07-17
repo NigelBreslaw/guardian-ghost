@@ -3,6 +3,17 @@ import type { DefinitionKey } from "@/app/core/BungieDefinitions.ts";
 export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
 export type AsyncStorageKey = DefinitionKey;
 
+export enum WeaponsSort {
+  Power = "POWER",
+  Type = "TYPE",
+  TypeAndPower = "TYPE_AND_POWER",
+}
+
+export enum ArmorSort {
+  Power = "POWER",
+  Type = "TYPE",
+}
+
 export const DatabaseStore = {
   factoryName: "gg-data",
   storeName: "key-values",

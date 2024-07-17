@@ -63,6 +63,7 @@ import type {
 import { lightLevelBuckets, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
+import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -76,6 +77,8 @@ export interface AccountSlice {
   animateToInventoryPage: { index: number; animate: boolean };
   activateInventoryMenu: boolean;
   initialAccountDataReady: boolean;
+  weaponsSort: WeaponsSort;
+  armorSort: ArmorSort;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -98,6 +101,8 @@ export interface AccountSlice {
   setPullRefreshing: (pullRefreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
   setJumpToIndex: (payload: { index: number; animate: boolean }) => void;
+  setWeaponsSort: (weaponsSort: WeaponsSort) => void;
+  setArmorSort: (armorSort: ArmorSort) => void;
   updateProfile: (profile: ProfileData) => void;
   setQuantityToTransfer: (quantityToTransfer: number) => void;
   setTimestamps: (responseMintedTimestamp: string, secondaryComponentsMintedTimestamp: string) => void;
@@ -123,6 +128,8 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   showingPerks: false,
   activateInventoryMenu: false,
   initialAccountDataReady: false,
+  weaponsSort: WeaponsSort.TypeAndPower,
+  armorSort: ArmorSort.Type,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -151,6 +158,12 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
 
   setCurrentListIndex: (currentListIndex) => {
     set({ currentListIndex, animateToInventoryPage: { index: currentListIndex, animate: false } });
+  },
+  setWeaponsSort: (weaponsSort) => {
+    set({ weaponsSort });
+  },
+  setArmorSort: (armorSort) => {
+    set({ armorSort });
   },
   setJumpToIndex: (jumpToIndex) => {
     set({ animateToInventoryPage: jumpToIndex });
