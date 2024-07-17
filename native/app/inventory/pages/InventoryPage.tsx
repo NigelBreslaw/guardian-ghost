@@ -75,12 +75,14 @@ export default function InventoryPage({ inventoryPages, pageEstimatedFlashListIt
     return unsubscribe;
   }, [isFocused, HOME_WIDTH]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <This should only run when the view is focus>
+  const initialAccountDataReady = useGGStore((state) => state.initialAccountDataReady);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && initialAccountDataReady) {
       jumpToCharacter();
     }
-  }, [isFocused]);
+  }, [isFocused, initialAccountDataReady]);
 
   let lastOffsetY = 0;
 
@@ -125,6 +127,11 @@ export default function InventoryPage({ inventoryPages, pageEstimatedFlashListIt
         scrollEventThrottle={32}
         onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
+        onContentSizeChange={(e) => {
+          if (e > 0) {
+            useGGStore.getState().setInitialAccountDataReady();
+          }
+        }}
       >
         {mainData.map((_c, index) => {
           return (
