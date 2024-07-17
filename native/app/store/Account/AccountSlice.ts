@@ -75,6 +75,7 @@ export interface AccountSlice {
   currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
   activateInventoryMenu: boolean;
+  initialAccountDataReady: boolean;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -91,6 +92,7 @@ export interface AccountSlice {
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
 
+  setInitialAccountDataReady: () => void;
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
   setPullRefreshing: (pullRefreshing: boolean) => void;
@@ -120,6 +122,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   animateToInventoryPage: { index: 0, animate: false },
   showingPerks: false,
   activateInventoryMenu: false,
+  initialAccountDataReady: false,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -137,6 +140,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
 
+  setInitialAccountDataReady: () => {
+    if (!get().initialAccountDataReady) {
+      set({ initialAccountDataReady: true });
+    }
+  },
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
   setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
