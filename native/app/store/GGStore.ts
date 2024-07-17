@@ -22,7 +22,11 @@ export const useGGStore = create<IStore>()(
     {
       name: "gg-storage",
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (state) => ({ currentListIndex: state.currentListIndex }),
+      partialize: (state) => ({
+        currentListIndex: state.currentListIndex,
+        weaponsSort: state.weaponsSort,
+        armorSort: state.armorSort,
+      }),
     },
   ),
 );

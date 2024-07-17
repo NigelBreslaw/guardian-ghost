@@ -21,6 +21,7 @@ import { RefreshCcw } from "@/lib/icons/Refresh-ccw.tsx";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 
 export default function OptionsMenu() {
   "use memo";
@@ -32,6 +33,11 @@ export default function OptionsMenu() {
       useGGStore.getState().showInventoryMenu(false);
     }
   }, [activateInventoryMenu]);
+
+  const weaponsSort = useGGStore((state) => state.weaponsSort);
+  const setWeaponsSort = useGGStore((state) => state.setWeaponsSort);
+  const armorSort = useGGStore((state) => state.armorSort);
+  const setArmorSort = useGGStore((state) => state.setArmorSort);
 
   return (
     <View className="absolute top-0 right-0 w-16 h-16 active:bg-primary/5">
@@ -48,13 +54,22 @@ export default function OptionsMenu() {
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 <Animated.View entering={FadeIn.duration(70)}>
-                  <DropdownMenuCheckboxItem checked={false} onCheckedChange={() => {}}>
+                  <DropdownMenuCheckboxItem
+                    checked={weaponsSort === WeaponsSort.Power}
+                    onCheckedChange={() => setWeaponsSort(WeaponsSort.Power)}
+                  >
                     <Text>By Power</Text>
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={true} onCheckedChange={() => {}}>
+                  <DropdownMenuCheckboxItem
+                    checked={weaponsSort === WeaponsSort.Type}
+                    onCheckedChange={() => setWeaponsSort(WeaponsSort.Type)}
+                  >
                     <Text>By Type</Text>
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={false} onCheckedChange={() => {}}>
+                  <DropdownMenuCheckboxItem
+                    checked={weaponsSort === WeaponsSort.TypeAndPower}
+                    onCheckedChange={() => setWeaponsSort(WeaponsSort.TypeAndPower)}
+                  >
                     <Text>By Type and Power</Text>
                   </DropdownMenuCheckboxItem>
                 </Animated.View>
@@ -67,10 +82,16 @@ export default function OptionsMenu() {
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 <Animated.View entering={FadeIn.duration(70)}>
-                  <DropdownMenuCheckboxItem checked={true} onCheckedChange={() => {}}>
+                  <DropdownMenuCheckboxItem
+                    checked={armorSort === ArmorSort.Power}
+                    onCheckedChange={() => setArmorSort(ArmorSort.Power)}
+                  >
                     <Text>By Power</Text>
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={false} onCheckedChange={() => {}}>
+                  <DropdownMenuCheckboxItem
+                    checked={armorSort === ArmorSort.Type}
+                    onCheckedChange={() => setArmorSort(ArmorSort.Type)}
+                  >
                     <Text>By Type</Text>
                   </DropdownMenuCheckboxItem>
                 </Animated.View>
