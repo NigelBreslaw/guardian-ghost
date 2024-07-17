@@ -78,8 +78,12 @@ export default function OptionsMenu() {
             </DropdownMenuSub>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <RefreshCcw className="text-foreground" size={14} onPress={() => getFullProfile(true)} />
+          <DropdownMenuItem
+            onPress={() => {
+              getFullProfile();
+            }}
+          >
+            <RefreshCcw className="text-foreground" size={14} />
             <Text>Refresh</Text>
           </DropdownMenuItem>
         </DropdownMenuContent>
