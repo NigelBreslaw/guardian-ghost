@@ -837,8 +837,10 @@ async function main() {
     await useContentPaths(jsonWorldComponentContentPaths, id);
     console.timeEnd("total-json-parse");
 
+    const suffix = "_b";
+
     const uniqueJsonManifest = {
-      version: id,
+      version: `${id}${suffix}`,
     };
 
     const savePath = path.join(__dirname, `json/manifest.json`);
