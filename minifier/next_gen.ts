@@ -354,7 +354,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
       }
 
       const classType = jsonData[key].classType;
-      if (classType) {
+      if (classType !== undefined) {
         item.c = classType;
       }
 
