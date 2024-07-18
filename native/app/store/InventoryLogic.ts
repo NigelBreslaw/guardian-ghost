@@ -17,7 +17,13 @@ import {
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
-import { itemHashAndQuantitySort, modSort, typeAndPowerSort } from "@/app/utilities/Helpers.ts";
+import {
+  itemHashAndQuantitySort,
+  modSort,
+  weaponPowerSort,
+  weaponTypeAndPowerSort,
+  weaponTypeSort,
+} from "@/app/utilities/Helpers.ts";
 import {
   InventoryPageEnums,
   UISection,
@@ -40,6 +46,7 @@ import {
 } from "@/app/inventory/logic/Helpers.ts";
 import { GGCharacterType, SectionBuckets } from "@/app/bungie/Enums.ts";
 import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import { WeaponsSort } from "@/app/store/Types.ts";
 
 // ------------------------------
 // UI data creation
@@ -173,7 +180,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
 
       if (bucket === SectionBuckets.Consumables) {
         if (consumables) {
-          sortInventoryArray(consumables, bucket);
+          sortInventoryArray(get, consumables, bucket);
           const lootSections = getLootSections(consumables, "global_consumables_section");
           dataArray.push(...lootSections);
         }
@@ -237,7 +244,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
       if (bucketItems) {
         equipSectionCell.equipped = bucketItems.equipped;
 
-        equipSectionCell.inventory = sortInventoryArray(bucketItems.inventory, bucket);
+        equipSectionCell.inventory = sortInventoryArray(get, bucketItems.inventory, bucket);
 
         dataArray.push(equipSectionCell);
       }
@@ -292,7 +299,7 @@ function returnVaultUiData(
       }
 
       // sort the items
-      const sortedItems = sortInventoryArray(bucketItems, bucket);
+      const sortedItems = sortInventoryArray(get, bucketItems, bucket);
 
       const lootIconSections = getLootSections(sortedItems, bucket.toString());
       dataArray.push(...lootIconSections);
@@ -350,14 +357,32 @@ export function returnBorderColor(item: DestinyItem): string {
   return "#555555";
 }
 
-function sortInventoryArray(dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
+function sortInventoryArray(get: AccountSliceGetter, dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
   let existingArray = dataArray as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
-    existingArray = existingArray.sort(typeAndPowerSort);
+    const weaponsSort = get().weaponsSort;
+    switch (weaponsSort) {
+      case WeaponsSort.TypeAndPower: {
+        existingArray = existingArray.sort(weaponTypeAndPowerSort);
+        break;
+      }
+      case WeaponsSort.Power: {
+        existingArray = existingArray.sort(weaponPowerSort);
+        break;
+      }
+      case WeaponsSort.Type: {
+        existingArray = existingArray.sort(weaponTypeSort);
+        break;
+      }
+      default: {
+        console.error("Unknown weaponsSort", weaponsSort);
+        break;
+      }
+    }
   }
 
   if (armorBuckets.includes(bucketHash)) {
-    existingArray = existingArray.sort(typeAndPowerSort);
+    existingArray = existingArray.sort(weaponTypeAndPowerSort);
   }
 
   if (bucketHash === SectionBuckets.Consumables) {
