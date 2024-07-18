@@ -7,6 +7,7 @@ import { CRAFTED_OVERLAY, ENHANCED_OVERLAY, getDamageTypeIconUri } from "@/app/u
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/InventoryLogic.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
+import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
   readonly destinyItem: DestinyItem | undefined;
@@ -22,7 +23,7 @@ export default function DestinyCell({ destinyItem }: Props) {
       </View>
     );
   }
-  const { characterId, itemHash, itemInstanceId, bucketHash, quantity } = destinyItem;
+  const { characterId, itemHash, itemInstanceId, bucketHash, quantity, isSeparator } = destinyItem;
   const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
@@ -41,6 +42,17 @@ export default function DestinyCell({ destinyItem }: Props) {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={DestinyIconStyles.container}>
+        {true && (
+          <View style={styles.separator}>
+            <LinearGradient
+              // Button Linear Gradient
+              start={{ x: -1, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={["#000000", "#1C1C1C", "#313131"]}
+              style={styles.separatorInner}
+            />
+          </View>
+        )}
         <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>
           <Image
             source={{ uri: icon }}
@@ -91,5 +103,15 @@ const styles = StyleSheet.create({
   container: {
     width: ICON_SIZE,
     height: ICON_SIZE,
+  },
+  separator: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    position: "absolute",
+  },
+  separatorInner: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: 12,
   },
 });
