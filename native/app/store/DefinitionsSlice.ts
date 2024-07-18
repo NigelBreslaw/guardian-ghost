@@ -104,6 +104,9 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
+    console.log("uniqueKey", uniqueKey);
+    console.log("storedVersion", storedVersion);
+    console.log(uniqueKey === storedVersion);
     if (storedVersion === "") {
       // download a version
       console.log("download a version");
@@ -179,6 +182,7 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
     const downloadedDefinition = await getCustomItemDefinition();
     const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
     const versionKey = itemDefinition.id;
+    console.log("versionKey", versionKey);
     await saveItemDefinitionVersion(versionKey);
     await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
     return set(parseAndSet(itemDefinition));

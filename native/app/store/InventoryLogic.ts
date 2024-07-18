@@ -1,7 +1,13 @@
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
-import type { DestinyItem, DestinyItemSort } from "@/app/inventory/logic/Types.ts";
+import {
+  SeparatorType,
+  type DestinyItem,
+  type DestinyItemDefinition,
+  type DestinyItemSort,
+  type ItemInstance,
+} from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/Account/AccountSlice";
 import {
   consumables,
@@ -18,6 +24,8 @@ import {
   VAULT_CHARACTER_ID,
 } from "@/app/utilities/Constants.ts";
 import {
+  armorPowerSort,
+  armorTypeSort,
   itemHashAndQuantitySort,
   modSort,
   weaponPowerSort,
@@ -44,9 +52,9 @@ import {
   type UISections,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
-import { GGCharacterType, SectionBuckets } from "@/app/bungie/Enums.ts";
-import type { BucketHash, CharacterId, ItemInstanceId } from "@/app/core/GetProfile.ts";
-import { WeaponsSort } from "@/app/store/Types.ts";
+import { DestinyClass, GGCharacterType, ItemSubType, SectionBuckets } from "@/app/bungie/Enums.ts";
+import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
+import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 
 // ------------------------------
 // UI data creation
@@ -299,13 +307,112 @@ function returnVaultUiData(
       }
 
       // sort the items
-      const sortedItems = sortInventoryArray(get, bucketItems, bucket);
+      let sortedItems = sortInventoryArray(get, bucketItems, bucket);
+
+      if (weaponBuckets.includes(bucket) && get().weaponsSort !== WeaponsSort.Power) {
+        sortedItems = insertWeaponSubtypeSeparator(sortedItems);
+      }
+
+      if (armorBuckets.includes(bucket)) {
+        sortedItems = insertClassTypeSeparator(sortedItems);
+      }
 
       const lootIconSections = getLootSections(sortedItems, bucket.toString());
       dataArray.push(...lootIconSections);
     }
   }
   return dataArray;
+}
+
+function returnBlankDestinyItem(): DestinyItem {
+  const blankItemDefinition: DestinyItemDefinition = {
+    description: "",
+    destinyClass: 0,
+    displayVersionWatermarkIcons: [],
+    doesPostmasterPullHaveSideEffects: false,
+    equippable: false,
+    flavorText: "false",
+    icon: "",
+    investmentStats: [],
+    itemSubType: 0,
+    itemType: 0,
+    itemTypeDisplayName: "",
+    maxStackSize: 0,
+    name: "",
+    nonTransferrable: false,
+    plugCategoryIdentifier: "",
+    recoveryBucketHash: 0 as BucketHash,
+    search: "",
+    secondaryIcon: "",
+    screenshot: "",
+    statGroupHash: 0,
+    stats: [],
+    tierType: 0,
+    traitIds: [],
+    watermark: "",
+  };
+
+  const blankInstance: ItemInstance = {
+    icon: "",
+    screenshot: "",
+    primaryStat: 0,
+    search: "",
+  };
+
+  const blankDestinyItem: DestinyItem = {
+    bindStatus: 0,
+    bucketHash: 0 as BucketHash,
+    characterId: "" as CharacterId,
+    dismantlePermission: 0,
+    equipped: false,
+    isWrapper: false,
+    itemHash: 0 as ItemHash,
+    previousCharacterId: "" as CharacterId,
+    quantity: 0,
+    state: 0,
+    location: 0,
+    lockable: false,
+    transferStatus: 0,
+    def: blankItemDefinition,
+    instance: blankInstance,
+  };
+
+  return blankDestinyItem;
+}
+
+function insertWeaponSubtypeSeparator(items: DestinyItem[]): DestinyItem[] {
+  let currentSubType = ItemSubType.None;
+  const updatedItemsArray: DestinyItem[] = [];
+
+  for (const item of items) {
+    if (item.def.itemSubType !== currentSubType) {
+      currentSubType = item.def.itemSubType;
+      const blankItem = returnBlankDestinyItem();
+      blankItem.def.itemSubType = currentSubType;
+      blankItem.isSeparator = SeparatorType.Weapon;
+      updatedItemsArray.push(blankItem);
+    }
+    updatedItemsArray.push(item);
+  }
+  return updatedItemsArray;
+}
+
+function insertClassTypeSeparator(items: DestinyItem[]): DestinyItem[] {
+  let currentDestinyClass = DestinyClass.Unknown;
+  const updatedItemsArray: DestinyItem[] = [];
+
+  for (const item of items) {
+    if (item.def.destinyClass !== currentDestinyClass) {
+      currentDestinyClass = item.def.destinyClass;
+      const blankItem = returnBlankDestinyItem();
+      blankItem.def.destinyClass = currentDestinyClass;
+      blankItem.isSeparator = SeparatorType.Armor;
+      updatedItemsArray.push(blankItem);
+    }
+    updatedItemsArray.push(item);
+  }
+
+  return updatedItemsArray;
 }
 
 function getLootSections(items: DestinyItem[], id: string): LootSection[] {
@@ -382,7 +489,12 @@ function sortInventoryArray(get: AccountSliceGetter, dataArray: DestinyItem[], b
   }
 
   if (armorBuckets.includes(bucketHash)) {
-    existingArray = existingArray.sort(weaponTypeAndPowerSort);
+    const armorSort = get().armorSort;
+    if (armorSort === ArmorSort.Power) {
+      existingArray = existingArray.sort(armorPowerSort);
+    } else if (armorSort === ArmorSort.Type) {
+      existingArray = existingArray.sort(armorTypeSort);
+    }
   }
 
   if (bucketHash === SectionBuckets.Consumables) {
