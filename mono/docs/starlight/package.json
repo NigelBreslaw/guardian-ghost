@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "dependencies": {
     "@astrojs/starlight": "0.25.1",
-    "astro": "4.11.5",
+    "astro": "4.11.6",
     "rehype": "13.0.1",
     "sharp": "0.33.4"
   },
   "devDependencies": {
-    "@astrojs/check": "0.8.1",
+    "@astrojs/check": "0.8.2",
     "@vitest/coverage-v8": "2.0.3",
     "typescript": "5.5.3",
     "vitest": "2.0.3"
