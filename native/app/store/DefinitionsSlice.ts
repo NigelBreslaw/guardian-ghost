@@ -104,9 +104,6 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
-    console.log("uniqueKey", uniqueKey);
-    console.log("storedVersion", storedVersion);
-    console.log(uniqueKey === storedVersion);
     if (storedVersion === "") {
       // download a version
       console.log("download a version");
