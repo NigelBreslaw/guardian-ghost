@@ -197,6 +197,6 @@ export const ArmorStatInvestments = [
 ];
 
 export function getSectionDetails(bucket: SectionBuckets): { label: string; icon: string } {
-  const section = DestinyInventoryBucketDefinition[bucket]?.displayProperties?.name ?? "";
+  const section = DestinyInventoryBucketDefinition?.[bucket]?.displayProperties?.name ?? "";
   return { label: `\\ ${section}`, icon: iconUrl };
 }
