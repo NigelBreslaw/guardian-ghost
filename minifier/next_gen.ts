@@ -839,7 +839,7 @@ async function main() {
     console.timeEnd("total-json-parse");
 
     const uniqueJsonManifest = {
-      version: `${id}${suffix}`,
+      version: `${id}`,
     };
 
     const savePath = path.join(__dirname, `json/manifest.json`);
