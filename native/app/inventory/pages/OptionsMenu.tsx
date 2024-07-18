@@ -39,6 +39,11 @@ export default function OptionsMenu() {
   const armorSort = useGGStore((state) => state.armorSort);
   const setArmorSort = useGGStore((state) => state.setArmorSort);
 
+  const weaponsSubmenuOpen = useGGStore((state) => state.weaponsSortSubmenuOpen);
+  const setWeaponsSubmenuOpen = useGGStore((state) => state.setWeaponsSubmenuOpen);
+  const armorSubmenuOpen = useGGStore((state) => state.armorSortSubmenuOpen);
+  const setArmorSubmenuOpen = useGGStore((state) => state.setArmorSubmenuOpen);
+
   return (
     <View className="absolute top-0 right-0 w-16 h-16 active:bg-primary/5">
       <DropdownMenu>
@@ -47,7 +52,7 @@ export default function OptionsMenu() {
           <DropdownMenuLabel>Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuSub>
+            <DropdownMenuSub open={weaponsSubmenuOpen} onOpenChange={setWeaponsSubmenuOpen}>
               <DropdownMenuSubTrigger>
                 <Swords className="text-foreground" size={14} />
                 <Text>Weapons sort</Text>
@@ -75,7 +80,7 @@ export default function OptionsMenu() {
                 </Animated.View>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
-            <DropdownMenuSub>
+            <DropdownMenuSub open={armorSubmenuOpen} onOpenChange={setArmorSubmenuOpen}>
               <DropdownMenuSubTrigger>
                 <Shield className="text-foreground" size={14} />
                 <Text>Armor sort</Text>
