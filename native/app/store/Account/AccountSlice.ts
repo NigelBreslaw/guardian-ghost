@@ -77,6 +77,9 @@ export interface AccountSlice {
   animateToInventoryPage: { index: number; animate: boolean };
   activateInventoryMenu: boolean;
   initialAccountDataReady: boolean;
+
+  weaponsSortSubmenuOpen: boolean;
+  armorSortSubmenuOpen: boolean;
   weaponsSort: WeaponsSort;
   armorSort: ArmorSort;
 
@@ -116,6 +119,8 @@ export interface AccountSlice {
   getCharacterIndex: (characterId: CharacterId) => number;
   updateLightLevel: () => void;
   showInventoryMenu: (show: boolean) => void;
+  setWeaponsSubmenuOpen: (weaponsSubmenuOpen: boolean) => void;
+  setArmorSubmenuOpen: (armorSubmenuOpen: boolean) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
@@ -128,6 +133,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   showingPerks: false,
   activateInventoryMenu: false,
   initialAccountDataReady: false,
+
+  weaponsSortSubmenuOpen: false,
+  armorSortSubmenuOpen: false,
   weaponsSort: WeaponsSort.TypeAndPower,
   armorSort: ArmorSort.Type,
 
@@ -263,6 +271,12 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
   showInventoryMenu: (show) => {
     set({ activateInventoryMenu: show });
+  },
+  setWeaponsSubmenuOpen: (weaponsSubmenuOpen) => {
+    set({ weaponsSortSubmenuOpen: weaponsSubmenuOpen });
+  },
+  setArmorSubmenuOpen: (armorSubmenuOpen) => {
+    set({ armorSortSubmenuOpen: armorSubmenuOpen });
   },
 });
 
