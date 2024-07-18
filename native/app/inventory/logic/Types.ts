@@ -82,12 +82,19 @@ export type DestinyItemDefinition = {
   watermark: string;
 };
 
+export enum SeparatorType {
+  None = 0,
+  Weapon = 1,
+  Armor = 2,
+}
+
 export type DestinyItem = DestinyItemBase & {
   characterId: CharacterId;
   previousCharacterId: CharacterId; //Used by the transfer system to update the UI
   equipped: boolean;
   instance: ItemInstance;
   def: DestinyItemDefinition;
+  isSeparator?: SeparatorType;
 };
 
 export type StatsCollection = { statTypeHash: number; value: number };

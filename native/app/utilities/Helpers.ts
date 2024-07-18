@@ -326,6 +326,82 @@ export function weaponTypeAndPowerSort(a: DestinyItemSort, b: DestinyItemSort): 
   return a.itemInstanceId < b.itemInstanceId ? 1 : -1;
 }
 
+export function armorPowerSort(a: DestinyItemSort, b: DestinyItemSort): number {
+  if (a.def.destinyClass > b.def.destinyClass) {
+    return 1;
+  }
+  if (a.def.destinyClass < b.def.destinyClass) {
+    return -1;
+  }
+
+  if (a.instance.primaryStat < b.instance.primaryStat) {
+    return 1;
+  }
+  if (a.instance.primaryStat > b.instance.primaryStat) {
+    return -1;
+  }
+
+  if (a.def.tierType < b.def.tierType) {
+    return 1;
+  }
+  if (a.def.tierType > b.def.tierType) {
+    return -1;
+  }
+  if (!a.instance.masterwork && b.instance.masterwork) {
+    return 1;
+  }
+  if (a.instance.masterwork && !b.instance.masterwork) {
+    return -1;
+  }
+
+  if (a.itemHash > b.itemHash) {
+    return 1;
+  }
+  if (a.itemHash < b.itemHash) {
+    return -1;
+  }
+
+  return a.itemInstanceId < b.itemInstanceId ? 1 : -1;
+}
+
+export function armorTypeSort(a: DestinyItemSort, b: DestinyItemSort): number {
+  if (a.def.destinyClass > b.def.destinyClass) {
+    return 1;
+  }
+  if (a.def.destinyClass < b.def.destinyClass) {
+    return -1;
+  }
+
+  if (a.def.tierType < b.def.tierType) {
+    return 1;
+  }
+  if (a.def.tierType > b.def.tierType) {
+    return -1;
+  }
+  if (a.itemHash > b.itemHash) {
+    return 1;
+  }
+  if (a.itemHash < b.itemHash) {
+    return -1;
+  }
+
+  if (!a.instance.masterwork && b.instance.masterwork) {
+    return 1;
+  }
+  if (a.instance.masterwork && !b.instance.masterwork) {
+    return -1;
+  }
+
+  if (a.instance.primaryStat < b.instance.primaryStat) {
+    return 1;
+  }
+  if (a.instance.primaryStat > b.instance.primaryStat) {
+    return -1;
+  }
+
+  return a.itemInstanceId < b.itemInstanceId ? 1 : -1;
+}
+
 export function weaponTypeSort(a: DestinyItemSort, b: DestinyItemSort): number {
   if (a.def.itemSubType > b.def.itemSubType) {
     return 1;
