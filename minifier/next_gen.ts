@@ -827,17 +827,16 @@ async function main() {
     console.time("download-manifest");
 
     const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+    const suffix = "_b";
 
     const jsonManifest = await downloadJsonFile(manifestUrl);
-    const id = jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition;
+    const id = `${jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition}${suffix}`;
     console.timeEnd("download-manifest");
 
     const jsonWorldComponentContentPaths = jsonManifest.Response.jsonWorldComponentContentPaths;
     console.time("total-json-parse");
     await useContentPaths(jsonWorldComponentContentPaths, id);
     console.timeEnd("total-json-parse");
-
-    const suffix = "_b";
 
     const uniqueJsonManifest = {
       version: `${id}${suffix}`,
