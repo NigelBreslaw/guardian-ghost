@@ -94,7 +94,7 @@ export type DestinyItem = DestinyItemBase & {
   equipped: boolean;
   instance: ItemInstance;
   def: DestinyItemDefinition;
-  isSeparator?: SeparatorType;
+  separator?: SeparatorType;
 };
 
 export type StatsCollection = { statTypeHash: number; value: number };

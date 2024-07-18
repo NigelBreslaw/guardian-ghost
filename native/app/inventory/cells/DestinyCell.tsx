@@ -23,7 +23,7 @@ export default function DestinyCell({ destinyItem }: Props) {
       </View>
     );
   }
-  const { characterId, itemHash, itemInstanceId, bucketHash, quantity, isSeparator } = destinyItem;
+  const { characterId, itemHash, itemInstanceId, bucketHash, quantity, separator } = destinyItem;
   const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
@@ -42,10 +42,9 @@ export default function DestinyCell({ destinyItem }: Props) {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={DestinyIconStyles.container}>
-        {true && (
+        {separator && (
           <View style={styles.separator}>
             <LinearGradient
-              // Button Linear Gradient
               start={{ x: -1, y: 0 }}
               end={{ x: 1, y: 0 }}
               colors={["#000000", "#1C1C1C", "#313131"]}

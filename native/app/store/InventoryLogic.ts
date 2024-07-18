@@ -389,7 +389,7 @@ function insertWeaponSubtypeSeparator(items: DestinyItem[]): DestinyItem[] {
       currentSubType = item.def.itemSubType;
       const blankItem = returnBlankDestinyItem();
       blankItem.def.itemSubType = currentSubType;
-      blankItem.isSeparator = SeparatorType.Weapon;
+      blankItem.separator = SeparatorType.Weapon;
       updatedItemsArray.push(blankItem);
     }
     updatedItemsArray.push(item);
@@ -406,7 +406,7 @@ function insertClassTypeSeparator(items: DestinyItem[]): DestinyItem[] {
       currentDestinyClass = item.def.destinyClass;
       const blankItem = returnBlankDestinyItem();
       blankItem.def.destinyClass = currentDestinyClass;
-      blankItem.isSeparator = SeparatorType.Armor;
+      blankItem.separator = SeparatorType.Armor;
       updatedItemsArray.push(blankItem);
     }
     updatedItemsArray.push(item);
