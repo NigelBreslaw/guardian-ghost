@@ -201,7 +201,7 @@ function getName(statType: StatType) {
     case StatType.Separator:
       return "";
     default:
-      return DestinyStatDefinition[statType]?.displayProperties.name ?? "";
+      return DestinyStatDefinition?.[statType]?.displayProperties.name ?? "";
   }
 }
 
