@@ -47,7 +47,7 @@ jobs:
         with:
           gradlePath: native/android/app/build.gradle
           versionCode: ${{github.run_number}}
-          versionName: "1.1.0"
+          versionName: "1.1.1"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.5.0
