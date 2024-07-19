@@ -120,10 +120,10 @@ export default function ScreenInfo({ destinyItem }: Props) {
 
 function getPrimaryStatLabel(destinyItem: DestinyItem): string {
   if (destinyItem.def.itemType === ItemType.Weapon) {
-    return DestinyStatDefinition[StatType.Power]?.displayProperties.name ?? "";
+    return DestinyStatDefinition?.[StatType.Power]?.displayProperties.name ?? "";
   }
   if (destinyItem.def.itemType === ItemType.Vehicle) {
-    return DestinyStatDefinition[StatType.Speed]?.displayProperties.name ?? "";
+    return DestinyStatDefinition?.[StatType.Speed]?.displayProperties.name ?? "";
   }
   return "";
 }

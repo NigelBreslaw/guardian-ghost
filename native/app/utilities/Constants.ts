@@ -12,7 +12,7 @@ export function updateBucketSizes() {
 }
 
 export function updateDestinyText() {
-  DESTINY_TEXT.POWER = DestinyStatDefinition[1935470627]?.displayProperties.name ?? "";
+  DESTINY_TEXT.POWER = DestinyStatDefinition?.[1935470627]?.displayProperties.name ?? "";
 }
 
 export const VAULT_CHARACTER_ID = "VAULT" as CharacterId;
