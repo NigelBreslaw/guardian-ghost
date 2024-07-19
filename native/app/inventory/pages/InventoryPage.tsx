@@ -23,7 +23,7 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
 }
 
 type Props = {
-  readonly inventoryPages: InventoryPageEnums;
+  readonly inventoryPageEnum: InventoryPageEnums;
   readonly pageEstimatedFlashListItemSize: number[];
 };
 
@@ -38,7 +38,7 @@ const rootStyles = StyleSheet.create({
 const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
-export default function InventoryPage({ inventoryPages, pageEstimatedFlashListItemSize }: Props) {
+export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashListItemSize }: Props) {
   "use memo";
   const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();
@@ -71,7 +71,6 @@ export default function InventoryPage({ inventoryPages, pageEstimatedFlashListIt
         }
       },
     );
-
     return unsubscribe;
   }, [isFocused, HOME_WIDTH]);
 
@@ -115,7 +114,7 @@ export default function InventoryPage({ inventoryPages, pageEstimatedFlashListIt
     }
   }
 
-  const mainData = getData(inventoryPages) ?? [];
+  const mainData = getData(inventoryPageEnum) ?? [];
   const pullRefreshing = useGGStore((state) => state.pullRefreshing);
 
   return (
