@@ -36,6 +36,7 @@ export default function InventoryPages() {
         detachInactiveScreens={true}
         initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
         screenOptions={() => ({
+          lazy: false,
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: "gray",
           tabBarStyle: {
