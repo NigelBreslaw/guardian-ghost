@@ -23,7 +23,7 @@ export default function DestinyCell({ destinyItem }: Props) {
       </View>
     );
   }
-  const { characterId, itemHash, itemInstanceId, bucketHash, quantity, separatorIcon: separator } = destinyItem;
+  const { characterId, itemHash, itemInstanceId, bucketHash, quantity, separatorIcon } = destinyItem;
   const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
@@ -40,9 +40,9 @@ export default function DestinyCell({ destinyItem }: Props) {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity disabled={separatorIcon !== undefined} onPress={handlePress}>
       <View style={DestinyIconStyles.container}>
-        {separator && (
+        {separatorIcon && (
           <View style={styles.separator}>
             <LinearGradient
               start={{ x: -1, y: 0 }}
@@ -50,7 +50,7 @@ export default function DestinyCell({ destinyItem }: Props) {
               colors={["#000000", "#1C1C1C", "#313131"]}
               style={styles.separatorInner}
             />
-            <Image contentFit="contain" source={separator} style={styles.separatorIcon} />
+            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} />
           </View>
         )}
         <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>
