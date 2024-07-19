@@ -24,9 +24,22 @@ export const useGGStore = create<IStore>()(
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         currentListIndex: state.currentListIndex,
+        currentInventoryPage: state.currentInventoryPage,
         weaponsSort: state.weaponsSort,
         armorSort: state.armorSort,
       }),
+      onRehydrateStorage: () => {
+        return (state, error) => {
+          if (error) {
+            console.error("an error happened during hydration", error);
+            useGGStore.getState().showSnackBar("Failed to hydrate storage");
+          } else {
+            if (state) {
+              state.setStateHydrated();
+            }
+          }
+        };
+      },
     },
   ),
 );

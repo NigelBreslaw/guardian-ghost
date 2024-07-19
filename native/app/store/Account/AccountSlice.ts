@@ -60,7 +60,7 @@ import type {
   ItemHash,
   ProfileData,
 } from "@/app/core/GetProfile.ts";
-import { lightLevelBuckets, type UISections } from "@/app/inventory/logic/Helpers.ts";
+import { InventoryPageEnums, lightLevelBuckets, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
@@ -69,6 +69,8 @@ export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], Account
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
 
 export interface AccountSlice {
+  stateHydrated: boolean;
+
   appStartupTime: number;
   refreshing: boolean;
   pullRefreshing: boolean;
@@ -82,6 +84,8 @@ export interface AccountSlice {
   armorSortSubmenuOpen: boolean;
   weaponsSort: WeaponsSort;
   armorSort: ArmorSort;
+
+  currentInventoryPage: InventoryPageEnums;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -98,6 +102,7 @@ export interface AccountSlice {
   responseMintedTimestamp: Date;
   secondaryComponentsMintedTimestamp: Date;
 
+  setStateHydrated: () => void;
   setInitialAccountDataReady: () => void;
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
@@ -121,9 +126,12 @@ export interface AccountSlice {
   showInventoryMenu: (show: boolean) => void;
   setWeaponsSubmenuOpen: (weaponsSubmenuOpen: boolean) => void;
   setArmorSubmenuOpen: (armorSubmenuOpen: boolean) => void;
+  setCurrentInventoryPage: (currentInventoryPage: InventoryPageEnums) => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
+  stateHydrated: false,
+
   appStartupTime: 0,
   refreshing: false,
   pullRefreshing: false,
@@ -138,6 +146,8 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   armorSortSubmenuOpen: false,
   weaponsSort: WeaponsSort.TypeAndPower,
   armorSort: ArmorSort.Type,
+
+  currentInventoryPage: InventoryPageEnums.Weapons,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -155,6 +165,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   secondaryComponentsMintedTimestamp: new Date(1977),
   rawProfileData: null,
 
+  setStateHydrated: () => set({ stateHydrated: true }),
   setInitialAccountDataReady: () => {
     if (!get().initialAccountDataReady) {
       set({ initialAccountDataReady: true });
@@ -277,6 +288,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
   setArmorSubmenuOpen: (armorSubmenuOpen) => {
     set({ armorSortSubmenuOpen: armorSubmenuOpen });
+  },
+  setCurrentInventoryPage: (currentInventoryPage) => {
+    if (get().currentInventoryPage !== currentInventoryPage) {
+      set({ currentInventoryPage });
+    }
   },
 });
 

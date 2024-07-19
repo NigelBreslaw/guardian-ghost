@@ -5,6 +5,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
 import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
+import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
+import { useGGStore } from "@/app/store/GGStore.ts";
+
+function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
+  switch (pageEnum) {
+    case InventoryPageEnums.Armor:
+      return "tab-armor";
+    case InventoryPageEnums.General:
+      return "tab-inventory";
+    case InventoryPageEnums.Weapons:
+      return "tab-weapons";
+  }
+  return "tab-weapons";
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -15,10 +29,12 @@ export default function InventoryPages() {
   // layout or the bottom tab bar. The height depends on the existence of a safeArea. Web, android and
   // older iOS devices with no bottom safeArea will size the bar differently to iOS devices with a safeArea.
   // So the height now depends on this safeArea being larger than zero.
+
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
         detachInactiveScreens={true}
+        initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
         screenOptions={() => ({
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: "gray",
