@@ -1,5 +1,7 @@
-import { SectionBuckets } from "@/app/bungie/Enums.ts";
+import { DestinyClass, ItemSubType, SectionBuckets, DamageType } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
+import { DestinyInventoryBucketDefinition, DestinyStatDefinition } from "@/app/store/Definitions.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 
 export function updateBucketSizes() {
   BUCKET_SIZES[SectionBuckets.Consumables] =
@@ -34,9 +36,6 @@ export const BUCKET_SIZES = {
 export const DESTINY_TEXT = {
   POWER: "",
 };
-
-import { DamageType } from "@/app/bungie/Enums.ts";
-import { DestinyInventoryBucketDefinition, DestinyStatDefinition } from "@/app/store/Definitions.ts";
 
 export const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
@@ -137,3 +136,60 @@ export const STASIS_OBJECTIVE_ICON = require("../../images/objectives/stasis.png
 export const SWORD_OBJECTIVE_ICON = require("../../images/objectives/sword.png");
 export const TRACE_RIFLE_OBJECTIVE_ICON = require("../../images/objectives/trace rifle.png");
 export const VOID_OBJECTIVE_ICON = require("../../images/objectives/void.png");
+
+export function getItemSubTypeIcon(destinyItem: DestinyItem): string {
+  switch (destinyItem.def.itemSubType) {
+    case ItemSubType.AutoRifle:
+      return AUTO_RIFLE_OBJECTIVE_ICON;
+    case ItemSubType.Bow:
+      return BOW_OBJECTIVE_ICON;
+    case ItemSubType.FusionRifle:
+      return FUSION_OBJECTIVE_ICON;
+    case ItemSubType.Glaive:
+      return GLAIVE_OBJECTIVE_ICON;
+    case ItemSubType.GrenadeLauncher: {
+      if (destinyItem.bucketHash === SectionBuckets.Power) {
+        return GRENADE_LAUNCHER_OBJECTIVE_ICON;
+      }
+      return SPECIAL_GRENADE_LAUNCHER_OBJECTIVE_ICON;
+    }
+    case ItemSubType.HandCannon:
+      return HAND_CANNON_OBJECTIVE_ICON;
+    case ItemSubType.FusionRifleLine:
+      return FUSION_OBJECTIVE_ICON;
+    case ItemSubType.MachineGun:
+      return MACHINE_GUN_OBJECTIVE_ICON;
+    case ItemSubType.PulseRifle:
+      return PULSE_RIFLE_OBJECTIVE_ICON;
+    case ItemSubType.RocketLauncher:
+      return ROCKET_LAUNCHER_OBJECTIVE_ICON;
+    case ItemSubType.ScoutRifle:
+      return SCOUT_RIFLE_OBJECTIVE_ICON;
+    case ItemSubType.Shotgun:
+      return SHOTGUN_OBJECTIVE_ICON;
+    case ItemSubType.Sidearm:
+      return SIDEARM_OBJECTIVE_ICON;
+    case ItemSubType.SubmachineGun:
+      return SMG_OBJECTIVE_ICON;
+    case ItemSubType.SniperRifle:
+      return SNIPER_RIFLE_OBJECTIVE_ICON;
+    case ItemSubType.Sword:
+      return SWORD_OBJECTIVE_ICON;
+    case ItemSubType.TraceRifle:
+      return TRACE_RIFLE_OBJECTIVE_ICON;
+    default:
+      return "";
+  }
+}
+
+// Class icons
+export const HUNTER_CLASS_ICON = require("../../images/hunter-logo.png");
+export const WARLOCK_CLASS_ICON = require("../../images/warlock-logo.png");
+export const TITAN_CLASS_ICON = require("../../images/titan-logo.png");
+
+export const classIcons = {
+  [DestinyClass.Hunter]: HUNTER_CLASS_ICON as string,
+  [DestinyClass.Warlock]: WARLOCK_CLASS_ICON as string,
+  [DestinyClass.Titan]: TITAN_CLASS_ICON as string,
+  [DestinyClass.Unknown]: "",
+};
