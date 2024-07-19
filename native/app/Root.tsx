@@ -7,6 +7,10 @@ import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalHost } from "@rn-primitives/portal";
+import { enableScreens } from "react-native-screens";
+
+// Enable screens for better performance
+enableScreens();
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
