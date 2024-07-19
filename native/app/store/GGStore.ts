@@ -27,6 +27,8 @@ export const useGGStore = create<IStore>()(
         currentInventoryPage: state.currentInventoryPage,
         weaponsSort: state.weaponsSort,
         armorSort: state.armorSort,
+        showBottomSheetPreference: state.showBottomSheetPreference,
+        showNextBottomSheet: state.showNextBottomSheet,
       }),
       onRehydrateStorage: () => {
         return (state, error) => {
