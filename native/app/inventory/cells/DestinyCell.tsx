@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     flex: 1,
-    width: "70%",
-    height: "70%",
+    width: "60%",
+    height: "60%",
   },
 });
