@@ -79,6 +79,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (isFocused && initialAccountDataReady) {
+      useGGStore.getState().setCurrentInventoryPage(inventoryPageEnum);
       jumpToCharacter();
     }
   }, [isFocused, initialAccountDataReady]);
