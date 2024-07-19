@@ -1,13 +1,7 @@
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
-import {
-  SeparatorType,
-  type DestinyItem,
-  type DestinyItemDefinition,
-  type DestinyItemSort,
-  type ItemInstance,
-} from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, DestinyItemDefinition, DestinyItemSort, ItemInstance } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/Account/AccountSlice";
 import {
   consumables,
@@ -19,6 +13,8 @@ import {
   setMods,
 } from "@/app/store/Definitions.ts";
 import {
+  classIcons,
+  getItemSubTypeIcon,
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_MODS_CHARACTER_ID,
   VAULT_CHARACTER_ID,
@@ -389,7 +385,7 @@ function insertWeaponSubtypeSeparator(items: DestinyItem[]): DestinyItem[] {
       currentSubType = item.def.itemSubType;
       const blankItem = returnBlankDestinyItem();
       blankItem.def.itemSubType = currentSubType;
-      blankItem.separator = SeparatorType.Weapon;
+      blankItem.separatorIcon = getItemSubTypeIcon(item);
       updatedItemsArray.push(blankItem);
     }
     updatedItemsArray.push(item);
@@ -406,7 +402,7 @@ function insertClassTypeSeparator(items: DestinyItem[]): DestinyItem[] {
       currentDestinyClass = item.def.destinyClass;
       const blankItem = returnBlankDestinyItem();
       blankItem.def.destinyClass = currentDestinyClass;
-      blankItem.separator = SeparatorType.Armor;
+      blankItem.separatorIcon = classIcons[currentDestinyClass];
       updatedItemsArray.push(blankItem);
     }
     updatedItemsArray.push(item);
