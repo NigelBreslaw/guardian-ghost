@@ -53,6 +53,10 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
   systemDisabled: false,
 
   getTokenAsync: async (errorMessage) => {
+    if (get().authenticated === "DEMO-MODE") {
+      return null;
+    }
+
     const authToken = get().authToken;
 
     if (authToken) {
@@ -72,9 +76,8 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
         return validToken;
       }
     }
-    if (get().authenticated !== "DEMO-MODE") {
-      throw new Error("Catastrophic error in getTokenAsync");
-    }
+
+    throw new Error("Catastrophic error in getTokenAsync");
   },
 
   initAuthentication: async () => {
