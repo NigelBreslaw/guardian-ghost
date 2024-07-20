@@ -26,8 +26,6 @@ if (Platform.OS !== "web") {
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
-useGGStore.getState().initAuthentication();
-useGGStore.getState().initDefinitions();
 
 enableFreeze(true);
 
@@ -69,6 +67,8 @@ async function getBungieDefinitions() {
 }
 
 async function init() {
+  useGGStore.getState().initAuthentication();
+  useGGStore.getState().initDefinitions();
   getCustomItemDefinition();
   getBungieDefinitions();
 }
