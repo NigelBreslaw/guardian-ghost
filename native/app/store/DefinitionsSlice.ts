@@ -59,12 +59,14 @@ import {
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
+import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
 
 export interface DefinitionsSlice {
-  definitionsReady: boolean;
+  itemsDefinitionReady: boolean;
+  bungieDefinitionsReady: boolean;
   snackBarVisible: boolean;
   snackBarMessage: string;
   inventorySectionWidth: number;
@@ -79,7 +81,8 @@ export interface DefinitionsSlice {
 }
 
 export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set, get) => ({
-  definitionsReady: false,
+  itemsDefinitionReady: false,
+  bungieDefinitionsReady: false,
   snackBarVisible: false,
   snackBarMessage: "",
   inventorySectionWidth: 0,
@@ -133,18 +136,20 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     try {
       if (storedVersion === "") {
         // download a version
-        await downloadAndStoreBungieDefinitions(bungieManifest);
+        await downloadAndStoreBungieDefinitions(set, bungieManifest);
       } else if (versionKey === null) {
         // try to use the already downloaded version
-        await loadLocalBungieDefinitions();
+        await loadLocalBungieDefinitions(set);
       } else if (versionKey === storedVersion) {
         // use the already downloaded version
-        await loadLocalBungieDefinitions();
+        await loadLocalBungieDefinitions(set);
       } else {
         // download a new version
         console.log("download a new bungie definitions as KEY is different");
-        await downloadAndStoreBungieDefinitions(bungieManifest);
+        await downloadAndStoreBungieDefinitions(set, bungieManifest);
       }
+      updateBucketSizes();
+      updateDestinyText();
     } catch (e) {
       console.error("Failed to load bungieDefinition version. Downloading new version...", e);
     }
@@ -159,7 +164,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   clearCache: () => {
     saveItemDefinitionVersion("");
     saveBungieDefinitionsVersion("");
-    set({ definitionsReady: false });
+    set({ itemsDefinitionReady: false });
   },
 });
 
@@ -179,7 +184,6 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
     const downloadedDefinition = await getCustomItemDefinition();
     const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
     const versionKey = itemDefinition.id;
-    console.log("versionKey", versionKey);
     await saveItemDefinitionVersion(versionKey);
     await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
     return set(parseAndSet(itemDefinition));
@@ -203,7 +207,10 @@ const NonInterpolationTable = [
 
 let failCount = 0;
 
-async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest | null): Promise<void> {
+async function downloadAndStoreBungieDefinitions(
+  set: DefinitionsSliceSetter,
+  bungieManifest: BungieManifest | null,
+): Promise<void> {
   const versionKey = bungieManifest?.Response.version;
   if (!versionKey) {
     console.error("No version key found in bungieManifest");
@@ -283,12 +290,13 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
     }
 
     await saveBungieDefinitionsVersion(versionKey);
+    set({ bungieDefinitionsReady: true });
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
     if (failCount < 3) {
       failCount++;
       console.error("Failed to download and save bungieDefinition", e);
-      await downloadAndStoreBungieDefinitions(bungieManifest);
+      await downloadAndStoreBungieDefinitions(set, bungieManifest);
     } else {
       // show error toast
       console.error("Failed to download and save bungieDefinition", e);
@@ -297,7 +305,7 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
   }
 }
 
-async function loadLocalBungieDefinitions(): Promise<void> {
+async function loadLocalBungieDefinitions(set: DefinitionsSliceSetter): Promise<void> {
   try {
     const loadSocketTypeDefinition = await getAsyncStorage("DestinySocketCategoryDefinition");
     const socketDefJson = JSON.parse(loadSocketTypeDefinition);
@@ -314,6 +322,7 @@ async function loadLocalBungieDefinitions(): Promise<void> {
     const loadInventoryBucketDefinition = await getAsyncStorage("DestinyInventoryBucketDefinition");
     const inventoryBucketDefJson = JSON.parse(loadInventoryBucketDefinition);
     setDestinyInventoryBucketDefinition(inventoryBucketDefJson as InventoryBucketDefinition);
+    set({ bungieDefinitionsReady: true });
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
     saveBungieDefinitionsVersion("");
@@ -352,7 +361,7 @@ function parseAndSet(itemDefinition: ItemResponse) {
   setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
   setIcons(itemDefinition.helpers.Icons);
 
-  return { definitionsReady: true };
+  return { itemsDefinitionReady: true };
 }
 
 function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
