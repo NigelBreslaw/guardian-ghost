@@ -253,7 +253,7 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
 function addSocketCategoryDefinition(sockets: Sockets) {
   for (const category of sockets.socketCategories) {
     if (category.socketCategoryHash) {
-      const categoryDefinition = DestinySocketCategoryDefinition[category.socketCategoryHash];
+      const categoryDefinition = DestinySocketCategoryDefinition?.[category.socketCategoryHash];
       if (categoryDefinition) {
         category.name = categoryDefinition.displayProperties.name;
         category.description = categoryDefinition.displayProperties.description;

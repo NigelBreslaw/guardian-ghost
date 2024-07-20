@@ -239,7 +239,7 @@ async function downloadAndStoreBungieDefinitions(bungieManifest: BungieManifest 
       // This also saves interpolateStatValue() from having to do a calculation.
       const socketGroupDefinition = completedDefinitions[1] as unknown as StatGroupDefinition;
       for (const stat in socketGroupDefinition) {
-        const socketGroup = socketGroupDefinition[stat];
+        const socketGroup = socketGroupDefinition?.[stat];
         if (socketGroup) {
           for (const statHash of socketGroup.scaledStats) {
             if (deepEqual(statHash.displayInterpolation, NonInterpolationTable)) {
