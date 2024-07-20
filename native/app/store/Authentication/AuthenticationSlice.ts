@@ -72,8 +72,9 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
         return validToken;
       }
     }
-
-    throw new Error("Catastrophic error in getTokenAsync");
+    if (get().authenticated !== "DEMO-MODE") {
+      throw new Error("Catastrophic error in getTokenAsync");
+    }
   },
 
   initAuthentication: async () => {
