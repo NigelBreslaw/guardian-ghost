@@ -4,7 +4,6 @@ import { Platform } from "react-native";
 import { parse, safeParse, string } from "valibot";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
-import * as SplashScreen from "expo-splash-screen";
 import { deepEqual } from "fast-equals";
 
 import {
@@ -44,7 +43,7 @@ import {
   setDestinyInventoryBucketDefinition,
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
-import { DatabaseStore, Store, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
+import { DatabaseStore, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
 import {
   ItemResponseSchema,
@@ -72,7 +71,6 @@ export interface DefinitionsSlice {
   inventorySectionWidth: number;
   itemDefinitionVersion: string;
   bungieDefinitionVersions: string;
-  initDefinitions: () => Promise<void>;
   loadCustomDefinitions: (uniqueKey: string | null) => Promise<void>;
   loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
   showSnackBar: (message: string) => void;
@@ -88,23 +86,6 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   inventorySectionWidth: 0,
   itemDefinitionVersion: "",
   bungieDefinitionVersions: "",
-  initDefinitions: async () => {
-    try {
-      const loadedDefinitionVersion = await loadItemDefinitionVersion();
-      set({ itemDefinitionVersion: loadedDefinitionVersion });
-    } catch (e) {
-      console.log("No saved itemDefinition version", e);
-    }
-
-    try {
-      const bungieDefinitionVersion = await loadBungieDefinitionsVersion();
-      set({ bungieDefinitionVersions: bungieDefinitionVersion });
-    } catch (e) {
-      console.log("No saved bungieDefinition version", e);
-    } finally {
-      SplashScreen.hideAsync();
-    }
-  },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
     if (storedVersion === "") {
@@ -162,9 +143,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
   clearCache: () => {
-    saveItemDefinitionVersion("");
-    saveBungieDefinitionsVersion("");
-    set({ itemsDefinitionReady: false });
+    set({ itemDefinitionVersion: "", bungieDefinitionVersions: "", itemsDefinitionReady: false });
   },
 });
 
@@ -184,7 +163,7 @@ async function downloadAndStoreItemDefinition(set: DefinitionsSliceSetter): Prom
     const downloadedDefinition = await getCustomItemDefinition();
     const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
     const versionKey = itemDefinition.id;
-    await saveItemDefinitionVersion(versionKey);
+    set({ itemDefinitionVersion: versionKey });
     await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
     return set(parseAndSet(itemDefinition));
   } catch (e) {
@@ -288,9 +267,7 @@ async function downloadAndStoreBungieDefinitions(
     } else {
       throw new Error("No DestinyInventoryBucketDefinition");
     }
-
-    await saveBungieDefinitionsVersion(versionKey);
-    set({ bungieDefinitionsReady: true });
+    set({ bungieDefinitionVersions: versionKey, bungieDefinitionsReady: true });
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
     if (failCount < 3) {
@@ -325,7 +302,7 @@ async function loadLocalBungieDefinitions(set: DefinitionsSliceSetter): Promise<
     set({ bungieDefinitionsReady: true });
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
-    saveBungieDefinitionsVersion("");
+    set({ bungieDefinitionVersions: "", bungieDefinitionsReady: false });
     // TODO: Should error. Show something to the user that lets them restart the app. In the sense of running init again.
   }
 }
@@ -552,52 +529,6 @@ export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promi
   } catch (error: unknown) {
     console.error("Failed to save", error, key);
     throw new Error(`Failed to save AsyncStorage ${key}`);
-  }
-}
-
-export async function loadItemDefinitionVersion(): Promise<string> {
-  const version = await AsyncStorage.getItem(Store._item_definition);
-  if (version) {
-    const validatedVersion = safeParse(string(), version);
-
-    if (validatedVersion.success) {
-      return validatedVersion.output;
-    }
-    throw new Error("Validation failed");
-  }
-  throw new Error("No saved itemDefinition version found");
-}
-
-export async function saveItemDefinitionVersion(version: string): Promise<void> {
-  try {
-    await AsyncStorage.setItem(Store._item_definition, version);
-    console.log("saved", version);
-  } catch (error: unknown) {
-    console.error("Failed to save itemDefinition version", error);
-    throw new Error("Failed to save itemDefinition version");
-  }
-}
-
-export async function loadBungieDefinitionsVersion(): Promise<string> {
-  const version = await AsyncStorage.getItem(Store._bungie_definitions);
-  if (version) {
-    const validatedVersion = safeParse(string(), version);
-
-    if (validatedVersion.success) {
-      return validatedVersion.output;
-    }
-    throw new Error("Validation failed");
-  }
-  throw new Error("No saved bungieDefinitions version found");
-}
-
-export async function saveBungieDefinitionsVersion(version: string): Promise<void> {
-  try {
-    await AsyncStorage.setItem(Store._bungie_definitions, version);
-    console.log("saved bungie", version);
-  } catch (error: unknown) {
-    console.error("Failed to save itemDefinition version", error);
-    throw new Error("Failed to save itemDefinition version");
   }
 }
 

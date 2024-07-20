@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as SplashScreen from "expo-splash-screen";
 
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
@@ -16,6 +17,7 @@ function App() {
   if (!stateHydrated) {
     return null;
   }
+  SplashScreen.hideAsync();
 
   return (
     <RootStack.Navigator>
