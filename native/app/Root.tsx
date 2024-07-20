@@ -26,8 +26,6 @@ if (Platform.OS !== "web") {
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
-useGGStore.getState().initAuthentication();
-useGGStore.getState().initDefinitions();
 
 enableFreeze(true);
 
@@ -69,6 +67,7 @@ async function getBungieDefinitions() {
 }
 
 async function init() {
+  useGGStore.getState().initAuthentication();
   getCustomItemDefinition();
   getBungieDefinitions();
 }
@@ -97,6 +96,14 @@ const navigationContainerTheme: Theme = {
   },
   dark: false,
 };
+
+function refreshIfNeeded() {
+  const lastRefresh = useGGStore.getState().lastRefreshTime;
+  const now = performance.now();
+  if (now - lastRefresh > 35000) {
+    getFullProfile();
+  }
+}
 
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
@@ -127,6 +134,7 @@ function Root() {
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
+  const stateHydrated = useGGStore((state) => state.stateHydrated);
 
   useEffect(() => {
     if (SCREEN_WIDTH) {
@@ -135,7 +143,7 @@ function Root() {
   }, [SCREEN_WIDTH]);
 
   useEffect(() => {
-    if (authenticated === "NO-AUTHENTICATION") {
+    if (authenticated === "NO-AUTHENTICATION" && stateHydrated) {
       if (navigationRef.current) {
         navigationRef.current.navigate("Login");
       } else {
@@ -148,15 +156,7 @@ function Root() {
 
       return () => clearInterval(intervalId);
     }
-  }, [authenticated, itemsDefinitionReady, bungieDefinitionsReady]);
-
-  function refreshIfNeeded() {
-    const lastRefresh = useGGStore.getState().lastRefreshTime;
-    const now = performance.now();
-    if (now - lastRefresh > 35000) {
-      getFullProfile();
-    }
-  }
+  }, [authenticated, itemsDefinitionReady, bungieDefinitionsReady, stateHydrated]);
 
   return (
     <GestureHandlerRootView>
