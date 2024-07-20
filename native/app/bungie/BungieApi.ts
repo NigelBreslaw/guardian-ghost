@@ -110,12 +110,8 @@ export async function getProfile(): Promise<JSON> {
 }
 
 export function getJsonBlob(jsonUrl: string): Promise<JSON> {
-  const requestOptions: RequestInit = {
-    method: "GET",
-  };
-
   return new Promise((resolve, reject) => {
-    fetch(jsonUrl, requestOptions)
+    fetch(jsonUrl)
       .then((response) => {
         if (!response.ok) {
           console.error(response);
