@@ -5,10 +5,10 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 
 export function updateBucketSizes() {
   BUCKET_SIZES[SectionBuckets.Consumables] =
-    DestinyInventoryBucketDefinition[SectionBuckets.Consumables]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Mods] = DestinyInventoryBucketDefinition[SectionBuckets.Mods]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyInventoryBucketDefinition[SectionBuckets.LostItem]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition[SectionBuckets.Vault]?.itemCount ?? 5;
+    DestinyInventoryBucketDefinition?.[SectionBuckets.Consumables]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Mods] = DestinyInventoryBucketDefinition?.[SectionBuckets.Mods]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyInventoryBucketDefinition?.[SectionBuckets.LostItem]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition?.[SectionBuckets.Vault]?.itemCount ?? 5;
 }
 
 export function updateDestinyText() {

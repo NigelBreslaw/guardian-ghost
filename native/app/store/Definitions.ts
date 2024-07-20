@@ -222,7 +222,7 @@ function buildStatGroupDefinitionHelper(definition: StatGroupDefinition): StatGr
   const statHashes = Object.keys(definition);
 
   for (const statHash of statHashes) {
-    const statGroup = definition[statHash]?.scaledStats;
+    const statGroup = definition?.[statHash]?.scaledStats;
     if (!statGroup) {
       console.error("No statGroupDefinition found");
       continue;
