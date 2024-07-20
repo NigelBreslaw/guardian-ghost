@@ -17,7 +17,6 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import App from "@/app/App"; // Do not use the file extension or the web version will fail to be used.
-import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
 import "@/global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -27,28 +26,51 @@ if (Platform.OS !== "web") {
 
 const startupTime = performance.now();
 useGGStore.getState().setAppStartupTime(startupTime);
-useGGStore.getState().initAuthentication();
-useGGStore.getState().initDefinitions();
 
 enableFreeze(true);
 
-async function init() {
+let customDownloadAttempts = 0;
+async function getCustomItemDefinition() {
   try {
     const customManifest = getJsonBlob(CUSTOM_MANIFEST_URL);
-    const bungieManifest = getJsonBlob(BUNGIE_MANIFEST_URL);
-
-    const manifest = await Promise.all([customManifest, bungieManifest]);
-    const parsedManifest = parse(object({ version: string() }), manifest[0]);
-    const parsedBungieManifest = parse(bungieManifestSchema, manifest[1]);
+    const manifest = await customManifest;
+    const parsedManifest = parse(object({ version: string() }), manifest);
     await useGGStore.getState().loadCustomDefinitions(parsedManifest.version);
-    await useGGStore.getState().loadBungieDefinitions(parsedBungieManifest);
-    updateBucketSizes();
-    updateDestinyText();
   } catch (e) {
-    // If the network call fails try to use the already downloaded version.
     console.error("Failed to load custom manifest", e);
-    useGGStore.getState().loadCustomDefinitions(null);
+    if (customDownloadAttempts < 5) {
+      customDownloadAttempts++;
+      getCustomItemDefinition();
+    } else {
+      console.error("Failed to download custom manifest");
+    }
   }
+}
+
+let bungieDownloadAttempts = 0;
+async function getBungieDefinitions() {
+  try {
+    const bungieManifest = getJsonBlob(BUNGIE_MANIFEST_URL);
+    const manifest = await bungieManifest;
+    const parsedManifest = parse(bungieManifestSchema, manifest);
+    await useGGStore.getState().loadBungieDefinitions(parsedManifest);
+  } catch (e) {
+    console.error("Failed to load bungie manifest", e);
+    if (bungieDownloadAttempts < 5) {
+      console.log("Failed to load bungie manifest. Trying again");
+      bungieDownloadAttempts++;
+      getBungieDefinitions();
+    } else {
+      console.error("Failed to download bungie manifest");
+    }
+  }
+}
+
+async function init() {
+  useGGStore.getState().initAuthentication();
+  useGGStore.getState().initDefinitions();
+  getCustomItemDefinition();
+  getBungieDefinitions();
 }
 init();
 
@@ -99,7 +121,8 @@ function Root() {
     allowFontScaling: false,
   };
 
-  const definitionsReady = useGGStore((state) => state.definitionsReady);
+  const itemsDefinitionReady = useGGStore((state) => state.itemsDefinitionReady);
+  const bungieDefinitionsReady = useGGStore((state) => state.bungieDefinitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
@@ -118,14 +141,14 @@ function Root() {
       } else {
         console.error("No navigationRef");
       }
-    } else if (authenticated === "AUTHENTICATED" && definitionsReady) {
+    } else if (authenticated === "AUTHENTICATED" && itemsDefinitionReady && bungieDefinitionsReady) {
       getFullProfile();
       useGGStore.getState().setLastRefreshTime();
       const intervalId = setInterval(refreshIfNeeded, 2000);
 
       return () => clearInterval(intervalId);
     }
-  }, [authenticated, definitionsReady]);
+  }, [authenticated, itemsDefinitionReady, bungieDefinitionsReady]);
 
   function refreshIfNeeded() {
     const lastRefresh = useGGStore.getState().lastRefreshTime;
