@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
@@ -42,8 +42,7 @@ export default function InventoryPages() {
           tabBarStyle: {
             borderTopColor: "grey",
             borderTopWidth: StyleSheet.hairlineWidth,
-            height: insets.bottom > 0 ? 60 : 40,
-            marginBottom: insets.bottom > 0 ? 10 : 15,
+            height: insets.bottom > 0 ? 70 : 50,
           },
           tabBarIconStyle: {
             display: "none",
@@ -57,6 +56,12 @@ export default function InventoryPages() {
           name="tab-weapons"
           options={{
             tabBarLabel: "Weapons",
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+              />
+            ),
             headerStyle: {
               height: 0,
             },
@@ -67,6 +72,12 @@ export default function InventoryPages() {
           name="tab-armor"
           options={{
             tabBarLabel: "Armor",
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+              />
+            ),
             headerStyle: {
               height: 0,
             },
@@ -77,6 +88,12 @@ export default function InventoryPages() {
           name="tab-inventory"
           options={{
             tabBarLabel: "Inventory",
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+              />
+            ),
             headerStyle: {
               height: 0,
             },
