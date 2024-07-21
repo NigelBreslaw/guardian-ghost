@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Haptics from "expo-haptics";
 
 import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
 import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
@@ -60,6 +61,11 @@ export default function InventoryPages() {
               <TouchableOpacity
                 {...props}
                 style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                onPressIn={() => {
+                  if (Platform.OS !== "web") {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                }}
               />
             ),
             headerStyle: {
@@ -76,6 +82,11 @@ export default function InventoryPages() {
               <TouchableOpacity
                 {...props}
                 style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                onPressIn={() => {
+                  if (Platform.OS !== "web") {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                }}
               />
             ),
             headerStyle: {
@@ -92,6 +103,11 @@ export default function InventoryPages() {
               <TouchableOpacity
                 {...props}
                 style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                onPressIn={() => {
+                  if (Platform.OS !== "web") {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                }}
               />
             ),
             headerStyle: {
