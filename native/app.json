@@ -14,14 +14,9 @@
         "usesNonExemptEncryption": false
       },
       "splash": {
-        "image": "./assets/images/splash.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#F2F5FC",
-        "dark": {
-          "image": "./assets/images/splash_dark.png",
+        "image": "./assets/images/splash_dark.png",
           "resizeMode": "contain",
           "backgroundColor": "#17101F"
-        }
       },
       "supportsTablet": false
     },
@@ -34,14 +29,9 @@
       "package": "com.guardianghost",
       "backgroundColor": "#17101F",
       "splash": {
-        "image": "./assets/images/splash.png",
+        "image": "./assets/images/splash_dark.png",
         "resizeMode": "native",
-        "backgroundColor": "#F2F5FC",
-        "dark": {
-          "image": "./assets/images/splash_dark.png",
-          "resizeMode": "native",
-          "backgroundColor": "#17101F"
-        }
+        "backgroundColor": "#17101F"
       },
       "intentFilters": [
         {
