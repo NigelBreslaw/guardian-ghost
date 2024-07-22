@@ -145,6 +145,7 @@ function Root() {
   useEffect(() => {
     if (authenticated === "NO-AUTHENTICATION" && stateHydrated) {
       if (navigationRef.current) {
+        SplashScreen.hideAsync();
         navigationRef.current.navigate("Login");
       } else {
         console.error("No navigationRef");

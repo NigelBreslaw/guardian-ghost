@@ -2,6 +2,7 @@ import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } f
 import { Image } from "expo-image";
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Haptics from "expo-haptics";
+import * as SplashScreen from "expo-splash-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -169,6 +170,13 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
 
 export default function MainDrawer() {
   "use memo";
+
+  const appReady = useGGStore((state) => state.appReady);
+
+  if (!appReady) {
+    return null;
+  }
+  SplashScreen.hideAsync();
 
   return (
     <Drawer.Navigator

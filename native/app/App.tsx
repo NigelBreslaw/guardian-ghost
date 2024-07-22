@@ -1,23 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as SplashScreen from "expo-splash-screen";
 
 import MainDrawer from "@/app/UI/MainDrawer.tsx";
 import Login from "@/app/UI/Login.tsx";
 import DetailsView from "@/app/inventory/pages/details/DetailsView.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";
-import { useGGStore } from "@/app/store/GGStore.ts";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   "use memo";
-
-  const stateHydrated = useGGStore((state) => state.stateHydrated);
-
-  if (!stateHydrated) {
-    return null;
-  }
-  SplashScreen.hideAsync();
 
   return (
     <RootStack.Navigator>
