@@ -56,9 +56,9 @@ import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 // UI data creation
 // ------------------------------
 
-export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter) {
-  createUIData(get);
+export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter, onlyPage?: InventoryPageEnums) {
   const p1 = performance.now();
+  createUIData(get);
   const totalVaultItems = calcTotalVaultItems();
   const vaultCount = get().ggVaultCount;
   if (totalVaultItems !== vaultCount) {
@@ -66,30 +66,44 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter)
   }
 
   const totalLostItems = calcTotalLostItems();
-  set({ ggLostItemCount: totalLostItems });
+  if (!deepEqual(get().ggLostItemCount, totalLostItems)) {
+    set({ ggLostItemCount: totalLostItems });
+  }
 
-  set({ ggModsCount: mods.length });
-  set({ ggConsumablesCount: consumables.length });
+  if (get().ggModsCount !== mods.length) {
+    set({ ggModsCount: mods.length });
+  }
+  if (get().ggConsumablesCount !== consumables.length) {
+    set({ ggConsumablesCount: consumables.length });
+  }
 
   // For each page use a deepEqual compare to see if the data has changed.
   // If it has changed then update just that page.
-  const ggWeapons = get().ggWeapons;
-  const newWeaponsPageData = buildUIData(get, InventoryPageEnums.Weapons);
-  const updatedWeapons = getUpdatedItems(ggWeapons, newWeaponsPageData);
-  if (updatedWeapons) {
-    set({ ggWeapons: updatedWeapons });
+  if (onlyPage === undefined || onlyPage === InventoryPageEnums.Weapons) {
+    const ggWeapons = get().ggWeapons;
+    const newWeaponsPageData = buildUIData(get, InventoryPageEnums.Weapons);
+    const updatedWeapons = getUpdatedItems(ggWeapons, newWeaponsPageData);
+    if (updatedWeapons) {
+      set({ ggWeapons: updatedWeapons });
+    }
   }
-  const ggArmor = get().ggArmor;
-  const newArmorPageData = buildUIData(get, InventoryPageEnums.Armor);
-  const updatedArmor = getUpdatedItems(ggArmor, newArmorPageData);
-  if (updatedArmor) {
-    set({ ggArmor: updatedArmor });
+
+  if (onlyPage === undefined || onlyPage === InventoryPageEnums.Armor) {
+    const ggArmor = get().ggArmor;
+    const newArmorPageData = buildUIData(get, InventoryPageEnums.Armor);
+    const updatedArmor = getUpdatedItems(ggArmor, newArmorPageData);
+    if (updatedArmor) {
+      set({ ggArmor: updatedArmor });
+    }
   }
-  const ggGeneral = get().ggGeneral;
-  const newGeneralPageData = buildUIData(get, InventoryPageEnums.General);
-  const updatedGeneral = getUpdatedItems(ggGeneral, newGeneralPageData);
-  if (updatedGeneral) {
-    set({ ggGeneral: updatedGeneral });
+
+  if (onlyPage === undefined || onlyPage === InventoryPageEnums.General) {
+    const ggGeneral = get().ggGeneral;
+    const newGeneralPageData = buildUIData(get, InventoryPageEnums.General);
+    const updatedGeneral = getUpdatedItems(ggGeneral, newGeneralPageData);
+    if (updatedGeneral) {
+      set({ ggGeneral: updatedGeneral });
+    }
   }
   const p2 = performance.now();
   console.log("updateAllPages", `${(p2 - p1).toFixed(4)} ms`);
@@ -154,110 +168,86 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   const sectionBuckets = getSectionBuckets(inventoryPage);
 
   if (!rawProfileData || !guardians || !generalVault) {
-    console.error("No profile, guardians or generalVault");
+    console.error("No profile, guardians, or generalVault");
     return characterDataArray;
   }
 
   for (const [characterId, characterData] of guardians) {
     const dataArray: UISections[] = [];
 
-    const guardianDetails: GuardianDetailsSection = {
+    dataArray.push({
       id: "guardian_details",
       type: UISection.GuardianDetails,
       characterIndex: get().getCharacterIndex(characterId),
-    };
-    dataArray.push(guardianDetails);
+    });
 
     for (const bucket of sectionBuckets as BucketHash[]) {
       const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
 
-      // create section separators
-      const separator: SeparatorSection = {
+      dataArray.push({
         id: `${bucket}_separator`,
         type: UISection.Separator,
         label: sectionDetails.label,
         bucketHash: bucket,
         characterId,
-      };
-      dataArray.push(separator);
+      });
 
-      if (bucket === SectionBuckets.Consumables) {
-        if (consumables) {
-          sortInventoryArray(get, consumables, bucket);
-          const lootSections = getLootSections(consumables, "global_consumables_section");
-          dataArray.push(...lootSections);
-        }
-        continue;
-      }
+      switch (bucket) {
+        case SectionBuckets.Consumables:
+          if (consumables) {
+            sortInventoryArray(get, consumables, bucket);
+            dataArray.push(...getLootSections(consumables, "global_consumables_section"));
+          }
+          break;
 
-      if (bucket === SectionBuckets.Mods) {
-        if (mods) {
-          const lootSections = getLootSections(mods, "global_mods_section");
-          dataArray.push(...lootSections);
-        }
-        continue;
-      }
+        case SectionBuckets.Mods:
+          if (mods) {
+            dataArray.push(...getLootSections(mods, "global_mods_section"));
+          }
+          break;
 
-      if (bucket === SectionBuckets.Engram) {
-        const engramsSection: EngramsSection = {
-          id: `${bucket}_engrams_section`,
-          type: UISection.Engrams,
-          inventory: [],
-        };
-        if (bucketItems) {
-          engramsSection.inventory = bucketItems.inventory;
-        }
-        dataArray.push(engramsSection);
-        continue;
-      }
+        case SectionBuckets.Engram:
+          dataArray.push({
+            id: `${bucket}_engrams_section`,
+            type: UISection.Engrams,
+            inventory: bucketItems ? bucketItems.inventory : [],
+          });
+          break;
 
-      if (bucket === SectionBuckets.LostItem) {
-        const lostItemsSection: LostItemsSection = {
-          id: `${bucket}_lost_items_section`,
-          type: UISection.LostItems,
-          inventory: [],
-        };
-        if (bucketItems) {
-          lostItemsSection.inventory = bucketItems.inventory;
-        }
-        dataArray.push(lostItemsSection);
+        case SectionBuckets.LostItem:
+          dataArray.push({
+            id: `${bucket}_lost_items_section`,
+            type: UISection.LostItems,
+            inventory: bucketItems ? bucketItems.inventory : [],
+          });
+          break;
 
-        continue;
-      }
+        case SectionBuckets.Artifact:
+          dataArray.push({
+            id: `${bucket}_artifact_section`,
+            type: UISection.Artifact,
+            equipped: bucketItems?.equipped,
+          });
+          break;
 
-      if (bucket === SectionBuckets.Artifact) {
-        const artifactSection: ArtifactSection = {
-          id: `${bucket}_artifact_section`,
-          type: UISection.Artifact,
-          equipped: undefined,
-        };
-        if (bucketItems?.equipped) {
-          artifactSection.equipped = bucketItems.equipped;
-        }
-        dataArray.push(artifactSection);
-        continue;
-      }
-
-      const equipSectionCell: EquipSection = {
-        id: `${bucket}_equip_section`,
-        type: UISection.CharacterEquipment,
-        equipped: undefined,
-        inventory: [],
-      };
-      if (bucketItems) {
-        equipSectionCell.equipped = bucketItems.equipped;
-
-        equipSectionCell.inventory = sortInventoryArray(get, bucketItems.inventory, bucket);
-
-        dataArray.push(equipSectionCell);
+        default:
+          if (bucketItems) {
+            dataArray.push({
+              id: `${bucket}_equip_section`,
+              type: UISection.CharacterEquipment,
+              equipped: bucketItems.equipped,
+              inventory: sortInventoryArray(get, bucketItems.inventory, bucket),
+            });
+          }
+          break;
       }
     }
     characterDataArray.push(dataArray);
   }
-  // Now build the vault data
-  const vaultUiData = returnVaultUiData(get, inventoryPage, generalVault);
-  characterDataArray.push(vaultUiData);
+
+  // Add vault data
+  characterDataArray.push(returnVaultUiData(get, inventoryPage, generalVault));
 
   return characterDataArray;
 }
@@ -317,6 +307,7 @@ function returnVaultUiData(
       dataArray.push(...lootIconSections);
     }
   }
+
   return dataArray;
 }
 
