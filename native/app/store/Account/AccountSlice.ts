@@ -181,13 +181,13 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setWeaponsSort: (weaponsSort) => {
     if (get().weaponsSort !== weaponsSort) {
       set({ weaponsSort });
-      updateAllPages(get, set);
+      updateAllPages(get, set, InventoryPageEnums.Weapons);
     }
   },
   setArmorSort: (armorSort) => {
     if (get().armorSort !== armorSort) {
       set({ armorSort });
-      updateAllPages(get, set);
+      updateAllPages(get, set, InventoryPageEnums.Armor);
     }
   },
   setJumpToIndex: (jumpToIndex) => {
