@@ -8,7 +8,6 @@ import { InventoryPageEnums, type UISections } from "@/app/inventory/logic/Helpe
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import OptionsMenu from "@/app/inventory/pages/OptionsMenu.tsx";
 
 function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
   const internalOffset = posX - PAGE_WIDTH / 2;
@@ -120,7 +119,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
 
   return (
     <View style={rootStyles.root}>
-      <OptionsMenu />
       <ScrollView
         horizontal
         pagingEnabled

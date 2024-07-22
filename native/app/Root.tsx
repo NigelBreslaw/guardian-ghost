@@ -163,9 +163,9 @@ function Root() {
       <StatusBar barStyle={"light-content"} />
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
-        <PortalHost />
         <Toast />
       </NavigationContainer>
+      <PortalHost />
     </GestureHandlerRootView>
   );
 }
