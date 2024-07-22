@@ -12,7 +12,8 @@ import { enableScreens } from "react-native-screens";
 // Enable screens for better performance
 enableScreens();
 
-import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile, getJsonBlob } from "@/app/bungie/BungieApi.ts";
+import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile } from "@/app/bungie/BungieApi.ts";
+import { getJsonBlob } from "@/app/utilities/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
@@ -50,7 +51,7 @@ async function getCustomItemDefinition() {
 let bungieDownloadAttempts = 0;
 async function getBungieDefinitions() {
   try {
-    const bungieManifest = getJsonBlob(BUNGIE_MANIFEST_URL);
+    const bungieManifest = getJsonBlob(BUNGIE_MANIFEST_URL, true);
     const manifest = await bungieManifest;
     const parsedManifest = parse(bungieManifestSchema, manifest);
     await useGGStore.getState().loadBungieDefinitions(parsedManifest);
