@@ -214,11 +214,13 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   moveItem: (updatedDestinyItem, stackableQuantityToMove) => {
     removeInventoryItem(updatedDestinyItem, stackableQuantityToMove);
     addInventoryItem(updatedDestinyItem, stackableQuantityToMove);
-    updateAllPages(get, set);
+    const page = foundOnPage(updatedDestinyItem);
+    updateAllPages(get, set, page);
   },
   equipItem: (updatedDestinyItem) => {
     swapEquipAndInventoryItem(updatedDestinyItem);
-    updateAllPages(get, set);
+    const page = foundOnPage(updatedDestinyItem);
+    updateAllPages(get, set, page);
     get().updateLightLevel();
   },
   pullFromPostmaster: (updatedDestinyItem, stackableQuantityToMove) => {
@@ -852,4 +854,24 @@ function processVaultInventory(profile: ProfileData): VaultData {
     }
   }
   return vaultData;
+}
+
+function foundOnPage(destinyItem: DestinyItem): InventoryPageEnums {
+  if (destinyItem.def.itemType === ItemType.Armor || destinyItem.def.itemType === ItemType.Subclass) {
+    return InventoryPageEnums.Armor;
+  }
+  if (destinyItem.def.itemType === ItemType.Weapon || destinyItem.def.itemType === ItemType.Ghost) {
+    return InventoryPageEnums.Weapons;
+  }
+  if (
+    destinyItem.def.itemType === ItemType.Mod ||
+    destinyItem.def.itemType === ItemType.Consumable ||
+    destinyItem.def.itemType === ItemType.Vehicle ||
+    destinyItem.def.itemType === ItemType.Ship ||
+    destinyItem.def.itemType === ItemType.Emblem
+  ) {
+    return InventoryPageEnums.General;
+  }
+  console.error("USING FUNCTION ON UNKNOWN ITEM TYPE!!!", destinyItem.def.itemType);
+  return InventoryPageEnums.Unknown;
 }
