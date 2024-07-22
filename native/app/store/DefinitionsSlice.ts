@@ -220,7 +220,7 @@ async function downloadAndStoreBungieDefinitions(
 
       if (path) {
         const url = `${bungieUrl}${path}`;
-        const downloadedDefinition = getJsonBlob(url, true);
+        const downloadedDefinition = getJsonBlob(url);
         promises.push(downloadedDefinition);
       }
     }
