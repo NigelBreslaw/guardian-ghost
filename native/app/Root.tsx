@@ -136,6 +136,7 @@ function Root() {
   const { width } = useWindowDimensions();
   const SCREEN_WIDTH = width;
   const stateHydrated = useGGStore((state) => state.stateHydrated);
+  const appReady = useGGStore((state) => state.appReady);
 
   useEffect(() => {
     if (SCREEN_WIDTH) {
@@ -162,7 +163,7 @@ function Root() {
 
   return (
     <GestureHandlerRootView>
-      <StatusBar barStyle={"light-content"} />
+      {appReady && <StatusBar barStyle={"light-content"} />}
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
         <Toast />
