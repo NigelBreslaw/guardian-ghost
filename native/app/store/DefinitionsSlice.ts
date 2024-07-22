@@ -59,6 +59,7 @@ import {
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
 import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
+import { getJsonBlob } from "@/app/utilities/Helpers.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -219,7 +220,7 @@ async function downloadAndStoreBungieDefinitions(
 
       if (path) {
         const url = `${bungieUrl}${path}`;
-        const downloadedDefinition = getBungieDefinition(url);
+        const downloadedDefinition = getJsonBlob(url, true);
         promises.push(downloadedDefinition);
       }
     }
@@ -546,28 +547,4 @@ export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promi
     console.error("Failed to save", error, key);
     throw new Error(`Failed to save AsyncStorage ${key}`);
   }
-}
-
-async function getBungieDefinition(definitionUrl: string): Promise<JSON> {
-  const requestOptions: RequestInit = {
-    method: "GET",
-  };
-
-  return new Promise((resolve, reject) => {
-    fetch(definitionUrl, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          console.error(response);
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        console.error("getBungieDefinition", definitionUrl, error);
-        reject(new Error(`getBungieDefinition Error ${error}`));
-      });
-  });
 }

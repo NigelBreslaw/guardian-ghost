@@ -1,5 +1,6 @@
 import { GuardianClassType } from "@/app/bungie/Enums.ts";
 import type { DestinyItemSort } from "@/app/inventory/logic/Types.ts";
+import { apiKey } from "@/constants/env.ts";
 
 declare const __brand: unique symbol;
 type Brand<B> = { [__brand]: B };
@@ -523,4 +524,34 @@ export function getGuardianRaceType(raceType: number) {
     default:
       return "";
   }
+}
+
+export function getJsonBlob(jsonUrl: string, includeHeaders?: boolean): Promise<JSON> {
+  const headers = new Headers();
+  if (includeHeaders) {
+    headers.append("X-API-Key", apiKey);
+    headers.append("Accept", "application/json");
+  }
+
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers: headers,
+  };
+  return new Promise((resolve, reject) => {
+    fetch(jsonUrl, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        console.error("Failed to download getJsonBlog", error);
+        reject(new Error("Failed to download getJsonBlog", error));
+      });
+  });
 }

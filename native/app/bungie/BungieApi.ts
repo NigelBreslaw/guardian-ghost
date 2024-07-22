@@ -108,23 +108,3 @@ export async function getProfile(): Promise<JSON> {
     throw new Error("Unknown error occurred");
   }
 }
-
-export function getJsonBlob(jsonUrl: string): Promise<JSON> {
-  return new Promise((resolve, reject) => {
-    fetch(jsonUrl)
-      .then((response) => {
-        if (!response.ok) {
-          console.error(response);
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        console.error("Failed to download getJsonBlog", error);
-        reject(new Error("Failed to download getJsonBlog", error));
-      });
-  });
-}
