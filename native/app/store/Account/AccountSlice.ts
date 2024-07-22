@@ -70,6 +70,7 @@ export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], Account
 
 export interface AccountSlice {
   stateHydrated: boolean;
+  appReady: boolean;
 
   appStartupTime: number;
   refreshing: boolean;
@@ -131,6 +132,7 @@ export interface AccountSlice {
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
   stateHydrated: false,
+  appReady: false,
 
   appStartupTime: 0,
   refreshing: false,
@@ -169,6 +171,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setInitialAccountDataReady: () => {
     if (!get().initialAccountDataReady) {
       set({ initialAccountDataReady: true });
+      if (get().itemsDefinitionReady && get().bungieDefinitionsReady) {
+        set({ appReady: true });
+      }
     }
   },
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
