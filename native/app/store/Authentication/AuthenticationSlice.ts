@@ -16,6 +16,7 @@ import type { IStore } from "@/app/store/GGStore.ts";
 import { BungieProfileSchema, type BungieMembershipProfiles, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
 import { getBungieUser } from "@/app/bungie/Account.ts";
 import { safeParse } from "valibot";
+import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 
 const initialBungieUser = {
   supplementalDisplayName: "",
@@ -111,6 +112,8 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       responseMintedTimestamp: new Date(1977),
       secondaryComponentsMintedTimestamp: new Date(1977),
       bungieMembershipProfiles: [],
+      currentInventoryPage: InventoryPageEnums.Weapons,
+      currentListIndex: 0,
     });
     const membershipId = get().bungieUser.profile.membershipId;
     deleteUserData(membershipId);
