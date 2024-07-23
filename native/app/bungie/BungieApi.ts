@@ -11,6 +11,7 @@ export const CUSTOM_MANIFEST_URL = "https://app.guardianghost.com/json/manifest.
 
 export async function getFullProfile(pullToRefresh = false) {
   if (useGGStore.getState().authenticated !== "AUTHENTICATED") {
+    console.info("Ignoring getFullProfile", useGGStore.getState().authenticated);
     return;
   }
 
