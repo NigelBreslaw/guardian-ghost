@@ -76,7 +76,7 @@ export interface AccountSlice {
   refreshing: boolean;
   pullRefreshing: boolean;
   lastRefreshTime: number;
-  animateToInventoryPage: { index: number; animate: boolean };
+  animateToCharacterPage: { index: number; animate: boolean };
   activateInventoryMenu: boolean;
 
   weaponsSortSubmenuOpen: boolean;
@@ -109,6 +109,7 @@ export interface AccountSlice {
   setAppStartupTime: (appStartupTime: number) => void;
   setRefreshing: (refreshing: boolean) => void;
   setPullRefreshing: (pullRefreshing: boolean) => void;
+  getPageData: (inventoryPage: InventoryPageEnums) => UISections[][];
   setCurrentListIndex: (payload: number) => void;
   setPageOffsetY: (inventoryPage: InventoryPageEnums, offsetY: number) => void;
   getPageOffsetY: (inventoryPage: InventoryPageEnums) => number;
@@ -141,7 +142,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   refreshing: false,
   pullRefreshing: false,
   lastRefreshTime: 0,
-  animateToInventoryPage: { index: 0, animate: false },
+  animateToCharacterPage: { index: 0, animate: false },
   showingPerks: false,
   activateInventoryMenu: false,
 
@@ -176,6 +177,17 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
   setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
+  getPageData: (inventoryPage) => {
+    switch (inventoryPage) {
+      case InventoryPageEnums.Armor:
+        return get().ggArmor;
+      case InventoryPageEnums.General:
+        return get().ggGeneral;
+      case InventoryPageEnums.Weapons:
+        return get().ggWeapons;
+    }
+    return [];
+  },
   setPageOffsetY: (inventoryPage, offsetY) => {
     if (inventoryPage === InventoryPageEnums.Weapons) {
       set({ weaponsPageOffsetY: offsetY });
@@ -198,7 +210,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     return 0;
   },
   setCurrentListIndex: (currentListIndex) => {
-    set({ currentListIndex, animateToInventoryPage: { index: currentListIndex, animate: false } });
+    set({ currentListIndex, animateToCharacterPage: { index: currentListIndex, animate: false } });
   },
   setWeaponsSort: (weaponsSort) => {
     if (get().weaponsSort !== weaponsSort) {
@@ -213,7 +225,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     }
   },
   setJumpToIndex: (jumpToIndex) => {
-    set({ animateToInventoryPage: jumpToIndex });
+    set({ animateToCharacterPage: jumpToIndex });
   },
 
   updateProfile: (profile) => {
