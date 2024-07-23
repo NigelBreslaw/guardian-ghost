@@ -1,4 +1,4 @@
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
@@ -44,12 +44,14 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
 
   const listRefs = useRef<(FlashList<UISections> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
-  const isFocused = useIsFocused();
+
+  const pageData = useGGStore((state) => state.getPageData(inventoryPageEnum));
+  const pullRefreshing = useGGStore((state) => state.pullRefreshing);
+  const [pageReady, setPageReady] = useState(false);
 
   const jumpToCharacterRef = useRef<() => void>(() => {
     const currentListIndex = useGGStore.getState().currentListIndex;
     const posX = HOME_WIDTH * currentListIndex;
-    console.log("jump to character", currentListIndex, posX);
     pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
   });
 
@@ -79,20 +81,25 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const unsubscribe = useGGStore.subscribe(
-      (state) => state.animateToInventoryPage,
-      (inventoryPage, previousPage) => {
-        if (inventoryPage.index !== previousPage.index && inventoryPage.animate && isFocused) {
-          const posX = HOME_WIDTH * inventoryPage.index;
+      (state) => state.animateToCharacterPage,
+      (characterPage, previousCharacterPage) => {
+        const currentPage = useGGStore.getState().currentInventoryPage;
+        if (
+          characterPage.index !== previousCharacterPage.index &&
+          characterPage.animate &&
+          currentPage === inventoryPageEnum
+        ) {
+          console.log("subscribe changing index", InventoryPageEnums[characterPage.index]);
+          const posX = HOME_WIDTH * characterPage.index;
           pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: true });
         }
       },
     );
     return unsubscribe;
-  }, [isFocused, HOME_WIDTH]);
-
-  const [pageReady, setPageReady] = useState(false);
+  }, []);
 
   useEffect(() => {
     if (pageReady) {
@@ -100,32 +107,17 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
     }
   }, [pageReady]);
 
-  useEffect(() => {
-    if (isFocused && pageReady) {
+  useFocusEffect(() => {
+    if (pageReady) {
       jumpToCharacterRef.current();
       useGGStore.getState().setCurrentInventoryPage(inventoryPageEnum);
     }
-  }, [isFocused, pageReady, inventoryPageEnum]);
+  });
 
   let lastOffsetY = 0;
 
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
-
-  function getData(inventoryPage: InventoryPageEnums): UISections[][] | undefined {
-    console.log("getData", inventoryPage);
-    switch (inventoryPage) {
-      case InventoryPageEnums.Armor:
-        return useGGStore((state) => state.ggArmor);
-      case InventoryPageEnums.General:
-        return useGGStore((state) => state.ggGeneral);
-      case InventoryPageEnums.Weapons:
-        return useGGStore((state) => state.ggWeapons);
-    }
-  }
-
-  const mainData = getData(inventoryPageEnum) ?? [];
-  const pullRefreshing = useGGStore((state) => state.pullRefreshing);
 
   return (
     <View style={[rootStyles.root, { opacity: pageReady ? 1 : 0 }]}>
@@ -136,7 +128,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
         onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
       >
-        {mainData.map((_c, index) => {
+        {pageData.map((_c, index) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
             <View key={index} style={styles.page}>
@@ -156,11 +148,11 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                   />
                 }
                 onLoad={() => {
-                  if (index === mainData.length - 1) {
+                  if (index === pageData.length - 1) {
                     setPageReady(true);
                   }
                 }}
-                data={mainData[index]}
+                data={pageData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
