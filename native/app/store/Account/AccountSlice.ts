@@ -52,18 +52,21 @@ import {
   updateAllPages,
 } from "@/app/store/InventoryLogic.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
-import type {
-  BucketHash,
-  CharacterId,
-  DestinyItemBase,
-  GuardianData,
-  ItemHash,
-  ProfileData,
+import {
+  getSimpleProfileSchema,
+  type BucketHash,
+  type CharacterId,
+  type DestinyItemBase,
+  type GuardianData,
+  type ItemHash,
+  type ProfileData,
 } from "@/app/core/GetProfile.ts";
 import { InventoryPageEnums, lightLevelBuckets, type UISections } from "@/app/inventory/logic/Helpers.ts";
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
+import { getAsyncStorage, setAsyncStorage } from "@/app/store/DefinitionsSlice.ts";
+import { safeParse } from "valibot";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -126,6 +129,7 @@ export interface AccountSlice {
   setSecondarySpecial: (characterId: CharacterId, itemHash: ItemHash) => void;
   setLastRefreshTime: () => void;
   setDemoMode: () => Promise<void>;
+  loadCachedProfile: () => Promise<void>;
   getCharacterIndex: (characterId: CharacterId) => number;
   updateLightLevel: () => void;
   showInventoryMenu: (show: boolean) => void;
@@ -229,8 +233,16 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   },
 
   updateProfile: (profile) => {
+    const p1 = performance.now();
     updateProfile(get, set, profile);
+    const p2 = performance.now();
+    console.log("update entire Profile", `${(p2 - p1).toFixed(4)} ms`);
     get().updateLightLevel();
+    try {
+      setAsyncStorage("CACHED_PROFILE", JSON.stringify(profile));
+    } catch (e) {
+      console.error("Failed to save cached profile", e);
+    }
   },
 
   setQuantityToTransfer: (quantityToTransfer) => {
@@ -289,6 +301,24 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     const demoData = await fetch("https://app.guardianghost.com/json/demo.json");
     updateProfile(get, set, await demoData.json());
     get().updateLightLevel();
+  },
+  loadCachedProfile: async () => {
+    try {
+      const p1 = performance.now();
+      const cachedProfile = await getAsyncStorage("CACHED_PROFILE");
+      if (cachedProfile) {
+        const profileData = JSON.parse(cachedProfile);
+        const p2 = performance.now();
+        console.log("load cached profile", `${(p2 - p1).toFixed(4)} ms`);
+        const validatedProfile = safeParse(getSimpleProfileSchema, profileData);
+        if (validatedProfile.success) {
+          updateProfile(get, set, validatedProfile.output as ProfileData);
+          get().updateLightLevel();
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load cached profile", e);
+    }
   },
   getCharacterIndex: (characterId: CharacterId) => {
     const characterIndex = get().ggCharacters.findIndex((character) => character.characterId === characterId);

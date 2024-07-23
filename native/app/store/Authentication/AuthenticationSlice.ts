@@ -17,6 +17,7 @@ import { BungieProfileSchema, type BungieMembershipProfiles, type LinkedProfiles
 import { getBungieUser } from "@/app/bungie/Account.ts";
 import { safeParse } from "valibot";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
+import { setAsyncStorage } from "@/app/store/DefinitionsSlice.ts";
 
 const initialBungieUser = {
   supplementalDisplayName: "",
@@ -115,6 +116,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       currentInventoryPage: InventoryPageEnums.Weapons,
       currentListIndex: 0,
     });
+    setAsyncStorage("CACHED_PROFILE", "");
     const membershipId = get().bungieUser.profile.membershipId;
     deleteUserData(membershipId);
   },
