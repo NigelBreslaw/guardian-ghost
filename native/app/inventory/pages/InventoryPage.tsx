@@ -136,7 +136,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                   <RefreshControl
                     enabled={true}
                     tintColor="white"
-                    colors={["white", "white"]}
+                    colors={["black", "white"]}
                     refreshing={pullRefreshing}
                     onRefresh={() => {
                       getFullProfile(true);
