@@ -10,6 +10,11 @@ export const BUNGIE_MANIFEST_URL = "https://www.bungie.net/Platform/Destiny2/Man
 export const CUSTOM_MANIFEST_URL = "https://app.guardianghost.com/json/manifest.json";
 
 export async function getFullProfile(pullToRefresh = false) {
+  if (useGGStore.getState().authenticated !== "AUTHENTICATED") {
+    console.info("Ignoring getFullProfile", useGGStore.getState().authenticated);
+    return;
+  }
+
   useGGStore.getState().setLastRefreshTime();
   useGGStore.getState().setRefreshing(true);
   if (pullToRefresh) {
