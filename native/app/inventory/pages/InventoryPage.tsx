@@ -1,6 +1,6 @@
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
@@ -39,13 +39,39 @@ const getItemType = (item: UISections) => item.type;
 
 export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashListItemSize }: Props) {
   "use memo";
-  const currentListIndex = useGGStore((state) => state.currentListIndex);
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
   const listRefs = useRef<(FlashList<UISections> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
-  const isFocused = useIsFocused();
+
+  const pageData = useGGStore((state) => state.getPageData(inventoryPageEnum));
+  const pullRefreshing = useGGStore((state) => state.pullRefreshing);
+  const [pageReady, setPageReady] = useState(false);
+
+  const jumpToCharacterRef = useRef<() => void>(() => {
+    const currentListIndex = useGGStore.getState().currentListIndex;
+    const posX = HOME_WIDTH * currentListIndex;
+    pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
+  });
+
+  const listMovedRef = useRef<(toY: number, allPages?: boolean) => void>((toY: number, allPages = false) => {
+    if (lastOffsetY !== toY) {
+      useGGStore.getState().setPageOffsetY(inventoryPageEnum, toY);
+      const currentListIndex = useGGStore.getState().currentListIndex;
+
+      lastOffsetY = toY;
+      for (let i = 0; i < listRefs.current.length; i++) {
+        if (i === currentListIndex && !allPages) {
+          continue;
+        }
+        const lRef = listRefs.current[i];
+        if (lRef) {
+          lRef.scrollToOffset({ offset: toY, animated: false });
+        }
+      }
+    }
+  });
 
   const styles = StyleSheet.create({
     container: {},
@@ -55,83 +81,54 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
     },
   });
 
-  const jumpToCharacter = () => {
-    const posX = HOME_WIDTH * currentListIndex;
-    pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: false });
-  };
-
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const unsubscribe = useGGStore.subscribe(
-      (state) => state.animateToInventoryPage,
-      (inventoryPage, previousPage) => {
-        if (inventoryPage.index !== previousPage.index && inventoryPage.animate && isFocused) {
-          const posX = HOME_WIDTH * inventoryPage.index;
+      (state) => state.animateToCharacterPage,
+      (characterPage, previousCharacterPage) => {
+        const currentPage = useGGStore.getState().currentInventoryPage;
+        if (
+          characterPage.index !== previousCharacterPage.index &&
+          characterPage.animate &&
+          currentPage === inventoryPageEnum
+        ) {
+          console.log("subscribe changing index", InventoryPageEnums[characterPage.index]);
+          const posX = HOME_WIDTH * characterPage.index;
           pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: true });
         }
       },
     );
     return unsubscribe;
-  }, [isFocused, HOME_WIDTH]);
+  }, []);
 
-  const initialAccountDataReady = useGGStore((state) => state.initialAccountDataReady);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (isFocused && initialAccountDataReady) {
-      useGGStore.getState().setCurrentInventoryPage(inventoryPageEnum);
-      jumpToCharacter();
+    if (pageReady) {
+      jumpToCharacterRef.current();
     }
-  }, [isFocused, initialAccountDataReady]);
+  }, [pageReady]);
+
+  useFocusEffect(() => {
+    if (pageReady) {
+      jumpToCharacterRef.current();
+      useGGStore.getState().setCurrentInventoryPage(inventoryPageEnum);
+    }
+  });
 
   let lastOffsetY = 0;
 
-  const listMoved = (toY: number) => {
-    if (lastOffsetY !== toY) {
-      lastOffsetY = toY;
-      for (let i = 0; i < listRefs.current.length; i++) {
-        if (i === currentListIndex) {
-          continue;
-        }
-        const lRef = listRefs.current[i];
-        if (lRef) {
-          lRef.scrollToOffset({ offset: toY, animated: false });
-        }
-      }
-    }
-  };
-
-  const debouncedMove = debounce(listMoved, 40);
+  const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
 
-  function getData(inventoryPage: InventoryPageEnums): UISections[][] | undefined {
-    switch (inventoryPage) {
-      case InventoryPageEnums.Armor:
-        return useGGStore((state) => state.ggArmor);
-      case InventoryPageEnums.General:
-        return useGGStore((state) => state.ggGeneral);
-      case InventoryPageEnums.Weapons:
-        return useGGStore((state) => state.ggWeapons);
-    }
-  }
-
-  const mainData = getData(inventoryPageEnum) ?? [];
-  const pullRefreshing = useGGStore((state) => state.pullRefreshing);
-
   return (
-    <View style={rootStyles.root}>
+    <View style={[rootStyles.root, { opacity: pageReady ? 1 : 0 }]}>
       <ScrollView
         horizontal
         pagingEnabled
         scrollEventThrottle={32}
         onScroll={(e) => debounceListIndex(e.nativeEvent.contentOffset.x, HOME_WIDTH)}
         ref={pagedScrollRef}
-        onContentSizeChange={(e) => {
-          if (e > 0) {
-            useGGStore.getState().setInitialAccountDataReady();
-          }
-        }}
       >
-        {mainData.map((_c, index) => {
+        {pageData.map((_c, index) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <Index is unique for each page in this case>
             <View key={index} style={styles.page}>
@@ -150,7 +147,12 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                     }}
                   />
                 }
-                data={mainData[index]}
+                onLoad={() => {
+                  if (index === pageData.length - 1) {
+                    setPageReady(true);
+                  }
+                }}
+                data={pageData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
                 estimatedItemSize={pageEstimatedFlashListItemSize[index]}
