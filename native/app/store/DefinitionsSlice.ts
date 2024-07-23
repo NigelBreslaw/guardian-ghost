@@ -158,6 +158,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
   clearCache: () => {
+    setAsyncStorage("CACHED_PROFILE", "");
     set({ itemDefinitionVersion: "", bungieDefinitionVersions: "", itemsDefinitionReady: false });
   },
 });

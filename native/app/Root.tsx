@@ -153,6 +153,7 @@ function Root() {
         console.error("No navigationRef");
       }
     } else if (authenticated === "AUTHENTICATED" && itemsDefinitionReady && bungieDefinitionsReady) {
+      useGGStore.getState().loadCachedProfile();
       getFullProfile();
       useGGStore.getState().setLastRefreshTime();
       const intervalId = setInterval(refreshIfNeeded, 2000);
