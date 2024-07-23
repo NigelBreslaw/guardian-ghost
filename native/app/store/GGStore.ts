@@ -25,10 +25,14 @@ export const useGGStore = create<IStore>()(
       partialize: (state) => ({
         currentListIndex: state.currentListIndex,
         currentInventoryPage: state.currentInventoryPage,
+        weaponsPageOffsetY: state.weaponsPageOffsetY,
+        armorPageOffsetY: state.armorPageOffsetY,
+        generalPageOffsetY: state.generalPageOffsetY,
         weaponsSort: state.weaponsSort,
         armorSort: state.armorSort,
         showBottomSheetPreference: state.showBottomSheetPreference,
         showNextBottomSheet: state.showNextBottomSheet,
+
         itemDefinitionVersion: state.itemDefinitionVersion,
         bungieDefinitionVersions: state.bungieDefinitionVersions,
       }),

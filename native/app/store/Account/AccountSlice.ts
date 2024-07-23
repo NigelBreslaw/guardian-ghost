@@ -76,7 +76,6 @@ export interface AccountSlice {
   refreshing: boolean;
   pullRefreshing: boolean;
   lastRefreshTime: number;
-  currentListIndex: number;
   animateToInventoryPage: { index: number; animate: boolean };
   activateInventoryMenu: boolean;
   initialAccountDataReady: boolean;
@@ -86,7 +85,11 @@ export interface AccountSlice {
   weaponsSort: WeaponsSort;
   armorSort: ArmorSort;
 
+  currentListIndex: number;
   currentInventoryPage: InventoryPageEnums;
+  weaponsPageOffsetY: number;
+  armorPageOffsetY: number;
+  generalPageOffsetY: number;
 
   ggCharacters: GGCharacterUiData[];
   ggWeapons: UISections[][];
@@ -109,6 +112,7 @@ export interface AccountSlice {
   setRefreshing: (refreshing: boolean) => void;
   setPullRefreshing: (pullRefreshing: boolean) => void;
   setCurrentListIndex: (payload: number) => void;
+  setPageOffsetY: (inventoryPage: InventoryPageEnums, offsetY: number) => void;
   setJumpToIndex: (payload: { index: number; animate: boolean }) => void;
   setWeaponsSort: (weaponsSort: WeaponsSort) => void;
   setArmorSort: (armorSort: ArmorSort) => void;
@@ -138,7 +142,6 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   refreshing: false,
   pullRefreshing: false,
   lastRefreshTime: 0,
-  currentListIndex: 0,
   animateToInventoryPage: { index: 0, animate: false },
   showingPerks: false,
   activateInventoryMenu: false,
@@ -149,7 +152,11 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   weaponsSort: WeaponsSort.TypeAndPower,
   armorSort: ArmorSort.Type,
 
+  currentListIndex: 0,
   currentInventoryPage: InventoryPageEnums.Weapons,
+  weaponsPageOffsetY: 0,
+  armorPageOffsetY: 0,
+  generalPageOffsetY: 0,
 
   ggCharacters: [],
   ggWeapons: [],
@@ -179,7 +186,15 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
   setRefreshing: (refreshing) => set({ refreshing }),
   setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
-
+  setPageOffsetY: (inventoryPage, offsetY) => {
+    if (inventoryPage === InventoryPageEnums.Weapons) {
+      set({ weaponsPageOffsetY: offsetY });
+    } else if (inventoryPage === InventoryPageEnums.Armor) {
+      set({ armorPageOffsetY: offsetY });
+    } else if (inventoryPage === InventoryPageEnums.General) {
+      set({ generalPageOffsetY: offsetY });
+    }
+  },
   setCurrentListIndex: (currentListIndex) => {
     set({ currentListIndex, animateToInventoryPage: { index: currentListIndex, animate: false } });
   },
