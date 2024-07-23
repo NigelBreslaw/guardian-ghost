@@ -92,7 +92,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
           characterPage.animate &&
           currentPage === inventoryPageEnum
         ) {
-          console.log("subscribe changing index", InventoryPageEnums[characterPage.index]);
           const posX = HOME_WIDTH * characterPage.index;
           pagedScrollRef.current?.scrollTo({ x: posX, y: 0, animated: true });
         }
@@ -118,7 +117,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
 
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
-
+  console.log("render", InventoryPageEnums[inventoryPageEnum]);
   return (
     <View style={[rootStyles.root, { opacity: pageReady ? 1 : 0 }]}>
       <ScrollView
