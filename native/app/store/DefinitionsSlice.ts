@@ -58,7 +58,6 @@ import {
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
-import { updateBucketSizes, updateDestinyText } from "@/app/utilities/Constants.ts";
 import { getJsonBlob } from "@/app/utilities/Helpers.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
@@ -66,16 +65,18 @@ export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], Def
 
 export interface DefinitionsSlice {
   itemsDefinitionReady: boolean;
+  itemDefinitionVersion: string;
   bungieDefinitionsReady: boolean;
+  bungieDefinitionVersions: string;
+  allDefinitionsSuccessfullyLoaded: boolean;
+
   snackBarVisible: boolean;
   snackBarMessage: string;
   inventorySectionWidth: number;
-  itemDefinitionVersion: string;
-  bungieDefinitionVersions: string;
   setItemsDefinitionReady: () => void;
   setBungieDefinitionsReady: () => void;
   loadCustomDefinitions: (uniqueKey: string) => Promise<void>;
-  loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
+  loadBungieDefinitions: (bungieManifest: BungieManifest) => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
   clearCache: () => void;
@@ -83,12 +84,14 @@ export interface DefinitionsSlice {
 
 export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set, get) => ({
   itemsDefinitionReady: false,
+  itemDefinitionVersion: "",
   bungieDefinitionsReady: false,
+  bungieDefinitionVersions: "",
+  allDefinitionsSuccessfullyLoaded: false,
+
   snackBarVisible: false,
   snackBarMessage: "",
   inventorySectionWidth: 0,
-  itemDefinitionVersion: "",
-  bungieDefinitionVersions: "",
   setItemsDefinitionReady: () => {
     set({ itemsDefinitionReady: true });
     if (get().bungieDefinitionsReady && get().stateHydrated) {
@@ -113,34 +116,16 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     }
   },
   loadBungieDefinitions: async (bungieManifest) => {
-    if (bungieManifest === null) {
-      Toast.show({
-        type: "error",
-        text1: "Restart the app. Failed to load bungie manifest",
-      });
-    }
     const storedVersion = get().bungieDefinitionVersions;
     const versionKey = bungieManifest?.Response.version;
 
-    try {
-      if (storedVersion === "") {
-        // download a version
-        await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
-      } else if (versionKey === null) {
-        // try to use the already downloaded version
-        await loadLocalBungieDefinitions(get, set);
-      } else if (versionKey === storedVersion) {
-        // use the already downloaded version
-        await loadLocalBungieDefinitions(get, set);
-      } else {
-        // download a new version
-        console.log("download a new bungie definitions as KEY is different");
-        await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
-      }
-      updateBucketSizes();
-      updateDestinyText();
-    } catch (e) {
-      console.error("Failed to load bungieDefinition version. Downloading new version...", e);
+    if (storedVersion === versionKey) {
+      // use the already downloaded version
+      await loadLocalBungieDefinitions(get, set);
+    } else {
+      // download a new version
+      console.log("download a new bungie definitions as KEY is different");
+      await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
     }
   },
   showSnackBar: (message) => {
@@ -218,7 +203,6 @@ async function downloadAndStoreBungieDefinitions(
         promises.push(downloadedDefinition);
       }
     }
-
     const completedDefinitions = await Promise.all(promises);
 
     if (completedDefinitions[0]) {
@@ -281,9 +265,10 @@ async function downloadAndStoreBungieDefinitions(
     get().setBungieDefinitionsReady();
   } catch (e) {
     console.error("Failed to download and save bungieDefinition", e);
-    if (failCount < 3) {
+    if (failCount < 5) {
       failCount++;
       console.error("Failed to download and save bungieDefinition", e);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
     } else {
       // show error toast

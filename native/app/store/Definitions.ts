@@ -9,6 +9,7 @@ import type {
   InventoryBucketDefinition,
 } from "@/app/core/BungieDefinitions";
 import type { BucketHash, CharacterId, ItemHash, ProfileData } from "@/app/core/GetProfile.ts";
+import { SectionBuckets } from "@/app/bungie/Enums.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
@@ -204,10 +205,12 @@ export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: Sta
 
 export function setDestinyStatDefinition(newDestinyStatDefinition: StatDefinition) {
   DestinyStatDefinition = newDestinyStatDefinition;
+  updateDestinyText();
 }
 
 export function setDestinyInventoryBucketDefinition(newDestinyInventoryBucketDefinition: InventoryBucketDefinition) {
   DestinyInventoryBucketDefinition = newDestinyInventoryBucketDefinition;
+  updateBucketSizes();
 }
 
 type DisplayInterpolation = {
@@ -242,4 +245,27 @@ function buildStatGroupDefinitionHelper(definition: StatGroupDefinition): StatGr
     helper.set(statHashNumber, statGroupData);
   }
   return helper;
+}
+
+export const BUCKET_SIZES = {
+  [SectionBuckets.Consumables]: 50,
+  [SectionBuckets.Mods]: 50,
+  [SectionBuckets.LostItem]: 21,
+  [SectionBuckets.Vault]: 500,
+};
+
+export const DESTINY_TEXT = {
+  POWER: "",
+};
+
+function updateBucketSizes() {
+  BUCKET_SIZES[SectionBuckets.Consumables] =
+    DestinyInventoryBucketDefinition?.[SectionBuckets.Consumables]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Mods] = DestinyInventoryBucketDefinition?.[SectionBuckets.Mods]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyInventoryBucketDefinition?.[SectionBuckets.LostItem]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition?.[SectionBuckets.Vault]?.itemCount ?? 5;
+}
+
+function updateDestinyText() {
+  DESTINY_TEXT.POWER = DestinyStatDefinition?.[1935470627]?.displayProperties.name ?? "";
 }
