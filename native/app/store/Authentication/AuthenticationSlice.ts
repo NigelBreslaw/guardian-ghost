@@ -115,6 +115,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       bungieMembershipProfiles: [],
       currentInventoryPage: InventoryPageEnums.Weapons,
       currentListIndex: 0,
+      previousDefinitionsSuccessfullyLoaded: false,
     });
     removeAsyncStorageItem("CACHED_PROFILE");
     const membershipId = get().bungieUser.profile.membershipId;
