@@ -122,7 +122,6 @@ async function getTokenInternal(
   errorMessage: string,
 ): Promise<AuthToken> {
   try {
-    console.log("getTokenInternal!!!");
     const updatedToken = await getUpdatedAccessToken(authToken);
     return updatedToken;
   } catch (e) {

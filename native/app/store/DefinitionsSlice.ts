@@ -68,7 +68,7 @@ export interface DefinitionsSlice {
   itemDefinitionVersion: string;
   bungieDefinitionsReady: boolean;
   bungieDefinitionVersions: string;
-  allDefinitionsSuccessfullyLoaded: boolean;
+  previousDefinitionsSuccessfullyLoaded: boolean;
 
   snackBarVisible: boolean;
   snackBarMessage: string;
@@ -77,6 +77,7 @@ export interface DefinitionsSlice {
   setBungieDefinitionsReady: () => void;
   loadCustomDefinitions: (uniqueKey: string) => Promise<void>;
   loadBungieDefinitions: (bungieManifest: BungieManifest) => Promise<void>;
+  fastLoadDefinitions: () => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
   clearCache: () => void;
@@ -87,7 +88,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   itemDefinitionVersion: "",
   bungieDefinitionsReady: false,
   bungieDefinitionVersions: "",
-  allDefinitionsSuccessfullyLoaded: false,
+  previousDefinitionsSuccessfullyLoaded: false,
 
   snackBarVisible: false,
   snackBarMessage: "",
@@ -95,17 +96,26 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   setItemsDefinitionReady: () => {
     set({ itemsDefinitionReady: true });
     if (get().bungieDefinitionsReady && get().stateHydrated) {
-      set({ appReady: true });
+      set({ appReady: true, previousDefinitionsSuccessfullyLoaded: true });
     }
   },
   setBungieDefinitionsReady: () => {
     set({ bungieDefinitionsReady: true });
     if (get().itemsDefinitionReady && get().stateHydrated) {
-      set({ appReady: true });
+      const p1 = get().appStartupTime;
+      const p2 = performance.now();
+      console.log("setItemsDefinitionReady", `${(p2 - p1).toFixed(4)} ms`);
+      set({ appReady: true, previousDefinitionsSuccessfullyLoaded: true });
     }
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
+    // Don't attempt to get an already loaded definition
+    if (storedVersion === uniqueKey && get().itemsDefinitionReady) {
+      console.info("No new custom definitions needed");
+      return;
+    }
+
     if (storedVersion === uniqueKey) {
       // use the already downloaded version
       await loadLocalItemDefinitionVersion(get, set);
@@ -119,6 +129,12 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     const storedVersion = get().bungieDefinitionVersions;
     const versionKey = bungieManifest?.Response.version;
 
+    // Don't attempt to get an already loaded definition
+    if (storedVersion === versionKey && get().itemsDefinitionReady) {
+      console.info("No new bungie definitions needed", storedVersion, versionKey, get().itemsDefinitionReady);
+      return;
+    }
+
     if (storedVersion === versionKey) {
       // use the already downloaded version
       await loadLocalBungieDefinitions(get, set);
@@ -127,6 +143,10 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       console.log("download a new bungie definitions as KEY is different");
       await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
     }
+  },
+  fastLoadDefinitions: async () => {
+    loadLocalItemDefinitionVersion(get, set);
+    loadLocalBungieDefinitions(get, set);
   },
   showSnackBar: (message) => {
     Toast.show({

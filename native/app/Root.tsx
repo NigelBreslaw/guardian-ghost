@@ -65,9 +65,9 @@ async function getBungieDefinitions() {
 }
 
 async function init() {
+  const startupTime = performance.now();
+  useGGStore.getState().setAppStartupTime(startupTime);
   useGGStore.getState().initAuthentication();
-  getCustomItemDefinition();
-  getBungieDefinitions();
 }
 init();
 
@@ -126,8 +126,6 @@ function Root() {
     allowFontScaling: false,
   };
 
-  const itemsDefinitionReady = useGGStore((state) => state.itemsDefinitionReady);
-  const bungieDefinitionsReady = useGGStore((state) => state.bungieDefinitionsReady);
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
@@ -149,15 +147,33 @@ function Root() {
       } else {
         console.error("No navigationRef");
       }
-    } else if (authenticated === "AUTHENTICATED" && itemsDefinitionReady && bungieDefinitionsReady) {
+    } else if (authenticated === "AUTHENTICATED" && appReady) {
       useGGStore.getState().loadCachedProfile();
-      getFullProfile();
       useGGStore.getState().setLastRefreshTime();
+      getFullProfile();
       const intervalId = setInterval(refreshIfNeeded, 2000);
 
       return () => clearInterval(intervalId);
     }
-  }, [authenticated, itemsDefinitionReady, bungieDefinitionsReady, stateHydrated]);
+  }, [authenticated, appReady, stateHydrated]);
+
+  useEffect(() => {
+    async function initDefinitions() {
+      if (useGGStore.getState().previousDefinitionsSuccessfullyLoaded) {
+        useGGStore.getState().fastLoadDefinitions();
+        // pause for 200ms to allow the definitions to load
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        getCustomItemDefinition();
+        getBungieDefinitions();
+      } else {
+        getCustomItemDefinition();
+        getBungieDefinitions();
+      }
+    }
+    if (stateHydrated) {
+      initDefinitions();
+    }
+  }, [stateHydrated]);
 
   return (
     <GestureHandlerRootView>
