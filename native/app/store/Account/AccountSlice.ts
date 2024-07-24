@@ -178,7 +178,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   rawProfileData: null,
 
   setStateHydrated: () => set({ stateHydrated: true }),
-  setAppStartupTime: (appStartupTime) => set({ appStartupTime }),
+  setAppStartupTime: (appStartupTime) => {
+    set({ appStartupTime });
+  },
   setRefreshing: (refreshing) => set({ refreshing }),
   setPullRefreshing: (pullRefreshing) => set({ pullRefreshing }),
   getPageData: (inventoryPage) => {

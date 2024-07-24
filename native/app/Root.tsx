@@ -25,9 +25,6 @@ if (Platform.OS !== "web") {
   Appearance.setColorScheme("dark");
 }
 
-const startupTime = performance.now();
-useGGStore.getState().setAppStartupTime(startupTime);
-
 enableFreeze(true);
 
 let customDownloadAttempts = 0;
