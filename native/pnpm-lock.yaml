@@ -96,8 +96,8 @@ importers:
         specifier: 0.27.5
         version: 0.27.5(expo-modules-autolinking@1.11.1)(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))
       expo-sqlite:
-        specifier: 14.0.4
-        version: 14.0.4(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))
+        specifier: 14.0.5
+        version: 14.0.5(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))
       expo-system-ui:
         specifier: 3.0.7
         version: 3.0.7(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9)))
@@ -3169,8 +3169,8 @@ packages:
     peerDependencies:
       expo: '*'
 
-  expo-sqlite@14.0.4:
-    resolution: {integrity: sha512-IF8zcdGzH1HuIls2vRpWF3Y6NTfTInjvegX/EyvTChp8gtRYquohz35ywGo4OMLJp/ztkL+wqCbLoIZZ+DEjiQ==}
+  expo-sqlite@14.0.5:
+    resolution: {integrity: sha512-1By8PgwgmSgbHoiR/0sx6a9zJCzYmoCUG6lWbjVt/gvgr8evJ9H+9bEuwJ+73gaxfkENx8+GNonaEISftrectQ==}
     peerDependencies:
       expo: '*'
 
@@ -9739,7 +9739,7 @@ snapshots:
       - expo-modules-autolinking
       - supports-color
 
-  expo-sqlite@14.0.4(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))):
+  expo-sqlite@14.0.5(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))):
     dependencies:
       '@expo/websql': 1.0.1
       expo: 51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))
