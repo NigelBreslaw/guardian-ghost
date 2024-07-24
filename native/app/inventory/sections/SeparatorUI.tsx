@@ -2,7 +2,8 @@ import { StyleSheet, View, Text } from "react-native";
 
 import { SEPARATOR_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { BUCKET_SIZES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
+import { BUCKET_SIZES } from "@/app/store/Definitions.ts";
 import type { BucketHash, CharacterId } from "@/app/core/GetProfile.ts";
 import { vaultItemBuckets } from "@/app/inventory/logic/Helpers.ts";
 import { useEffect, useState } from "react";
