@@ -74,7 +74,7 @@ export interface DefinitionsSlice {
   bungieDefinitionVersions: string;
   setItemsDefinitionReady: () => void;
   setBungieDefinitionsReady: () => void;
-  loadCustomDefinitions: (uniqueKey: string | null) => Promise<void>;
+  loadCustomDefinitions: (uniqueKey: string) => Promise<void>;
   loadBungieDefinitions: (bungieManifest: BungieManifest | null) => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
@@ -103,19 +103,12 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   loadCustomDefinitions: async (uniqueKey) => {
     const storedVersion = get().itemDefinitionVersion;
-    if (storedVersion === "") {
-      // download a version
-      console.log("download a version");
-      await downloadAndStoreItemDefinition(get, set);
-    } else if (uniqueKey === null) {
-      // try to use the already downloaded version
-      await loadLocalItemDefinitionVersion(get, set);
-    } else if (uniqueKey === storedVersion) {
+    if (storedVersion === uniqueKey) {
       // use the already downloaded version
       await loadLocalItemDefinitionVersion(get, set);
     } else {
-      // download a new version
-      console.log("download a new version as KEY is different");
+      // download a version
+      console.log("download a version");
       await downloadAndStoreItemDefinition(get, set);
     }
   },
