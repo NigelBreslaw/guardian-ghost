@@ -151,7 +151,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
   clearCache: () => {
-    setAsyncStorage("CACHED_PROFILE", "");
+    removeAsyncStorageItem("CACHED_PROFILE");
     set({ itemDefinitionVersion: "", bungieDefinitionVersions: "", itemsDefinitionReady: false });
   },
 });
@@ -540,5 +540,15 @@ export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promi
   } catch (error: unknown) {
     console.error("Failed to save", error, key);
     throw new Error(`Failed to save AsyncStorage ${key}`);
+  }
+}
+
+export async function removeAsyncStorageItem(key: AsyncStorageKey): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(key);
+    console.log("removed", key);
+  } catch (error: unknown) {
+    console.error("Failed to remove", error, key);
+    throw new Error(`Failed to remove AsyncStorage ${key}`);
   }
 }
