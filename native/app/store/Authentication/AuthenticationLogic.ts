@@ -48,9 +48,9 @@ export async function loadToken(membershipId: string): Promise<AuthToken | null>
 
 async function getUpdatedAccessToken(token: AuthToken): Promise<AuthToken> {
   const isValidRefresh = isValidRefreshToken(token);
+
   if (!isValidRefresh) {
     // Nothing can be done. The user needs to re-auth.
-    // TODO: Log out the user
     console.error("Refresh token expired");
     throw new Error("Refresh token expired");
   }
@@ -122,12 +122,17 @@ async function getTokenInternal(
   errorMessage: string,
 ): Promise<AuthToken> {
   try {
+    console.log("getTokenInternal!!!");
     const updatedToken = await getUpdatedAccessToken(authToken);
     return updatedToken;
   } catch (e) {
     console.error("Failed to validate token", errorMessage, e);
     const error = e as Error;
-    if (error.message === "ProvidedTokenNotValidRefreshToken" || error.message.includes("NotFound (SQL Return Value")) {
+    if (
+      error.message === "ProvidedTokenNotValidRefreshToken" ||
+      error.message.includes("NotFound (SQL Return Value") ||
+      error.message.includes("Refresh token expired")
+    ) {
       console.error(error.message);
       get().logoutCurrentUser();
     }
