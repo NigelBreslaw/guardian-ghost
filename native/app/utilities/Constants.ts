@@ -1,19 +1,6 @@
 import { DestinyClass, ItemSubType, SectionBuckets, DamageType } from "@/app/bungie/Enums.ts";
 import type { CharacterId } from "@/app/core/GetProfile.ts";
-import { DestinyInventoryBucketDefinition, DestinyStatDefinition } from "@/app/store/Definitions.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-
-export function updateBucketSizes() {
-  BUCKET_SIZES[SectionBuckets.Consumables] =
-    DestinyInventoryBucketDefinition?.[SectionBuckets.Consumables]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Mods] = DestinyInventoryBucketDefinition?.[SectionBuckets.Mods]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyInventoryBucketDefinition?.[SectionBuckets.LostItem]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition?.[SectionBuckets.Vault]?.itemCount ?? 5;
-}
-
-export function updateDestinyText() {
-  DESTINY_TEXT.POWER = DestinyStatDefinition?.[1935470627]?.displayProperties.name ?? "";
-}
 
 export const VAULT_CHARACTER_ID = "VAULT" as CharacterId;
 export const GLOBAL_MODS_CHARACTER_ID = "GLOBAL_MODS_CHARACTER_ID" as CharacterId;
@@ -25,17 +12,6 @@ export const GLOBAL_INVENTORY_NAMES = [
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_LOST_ITEMS_CHARACTER_ID,
 ];
-
-export const BUCKET_SIZES = {
-  [SectionBuckets.Consumables]: 50,
-  [SectionBuckets.Mods]: 50,
-  [SectionBuckets.LostItem]: 21,
-  [SectionBuckets.Vault]: 500,
-};
-
-export const DESTINY_TEXT = {
-  POWER: "",
-};
 
 export const DEFAULT_OVERLAP_COLOR = "#242429CC";
 
