@@ -35,6 +35,7 @@ export const useGGStore = create<IStore>()(
 
         itemDefinitionVersion: state.itemDefinitionVersion,
         bungieDefinitionVersions: state.bungieDefinitionVersions,
+        allDefinitionsSuccessfullyLoaded: state.allDefinitionsSuccessfullyLoaded,
       }),
       onRehydrateStorage: () => {
         return (state, error) => {
