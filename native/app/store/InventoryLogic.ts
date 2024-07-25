@@ -714,7 +714,7 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
 
 export function hasSocketedResonance(itemInstanceId: ItemInstanceId): boolean {
-  const liveSocketJson = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId];
+  const liveSocketJson = rawProfileData?.Response.itemComponents?.sockets.data[itemInstanceId];
   if (!liveSocketJson) {
     return false;
   }

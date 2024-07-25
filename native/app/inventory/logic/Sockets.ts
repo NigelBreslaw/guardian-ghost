@@ -269,7 +269,7 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     console.error("No itemInstanceId", destinyItem);
     return null;
   }
-  const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId];
+  const liveSockets = rawProfileData?.Response.itemComponents?.sockets.data[destinyItem.itemInstanceId];
   if (!liveSockets) {
     console.error("No liveSockets", destinyItem);
     return null;
@@ -291,7 +291,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
     return null;
   }
   /// These plugs are used by multiple socketEntries so just grab them once and reuse
-  const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
+  const reusablePlugs = rawProfileData?.Response.itemComponents?.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
 
   for (const category of sockets.socketCategories) {
     const categoryStyleEnum = category.categoryStyle;
@@ -335,7 +335,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
 
               case SocketPlugSources.ProfilePlugSet: {
                 if (socket.reusablePlugSetHash) {
-                  plugs = rawProfileData?.Response.profilePlugSets.data?.plugs[socket.reusablePlugSetHash] ?? [];
+                  plugs = rawProfileData?.Response.profilePlugSets?.data?.plugs[socket.reusablePlugSetHash] ?? [];
                 }
                 break;
               }
