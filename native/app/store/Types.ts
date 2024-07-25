@@ -1,7 +1,12 @@
 import type { DefinitionKey } from "@/app/core/BungieDefinitions.ts";
 
 export type StorageKey = "ITEM_DEFINITION" | "ACCOUNTS";
-export type AsyncStorageKey = DefinitionKey | "CACHED_PROFILE";
+export type AsyncStorageKey =
+  | DefinitionKey
+  | "CACHED_PROFILE"
+  | "@GG_profile"
+  | "@GG_itemComponents"
+  | "@GG_profilePlugSets";
 
 export enum WeaponsSort {
   Power = "POWER",

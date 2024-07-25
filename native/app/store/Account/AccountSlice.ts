@@ -65,8 +65,8 @@ import { InventoryPageEnums, lightLevelBuckets, type UISections } from "@/app/in
 import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
-import { getAsyncStorage, setAsyncStorage } from "@/app/store/DefinitionsSlice.ts";
 import { safeParse } from "valibot";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -241,7 +241,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     console.log("update entire Profile", `${(p2 - p1).toFixed(4)} ms`);
     get().updateLightLevel();
     try {
-      setAsyncStorage("CACHED_PROFILE", JSON.stringify(profile, null, 0));
+      cacheProfile(profile);
     } catch (e) {
       console.error("Failed to save cached profile", e);
     }
@@ -307,16 +307,13 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   loadCachedProfile: async () => {
     try {
       const p1 = performance.now();
-      const cachedProfile = await getAsyncStorage("CACHED_PROFILE");
+      const cachedProfile = await getCachedProfile();
       if (cachedProfile) {
-        const profileData = JSON.parse(cachedProfile);
         const p2 = performance.now();
         console.log("load cached profile", `${(p2 - p1).toFixed(4)} ms`);
-        const validatedProfile = safeParse(getSimpleProfileSchema, profileData);
-        if (validatedProfile.success) {
-          updateProfile(get, set, validatedProfile.output as ProfileData);
-          get().updateLightLevel();
-        }
+
+        updateProfile(get, set, cachedProfile);
+        get().updateLightLevel();
       }
     } catch (e) {
       console.error("Failed to load cached profile", e);
@@ -448,6 +445,52 @@ function createInitialGuardiansData(profile: ProfileData): Map<CharacterId, Guar
   return guardians;
 }
 
+// Android has a 2MB limit per item it can read/write to AsyncStorage.
+// This is a workaround to get around that limit. It chops the file into smaller chunks.
+async function cacheProfile(profile: ProfileData) {
+  const profileCopy = JSON.parse(JSON.stringify(profile));
+
+  const itemComponents = JSON.stringify(profileCopy.Response.itemComponents, null, 0);
+  const profilePlugSets = JSON.stringify(profileCopy.Response.profilePlugSets, null, 0);
+  profileCopy.Response.itemComponents = undefined;
+  profileCopy.Response.profilePlugSets = undefined;
+
+  const mainProfile: [string, string] = ["@GG_profile", JSON.stringify(profileCopy, null, 0)];
+  const itemComponentsProfile: [string, string] = ["@GG_itemComponents", itemComponents];
+  const profilePlugSetsProfile: [string, string] = ["@GG_profilePlugSets", profilePlugSets];
+
+  try {
+    await AsyncStorage.multiSet([mainProfile, itemComponentsProfile, profilePlugSetsProfile]);
+    console.log("saved profile");
+  } catch (e) {
+    console.error("Failed to cache profile", e);
+  }
+}
+
+// Android has a 2MB limit per item it can read/write to AsyncStorage.
+// This is a workaround to get around that limit. It chops the file into smaller chunks.
+async function getCachedProfile(): Promise<ProfileData> {
+  try {
+    const values = await AsyncStorage.multiGet(["@GG_profile", "@GG_itemComponents", "@GG_profilePlugSets"]);
+    if (values[0] && values[1] && values[2]) {
+      const profile = JSON.parse(values[0][1] as string) as unknown as ProfileData;
+      const itemComponents = JSON.parse(values[1][1] as string) as ProfileData["Response"]["itemComponents"];
+      const profilePlugSets = JSON.parse(values[2][1] as string) as ProfileData["Response"]["profilePlugSets"];
+
+      profile.Response.itemComponents = itemComponents;
+      profile.Response.profilePlugSets = profilePlugSets;
+
+      const parseProfile = safeParse(getSimpleProfileSchema, profile);
+      if (parseProfile.success) {
+        return parseProfile.output as ProfileData;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load cached profile", e);
+  }
+  throw new Error("Failed to load cached profile");
+}
+
 function processCharacterEquipment(
   get: AccountSliceGetter,
   profile: ProfileData,
@@ -563,7 +606,7 @@ function addDefinition(
   });
 
   if (baseItem.itemInstanceId !== undefined) {
-    const itemComponent = rawProfileData?.Response.itemComponents.instances.data[baseItem.itemInstanceId];
+    const itemComponent = rawProfileData?.Response.itemComponents?.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
       if (
         definitionItem.itemType === ItemType.Weapon ||
@@ -816,7 +859,7 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
   const itemInstanceId = destinyItem.itemInstanceId;
   if (itemInstanceId) {
     if (destinyItem.def.tierType === TierType.Exotic) {
-      const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[itemInstanceId]?.sockets;
+      const liveSockets = rawProfileData?.Response.itemComponents?.sockets.data[itemInstanceId]?.sockets;
       if (!liveSockets) {
         return false;
       }
@@ -829,7 +872,7 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
         }
       }
     } else {
-      const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[itemInstanceId]?.plugs;
+      const reusablePlugs = rawProfileData?.Response.itemComponents?.reusablePlugs.data[itemInstanceId]?.plugs;
       if (!reusablePlugs) {
         return false;
       }
