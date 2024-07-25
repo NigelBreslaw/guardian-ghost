@@ -130,8 +130,8 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     const versionKey = bungieManifest?.Response.version;
 
     // Don't attempt to get an already loaded definition
-    if (storedVersion === versionKey && get().itemsDefinitionReady) {
-      console.info("No new bungie definitions needed", storedVersion, versionKey, get().itemsDefinitionReady);
+    if (storedVersion === versionKey && get().bungieDefinitionsReady) {
+      console.info("No new bungie definitions needed", storedVersion, versionKey, get().bungieDefinitionsReady);
       return;
     }
 
