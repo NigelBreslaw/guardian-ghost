@@ -445,6 +445,8 @@ function createInitialGuardiansData(profile: ProfileData): Map<CharacterId, Guar
   return guardians;
 }
 
+// Android has a 2MB limit per item it can read/write to AsyncStorage.
+// This is a workaround to get around that limit. It chops the file into smaller chunks.
 async function cacheProfile(profile: ProfileData) {
   const profileCopy = JSON.parse(JSON.stringify(profile));
 
@@ -465,6 +467,8 @@ async function cacheProfile(profile: ProfileData) {
   }
 }
 
+// Android has a 2MB limit per item it can read/write to AsyncStorage.
+// This is a workaround to get around that limit. It chops the file into smaller chunks.
 async function getCachedProfile(): Promise<ProfileData> {
   try {
     const values = await AsyncStorage.multiGet(["@GG_profile", "@GG_itemComponents", "@GG_profilePlugSets"]);
