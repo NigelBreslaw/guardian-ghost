@@ -241,7 +241,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     console.log("update entire Profile", `${(p2 - p1).toFixed(4)} ms`);
     get().updateLightLevel();
     try {
-      setAsyncStorage("CACHED_PROFILE", JSON.stringify(profile));
+      setAsyncStorage("CACHED_PROFILE", JSON.stringify(profile, null, 0));
     } catch (e) {
       console.error("Failed to save cached profile", e);
     }
