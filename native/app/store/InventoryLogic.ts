@@ -174,6 +174,8 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
 
     for (const bucket of sectionBuckets as BucketHash[]) {
       const bucketItems = characterData.items.get(bucket);
+      const equippedItem = bucketItems?.equipped;
+      const inventoryItems = bucketItems?.inventory ?? [];
 
       dataArray.push(getSeparator(bucket, characterId));
 
@@ -195,7 +197,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
           dataArray.push({
             id: `${bucket}_engrams_section`,
             type: UISection.Engrams,
-            inventory: bucketItems ? bucketItems.inventory : [],
+            inventory: inventoryItems,
           });
           break;
 
@@ -203,7 +205,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
           dataArray.push({
             id: `${bucket}_lost_items_section`,
             type: UISection.LostItems,
-            inventory: bucketItems ? bucketItems.inventory : [],
+            inventory: inventoryItems,
           });
           break;
 
@@ -211,7 +213,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
           dataArray.push({
             id: `${bucket}_artifact_section`,
             type: UISection.Artifact,
-            equipped: bucketItems?.equipped,
+            equipped: equippedItem,
           });
           break;
 
@@ -220,8 +222,8 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
             dataArray.push({
               id: `${bucket}_equip_section`,
               type: UISection.CharacterEquipment,
-              equipped: bucketItems.equipped,
-              inventory: sortInventoryArray(get, bucketItems.inventory, bucket),
+              equipped: equippedItem,
+              inventory: sortInventoryArray(get, inventoryItems, bucket),
             });
           }
           break;
