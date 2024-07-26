@@ -105,8 +105,8 @@ importers:
         specifier: 5.0.1
         version: 5.0.1
       lucide-react-native:
-        specifier: 0.414.0
-        version: 0.414.0(react-native-svg@15.4.0(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: 0.416.0
+        version: 0.416.0(react-native-svg@15.4.0(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       mutative:
         specifier: 1.0.7
         version: 1.0.7
@@ -4080,8 +4080,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-react-native@0.414.0:
-    resolution: {integrity: sha512-IwpyS8tR09tRreZC7FJPlrDeLpmZ7D0rVyUJWN2l0xk+IZ+RPxwGqyyUuxWZsKJ56Ou9gNTVgYOcZ3ZTz0Af9g==}
+  lucide-react-native@0.416.0:
+    resolution: {integrity: sha512-+Bu8KON8GZweCHTiFv72mX8Wsy2FJ1jI/m6g9cdF9ofVpGPRwFiu+2YHywMIER2fdYgOFbk9cilwjYEUghmUxA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
       react-native: '*'
@@ -10711,7 +10711,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-react-native@0.414.0(react-native-svg@15.4.0(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
+  lucide-react-native@0.416.0(react-native-svg@15.4.0(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-native: 0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.5(@babel/core@7.24.9))(@types/react@18.3.3)(react@18.3.1)
