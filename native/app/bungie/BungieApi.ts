@@ -28,7 +28,7 @@ export async function getFullProfile(pullToRefresh = false) {
     if (isNewer) {
       const validatedProfile = safeParse(getSimpleProfileSchema, profile);
       if (validatedProfile.success) {
-        useGGStore.getState().updateProfile(validatedProfile.output as ProfileData);
+        await useGGStore.getState().updateProfile(validatedProfile.output as ProfileData);
       } else {
         console.error("Failed to validate profile!", profile);
         console.error("Issues", validatedProfile.issues);
