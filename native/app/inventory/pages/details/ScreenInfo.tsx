@@ -129,7 +129,7 @@ function getPrimaryStatLabel(destinyItem: DestinyItem): string {
   return "";
 }
 
-function PrimaryStatUI({ destinyItem }: { destinyItem: DestinyItem }) {
+function PrimaryStatUI({ destinyItem }: { readonly destinyItem: DestinyItem }) {
   "use memo";
   const POWER_NAME = getPrimaryStatLabel(destinyItem);
 
