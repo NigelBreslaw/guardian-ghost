@@ -1,5 +1,6 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 
@@ -16,6 +17,7 @@ export default function QuantityPicker({ destinyItem }: Props) {
       <Text style={styles.quantityTitle}>{"Quantity to transfer:"}</Text>
       <View style={styles.quantity}>
         <TextInput
+          allowFontScaling={false}
           inputMode="numeric"
           style={styles.quantityText}
           value={quantity === 0 ? "" : quantity.toString()}

@@ -1,16 +1,12 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { StatusBar, useWindowDimensions, Text, Platform, Appearance, TextInput } from "react-native";
-import { enableFreeze } from "react-native-screens";
+import { StatusBar, useWindowDimensions, Platform, Appearance } from "react-native";
+import { enableFreeze, enableScreens } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalHost } from "@rn-primitives/portal";
-import { enableScreens } from "react-native-screens";
-
-// Enable screens for better performance
-enableScreens();
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { getJsonBlob } from "@/app/utilities/Helpers.ts";
@@ -21,12 +17,14 @@ import App from "@/app/App"; // Do not use the file extension or the web version
 import "@/global.css";
 import { removeAsyncStorageItem } from "@/app/store/DefinitionsSlice.ts";
 
+// Enable screens for better performance
+enableScreens();
+enableFreeze(true);
+
 SplashScreen.preventAutoHideAsync();
 if (Platform.OS !== "web") {
   Appearance.setColorScheme("dark");
 }
-
-enableFreeze(true);
 
 let customDownloadAttempts = 0;
 async function getCustomItemDefinition() {
@@ -107,25 +105,6 @@ function refreshIfNeeded() {
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
   "use memo";
-
-  // TODO: This hack turns off the font scaling. At some point accessibility will be added to the app.
-  interface TextWithDefaultProps extends Text {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  interface TextInputWithDefaultProps extends TextInput {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  (Text as unknown as TextWithDefaultProps).defaultProps = {
-    ...((Text as unknown as TextWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
-
-  (TextInput as unknown as TextInputWithDefaultProps).defaultProps = {
-    ...((TextInput as unknown as TextInputWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
 
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);

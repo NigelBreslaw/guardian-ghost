@@ -1,10 +1,11 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
+import Text from "@/app/UI/Text.tsx";
 import { TierType } from "@/app/bungie/Enums.ts";
 import type { SocketCategory, SocketEntry } from "@/app/inventory/logic/Sockets.ts";
 import PerkCircle from "@/app/stats/PerkCircle.tsx";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type Props = {
   readonly socketCategory: SocketCategory;
