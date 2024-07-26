@@ -218,6 +218,7 @@ export default function SearchView() {
           >
             <Image source={SEARCH_ICON} style={{ width: 28, height: 28, opacity: 0.4, alignSelf: "center" }} />
             <TextInput
+              allowFontScaling={false}
               ref={textInputRef}
               keyboardAppearance="dark"
               cursorColor="white"

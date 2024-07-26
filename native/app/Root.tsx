@@ -108,25 +108,6 @@ function refreshIfNeeded() {
 function Root() {
   "use memo";
 
-  // TODO: This hack turns off the font scaling. At some point accessibility will be added to the app.
-  interface TextWithDefaultProps extends Text {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  interface TextInputWithDefaultProps extends TextInput {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  (Text as unknown as TextWithDefaultProps).defaultProps = {
-    ...((Text as unknown as TextWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
-
-  (TextInput as unknown as TextInputWithDefaultProps).defaultProps = {
-    ...((TextInput as unknown as TextInputWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
-
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);
   const { width } = useWindowDimensions();
