@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Platform, ScrollView } from "react-native";
+import { StyleSheet, View, Platform, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import Text from "@/app/UI/Text.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { findDestinyItem } from "@/app/store/Account/AccountLogic";

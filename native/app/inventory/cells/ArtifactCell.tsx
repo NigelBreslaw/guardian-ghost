@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { DEFAULT_OVERLAP_COLOR } from "@/app/utilities/Constants.ts";
 import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
