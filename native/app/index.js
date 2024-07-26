@@ -1,6 +1,12 @@
 import "react-native-gesture-handler"; // Avoid crash in production https://reactnavigation.org/docs/stack-navigator/#installation
 import * as Sentry from "@sentry/react-native";
 import { registerRootComponent } from "expo";
+import { Text, TextInput } from "react-native";
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
+TextInput.defaultProps = Text.defaultProps || {};
+TextInput.defaultProps.allowFontScaling = false;
 
 import Root from "./Root.tsx";
 

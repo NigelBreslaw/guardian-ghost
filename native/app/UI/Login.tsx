@@ -2,11 +2,12 @@ import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
-import { Image, Platform, ScrollView, StyleSheet, Text, TextInput, View, useColorScheme } from "react-native";
+import { Image, Platform, ScrollView, StyleSheet, TextInput, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import Text from "@/app/UI/Text.tsx";
 import { stateID } from "@/app/store/Authentication/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
@@ -60,6 +61,7 @@ function LocalWebLogin() {
   return (
     <>
       <TextInput
+        allowFontScaling={false}
         style={{ color: "white" }}
         value={localWebLoginText}
         onChangeText={(localWebLoginText) => {

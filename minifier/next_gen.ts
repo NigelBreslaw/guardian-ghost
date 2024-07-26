@@ -228,17 +228,6 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     Icons: new Map(),
   };
 
-  // Send a repeat string and get a index value back
-  // function getRepeatStringIndexMap(name: RepeatStringsName, s: string): number {
-  //   const index = repeatStrings[name].indexOf(s);
-  //   if (index === -1) {
-  //     repeatStrings[name].push(s);
-  //     return getRepeatStringIndexMap(name, s);
-  //   }
-
-  //   return index;
-  // }
-
   function getRepeatStringIndexMap(name: RepeatStringsName, s: string): number {
     if (!repeatStringsMap[name].has(s)) {
       repeatStringsMap[name].set(s, repeatStringsMap[name].size);

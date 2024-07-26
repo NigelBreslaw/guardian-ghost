@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import { CRAFTED_OVERLAY, ENHANCED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
@@ -50,7 +51,7 @@ export default function DestinyCell({ destinyItem }: Props) {
               colors={["#000000", "#1C1C1C", "#313131"]}
               style={styles.separatorInner}
             />
-            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} />
+            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} cachePolicy={"memory"} />
           </View>
         )}
         <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>

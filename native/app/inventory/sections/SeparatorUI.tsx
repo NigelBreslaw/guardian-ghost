@@ -1,5 +1,6 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import { SEPARATOR_HEIGHT, DEFAULT_MARGIN } from "@/app/utilities/UISize.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";

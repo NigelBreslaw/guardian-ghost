@@ -1,6 +1,7 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 
+import Text from "@/app/UI/Text.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import {
