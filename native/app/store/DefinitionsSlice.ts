@@ -44,7 +44,7 @@ import {
 } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
-import { getCustomItemDefinition } from "@/app/utilities/Helpers.ts";
+import { getCustomItemDefinition, getJsonBlob } from "@/app/utilities/Helpers.ts";
 import {
   ItemResponseSchema,
   MiniStatSchema,
@@ -58,7 +58,6 @@ import {
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
 import type { ItemHash } from "@/app/core/GetProfile.ts";
-import { getJsonBlob } from "@/app/utilities/Helpers.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
