@@ -51,7 +51,7 @@ export default function DestinyCell({ destinyItem }: Props) {
               colors={["#000000", "#1C1C1C", "#313131"]}
               style={styles.separatorInner}
             />
-            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} />
+            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} cachePolicy={"memory"} />
           </View>
         )}
         <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>
