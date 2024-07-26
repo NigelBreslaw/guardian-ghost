@@ -1,13 +1,7 @@
 import { create } from "mutative";
 import { deepEqual } from "fast-equals";
 
-import type {
-  DestinyItem,
-  DestinyItemDefinition,
-  DestinyItemSort,
-  Guardian,
-  ItemInstance,
-} from "@/app/inventory/logic/Types.ts";
+import type { DestinyItem, DestinyItemDefinition, DestinyItemSort, ItemInstance } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/Account/AccountSlice";
 import {
   consumables,
@@ -46,7 +40,6 @@ import {
   weaponsPageBuckets,
   type GuardianDetailsSection,
   type LootSection,
-  type SeparatorSection,
   type UISections,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
