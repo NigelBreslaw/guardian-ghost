@@ -203,29 +203,33 @@ export const getProfileSchema = object({
         data: record(string(), GuardiansSchema),
       }),
 
-      itemComponents: object({
-        instances: object({
-          data: instancesSchema,
+      itemComponents: optional(
+        object({
+          instances: object({
+            data: instancesSchema,
+          }),
+          sockets: object({
+            data: record(string(), SocketSchema),
+          }),
+          reusablePlugs: object({
+            data: record(string(), ReusablePlugSetSchema),
+          }),
         }),
-        sockets: object({
-          data: record(string(), SocketSchema),
-        }),
-        reusablePlugs: object({
-          data: record(string(), ReusablePlugSetSchema),
-        }),
-      }),
+      ),
       profile: object({}),
       profileCurrencies: object({}),
       profileInventory: object({
         data: object({ items: array(ItemSchema) }),
       }),
-      profilePlugSets: object({
-        data: optional(
-          object({
-            plugs: record(string(), PlugSetsSchema),
-          }),
-        ),
-      }),
+      profilePlugSets: optional(
+        object({
+          data: optional(
+            object({
+              plugs: record(string(), PlugSetsSchema),
+            }),
+          ),
+        }),
+      ),
       profileProgression: object({}),
       profileStringVariables: object({}),
       responseMintedTimestamp: pipe(string(), isoTimestamp()),

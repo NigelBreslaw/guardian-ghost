@@ -76,7 +76,7 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
 
   const foundPlugHashes: number[] = [];
 
-  const liveSockets = rawProfileData?.Response.itemComponents.sockets.data[destinyItem.itemInstanceId]?.sockets;
+  const liveSockets = rawProfileData?.Response.itemComponents?.sockets.data[destinyItem.itemInstanceId]?.sockets;
   if (liveSockets) {
     for (const socket of liveSockets) {
       const plugHash = socket.plugHash;
@@ -89,7 +89,8 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
       }
     }
 
-    const reusablePlugs = rawProfileData?.Response.itemComponents.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
+    const reusablePlugs =
+      rawProfileData?.Response.itemComponents?.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
     if (reusablePlugs) {
       for (const key in reusablePlugs) {
         const column = reusablePlugs[key];
