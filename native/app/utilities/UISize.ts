@@ -7,7 +7,7 @@ const { width } = Dimensions.get("window");
 
 const MIN_WIDTH = 16 * 2 + 5 * 72 + 4 * 16;
 
-export let GLOBAL_SCALAR = 1;
+let GLOBAL_SCALAR = 1;
 if (width < MIN_WIDTH) {
   GLOBAL_SCALAR = width / MIN_WIDTH;
 }
