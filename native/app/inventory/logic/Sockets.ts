@@ -136,7 +136,6 @@ export function createSockets(destinyItem: DestinyItem): Sockets | null {
   const sockets = expandAndCreateSockets(destinyItem.itemHash);
 
   if (!sockets) {
-    // console.error("Failed to create sockets for item", destinyItem.itemHash);
     return null;
   }
 

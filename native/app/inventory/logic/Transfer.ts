@@ -437,7 +437,7 @@ async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]
   }
 
   let toVault = false;
-  let characterId = "" as CharacterId;
+  let characterId: CharacterId;
 
   if (transferItem.destinyItem.characterId !== VAULT_CHARACTER_ID) {
     if (GLOBAL_INVENTORY_NAMES.includes(transferItem.destinyItem.characterId)) {

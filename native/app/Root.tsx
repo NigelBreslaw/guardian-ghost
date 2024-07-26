@@ -2,15 +2,11 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
 import { StatusBar, useWindowDimensions, Platform, Appearance } from "react-native";
-import { enableFreeze } from "react-native-screens";
+import { enableFreeze, enableScreens } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalHost } from "@rn-primitives/portal";
-import { enableScreens } from "react-native-screens";
-
-// Enable screens for better performance
-enableScreens();
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { getJsonBlob } from "@/app/utilities/Helpers.ts";
@@ -21,12 +17,14 @@ import App from "@/app/App"; // Do not use the file extension or the web version
 import "@/global.css";
 import { removeAsyncStorageItem } from "@/app/store/DefinitionsSlice.ts";
 
+// Enable screens for better performance
+enableScreens();
+enableFreeze(true);
+
 SplashScreen.preventAutoHideAsync();
 if (Platform.OS !== "web") {
   Appearance.setColorScheme("dark");
 }
-
-enableFreeze(true);
 
 let customDownloadAttempts = 0;
 async function getCustomItemDefinition() {
