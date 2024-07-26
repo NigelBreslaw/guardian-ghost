@@ -1,6 +1,7 @@
-import { View, StyleSheet, Platform, Dimensions, Text } from "react-native";
+import { View, StyleSheet, Platform, Dimensions } from "react-native";
 import { Image } from "expo-image";
 
+import Text from "@/app/UI/Text.tsx";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import {
   LARGE_CRAFTED,
@@ -128,7 +129,7 @@ function getPrimaryStatLabel(destinyItem: DestinyItem): string {
   return "";
 }
 
-function PrimaryStatUI({ destinyItem }: { destinyItem: DestinyItem }) {
+function PrimaryStatUI({ destinyItem }: { readonly destinyItem: DestinyItem }) {
   "use memo";
   const POWER_NAME = getPrimaryStatLabel(destinyItem);
 

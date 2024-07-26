@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import { ItemSubType, ItemType, StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";

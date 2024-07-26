@@ -234,14 +234,14 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     set({ animateToCharacterPage: jumpToIndex });
   },
 
-  updateProfile: (profile) => {
+  updateProfile: async (profile) => {
     const p1 = performance.now();
     updateProfile(get, set, profile);
     const p2 = performance.now();
     console.log("update entire Profile", `${(p2 - p1).toFixed(4)} ms`);
     get().updateLightLevel();
     try {
-      cacheProfile(profile);
+      await cacheProfile(profile);
     } catch (e) {
       console.error("Failed to save cached profile", e);
     }
