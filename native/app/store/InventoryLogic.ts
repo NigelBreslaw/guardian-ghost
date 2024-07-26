@@ -40,7 +40,6 @@ import {
   weaponsPageBuckets,
   type GuardianDetailsSection,
   type LootSection,
-  type SeparatorSection,
   type UISections,
   type VaultSpacerSection,
 } from "@/app/inventory/logic/Helpers.ts";
@@ -171,23 +170,12 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   for (const [characterId, characterData] of guardians) {
     const dataArray: UISections[] = [];
 
-    dataArray.push({
-      id: "guardian_details",
-      type: UISection.GuardianDetails,
-      characterIndex: get().getCharacterIndex(characterId),
-    });
+    dataArray.push(getGuardianDetails(get, characterId));
 
     for (const bucket of sectionBuckets as BucketHash[]) {
-      const sectionDetails = getSectionDetails(bucket);
       const bucketItems = characterData.items.get(bucket);
 
-      dataArray.push({
-        id: `${bucket}_separator`,
-        type: UISection.Separator,
-        label: sectionDetails.label,
-        bucketHash: bucket,
-        characterId,
-      });
+      dataArray.push(getSeparator(bucket, characterId));
 
       switch (bucket) {
         case SectionBuckets.Consumables:
@@ -248,6 +236,26 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   return characterDataArray;
 }
 
+function getGuardianDetails(get: AccountSliceGetter, characterId: CharacterId): UISections {
+  return {
+    id: "guardian_details",
+    type: UISection.GuardianDetails,
+    characterIndex: get().getCharacterIndex(characterId),
+  };
+}
+
+function getSeparator(bucketHash: BucketHash, characterId: CharacterId): UISections {
+  const sectionDetails = getSectionDetails(bucketHash);
+
+  return {
+    id: `${bucketHash}_separator`,
+    type: UISection.Separator,
+    label: sectionDetails.label,
+    bucketHash,
+    characterId,
+  };
+}
+
 function returnVaultUiData(
   get: AccountSliceGetter,
   inventoryPage: InventoryPageEnums,
@@ -265,16 +273,8 @@ function returnVaultUiData(
 
   for (const bucket of sectionBuckets as BucketHash[]) {
     const bucketItems = generalVault.get(bucket);
-    const sectionDetails = getSectionDetails(bucket);
     if (bucketItems) {
-      const separator: SeparatorSection = {
-        id: `${bucket}_separator`,
-        type: UISection.Separator,
-        label: sectionDetails.label,
-        bucketHash: bucket,
-        characterId: VAULT_CHARACTER_ID,
-      };
-      dataArray.push(separator);
+      dataArray.push(getSeparator(bucket, VAULT_CHARACTER_ID));
 
       // get an array of all the items
       if (bucketItems.length === 0) {

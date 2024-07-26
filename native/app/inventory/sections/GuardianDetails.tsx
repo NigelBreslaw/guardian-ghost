@@ -1,9 +1,10 @@
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { POWER_LEVEL, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { getGuardianClassType, getGuardianRaceType } from "@/app/utilities/Helpers.ts";
 import { DESTINY_TEXT } from "@/app/store/Definitions.ts";
+import Text from "@/app/UI/Text.tsx";
 
 const styles = StyleSheet.create({
   root: {

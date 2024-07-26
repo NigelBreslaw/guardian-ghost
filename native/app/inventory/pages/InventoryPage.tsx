@@ -144,14 +144,11 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                   />
                 }
                 onLoad={() => {
-                  if (index === pageData.length - 1) {
-                    const p1 = useGGStore.getState().appStartupTime;
-                    const p2 = performance.now();
-                    console.log("load time", `${(p2 - p1).toFixed(4)} ms`);
+                  if (index === useGGStore.getState().currentListIndex) {
                     setPageReady(true);
                     jumpToCharacterRef.current();
                     opacity.value = withSpring(1, {
-                      duration: 750,
+                      duration: 1250,
                       reduceMotion: ReduceMotion.System,
                     });
                   }

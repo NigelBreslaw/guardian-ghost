@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
+import Text from "@/app/UI/Text.tsx";
 import { INNER_FRAME_SIZE, common } from "@/app/utilities/UISize.ts";
 import { EMPTY_ENGRAM } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
