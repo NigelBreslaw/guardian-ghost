@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { StatusBar, useWindowDimensions, Text, Platform, Appearance, TextInput } from "react-native";
+import { StatusBar, useWindowDimensions, Platform, Appearance } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
@@ -107,25 +107,6 @@ function refreshIfNeeded() {
 // If the them is not set a white background keeps showing during screen rotation
 function Root() {
   "use memo";
-
-  // TODO: This hack turns off the font scaling. At some point accessibility will be added to the app.
-  interface TextWithDefaultProps extends Text {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  interface TextInputWithDefaultProps extends TextInput {
-    defaultProps?: { allowFontScaling?: boolean };
-  }
-
-  (Text as unknown as TextWithDefaultProps).defaultProps = {
-    ...((Text as unknown as TextWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
-
-  (TextInput as unknown as TextInputWithDefaultProps).defaultProps = {
-    ...((TextInput as unknown as TextInputWithDefaultProps).defaultProps || {}),
-    allowFontScaling: false,
-  };
 
   const authenticated = useGGStore((state) => state.authenticated);
   const navigationRef = useRef<NavigationContainerRef<ReactNavigation.RootParamList>>(null);

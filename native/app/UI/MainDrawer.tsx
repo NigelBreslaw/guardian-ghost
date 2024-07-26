@@ -1,10 +1,11 @@
 import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { Image } from "expo-image";
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import * as SplashScreen from "expo-splash-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import Text from "@/app/UI/Text.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
@@ -102,7 +103,11 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
     <View style={[styles.container, { paddingTop: insets.top + 4, paddingBottom: insets.bottom + 4 }]}>
       <View style={styles.top}>
         <DrawerItem
-          label="Inventory"
+          label={({ color }) => (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+              <Text style={{ color }}>{"Inventory"}</Text>
+            </View>
+          )}
           activeTintColor="white"
           inactiveTintColor="grey"
           activeBackgroundColor="#ffffff20"
@@ -123,7 +128,11 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
           onPress={() => navigation.navigate("Search")}
         />
         <DrawerItem
-          label="Settings"
+          label={({ color }) => (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+              <Text style={{ color }}>{"Settings"}</Text>
+            </View>
+          )}
           activeTintColor="white"
           inactiveTintColor="grey"
           activeBackgroundColor="#ffffff20"

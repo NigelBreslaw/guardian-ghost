@@ -1,5 +1,6 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
+import Text from "@/app/UI/Text.tsx";
 
 /**
  * A value from 100 to -100 where positive is right and negative is left and zero is straight up
