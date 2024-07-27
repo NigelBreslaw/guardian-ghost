@@ -7,6 +7,7 @@ import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
 import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
 import RecoilStat from "@/app/stats/RecoilStat.tsx";
+import { createSockets } from "@/app/inventory/logic/Sockets.ts";
 
 type UiStatType = "BAR" | "NUMERAL" | "RECOIL" | "SEPARATOR" | "ARMOR-TOTAL";
 
@@ -62,6 +63,13 @@ const BowWeaponStats: UiStatData[] = [
 const ExplosiveWeaponStats: UiStatData[] = [
   { statType: StatType.BlastRadius, type: "BAR" },
   { statType: StatType.Velocity, type: "BAR" },
+  ...SharedWeaponStats,
+];
+
+const RocketSidearmStats: UiStatData[] = [
+  { statType: StatType.BlastRadius, type: "BAR" },
+  { statType: StatType.Velocity, type: "BAR" },
+  { statType: StatType.Range, type: "BAR" },
   ...SharedWeaponStats,
 ];
 
@@ -168,6 +176,14 @@ function BarUi({ statType, value }: BarProps) {
   );
 }
 
+function isRocketSidearm(destinyItem: DestinyItem): boolean {
+  const sockets = createSockets(destinyItem);
+  if (!sockets) {
+    return false;
+  }
+  return sockets.socketEntries?.[0]?.singleInitialItemHash === 2928496916;
+}
+
 function getStatsUiData(destinyItem: DestinyItem): UiStatData[] {
   if (destinyItem.def.itemType === ItemType.Armor) {
     return DefaultArmorStats;
@@ -186,6 +202,12 @@ function getStatsUiData(destinyItem: DestinyItem): UiStatData[] {
         return ExplosiveWeaponStats;
       case ItemSubType.Bow:
         return BowWeaponStats;
+      case ItemSubType.Sidearm: {
+        if (isRocketSidearm(destinyItem)) {
+          return RocketSidearmStats;
+        }
+        return DefaultWeaponStats;
+      }
       default:
         return DefaultWeaponStats;
     }
