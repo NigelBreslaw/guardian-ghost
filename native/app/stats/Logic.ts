@@ -1,4 +1,4 @@
-import { ItemType, SocketCategoryEnum, StatType } from "@/app/bungie/Enums.ts";
+import { ItemType, SocketCategoryEnum, StatType, TierType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem, StatsCollection } from "@/app/inventory/logic/Types.ts";
@@ -57,7 +57,9 @@ export type ItemStats = Map<StatType, number>;
 
 export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemStats {
   if (destinyItem.def.itemType === ItemType.Weapon) {
-    const stats = createBaseStats(destinyItem);
+    const stats: ItemStats = new Map<number, number>();
+
+    addBaseStats(stats, destinyItem);
 
     const intrinsicCategory = sockets?.socketCategories.find(
       (category) => category.socketCategoryHash === SocketCategoryEnum.INTRINSIC_TRAITS,
@@ -83,6 +85,9 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
 
   if (destinyItem.def.itemType === ItemType.Armor) {
     const stats: ItemStats = new Map<number, number>();
+    if (destinyItem.def.tierType === TierType.Exotic) {
+      addBaseStats(stats, destinyItem);
+    }
 
     const perksCategory = sockets?.socketCategories.find(
       (category) => category.socketCategoryHash === SocketCategoryEnum.ARMOR_PERKS,
@@ -110,14 +115,10 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
   return new Map<number, number>();
 }
 
-function createBaseStats(destinyItem: DestinyItem): ItemStats {
-  const stats: ItemStats = new Map<number, number>();
-
+function addBaseStats(stats: ItemStats, destinyItem: DestinyItem) {
   destinyItem.def.investmentStats.map((stat) => {
     stats.set(stat.statTypeHash, stat.value);
   });
-
-  return stats;
 }
 
 const faultyMasterworkItems = [
