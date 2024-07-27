@@ -49,7 +49,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   const pullRefreshing = useGGStore((state) => state.pullRefreshing);
   const [pageReady, setPageReady] = useState(false);
   const opacity = useSharedValue(0);
-  const transferButtonStyle = useAnimatedStyle(() => ({
+  const viewAnimationStyle = useAnimatedStyle(() => ({
     opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
   }));
 
@@ -116,7 +116,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
   return (
-    <Animated.View style={[transferButtonStyle, { flex: 1, width: "100%", height: "100%" }]}>
+    <Animated.View style={[viewAnimationStyle, { flex: 1, width: "100%", height: "100%" }]}>
       <ScrollView
         horizontal
         pagingEnabled
@@ -145,6 +145,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                 }
                 onLoad={() => {
                   if (index === useGGStore.getState().currentListIndex) {
+                    useGGStore.getState().setInitialPageLoaded();
                     setPageReady(true);
                     jumpToCharacterRef.current();
                     opacity.value = withSpring(1, {

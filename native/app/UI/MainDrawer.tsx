@@ -14,6 +14,7 @@ import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
 import Ellipses from "@/images/svg/ellipses-horizontal.svg";
+import CharacterHeaderButtons from "@/app/UI/CharacterHeaderButtons.tsx";
 
 function MenuButton() {
   "use memo";
@@ -30,59 +31,6 @@ function MenuButton() {
         <Ellipses style={styles.iconImage} width={24} height={24} />
       </View>
     </TouchableOpacity>
-  );
-}
-
-function CharacterHeaderButtons() {
-  "use memo";
-  const ggCharacters = useGGStore((state) => state.ggCharacters);
-  const currentListIndex = useGGStore((state) => state.currentListIndex);
-  const scale = 0.4;
-  const originalHeight = 96;
-  const borderRadius = 7;
-  const transferHeight = originalHeight * scale;
-
-  return (
-    <View style={{ flexDirection: "row", gap: 10 }}>
-      {ggCharacters.map((ggCharacter, index) => {
-        return (
-          <TouchableOpacity
-            onPress={() => useGGStore.getState().setJumpToIndex({ index, animate: true })}
-            key={ggCharacter.characterId}
-          >
-            <View
-              style={{
-                width: transferHeight,
-                height: transferHeight,
-                borderRadius,
-                overflow: "hidden",
-              }}
-            >
-              <View
-                style={{
-                  transformOrigin: "top left",
-                  transform: [{ scale: scale }],
-                }}
-              >
-                <Image source={ggCharacter.emblemPath} style={{ width: 96, height: 96 }} />
-              </View>
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  borderRadius,
-                  borderWidth: 1,
-                  borderColor: index === currentListIndex ? "white" : "#5B5B5B",
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
   );
 }
 
