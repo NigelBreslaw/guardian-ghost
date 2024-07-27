@@ -2,8 +2,6 @@ package com.guardianghost
 
 import android.app.Application
 import android.content.res.Configuration
-import android.util.DisplayMetrics
-import android.view.WindowManager
 
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
@@ -43,22 +41,12 @@ class MainApplication : Application(), ReactApplication {
   override fun onCreate() {
     super.onCreate()
     SoLoader.init(this, false)
-    adjustFontScale(resources.configuration)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
       load()
     }
     ApplicationLifecycleDispatcher.onApplicationCreate(this)
   }
-
-  private fun adjustFontScale(configuration: Configuration) {
-        configuration.fontScale = 1.0f
-        val metrics: DisplayMetrics = resources.displayMetrics
-        val wm = getSystemService(WINDOW_SERVICE) as WindowManager
-        wm.defaultDisplay.getMetrics(metrics)
-        metrics.scaledDensity = configuration.fontScale * metrics.density
-        baseContext.resources.updateConfiguration(configuration, metrics)
-    }
 
   override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
