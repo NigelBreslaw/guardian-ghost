@@ -74,6 +74,7 @@ export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], Account
 export interface AccountSlice {
   stateHydrated: boolean;
   appReady: boolean;
+  initialPageLoaded: boolean;
 
   appStartupTime: number;
   refreshing: boolean;
@@ -136,11 +137,13 @@ export interface AccountSlice {
   setWeaponsSubmenuOpen: (weaponsSubmenuOpen: boolean) => void;
   setArmorSubmenuOpen: (armorSubmenuOpen: boolean) => void;
   setCurrentInventoryPage: (currentInventoryPage: InventoryPageEnums) => void;
+  setInitialPageLoaded: () => void;
 }
 
 export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (set, get) => ({
   stateHydrated: false,
   appReady: false,
+  initialPageLoaded: false,
 
   appStartupTime: 0,
   refreshing: false,
@@ -358,6 +361,9 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
     if (get().currentInventoryPage !== currentInventoryPage) {
       set({ currentInventoryPage });
     }
+  },
+  setInitialPageLoaded: () => {
+    set({ initialPageLoaded: true });
   },
 });
 
