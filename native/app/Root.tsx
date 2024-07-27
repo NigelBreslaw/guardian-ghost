@@ -15,7 +15,6 @@ import { bungieManifestSchema } from "@/app/core/ApiResponse.ts";
 import type { DestinyItemIdentifier } from "@/app/inventory/logic/Helpers.ts";
 import App from "@/app/App"; // Do not use the file extension or the web version will fail to be used.
 import "@/global.css";
-import { removeAsyncStorageItem } from "@/app/store/DefinitionsSlice.ts";
 
 // Enable screens for better performance
 enableScreens();
