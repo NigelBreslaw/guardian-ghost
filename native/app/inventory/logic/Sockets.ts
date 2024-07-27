@@ -306,6 +306,7 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
         /// for these items the UI itself can decide to get all the plugs. As they are not looked by users
         /// all the time it is a waste to create them for every category
         case CategoryStyle.Consumable:
+        case CategoryStyle.LargePerk:
         case CategoryStyle.EnergyMeter: {
           /// Skip adding the plugs for now
           socket.reusablePlugSocketIndex = map.socketIndex;
