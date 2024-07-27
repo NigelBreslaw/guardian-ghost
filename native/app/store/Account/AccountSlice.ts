@@ -748,12 +748,12 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     return definitionItem;
   }
 
-  if (itemDef?.i) {
+  if (itemDef.i !== undefined) {
     const icon = Icons[itemDef.i];
     definitionItem.icon = `${iconUrl}${icon}`;
   }
 
-  if (itemDef?.itd) {
+  if (itemDef.itd !== undefined) {
     definitionItem.itemTypeDisplayName = ItemTypeDisplayName[itemDef.itd]!;
     definitionItem.search = `${definitionItem.itemTypeDisplayName.toLowerCase()} ${definitionItem.search}`;
   }
@@ -762,7 +762,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     definitionItem.screenshot = `${screenshotUrl}${itemDef.s}`;
   }
 
-  if (itemDef?.iw) {
+  if (itemDef.iw !== undefined) {
     const waterMark = IconWaterMarks[itemDef.iw];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
   }
@@ -775,7 +775,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     definitionItem.flavorText = itemDef.f;
   }
 
-  if (itemDef?.d) {
+  if (itemDef.d !== undefined) {
     definitionItem.description = Descriptions[itemDef.d] ?? "";
   }
 
@@ -814,7 +814,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   const traitIds: string[] = [];
   const traitDef = itemDef?.tI;
-  if (traitDef) {
+  if (traitDef !== undefined) {
     for (const trait of traitDef) {
       const traitIndex = trait;
       const traitId = TraitIds[traitIndex]!;
@@ -826,11 +826,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   definitionItem.traitIds = traitIds;
 
   const statGroupHashIndex = itemDef.st?.sgs;
-  if (statGroupHashIndex) {
+  if (statGroupHashIndex !== undefined) {
     definitionItem.statGroupHash = StatGroupHash[statGroupHashIndex]!;
   }
   const bucketTypeIndex = itemDef.b;
-  if (bucketTypeIndex) {
+  if (bucketTypeIndex !== undefined) {
     definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? (0 as BucketHash);
   }
   definitionItem.name = itemDef?.n ?? "";
