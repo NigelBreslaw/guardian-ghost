@@ -152,8 +152,6 @@ function Root() {
     }
     if (stateHydrated) {
       initDefinitions();
-      // TODO: Remove this before shipping 1.1.1
-      removeAsyncStorageItem("CACHED_PROFILE");
     }
   }, [stateHydrated]);
 

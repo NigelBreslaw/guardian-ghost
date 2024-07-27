@@ -79,7 +79,7 @@ export interface DefinitionsSlice {
   fastLoadDefinitions: () => Promise<void>;
   showSnackBar: (message: string) => void;
   setInventorySectionWidth: (inventorySectionWidth: number) => void;
-  clearCache: () => void;
+  clearCache: () => Promise<void>;
 }
 
 export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSlice> = (set, get) => ({
@@ -111,7 +111,6 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     const storedVersion = get().itemDefinitionVersion;
     // Don't attempt to get an already loaded definition
     if (storedVersion === uniqueKey && get().itemsDefinitionReady) {
-      console.info("No new custom definitions needed");
       return;
     }
 
@@ -130,7 +129,6 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
 
     // Don't attempt to get an already loaded definition
     if (storedVersion === versionKey && get().bungieDefinitionsReady) {
-      console.info("No new bungie definitions needed", storedVersion, versionKey, get().bungieDefinitionsReady);
       return;
     }
 
@@ -139,7 +137,7 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
       await loadLocalBungieDefinitions(get, set);
     } else {
       // download a new version
-      console.log("download a new bungie definitions as KEY is different");
+      console.log("download a new bungie definitions as KEY is different", storedVersion, ":", versionKey);
       await downloadAndStoreBungieDefinitions(get, set, bungieManifest);
     }
   },
@@ -154,8 +152,10 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
     });
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
-  clearCache: () => {
-    removeAsyncStorageItem("CACHED_PROFILE");
+  clearCache: async () => {
+    await removeAsyncStorageItem("@GG_profile");
+    await removeAsyncStorageItem("@GG_itemComponents");
+    await removeAsyncStorageItem("@GG_profilePlugSets");
     set({ itemDefinitionVersion: "", bungieDefinitionVersions: "", itemsDefinitionReady: false });
   },
 });
