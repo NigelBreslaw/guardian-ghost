@@ -59,8 +59,12 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
   if (destinyItem.def.itemType === ItemType.Weapon) {
     const stats = createBaseStats(destinyItem);
 
-    console.log("createStats", sockets);
-
+    const intrinsicCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.INTRINSIC_TRAITS,
+    );
+    if (intrinsicCategory) {
+      addSocketStats(stats, intrinsicCategory);
+    }
     const perksCategory = sockets?.socketCategories.find(
       (category) => category.socketCategoryHash === SocketCategoryEnum.WEAPON_PERKS,
     );
