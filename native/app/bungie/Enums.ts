@@ -125,6 +125,16 @@ export enum SectionBuckets {
   Vault = 138197802,
 }
 
+export enum SocketCategoryEnum {
+  INTRINSIC_TRAITS = 3956125808,
+  WEAPON_PERKS = 4241085061,
+  WEAPON_MODS = 2685412949,
+  ARMOR_MODS = 590099826,
+  ARMOR_COSMETICS = 1926152773,
+  ARMOR_TIER = 760375309,
+  ARMOR_PERKS = 3154740035,
+}
+
 export enum GGCharacterType {
   Guardian = 0,
   Vault = 138197802,

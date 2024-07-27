@@ -1,4 +1,4 @@
-import { ItemType, StatType } from "@/app/bungie/Enums.ts";
+import { ItemType, SocketCategoryEnum, StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem, StatsCollection } from "@/app/inventory/logic/Types.ts";
@@ -59,11 +59,17 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
   if (destinyItem.def.itemType === ItemType.Weapon) {
     const stats = createBaseStats(destinyItem);
 
-    const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 4241085061);
+    console.log("createStats", sockets);
+
+    const perksCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.WEAPON_PERKS,
+    );
     if (perksCategory) {
       addSocketStats(stats, perksCategory);
     }
-    const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 2685412949);
+    const modsCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.WEAPON_MODS,
+    );
     if (modsCategory) {
       addSocketStats(stats, modsCategory);
     }
@@ -74,17 +80,23 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
   if (destinyItem.def.itemType === ItemType.Armor) {
     const stats: ItemStats = new Map<number, number>();
 
-    const perksCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 3154740035);
+    const perksCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.ARMOR_PERKS,
+    );
     if (perksCategory) {
       addSocketStats(stats, perksCategory);
     }
 
-    const tierCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 760375309);
+    const tierCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.ARMOR_TIER,
+    );
     if (tierCategory) {
       addSocketStats(stats, tierCategory);
     }
 
-    const modsCategory = sockets?.socketCategories.find((category) => category.socketCategoryHash === 590099826);
+    const modsCategory = sockets?.socketCategories.find(
+      (category) => category.socketCategoryHash === SocketCategoryEnum.ARMOR_MODS,
+    );
     if (modsCategory) {
       addSocketStats(stats, modsCategory);
     }
