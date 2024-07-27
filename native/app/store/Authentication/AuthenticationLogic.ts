@@ -133,7 +133,7 @@ async function getTokenInternal(
       error.message.includes("Refresh token expired")
     ) {
       console.error(error.message);
-      get().logoutCurrentUser();
+      await get().logoutCurrentUser();
     }
     throw new Error("Failed to validate token");
   }

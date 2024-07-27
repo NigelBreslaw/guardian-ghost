@@ -38,7 +38,7 @@ export interface AuthenticationSlice {
   getTokenAsync: (errorMessage: string) => Promise<AuthToken | null>;
   initAuthentication: () => Promise<void>;
   setSystemDisabled: (systemDisabled: boolean) => void;
-  logoutCurrentUser: () => void;
+  logoutCurrentUser: () => Promise<void>;
   createAuthenticatedAccount: (url: string) => Promise<void>;
   cancelLogin: () => void;
   startedLoginFlow: () => void;
@@ -101,7 +101,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
     }
   },
   setSystemDisabled: (systemDisabled) => set({ systemDisabled }),
-  logoutCurrentUser: () => {
+  logoutCurrentUser: async () => {
     set({
       bungieUser: initialBungieUser,
       authToken: null,
@@ -117,13 +117,11 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       currentListIndex: 0,
       previousDefinitionsSuccessfullyLoaded: false,
     });
-    removeAsyncStorageItem("CACHED_PROFILE");
-
-    removeAsyncStorageItem("@GG_profile");
-    removeAsyncStorageItem("@GG_itemComponents");
-    removeAsyncStorageItem("@GG_profilePlugSets");
+    await removeAsyncStorageItem("@GG_profile");
+    await removeAsyncStorageItem("@GG_itemComponents");
+    await removeAsyncStorageItem("@GG_profilePlugSets");
     const membershipId = get().bungieUser.profile.membershipId;
-    deleteUserData(membershipId);
+    await deleteUserData(membershipId);
   },
   createAuthenticatedAccount: async (url: string) => {
     try {
