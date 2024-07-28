@@ -450,7 +450,7 @@ export function returnBorderColor(item: DestinyItem): string {
 }
 
 function sortInventoryArray(get: AccountSliceGetter, dataArray: DestinyItem[], bucketHash: BucketHash): DestinyItem[] {
-  let existingArray = dataArray as DestinyItemSort[];
+  let existingArray = dataArray.slice(0) as DestinyItemSort[];
   if (weaponBuckets.includes(bucketHash)) {
     const weaponsSort = get().weaponsSort;
     switch (weaponsSort) {
