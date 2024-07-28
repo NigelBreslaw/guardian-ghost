@@ -44,7 +44,7 @@ export default function CharacterHeaderButtons() {
   }, []);
 
   return (
-    <Animated.View style={[viewAnimationStyle, { flexDirection: "row", gap: 10 }]}>
+    <Animated.View style={[viewAnimationStyle, { flexDirection: "row", gap: 10, paddingBottom: 8 }]}>
       {ggCharacters.map((ggCharacter, index) => {
         return (
           <TouchableOpacity

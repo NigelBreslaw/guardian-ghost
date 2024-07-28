@@ -166,7 +166,6 @@ function Root() {
 
   return (
     <GestureHandlerRootView>
-      {appReady && <StatusBar translucent={true} barStyle={"light-content"} />}
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
         <Toast />

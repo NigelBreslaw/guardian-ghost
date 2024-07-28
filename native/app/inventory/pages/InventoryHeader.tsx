@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { View, StyleSheet } from "react-native";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
 
@@ -39,8 +40,19 @@ export default function InventoryHeader() {
   }, []);
 
   return (
-    <Animated.View style={[viewAnimationStyle, { flex: 1 }]}>
-      <Image style={{ flex: 1 }} transition={initialPageLoaded ? 150 : 0} source={characterBackgroundEmblem} />
-    </Animated.View>
+    <View style={{ flex: 1 }}>
+      <Animated.View style={[viewAnimationStyle, { flex: 1 }]}>
+        <Image style={{ flex: 1 }} transition={initialPageLoaded ? 150 : 0} source={characterBackgroundEmblem} />
+      </Animated.View>
+      <View
+        style={{
+          width: "100%",
+          height: StyleSheet.hairlineWidth,
+          backgroundColor: "grey",
+          position: "absolute",
+          bottom: 0,
+        }}
+      />
+    </View>
   );
 }
