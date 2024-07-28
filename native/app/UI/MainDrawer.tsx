@@ -150,13 +150,7 @@ export default function MainDrawer() {
           sceneContainerStyle: {
             backgroundColor: "#17101F",
           },
-          headerStyle: {
-            backgroundColor: "#17101F",
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: "#2A1D38",
-          },
           headerTintColor: "white",
-          drawerActiveBackgroundColor: "blue",
           headerRight: MenuButton,
           headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,

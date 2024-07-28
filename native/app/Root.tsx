@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer, type NavigationContainerRef, type Theme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
-import { StatusBar, useWindowDimensions, Platform, Appearance } from "react-native";
+import { useWindowDimensions, Platform, Appearance } from "react-native";
 import { enableFreeze, enableScreens } from "react-native-screens";
 import { object, parse, string } from "valibot";
 import Toast from "react-native-toast-message";
@@ -166,7 +166,6 @@ function Root() {
 
   return (
     <GestureHandlerRootView>
-      {appReady && <StatusBar translucent={true} barStyle={"light-content"} />}
       <NavigationContainer ref={navigationRef} theme={navigationContainerTheme}>
         <App />
         <Toast />
