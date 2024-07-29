@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { Platform, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
@@ -16,6 +16,7 @@ const scale = 0.4;
 const originalHeight = 96;
 const borderRadius = 7;
 const transferHeight = originalHeight * scale;
+const paddingBottom = Platform.OS === "ios" ? 8 : 0;
 
 export default function CharacterHeaderButtons() {
   "use memo";
@@ -44,7 +45,7 @@ export default function CharacterHeaderButtons() {
   }, []);
 
   return (
-    <Animated.View style={[viewAnimationStyle, { flexDirection: "row", gap: 10, paddingBottom: 8 }]}>
+    <Animated.View style={[viewAnimationStyle, { flexDirection: "row", gap: 10, paddingBottom }]}>
       {ggCharacters.map((ggCharacter, index) => {
         return (
           <TouchableOpacity
