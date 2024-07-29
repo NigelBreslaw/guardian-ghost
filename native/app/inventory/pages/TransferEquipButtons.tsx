@@ -33,6 +33,7 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
   const borderRadius = 10;
 
   const ggCharacters = useGGStore.getState().ggCharacters;
+  const disabled = useGGStore.getState().authenticated !== "AUTHENTICATED";
 
   const styles = StyleSheet.create({
     transferToText: {
@@ -177,6 +178,9 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
 
   // only call this if you already checked the item is equippable
   function calcEquipButtonDisabled(buttonCharacterId: CharacterId): boolean {
+    if (disabled) {
+      return true;
+    }
     // is this item already on the character, but not in the postmaster?
     if (buttonCharacterId === destinyItem.characterId && destinyItem.bucketHash !== 215593132) {
       if (destinyItem.equipped) {
@@ -188,6 +192,9 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
   }
 
   function calcTransferButtonDisabled(buttonCharacterId: CharacterId): boolean {
+    if (disabled) {
+      return true;
+    }
     // is this item already on the character, but not in the postmaster?
     if (buttonCharacterId === destinyItem.characterId && destinyItem.bucketHash !== 215593132) {
       return true;
