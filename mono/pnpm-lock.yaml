@@ -12,23 +12,23 @@ importers:
         specifier: 1.8.3
         version: 1.8.3
       turbo:
-        specifier: 2.0.9
-        version: 2.0.9
+        specifier: 2.0.10
+        version: 2.0.10
 
   apps/site:
     dependencies:
       astro:
-        specifier: 4.12.2
-        version: 4.12.2(typescript@5.5.4)
+        specifier: 4.12.3
+        version: 4.12.3(typescript@5.5.4)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.25.3
-        version: 0.25.3(astro@4.12.2(typescript@5.5.4))
+        version: 0.25.3(astro@4.12.3(typescript@5.5.4))
       astro:
-        specifier: 4.12.2
-        version: 4.12.2(typescript@5.5.4)
+        specifier: 4.12.3
+        version: 4.12.3(typescript@5.5.4)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -780,8 +780,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@shikijs/core@1.10.3':
-    resolution: {integrity: sha512-D45PMaBaeDHxww+EkcDQtDAtzv00Gcsp72ukBtaLSmqRvh0WgGMq3Al0rl1QQBZfuneO75NXMIzEZGFitThWbg==}
+  '@shikijs/core@1.12.0':
+    resolution: {integrity: sha512-mc1cLbm6UQ8RxLc0dZES7v5rkH+99LxQp/ZvTqV3NLyYsO/fD6JhEflP1H5b2SDq9gI0+0G36AVZWxvounfR9w==}
 
   '@solid-devtools/debugger@0.23.4':
     resolution: {integrity: sha512-EfTB1Eo313wztQYGJ4Ec/wE70Ay2d603VCXfT3RlyqO5QfLrQGRHX5NXC07hJpQTJJJ3tbNgzO7+ZKo76MM5uA==}
@@ -1045,8 +1045,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.12.2:
-    resolution: {integrity: sha512-l6OmqlL+FiuSi9x6F+EGZitteOznq1JffOil7st7cdqeMCTEIym4oagI1a6zp6QekliKWEEZWdplGhgh1k1f7Q==}
+  astro@4.12.3:
+    resolution: {integrity: sha512-rFcRktbZk8CsHufLOB51gYAia3RTuOyaBD8iZXRHP7Oqo6QviquNaa/5U6RoUqyF5KS8vyq/ldJ5jfboJzxuuw==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2202,6 +2202,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.6.3:
+    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   seroval-plugins@1.1.0:
     resolution: {integrity: sha512-KtcJg590L3X3dd7ixs6am4UGVcV69TyjYhHtanIdQJq4dy2OceWXmmvWrYx7oFDNe+LNdxdWd0I5BQXuV5fBhA==}
     engines: {node: '>=10'}
@@ -2224,8 +2229,8 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  shiki@1.10.3:
-    resolution: {integrity: sha512-eneCLncGuvPdTutJuLyUGS8QNPAVFO5Trvld2wgEq1e002mwctAhJKeMGWtWVXOIEzmlcLRqcgPSorR6AVzOmQ==}
+  shiki@1.12.0:
+    resolution: {integrity: sha512-BuAxWOm5JhRcbSOl7XCei8wGjgJJonnV0oipUupPY58iULxUGyHhW5CF+9FRMuM1pcJ5cGEJGll1LusX6FwpPA==}
 
   siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
@@ -2390,38 +2395,38 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  turbo-darwin-64@2.0.9:
-    resolution: {integrity: sha512-owlGsOaExuVGBUfrnJwjkL1BWlvefjSKczEAcpLx4BI7Oh6ttakOi+JyomkPkFlYElRpjbvlR2gP8WIn6M/+xQ==}
+  turbo-darwin-64@2.0.10:
+    resolution: {integrity: sha512-ND4hohx0wrd0AUsCf2RsdavlzUWVi0JU3vX5Vn2+wk3GG5RcZWIKi3y+it9MjgYuqqlCystkDbeamfH05iiQBQ==}
     cpu: [x64]
     os: [darwin]
 
-  turbo-darwin-arm64@2.0.9:
-    resolution: {integrity: sha512-XAXkKkePth5ZPPE/9G9tTnPQx0C8UTkGWmNGYkpmGgRr8NedW+HrPsi9N0HcjzzIH9A4TpNYvtiV+WcwdaEjKA==}
+  turbo-darwin-arm64@2.0.10:
+    resolution: {integrity: sha512-cvHMMi1jDiiVl5ls1nWwXyanH7mB+xD3oYyZOC3NzZdFAfce3CWpL6hgUnK2CFxbdvaHQTizkQEgsHvUeD9nTQ==}
     cpu: [arm64]
     os: [darwin]
 
-  turbo-linux-64@2.0.9:
-    resolution: {integrity: sha512-l9wSgEjrCFM1aG16zItBsZ206ZlhSSx1owB8Cgskfv0XyIXRGHRkluihiaxkp+UeU5WoEfz4EN5toc+ICA0q0w==}
+  turbo-linux-64@2.0.10:
+    resolution: {integrity: sha512-dPRwHrKkzyc/VuQLfhOeYLkBxA60vvLZyn9pXChRF0zyimg04OnhBYcKBNkfWMUU+Z1gQDFEvfyvnV9EEHLh0Q==}
     cpu: [x64]
     os: [linux]
 
-  turbo-linux-arm64@2.0.9:
-    resolution: {integrity: sha512-gRnjxXRne18B27SwxXMqL3fJu7jw/8kBrOBTBNRSmZZiG1Uu3nbnP7b4lgrA/bCku6C0Wligwqurvtpq6+nFHA==}
+  turbo-linux-arm64@2.0.10:
+    resolution: {integrity: sha512-6qsYl+b1gf243QbL6cw+TbgUEWo6/krCCWDQjVg/8Znx45rkXnTJUqtIAMkQQsT+t7d3UU8hreQ77pjOW59LcQ==}
     cpu: [arm64]
     os: [linux]
 
-  turbo-windows-64@2.0.9:
-    resolution: {integrity: sha512-ZVo0apxUvaRq4Vm1qhsfqKKhtRgReYlBVf9MQvVU1O9AoyydEQvLDO1ryqpXDZWpcHoFxHAQc9msjAMtE5K2lA==}
+  turbo-windows-64@2.0.10:
+    resolution: {integrity: sha512-rkMOqvwN7hmMJNeChj63ZpLlIF6b9QC0jW/IbOMgcZMLcvz9iF+qCc2yaeDWgfOgLsNjhtv1rlhimShUuasSXw==}
     cpu: [x64]
     os: [win32]
 
-  turbo-windows-arm64@2.0.9:
-    resolution: {integrity: sha512-sGRz7c5Pey6y7y9OKi8ypbWNuIRPF9y8xcMqL56OZifSUSo+X2EOsOleR9MKxQXVaqHPGOUKWsE6y8hxBi9pag==}
+  turbo-windows-arm64@2.0.10:
+    resolution: {integrity: sha512-r7HQScx+CpO0p+Mw97Yq63uUAIwTfEUXRX6qxzeipBK+mTsnV1A6dTTYeVLD3S5AlL8GGdXddx0swyDeeVkQng==}
     cpu: [arm64]
     os: [win32]
 
-  turbo@2.0.9:
-    resolution: {integrity: sha512-QaLaUL1CqblSKKPgLrFW3lZWkWG4pGBQNW+q1ScJB5v1D/nFWtsrD/yZljW/bdawg90ihi4/ftQJ3h6fz1FamA==}
+  turbo@2.0.10:
+    resolution: {integrity: sha512-1t10h9bWl94/zktjzVWwTerJL3kIMDSA8mfibr1bevGLjF0DsiHOJFkCQFa5QABK0eXb0Af5mdRehLRBVem0Qg==}
     hasBin: true
 
   type-fest@2.19.0:
@@ -2838,7 +2843,7 @@ snapshots:
       remark-parse: 11.0.0
       remark-rehype: 11.1.0
       remark-smartypants: 2.1.0
-      shiki: 1.10.3
+      shiki: 1.12.0
       unified: 11.0.5
       unist-util-remove-position: 5.0.0
       unist-util-visit: 5.0.0
@@ -2861,7 +2866,7 @@ snapshots:
       remark-parse: 11.0.0
       remark-rehype: 11.1.0
       remark-smartypants: 3.0.2
-      shiki: 1.10.3
+      shiki: 1.12.0
       unified: 11.0.5
       unist-util-remove-position: 5.0.0
       unist-util-visit: 5.0.0
@@ -2870,12 +2875,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.0(astro@4.12.2(typescript@5.5.4))':
+  '@astrojs/mdx@3.1.0(astro@4.12.3(typescript@5.5.4))':
     dependencies:
       '@astrojs/markdown-remark': 5.1.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.12.1
-      astro: 4.12.2(typescript@5.5.4)
+      astro: 4.12.3(typescript@5.5.4)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -2901,15 +2906,15 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.25.3(astro@4.12.2(typescript@5.5.4))':
+  '@astrojs/starlight@0.25.3(astro@4.12.3(typescript@5.5.4))':
     dependencies:
-      '@astrojs/mdx': 3.1.0(astro@4.12.2(typescript@5.5.4))
+      '@astrojs/mdx': 3.1.0(astro@4.12.3(typescript@5.5.4))
       '@astrojs/sitemap': 3.1.5
       '@pagefind/default-ui': 1.1.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      astro: 4.12.2(typescript@5.5.4)
-      astro-expressive-code: 0.35.3(astro@4.12.2(typescript@5.5.4))
+      astro: 4.12.3(typescript@5.5.4)
+      astro-expressive-code: 0.35.3(astro@4.12.3(typescript@5.5.4))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -3320,7 +3325,7 @@ snapshots:
   '@expressive-code/plugin-shiki@0.35.3':
     dependencies:
       '@expressive-code/core': 0.35.3
-      shiki: 1.10.3
+      shiki: 1.12.0
 
   '@expressive-code/plugin-text-markers@0.35.3':
     dependencies:
@@ -3539,7 +3544,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.17.2':
     optional: true
 
-  '@shikijs/core@1.10.3':
+  '@shikijs/core@1.12.0':
     dependencies:
       '@types/hast': 3.0.4
 
@@ -3879,12 +3884,12 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.35.3(astro@4.12.2(typescript@5.5.4)):
+  astro-expressive-code@0.35.3(astro@4.12.3(typescript@5.5.4)):
     dependencies:
-      astro: 4.12.2(typescript@5.5.4)
+      astro: 4.12.3(typescript@5.5.4)
       rehype-expressive-code: 0.35.3
 
-  astro@4.12.2(typescript@5.5.4):
+  astro@4.12.3(typescript@5.5.4):
     dependencies:
       '@astrojs/compiler': 2.9.2
       '@astrojs/internal-helpers': 0.4.1
@@ -3935,15 +3940,15 @@ snapshots:
       preferred-pm: 4.0.0
       prompts: 2.4.2
       rehype: 13.0.1
-      semver: 7.6.2
-      shiki: 1.10.3
+      semver: 7.6.3
+      shiki: 1.12.0
       string-width: 7.2.0
       strip-ansi: 7.1.0
       tsconfck: 3.1.1(typescript@5.5.4)
       unist-util-visit: 5.0.0
       vfile: 6.0.2
-      vite: 5.3.4
-      vitefu: 0.2.5(vite@5.3.4)
+      vite: 5.3.5
+      vitefu: 0.2.5(vite@5.3.5)
       which-pm: 3.0.0
       yargs-parser: 21.1.1
       zod: 3.23.8
@@ -4708,7 +4713,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.6.2
+      semver: 7.6.3
 
   markdown-extensions@2.0.0: {}
 
@@ -5587,6 +5592,8 @@ snapshots:
 
   semver@7.6.2: {}
 
+  semver@7.6.3: {}
+
   seroval-plugins@1.1.0(seroval@1.1.0):
     dependencies:
       seroval: 1.1.0
@@ -5625,9 +5632,9 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shiki@1.10.3:
+  shiki@1.12.0:
     dependencies:
-      '@shikijs/core': 1.10.3
+      '@shikijs/core': 1.12.0
       '@types/hast': 3.0.4
 
   siginfo@2.0.0: {}
@@ -5777,32 +5784,32 @@ snapshots:
   tslib@2.6.2:
     optional: true
 
-  turbo-darwin-64@2.0.9:
+  turbo-darwin-64@2.0.10:
     optional: true
 
-  turbo-darwin-arm64@2.0.9:
+  turbo-darwin-arm64@2.0.10:
     optional: true
 
-  turbo-linux-64@2.0.9:
+  turbo-linux-64@2.0.10:
     optional: true
 
-  turbo-linux-arm64@2.0.9:
+  turbo-linux-arm64@2.0.10:
     optional: true
 
-  turbo-windows-64@2.0.9:
+  turbo-windows-64@2.0.10:
     optional: true
 
-  turbo-windows-arm64@2.0.9:
+  turbo-windows-arm64@2.0.10:
     optional: true
 
-  turbo@2.0.9:
+  turbo@2.0.10:
     optionalDependencies:
-      turbo-darwin-64: 2.0.9
-      turbo-darwin-arm64: 2.0.9
-      turbo-linux-64: 2.0.9
-      turbo-linux-arm64: 2.0.9
-      turbo-windows-64: 2.0.9
-      turbo-windows-arm64: 2.0.9
+      turbo-darwin-64: 2.0.10
+      turbo-darwin-arm64: 2.0.10
+      turbo-linux-64: 2.0.10
+      turbo-linux-arm64: 2.0.10
+      turbo-windows-64: 2.0.10
+      turbo-windows-arm64: 2.0.10
 
   type-fest@2.19.0: {}
 
@@ -5810,7 +5817,7 @@ snapshots:
 
   typescript-auto-import-cache@0.3.3:
     dependencies:
-      semver: 7.6.2
+      semver: 7.6.3
 
   typescript@5.5.4: {}
 
@@ -6000,10 +6007,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.3.4):
-    optionalDependencies:
-      vite: 5.3.4
-
   vitefu@0.2.5(vite@5.3.5):
     optionalDependencies:
       vite: 5.3.5
@@ -6078,7 +6081,7 @@ snapshots:
   volar-service-typescript@0.0.59(@volar/language-service@2.4.0-alpha.15):
     dependencies:
       path-browserify: 1.0.1
-      semver: 7.6.2
+      semver: 7.6.3
       typescript-auto-import-cache: 0.3.3
       vscode-languageserver-textdocument: 1.0.11
       vscode-nls: 5.2.0
