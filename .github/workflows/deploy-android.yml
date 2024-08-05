@@ -50,7 +50,7 @@ jobs:
           versionName: "1.2.0"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.5.0
+        uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
         # Use ./gradlew and not gradle as that uses the wrapper and the correct version of gradle
@@ -68,7 +68,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4.3.5
         with:
           name: Signed app bundle
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
