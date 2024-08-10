@@ -51,8 +51,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       '@sentry/react-native':
-        specifier: 5.26.0
-        version: 5.26.0(expo@51.0.24(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: 5.28.0
+        version: 5.28.0(expo@51.0.24(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       '@shopify/flash-list':
         specifier: 1.7.0
         version: 1.7.0(@babel/runtime@7.25.0)(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
@@ -2009,8 +2009,8 @@ packages:
     resolution: {integrity: sha512-U3suSZysmU9EiQqg0ga5CxveAyNbi9IVdsapMDq5EQGNcVDvheXtULs+BOc11WYP3Kw2yWB38VDqLepfc/Fg2g==}
     engines: {node: '>=8'}
 
-  '@sentry/react-native@5.26.0':
-    resolution: {integrity: sha512-ao3+nmtZ+NmemW2d04zJ4+Yl7K2Gn2Rt97JHYcNzmPRwk97GoZx+/vF4ZfWsBFF8Ii2rHRLwXZmGiU6qdLCiAg==}
+  '@sentry/react-native@5.28.0':
+    resolution: {integrity: sha512-YYgQYL4Ci1J3AZkFWB30xNPZs0L5sMT/dQMphqX+NCzOxe+4t5Nve1qEq/QLybH0zG96Zfh8m3CL6PU1ql1Ztw==}
     hasBin: true
     peerDependencies:
       expo: '>=49.0.0'
@@ -8568,7 +8568,7 @@ snapshots:
       '@sentry/utils': 7.117.0
       localforage: 1.10.0
 
-  '@sentry/react-native@5.26.0(expo@51.0.24(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
+  '@sentry/react-native@5.28.0(expo@51.0.24(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@sentry/babel-plugin-component-annotate': 2.20.1
       '@sentry/browser': 7.117.0
