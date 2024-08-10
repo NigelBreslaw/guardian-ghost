@@ -6,7 +6,6 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "dark",
     "assetBundlePatterns": ["**/*"],
-    "orientation": "portrait",
     "ios": {
       "associatedDomains": ["applinks:app.guardianghost.com"],
       "bundleIdentifier": "com.guardianghost.mobile",
@@ -17,14 +16,12 @@
         "image": "./assets/images/splash_dark.png",
           "resizeMode": "contain",
           "backgroundColor": "#17101F"
-      },
-      "supportsTablet": false
+      }
     },
     "androidStatusBar": {
       "barStyle": "light-content"
     },
     "android": {
-      
       "package": "com.guardianghost",
       "backgroundColor": "#17101F",
       "splash": {
