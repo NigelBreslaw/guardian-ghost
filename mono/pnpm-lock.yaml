@@ -18,17 +18,17 @@ importers:
   apps/site:
     dependencies:
       astro:
-        specifier: 4.13.2
-        version: 4.13.2(typescript@5.5.4)
+        specifier: 4.13.3
+        version: 4.13.3(typescript@5.5.4)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
-        specifier: 0.25.4
-        version: 0.25.4(astro@4.13.2(typescript@5.5.4))
+        specifier: 0.25.5
+        version: 0.25.5(astro@4.13.3(typescript@5.5.4))
       astro:
-        specifier: 4.13.2
-        version: 4.13.2(typescript@5.5.4)
+        specifier: 4.13.3
+        version: 4.13.3(typescript@5.5.4)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -80,9 +80,6 @@ packages:
     peerDependencies:
       typescript: ^5.0.0
 
-  '@astrojs/compiler@2.10.1':
-    resolution: {integrity: sha512-XmM4j6BjvOVMag2xELq0JuG2yKOW8wgIu6dvb9BsjbGYmnvoStJn/pqEzVqc1EBszf2xYT7onIkftIOUz9AwrQ==}
-
   '@astrojs/compiler@2.10.2':
     resolution: {integrity: sha512-bvH+v8AirwpRWCkYJEyWYdc5Cs/BjG2ZTxIJzttHilXgfKJAdW2496KsUQKzf5j2tOHtaHXKKn9hb9WZiBGpEg==}
 
@@ -117,8 +114,8 @@ packages:
   '@astrojs/sitemap@3.1.6':
     resolution: {integrity: sha512-1Qp2NvAzVImqA6y+LubKi1DVhve/hXXgFvB0szxiipzh7BvtuKe4oJJ9dXSqaubaTkt4nMa6dv6RCCAYeB6xaQ==}
 
-  '@astrojs/starlight@0.25.4':
-    resolution: {integrity: sha512-TRPgRsd5opi2tCXvh8rWizpLsJsRRXbYecULG5b/1x4BFyp40ZJVB77cLMjTj3lHwqWs0Sybtq5OBpOy6fuIEQ==}
+  '@astrojs/starlight@0.25.5':
+    resolution: {integrity: sha512-JQsfoqRUX/HBpOW8LWPdiIxcfXZ5HOvi4Dz4Ez61U99hDyX3Ix2Q+pmsek1sH5R1MHWx/wlki2VPEqidtKXyiQ==}
     peerDependencies:
       astro: ^4.8.6
 
@@ -1042,8 +1039,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.13.2:
-    resolution: {integrity: sha512-bdfUV6zfOWOV/IbROqVx+1cuAFXY0PZpVxr4JO9YxCKa5AfQRR8RKXJ2k8QUjalA6dmxQ9FgAQw3FRrzHVOGEQ==}
+  astro@4.13.3:
+    resolution: {integrity: sha512-MyhmM0v5sphiVwxAm5jjKxWeuPZijWPJ8Ajdign9QzEmLWSH8vUYIJWx/dWRQ6vF1I0jXrksoj3wtw5nzXt9nw==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2751,8 +2748,6 @@ snapshots:
       - prettier
       - prettier-plugin-astro
 
-  '@astrojs/compiler@2.10.1': {}
-
   '@astrojs/compiler@2.10.2': {}
 
   '@astrojs/internal-helpers@0.4.1': {}
@@ -2802,12 +2797,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.3(astro@4.13.2(typescript@5.5.4))':
+  '@astrojs/mdx@3.1.3(astro@4.13.3(typescript@5.5.4))':
     dependencies:
       '@astrojs/markdown-remark': 5.2.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.12.1
-      astro: 4.13.2(typescript@5.5.4)
+      astro: 4.13.3(typescript@5.5.4)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -2833,15 +2828,15 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.25.4(astro@4.13.2(typescript@5.5.4))':
+  '@astrojs/starlight@0.25.5(astro@4.13.3(typescript@5.5.4))':
     dependencies:
-      '@astrojs/mdx': 3.1.3(astro@4.13.2(typescript@5.5.4))
+      '@astrojs/mdx': 3.1.3(astro@4.13.3(typescript@5.5.4))
       '@astrojs/sitemap': 3.1.6
       '@pagefind/default-ui': 1.1.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      astro: 4.13.2(typescript@5.5.4)
-      astro-expressive-code: 0.35.6(astro@4.13.2(typescript@5.5.4))
+      astro: 4.13.3(typescript@5.5.4)
+      astro-expressive-code: 0.35.6(astro@4.13.3(typescript@5.5.4))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -3802,14 +3797,14 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.35.6(astro@4.13.2(typescript@5.5.4)):
+  astro-expressive-code@0.35.6(astro@4.13.3(typescript@5.5.4)):
     dependencies:
-      astro: 4.13.2(typescript@5.5.4)
+      astro: 4.13.3(typescript@5.5.4)
       rehype-expressive-code: 0.35.6
 
-  astro@4.13.2(typescript@5.5.4):
+  astro@4.13.3(typescript@5.5.4):
     dependencies:
-      '@astrojs/compiler': 2.10.1
+      '@astrojs/compiler': 2.10.2
       '@astrojs/internal-helpers': 0.4.1
       '@astrojs/markdown-remark': 5.2.0
       '@astrojs/telemetry': 3.1.0
@@ -3864,8 +3859,8 @@ snapshots:
       tsconfck: 3.1.1(typescript@5.5.4)
       unist-util-visit: 5.0.0
       vfile: 6.0.2
-      vite: 5.3.5
-      vitefu: 0.2.5(vite@5.3.5)
+      vite: 5.4.0
+      vitefu: 0.2.5(vite@5.4.0)
       which-pm: 3.0.0
       yargs-parser: 21.1.1
       zod: 3.23.8
@@ -3877,6 +3872,7 @@ snapshots:
       - less
       - lightningcss
       - sass
+      - sass-embedded
       - stylus
       - sugarss
       - supports-color
@@ -5833,10 +5829,6 @@ snapshots:
       rollup: 4.17.2
     optionalDependencies:
       fsevents: 2.3.3
-
-  vitefu@0.2.5(vite@5.3.5):
-    optionalDependencies:
-      vite: 5.3.5
 
   vitefu@0.2.5(vite@5.4.0):
     optionalDependencies:
