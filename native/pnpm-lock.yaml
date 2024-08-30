@@ -54,8 +54,8 @@ importers:
         specifier: 5.28.0
         version: 5.28.0(expo@51.0.31(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2)))(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)(typescript@5.5.4))(react@18.3.1)
       '@shopify/flash-list':
-        specifier: 1.7.0
-        version: 1.7.0(@babel/runtime@7.25.4)(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)(typescript@5.5.4))(react@18.3.1)
+        specifier: 1.7.1
+        version: 1.7.1(@babel/runtime@7.25.4)(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)(typescript@5.5.4))(react@18.3.1)
       class-variance-authority:
         specifier: 0.7.0
         version: 0.7.0
@@ -1999,8 +1999,8 @@ packages:
     resolution: {integrity: sha512-KkcLY8643SGBiDyPvMQOubBkwVX5IPknMHInc7jYC8pDVncGp7C65Wi506bCNPpKCWspUd/0VDNWOOen51/qKA==}
     engines: {node: '>=8'}
 
-  '@shopify/flash-list@1.7.0':
-    resolution: {integrity: sha512-Uys8mWTb0Y34Ts1hD97KrVFbFH9oY7qbj/u1oSrAS5PJAackDFbndUEVuTYyXSyWxHY0sRutF5HgS1yNdhj+0A==}
+  '@shopify/flash-list@1.7.1':
+    resolution: {integrity: sha512-sUYl7h8ydJutufA26E42Hj7cLvaBTpkMIyNJiFrxUspkcANb6jnFiLt9rEwAuDjvGk/C0lHau+WyT6ZOxqVPwg==}
     peerDependencies:
       '@babel/runtime': '*'
       react: '*'
@@ -8466,7 +8466,7 @@ snapshots:
     dependencies:
       '@sentry/types': 7.117.0
 
-  '@shopify/flash-list@1.7.0(@babel/runtime@7.25.4)(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)(typescript@5.5.4))(react@18.3.1)':
+  '@shopify/flash-list@1.7.1(@babel/runtime@7.25.4)(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.24.5(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)(typescript@5.5.4))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.25.4
       react: 18.3.1
