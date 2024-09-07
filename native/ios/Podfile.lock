@@ -1939,16 +1939,34 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (5.28.0):
+  - RNSentry (5.31.1):
+    - DoubleConversion
+    - glog
     - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
     - React-hermes
-    - Sentry/HybridSDK (= 8.33.0)
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Sentry/HybridSDK (= 8.36.0)
+    - Yoga
   - RNSVG (15.6.0):
     - React-Core
-  - SDWebImage (5.19.6):
-    - SDWebImage/Core (= 5.19.6)
-  - SDWebImage/Core (5.19.6)
+  - SDWebImage (5.19.7):
+    - SDWebImage/Core (= 5.19.7)
+  - SDWebImage/Core (5.19.7)
   - SDWebImageAVIFCoder (0.11.0):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
@@ -1957,7 +1975,7 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.33.0)
+  - Sentry/HybridSDK (8.36.0)
   - SocketRocket (0.7.0)
   - "sqlite3 (3.45.3+1)":
     - "sqlite3/common (= 3.45.3+1)"
@@ -2359,13 +2377,13 @@ SPEC CHECKSUMS:
   RNGestureHandler: 939f21fabf5d45a725c0bf175eb819dd25cf2e70
   RNReanimated: 74413c59c47123d7144db601d065627c75c746a3
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06
-  RNSentry: a3c29b5992ee3cac1980db7e57c050a17f1ff97b
+  RNSentry: b2e710a717d9d10301046849d75f637c2b83e871
   RNSVG: 5da7a24f31968ec74f0b091e3440080f347e279b
-  SDWebImage: a79252b60f4678812d94316c91da69ec83089c9f
+  SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: 8560050221424aef0bebc8e31eedf00af80f90a6
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: a1d7895431387402a674fd0d1c04ec85e87909b8
