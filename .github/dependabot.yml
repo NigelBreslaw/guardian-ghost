@@ -38,6 +38,7 @@ updates:
         patterns:
           - "expo*"
           - "@expo*"
+          - "expo-atlas"
       vitest:
         patterns:
           - "vitest*"
@@ -52,6 +53,10 @@ updates:
         patterns:
           - "eslint-plugin-react-compiler"
           - "babel-plugin-react-compiler"
+      react-native-reusables:
+        patterns:
+          - "@rn-primitives*"
+          - "nativewind"
       babel:
         patterns:
           - "@babel*"
