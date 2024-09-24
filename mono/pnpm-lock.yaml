@@ -18,17 +18,17 @@ importers:
   apps/site:
     dependencies:
       astro:
-        specifier: 4.15.8
-        version: 4.15.8(rollup@4.21.0)(typescript@5.6.2)
+        specifier: 4.15.9
+        version: 4.15.9(rollup@4.21.0)(typescript@5.6.2)
 
   docs/starlight:
     dependencies:
       '@astrojs/starlight':
         specifier: 0.28.2
-        version: 0.28.2(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2))
+        version: 0.28.2(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2))
       astro:
-        specifier: 4.15.8
-        version: 4.15.8(rollup@4.21.0)(typescript@5.6.2)
+        specifier: 4.15.9
+        version: 4.15.9(rollup@4.21.0)(typescript@5.6.2)
       rehype:
         specifier: 13.0.1
         version: 13.0.1
@@ -669,8 +669,8 @@ packages:
   '@nothing-but/utils@0.12.1':
     resolution: {integrity: sha512-1qZU1Q5El0IjE7JT/ucvJNzdr2hL3W8Rm27xNf1p6gb3Nw8pGnZmxp6/GEW9h+I1k1cICxXNq25hBwknTQ7yhg==}
 
-  '@oslojs/encoding@0.4.1':
-    resolution: {integrity: sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q==}
+  '@oslojs/encoding@1.0.0':
+    resolution: {integrity: sha512-dyIB0SdZgMm5BhGwdSp8rMxEFIopLKxDG1vxIBaiogyom6ZqH2aXPb6DEC2WzOOWKdPSq1cxdNeRx2wAn1Z+ZQ==}
 
   '@pagefind/darwin-arm64@1.1.0':
     resolution: {integrity: sha512-SLsXNLtSilGZjvqis8sX42fBWsWAVkcDh1oerxwqbac84HbiwxpxOC2jm8hRwcR0Z55HPZPWO77XeRix/8GwTg==}
@@ -1074,8 +1074,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.15.8:
-    resolution: {integrity: sha512-pdXjtRF6O1xChiPAUF32R7oVRTW7AK1/Oy/JqPNhLfbelO0l6C7cLdSEuSLektwOEnMhOVXqccetjBs7HPaoxA==}
+  astro@4.15.9:
+    resolution: {integrity: sha512-51oXq9qrZ5OPWYmEXt1kGrvWmVeWsx28SgBTzi2XW6iwcnW/wC5ONm6ol6qBGSCF93tQvZplXvuzpaw1injECA==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2894,12 +2894,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.3(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2))':
+  '@astrojs/mdx@3.1.3(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2))':
     dependencies:
       '@astrojs/markdown-remark': 5.2.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.12.1
-      astro: 4.15.8(rollup@4.21.0)(typescript@5.6.2)
+      astro: 4.15.9(rollup@4.21.0)(typescript@5.6.2)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -2925,15 +2925,15 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.28.2(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2))':
+  '@astrojs/starlight@0.28.2(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2))':
     dependencies:
-      '@astrojs/mdx': 3.1.3(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2))
+      '@astrojs/mdx': 3.1.3(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2))
       '@astrojs/sitemap': 3.1.6
       '@pagefind/default-ui': 1.1.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      astro: 4.15.8(rollup@4.21.0)(typescript@5.6.2)
-      astro-expressive-code: 0.35.6(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2))
+      astro: 4.15.9(rollup@4.21.0)(typescript@5.6.2)
+      astro-expressive-code: 0.35.6(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
@@ -3503,7 +3503,7 @@ snapshots:
 
   '@nothing-but/utils@0.12.1': {}
 
-  '@oslojs/encoding@0.4.1': {}
+  '@oslojs/encoding@1.0.0': {}
 
   '@pagefind/darwin-arm64@1.1.0':
     optional: true
@@ -3928,12 +3928,12 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.35.6(astro@4.15.8(rollup@4.21.0)(typescript@5.6.2)):
+  astro-expressive-code@0.35.6(astro@4.15.9(rollup@4.21.0)(typescript@5.6.2)):
     dependencies:
-      astro: 4.15.8(rollup@4.21.0)(typescript@5.6.2)
+      astro: 4.15.9(rollup@4.21.0)(typescript@5.6.2)
       rehype-expressive-code: 0.35.6
 
-  astro@4.15.8(rollup@4.21.0)(typescript@5.6.2):
+  astro@4.15.9(rollup@4.21.0)(typescript@5.6.2):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -3942,7 +3942,7 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/plugin-transform-react-jsx': 7.25.2(@babel/core@7.25.2)
       '@babel/types': 7.25.6
-      '@oslojs/encoding': 0.4.1
+      '@oslojs/encoding': 1.0.0
       '@rollup/pluginutils': 5.1.0(rollup@4.21.0)
       '@types/babel__core': 7.20.5
       '@types/cookie': 0.6.0
@@ -3992,8 +3992,8 @@ snapshots:
       tsconfck: 3.1.3(typescript@5.6.2)
       unist-util-visit: 5.0.0
       vfile: 6.0.3
-      vite: 5.4.5
-      vitefu: 1.0.2(vite@5.4.5)
+      vite: 5.4.7
+      vitefu: 1.0.2(vite@5.4.7)
       which-pm: 3.0.0
       xxhash-wasm: 1.0.2
       yargs-parser: 21.1.1
@@ -5958,9 +5958,9 @@ snapshots:
     optionalDependencies:
       vite: 5.4.7
 
-  vitefu@1.0.2(vite@5.4.5):
+  vitefu@1.0.2(vite@5.4.7):
     optionalDependencies:
-      vite: 5.4.5
+      vite: 5.4.7
 
   vitest@2.1.1:
     dependencies:
