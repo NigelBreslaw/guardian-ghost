@@ -82,5 +82,11 @@
   "name": "native_gg",
   "version": "1.0.0",
   "packageManager": "pnpm@9.11.0",
-  "private": true
+  "private": true,
+  "pnpm": {
+    "overrides": {
+      "send@<0.19.0": ">=0.19.0",
+      "cookie@<0.7.0": ">=0.7.0"
+    }
+  }
 }
