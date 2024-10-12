@@ -59,6 +59,8 @@ updates:
         patterns:
           - "@rn-primitives*"
           - "nativewind"
+          - "tailwind*"
+          - "tailwind"
       babel:
         patterns:
           - "@babel*"
