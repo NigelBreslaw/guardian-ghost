@@ -7,6 +7,7 @@ version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/mono" # Location of package manifests
+    open-pull-requests-limit: 20
     schedule:
       interval: "daily"
       time: "04:00"
@@ -30,6 +31,7 @@ updates:
           - "vite-plugin-solid"
   - package-ecosystem: "npm"
     directory: "/native" # Location react native package.json
+    open-pull-requests-limit: 20
     schedule:
       interval: "daily"
       time: "04:00"
