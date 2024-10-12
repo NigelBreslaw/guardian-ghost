@@ -23,7 +23,7 @@ jobs:
       deployments: write
     name: Deploy
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
       - uses: oven-sh/setup-bun@v2
       - name: bun install
         run: cd minifier && bun start
