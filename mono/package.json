@@ -17,6 +17,16 @@
     "type-check": "pnpm --stream -r type-check"
   },
   "type": "module",
-  "workspaces": ["apps/*", "docs/*"],
-  "packageManager": "pnpm@9.11.0"
+  "workspaces": [
+    "apps/*",
+    "docs/*"
+  ],
+  "packageManager": "pnpm@9.11.0",
+  "pnpm": {
+    "overrides": {
+      "@pagefind/default-ui@<1.1.1": ">=1.1.1",
+      "pagefind@<1.1.1": ">=1.1.1",
+      "rollup@>=4.0.0 <4.22.4": ">=4.22.4"
+    }
+  }
 }
