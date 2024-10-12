@@ -156,8 +156,8 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.10)
       valibot:
-        specifier: 0.41.0
-        version: 0.41.0(typescript@5.5.4)
+        specifier: 0.42.1
+        version: 0.42.1(typescript@5.5.4)
       zustand:
         specifier: 4.5.5
         version: 4.5.5(@types/react@18.3.11)(react@18.3.1)
@@ -5715,8 +5715,8 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
 
-  valibot@0.41.0:
-    resolution: {integrity: sha512-igDBb8CTYr8YTQlOKgaN9nSS0Be7z+WRuaeYqGf3Cjz3aKmSnqEmYnkfVjzIuumGqfHpa3fLIvMEAfhrpqN8ng==}
+  valibot@0.42.1:
+    resolution: {integrity: sha512-3keXV29Ar5b//Hqi4MbSdV7lfVp6zuYLZuA9V1PvQUsXqogr+u5lvLPLk3A4f74VUXDnf/JfWMN6sB+koJ/FFw==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -12615,7 +12615,7 @@ snapshots:
 
   uuid@8.3.2: {}
 
-  valibot@0.41.0(typescript@5.5.4):
+  valibot@0.42.1(typescript@5.5.4):
     optionalDependencies:
       typescript: 5.5.4
 
