@@ -55,8 +55,8 @@ importers:
         specifier: 1.0.5
         version: 1.0.5(react-native-web@0.19.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)
       '@sentry/react-native':
-        specifier: 5.33.2
-        version: 5.33.2(expo@51.0.37(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8)))(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)
+        specifier: 5.34.0
+        version: 5.34.0(expo@51.0.37(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8)))(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)
       '@shopify/flash-list':
         specifier: 1.7.1
         version: 1.7.1(@babel/runtime@7.25.7)(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)
@@ -1929,49 +1929,49 @@ packages:
     resolution: {integrity: sha512-aMwAnFU4iAPeLyZvqmOQaEDHt/Dkf8rpgYeJ0OEi50dmP6AjG+KIAMCXU7CYCCQDn70ITJo8QD5+KzCoZPYz0A==}
     engines: {node: '>=8'}
 
-  '@sentry/cli-darwin@2.36.6':
-    resolution: {integrity: sha512-2yKECENqMZKrJY5weA19g4gTgQfeuadWvVu7fVQVsgqoBRIaEhSHJc64ZgiHq2ur06qOuYcQr5FO1VrwUE1pZg==}
+  '@sentry/cli-darwin@2.37.0':
+    resolution: {integrity: sha512-CsusyMvO0eCPSN7H+sKHXS1pf637PWbS4rZak/7giz/z31/6qiXmeMlcL3f9lLZKtFPJmXVFO9uprn1wbBVF8A==}
     engines: {node: '>=10'}
     os: [darwin]
 
-  '@sentry/cli-linux-arm64@2.36.6':
-    resolution: {integrity: sha512-sLmmbZRE7F6UksovwcqEQ7oYXVBejpeL1CtiKVFwNoq9XB5kTiKlVColn+3yPcfwKCNj4H4HoeKc+xMtdd7wow==}
+  '@sentry/cli-linux-arm64@2.37.0':
+    resolution: {integrity: sha512-2vzUWHLZ3Ct5gpcIlfd/2Qsha+y9M8LXvbZE26VxzYrIkRoLAWcnClBv8m4XsHLMURYvz3J9QSZHMZHSO7kAzw==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux, freebsd]
 
-  '@sentry/cli-linux-arm@2.36.6':
-    resolution: {integrity: sha512-6zB7w5NawmdzhPHxqkjlhbvQugCBiFrFaUGvb3u1Oo/VCehdmq/v4v8ob4PNN2cJhoDRqQj2mPTfL/ppYNMJuw==}
+  '@sentry/cli-linux-arm@2.37.0':
+    resolution: {integrity: sha512-Dz0qH4Yt+gGUgoVsqVt72oDj4VQynRF1QB1/Sr8g76Vbi+WxWZmUh0iFwivYVwWxdQGu/OQrE0tx946HToCRyA==}
     engines: {node: '>=10'}
     cpu: [arm]
     os: [linux, freebsd]
 
-  '@sentry/cli-linux-i686@2.36.6':
-    resolution: {integrity: sha512-M1pdxv7eZdGoG1wDpRb28aRUs/qb0C5jAe+a7sWHIg463jRLAahM8NDkv2bRQv0Xhw3JIkEGGvr46mPkQrOuMQ==}
+  '@sentry/cli-linux-i686@2.37.0':
+    resolution: {integrity: sha512-MHRLGs4t/CQE1pG+mZBQixyWL6xDZfNalCjO8GMcTTbZFm44S3XRHfYJZNVCgdtnUP7b6OHGcu1v3SWE10LcwQ==}
     engines: {node: '>=10'}
     cpu: [x86, ia32]
     os: [linux, freebsd]
 
-  '@sentry/cli-linux-x64@2.36.6':
-    resolution: {integrity: sha512-gVy/zAWY2DEERQ/i3V+oruMas/U29/tsRPcRkB67MIUWbW7W46+c3yH490O+t49qMYYhKYG2YfWoTzW6qMtSlA==}
+  '@sentry/cli-linux-x64@2.37.0':
+    resolution: {integrity: sha512-k76ClefKZaDNJZU/H3mGeR8uAzAGPzDRG/A7grzKfBeyhP3JW09L7Nz9IQcSjCK+xr399qLhM2HFCaPWQ6dlMw==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux, freebsd]
 
-  '@sentry/cli-win32-i686@2.36.6':
-    resolution: {integrity: sha512-urH+i+WtPeW8Dund0xY8zObvvbMM0XxeEIUS4oFBCB3EMYHVxgNw+woQUv9Vyv7v+OBjckB/r27nxlwNBj4pbg==}
+  '@sentry/cli-win32-i686@2.37.0':
+    resolution: {integrity: sha512-FFyi5RNYQQkEg4GkP2f3BJcgQn0F4fjFDMiWkjCkftNPXQG+HFUEtrGsWr6mnHPdFouwbYg3tEPUWNxAoypvTw==}
     engines: {node: '>=10'}
     cpu: [x86, ia32]
     os: [win32]
 
-  '@sentry/cli-win32-x64@2.36.6':
-    resolution: {integrity: sha512-ZauqOqwFAqb/Njyc8Kj2l9Fhbms7T5zB2yu5zwvq1uiqhXqLmsb9mRTF8WJWl9WmO5hwq/GTOEQowvrwK8gblw==}
+  '@sentry/cli-win32-x64@2.37.0':
+    resolution: {integrity: sha512-nSMj4OcfQmyL+Tu/jWCJwhKCXFsCZW1MUk6wjjQlRt9SDLfgeapaMlK1ZvT1eZv5ZH6bj3qJfefwj4U8160uOA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [win32]
 
-  '@sentry/cli@2.36.6':
-    resolution: {integrity: sha512-1fcZVwe4H6a3Z1O+7m/z/2em1u67Tf0Zrt2oGEp82bqvCOHA904Wr2otc6GBEuFESB1/Mo8QgD/qwRd9Tv0Otw==}
+  '@sentry/cli@2.37.0':
+    resolution: {integrity: sha512-fM3V4gZRJR/s8lafc3O07hhOYRnvkySdPkvL/0e0XW0r+xRwqIAgQ5ECbsZO16A5weUiXVSf03ztDL1FcmbJCQ==}
     engines: {node: '>= 10'}
     hasBin: true
 
@@ -1995,8 +1995,8 @@ packages:
     resolution: {integrity: sha512-CGmLEPnaBqbUleVqrmGYjRjf5/OwjUXo57I9t0KKWViq81mWnYhaUhRZWFNoCNQHns+3+GPCOMvl0zlawt+evw==}
     engines: {node: '>=8'}
 
-  '@sentry/react-native@5.33.2':
-    resolution: {integrity: sha512-wjNiKYqtcW3JtA6Sg7VJ0xPTaVVMvKtb9R/rtkADjYqsvXFl740YUcwD4TfMHs7UoOvMkP6E941EU1kxGlD6jA==}
+  '@sentry/react-native@5.34.0':
+    resolution: {integrity: sha512-tba8dcQ+7qpRcCR061VZcLZ60eWfdOgHB4MudCiziPIbACtMahnlRZd0dS19BrqUTPfBDOpD9n5Dq8vnqGriHw==}
     hasBin: true
     peerDependencies:
       expo: '>=49.0.0'
@@ -8385,28 +8385,28 @@ snapshots:
       '@sentry/types': 7.119.1
       '@sentry/utils': 7.119.1
 
-  '@sentry/cli-darwin@2.36.6':
+  '@sentry/cli-darwin@2.37.0':
     optional: true
 
-  '@sentry/cli-linux-arm64@2.36.6':
+  '@sentry/cli-linux-arm64@2.37.0':
     optional: true
 
-  '@sentry/cli-linux-arm@2.36.6':
+  '@sentry/cli-linux-arm@2.37.0':
     optional: true
 
-  '@sentry/cli-linux-i686@2.36.6':
+  '@sentry/cli-linux-i686@2.37.0':
     optional: true
 
-  '@sentry/cli-linux-x64@2.36.6':
+  '@sentry/cli-linux-x64@2.37.0':
     optional: true
 
-  '@sentry/cli-win32-i686@2.36.6':
+  '@sentry/cli-win32-i686@2.37.0':
     optional: true
 
-  '@sentry/cli-win32-x64@2.36.6':
+  '@sentry/cli-win32-x64@2.37.0':
     optional: true
 
-  '@sentry/cli@2.36.6':
+  '@sentry/cli@2.37.0':
     dependencies:
       https-proxy-agent: 5.0.1
       node-fetch: 2.7.0
@@ -8414,13 +8414,13 @@ snapshots:
       proxy-from-env: 1.1.0
       which: 2.0.2
     optionalDependencies:
-      '@sentry/cli-darwin': 2.36.6
-      '@sentry/cli-linux-arm': 2.36.6
-      '@sentry/cli-linux-arm64': 2.36.6
-      '@sentry/cli-linux-i686': 2.36.6
-      '@sentry/cli-linux-x64': 2.36.6
-      '@sentry/cli-win32-i686': 2.36.6
-      '@sentry/cli-win32-x64': 2.36.6
+      '@sentry/cli-darwin': 2.37.0
+      '@sentry/cli-linux-arm': 2.37.0
+      '@sentry/cli-linux-arm64': 2.37.0
+      '@sentry/cli-linux-i686': 2.37.0
+      '@sentry/cli-linux-x64': 2.37.0
+      '@sentry/cli-win32-i686': 2.37.0
+      '@sentry/cli-win32-x64': 2.37.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8455,11 +8455,11 @@ snapshots:
       '@sentry/utils': 7.119.1
       localforage: 1.10.0
 
-  '@sentry/react-native@5.33.2(expo@51.0.37(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8)))(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)':
+  '@sentry/react-native@5.34.0(expo@51.0.37(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8)))(react-native@0.75.4(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8))(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)':
     dependencies:
       '@sentry/babel-plugin-component-annotate': 2.20.1
       '@sentry/browser': 7.119.1
-      '@sentry/cli': 2.36.6
+      '@sentry/cli': 2.37.0
       '@sentry/core': 7.119.1
       '@sentry/hub': 7.119.0
       '@sentry/integrations': 7.119.0
