@@ -179,11 +179,11 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
       babel-plugin-react-compiler:
-        specifier: 0.0.0-experimental-734b737-20241003
-        version: 0.0.0-experimental-734b737-20241003
+        specifier: 0.0.0
+        version: 0.0.0
       eslint-plugin-react-compiler:
-        specifier: 0.0.0-experimental-9a75bad-20241003
-        version: 0.0.0-experimental-9a75bad-20241003(eslint@9.12.0(jiti@1.21.6))
+        specifier: 0.0.0-experimental-605e95c-20241015
+        version: 0.0.0-experimental-605e95c-20241015(eslint@9.12.0(jiti@1.21.6))
       expo-atlas:
         specifier: 0.3.23
         version: 0.3.23(expo@51.0.37(@babel/core@7.25.8)(@babel/preset-env@7.24.5(@babel/core@7.25.8)))(typescript@5.6.3)
@@ -2438,11 +2438,11 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
 
+  babel-plugin-react-compiler@0.0.0:
+    resolution: {integrity: sha512-Kigl0V36a/6hLVH7+CCe1CCtU3mFBqBd829V//VtuG7I/pyq+B2QZJqOefd63snQmdfCryNhO9XW1FbGPBvYDA==}
+
   babel-plugin-react-compiler@0.0.0-experimental-592953e-20240517:
     resolution: {integrity: sha512-OjG1SVaeQZaJrqkMFJatg8W/MTow8Ak5rx2SI0ETQBO1XvOk/XZGMbltNCPdFJLKghBYoBjC+Y3Ap/Xr7B01mA==}
-
-  babel-plugin-react-compiler@0.0.0-experimental-734b737-20241003:
-    resolution: {integrity: sha512-jdcHsQwYAPuB2u/wpyCXCMI2B9n4weLAx8csvjNwYBw9drXYv4GmoxMyboigR9NJqDdcpIgjCBvt9qnIZM7AhA==}
 
   babel-plugin-react-native-web@0.19.12:
     resolution: {integrity: sha512-eYZ4+P6jNcB37lObWIg0pUbi7+3PKoU1Oie2j0C8UF3cXyXoR74tO2NBjI/FORb2LJyItJZEAmjU5pSaJYEL1w==}
@@ -3083,8 +3083,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-react-compiler@0.0.0-experimental-9a75bad-20241003:
-    resolution: {integrity: sha512-qZ/oEuECrXt3J4+13TvHEOBfrizBuUborCMFccZFn64UcWgbLzn+6Yb4xVx80YQiT1GT6UiKh62OkvnP6yYR2w==}
+  eslint-plugin-react-compiler@0.0.0-experimental-605e95c-20241015:
+    resolution: {integrity: sha512-YefQd/ZGYx5UWRRusUyf8PDmf2MPHrOGj2vZQbhJc9zUoGD3RGEJueTsIl4EZTGXjJOIe/TnuznDAa1laUyMYQ==}
     engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
     peerDependencies:
       eslint: '>=7'
@@ -8943,17 +8943,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-react-compiler@0.0.0-experimental-592953e-20240517:
-    dependencies:
-      '@babel/generator': 7.2.0
-      '@babel/types': 7.25.8
-      chalk: 4.1.2
-      invariant: 2.2.4
-      pretty-format: 24.9.0
-      zod: 3.23.8
-      zod-validation-error: 2.1.0(zod@3.23.8)
+  babel-plugin-react-compiler@0.0.0: {}
 
-  babel-plugin-react-compiler@0.0.0-experimental-734b737-20241003:
+  babel-plugin-react-compiler@0.0.0-experimental-592953e-20240517:
     dependencies:
       '@babel/generator': 7.2.0
       '@babel/types': 7.25.8
@@ -9663,7 +9655,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-react-compiler@0.0.0-experimental-9a75bad-20241003(eslint@9.12.0(jiti@1.21.6)):
+  eslint-plugin-react-compiler@0.0.0-experimental-605e95c-20241015(eslint@9.12.0(jiti@1.21.6)):
     dependencies:
       '@babel/core': 7.25.8
       '@babel/parser': 7.25.8
