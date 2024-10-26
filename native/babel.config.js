@@ -11,7 +11,7 @@ module.exports = function (api) {
           target: "18"
         },
       ],
-      "react-native-reanimated/plugin",
+      "react-native-reanimated/plugin"
     ],
   };
 };
