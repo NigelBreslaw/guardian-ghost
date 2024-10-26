@@ -30,7 +30,7 @@ function showBottomSheet(destinyItem: DestinyItem): boolean {
   if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
     return false;
   }
-  return Platform.OS !== "web" && !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
+  return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
 }
 
 type Props = {
@@ -78,9 +78,7 @@ export default function DetailsView({ route, navigation }: Props) {
   const BOTTOM_SHEET_COLOR = "black";
 
   function dismissBottomSheet() {
-    if (Platform.OS !== "web") {
-      bottomSheetRef.current?.snapToIndex(0);
-    }
+    bottomSheetRef.current?.snapToIndex(0);
   }
 
   if (!destinyItem) {
@@ -100,17 +98,6 @@ export default function DetailsView({ route, navigation }: Props) {
           <View style={{ height: "100%" }}>
             <ScreenInfo destinyItem={destinyItem} />
             <Stats destinyItem={destinyItem} />
-            {Platform.OS === "web" && (
-              <View>
-                <TransferEquipButtons
-                  close={() => {
-                    navigation.goBack();
-                  }}
-                  destinyItem={destinyItem}
-                  startTransfer={transfer}
-                />
-              </View>
-            )}
           </View>
         )}
       </ScrollView>
@@ -125,6 +112,7 @@ export default function DetailsView({ route, navigation }: Props) {
               useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
             }
           }}
+          enableDynamicSizing={false}
           snapPoints={snapPoints}
           animateOnMount={false}
           handleStyle={{
@@ -160,7 +148,6 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         </BottomSheet>
       )}
-      {Platform.OS !== "web" && (
         <View
           style={{
             borderTopWidth: StyleSheet.hairlineWidth,
@@ -172,7 +159,6 @@ export default function DetailsView({ route, navigation }: Props) {
             bottom: 0,
           }}
         />
-      )}
     </View>
   );
 }
