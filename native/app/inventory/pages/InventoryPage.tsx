@@ -8,14 +8,6 @@ import type { InventoryPageEnums, UISections } from "@/app/inventory/logic/Helpe
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { debounce } from "@/app/utilities/Helpers.ts";
 import { UiCellRenderItem } from "@/app/inventory/UiRowRenderItem.tsx";
-import Animated, {
-  Extrapolation,
-  interpolate,
-  ReduceMotion,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
 
 function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
   const internalOffset = posX - PAGE_WIDTH / 2;
@@ -48,10 +40,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   const pageData = useGGStore((state) => state.getPageData(inventoryPageEnum));
   const pullRefreshing = useGGStore((state) => state.pullRefreshing);
   const [pageReady, setPageReady] = useState(false);
-  const opacity = useSharedValue(0);
-  const viewAnimationStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
-  }));
 
   const jumpToCharacterRef = useRef<() => void>(() => {
     const currentListIndex = useGGStore.getState().currentListIndex;
@@ -116,7 +104,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
   return (
-    <Animated.View style={[viewAnimationStyle, { flex: 1, width: "100%", height: "100%" }]}>
+    <View style={[{ flex: 1, width: "100%", height: "100%" }]}>
       <ScrollView
         horizontal
         pagingEnabled
@@ -148,10 +136,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                     useGGStore.getState().setInitialPageLoaded();
                     setPageReady(true);
                     jumpToCharacterRef.current();
-                    opacity.value = withSpring(1, {
-                      duration: 1250,
-                      reduceMotion: ReduceMotion.System,
-                    });
                   }
                 }}
                 data={pageData[index]}
@@ -169,6 +153,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
           );
         })}
       </ScrollView>
-    </Animated.View>
+    </View>
   );
 }
