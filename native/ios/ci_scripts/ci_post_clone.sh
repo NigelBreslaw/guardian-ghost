@@ -43,7 +43,7 @@ echo "============> Installing cocoapods <============"
 brew install cocoapods
 
 # Install pnpm
-npm install -g pnpm@9.11.0
+npm install -g pnpm@9.12.2
 pnpm -v
 
 
