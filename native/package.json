@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "EXPO_USE_FAST_RESOLVER=1 expo start --dev-client",
+    "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -27,7 +27,7 @@
     "@rn-primitives/radio-group": "1.1.0",
     "@rn-primitives/slot": "1.1.0",
     "@rn-primitives/types": "1.1.0",
-    "@sentry/react-native": "5.33.2",
+    "@sentry/react-native": "6.1.0",
     "@shopify/flash-list": "1.7.1",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",

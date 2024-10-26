@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { StyleSheet, View, Platform, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -148,17 +148,17 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         </BottomSheet>
       )}
-        <View
-          style={{
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderColor: "grey",
-            position: "absolute",
-            width: "100%",
-            backgroundColor: BOTTOM_SHEET_COLOR,
-            height: insets.bottom,
-            bottom: 0,
-          }}
-        />
+      <View
+        style={{
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderColor: "grey",
+          position: "absolute",
+          width: "100%",
+          backgroundColor: BOTTOM_SHEET_COLOR,
+          height: insets.bottom,
+          bottom: 0,
+        }}
+      />
     </View>
   );
 }
