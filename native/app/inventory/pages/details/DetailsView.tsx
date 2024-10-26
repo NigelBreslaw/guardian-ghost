@@ -148,17 +148,17 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         </BottomSheet>
       )}
-        <View
-          style={{
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderColor: "grey",
-            position: "absolute",
-            width: "100%",
-            backgroundColor: BOTTOM_SHEET_COLOR,
-            height: insets.bottom,
-            bottom: 0,
-          }}
-        />
+      <View
+        style={{
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderColor: "grey",
+          position: "absolute",
+          width: "100%",
+          backgroundColor: BOTTOM_SHEET_COLOR,
+          height: insets.bottom,
+          bottom: 0,
+        }}
+      />
     </View>
   );
 }
