@@ -104,7 +104,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
   return (
-    <View style={[ { flex: 1, width: "100%", height: "100%" }]}>
+    <View style={[{ flex: 1, width: "100%", height: "100%" }]}>
       <ScrollView
         horizontal
         pagingEnabled
