@@ -20,7 +20,7 @@
     "coverage": "vitest run --coverage",
     "dev": "astro dev",
     "format:check": "biome format ./src",
-    "format:write": "biome format --write ./src",
+    "format:fix": "biome format --write ./src",
     "lint": "biome lint ./src",
     "lint:fix": "biome check --apply ./src",
     "preview": "astro preview",

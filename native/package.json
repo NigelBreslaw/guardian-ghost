@@ -5,7 +5,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "format:check": "biome format .",
-    "format:write": "biome format --write .",
+    "format:fix": "biome format --write .",
     "lint": "biome lint ./app",
     "lint:fix": "biome check --apply ./app",
     "type-check": "time tsc --noEmit",

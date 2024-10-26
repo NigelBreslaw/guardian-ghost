@@ -8,10 +8,10 @@ module.exports = function (api) {
         {
           compilationMode: "annotation",
           runtimeModule: "react-compiler-runtime",
-          target: "18"
+          target: "18",
         },
       ],
-      "react-native-reanimated/plugin"
+      "react-native-reanimated/plugin",
     ],
   };
 };
