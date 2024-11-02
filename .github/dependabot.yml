@@ -55,6 +55,7 @@ updates:
         patterns:
           - "eslint-plugin-react-compiler"
           - "babel-plugin-react-compiler"
+          - "react-compiler-runtime"
       react-native-reusables:
         patterns:
           - "@rn-primitives*"
