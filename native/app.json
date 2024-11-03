@@ -6,6 +6,7 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "dark",
     "assetBundlePatterns": ["**/*"],
+    "newArchEnabled": true,
     "ios": {
       "associatedDomains": ["applinks:app.guardianghost.com"],
       "bundleIdentifier": "com.guardianghost.mobile",
@@ -55,17 +56,6 @@
       }
     },
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "newArchEnabled": true
-          },
-          "android": {
-            "newArchEnabled": true
-          }
-        }
-      ],
       [
         "@sentry/react-native/expo",
         {
