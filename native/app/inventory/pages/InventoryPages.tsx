@@ -9,6 +9,7 @@ import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import OptionsMenu from "@/components/ui/OptionsMenu.tsx";
+import type { TouchableOpacityProps } from "react-native-gesture-handler";
 
 function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
   switch (pageEnum) {
@@ -62,8 +63,8 @@ export default function InventoryPages() {
             tabBarLabel: "Weapons",
             tabBarButton: (props) => (
               <TouchableOpacity
-                {...props}
-                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                {...(props as TouchableOpacityProps)}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -83,8 +84,8 @@ export default function InventoryPages() {
             tabBarLabel: "Armor",
             tabBarButton: (props) => (
               <TouchableOpacity
-                {...props}
-                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                {...(props as TouchableOpacityProps)}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -104,8 +105,8 @@ export default function InventoryPages() {
             tabBarLabel: "Inventory",
             tabBarButton: (props) => (
               <TouchableOpacity
-                {...props}
-                style={[props.style, { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                {...(props as TouchableOpacityProps)}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

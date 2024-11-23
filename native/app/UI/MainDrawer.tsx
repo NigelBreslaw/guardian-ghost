@@ -147,9 +147,6 @@ export default function MainDrawer() {
         name="Inventory"
         component={InventoryPages}
         options={{
-          sceneContainerStyle: {
-            backgroundColor: "#17101F",
-          },
           headerTintColor: "white",
           headerRight: MenuButton,
           headerTitle: CharacterHeaderButtons,
