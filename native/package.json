@@ -9,8 +9,7 @@
     "lint": "biome lint ./app",
     "lint:fix": "biome check --apply ./app",
     "type-check": "time tsc --noEmit",
-    "eslint": "eslint",
-    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
+    "eslint": "eslint"
   },
   "dependencies": {
     "@expo/metro-runtime": "4.0.0",
