@@ -19,7 +19,7 @@ jobs:
     defaults:
       run:
         working-directory: native
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4.2.2
       # - uses: dorny/paths-filter@v3.0.2
