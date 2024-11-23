@@ -12,11 +12,6 @@
       "bundleIdentifier": "com.guardianghost.mobile",
       "config": {
         "usesNonExemptEncryption": false
-      },
-      "splash": {
-        "image": "./assets/images/splash_dark.png",
-          "resizeMode": "contain",
-          "backgroundColor": "#17101F"
       }
     },
     "androidStatusBar": {
@@ -25,11 +20,6 @@
     "android": {
       "package": "com.guardianghost",
       "backgroundColor": "#17101F",
-      "splash": {
-        "image": "./assets/images/splash_dark.png",
-        "resizeMode": "native",
-        "backgroundColor": "#17101F"
-      },
       "intentFilters": [
         {
           "action": "VIEW",
@@ -56,12 +46,22 @@
       }
     },
     "plugins": [
+      // [
+      //   "@sentry/react-native/expo",
+      //   {
+      //     "url": "https://sentry.io/",
+      //     "project": "guardian-ghost",
+      //     "organization": "nigel-breslaw"
+      //   },
+        
+      // ],
       [
-        "@sentry/react-native/expo",
+        "expo-splash-screen",
         {
-          "url": "https://sentry.io/",
-          "project": "guardian-ghost",
-          "organization": "nigel-breslaw"
+          "backgroundColor": "#17101F",
+          "image": "./assets/images/splash_dark.png",
+          "resizeMode": "contain",
+          "imageWidth": 200
         }
       ]
     ]
