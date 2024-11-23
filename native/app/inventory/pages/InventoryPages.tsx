@@ -64,7 +64,7 @@ export default function InventoryPages() {
             tabBarButton: (props) => (
               <TouchableOpacity
                 {...(props as TouchableOpacityProps)}
-                style={[ { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -85,7 +85,7 @@ export default function InventoryPages() {
             tabBarButton: (props) => (
               <TouchableOpacity
                 {...(props as TouchableOpacityProps)}
-                style={[ { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -106,7 +106,7 @@ export default function InventoryPages() {
             tabBarButton: (props) => (
               <TouchableOpacity
                 {...(props as TouchableOpacityProps)}
-                style={[ { alignSelf: "center", justifyContent: "center", height: "100%" }]}
+                style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

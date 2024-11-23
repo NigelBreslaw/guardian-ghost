@@ -1,5 +1,5 @@
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer, type NavigationContainerRef, type Theme, DefaultTheme, } from "@react-navigation/native";
+import { NavigationContainer, type NavigationContainerRef, type Theme, DefaultTheme } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
 import { useWindowDimensions, Platform, Appearance } from "react-native";
 import { enableFreeze, enableScreens } from "react-native-screens";
