@@ -111,8 +111,8 @@ importers:
         specifier: 5.0.1
         version: 5.0.1
       lucide-react-native:
-        specifier: 0.460.0
-        version: 0.460.0(react-native-svg@15.9.0(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1))(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1)
+        specifier: 0.461.0
+        version: 0.461.0(react-native-svg@15.9.0(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1))(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1)
       mutative:
         specifier: 1.0.11
         version: 1.0.11
@@ -3962,8 +3962,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react-native@0.460.0:
-    resolution: {integrity: sha512-Z43BbteT398BMNcqkZWGc+lKUgERPo5oVV+2NYlGUF+vP2xtckO4tJKcuF+jR+wrLyxrAFfTHetfz80aNryWMw==}
+  lucide-react-native@0.461.0:
+    resolution: {integrity: sha512-ltsJ5jYa/sWRXLNh+fufPruUk7i+pMSWQNd0EfxvaKgEMChflTNYBlz1ce3yroW0UUdo4ec66nntnWFQhqlFwA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
       react-native: '*'
@@ -10140,7 +10140,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react-native@0.460.0(react-native-svg@15.9.0(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1))(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1):
+  lucide-react-native@0.461.0(react-native-svg@15.9.0(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1))(react-native@0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-native: 0.76.3(@babel/core@7.26.0)(@babel/preset-env@7.24.5(@babel/core@7.26.0))(@react-native-community/cli-server-api@14.1.0)(@types/react@18.3.12)(react@18.3.1)
