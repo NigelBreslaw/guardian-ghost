@@ -57,16 +57,16 @@ importers:
     devDependencies:
       solid-devtools:
         specifier: 0.30.1
-        version: 0.30.1(solid-js@1.9.3)(vite@6.0.1(yaml@2.6.1))
+        version: 0.30.1(solid-js@1.9.3)(vite@6.0.2(yaml@2.6.1))
       typescript:
         specifier: 5.6.3
         version: 5.6.3
       vite:
-        specifier: 6.0.1
-        version: 6.0.1(yaml@2.6.1)
+        specifier: 6.0.2
+        version: 6.0.2(yaml@2.6.1)
       vite-plugin-solid:
         specifier: 2.10.2
-        version: 2.10.2(solid-js@1.9.3)(vite@6.0.1(yaml@2.6.1))
+        version: 2.10.2(solid-js@1.9.3)(vite@6.0.2(yaml@2.6.1))
 
 packages:
 
@@ -2620,8 +2620,8 @@ packages:
       terser:
         optional: true
 
-  vite@6.0.1:
-    resolution: {integrity: sha512-Ldn6gorLGr4mCdFnmeAOLweJxZ34HjKnDm4HGo6P66IEqTxQb36VEdFJQENKxWjupNfoIjvRUnswjn1hpYEpjQ==}
+  vite@6.0.2:
+    resolution: {integrity: sha512-XdQ+VsY2tJpBsKGs0wf3U/+azx8BBpYRHFAyKm5VeEZNOJZRB63q7Sc8Iup3k0TrN3KO6QgyzFf+opSbfY1y0g==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -5758,7 +5758,7 @@ snapshots:
       arg: 5.0.2
       sax: 1.4.1
 
-  solid-devtools@0.30.1(solid-js@1.9.3)(vite@6.0.1(yaml@2.6.1)):
+  solid-devtools@0.30.1(solid-js@1.9.3)(vite@6.0.2(yaml@2.6.1)):
     dependencies:
       '@babel/core': 7.26.0
       '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
@@ -5767,7 +5767,7 @@ snapshots:
       '@solid-devtools/shared': 0.13.2(solid-js@1.9.3)
       solid-js: 1.9.3
     optionalDependencies:
-      vite: 6.0.1(yaml@2.6.1)
+      vite: 6.0.2(yaml@2.6.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -6016,7 +6016,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-solid@2.10.2(solid-js@1.9.3)(vite@6.0.1(yaml@2.6.1)):
+  vite-plugin-solid@2.10.2(solid-js@1.9.3)(vite@6.0.2(yaml@2.6.1)):
     dependencies:
       '@babel/core': 7.26.0
       '@types/babel__core': 7.20.5
@@ -6024,8 +6024,8 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.9.3
       solid-refresh: 0.6.3(solid-js@1.9.3)
-      vite: 6.0.1(yaml@2.6.1)
-      vitefu: 0.2.5(vite@6.0.1(yaml@2.6.1))
+      vite: 6.0.2(yaml@2.6.1)
+      vitefu: 0.2.5(vite@6.0.2(yaml@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -6037,7 +6037,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vite@6.0.1(yaml@2.6.1):
+  vite@6.0.2(yaml@2.6.1):
     dependencies:
       esbuild: 0.24.0
       postcss: 8.4.49
@@ -6046,9 +6046,9 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.6.1
 
-  vitefu@0.2.5(vite@6.0.1(yaml@2.6.1)):
+  vitefu@0.2.5(vite@6.0.2(yaml@2.6.1)):
     optionalDependencies:
-      vite: 6.0.1(yaml@2.6.1)
+      vite: 6.0.2(yaml@2.6.1)
 
   vitefu@1.0.4(vite@5.4.11):
     optionalDependencies:
