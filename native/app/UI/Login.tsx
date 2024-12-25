@@ -75,7 +75,7 @@ function LocalWebLogin() {
           <Text style={styles.demoButtonText}>secret login</Text>
         </View>
       </TouchableOpacity>
-      </React.Fragment>
+    </React.Fragment>
   );
 }
 
