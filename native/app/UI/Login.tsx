@@ -18,6 +18,7 @@ import Xbox from "@/images/svg/xbox.svg";
 import Steam from "@/images/svg/steam.svg";
 import Epic from "@/images/svg/epic.svg";
 import { getBungieUser } from "@/app/bungie/Account.ts";
+import React from "react";
 
 const CROSS_SAVE_IMAGE = require("../../images/cross-save.png");
 const defaultSize = 30;
@@ -59,7 +60,7 @@ function LocalWebLogin() {
   const createAuthenticatedAccount = useGGStore((state) => state.createAuthenticatedAccount);
 
   return (
-    <>
+    <React.Fragment>
       <TextInput
         allowFontScaling={false}
         style={{ color: "white" }}
@@ -74,7 +75,7 @@ function LocalWebLogin() {
           <Text style={styles.demoButtonText}>secret login</Text>
         </View>
       </TouchableOpacity>
-    </>
+    </React.Fragment>
   );
 }
 
