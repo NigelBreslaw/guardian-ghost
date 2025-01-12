@@ -816,7 +816,6 @@ async function main() {
     console.time("download-manifest");
 
     const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
-    const liveManifestUrl = "https://app.guardianghost.com/json/bungie_manifest.json";
 
     const jsonManifest = await downloadJsonFile(manifestUrl);
     
@@ -828,7 +827,7 @@ async function main() {
         
         if (JSON.stringify(jsonManifest) === JSON.stringify(liveManifest)) {
             console.log("Manifest matches live version - no update needed");
-            process.exit(0); // Clean exit - will not trigger GitHub Actions failure
+            process.exit(1); // Clean exit - will not trigger GitHub Actions failure
         }
         console.log("Manifest differs from live version - proceeding with update");
     }
