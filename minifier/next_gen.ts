@@ -816,9 +816,23 @@ async function main() {
     console.time("download-manifest");
 
     const manifestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
-    const suffix = "_b";
+    const liveManifestUrl = "https://app.guardianghost.com/json/bungie_manifest.json";
 
     const jsonManifest = await downloadJsonFile(manifestUrl);
+    
+    // Check if this is running in GitHub Actions with the check flag
+    if (process.argv.includes('--check-manifest')) {
+        console.log("Checking manifest against live version...");
+        const liveManifestUrl = "https://app.guardianghost.com/json/bungie_manifest.json";
+        const liveManifest = await downloadJsonFile(liveManifestUrl);
+        
+        if (JSON.stringify(jsonManifest) === JSON.stringify(liveManifest)) {
+            console.log("Manifest matches live version - no update needed");
+            process.exit(0); // Clean exit - will not trigger GitHub Actions failure
+        }
+        console.log("Manifest differs from live version - proceeding with update");
+    }
+    const suffix = "_b";
     const id = `${jsonManifest.Response.jsonWorldComponentContentPaths["en"].DestinyInventoryItemDefinition}${suffix}`;
     console.timeEnd("download-manifest");
 
@@ -833,6 +847,10 @@ async function main() {
 
     const savePath = path.join(__dirname, `json/manifest.json`);
     await saveToJsonFile(uniqueJsonManifest, savePath);
+
+    // Save the full Bungie manifest
+    const bungieManifestPath = path.join(__dirname, `json/bungie_manifest.json`);
+    await saveToJsonFile(jsonManifest, bungieManifestPath);
 
     // To avoid committing a 3MB JSON blob into this repo download the demo.json file
     // from the unintuitive.com site and save it to the json folder. This is only used
