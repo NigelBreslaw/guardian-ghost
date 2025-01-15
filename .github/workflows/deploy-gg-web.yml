@@ -48,6 +48,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: gg-app
+          command: pages deploy native/dist --project-name=gg-app 
           directory: native/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
