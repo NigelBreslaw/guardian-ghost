@@ -46,15 +46,6 @@
       }
     },
     "plugins": [
-      // [
-      //   "@sentry/react-native/expo",
-      //   {
-      //     "url": "https://sentry.io/",
-      //     "project": "guardian-ghost",
-      //     "organization": "nigel-breslaw"
-      //   },
-        
-      // ],
       [
         "expo-splash-screen",
         {
