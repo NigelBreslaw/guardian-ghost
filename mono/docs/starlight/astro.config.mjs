@@ -7,11 +7,10 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "GG Docs",
-      social: {
-        email: "mailto:support@guardianghost.com",
-        twitter: "https://twitter.com/GGuardianGhost",
-        github: "https://github.com/NigelBreslaw/guardian-ghost",
-      },
+      social: [
+        { icon: "github", label: "GitHub", href: "https://github.com/NigelBreslaw/guardian-ghost" },
+        { icon: "email", label: "Email", href: "mailto:support@guardianghost.com" },
+      ],
       sidebar: [
         {
           label: "Guides",
