@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SQLite from "expo-sqlite/legacy";
+import { AsyncStorage as AsyncStorageSQL } from "expo-sqlite/kv-store";
 import { Platform } from "react-native";
 import { parse, safeParse, string } from "valibot";
 import type { StateCreator } from "zustand";
@@ -356,13 +356,13 @@ function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) 
   get().setItemsDefinitionReady();
 }
 
-function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
-  return new Promise((resolve, _reject) => {
-    if (Platform.OS === "web") {
-      return resolve(getWebStore(storageKey, errorMessage));
-    }
-    resolve(getNativeStore(storageKey, errorMessage));
-  });
+async function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
+  if (Platform.OS === "web") {
+    return getWebStore(storageKey, errorMessage);
+  }
+  const dataString = await getAsyncStorageSQL(storageKey);
+  const data = JSON.parse(dataString);
+  return data;
 }
 
 function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
@@ -400,46 +400,7 @@ function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON
   });
 }
 
-function getNativeStore(key: string, errorMessage: string): Promise<JSON> {
-  return new Promise((resolve, reject) => {
-    const nativeStore = SQLite.openDatabase(DatabaseStore.databaseName);
-    nativeStore.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
-        [],
-        () => {
-          // console.log("Table created successfully")
-        },
-        (_, error) => {
-          console.log("Error occurred while creating the table");
-          console.log(error);
-          return false;
-        },
-      );
-    });
-    if (nativeStore) {
-      nativeStore.transaction((tx) => {
-        tx.executeSql(
-          "SELECT value FROM json_table WHERE key = ?;",
-          [key],
-          (_, resultSet) => {
-            if (resultSet.rows.length > 0) {
-              const json = JSON.parse(resultSet.rows.item(0).value);
-              return resolve(json as JSON);
-            }
-            console.log("No JSON found for the provided key", key, errorMessage);
-            reject(new Error(errorMessage));
-          },
-          (_, error) => {
-            console.log("Error occurred while getting JSON", errorMessage);
-            console.log(error);
-            throw new Error(errorMessage);
-          },
-        );
-      });
-    }
-  });
-}
+
 
 async function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
   if (Platform.OS === "web") {
@@ -450,7 +411,8 @@ async function setData(data: JSON, storageKey: StorageKey, errorMessage: string)
     }
   } else {
     try {
-      await setNativeStore(data, storageKey, errorMessage);
+      const jsonString = JSON.stringify(data, null, 0);
+      await setAsyncStorageSQL(storageKey, jsonString);
     } catch (e) {
       console.log("setData() ERROR", e);
     }
@@ -491,39 +453,6 @@ function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): 
   });
 }
 
-async function setNativeStore(json: object, key: string, errorMessage: string) {
-  const nativeStore = SQLite.openDatabase(DatabaseStore.databaseName);
-  nativeStore.transaction((tx) => {
-    tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS json_table (key TEXT UNIQUE, value TEXT);",
-      [],
-      () => {
-        // console.log("Table created successfully")
-      },
-      (_, error) => {
-        console.log("Error occurred while creating the table");
-        console.log(error);
-        return true;
-      },
-    );
-  });
-
-  const jsonString = JSON.stringify(json, null, 0);
-
-  nativeStore.transaction((tx) => {
-    tx.executeSql(
-      "INSERT OR REPLACE INTO json_table (key, value) VALUES (?, ?);",
-      [key, jsonString],
-      (_) => console.log("JSON set successfully", key),
-      (_, error) => {
-        console.log("Error occurred while setting JSON", errorMessage);
-        console.log(error);
-        return true;
-      },
-    );
-  });
-}
-
 export async function getAsyncStorage(key: AsyncStorageKey): Promise<string> {
   const data = await AsyncStorage.getItem(key);
   if (data) {
@@ -547,7 +476,7 @@ export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promi
   }
 }
 
-export async function removeAsyncStorageItem(key: AsyncStorageKey): Promise<void> {
+export async function removeAsyncStorageItem(key: string): Promise<void> {
   try {
     await AsyncStorage.removeItem(key);
     console.log("removed", key);
@@ -556,3 +485,28 @@ export async function removeAsyncStorageItem(key: AsyncStorageKey): Promise<void
     throw new Error(`Failed to remove AsyncStorage ${key}`);
   }
 }
+
+export async function getAsyncStorageSQL(key: StorageKey): Promise<string> {
+  const data = await AsyncStorageSQL.getItem(key);
+  if (data) {
+    const validatedVersion = safeParse(string(), data);
+
+    if (validatedVersion.success) {
+      return validatedVersion.output;
+    }
+    throw new Error("Validation failed");
+  }
+  throw new Error(`No saved AsyncStorage found: ${key}`);
+}
+
+export async function setAsyncStorageSQL(key: StorageKey, data: string): Promise<void> {
+  try {
+    await AsyncStorageSQL.setItem(key, data);
+    console.log("saved", key);
+  } catch (error: unknown) {
+    console.error("Failed to save", error, key);
+    throw new Error(`Failed to save AsyncStorage ${key}`);
+  }
+}
+
+
