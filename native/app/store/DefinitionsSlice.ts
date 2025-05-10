@@ -400,8 +400,6 @@ function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON
   });
 }
 
-
-
 async function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
   if (Platform.OS === "web") {
     try {
@@ -508,5 +506,3 @@ export async function setAsyncStorageSQL(key: StorageKey, data: string): Promise
     throw new Error(`Failed to save AsyncStorage ${key}`);
   }
 }
-
-
