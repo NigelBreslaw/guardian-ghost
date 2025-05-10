@@ -45,7 +45,6 @@ export default function DetailsView({ route, navigation }: Props) {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const focus = useIsFocused();
-  const showNextBottomSheet = useGGStore((state) => state.showNextBottomSheet);
 
   useEffect(() => {
     if (focus) {
@@ -67,7 +66,7 @@ export default function DetailsView({ route, navigation }: Props) {
   }
 
   // BottomSheet animation
-  const opacity = useSharedValue(showNextBottomSheet === ShowBottomSheet.show ? 1 : 0);
+  const opacity = useSharedValue(useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0);
   const transferButtonStyle = useAnimatedStyle(() => ({
     opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
   }));
@@ -104,7 +103,7 @@ export default function DetailsView({ route, navigation }: Props) {
       {showBottomSheet(destinyItem) && (
         <BottomSheet
           ref={bottomSheetRef}
-          index={showNextBottomSheet === ShowBottomSheet.show ? 0 : -1}
+          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 0 : -1}
           onChange={(e) => {
             if (e === 0) {
               useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);

@@ -7,8 +7,7 @@ module.exports = function (api) {
         "babel-plugin-react-compiler",
         {
           compilationMode: "annotation",
-          runtimeModule: "react-compiler-runtime",
-          target: "18",
+          target: "19",
         },
       ],
       "react-native-reanimated/plugin",
