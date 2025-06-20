@@ -1,10 +1,10 @@
 name: Update definitions
 
-# Run every 10 mins during Bungie's working hours. 
+# Run every 10 mins during Bungie's working hours.
 # The Action takes ~10 seconds to run if there is no new manifest.
 # Github give 2000 minutes (120_000 seconds) per month
 on:
-  schedule: 
+  schedule:
     - cron: "*/10 15-23 * * *"
     - cron: "*/10 0-2 * * *"
 
@@ -45,6 +45,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy native/dist --project-name=gg-app 
-          directory: native/dist
+          command: pages deploy native/dist --project-name=gg-app
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
