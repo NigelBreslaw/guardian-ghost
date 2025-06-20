@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "5.0.4",
-    "@gorhom/bottom-sheet": "5.1.4",
-    "@react-native-async-storage/async-storage": "2.1.2",
+    "@gorhom/bottom-sheet": "5.1.6",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "7.3.17",
     "@react-navigation/drawer": "7.4.4",
     "@react-navigation/native": "7.1.13",
@@ -65,7 +65,7 @@
     "zustand": "5.0.5"
   },
   "devDependencies": {
-    "@babel/core": "7.27.1",
+    "@babel/core": "7.27.4",
     "@biomejs/biome": "2.0.0",
     "@types/react": "19.0.14",
     "@types/react-dom": "19.0.0",
