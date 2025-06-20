@@ -15,8 +15,8 @@ importers:
         specifier: 5.1.4
         version: 5.1.4(@types/react@19.0.14)(react-native-gesture-handler@2.26.0(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.17.5(@babel/core@7.27.1)(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@react-native-async-storage/async-storage':
-        specifier: 2.1.2
-        version: 2.1.2(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))
+        specifier: 2.2.0
+        version: 2.2.0(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))
       '@react-navigation/bottom-tabs':
         specifier: 7.3.17
         version: 7.3.17(@react-navigation/native@7.1.13(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.4.1(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-screens@4.11.1(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -1328,8 +1328,8 @@ packages:
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
 
-  '@react-native-async-storage/async-storage@2.1.2':
-    resolution: {integrity: sha512-dvlNq4AlGWC+ehtH12p65+17V0Dx7IecOWl6WanF2ja38O1Dcjjvn7jVzkUHJ5oWkQBlyASurTPlTHgKXyYiow==}
+  '@react-native-async-storage/async-storage@2.2.0':
+    resolution: {integrity: sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==}
     peerDependencies:
       react-native: ^0.0.0-0 || >=0.65 <1.0
 
@@ -6112,7 +6112,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.1': {}
 
-  '@react-native-async-storage/async-storage@2.1.2(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))':
+  '@react-native-async-storage/async-storage@2.2.0(react-native@0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))':
     dependencies:
       merge-options: 3.0.4
       react-native: 0.79.4(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0)
