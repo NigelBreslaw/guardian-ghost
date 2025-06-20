@@ -2,10 +2,10 @@
   "name": "@gg-monorepo/starlight",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/starlight": "0.34.3",
-    "astro": "5.7.12",
+    "@astrojs/starlight": "0.34.4",
+    "astro": "5.10.0",
     "rehype": "13.0.2",
-    "sharp": "0.34.1"
+    "sharp": "0.34.2"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
