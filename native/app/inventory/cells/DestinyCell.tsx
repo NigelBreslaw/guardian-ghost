@@ -17,6 +17,8 @@ type Props = {
 export default function DestinyCell({ destinyItem }: Props) {
   "use memo";
 
+  const navigation = useNavigation();
+
   if (destinyItem === undefined) {
     return (
       <View style={styles.container}>
@@ -30,7 +32,6 @@ export default function DestinyCell({ destinyItem }: Props) {
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
   const borderColor = returnBorderColor(destinyItem);
 
-  const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate("Details", {
       characterId,

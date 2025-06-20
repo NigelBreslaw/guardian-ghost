@@ -16,6 +16,8 @@ type Props = {
 export default function ArtifactCell({ destinyItem }: Props) {
   "use memo";
 
+  const navigation = useNavigation();
+
   if (destinyItem === undefined) {
     return (
       <View style={styles.container}>
@@ -24,7 +26,6 @@ export default function ArtifactCell({ destinyItem }: Props) {
     );
   }
   const borderColor = returnBorderColor(destinyItem);
-  const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {
