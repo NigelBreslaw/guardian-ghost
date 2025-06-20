@@ -25,6 +25,6 @@ jobs:
       - name: lint
         run: cd mono && pnpm lint
       - name: format
-        run: cd mono && pnpm format:check
+        run: cd mono && pnpm format
       - name: build
         run: cd mono && pnpm build:ci

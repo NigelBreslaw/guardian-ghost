@@ -2,7 +2,7 @@
   "name": "@gg-monorepo",
   "version": "0.0.1",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0",
     "turbo": "2.5.4"
   },
   "private": true,
@@ -10,7 +10,7 @@
     "build": "pnpm --stream -r build",
     "build:ci": "turbo build --remote-only --api=$TURBO_URL --token=$TURBO_CODE --team=CI",
     "coverage": "pnpm --stream -r coverage",
-    "format:check": "pnpm --stream -r format:check",
+    "format": "pnpm --stream -r format",
     "format:fix": "pnpm -r format:fix",
     "lint": "pnpm --stream -r lint",
     "lint:fix": "pnpm -r lint:fix",

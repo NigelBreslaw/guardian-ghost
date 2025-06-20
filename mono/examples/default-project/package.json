@@ -8,7 +8,7 @@
     "build": "vite build",
     "build:ci": "turbo build --remote-only --api=$TURBO_URL --token=$TURBO_CODE --team=CI",
     "coverage": "vitest run --coverage",
-    "format:check": "biome format ./src",
+    "format": "biome format ./src",
     "format:fix": "biome format --write ./src",
     "lint": "biome lint ./src",
     "lint:fix": "biome check --apply ./src",

@@ -14,6 +14,8 @@ type Props = {
 export default function EngramCell({ destinyItem }: Props) {
   "use memo";
 
+  const navigation = useNavigation();
+
   if (destinyItem === undefined) {
     return (
       <View style={styles.frameSize}>
@@ -21,7 +23,6 @@ export default function EngramCell({ destinyItem }: Props) {
       </View>
     );
   }
-  const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate("Details", {

@@ -4,7 +4,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "format:check": "biome format .",
+    "format": "biome format .",
     "format:fix": "biome format --write .",
     "lint": "biome lint ./app",
     "lint:fix": "biome check --apply ./app",
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.27.1",
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0",
     "@types/react": "19.0.14",
     "@types/react-dom": "19.0.0",
     "babel-plugin-react-compiler": "19.1.0-rc.1",
