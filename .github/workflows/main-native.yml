@@ -22,6 +22,6 @@ jobs:
       - name: lint
         run: cd native && pnpm lint
       - name: format
-        run: cd native && pnpm format:check
+        run: cd native && pnpm format
       - name: type check
         run: cd native && pnpm type-check
