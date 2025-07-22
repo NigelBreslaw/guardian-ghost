@@ -1,2 +1,5 @@
 onlyBuiltDependencies:
   - '@sentry/cli'
+
+overrides:
+  on-headers@<1.1.0: '>=1.1.0'
