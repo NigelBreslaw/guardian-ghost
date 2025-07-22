@@ -51,16 +51,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0(react-native-web@0.20.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       '@sentry/react-native':
-<<<<<<< ours
         specifier: 6.18.0
         version: 6.18.0(expo@53.0.20(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
-||||||| ancestor
-        specifier: 6.15.1
-        version: 6.15.1(expo@53.0.12(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
-=======
-        specifier: 6.18.0
-        version: 6.18.0(expo@53.0.12(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
->>>>>>> theirs
       '@shopify/flash-list':
         specifier: 1.8.3
         version: 1.8.3(@babel/runtime@7.27.6)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
@@ -6544,15 +6536,8 @@ snapshots:
 
   '@sentry/core@8.55.0': {}
 
-<<<<<<< ours
   '@sentry/react-native@6.18.0(expo@53.0.20(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)':
-||||||| ancestor
-  '@sentry/react-native@6.15.1(expo@53.0.12(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
-=======
-  '@sentry/react-native@6.18.0(expo@53.0.12(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
->>>>>>> theirs
     dependencies:
-<<<<<<< ours
       '@sentry/babel-plugin-component-annotate': 3.6.1
       '@sentry/browser': 8.55.0
       '@sentry/cli': 2.50.0
@@ -6562,40 +6547,13 @@ snapshots:
       '@sentry/utils': 8.55.0
       react: 19.0.0
       react-native: 0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)
-||||||| ancestor
-      '@sentry/babel-plugin-component-annotate': 3.5.0
-      '@sentry/browser': 8.54.0
-      '@sentry/cli': 2.46.0
-      '@sentry/core': 8.54.0
-      '@sentry/react': 8.54.0(react@19.1.0)
-      '@sentry/types': 8.54.0
-      '@sentry/utils': 8.54.0
-      react: 19.1.0
-      react-native: 0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)
-=======
-      '@sentry/babel-plugin-component-annotate': 3.6.1
-      '@sentry/browser': 8.55.0
-      '@sentry/cli': 2.50.0
-      '@sentry/core': 8.55.0
-      '@sentry/react': 8.55.0(react@19.1.0)
-      '@sentry/types': 8.55.0
-      '@sentry/utils': 8.55.0
-      react: 19.1.0
-      react-native: 0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)
->>>>>>> theirs
     optionalDependencies:
       expo: 53.0.20(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-<<<<<<< ours
   '@sentry/react@8.55.0(react@19.0.0)':
-||||||| ancestor
-  '@sentry/react@8.54.0(react@19.1.0)':
-=======
-  '@sentry/react@8.55.0(react@19.1.0)':
->>>>>>> theirs
     dependencies:
       '@sentry/browser': 8.55.0
       '@sentry/core': 8.55.0
