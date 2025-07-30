@@ -118,6 +118,7 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
             <View key={index} style={styles.page}>
               <FlashList
                 ref={(ref) => {
+                  // biome-ignore lint/style/noParameterAssign: works fine
                   listRefs.current[index] = ref;
                 }}
                 refreshControl={
