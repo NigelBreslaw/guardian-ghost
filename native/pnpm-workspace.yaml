@@ -1,5 +1,6 @@
 onlyBuiltDependencies:
   - '@sentry/cli'
+  - esbuild
 
 overrides:
   on-headers@<1.1.0: '>=1.1.0'
