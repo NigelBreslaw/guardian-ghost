@@ -22,7 +22,7 @@
     "format": "biome format ./src",
     "format:fix": "biome format --write ./src",
     "lint": "biome lint ./src",
-    "lint:fix": "biome check --apply ./src",
+    "lint:fix": "biome lint --fix ./src",
     "preview": "astro preview",
     "start": "astro dev",
     "type-check": "astro check"
