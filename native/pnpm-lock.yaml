@@ -15,8 +15,8 @@ importers:
         specifier: 5.0.4
         version: 5.0.4(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))
       '@gorhom/bottom-sheet':
-        specifier: 5.1.6
-        version: 5.1.6(@types/react@19.1.8)(react-native-gesture-handler@2.27.2(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.18.0(@babel/core@7.28.0)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
+        specifier: 5.1.8
+        version: 5.1.8(@types/react@19.1.8)(react-native-gesture-handler@2.27.2(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.18.0(@babel/core@7.28.0)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       '@react-native-async-storage/async-storage':
         specifier: 2.2.0
         version: 2.2.0(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))
@@ -908,15 +908,15 @@ packages:
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
-  '@gorhom/bottom-sheet@5.1.6':
-    resolution: {integrity: sha512-0b5tQj4fTaZAjST1PnkCp0p7d8iRqMezibTcqc8Kkn3N23Vn6upORNTD1fH0bLfwRt6e0WnZ7DjAmq315lrcKQ==}
+  '@gorhom/bottom-sheet@5.1.8':
+    resolution: {integrity: sha512-QuYIVjn3K9bW20n5bgOSjvxBYoWG4YQXiLGOheEAMgISuoT6sMcA270ViSkkb0fenPxcIOwzCnFNuxmr739T9A==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-native': '*'
       react: '*'
       react-native: '*'
       react-native-gesture-handler: '>=2.16.1'
-      react-native-reanimated: '>=3.16.0'
+      react-native-reanimated: '>=3.16.0 || >=4.0.0-'
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -5698,7 +5698,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.9': {}
 
-  '@gorhom/bottom-sheet@5.1.6(@types/react@19.1.8)(react-native-gesture-handler@2.27.2(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.18.0(@babel/core@7.28.0)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)':
+  '@gorhom/bottom-sheet@5.1.8(@types/react@19.1.8)(react-native-gesture-handler@2.27.2(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.18.0(@babel/core@7.28.0)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@gorhom/portal': 1.0.14(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       invariant: 2.2.4
