@@ -7,7 +7,7 @@
     "format": "biome format .",
     "format:fix": "biome format --write .",
     "lint": "biome lint ./app",
-    "lint:fix": "biome check --apply ./app",
+    "lint:fix": "biome lint --fix ./app",
     "type-check": "time tsc --noEmit",
     "eslint": "eslint"
   },
