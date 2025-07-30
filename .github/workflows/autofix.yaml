@@ -21,7 +21,7 @@ env:
 
 jobs:
     format_fix:
-        runs-on: macos-latest
+        runs-on: macos-15
         timeout-minutes: 15
         steps:
             - uses: actions/checkout@v4.2.2
