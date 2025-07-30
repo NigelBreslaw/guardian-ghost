@@ -10,7 +10,7 @@ module.exports = function (api) {
           target: "19",
         },
       ],
-      "react-native-worklets/plugin"
+      "react-native-worklets/plugin",
     ],
   };
 };
