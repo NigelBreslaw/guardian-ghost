@@ -42,7 +42,7 @@ jobs:
             - name: native dedupe pnpm
               run: cd native && pnpm dedupe
             - name: pod install
-              run: cd native && pod install
+              run: cd native/ios && pod install
             - name: native pnpm format
               run: cd native && pnpm format:fix
             - name: native pnpm lint
