@@ -21,7 +21,7 @@ env:
 
 jobs:
     format_fix:
-        runs-on: ubuntu-latest
+        runs-on: macos-latest
         timeout-minutes: 15
         steps:
             - uses: actions/checkout@v4.2.2
@@ -41,6 +41,8 @@ jobs:
               run: cd native && pnpm install --frozen-lockfile
             - name: native dedupe pnpm
               run: cd native && pnpm dedupe
+            - name: pod install
+              run: cd native/ios && pod install
             - name: native pnpm format
               run: cd native && pnpm format:fix
             - name: native pnpm lint
