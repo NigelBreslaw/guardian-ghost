@@ -1,0 +1,51 @@
+name: autofix.ci  # needed to securely identify the workflow
+
+on:
+  pull_request:
+    branches: [main, "feature/*"]
+  push:
+    branches: [main, "feature/*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    TURBO_URL: ${{ secrets.TURBO_URL }}
+    TURBO_CODE: ${{ secrets.TURBO_CODE }}
+
+jobs:
+    format_fix:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v4.2.2
+            - uses: pnpm/action-setup@v4.1.0
+              with:
+                version: 10.12.1
+            - name: mono pnpm install
+              run: cd mono && pnpm install --frozen-lockfile
+            - name: mono dedupe pnpm
+              run: cd mono && pnpm dedupe
+            - name: mono pnpm format
+              run: cd mono && pnpm format:fix
+            - name: mono pnpm lint
+              run: cd mono && pnpm lint:fix
+
+            - name: native pnpm install
+              run: cd native && pnpm install --frozen-lockfile
+            - name: native dedupe pnpm
+              run: cd native && pnpm dedupe
+            - name: native pnpm format
+              run: cd native && pnpm format:fix
+            - name: native pnpm lint
+              run: cd native && pnpm lint:fix
+
+            - name: Suggest format changes
+              uses: autofix-ci@v1.3.2
+
