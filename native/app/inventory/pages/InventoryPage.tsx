@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { FlashList, FlashListRef } from "@shopify/flash-list";
+import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
