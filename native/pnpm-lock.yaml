@@ -57,8 +57,8 @@ importers:
         specifier: 6.19.0
         version: 6.19.0(expo@53.0.20(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       '@shopify/flash-list':
-        specifier: 2.0.0
-        version: 2.0.0(@babel/runtime@7.28.2)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
+        specifier: 2.0.1
+        version: 2.0.1(@babel/runtime@7.28.2)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -1663,8 +1663,8 @@ packages:
     resolution: {integrity: sha512-cYcl39+xcOivBpN9d8ZKbALl+DxZKo/8H0nueJZ0PO4JA+MJGhSm6oHakXxLPaiMoNLTX7yor8ndnQIuFg+vmQ==}
     engines: {node: '>=14.18'}
 
-  '@shopify/flash-list@2.0.0':
-    resolution: {integrity: sha512-N04dXZq4wgrXx3nGytchR4FUN/hBO9PmvpcqMXvy4841zTL8GKLPbdwsFe8UdLsaM5n++mBPWft0wqEddW5Q/w==}
+  '@shopify/flash-list@2.0.1':
+    resolution: {integrity: sha512-bLgwTcVOn1kzSL4q0qk6JxE+4je1xF2yUDVoIKmeI9miFPAvIxzI8cCoksUrGmRt/MXRj4mrOhAjvxQY1lSoVg==}
     peerDependencies:
       '@babel/runtime': '*'
       react: '*'
@@ -6512,11 +6512,12 @@ snapshots:
     dependencies:
       '@sentry/core': 8.55.0
 
-  '@shopify/flash-list@2.0.0(@babel/runtime@7.28.2)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)':
+  '@shopify/flash-list@2.0.1(@babel/runtime@7.28.2)(react-native@0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@babel/runtime': 7.28.2
       react: 19.0.0
       react-native: 0.79.5(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)
+      tslib: 2.8.1
 
   '@sinclair/typebox@0.27.8': {}
 

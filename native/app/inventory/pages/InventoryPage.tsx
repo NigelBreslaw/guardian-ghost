@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 
@@ -23,18 +23,17 @@ function calcCurrentListIndex(posX: number, PAGE_WIDTH: number) {
 
 type Props = {
   readonly inventoryPageEnum: InventoryPageEnums;
-  readonly pageEstimatedFlashListItemSize: number[];
 };
 
 const keyExtractor = (item: UISections) => item.id;
 const getItemType = (item: UISections) => item.type;
 
-export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashListItemSize }: Props) {
+export default function InventoryPage({ inventoryPageEnum }: Props) {
   "use memo";
   const { width } = useWindowDimensions();
   const HOME_WIDTH = width;
 
-  const listRefs = useRef<(FlashList<UISections> | null)[]>([]);
+  const listRefs = useRef<(FlashListRef<UISections> | null)[]>([]);
   const pagedScrollRef = useRef<ScrollView>(null);
 
   const pageData = useGGStore((state) => state.getPageData(inventoryPageEnum));
@@ -142,7 +141,6 @@ export default function InventoryPage({ inventoryPageEnum, pageEstimatedFlashLis
                 data={pageData[index]}
                 renderItem={UiCellRenderItem}
                 keyExtractor={keyExtractor}
-                estimatedItemSize={pageEstimatedFlashListItemSize[index]}
                 getItemType={getItemType}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
