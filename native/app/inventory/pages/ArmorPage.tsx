@@ -3,7 +3,5 @@ import InventoryPage from "@/app/inventory/pages/InventoryPage.tsx";
 
 export default function ArmorPage() {
   "use memo";
-  return (
-    <InventoryPage inventoryPageEnum={InventoryPageEnums.Armor} pageEstimatedFlashListItemSize={[150, 150, 150, 92]} />
-  );
+  return <InventoryPage inventoryPageEnum={InventoryPageEnums.Armor} />;
 }

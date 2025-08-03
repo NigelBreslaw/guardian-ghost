@@ -15,7 +15,6 @@ import {
   mods,
   rawProfileData,
 } from "@/app/store/Definitions.ts";
-import { ICON_MARGIN, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import { SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import ResultsSectionUI, { type ResultsSection } from "@/app/inventory/pages/ResultsSectionUI.tsx";
 
@@ -255,7 +254,6 @@ export default function SearchView() {
             keyboardShouldPersistTaps="always"
             data={foundItems}
             renderItem={UiCellRenderItem}
-            estimatedItemSize={ICON_SIZE + ICON_MARGIN}
             keyExtractor={keyExtractor}
           />
         </View>
