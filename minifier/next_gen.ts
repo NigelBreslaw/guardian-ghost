@@ -22,6 +22,7 @@ enum RepeatStringsName {
   DamageTypeHashes = "DamageTypeHashes",
   ItemValue = "ItemValue",
   TooltipNotifications = "TooltipNotifications",
+  RandomizedPlugSetHash = "RandomizedPlugSetHash",
   ReusablePlugSetHash = "ReusablePlugSetHash",
   SingleInitialItemHash = "SingleInitialItemHash",
   SocketCategoryHash = "SocketCategoryHash",
@@ -153,6 +154,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     [RepeatStringsName.DamageTypeHashes]: [],
     [RepeatStringsName.ItemValue]: [],
     [RepeatStringsName.TooltipNotifications]: [],
+    [RepeatStringsName.RandomizedPlugSetHash]: [],
     [RepeatStringsName.ReusablePlugSetHash]: [],
     [RepeatStringsName.SingleInitialItemHash]: [],
     [RepeatStringsName.SocketCategoryHash]: [],
@@ -185,6 +187,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     | "DamageTypeHashes"
     | "ItemValue"
     | "TooltipNotifications"
+    | "RandomizedPlugSetHash"
     | "ReusablePlugSetHash"
     | "SingleInitialItemHash"
     | "SocketCategoryHash"
@@ -216,6 +219,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     DamageTypeHashes: new Map(),
     ItemValue: new Map(),
     TooltipNotifications: new Map(),
+    RandomizedPlugSetHash: new Map(),
     ReusablePlugSetHash: new Map(),
     SingleInitialItemHash: new Map(),
     SocketCategoryHash: new Map(),
@@ -678,6 +682,11 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
           const rp = socketEntry.reusablePlugSetHash;
           if (rp) {
             socEntry.r = getRepeatStringIndexMap(RepeatStringsName.ReusablePlugSetHash, rp);
+          }
+
+          const rps = socketEntry.randomizedPlugSetHash;
+          if (rps) {
+            socEntry.ra = getRepeatStringIndexMap(RepeatStringsName.RandomizedPlugSetHash, rps);
           }
 
           const s = socketEntry.singleInitialItemHash;
