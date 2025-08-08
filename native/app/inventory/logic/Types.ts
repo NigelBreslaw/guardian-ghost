@@ -49,6 +49,7 @@ export type ItemInstance = {
   enhanced?: boolean;
   damageType?: DamageType;
   deepSightResonance?: boolean;
+  gearTier?: number;
   masterwork?: boolean;
   primaryStat: number;
   search: string;

@@ -35,6 +35,7 @@ import {
   SocketEntries,
   SingleInitialItemHash,
   guardians,
+  IconWaterMarksFeatured,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -555,6 +556,7 @@ function processCharacterInventory(
       for (const item of characterInventory.items) {
         if (characterItems) {
           try {
+            
             const destinyItem = addDefinition(item as DestinyItemBase, characterAsId);
             characterItems.items.get(item.bucketHash)?.inventory.push(destinyItem);
           } catch {}
@@ -623,6 +625,10 @@ function addDefinition(
         const primaryStat = itemComponent.primaryStat?.value;
         if (primaryStat) {
           itemInstance.primaryStat = primaryStat;
+        }
+        const gearTier = itemComponent.gearTier;
+        if (gearTier) {
+          itemInstance.gearTier = gearTier;
         }
         if (definitionItem.itemType === ItemType.Weapon) {
           const deepSightResonance = hasSocketedResonance(baseItem.itemInstanceId);
@@ -768,10 +774,17 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     definitionItem.screenshot = `${screenshotUrl}${itemDef.s}`;
   }
 
-  if (itemDef.iw !== undefined) {
-    const waterMark = IconWaterMarks[itemDef.iw];
+  if (itemDef.fi && itemDef.iwf !== undefined) {
+    const waterMark = IconWaterMarksFeatured[itemDef.iwf];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
+  } else {
+    if (itemDef.iw !== undefined) {
+      const waterMark = IconWaterMarks[itemDef.iw];
+      definitionItem.watermark = `${iconUrl}${waterMark}`;
+    }
   }
+
+  
 
   if (itemDef?.si) {
     definitionItem.secondaryIcon = `${iconUrl}${itemDef.si}`;

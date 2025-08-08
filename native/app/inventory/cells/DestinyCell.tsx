@@ -33,6 +33,8 @@ export default function DestinyCell({ destinyItem }: Props) {
   const borderColor = returnBorderColor(destinyItem);
 
   const handlePress = () => {
+    // get the live data for the item
+    console.log("handlePress", itemInstanceId);
     navigation.navigate("Details", {
       characterId,
       itemHash,

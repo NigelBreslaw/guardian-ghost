@@ -21,6 +21,7 @@ export let DisplaySources: string[];
 export let ExpirationTooltip: string[];
 export let ExpiredInActivityMessage: string[];
 export let IconWaterMarks: string[];
+export let IconWaterMarksFeatured: string[];
 export let ItemTypeDisplayName: string[];
 export let ItemValue: number[];
 export let InsertionMaterialRequirementHash: number[];
@@ -86,6 +87,10 @@ export function setExpiredInActivityMessage(expiredInActivityMessageDefinition: 
 
 export function setIconWaterMarks(iconWaterMarksDefinition: string[]) {
   IconWaterMarks = iconWaterMarksDefinition;
+}
+
+export function setIconWaterMarksFeatured(iconWaterMarksFeaturedDefinition: string[]) {
+  IconWaterMarksFeatured = iconWaterMarksFeaturedDefinition;
 }
 
 export function setItemTypeDisplayName(itemTypeDisplayNameDefinition: string[]) {
