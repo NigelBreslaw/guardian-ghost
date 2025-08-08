@@ -49,6 +49,7 @@ export type ItemInstance = {
   enhanced?: boolean;
   damageType?: DamageType;
   deepSightResonance?: boolean;
+  gearTier?: number;
   masterwork?: boolean;
   primaryStat: number;
   search: string;
@@ -57,7 +58,6 @@ export type ItemInstance = {
 export type DestinyItemDefinition = {
   description: string;
   destinyClass: DestinyClass;
-  displayVersionWatermarkIcons: string[];
   doesPostmasterPullHaveSideEffects: boolean;
   equippable: boolean;
   flavorText: string;

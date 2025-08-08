@@ -67,7 +67,6 @@ export const ItemSchema = object({
   state: number(),
   tooltipNotificationIndexes: optional(array(number())),
   transferStatus: number(),
-  versionNumber: optional(number()),
 });
 
 export type ItemHash = Branded<number, "ItemHash">;
@@ -148,6 +147,7 @@ const instancesSchema = record(
     equipRequiredLevel: number(),
     isEquipped: boolean(),
     itemLevel: number(),
+    gearTier: optional(number()),
     primaryStat: optional(
       object({
         statHash: number(),

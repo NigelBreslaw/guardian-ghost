@@ -11,6 +11,7 @@ import {
   type ItemsDefinition,
   setBucketTypeHashArray,
   setIconWaterMarks,
+  setIconWaterMarksFeatured,
   setItemTypeDisplayName,
   setStackUniqueLabel,
   setPlugCategoryIdentifier,
@@ -332,6 +333,7 @@ function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) 
   setExpirationTooltip(itemDefinition.helpers.ExpirationTooltip);
   setExpiredInActivityMessage(itemDefinition.helpers.ExpiredInActivityMessage);
   setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
+  setIconWaterMarksFeatured(itemDefinition.helpers.IconWaterMarkFeatured);
   setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
   setItemValue(itemDefinition.helpers.ItemValue);
   setInsertionMaterialRequirementHash(itemDefinition.helpers.InsertionMaterialRequirementHash);
