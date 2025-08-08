@@ -595,11 +595,7 @@ function addDefinition(
     itemInstance.screenshot = definitionItem.screenshot;
   }
 
-  if (baseItem.versionNumber !== undefined) {
-    itemInstance.calculatedWaterMark = definitionItem.displayVersionWatermarkIcons[baseItem.versionNumber];
-  } else {
-    itemInstance.calculatedWaterMark = definitionItem.watermark;
-  }
+  itemInstance.calculatedWaterMark = definitionItem.watermark;
 
   const masterwork = bitmaskContains(baseItem.state, 4);
   if (masterwork) {
@@ -729,7 +725,6 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   const definitionItem: DestinyItemDefinition = {
     description: "",
     destinyClass: DestinyClass.Unknown,
-    displayVersionWatermarkIcons: [],
     doesPostmasterPullHaveSideEffects: false,
     equippable: false,
     flavorText: "",
@@ -784,7 +779,6 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     }
   }
 
-  
 
   if (itemDef?.si) {
     definitionItem.secondaryIcon = `${iconUrl}${itemDef.si}`;
@@ -796,16 +790,6 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   if (itemDef.d !== undefined) {
     definitionItem.description = Descriptions[itemDef.d] ?? "";
-  }
-
-  const dvwi = itemDef.dvwi;
-  if (dvwi) {
-    for (const w of dvwi) {
-      const wm = IconWaterMarks[w];
-      if (wm) {
-        definitionItem.displayVersionWatermarkIcons.push(`${iconUrl}${wm}`);
-      }
-    }
   }
 
   const investmentStats: StatsCollection[] = [];
