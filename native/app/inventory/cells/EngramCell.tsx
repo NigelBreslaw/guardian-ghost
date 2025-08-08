@@ -19,7 +19,7 @@ export default function EngramCell({ destinyItem }: Props) {
   if (destinyItem === undefined) {
     return (
       <View style={styles.frameSize}>
-        <Image source={EMPTY_ENGRAM} cachePolicy="memory" style={styles.frameSize} />
+        <Image source={EMPTY_ENGRAM} style={styles.frameSize} />
       </View>
     );
   }
@@ -38,7 +38,6 @@ export default function EngramCell({ destinyItem }: Props) {
       <View style={styles.frameSize}>
         <Image
           source={destinyItem.instance.icon}
-          cachePolicy="memory"
           style={styles.frameSize}
           recyclingKey={destinyItem.instance.icon}
         />
