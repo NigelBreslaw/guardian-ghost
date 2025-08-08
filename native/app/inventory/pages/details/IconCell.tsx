@@ -30,9 +30,7 @@ export default function IconCell({ destinyItem }: Props) {
           recyclingKey={destinyItem.instance.calculatedWaterMark}
         />
 
-        {destinyItem.instance.crafted && (
-          <Image source={CRAFTED_OVERLAY} style={styles.innerFrameSize} />
-        )}
+        {destinyItem.instance.crafted && <Image source={CRAFTED_OVERLAY} style={styles.innerFrameSize} />}
       </View>
     </View>
   );

@@ -36,11 +36,7 @@ export default function EngramCell({ destinyItem }: Props) {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.frameSize}>
-        <Image
-          source={destinyItem.instance.icon}
-          style={styles.frameSize}
-          recyclingKey={destinyItem.instance.icon}
-        />
+        <Image source={destinyItem.instance.icon} style={styles.frameSize} recyclingKey={destinyItem.instance.icon} />
         {destinyItem.instance.primaryStat > 0 && (
           <View style={styles.primaryStat}>
             <Text style={styles.powerLevelText}>{destinyItem.instance.primaryStat}</Text>
