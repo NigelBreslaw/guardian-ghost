@@ -9,6 +9,7 @@ enum RepeatStringsName {
   ItemTypeDisplayName = "ItemTypeDisplayName",
   ExpiredInActivityMessage = "ExpiredInActivityMessage",
   IconWaterMark = "IconWaterMark",
+  IconWaterMarkFeatured = "IconWaterMarkFeatured",
   TraitIds = "TraitIds",
   UiItemDisplayStyle = "UiItemDisplayStyle",
   PlugCategoryIdentifier = "PlugCategoryIdentifier",
@@ -52,7 +53,9 @@ interface JsonData {
       versions?: any[];
       displayVersionWatermarkIcons: any;
     };
+    isFeaturedItem?: boolean;
     iconWatermark?: any;
+    iconWatermarkFeatured?: string;
     uiItemDisplayStyle?: any;
     equippingBlock?: any;
     breakerType?: any;
@@ -141,6 +144,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     [RepeatStringsName.ItemTypeDisplayName]: [],
     [RepeatStringsName.ExpiredInActivityMessage]: [],
     [RepeatStringsName.IconWaterMark]: [],
+    [RepeatStringsName.IconWaterMarkFeatured]: [],
     [RepeatStringsName.TraitIds]: [],
     [RepeatStringsName.UiItemDisplayStyle]: [],
     [RepeatStringsName.PlugCategoryIdentifier]: [],
@@ -174,6 +178,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     | "ItemTypeDisplayName"
     | "ExpiredInActivityMessage"
     | "IconWaterMark"
+    | "IconWaterMarkFeatured"
     | "TraitIds"
     | "UiItemDisplayStyle"
     | "PlugCategoryIdentifier"
@@ -206,6 +211,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
     ItemTypeDisplayName: new Map(),
     ExpiredInActivityMessage: new Map(),
     IconWaterMark: new Map(),
+    IconWaterMarkFeatured: new Map(),
     TraitIds: new Map(),
     UiItemDisplayStyle: new Map(),
     PlugCategoryIdentifier: new Map(),
@@ -314,6 +320,11 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
       const flavorText = jsonData[key].flavorText;
       if (flavorText) {
         item.f = stripImageUrl(flavorText);
+      }
+
+      const isFeaturedItem = jsonData[key].isFeaturedItem;
+      if (isFeaturedItem) {
+        item.fi = 1;
       }
 
       const nonTransferrable = jsonData[key].nonTransferrable;
@@ -476,6 +487,11 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
       const iconWatermark = jsonData[key].iconWatermark;
       if (iconWatermark) {
         item.iw = getRepeatStringIndexMap(RepeatStringsName.IconWaterMark, stripImageUrl(iconWatermark));
+      }
+
+      const iconWatermarkFeatured = jsonData[key].iconWatermarkFeatured;
+      if (iconWatermarkFeatured) {
+        item.iwf = getRepeatStringIndexMap(RepeatStringsName.IconWaterMarkFeatured, stripImageUrl(iconWatermarkFeatured));
       }
 
       // Quality
