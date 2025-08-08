@@ -556,7 +556,6 @@ function processCharacterInventory(
       for (const item of characterInventory.items) {
         if (characterItems) {
           try {
-            
             const destinyItem = addDefinition(item as DestinyItemBase, characterAsId);
             characterItems.items.get(item.bucketHash)?.inventory.push(destinyItem);
           } catch {}
@@ -778,7 +777,6 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
       definitionItem.watermark = `${iconUrl}${waterMark}`;
     }
   }
-
 
   if (itemDef?.si) {
     definitionItem.secondaryIcon = `${iconUrl}${itemDef.si}`;

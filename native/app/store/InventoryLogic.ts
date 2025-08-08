@@ -313,7 +313,6 @@ function returnBlankDestinyItem(): DestinyItem {
   const blankItemDefinition: DestinyItemDefinition = {
     description: "",
     destinyClass: 0,
-    displayVersionWatermarkIcons: [],
     doesPostmasterPullHaveSideEffects: false,
     equippable: false,
     flavorText: "false",
