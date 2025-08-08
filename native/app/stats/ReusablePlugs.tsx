@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { useState } from "react";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Pressable } from "react-native-gesture-handler";
 
 import Text from "@/app/UI/Text.tsx";
 import { TierType } from "@/app/bungie/Enums.ts";
@@ -48,7 +48,7 @@ export default function ReusablePlugs({ socketCategory }: Props) {
         })}
       </View>
       <View style={{ height: 10 }} />
-      <TouchableWithoutFeedback onPress={() => setSelectedPerk(null)}>
+      <Pressable onPress={() => setSelectedPerk(null)}>
         <View style={[styles.perkInfo, { height: 300, opacity: selectedPerk !== null ? 1 : 0 }]}>
           <View style={{ width: "100%", height: 2, backgroundColor: "#A9A9A9" }} />
           <View style={{ width: "100%", height: 2 }} />
@@ -67,7 +67,7 @@ export default function ReusablePlugs({ socketCategory }: Props) {
           </View>
           <View style={{ height: 50 }} />
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     </View>
   );
 }
