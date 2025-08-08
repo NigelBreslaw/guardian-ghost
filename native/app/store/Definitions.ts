@@ -27,6 +27,7 @@ export let InsertionMaterialRequirementHash: number[];
 export let PlugCategoryHash: number[];
 export let PlugCategoryIdentifier: string[];
 export let ReusablePlugSetHash: number[];
+export let RandomizedPlugSetHash: number[];
 export let SingleInitialItemHash: ItemHash[];
 export let SocketCategories: MiniSocketCategoryItems; // These strings are JSON objects
 export let SocketCategoryHash: number[];
@@ -105,6 +106,10 @@ export function setPlugCategoryHash(plugCategoryHashDefinition: number[]) {
 
 export function setPlugCategoryIdentifier(plugCategoryIdentifier: string[]) {
   PlugCategoryIdentifier = plugCategoryIdentifier;
+}
+
+export function setRandomizedPlugSetHash(randomizedPlugSetHashDefinition: number[]) {
+  RandomizedPlugSetHash = randomizedPlugSetHashDefinition;
 }
 
 export function setReusablePlugSetHash(reusablePlugSetHashDefinition: number[]) {

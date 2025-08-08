@@ -40,6 +40,7 @@ export const ItemResponseSchema = object({
     ItemValue: array(number()),
     PlugCategoryHash: array(number()),
     PlugCategoryIdentifier: array(string()),
+    RandomizedPlugSetHash: array(number()),
     ReusablePlugSetHash: array(number()),
     SingleInitialItemHash: array(number()),
     SocketCategories: unknown(),
@@ -140,6 +141,7 @@ const MiniSocketEntrySchema = array(
       r: optional(number()),
       s: optional(number()),
       st: optional(number()),
+      ra: optional(number()),
     }),
   ),
 );

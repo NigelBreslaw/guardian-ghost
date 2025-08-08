@@ -2,6 +2,7 @@ import type { DestinyItem, DestinyItemDefinition } from "@/app/inventory/logic/T
 import type { ItemHash, PlugSet } from "@/app/core/GetProfile.ts";
 import {
   DestinySocketCategoryDefinition,
+  RandomizedPlugSetHash,
   ReusablePlugSetHash,
   SingleInitialItemHash,
   SocketCategories,
@@ -86,6 +87,7 @@ export type SocketEntry = {
   singleInitialItemHash: ItemHash | null;
 
   reusablePlugSetHash: number | null;
+  randomizedPlugSetHash: number | null;
 
   // What plug is socketed if any?
   isVisible: boolean;
@@ -176,9 +178,16 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
   for (const socketEntry of minifiedSocketEntries) {
     const plugSources = socketEntry.p ?? 0;
     const plugSourcesAsEnums = getBitmaskValues(plugSources);
+    if (plugSourcesAsEnums.length === 0) {
+      plugSourcesAsEnums.push(SocketPlugSources.None);
+    }
     let singleInitialItemHash = null;
     if (socketEntry.s) {
       singleInitialItemHash = SingleInitialItemHash[socketEntry.s] ?? null;
+    }
+    let randomizedPlugSetHash = null;
+    if (socketEntry.ra) {
+      randomizedPlugSetHash = RandomizedPlugSetHash[socketEntry.ra] ?? null;
     }
     let reusablePlugSetHash = null;
     if (socketEntry.r) {
@@ -200,6 +209,7 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
       singleInitialItemHash,
       socketIndex: null,
       reusablePlugSetHash,
+      randomizedPlugSetHash,
       reusablePlugSocketIndex: null,
       socketTypeHash,
     };
@@ -273,6 +283,7 @@ function updateSocketEntriesWithLiveData(sockets: Sockets, destinyItem: DestinyI
     console.error("No liveSockets", destinyItem);
     return null;
   }
+
   liveSockets.sockets.forEach((socket, index) => {
     const se = sockets.socketEntries[index];
     if (se) {
@@ -323,6 +334,12 @@ function updateSocketCategoriesWithData(sockets: Sockets, destinyItem: DestinyIt
             let plugs: PlugSet | null = null;
 
             switch (plugSourceEnum) {
+              case SocketPlugSources.None: {
+                if (reusablePlugs) {
+                  plugs = reusablePlugs[map.socketIndex] ?? [];
+                }
+                break;
+              }
               case SocketPlugSources.InventorySourced: {
                 break;
               }
@@ -400,6 +417,7 @@ function makeSocketEntryColumn(
           socketTypeHash: null,
           socketIndex: null,
           singleInitialItemHash: null,
+          randomizedPlugSetHash: null,
           reusablePlugSetHash: null,
           reusablePlugSocketIndex: null,
         };
