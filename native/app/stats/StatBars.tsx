@@ -17,12 +17,12 @@ type UiStatData = {
 };
 
 const DefaultArmorStats: UiStatData[] = [
-  { statType: StatType.Mobility, type: "BAR" },
   { statType: StatType.Resilience, type: "BAR" },
-  { statType: StatType.Recovery, type: "BAR" },
+  { statType: StatType.Strength, type: "BAR" },
   { statType: StatType.Discipline, type: "BAR" },
   { statType: StatType.Intellect, type: "BAR" },
-  { statType: StatType.Strength, type: "BAR" },
+  { statType: StatType.Recovery, type: "BAR" },
+  { statType: StatType.Mobility, type: "BAR" },
   { statType: StatType.Separator, type: "SEPARATOR" },
   { statType: StatType.ArmorTotal, type: "ARMOR-TOTAL" },
 ];
@@ -34,6 +34,7 @@ const SharedWeaponStats: UiStatData[] = [
   { statType: StatType.AimAssistance, type: "BAR" },
   { statType: StatType.Zoom, type: "BAR" },
   { statType: StatType.AirborneEffectiveness, type: "BAR" },
+  { statType: StatType.AmmoGeneration, type: "BAR" },
   { statType: StatType.Separator, type: "SEPARATOR" },
   { statType: StatType.RoundsPerMinute, type: "NUMERAL" },
   { statType: StatType.Magazine, type: "NUMERAL" },
@@ -55,6 +56,7 @@ const BowWeaponStats: UiStatData[] = [
   { statType: StatType.AimAssistance, type: "BAR" },
   { statType: StatType.Zoom, type: "BAR" },
   { statType: StatType.AirborneEffectiveness, type: "BAR" },
+  { statType: StatType.AmmoGeneration, type: "BAR" },
   { statType: StatType.Separator, type: "SEPARATOR" },
   { statType: StatType.DrawTime, type: "NUMERAL" },
   { statType: StatType.RecoilDirection, type: "RECOIL" },
@@ -69,7 +71,6 @@ const ExplosiveWeaponStats: UiStatData[] = [
 const RocketSidearmStats: UiStatData[] = [
   { statType: StatType.BlastRadius, type: "BAR" },
   { statType: StatType.Velocity, type: "BAR" },
-  { statType: StatType.Range, type: "BAR" },
   ...SharedWeaponStats,
 ];
 
@@ -82,6 +83,7 @@ const FusionWeaponStats: UiStatData[] = [
   { statType: StatType.AimAssistance, type: "BAR" },
   { statType: StatType.Zoom, type: "BAR" },
   { statType: StatType.AirborneEffectiveness, type: "BAR" },
+  { statType: StatType.AmmoGeneration, type: "BAR" },
   { statType: StatType.Separator, type: "SEPARATOR" },
   { statType: StatType.ChargeTime, type: "NUMERAL" },
   { statType: StatType.Magazine, type: "NUMERAL" },
@@ -106,6 +108,7 @@ const GlaiveWeaponStats: UiStatData[] = [
   { statType: StatType.ReloadSpeed, type: "BAR" },
   { statType: StatType.AimAssistance, type: "BAR" },
   { statType: StatType.AirborneEffectiveness, type: "BAR" },
+  { statType: StatType.AmmoGeneration, type: "BAR" },
   { statType: StatType.Separator, type: "SEPARATOR" },
   { statType: StatType.RoundsPerMinute, type: "NUMERAL" },
   { statType: StatType.Magazine, type: "NUMERAL" },
