@@ -22,6 +22,7 @@ import {
   setItemValue,
   setInsertionMaterialRequirementHash,
   setPlugCategoryHash,
+  setRandomizedPlugSetHash,
   setReusablePlugSetHash,
   setSingleInitialItemHash,
   setSocketCategoryHash,
@@ -336,6 +337,7 @@ function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) 
   setInsertionMaterialRequirementHash(itemDefinition.helpers.InsertionMaterialRequirementHash);
   setPlugCategoryHash(itemDefinition.helpers.PlugCategoryHash);
   setPlugCategoryIdentifier(itemDefinition.helpers.PlugCategoryIdentifier);
+  setRandomizedPlugSetHash(itemDefinition.helpers.RandomizedPlugSetHash);
   setReusablePlugSetHash(itemDefinition.helpers.ReusablePlugSetHash);
   setSingleInitialItemHash(itemDefinition.helpers.SingleInitialItemHash as ItemHash[]);
   setSocketCategories(itemDefinition.helpers.SocketCategories);
