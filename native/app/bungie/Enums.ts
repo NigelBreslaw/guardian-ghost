@@ -164,6 +164,7 @@ export enum StatType {
   AimAssistance = 1345609583,
   AirborneEffectiveness = 2714457168,
   AmmoCapacity = 925767036,
+  AmmoGeneration = 1931675084,
   AnyEnergyTypeCost = 3578062600,
   ArcCost = 3779394102,
   ArcDamageResistance = 1546607978,
