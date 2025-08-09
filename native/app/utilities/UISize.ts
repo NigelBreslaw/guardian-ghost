@@ -97,10 +97,27 @@ export const DestinyIconStyles = StyleSheet.create({
   icon: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    borderRadius: 12,
+    borderRadius: 8,
     overflow: "hidden",
     borderWidth: 2,
     pointerEvents: "none",
+  },
+  iconWatermark: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    position: "absolute",
+    top: -1.5,
+    left: -1.5,
+    pointerEvents: "none",
+  },
+  iconWatermarkFeatured: {
+    width: ICON_SIZE * 1.2,
+    height: ICON_SIZE * 1.2,
+    position: "absolute",
+    top: -2,
+    left: -2,
+    pointerEvents: "none",
+    // zIndex: 9999999,
   },
   innerFrameSize: {
     width: INNER_FRAME_SIZE,

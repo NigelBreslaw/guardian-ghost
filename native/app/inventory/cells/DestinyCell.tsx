@@ -30,6 +30,7 @@ export default function DestinyCell({ destinyItem }: Props) {
   const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
+  const isFeatured = destinyItem.def.isFeatured;
   const borderColor = returnBorderColor(destinyItem);
 
   const handlePress = () => {
@@ -63,11 +64,11 @@ export default function DestinyCell({ destinyItem }: Props) {
             recyclingKey={icon}
           />
 
-          {calculatedWaterMark && (
+          {calculatedWaterMark && !isFeatured && (
             <Image
               source={{ uri: calculatedWaterMark }}
               cachePolicy="memory-disk"
-              style={DestinyIconStyles.innerFrameSize}
+              style={DestinyIconStyles.iconWatermark}
               recyclingKey={calculatedWaterMark}
             />
           )}
@@ -77,6 +78,14 @@ export default function DestinyCell({ destinyItem }: Props) {
             <Image source={ENHANCED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
           )}
         </View>
+        {calculatedWaterMark && isFeatured && (
+          <Image
+            source={{ uri: calculatedWaterMark }}
+            cachePolicy="memory-disk"
+            style={DestinyIconStyles.iconWatermarkFeatured}
+            recyclingKey={calculatedWaterMark}
+          />
+        )}
         {primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>
             <Text style={DestinyIconStyles.primaryStatText}>{primaryStat}</Text>

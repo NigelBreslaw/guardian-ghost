@@ -559,12 +559,12 @@ function addDefinition(
   extras: { characterId: CharacterId; equipped: boolean },
 ): DestinyItem {
   const itemInstance: ItemInstance = {
-    icon: "",
-    screenshot: "",
     damageType: DamageType.None,
     deepSightResonance: false,
+    icon: "",
     masterwork: false,
     primaryStat: 0,
+    screenshot: "",
     search: "",
   };
 
@@ -717,6 +717,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     flavorText: "",
     icon: "",
     investmentStats: [],
+    isFeatured: false,
     itemSubType: ItemSubType.None,
     itemType: ItemType.None,
     itemTypeDisplayName: "",
@@ -757,6 +758,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.fi && itemDef.iwf !== undefined) {
+    definitionItem.isFeatured = true;
     const waterMark = Helpers.IconWaterMarkFeatured[itemDef.iwf];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
   } else {
