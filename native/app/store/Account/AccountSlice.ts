@@ -599,6 +599,12 @@ function addDefinition(
   if (baseItem.itemInstanceId !== undefined) {
     const itemComponent = rawProfileData?.Response.itemComponents?.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
+      if (definitionItem.itemType === ItemType.Engram) {
+        itemInstance.itemLevel = itemComponent.itemLevel;
+        itemInstance.quality = itemComponent.quality;
+        itemInstance.primaryStat = (itemInstance.itemLevel ?? 0) * 10 + (itemInstance.quality ?? 0);
+      }
+
       if (
         definitionItem.itemType === ItemType.Weapon ||
         definitionItem.itemType === ItemType.Armor ||
@@ -629,14 +635,6 @@ function addDefinition(
             }
             itemInstance.masterwork = checkForCraftedMasterwork(destinyItem);
           }
-        }
-      }
-      if (definitionItem.itemType === ItemType.Engram) {
-        const itemLevel = itemComponent.itemLevel * 10;
-        const quality = itemComponent.quality;
-        const total = itemLevel + quality;
-        if (total > 0) {
-          itemInstance.primaryStat = Math.max(1900, itemLevel + quality);
         }
       }
     }
