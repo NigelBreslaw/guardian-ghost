@@ -3,17 +3,8 @@ import { StyleSheet, View, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
-import BottomSheet from "@gorhom/bottom-sheet";
-import Animated, {
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import BottomSheet, { BottomSheetView, useBottomSheetSpringConfigs } from "@gorhom/bottom-sheet";
 
-import Text from "@/app/UI/Text.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
 import { findDestinyItem } from "@/app/store/Account/AccountLogic";
@@ -22,21 +13,21 @@ import Stats from "@/app/stats/Stats.tsx";
 import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
-import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { ItemType } from "@/app/bungie/Enums.ts";
 import { ShowBottomSheet } from "@/app/store/SettingsSlice.ts";
 
-function showBottomSheet(destinyItem: DestinyItem): boolean {
-  if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
-    return false;
-  }
-  return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
-}
+// function showBottomSheet(destinyItem: DestinyItem): boolean {
+//   if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
+//     return false;
+//   }
+//   return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
+// }
 
 type Props = {
   readonly route: RouteProp<RootStackParamList, "Details">;
   readonly navigation: NavigationProp<ReactNavigation.RootParamList>;
 };
+
+const BOTTOM_SHEET_COLOR = "black";
 
 export default function DetailsView({ route, navigation }: Props) {
   "use memo";
@@ -65,16 +56,12 @@ export default function DetailsView({ route, navigation }: Props) {
     }
   }
 
-  // BottomSheet animation
-  const opacity = useSharedValue(useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0);
-  const transferButtonStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(opacity.value, [0, 1], [0, 1], Extrapolation.CLAMP),
-  }));
-  const transferHintStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(opacity.value, [0, 1], [1, 0], Extrapolation.CLAMP),
-  }));
-
-  const BOTTOM_SHEET_COLOR = "black";
+  const animationConfigs = useBottomSheetSpringConfigs({
+    mass: 20,
+    damping: 80,
+    duration: 250,
+    dampingRatio: 0.8,
+  });
 
   function dismissBottomSheet() {
     bottomSheetRef.current?.snapToIndex(0);
@@ -86,13 +73,7 @@ export default function DetailsView({ route, navigation }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        onScrollBeginDrag={dismissBottomSheet}
-        onTouchEnd={() => {
-          dismissBottomSheet();
-        }}
-      >
+      <ScrollView keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
         {destinyItem && (
           <View style={{ height: "100%" }}>
             <ScreenInfo destinyItem={destinyItem} />
@@ -100,53 +81,35 @@ export default function DetailsView({ route, navigation }: Props) {
           </View>
         )}
       </ScrollView>
-      {showBottomSheet(destinyItem) && (
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 0 : -1}
-          onChange={(e) => {
-            if (e === 0) {
-              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
-            } else if (e === 1) {
-              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
-            }
-          }}
-          enableDynamicSizing={false}
-          snapPoints={[60, 300]}
-          animateOnMount={false}
-          handleStyle={{
-            backgroundColor: BOTTOM_SHEET_COLOR,
-            borderRadius: 15,
-          }}
-          handleIndicatorStyle={{ backgroundColor: "white" }}
-          backgroundStyle={{
-            backgroundColor: BOTTOM_SHEET_COLOR,
-          }}
-          bottomInset={insets.bottom}
-          onAnimate={(_a, b) => {
-            opacity.value = withSpring(b);
-          }}
-        >
-          <View>
-            <Animated.View style={[transferButtonStyle]}>
-              <TransferEquipButtons
-                close={() => {
-                  navigation.goBack();
-                }}
-                destinyItem={destinyItem}
-                startTransfer={transfer}
-              />
-            </Animated.View>
-            <Animated.View
-              style={[transferHintStyle, { width: "100%", position: "absolute", top: 0, alignItems: "flex-end" }]}
-            >
-              <TouchableOpacity onPress={() => bottomSheetRef.current?.snapToIndex(1)}>
-                <Text style={styles.transferHint}>Transfer</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-        </BottomSheet>
-      )}
+      <BottomSheet
+        ref={bottomSheetRef}
+        animationConfigs={animationConfigs}
+        snapPoints={[30]}
+        animateOnMount={false}
+        index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
+        onChange={(e) => {
+          if (e === 0) {
+            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
+          } else if (e === 1) {
+            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
+          }
+        }}
+        handleIndicatorStyle={{ backgroundColor: "white" }}
+        bottomInset={insets.bottom}
+        backgroundStyle={{
+          backgroundColor: BOTTOM_SHEET_COLOR,
+        }}
+      >
+        <BottomSheetView style={styles.contentContainer}>
+          <TransferEquipButtons
+            close={() => {
+              navigation.goBack();
+            }}
+            destinyItem={destinyItem}
+            startTransfer={transfer}
+          />
+        </BottomSheetView>
+      </BottomSheet>
       <View
         style={{
           borderTopWidth: StyleSheet.hairlineWidth,
@@ -163,11 +126,13 @@ export default function DetailsView({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  transferHint: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    includeFontPadding: false,
-    paddingRight: 20,
+  container: {
+    flex: 1,
+    backgroundColor: "grey",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: BOTTOM_SHEET_COLOR,
   },
 });
