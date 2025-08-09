@@ -3,13 +3,25 @@ import { Image } from "expo-image";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 import Text from "@/app/UI/Text.tsx";
-import { DestinyIconStyles, ICON_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY, ENHANCED_OVERLAY, getDamageTypeIconUri } from "@/app/utilities/Constants.ts";
+import {
+  DestinyIconStyles,
+  GEAR_TIER_HEIGHT,
+  GEAR_TIER_OFFSET_LEFT,
+  GEAR_TIER_OFFSET_TOP,
+  GEAR_TIER_WIDTH,
+  ICON_BORDER_SIZE,
+  ICON_SIZE,
+} from "@/app/utilities/UISize.ts";
+import {
+  CRAFTED_OVERLAY,
+  ENHANCED_OVERLAY,
+  getGearTierIconUri,
+  getDamageTypeIconUri,
+} from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/InventoryLogic.ts";
 import EmptyCell from "@/app/inventory/cells/EmptyCell.tsx";
 import { LinearGradient } from "expo-linear-gradient";
-
 type Props = {
   readonly destinyItem: DestinyItem | undefined;
 };
@@ -29,6 +41,7 @@ export default function DestinyCell({ destinyItem }: Props) {
   const { characterId, itemHash, itemInstanceId, bucketHash, quantity, separatorIcon } = destinyItem;
   const { icon, calculatedWaterMark, crafted, enhanced, primaryStat } = destinyItem.instance;
   const damageTypeIconUri = getDamageTypeIconUri(destinyItem.instance.damageType);
+  const gearTierIconUri = getGearTierIconUri(destinyItem.instance.gearTier);
   const stackSizeMaxed = destinyItem.quantity === destinyItem.def.maxStackSize;
   const isFeatured = destinyItem.def.isFeatured;
   const borderColor = returnBorderColor(destinyItem);
@@ -86,6 +99,11 @@ export default function DestinyCell({ destinyItem }: Props) {
             recyclingKey={calculatedWaterMark}
           />
         )}
+        {gearTierIconUri && (
+          <View style={styles.gearTier}>
+            <Image contentFit={"contain"} source={gearTierIconUri} cachePolicy="memory" style={styles.gearTier} />
+          </View>
+        )}
         {primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>
             <Text style={DestinyIconStyles.primaryStatText}>{primaryStat}</Text>
@@ -122,10 +140,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
+  gearTier: {
+    top: GEAR_TIER_OFFSET_TOP,
+    left: GEAR_TIER_OFFSET_LEFT,
+    width: GEAR_TIER_WIDTH,
+    height: GEAR_TIER_HEIGHT,
+    position: "absolute",
+    justifyContent: "center",
+    alignContent: "center",
+  },
   separatorInner: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    borderRadius: 12,
+    borderRadius: ICON_BORDER_SIZE,
   },
   separatorIcon: {
     position: "absolute",
