@@ -61,7 +61,7 @@ export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   itemsDefinition = newItemsDefinition;
 }
 
-export function setBucketTypeHashArray(bucketTypeHashDefinition: number[]) {
+export function setBucketTypeHash(bucketTypeHashDefinition: number[]) {
   BucketTypeHashArray = bucketTypeHashDefinition as BucketHash[];
 }
 
@@ -85,11 +85,11 @@ export function setExpiredInActivityMessage(expiredInActivityMessageDefinition: 
   ExpiredInActivityMessage = expiredInActivityMessageDefinition;
 }
 
-export function setIconWaterMarks(iconWaterMarksDefinition: string[]) {
+export function setIconWaterMark(iconWaterMarksDefinition: string[]) {
   IconWaterMarks = iconWaterMarksDefinition;
 }
 
-export function setIconWaterMarksFeatured(iconWaterMarksFeaturedDefinition: string[]) {
+export function setIconWaterMarkFeatured(iconWaterMarksFeaturedDefinition: string[]) {
   IconWaterMarksFeatured = iconWaterMarksFeaturedDefinition;
 }
 

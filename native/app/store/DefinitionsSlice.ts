@@ -6,44 +6,9 @@ import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
 import { deepEqual } from "fast-equals";
 
-import {
-  setItemDefinition,
-  type ItemsDefinition,
-  setBucketTypeHashArray,
-  setIconWaterMarks,
-  setIconWaterMarksFeatured,
-  setItemTypeDisplayName,
-  setStackUniqueLabel,
-  setPlugCategoryIdentifier,
-  setDamageTypeHashes,
-  setDescriptions,
-  setDisplaySources,
-  setExpirationTooltip,
-  setExpiredInActivityMessage,
-  setItemValue,
-  setInsertionMaterialRequirementHash,
-  setPlugCategoryHash,
-  setRandomizedPlugSetHash,
-  setReusablePlugSetHash,
-  setSingleInitialItemHash,
-  setSocketCategoryHash,
-  setSocketTypeHash,
-  setStatGroupHash,
-  setStatHash,
-  setTalentGridHash,
-  setTooltipNotifications,
-  setTraitIds,
-  setUiItemDisplayStyle,
-  setUiPlugLabel,
-  setSocketCategories,
-  setSocketEntries,
-  setSocketIndexes,
-  setDestinySocketCategoryDefinition,
-  setDestinyStatGroupDefinition,
-  setIcons,
-  setDestinyStatDefinition,
-  setDestinyInventoryBucketDefinition,
-} from "@/app/store/Definitions.ts";
+import * as Defs from "@/app/store/Definitions.ts";
+import type { ItemsDefinition } from "@/app/store/Definitions.ts";
+import { HELPER_MAP } from "@/app/core/generated/HelperKeys.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition, getJsonBlob } from "@/app/utilities/Helpers.ts";
@@ -59,7 +24,6 @@ import {
   InventoryBucketSchema,
 } from "@/app/core/BungieDefinitions.ts";
 import { bungieUrl, type BungieManifest } from "@/app/core/ApiResponse.ts";
-import type { ItemHash } from "@/app/core/GetProfile.ts";
 
 export type DefinitionsSliceSetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[0];
 export type DefinitionsSliceGetter = Parameters<StateCreator<IStore, [], [], DefinitionsSlice>>[1];
@@ -230,7 +194,7 @@ async function downloadAndStoreBungieDefinitions(
       const stringifiedSocketCategoryDefinition = JSON.stringify(completedDefinitions[0]);
 
       await setAsyncStorage("DestinySocketCategoryDefinition", stringifiedSocketCategoryDefinition);
-      setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
+      Defs.setDestinySocketCategoryDefinition(completedDefinitions[0] as unknown as SocketCategoryDefinition);
     } else {
       throw new Error("No DestinySocketCategoryDefinition");
     }
@@ -252,7 +216,7 @@ async function downloadAndStoreBungieDefinitions(
       const stringifiedStatGroupDefinition = JSON.stringify(socketGroupDefinition, null, 0);
 
       await setAsyncStorage("DestinyStatGroupDefinition", stringifiedStatGroupDefinition);
-      setDestinyStatGroupDefinition(socketGroupDefinition);
+      Defs.setDestinyStatGroupDefinition(socketGroupDefinition);
     } else {
       throw new Error("No DestinyStatGroupDefinition");
     }
@@ -263,7 +227,7 @@ async function downloadAndStoreBungieDefinitions(
       if (parsedStatDefinition.success) {
         const stringifiedStatDefinition = JSON.stringify(parsedStatDefinition.output, null, 0);
         await setAsyncStorage("DestinyStatDefinition", stringifiedStatDefinition);
-        setDestinyStatDefinition(parsedStatDefinition.output as unknown as StatDefinition);
+        Defs.setDestinyStatDefinition(parsedStatDefinition.output as unknown as StatDefinition);
       }
     } else {
       throw new Error("No DestinyStatGroupDefinition");
@@ -275,7 +239,7 @@ async function downloadAndStoreBungieDefinitions(
       if (parsedInventoryBucketDefinition.success) {
         const stringifiedInventoryBucketDefinition = JSON.stringify(parsedInventoryBucketDefinition.output, null, 0);
         await setAsyncStorage("DestinyInventoryBucketDefinition", stringifiedInventoryBucketDefinition);
-        setDestinyInventoryBucketDefinition(
+        Defs.setDestinyInventoryBucketDefinition(
           parsedInventoryBucketDefinition.output as unknown as InventoryBucketDefinition,
         );
       }
@@ -303,19 +267,19 @@ async function loadLocalBungieDefinitions(get: DefinitionsSliceGetter, set: Defi
   try {
     const loadSocketTypeDefinition = await getAsyncStorage("DestinySocketCategoryDefinition");
     const socketDefJson = JSON.parse(loadSocketTypeDefinition);
-    setDestinySocketCategoryDefinition(socketDefJson as SocketCategoryDefinition);
+    Defs.setDestinySocketCategoryDefinition(socketDefJson as SocketCategoryDefinition);
 
     const loadStatGroupDefinition = await getAsyncStorage("DestinyStatGroupDefinition");
     const statGroupDefJson = JSON.parse(loadStatGroupDefinition);
-    setDestinyStatGroupDefinition(statGroupDefJson as StatGroupDefinition);
+    Defs.setDestinyStatGroupDefinition(statGroupDefJson as StatGroupDefinition);
 
     const loadStatDefinition = await getAsyncStorage("DestinyStatDefinition");
     const statDefJson = JSON.parse(loadStatDefinition);
-    setDestinyStatDefinition(statDefJson as StatDefinition);
+    Defs.setDestinyStatDefinition(statDefJson as StatDefinition);
 
     const loadInventoryBucketDefinition = await getAsyncStorage("DestinyInventoryBucketDefinition");
     const inventoryBucketDefJson = JSON.parse(loadInventoryBucketDefinition);
-    setDestinyInventoryBucketDefinition(inventoryBucketDefJson as InventoryBucketDefinition);
+    Defs.setDestinyInventoryBucketDefinition(inventoryBucketDefJson as InventoryBucketDefinition);
     get().setBungieDefinitionsReady();
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
@@ -325,37 +289,22 @@ async function loadLocalBungieDefinitions(get: DefinitionsSliceGetter, set: Defi
 }
 
 function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) {
-  setItemDefinition(itemDefinition.items as ItemsDefinition);
-  setBucketTypeHashArray(itemDefinition.helpers.BucketTypeHash);
-  setDamageTypeHashes(itemDefinition.helpers.DamageTypeHashes);
-  setDescriptions(itemDefinition.helpers.Descriptions);
-  setDisplaySources(itemDefinition.helpers.DisplaySources);
-  setExpirationTooltip(itemDefinition.helpers.ExpirationTooltip);
-  setExpiredInActivityMessage(itemDefinition.helpers.ExpiredInActivityMessage);
-  setIconWaterMarks(itemDefinition.helpers.IconWaterMark);
-  setIconWaterMarksFeatured(itemDefinition.helpers.IconWaterMarkFeatured);
-  setItemTypeDisplayName(itemDefinition.helpers.ItemTypeDisplayName);
-  setItemValue(itemDefinition.helpers.ItemValue);
-  setInsertionMaterialRequirementHash(itemDefinition.helpers.InsertionMaterialRequirementHash);
-  setPlugCategoryHash(itemDefinition.helpers.PlugCategoryHash);
-  setPlugCategoryIdentifier(itemDefinition.helpers.PlugCategoryIdentifier);
-  setRandomizedPlugSetHash(itemDefinition.helpers.RandomizedPlugSetHash);
-  setReusablePlugSetHash(itemDefinition.helpers.ReusablePlugSetHash);
-  setSingleInitialItemHash(itemDefinition.helpers.SingleInitialItemHash as ItemHash[]);
-  setSocketCategories(itemDefinition.helpers.SocketCategories);
-  setSocketCategoryHash(itemDefinition.helpers.SocketCategoryHash);
-  setSocketEntries(itemDefinition.helpers.SocketEntries);
-  setSocketIndexes(itemDefinition.helpers.SocketIndexes);
-  setSocketTypeHash(itemDefinition.helpers.SocketTypeHash);
-  setStackUniqueLabel(itemDefinition.helpers.StackUniqueLabel);
-  setStatGroupHash(itemDefinition.helpers.StatGroupHash);
-  setStatHash(itemDefinition.helpers.StatHash);
-  setTalentGridHash(itemDefinition.helpers.TalentGridHash);
-  setTooltipNotifications(itemDefinition.helpers.TooltipNotifications);
-  setTraitIds(itemDefinition.helpers.TraitIds);
-  setUiItemDisplayStyle(itemDefinition.helpers.UiItemDisplayStyle);
-  setUiPlugLabel(itemDefinition.helpers.UiPlugLabel);
-  setIcons(itemDefinition.helpers.Icons);
+  Defs.setItemDefinition(itemDefinition.items as ItemsDefinition);
+
+  const helpers = itemDefinition.helpers as Record<string, unknown>;
+  const setterOverrides: Record<string, string> = {};
+
+  for (const key in HELPER_MAP) {
+    const value = helpers[key];
+    if (value === undefined) continue;
+    const override = setterOverrides[key];
+    const setterName = override ?? (`set${key}` as const);
+    const setter = (Defs as unknown as Record<string, (v: unknown) => void>)[setterName];
+    if (typeof setter === "function") {
+      // Some setters have stricter types; we cast here to avoid excessive generics
+      setter(value as unknown);
+    }
+  }
 
   get().setItemsDefinitionReady();
 }
