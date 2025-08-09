@@ -26,7 +26,7 @@ export default function PerkCircle({ icon, isEnabled, isEnhanced, onPress }: Pro
           backgroundColor: isEnabled ? "#5791BD" : "transparent",
         }}
       >
-        <Image source={icon} style={{ width: 30, height: 30 }} />
+        <Image source={icon} cachePolicy={"memory-disk"} style={{ width: 30, height: 30 }} />
         {isEnhanced && (
           <Image source={ENHANCED_TRAIT} tintColor="#F4D158" style={{ width: 51, height: 51, position: "absolute" }} />
         )}

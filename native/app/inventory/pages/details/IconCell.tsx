@@ -20,17 +20,21 @@ export default function IconCell({ destinyItem }: Props) {
       <View style={[styles.icon, { borderColor }]}>
         <Image
           source={{ uri: destinyItem.instance.icon }}
+          cachePolicy="memory-disk"
           style={styles.innerFrameSize}
           recyclingKey={destinyItem.instance.icon}
         />
 
         <Image
           source={{ uri: destinyItem.instance.calculatedWaterMark }}
+          cachePolicy="memory-disk"
           style={styles.innerFrameSize}
           recyclingKey={destinyItem.instance.calculatedWaterMark}
         />
 
-        {destinyItem.instance.crafted && <Image source={CRAFTED_OVERLAY} style={styles.innerFrameSize} />}
+        {destinyItem.instance.crafted && (
+          <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.innerFrameSize} />
+        )}
       </View>
     </View>
   );

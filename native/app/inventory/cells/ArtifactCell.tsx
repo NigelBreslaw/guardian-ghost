@@ -42,12 +42,14 @@ export default function ArtifactCell({ destinyItem }: Props) {
         <View style={[styles.icon, { borderColor }]}>
           <Image
             source={{ uri: destinyItem.instance.icon }}
+            cachePolicy="memory-disk"
             style={styles.innerFrameSize}
             recyclingKey={destinyItem.instance.icon}
           />
 
           <Image
             source={{ uri: destinyItem.instance.calculatedWaterMark }}
+            cachePolicy="memory-disk"
             style={styles.innerFrameSize}
             recyclingKey={destinyItem.instance.calculatedWaterMark}
           />

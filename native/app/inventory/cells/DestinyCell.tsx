@@ -52,22 +52,30 @@ export default function DestinyCell({ destinyItem }: Props) {
               colors={["#000000", "#1C1C1C", "#313131"]}
               style={styles.separatorInner}
             />
-            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} />
+            <Image contentFit="contain" source={separatorIcon} style={styles.separatorIcon} cachePolicy={"memory"} />
           </View>
         )}
         <View style={[DestinyIconStyles.icon, { borderColor: borderColor }]}>
-          <Image source={{ uri: icon }} style={DestinyIconStyles.innerFrameSize} recyclingKey={icon} />
+          <Image
+            source={{ uri: icon }}
+            cachePolicy="memory-disk"
+            style={DestinyIconStyles.innerFrameSize}
+            recyclingKey={icon}
+          />
 
           {calculatedWaterMark && (
             <Image
               source={{ uri: calculatedWaterMark }}
+              cachePolicy="memory-disk"
               style={DestinyIconStyles.innerFrameSize}
               recyclingKey={calculatedWaterMark}
             />
           )}
 
-          {crafted && <Image source={CRAFTED_OVERLAY} style={DestinyIconStyles.innerFrameSize} />}
-          {enhanced && <Image source={ENHANCED_OVERLAY} style={DestinyIconStyles.innerFrameSize} />}
+          {crafted && <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />}
+          {enhanced && (
+            <Image source={ENHANCED_OVERLAY} cachePolicy="memory" style={DestinyIconStyles.innerFrameSize} />
+          )}
         </View>
         {primaryStat > 0 && (
           <View style={DestinyIconStyles.primaryStat}>
@@ -76,7 +84,7 @@ export default function DestinyCell({ destinyItem }: Props) {
         )}
         {damageTypeIconUri && (
           <View style={DestinyIconStyles.miniIconBurn}>
-            <Image style={DestinyIconStyles.miniIconBurnSize} source={damageTypeIconUri} />
+            <Image style={DestinyIconStyles.miniIconBurnSize} source={damageTypeIconUri} cachePolicy="memory" />
           </View>
         )}
         {quantity > 1 && (
