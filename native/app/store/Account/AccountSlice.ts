@@ -743,12 +743,12 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.i !== undefined) {
-    const icon = Helpers.Icons?.[itemDef.i];
+    const icon = Helpers.Icons[itemDef.i];
     definitionItem.icon = `${iconUrl}${icon}`;
   }
 
   if (itemDef.itd !== undefined) {
-    definitionItem.itemTypeDisplayName = Helpers.ItemTypeDisplayName?.[itemDef.itd]!;
+    definitionItem.itemTypeDisplayName = Helpers.ItemTypeDisplayName[itemDef.itd]!;
     definitionItem.search = `${definitionItem.itemTypeDisplayName.toLowerCase()} ${definitionItem.search}`;
   }
 
@@ -782,7 +782,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   const investments = itemDef.iv;
   if (investments) {
     for (const iv of Object.keys(investments)) {
-      const statTypeHash = Number(Helpers.StatHash?.[Number(iv)]);
+      const statTypeHash = Number(Helpers.StatHash[Number(iv)]);
       const value = investments[iv] ?? 0;
       investmentStats.push({ statTypeHash, value });
     }
@@ -794,7 +794,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   const itemStats = itemDef.st?.s;
   if (itemStats) {
     for (const s of Object.keys(itemStats)) {
-      const statTypeHash = Number(Helpers.StatHash?.[Number(s)]);
+      const statTypeHash = Number(Helpers.StatHash[Number(s)]);
       const value = itemStats[s] ?? 0;
       stats.push({ statTypeHash, value });
     }
@@ -806,7 +806,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   if (traitDef !== undefined) {
     for (const trait of traitDef) {
       const traitIndex = trait;
-      const traitId = Helpers.TraitIds?.[traitIndex]!;
+      const traitId = Helpers.TraitIds[traitIndex]!;
       if (traitId) {
         traitIds.push(traitId);
       }
@@ -816,11 +816,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   const statGroupHashIndex = itemDef.st?.sgs;
   if (statGroupHashIndex !== undefined) {
-    definitionItem.statGroupHash = Helpers.StatGroupHash?.[statGroupHashIndex]!;
+    definitionItem.statGroupHash = Helpers.StatGroupHash[statGroupHashIndex]!;
   }
   const bucketTypeIndex = itemDef.b;
   if (bucketTypeIndex !== undefined) {
-    definitionItem.recoveryBucketHash = (Helpers.BucketTypeHash?.[bucketTypeIndex] as BucketHash) ?? (0 as BucketHash);
+    definitionItem.recoveryBucketHash = (Helpers.BucketTypeHash[bucketTypeIndex] as BucketHash) ?? (0 as BucketHash);
   }
   definitionItem.name = itemDef?.n ?? "";
 

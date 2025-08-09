@@ -1,7 +1,6 @@
 import type { DestinyItem, DestinyItemDefinition } from "@/app/inventory/logic/Types.ts";
 import type { ItemHash, PlugSet } from "@/app/core/GetProfile.ts";
 import { DestinySocketCategoryDefinition, Helpers, itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
-// Strong helper typing now comes from ItemResponseSchema; no extra casts needed
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 import { getItemDefinition } from "@/app/store/Account/AccountSlice";
 
