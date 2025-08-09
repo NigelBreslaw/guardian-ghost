@@ -8,7 +8,6 @@ import { deepEqual } from "fast-equals";
 
 import * as Defs from "@/app/store/Definitions.ts";
 import type { ItemsDefinition } from "@/app/store/Definitions.ts";
-import { HELPER_MAP } from "@/app/core/generated/HelperKeys.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
 import { DatabaseStore, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition, getJsonBlob } from "@/app/utilities/Helpers.ts";
@@ -290,22 +289,7 @@ async function loadLocalBungieDefinitions(get: DefinitionsSliceGetter, set: Defi
 
 function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) {
   Defs.setItemDefinition(itemDefinition.items as ItemsDefinition);
-
-  const helpers = itemDefinition.helpers as Record<string, unknown>;
-  const setterOverrides: Record<string, string> = {};
-
-  for (const key in HELPER_MAP) {
-    const value = helpers[key];
-    if (value === undefined) continue;
-    const override = setterOverrides[key];
-    const setterName = override ?? (`set${key}` as const);
-    const setter = (Defs as unknown as Record<string, (v: unknown) => void>)[setterName];
-    if (typeof setter === "function") {
-      // Some setters have stricter types; we cast here to avoid excessive generics
-      setter(value as unknown);
-    }
-  }
-
+  Defs.setHelpers(itemDefinition.helpers);
   get().setItemsDefinitionReady();
 }
 
