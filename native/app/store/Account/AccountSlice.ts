@@ -649,7 +649,7 @@ function addDefinition(
 function getCraftedType(itemHash: ItemHash): "crafted" | "enhanced" {
   const socketsIndex = itemsDefinition[itemHash]?.sk?.se;
   if (socketsIndex) {
-    const se = (Helpers.SocketEntries as unknown as Record<number, any[]>)?.[socketsIndex];
+    const se = Helpers.SocketEntries[socketsIndex];
     if (se !== undefined) {
       const initialIndex = se[12]?.s;
       if (initialIndex !== undefined) {
