@@ -42,16 +42,16 @@ export const BungieUserSchema = object({
 export type BungieUser = InferOutput<typeof BungieUserSchema>;
 
 export type ItemInstance = {
-  icon: string;
-  screenshot: string;
   calculatedWaterMark?: string;
   crafted?: boolean;
-  enhanced?: boolean;
   damageType?: DamageType;
   deepSightResonance?: boolean;
+  enhanced?: boolean;
   gearTier?: number;
+  icon: string;
   masterwork?: boolean;
   primaryStat: number;
+  screenshot: string;
   search: string;
 };
 
@@ -63,6 +63,7 @@ export type DestinyItemDefinition = {
   flavorText: string;
   icon: string;
   investmentStats: StatsCollection[];
+  isFeatured: boolean;
   itemSubType: ItemSubType;
   itemType: ItemType;
   itemTypeDisplayName: string;

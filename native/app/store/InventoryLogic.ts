@@ -318,6 +318,7 @@ function returnBlankDestinyItem(): DestinyItem {
     flavorText: "false",
     icon: "",
     investmentStats: [],
+    isFeatured: false,
     itemSubType: 0,
     itemType: 0,
     itemTypeDisplayName: "",
