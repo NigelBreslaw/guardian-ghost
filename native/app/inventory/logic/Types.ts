@@ -49,6 +49,8 @@ export type ItemInstance = {
   enhanced?: boolean;
   gearTier?: number;
   icon: string;
+  itemLevel?: number;
+  quality?: number;
   masterwork?: boolean;
   primaryStat: number;
   screenshot: string;
