@@ -19,7 +19,7 @@ export default function EngramCell({ destinyItem }: Props) {
   if (destinyItem === undefined) {
     return (
       <View style={styles.frameSize}>
-        <Image source={EMPTY_ENGRAM} style={styles.frameSize} />
+        <Image source={EMPTY_ENGRAM} cachePolicy="memory" style={styles.frameSize} />
       </View>
     );
   }
@@ -36,7 +36,12 @@ export default function EngramCell({ destinyItem }: Props) {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.frameSize}>
-        <Image source={destinyItem.instance.icon} style={styles.frameSize} recyclingKey={destinyItem.instance.icon} />
+        <Image
+          source={destinyItem.instance.icon}
+          cachePolicy="memory"
+          style={styles.frameSize}
+          recyclingKey={destinyItem.instance.icon}
+        />
         {destinyItem.instance.primaryStat > 0 && (
           <View style={styles.primaryStat}>
             <Text style={styles.powerLevelText}>{destinyItem.instance.primaryStat}</Text>
