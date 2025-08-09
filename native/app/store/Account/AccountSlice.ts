@@ -653,7 +653,7 @@ function getCraftedType(itemHash: ItemHash): "crafted" | "enhanced" {
     if (se !== undefined) {
       const initialIndex = se[12]?.s;
       if (initialIndex !== undefined) {
-        const singleInitialItemHash = Helpers.SingleInitialItemHash?.[initialIndex];
+        const singleInitialItemHash = Helpers.SingleInitialItemHash[initialIndex];
 
         if (singleInitialItemHash === 253922071) {
           return "enhanced";
@@ -757,7 +757,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.fi && itemDef.iwf !== undefined) {
-    const waterMark = Helpers.IconWaterMarkFeatured?.[itemDef.iwf];
+    const waterMark = Helpers.IconWaterMarkFeatured[itemDef.iwf];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
   } else {
     if (itemDef.iw !== undefined) {
@@ -775,7 +775,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.d !== undefined) {
-    definitionItem.description = Helpers.Descriptions?.[itemDef.d] ?? "";
+    definitionItem.description = Helpers.Descriptions[itemDef.d] ?? "";
   }
 
   const investmentStats: StatsCollection[] = [];
@@ -831,11 +831,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   definitionItem.destinyClass = itemDef?.c ?? 3;
   definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
   definitionItem.maxStackSize = itemDef?.m ?? 1;
-  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? Helpers.StackUniqueLabel?.[itemDef.su] : undefined;
+  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? Helpers.StackUniqueLabel[itemDef.su] : undefined;
   definitionItem.nonTransferrable = itemDef?.nt === 1;
   definitionItem.equippable = itemDef?.e === 1;
   if (itemDef.p?.p) {
-    definitionItem.plugCategoryIdentifier = Helpers.PlugCategoryIdentifier?.[itemDef.p.p] ?? "";
+    definitionItem.plugCategoryIdentifier = Helpers.PlugCategoryIdentifier[itemDef.p.p] ?? "";
   }
 
   itemDefinitionCache.set(itemHash, definitionItem);
