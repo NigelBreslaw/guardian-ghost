@@ -1,18 +1,6 @@
 import type { DestinyItem, DestinyItemDefinition } from "@/app/inventory/logic/Types.ts";
 import type { ItemHash, PlugSet } from "@/app/core/GetProfile.ts";
-import {
-  DestinySocketCategoryDefinition,
-  RandomizedPlugSetHash,
-  ReusablePlugSetHash,
-  SingleInitialItemHash,
-  SocketCategories,
-  SocketCategoryHash,
-  SocketEntries,
-  SocketIndexes,
-  SocketTypeHash,
-  itemsDefinition,
-  rawProfileData,
-} from "@/app/store/Definitions.ts";
+import { DestinySocketCategoryDefinition, Helpers, itemsDefinition, rawProfileData } from "@/app/store/Definitions.ts";
 import { getBitmaskValues } from "@/app/utilities/Helpers.ts";
 import { getItemDefinition } from "@/app/store/Account/AccountSlice";
 
@@ -166,8 +154,8 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
     return null;
   }
 
-  const minifiedSocketCategories = SocketCategories[sk.sc];
-  const minifiedSocketEntries = SocketEntries[sk.se];
+  const minifiedSocketCategories = Helpers.SocketCategories[sk.sc];
+  const minifiedSocketEntries = Helpers.SocketEntries[sk.se];
 
   if (!minifiedSocketCategories || !minifiedSocketEntries) {
     return null;
@@ -183,19 +171,19 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
     }
     let singleInitialItemHash = null;
     if (socketEntry.s) {
-      singleInitialItemHash = SingleInitialItemHash[socketEntry.s] ?? null;
+      singleInitialItemHash = (Helpers.SingleInitialItemHash[socketEntry.s] ?? null) as ItemHash | null;
     }
     let randomizedPlugSetHash = null;
     if (socketEntry.ra) {
-      randomizedPlugSetHash = RandomizedPlugSetHash[socketEntry.ra] ?? null;
+      randomizedPlugSetHash = Helpers.RandomizedPlugSetHash[socketEntry.ra] ?? null;
     }
     let reusablePlugSetHash = null;
     if (socketEntry.r) {
-      reusablePlugSetHash = ReusablePlugSetHash[socketEntry.r] ?? null;
+      reusablePlugSetHash = Helpers.ReusablePlugSetHash[socketEntry.r] ?? null;
     }
     let socketTypeHash = null;
     if (socketEntry.st) {
-      socketTypeHash = SocketTypeHash[socketEntry.st] ?? null;
+      socketTypeHash = Helpers.SocketTypeHash[socketEntry.st] ?? null;
     }
 
     const se: SocketEntry = {
@@ -218,8 +206,8 @@ export function expandAndCreateSockets(itemHash: ItemHash): Sockets | null {
 
   const socketCategories: SocketCategory[] = [];
   for (const socketCategory of minifiedSocketCategories) {
-    const socketCategoryHash = SocketCategoryHash[socketCategory.h] ?? null;
-    const socketIndexes = SocketIndexes[socketCategory.i];
+    const socketCategoryHash = Helpers.SocketCategoryHash[socketCategory.h] ?? null;
+    const socketIndexes = Helpers.SocketIndexes[socketCategory.i];
     if (!socketIndexes) {
       console.log("No socketIndexes!! return null");
       return null;

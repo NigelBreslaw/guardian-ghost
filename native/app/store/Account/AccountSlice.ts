@@ -14,9 +14,7 @@ import {
 } from "@/app/inventory/logic/Types.ts";
 import { findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/Account/AccountLogic";
 import {
-  PlugCategoryIdentifier,
-  BucketTypeHashArray,
-  IconWaterMarks,
+  Helpers,
   itemsDefinition,
   rawProfileData,
   setConsumables,
@@ -25,17 +23,7 @@ import {
   setLostItems,
   setMods,
   setRawProfileData,
-  StackUniqueLabel,
-  Icons,
-  StatGroupHash,
-  StatHash,
-  TraitIds,
-  ItemTypeDisplayName,
-  Descriptions,
-  SocketEntries,
-  SingleInitialItemHash,
   guardians,
-  IconWaterMarksFeatured,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -661,11 +649,11 @@ function addDefinition(
 function getCraftedType(itemHash: ItemHash): "crafted" | "enhanced" {
   const socketsIndex = itemsDefinition[itemHash]?.sk?.se;
   if (socketsIndex) {
-    const se = SocketEntries[socketsIndex];
+    const se = Helpers.SocketEntries[socketsIndex];
     if (se !== undefined) {
       const initialIndex = se[12]?.s;
       if (initialIndex !== undefined) {
-        const singleInitialItemHash = SingleInitialItemHash[initialIndex];
+        const singleInitialItemHash = Helpers.SingleInitialItemHash[initialIndex];
 
         if (singleInitialItemHash === 253922071) {
           return "enhanced";
@@ -755,12 +743,12 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.i !== undefined) {
-    const icon = Icons[itemDef.i];
+    const icon = Helpers.Icons[itemDef.i];
     definitionItem.icon = `${iconUrl}${icon}`;
   }
 
   if (itemDef.itd !== undefined) {
-    definitionItem.itemTypeDisplayName = ItemTypeDisplayName[itemDef.itd]!;
+    definitionItem.itemTypeDisplayName = Helpers.ItemTypeDisplayName[itemDef.itd]!;
     definitionItem.search = `${definitionItem.itemTypeDisplayName.toLowerCase()} ${definitionItem.search}`;
   }
 
@@ -769,11 +757,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.fi && itemDef.iwf !== undefined) {
-    const waterMark = IconWaterMarksFeatured[itemDef.iwf];
+    const waterMark = Helpers.IconWaterMarkFeatured[itemDef.iwf];
     definitionItem.watermark = `${iconUrl}${waterMark}`;
   } else {
     if (itemDef.iw !== undefined) {
-      const waterMark = IconWaterMarks[itemDef.iw];
+      const waterMark = Helpers.IconWaterMark?.[itemDef.iw];
       definitionItem.watermark = `${iconUrl}${waterMark}`;
     }
   }
@@ -787,14 +775,14 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   }
 
   if (itemDef.d !== undefined) {
-    definitionItem.description = Descriptions[itemDef.d] ?? "";
+    definitionItem.description = Helpers.Descriptions[itemDef.d] ?? "";
   }
 
   const investmentStats: StatsCollection[] = [];
   const investments = itemDef.iv;
   if (investments) {
     for (const iv of Object.keys(investments)) {
-      const statTypeHash = Number(StatHash[Number(iv)]);
+      const statTypeHash = Number(Helpers.StatHash[Number(iv)]);
       const value = investments[iv] ?? 0;
       investmentStats.push({ statTypeHash, value });
     }
@@ -806,7 +794,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   const itemStats = itemDef.st?.s;
   if (itemStats) {
     for (const s of Object.keys(itemStats)) {
-      const statTypeHash = Number(StatHash[Number(s)]);
+      const statTypeHash = Number(Helpers.StatHash[Number(s)]);
       const value = itemStats[s] ?? 0;
       stats.push({ statTypeHash, value });
     }
@@ -818,7 +806,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   if (traitDef !== undefined) {
     for (const trait of traitDef) {
       const traitIndex = trait;
-      const traitId = TraitIds[traitIndex]!;
+      const traitId = Helpers.TraitIds[traitIndex]!;
       if (traitId) {
         traitIds.push(traitId);
       }
@@ -828,11 +816,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
 
   const statGroupHashIndex = itemDef.st?.sgs;
   if (statGroupHashIndex !== undefined) {
-    definitionItem.statGroupHash = StatGroupHash[statGroupHashIndex]!;
+    definitionItem.statGroupHash = Helpers.StatGroupHash[statGroupHashIndex]!;
   }
   const bucketTypeIndex = itemDef.b;
   if (bucketTypeIndex !== undefined) {
-    definitionItem.recoveryBucketHash = BucketTypeHashArray[bucketTypeIndex] ?? (0 as BucketHash);
+    definitionItem.recoveryBucketHash = (Helpers.BucketTypeHash[bucketTypeIndex] as BucketHash) ?? (0 as BucketHash);
   }
   definitionItem.name = itemDef?.n ?? "";
 
@@ -843,11 +831,11 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
   definitionItem.destinyClass = itemDef?.c ?? 3;
   definitionItem.doesPostmasterPullHaveSideEffects = !!itemDef?.pm;
   definitionItem.maxStackSize = itemDef?.m ?? 1;
-  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? StackUniqueLabel[itemDef.su] : undefined;
+  definitionItem.stackUniqueLabel = itemDef?.su !== undefined ? Helpers.StackUniqueLabel[itemDef.su] : undefined;
   definitionItem.nonTransferrable = itemDef?.nt === 1;
   definitionItem.equippable = itemDef?.e === 1;
   if (itemDef.p?.p) {
-    definitionItem.plugCategoryIdentifier = PlugCategoryIdentifier[itemDef.p.p] ?? "";
+    definitionItem.plugCategoryIdentifier = Helpers.PlugCategoryIdentifier[itemDef.p.p] ?? "";
   }
 
   itemDefinitionCache.set(itemHash, definitionItem);

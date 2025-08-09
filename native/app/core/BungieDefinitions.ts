@@ -21,6 +21,26 @@ export type DefinitionKey =
   | "DestinyInventoryBucketDefinition";
 
 // -------------------------------
+// Mini socket schemas (used by helpers)
+// -------------------------------
+
+export const MiniSocketCategorySchema = array(array(object({ h: number(), i: number() })));
+export type MiniSocketCategoryItems = InferOutput<typeof MiniSocketCategorySchema>;
+
+const MiniSocketEntrySchema = array(
+  array(
+    object({
+      p: optional(number()),
+      r: optional(number()),
+      s: optional(number()),
+      st: optional(number()),
+      ra: optional(number()),
+    }),
+  ),
+);
+export type MiniSocketEntryItems = InferOutput<typeof MiniSocketEntrySchema>;
+
+// -------------------------------
 // The self hosted minified JSON response definition
 // -------------------------------
 
@@ -44,10 +64,10 @@ export const ItemResponseSchema = object({
     RandomizedPlugSetHash: array(number()),
     ReusablePlugSetHash: array(number()),
     SingleInitialItemHash: array(number()),
-    SocketCategories: unknown(),
+    SocketCategories: MiniSocketCategorySchema,
     SocketCategoryHash: array(number()),
-    SocketEntries: unknown(),
-    SocketIndexes: unknown(),
+    SocketEntries: MiniSocketEntrySchema,
+    SocketIndexes: array(array(number())),
     SocketTypeHash: array(number()),
     StackUniqueLabel: array(string()),
     StatGroupHash: array(number()),
@@ -133,22 +153,6 @@ export const miniItemSchema = object({
 });
 
 export type MiniSingleItemDefinition = InferOutput<typeof miniItemSchema>;
-
-export const MiniSocketCategorySchema = array(array(object({ h: number(), i: number() })));
-export type MiniSocketCategoryItems = InferOutput<typeof MiniSocketCategorySchema>;
-
-const MiniSocketEntrySchema = array(
-  array(
-    object({
-      p: optional(number()),
-      r: optional(number()),
-      s: optional(number()),
-      st: optional(number()),
-      ra: optional(number()),
-    }),
-  ),
-);
-export type MiniSocketEntryItems = InferOutput<typeof MiniSocketEntrySchema>;
 
 // -------------------------------
 // DestinyStatGroupDefinition Stat Group
