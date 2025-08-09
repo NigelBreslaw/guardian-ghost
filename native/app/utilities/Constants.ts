@@ -28,6 +28,10 @@ export const REFRESH_ICON = require("../../images/icons/refresh.webp");
 export const SEARCH_ICON = require("../../images/icons/search.png");
 export const ENHANCED_TRAIT = require("../../images/enhanced-trait.png");
 export const POWER_LEVEL = require("../../images/icons/power-icon.png");
+export const GEAR_TIER_2 = require("../../images/icons/inventory-item-tier2.png");
+export const GEAR_TIER_3 = require("../../images/icons/inventory-item-tier3.png");
+export const GEAR_TIER_4 = require("../../images/icons/inventory-item-tier4.png");
+export const GEAR_TIER_5 = require("../../images/icons/inventory-item-tier5.png");
 
 const SOLAR_MINI_ICON_URI = require("../../images/damage/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../images/damage/void_mini.webp");
@@ -57,6 +61,21 @@ export function getDamageTypeIconUri(damageType: DamageType | undefined): number
       return STASIS_MINI_ICON_URI;
     case DamageType.Strand:
       return STRAND_MINI_ICON_URI;
+    default:
+      return null;
+  }
+}
+
+export function getGearTierIconUri(gearTier: number | undefined): number | null {
+  switch (gearTier) {
+    case 2:
+      return GEAR_TIER_2;
+    case 3:
+      return GEAR_TIER_3;
+    case 4:
+      return GEAR_TIER_4;
+    case 5:
+      return GEAR_TIER_5;
     default:
       return null;
   }

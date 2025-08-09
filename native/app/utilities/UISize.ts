@@ -15,6 +15,11 @@ if (width < MIN_WIDTH) {
 export const INV_MAX_WIDTH = Math.ceil((MIN_WIDTH - 16 * 2) * GLOBAL_SCALAR);
 
 export const ICON_SIZE = Math.ceil(72 * GLOBAL_SCALAR);
+export const ICON_BORDER_SIZE = Math.ceil(8 * GLOBAL_SCALAR);
+export const GEAR_TIER_WIDTH = Math.ceil(10 * 0.7 * GLOBAL_SCALAR);
+export const GEAR_TIER_HEIGHT = Math.ceil(61 * 0.7 * GLOBAL_SCALAR);
+export const GEAR_TIER_OFFSET_TOP = Math.ceil(12 * GLOBAL_SCALAR);
+export const GEAR_TIER_OFFSET_LEFT = Math.ceil(3 * GLOBAL_SCALAR);
 export const INNER_FRAME_SIZE = Math.ceil(ICON_SIZE * 0.96);
 export const ICON_MARGIN = Math.ceil(16 * GLOBAL_SCALAR);
 export const DEFAULT_MARGIN = Math.ceil(16 * GLOBAL_SCALAR);
