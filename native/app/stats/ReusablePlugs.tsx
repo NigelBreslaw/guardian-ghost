@@ -16,7 +16,7 @@ export default function ReusablePlugs({ socketCategory }: Props) {
   const [selectedPerk, setSelectedPerk] = useState<SocketEntry | null>(null);
 
   return (
-    <View>
+    <View style={{ flex: 1, position: "relative" }}>
       <Text style={styles.text}>{`${socketCategory.name}`}</Text>
 
       <View style={styles.container}>
@@ -48,25 +48,37 @@ export default function ReusablePlugs({ socketCategory }: Props) {
         })}
       </View>
       <View style={{ height: 10 }} />
-      <Pressable onPress={() => setSelectedPerk(null)}>
-        <View style={[styles.perkInfo, { height: 300, opacity: selectedPerk !== null ? 1 : 0 }]}>
-          <View style={{ width: "100%", height: 2, backgroundColor: "#A9A9A9" }} />
-          <View style={{ width: "100%", height: 2 }} />
+      <Pressable
+        onPress={() => setSelectedPerk(null)}
+        style={[
+          styles.perkInfo,
+          {
+            height: 300,
+            opacity: selectedPerk !== null ? 1 : 0,
+            position: "absolute",
+            bottom: "100%",
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+          },
+        ]}
+      >
+        <View style={{ width: "100%", height: 2, backgroundColor: "#A9A9A9" }} />
+        <View style={{ width: "100%", height: 2 }} />
 
-          <View style={{ paddingLeft: 20, backgroundColor: "black" }}>
-            <Text style={styles.perkInfoName}>{`${selectedPerk?.def?.name}`}</Text>
-            <Text style={styles.perkInfoItemType}>{`${selectedPerk?.def?.itemTypeDisplayName}`}</Text>
-            <View style={{ width: "100%", height: 2 }} />
-          </View>
+        <View style={{ paddingLeft: 20, backgroundColor: "black" }}>
+          <Text style={styles.perkInfoName}>{`${selectedPerk?.def?.name}`}</Text>
+          <Text style={styles.perkInfoItemType}>{`${selectedPerk?.def?.itemTypeDisplayName}`}</Text>
           <View style={{ width: "100%", height: 2 }} />
-
-          <View style={{ paddingLeft: 20, backgroundColor: "#1C1C1D" }}>
-            <View style={{ width: "100%", height: 5 }} />
-            <Text style={styles.perkInfoDescription}>{`${selectedPerk?.def?.description}`}</Text>
-            <View style={{ width: "100%", height: 5 }} />
-          </View>
-          <View style={{ height: 50 }} />
         </View>
+        <View style={{ width: "100%", height: 2 }} />
+
+        <View style={{ paddingLeft: 20, backgroundColor: "#1C1C1D" }}>
+          <View style={{ width: "100%", height: 5 }} />
+          <Text style={styles.perkInfoDescription}>{`${selectedPerk?.def?.description}`}</Text>
+          <View style={{ width: "100%", height: 5 }} />
+        </View>
+        <View style={{ height: 50 }} />
       </Pressable>
     </View>
   );

@@ -73,18 +73,21 @@ export default function DetailsView({ route, navigation }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
-        {destinyItem && (
-          <View style={{ height: "100%" }}>
-            <ScreenInfo destinyItem={destinyItem} />
-            <Stats destinyItem={destinyItem} />
-          </View>
-        )}
-      </ScrollView>
+      <View style={{ flex: 1, paddingBottom: 80 }}>
+        <ScrollView style={{}} keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
+          {destinyItem && (
+            <View>
+              <ScreenInfo destinyItem={destinyItem} />
+              <Stats destinyItem={destinyItem} />
+            </View>
+          )}
+        </ScrollView>
+      </View>
+
       <BottomSheet
         ref={bottomSheetRef}
         animationConfigs={animationConfigs}
-        snapPoints={[30]}
+        snapPoints={[60]}
         animateOnMount={false}
         index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
         onChange={(e) => {
@@ -94,7 +97,7 @@ export default function DetailsView({ route, navigation }: Props) {
             useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
           }
         }}
-        handleIndicatorStyle={{ backgroundColor: "white" }}
+        handleIndicatorStyle={{ backgroundColor: "gray" }}
         bottomInset={insets.bottom}
         backgroundStyle={{
           backgroundColor: BOTTOM_SHEET_COLOR,

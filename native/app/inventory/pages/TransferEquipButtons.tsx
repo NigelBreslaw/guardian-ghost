@@ -36,6 +36,14 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
   const disabled = useGGStore.getState().authenticated !== "AUTHENTICATED";
 
   const styles = StyleSheet.create({
+    commonButtons: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 5,
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingBottom: 20,
+    },
     transferToText: {
       fontSize: 16,
       color: "white",
@@ -146,8 +154,9 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
       </TouchableOpacity>
     );
     return (
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
+      <View style={styles.commonButtons}>
         <Text style={styles.transferToInventory}>Transfer to</Text>
+        <View style={{ height: 15, width: "100%" }} />
         {globalButton}
       </View>
     );
@@ -316,12 +325,12 @@ export default function TransferEquipButtons({ destinyItem, close, startTransfer
   }
 
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 5, padding: 15 }}>
+    <View style={styles.commonButtons}>
       <Text style={[styles.transferToText, { display: destinyItem.def.nonTransferrable ? "none" : "flex" }]}>
         Transfer to
       </Text>
       <Text style={[styles.equipOnText, { display: destinyItem.def.equippable ? "flex" : "none" }]}>Equip on</Text>
-
+      <View style={{ height: 15, width: "100%" }} />
       {rectangles}
     </View>
   );
