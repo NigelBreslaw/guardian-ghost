@@ -14,13 +14,15 @@ import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ShowBottomSheet } from "@/app/store/SettingsSlice.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import { ItemType } from "@/app/bungie/Enums.ts";
 
-// function showBottomSheet(destinyItem: DestinyItem): boolean {
-//   if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
-//     return false;
-//   }
-//   return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
-// }
+function showBottomSheet(destinyItem: DestinyItem): boolean {
+  if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
+    return false;
+  }
+  return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
+}
 
 type Props = {
   readonly route: RouteProp<RootStackParamList, "Details">;
@@ -84,7 +86,7 @@ export default function DetailsView({ route, navigation }: Props) {
         </ScrollView>
       </View>
 
-      <BottomSheet
+      {showBottomSheet(destinyItem) && <BottomSheet
         ref={bottomSheetRef}
         animationConfigs={animationConfigs}
         snapPoints={[60]}
@@ -112,7 +114,7 @@ export default function DetailsView({ route, navigation }: Props) {
             startTransfer={transfer}
           />
         </BottomSheetView>
-      </BottomSheet>
+      </BottomSheet>}
       <View
         style={{
           borderTopWidth: StyleSheet.hairlineWidth,
