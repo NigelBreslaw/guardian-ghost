@@ -14,13 +14,15 @@ import type { RootStackParamList } from "@/app/Root.tsx";
 import ScreenInfo from "@/app/inventory/pages/details/ScreenInfo.tsx";
 import TransferEquipButtons from "@/app/inventory/pages/TransferEquipButtons.tsx";
 import { ShowBottomSheet } from "@/app/store/SettingsSlice.ts";
+import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
+import { ItemType } from "@/app/bungie/Enums.ts";
 
-// function showBottomSheet(destinyItem: DestinyItem): boolean {
-//   if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
-//     return false;
-//   }
-//   return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
-// }
+function showBottomSheet(destinyItem: DestinyItem): boolean {
+  if (destinyItem.def.itemType === ItemType.SeasonalArtifact) {
+    return false;
+  }
+  return !(destinyItem.def.nonTransferrable && !destinyItem.def.equippable);
+}
 
 type Props = {
   readonly route: RouteProp<RootStackParamList, "Details">;
@@ -84,35 +86,37 @@ export default function DetailsView({ route, navigation }: Props) {
         </ScrollView>
       </View>
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        animationConfigs={animationConfigs}
-        snapPoints={[60]}
-        animateOnMount={false}
-        index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
-        onChange={(e) => {
-          if (e === 0) {
-            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
-          } else if (e === 1) {
-            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
-          }
-        }}
-        handleIndicatorStyle={{ backgroundColor: "gray" }}
-        bottomInset={insets.bottom}
-        backgroundStyle={{
-          backgroundColor: BOTTOM_SHEET_COLOR,
-        }}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <TransferEquipButtons
-            close={() => {
-              navigation.goBack();
-            }}
-            destinyItem={destinyItem}
-            startTransfer={transfer}
-          />
-        </BottomSheetView>
-      </BottomSheet>
+      {showBottomSheet(destinyItem) && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          animationConfigs={animationConfigs}
+          snapPoints={[60]}
+          animateOnMount={false}
+          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
+          onChange={(e) => {
+            if (e === 0) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
+            } else if (e === 1) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
+            }
+          }}
+          handleIndicatorStyle={{ backgroundColor: "gray" }}
+          bottomInset={insets.bottom}
+          backgroundStyle={{
+            backgroundColor: BOTTOM_SHEET_COLOR,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <TransferEquipButtons
+              close={() => {
+                navigation.goBack();
+              }}
+              destinyItem={destinyItem}
+              startTransfer={transfer}
+            />
+          </BottomSheetView>
+        </BottomSheet>
+      )}
       <View
         style={{
           borderTopWidth: StyleSheet.hairlineWidth,
