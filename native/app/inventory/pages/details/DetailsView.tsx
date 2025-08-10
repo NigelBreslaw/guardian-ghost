@@ -86,35 +86,37 @@ export default function DetailsView({ route, navigation }: Props) {
         </ScrollView>
       </View>
 
-      {showBottomSheet(destinyItem) && <BottomSheet
-        ref={bottomSheetRef}
-        animationConfigs={animationConfigs}
-        snapPoints={[60]}
-        animateOnMount={false}
-        index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
-        onChange={(e) => {
-          if (e === 0) {
-            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
-          } else if (e === 1) {
-            useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
-          }
-        }}
-        handleIndicatorStyle={{ backgroundColor: "gray" }}
-        bottomInset={insets.bottom}
-        backgroundStyle={{
-          backgroundColor: BOTTOM_SHEET_COLOR,
-        }}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <TransferEquipButtons
-            close={() => {
-              navigation.goBack();
-            }}
-            destinyItem={destinyItem}
-            startTransfer={transfer}
-          />
-        </BottomSheetView>
-      </BottomSheet>}
+      {showBottomSheet(destinyItem) && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          animationConfigs={animationConfigs}
+          snapPoints={[60]}
+          animateOnMount={false}
+          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
+          onChange={(e) => {
+            if (e === 0) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
+            } else if (e === 1) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
+            }
+          }}
+          handleIndicatorStyle={{ backgroundColor: "gray" }}
+          bottomInset={insets.bottom}
+          backgroundStyle={{
+            backgroundColor: BOTTOM_SHEET_COLOR,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <TransferEquipButtons
+              close={() => {
+                navigation.goBack();
+              }}
+              destinyItem={destinyItem}
+              startTransfer={transfer}
+            />
+          </BottomSheetView>
+        </BottomSheet>
+      )}
       <View
         style={{
           borderTopWidth: StyleSheet.hairlineWidth,
