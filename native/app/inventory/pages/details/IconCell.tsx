@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
 import { StyleSheet, View } from "react-native";
 
-import { ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
-import { CRAFTED_OVERLAY } from "@/app/utilities/Constants.ts";
+import { DestinyIconStyles, ICON_SIZE, INNER_FRAME_SIZE } from "@/app/utilities/UISize.ts";
+import { CRAFTED_OVERLAY, getGearTierIconUri } from "@/app/utilities/Constants.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { returnBorderColor } from "@/app/store/InventoryLogic.ts";
 
@@ -13,6 +13,8 @@ type Props = {
 export default function IconCell({ destinyItem }: Props) {
   "use memo";
   const borderColor = returnBorderColor(destinyItem);
+  const gearTierIconUri = getGearTierIconUri(destinyItem.instance.gearTier);
+  const isFeatured = destinyItem.def.isFeatured;
 
   return (
     <View style={styles.container}>
@@ -25,17 +27,37 @@ export default function IconCell({ destinyItem }: Props) {
           recyclingKey={destinyItem.instance.icon}
         />
 
-        <Image
-          source={{ uri: destinyItem.instance.calculatedWaterMark }}
-          cachePolicy="memory-disk"
-          style={styles.innerFrameSize}
-          recyclingKey={destinyItem.instance.calculatedWaterMark}
-        />
+        {!isFeatured && (
+          <Image
+            source={{ uri: destinyItem.instance.calculatedWaterMark }}
+            cachePolicy="memory-disk"
+            style={styles.innerFrameSize}
+            recyclingKey={destinyItem.instance.calculatedWaterMark}
+          />
+        )}
 
         {destinyItem.instance.crafted && (
           <Image source={CRAFTED_OVERLAY} cachePolicy="memory" style={styles.innerFrameSize} />
         )}
       </View>
+      {isFeatured && (
+        <Image
+          source={{ uri: destinyItem.instance.calculatedWaterMark }}
+          cachePolicy="memory-disk"
+          style={DestinyIconStyles.iconWatermarkFeatured}
+          recyclingKey={destinyItem.instance.calculatedWaterMark}
+        />
+      )}
+      {gearTierIconUri && (
+        <View style={DestinyIconStyles.gearTier}>
+          <Image
+            contentFit={"contain"}
+            source={gearTierIconUri}
+            cachePolicy="memory"
+            style={DestinyIconStyles.gearTier}
+          />
+        </View>
+      )}
     </View>
   );
 }
