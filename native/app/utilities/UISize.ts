@@ -165,6 +165,15 @@ export const DestinyIconStyles = StyleSheet.create({
     height: MINI_BURN_SIZE,
     pointerEvents: "none",
   },
+  gearTier: {
+    top: GEAR_TIER_OFFSET_TOP,
+    left: GEAR_TIER_OFFSET_LEFT,
+    width: GEAR_TIER_WIDTH,
+    height: GEAR_TIER_HEIGHT,
+    position: "absolute",
+    justifyContent: "center",
+    alignContent: "center",
+  },
   miniIconBurn: {
     width: MINI_ICON_SIZE,
     height: MINI_ICON_SIZE,

@@ -3,15 +3,7 @@ import { Image } from "expo-image";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 import Text from "@/app/UI/Text.tsx";
-import {
-  DestinyIconStyles,
-  GEAR_TIER_HEIGHT,
-  GEAR_TIER_OFFSET_LEFT,
-  GEAR_TIER_OFFSET_TOP,
-  GEAR_TIER_WIDTH,
-  ICON_BORDER_SIZE,
-  ICON_SIZE,
-} from "@/app/utilities/UISize.ts";
+import { DestinyIconStyles, ICON_BORDER_SIZE, ICON_SIZE } from "@/app/utilities/UISize.ts";
 import {
   CRAFTED_OVERLAY,
   ENHANCED_OVERLAY,
@@ -100,8 +92,13 @@ export default function DestinyCell({ destinyItem }: Props) {
           />
         )}
         {gearTierIconUri && (
-          <View style={styles.gearTier}>
-            <Image contentFit={"contain"} source={gearTierIconUri} cachePolicy="memory" style={styles.gearTier} />
+          <View style={DestinyIconStyles.gearTier}>
+            <Image
+              contentFit={"contain"}
+              source={gearTierIconUri}
+              cachePolicy="memory"
+              style={DestinyIconStyles.gearTier}
+            />
           </View>
         )}
         {primaryStat > 0 && (
@@ -136,15 +133,6 @@ const styles = StyleSheet.create({
   separator: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    position: "absolute",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  gearTier: {
-    top: GEAR_TIER_OFFSET_TOP,
-    left: GEAR_TIER_OFFSET_LEFT,
-    width: GEAR_TIER_WIDTH,
-    height: GEAR_TIER_HEIGHT,
     position: "absolute",
     justifyContent: "center",
     alignContent: "center",
