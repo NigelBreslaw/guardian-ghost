@@ -187,8 +187,8 @@ importers:
         specifier: 19.1.0-rc.2
         version: 19.1.0-rc.2(eslint@9.33.0(jiti@1.21.7))
       expo-atlas:
-        specifier: 0.4.0
-        version: 0.4.0(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))
+        specifier: 0.4.3
+        version: 0.4.3(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))
       react-native-svg-transformer:
         specifier: 1.5.1
         version: 1.5.1(react-native-svg@15.12.1(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(typescript@5.9.2)
@@ -2581,8 +2581,8 @@ packages:
       react: '*'
       react-native: '*'
 
-  expo-atlas@0.4.0:
-    resolution: {integrity: sha512-UFLN0o53yjooLjPj98+NGzWPAFvr917D+7nPEELW1qXuEj3X4eqrQUdrbckdpIFQz5ke0FK3TvmB5WR+to0JzQ==}
+  expo-atlas@0.4.3:
+    resolution: {integrity: sha512-nN2bouxFvMsqZqLl0ka+eI9Ofida0PcuoE4v+7fHlgyp95X2cCL8Acf0nRKXmmIBEYazdw0d7BAOZfC0b41oxA==}
     hasBin: true
     peerDependencies:
       expo: '*'
@@ -2872,10 +2872,6 @@ packages:
   get-proto@1.0.1:
     resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
     engines: {node: '>= 0.4'}
-
-  getenv@1.0.0:
-    resolution: {integrity: sha512-7yetJWqbS9sbn0vIfliPsFgoXMKn/YMF+Wuiog97x+urnSRRRZ7xB+uVkwGKzRgq9CDFfMQnE9ruL5DHv9c6Xg==}
-    engines: {node: '>=6'}
 
   getenv@2.0.0:
     resolution: {integrity: sha512-VilgtJj/ALgGY77fiLam5iD336eSWi96Q15JSAG1zi8NRBysm3LXKdGnHb4m5cuyxvOLQQKWpBZAT6ni4FI2iQ==}
@@ -3528,8 +3524,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  morgan@1.10.0:
-    resolution: {integrity: sha512-AbegBVI4sh6El+1gNwvD5YIck7nSA36weD7xvIxG4in80j/UoK8AEGaWnnz8v1GxonMCltmlNs5ZKbGvl9b1XQ==}
+  morgan@1.10.1:
+    resolution: {integrity: sha512-223dMRJtI/l25dJKWpgij2cMtywuG/WiUKXdvwfbhGKBhy1puASqXwFzmWZ7+K73vUPoR7SS2Qz2cI/g9MKw0A==}
     engines: {node: '>= 0.8.0'}
 
   ms@2.0.0:
@@ -7546,7 +7542,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  expo-atlas@0.4.0(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)):
+  expo-atlas@0.4.3(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)):
     dependencies:
       '@expo/server': 0.5.3
       arg: 5.0.2
@@ -7556,8 +7552,8 @@ snapshots:
       expo: 53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0)))(babel-plugin-react-compiler@19.1.0-rc.2)(graphql@15.9.0)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
       express: 4.21.2
       freeport-async: 2.0.0
-      getenv: 1.0.0
-      morgan: 1.10.0
+      getenv: 2.0.0
+      morgan: 1.10.1
       open: 8.4.2
       serve-static: 1.16.2
       stream-json: 1.9.1
@@ -7935,8 +7931,6 @@ snapshots:
     dependencies:
       dunder-proto: 1.0.1
       es-object-atoms: 1.1.1
-
-  getenv@1.0.0: {}
 
   getenv@2.0.0: {}
 
@@ -8635,7 +8629,7 @@ snapshots:
 
   mkdirp@3.0.1: {}
 
-  morgan@1.10.0:
+  morgan@1.10.1:
     dependencies:
       basic-auth: 2.0.1
       debug: 2.6.9
