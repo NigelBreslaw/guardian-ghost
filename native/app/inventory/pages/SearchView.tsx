@@ -127,6 +127,7 @@ function find(text: string, allItems: DestinyItem[]): ResultsSection[] {
         return true;
       }
     }
+    return false;
   });
 
   const itemsPerSection = 5;
