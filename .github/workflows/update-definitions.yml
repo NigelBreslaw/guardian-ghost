@@ -47,3 +47,8 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy native/dist --project-name=gg-app
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Send Slack Notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Guardian Ghost: New Destiny Item Definitions were just created"}' $SLACK_WEBHOOK_URL
