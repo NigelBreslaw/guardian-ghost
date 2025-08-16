@@ -27,19 +27,19 @@ jobs:
         shell: bash {0}
       - name: copy json definitions
         run: cd minifier && mv json  ../native/public
-      - uses: pnpm/action-setup@v4.1.0
-        with:
-          version: 10.13.1
-      - name: install dependencies
-        run: cd native && pnpm install --frozen-lockfile
-      - name: add .env file
-        run: cd native && echo '${{ secrets.CLIENT_SECRETS_WEB }}' > .env
-      - name: build # Plus workaround cloudflare not uploading the node_modules folder
-        run: |
-          cd native
-          pnpm expo export --source-maps --platform web
-          mv dist/assets/node_modules/* dist/assets/
-          find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
+      # - uses: pnpm/action-setup@v4.1.0
+      #   with:
+      #     version: 10.13.1
+      # - name: install dependencies
+      #   run: cd native && pnpm install --frozen-lockfile
+      # - name: add .env file
+      #   run: cd native && echo '${{ secrets.CLIENT_SECRETS_WEB }}' > .env
+      # - name: build # Plus workaround cloudflare not uploading the node_modules folder
+      #   run: |
+      #     cd native
+      #     pnpm expo export --source-maps --platform web
+      #     mv dist/assets/node_modules/* dist/assets/
+      #     find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
       - name: deploy website
         uses: cloudflare/wrangler-action@v3.14.1
         with:
