@@ -57,16 +57,16 @@ importers:
     devDependencies:
       solid-devtools:
         specifier: 0.34.3
-        version: 0.34.3(solid-js@1.9.9)(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
+        version: 0.34.3(solid-js@1.9.9)(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
       typescript:
         specifier: 5.9.2
         version: 5.9.2
       vite:
-        specifier: 7.1.1
-        version: 7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
+        specifier: 7.1.2
+        version: 7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
       vite-plugin-solid:
         specifier: 2.11.8
-        version: 2.11.8(solid-js@1.9.9)(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
+        version: 2.11.8(solid-js@1.9.9)(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
 
 packages:
 
@@ -2699,6 +2699,46 @@ packages:
 
   vite@7.1.1:
     resolution: {integrity: sha512-yJ+Mp7OyV+4S+afWo+QyoL9jFWD11QFH0i5i7JypnfTcA1rmgxCbiA8WwAICDEtZ1Z1hzrVhN8R8rGTqkTY8ZQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^20.19.0 || >=22.12.0
+      jiti: '>=1.21.0'
+      less: ^4.0.0
+      lightningcss: ^1.21.0
+      sass: ^1.70.0
+      sass-embedded: ^1.70.0
+      stylus: '>=0.54.8'
+      sugarss: ^5.0.0
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: ^2.4.2
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
+        optional: true
+
+  vite@7.1.2:
+    resolution: {integrity: sha512-J0SQBPlQiEXAF7tajiH+rUooJPo0l8KQgyg4/aMunNtrOa7bwuZJsJbDWzeljqQpgftxuq5yNJxQ91O9ts29UQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -5915,7 +5955,7 @@ snapshots:
 
   smol-toml@1.4.2: {}
 
-  solid-devtools@0.34.3(solid-js@1.9.9)(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
+  solid-devtools@0.34.3(solid-js@1.9.9)(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
     dependencies:
       '@babel/core': 7.28.0
       '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.0)
@@ -5924,7 +5964,7 @@ snapshots:
       '@solid-devtools/shared': 0.20.0(solid-js@1.9.9)
       solid-js: 1.9.9
     optionalDependencies:
-      vite: 7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
+      vite: 7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -6200,7 +6240,7 @@ snapshots:
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
+      vite: 7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -6215,7 +6255,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-solid@2.11.8(solid-js@1.9.9)(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
+  vite-plugin-solid@2.11.8(solid-js@1.9.9)(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
     dependencies:
       '@babel/core': 7.28.0
       '@types/babel__core': 7.20.5
@@ -6223,8 +6263,8 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.9.9
       solid-refresh: 0.6.3(solid-js@1.9.9)
-      vite: 7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
-      vitefu: 1.1.1(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
+      vite: 7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
+      vitefu: 1.1.1(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -6256,13 +6296,27 @@ snapshots:
       jiti: 2.4.2
       yaml: 2.6.1
 
+  vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1):
+    dependencies:
+      esbuild: 0.25.9
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.46.2
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 24.2.1
+      fsevents: 2.3.3
+      jiti: 2.4.2
+      yaml: 2.6.1
+
   vitefu@1.1.1(vite@6.3.5(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
     optionalDependencies:
       vite: 6.3.5(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
 
-  vitefu@1.1.1(vite@7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
+  vitefu@1.1.1(vite@7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)):
     optionalDependencies:
-      vite: 7.1.1(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
+      vite: 7.1.2(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1)
 
   vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.2.1)(jiti@2.4.2)(yaml@2.6.1):
     dependencies:
