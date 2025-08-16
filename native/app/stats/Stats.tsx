@@ -21,11 +21,11 @@ export default function Stats({ destinyItem }: Props) {
   return (
     <View style={{ width: "100%" }}>
       {stats && <StatBars stats={stats} destinyItem={destinyItem} />}
-      {sockets?.socketCategories.map((category, _index) => {
-        if (category.categoryStyle === CategoryStyle.Reusable) {
-          return <ReusablePlugs key={category.index} socketCategory={category} />;
-        }
-      })}
+      {sockets?.socketCategories
+        .filter(category => category.categoryStyle === CategoryStyle.Reusable)
+        .map((category, _index) => (
+          <ReusablePlugs key={category.index} socketCategory={category} />
+        ))}
     </View>
   );
 }

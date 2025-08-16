@@ -116,7 +116,7 @@ export function createStats(destinyItem: DestinyItem, sockets: Sockets): ItemSta
 }
 
 function addBaseStats(stats: ItemStats, destinyItem: DestinyItem) {
-  destinyItem.def.investmentStats.map((stat) => {
+  destinyItem.def.investmentStats.forEach((stat) => {
     stats.set(stat.statTypeHash, stat.value);
   });
 }
@@ -139,9 +139,9 @@ function fixFaultyMasterworkStats(statsCollection: StatsCollection[]): StatsColl
 function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
   const stats = statsArg;
 
-  socketCategory.topLevelSockets.map((column) => {
+  socketCategory.topLevelSockets.forEach((column) => {
     if (column) {
-      column.map((e) => {
+      column.forEach((e) => {
         if (e.isEnabled) {
           let investments = e.def?.investmentStats;
           if (investments) {
@@ -149,7 +149,7 @@ function addSocketStats(statsArg: ItemStats, socketCategory: SocketCategory) {
               investments = fixFaultyMasterworkStats(investments);
             }
 
-            investments.map((stat) => {
+            investments.forEach((stat) => {
               if (stats.has(stat.statTypeHash)) {
                 const currentValue = stats.get(stat.statTypeHash) ?? 0;
                 stats.set(stat.statTypeHash, currentValue + stat.value);
