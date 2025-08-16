@@ -22,7 +22,7 @@ export default function Stats({ destinyItem }: Props) {
     <View style={{ width: "100%" }}>
       {stats && <StatBars stats={stats} destinyItem={destinyItem} />}
       {sockets?.socketCategories
-        .filter(category => category.categoryStyle === CategoryStyle.Reusable)
+        .filter((category) => category.categoryStyle === CategoryStyle.Reusable)
         .map((category, _index) => (
           <ReusablePlugs key={category.index} socketCategory={category} />
         ))}
