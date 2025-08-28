@@ -5,10 +5,14 @@
     "scheme": "guardianghost",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "dark",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "newArchEnabled": true,
     "ios": {
-      "associatedDomains": ["applinks:app.guardianghost.com"],
+      "associatedDomains": [
+        "applinks:app.guardianghost.com"
+      ],
       "bundleIdentifier": "com.guardianghost.mobile",
       "config": {
         "usesNonExemptEncryption": false
@@ -31,7 +35,10 @@
               "pathPrefix": "/auth"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
@@ -64,7 +71,9 @@
             "buildToolsVersion": "35.0.0"
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-web-browser"
     ]
   }
 }
