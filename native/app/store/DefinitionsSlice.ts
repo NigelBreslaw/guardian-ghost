@@ -1,6 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AsyncStorage as AsyncStorageSQL } from "expo-sqlite/kv-store";
-import { Platform } from "react-native";
+import { AsyncStorage } from "expo-sqlite/kv-store";
 import { parse, safeParse, string } from "valibot";
 import type { StateCreator } from "zustand";
 import Toast from "react-native-toast-message";
@@ -9,7 +7,7 @@ import { deepEqual } from "fast-equals";
 import * as Defs from "@/app/store/Definitions.ts";
 import type { ItemsDefinition } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
-import { DatabaseStore, type AsyncStorageKey, type StorageKey } from "@/app/store/Types.ts";
+import { type AsyncStorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition, getJsonBlob } from "@/app/utilities/Helpers.ts";
 import {
   ItemResponseSchema,
@@ -118,16 +116,14 @@ export const createDefinitionsSlice: StateCreator<IStore, [], [], DefinitionsSli
   },
   setInventorySectionWidth: (inventorySectionWidth) => set({ inventorySectionWidth }),
   clearCache: async () => {
-    await removeAsyncStorageItem("@GG_profile");
-    await removeAsyncStorageItem("@GG_itemComponents");
-    await removeAsyncStorageItem("@GG_profilePlugSets");
+    await removeAsyncStorageItem("CACHED_PROFILE");
     set({ itemDefinitionVersion: "", bungieDefinitionVersions: "", itemsDefinitionReady: false });
   },
 });
 
 async function loadLocalItemDefinitionVersion(get: DefinitionsSliceGetter, set: DefinitionsSliceSetter): Promise<void> {
   try {
-    const loadedDefinition = await getData("ITEM_DEFINITION", "getItemDefinition()");
+    const loadedDefinition = await getAsyncStorageJSON("ITEM_DEFINITION", "getItemDefinition()");
     const itemDefinition = parse(ItemResponseSchema, loadedDefinition);
     parseAndSet(get, itemDefinition);
   } catch (e) {
@@ -142,7 +138,7 @@ async function downloadAndStoreItemDefinition(get: DefinitionsSliceGetter, set: 
     const itemDefinition = parse(ItemResponseSchema, downloadedDefinition);
     const versionKey = itemDefinition.id;
     set({ itemDefinitionVersion: versionKey });
-    await setData(itemDefinition as unknown as JSON, "ITEM_DEFINITION", "setupItemDefinition()");
+    await setAsyncStorageJSON("ITEM_DEFINITION", itemDefinition as unknown as JSON, "setupItemDefinition()");
     parseAndSet(get, itemDefinition);
   } catch (e) {
     // TODO: Show big error message
@@ -264,21 +260,17 @@ async function downloadAndStoreBungieDefinitions(
 
 async function loadLocalBungieDefinitions(get: DefinitionsSliceGetter, set: DefinitionsSliceSetter): Promise<void> {
   try {
-    const loadSocketTypeDefinition = await getAsyncStorage("DestinySocketCategoryDefinition");
-    const socketDefJson = JSON.parse(loadSocketTypeDefinition);
-    Defs.setDestinySocketCategoryDefinition(socketDefJson as SocketCategoryDefinition);
+    const socketDefJson = await getAsyncStorageJSON("DestinySocketCategoryDefinition");
+    Defs.setDestinySocketCategoryDefinition(socketDefJson as unknown as SocketCategoryDefinition);
 
-    const loadStatGroupDefinition = await getAsyncStorage("DestinyStatGroupDefinition");
-    const statGroupDefJson = JSON.parse(loadStatGroupDefinition);
-    Defs.setDestinyStatGroupDefinition(statGroupDefJson as StatGroupDefinition);
+    const statGroupDefJson = await getAsyncStorageJSON("DestinyStatGroupDefinition");
+    Defs.setDestinyStatGroupDefinition(statGroupDefJson as unknown as StatGroupDefinition);
 
-    const loadStatDefinition = await getAsyncStorage("DestinyStatDefinition");
-    const statDefJson = JSON.parse(loadStatDefinition);
-    Defs.setDestinyStatDefinition(statDefJson as StatDefinition);
+    const statDefJson = await getAsyncStorageJSON("DestinyStatDefinition");
+    Defs.setDestinyStatDefinition(statDefJson as unknown as StatDefinition);
 
-    const loadInventoryBucketDefinition = await getAsyncStorage("DestinyInventoryBucketDefinition");
-    const inventoryBucketDefJson = JSON.parse(loadInventoryBucketDefinition);
-    Defs.setDestinyInventoryBucketDefinition(inventoryBucketDefJson as InventoryBucketDefinition);
+    const inventoryBucketDefJson = await getAsyncStorageJSON("DestinyInventoryBucketDefinition");
+    Defs.setDestinyInventoryBucketDefinition(inventoryBucketDefJson as unknown as InventoryBucketDefinition);
     get().setBungieDefinitionsReady();
   } catch (e) {
     console.error("Failed to load bungieDefinition version", e);
@@ -293,125 +285,7 @@ function parseAndSet(get: DefinitionsSliceGetter, itemDefinition: ItemResponse) 
   get().setItemsDefinitionReady();
 }
 
-async function getData(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
-  if (Platform.OS === "web") {
-    return getWebStore(storageKey, errorMessage);
-  }
-  const dataString = await getAsyncStorageSQL(storageKey);
-  const data = JSON.parse(dataString);
-  return data;
-}
-
-function getWebStore(storageKey: StorageKey, errorMessage: string): Promise<JSON> {
-  return new Promise((resolve, reject) => {
-    const openRequest = indexedDB.open(DatabaseStore.factoryName, 1);
-
-    openRequest.onupgradeneeded = () => {
-      const db = openRequest.result;
-      if (!db.objectStoreNames.contains(DatabaseStore.storeName)) {
-        db.createObjectStore(DatabaseStore.storeName);
-      }
-    };
-
-    openRequest.onerror = () => {
-      console.error("setWebStore Error", errorMessage, openRequest.error);
-      reject(new Error(`setWebStore Error ${errorMessage}`));
-    };
-
-    openRequest.onsuccess = () => {
-      const db = openRequest.result;
-      const tx = db.transaction(DatabaseStore.storeName, "readwrite");
-      const store = tx.objectStore(DatabaseStore.storeName);
-
-      const getRequest = store.get(storageKey);
-
-      getRequest.onsuccess = () => {
-        console.log("data retrieved from store", storageKey);
-        resolve(getRequest.result);
-      };
-
-      getRequest.onerror = () => {
-        console.error("Error", getRequest.error);
-      };
-    };
-  });
-}
-
-async function setData(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
-  if (Platform.OS === "web") {
-    try {
-      await setWebStore(data, storageKey, errorMessage);
-    } catch (e) {
-      console.log("setData() ERROR", e);
-    }
-  } else {
-    try {
-      const jsonString = JSON.stringify(data, null, 0);
-      await setAsyncStorageSQL(storageKey, jsonString);
-    } catch (e) {
-      console.log("setData() ERROR", e);
-    }
-  }
-}
-
-function setWebStore(data: JSON, storageKey: StorageKey, errorMessage: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const openRequest = indexedDB.open(DatabaseStore.factoryName, 1);
-
-    openRequest.onupgradeneeded = () => {
-      const db = openRequest.result;
-      if (!db.objectStoreNames.contains(DatabaseStore.storeName)) {
-        db.createObjectStore(DatabaseStore.storeName);
-      }
-    };
-
-    openRequest.onerror = () => {
-      console.error("setWebStore Error", errorMessage, openRequest.error);
-      reject(new Error(`setWebStore Error ${errorMessage}`));
-    };
-
-    openRequest.onsuccess = () => {
-      const db = openRequest.result;
-      const tx = db.transaction(DatabaseStore.storeName, "readwrite");
-      const store = tx.objectStore(DatabaseStore.storeName);
-
-      const request = store.put(data, storageKey);
-      request.onsuccess = () => {
-        console.log("data added to the store", storageKey);
-        resolve();
-      };
-      request.onerror = () => {
-        console.error("Error", request.error);
-        reject(new Error(`setWebStore Error ${errorMessage}`));
-      };
-    };
-  });
-}
-
-export async function getAsyncStorage(key: AsyncStorageKey): Promise<string> {
-  const data = await AsyncStorage.getItem(key);
-  if (data) {
-    const validatedVersion = safeParse(string(), data);
-
-    if (validatedVersion.success) {
-      return validatedVersion.output;
-    }
-    throw new Error("Validation failed");
-  }
-  throw new Error(`No saved AsyncStorage found: ${key}`);
-}
-
-export async function setAsyncStorage(key: AsyncStorageKey, data: string): Promise<void> {
-  try {
-    await AsyncStorage.setItem(key, data);
-    console.log("saved", key);
-  } catch (error: unknown) {
-    console.error("Failed to save", error, key);
-    throw new Error(`Failed to save AsyncStorage ${key}`);
-  }
-}
-
-export async function removeAsyncStorageItem(key: string): Promise<void> {
+export async function removeAsyncStorageItem(key: AsyncStorageKey): Promise<void> {
   try {
     await AsyncStorage.removeItem(key);
     console.log("removed", key);
@@ -421,25 +295,37 @@ export async function removeAsyncStorageItem(key: string): Promise<void> {
   }
 }
 
-export async function getAsyncStorageSQL(key: StorageKey): Promise<string> {
-  const data = await AsyncStorageSQL.getItem(key);
+export async function getAsyncStorageJSON(key: AsyncStorageKey, errorMessage?: string): Promise<JSON> {
+  const data = await getAsyncStorage(key, errorMessage);
+  return JSON.parse(data);
+}
+
+export async function getAsyncStorage(key: AsyncStorageKey, errorMessage?: string): Promise<string> {
+  const data = await AsyncStorage.getItem(key);
   if (data) {
     const validatedVersion = safeParse(string(), data);
 
     if (validatedVersion.success) {
       return validatedVersion.output;
     }
+    console.error("Validation failed", errorMessage);
     throw new Error("Validation failed");
   }
+  console.error("No saved AsyncStorage found", errorMessage);
   throw new Error(`No saved AsyncStorage found: ${key}`);
 }
 
-export async function setAsyncStorageSQL(key: StorageKey, data: string): Promise<void> {
+export async function setAsyncStorageJSON(key: AsyncStorageKey, data: JSON, errorMessage?: string): Promise<void> {
+  const stringifiedData = JSON.stringify(data);
+  await setAsyncStorage(key, stringifiedData, errorMessage);
+}
+
+export async function setAsyncStorage(key: AsyncStorageKey, data: string, errorMessage?: string): Promise<void> {
   try {
-    await AsyncStorageSQL.setItem(key, data);
+    await AsyncStorage.setItem(key, data);
     console.log("saved", key);
   } catch (error: unknown) {
-    console.error("Failed to save", error, key);
+    console.error("Failed to save", error, key, errorMessage);
     throw new Error(`Failed to save AsyncStorage ${key}`);
   }
 }

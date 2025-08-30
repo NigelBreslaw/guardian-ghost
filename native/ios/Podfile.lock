@@ -6,7 +6,7 @@ PODS:
   - EXJSONUtils (0.15.0)
   - EXManifests (1.0.5):
     - ExpoModulesCore
-  - Expo (54.0.0-preview.10):
+  - Expo (54.0.0-preview.11):
     - boost
     - DoubleConversion
     - ExpoModulesCore
@@ -265,9 +265,9 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (15.0.4):
     - ExpoModulesCore
-  - ExpoLinking (8.0.4):
+  - ExpoLinking (8.0.5):
     - ExpoModulesCore
-  - ExpoModulesCore (3.0.8):
+  - ExpoModulesCore (3.0.9):
     - boost
     - DoubleConversion
     - fast_float
@@ -296,7 +296,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - ExpoSplashScreen (31.0.5):
+  - ExpoSplashScreen (31.0.6):
     - ExpoModulesCore
   - ExpoSQLite (16.0.5):
     - ExpoModulesCore
@@ -2662,34 +2662,6 @@ PODS:
     - React-perflogger (= 0.81.1)
     - React-utils (= 0.81.1)
     - SocketRocket
-  - RNCAsyncStorage (2.2.0):
-    - boost
-    - DoubleConversion
-    - fast_float
-    - fmt
-    - glog
-    - hermes-engine
-    - RCT-Folly
-    - RCT-Folly/Fabric
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - SocketRocket
-    - Yoga
   - RNGestureHandler (2.28.0):
     - boost
     - DoubleConversion
@@ -3156,7 +3128,6 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -3368,8 +3339,6 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -3391,7 +3360,7 @@ SPEC CHECKSUMS:
   EXConstants: 02e2a69e11c641fa20fa262947d167fab3ecb200
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: ba44a6836e3ec4fa5e947c6db39ab1ec9e871de1
-  Expo: 3455e7ccf2cd80cf9d093e2186c9e28166b948b6
+  Expo: 6adecfc8b89d44116fbd0490410014db38c674e2
   expo-dev-client: 90ec1d6fb55e9e05866f405bc3311d82ef212da7
   expo-dev-launcher: 3d203ee69ee3fa9731d6cf3fa69da1ab7ce31886
   expo-dev-menu: 376d75b7e6975c7b421aac21714237d26817be18
@@ -3404,9 +3373,9 @@ SPEC CHECKSUMS:
   ExpoImage: 0cc208541bd217cff611c831dca7d0c3bfb4fd3f
   ExpoKeepAwake: cf946c3cb68c4aae9d042a1f245d74984e349b98
   ExpoLinearGradient: e3651d3cafe53a2a5a1cdccdca2a3e6e9928b0fa
-  ExpoLinking: dc1f27352a9223dbb3b0e78a51add62ccf7f4242
-  ExpoModulesCore: 25662cce3e02abd48a6483a24cd0a55965f95094
-  ExpoSplashScreen: 407cebbf896e8bfddc341b6bf82c314c8c373df4
+  ExpoLinking: 59166a526315581627dcabec6a55d3bd4ce5d027
+  ExpoModulesCore: 6d16d1d272a2127f8649df9bddc7029adc1b8b1a
+  ExpoSplashScreen: 4cc00da004ee799097c0680e77c35cb53ee9e025
   ExpoSQLite: a73f515e546bed031e5d2b6568edb3702ec579c6
   ExpoSystemUI: ffed49d2ad5d1166f2dc5326f2f5a0ed17e154b6
   ExpoWebBrowser: dc155434ba400538014a6a82ff297901e8354737
@@ -3483,7 +3452,6 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 3eb9096cb139eb433965693bbe541d96eb3d3ec9
   ReactCodegen: 4d203eddf6f977caa324640a20f92e70408d648b
   ReactCommon: ce5d4226dfaf9d5dacbef57b4528819e39d3a120
-  RNCAsyncStorage: 29f0230e1a25f36c20b05f65e2eb8958d6526e82
   RNGestureHandler: 3a73f098d74712952870e948b3d9cf7b6cae9961
   RNReanimated: 2f1baab4266bfc3c4d2473cbfb77d8cc0cd01716
   RNScreens: db22525a8ed56bb87ab038b8f03a050bf40e6ed8

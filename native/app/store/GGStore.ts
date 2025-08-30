@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { subscribeWithSelector, persist, createJSONStorage } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsyncStorage } from "expo-sqlite/kv-store";
 
 import { type AccountSlice, createAccountSlice } from "./Account/AccountSlice.ts";
 import { type AuthenticationSlice, createAuthenticationSlice } from "./Authentication/AuthenticationSlice.ts";

@@ -55,7 +55,7 @@ import { iconUrl, screenshotUrl } from "@/app/core/ApiResponse.ts";
 import { DamageType, DestinyClass, ItemSubType, ItemType, SectionBuckets, TierType } from "@/app/bungie/Enums.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 import { safeParse } from "valibot";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAsyncStorageJSON, setAsyncStorageJSON } from "@/app/store/DefinitionsSlice.ts";
 
 export type AccountSliceSetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[0];
 export type AccountSliceGetter = Parameters<StateCreator<IStore, [], [], AccountSlice>>[1];
@@ -443,19 +443,8 @@ function createInitialGuardiansData(profile: ProfileData): Map<CharacterId, Guar
 // Android has a 2MB limit per item it can read/write to AsyncStorage.
 // This is a workaround to get around that limit. It chops the file into smaller chunks.
 async function cacheProfile(profile: ProfileData) {
-  const profileCopy = JSON.parse(JSON.stringify(profile));
-
-  const itemComponents = JSON.stringify(profileCopy.Response.itemComponents, null, 0);
-  const profilePlugSets = JSON.stringify(profileCopy.Response.profilePlugSets, null, 0);
-  profileCopy.Response.itemComponents = undefined;
-  profileCopy.Response.profilePlugSets = undefined;
-
-  const mainProfile: [string, string] = ["@GG_profile", JSON.stringify(profileCopy, null, 0)];
-  const itemComponentsProfile: [string, string] = ["@GG_itemComponents", itemComponents];
-  const profilePlugSetsProfile: [string, string] = ["@GG_profilePlugSets", profilePlugSets];
-
   try {
-    await AsyncStorage.multiSet([mainProfile, itemComponentsProfile, profilePlugSetsProfile]);
+    await setAsyncStorageJSON("CACHED_PROFILE", profile as unknown as JSON);
     console.log("saved profile");
   } catch (e) {
     console.error("Failed to cache profile", e);
@@ -466,23 +455,15 @@ async function cacheProfile(profile: ProfileData) {
 // This is a workaround to get around that limit. It chops the file into smaller chunks.
 async function getCachedProfile(): Promise<ProfileData> {
   try {
-    const values = await AsyncStorage.multiGet(["@GG_profile", "@GG_itemComponents", "@GG_profilePlugSets"]);
-    if (values[0] && values[1] && values[2]) {
-      const profile = JSON.parse(values[0][1] as string) as unknown as ProfileData;
-      const itemComponents = JSON.parse(values[1][1] as string) as ProfileData["Response"]["itemComponents"];
-      const profilePlugSets = JSON.parse(values[2][1] as string) as ProfileData["Response"]["profilePlugSets"];
-
-      profile.Response.itemComponents = itemComponents;
-      profile.Response.profilePlugSets = profilePlugSets;
-
-      const parseProfile = safeParse(getSimpleProfileSchema, profile);
-      if (parseProfile.success) {
-        return parseProfile.output as ProfileData;
-      }
+    const profile = await getAsyncStorageJSON("CACHED_PROFILE");
+    const parseProfile = safeParse(getSimpleProfileSchema, profile);
+    if (parseProfile.success) {
+      return parseProfile.output as ProfileData;
     }
   } catch (e) {
     console.error("Failed to load cached profile", e);
   }
+  console.log("Failed to load cached profile");
   throw new Error("Failed to load cached profile");
 }
 
