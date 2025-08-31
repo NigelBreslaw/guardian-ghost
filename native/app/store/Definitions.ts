@@ -31,8 +31,8 @@ export const ProfileDataHelpers = {
   mods: {} as DestinyItem[],
   generalVault: {} as Map<number, DestinyItem[]>,
   guardians: {} as Map<CharacterId, Guardian>,
+  statGroupHelper: {} as StatGroupHelper,
 };
-export let StatGroupHelper: StatGroupHelper = new Map<number, Map<number, DisplayInterpolation>>();
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
   DestinyDefinitions.itemsDefinition = newItemsDefinition;
@@ -71,7 +71,7 @@ export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefin
 }
 
 export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
-  StatGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
+  ProfileDataHelpers.statGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
 }
 
 export function setDestinyStatDefinition(newDestinyStatDefinition: StatDefinition) {
