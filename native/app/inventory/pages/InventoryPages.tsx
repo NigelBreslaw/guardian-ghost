@@ -33,7 +33,7 @@ export default function InventoryPages() {
   // So the height now depends on this safeArea being larger than zero.
 
   return (
-    <View style={{ flex: 1, position: 'relative' }}>
+    <View style={{ flex: 1, position: "relative" }}>
       <Tab.Navigator
         detachInactiveScreens={true}
         initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
