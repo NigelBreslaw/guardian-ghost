@@ -2,7 +2,7 @@ import { SectionBuckets, StatType } from "@/app/bungie/Enums.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { iconUrl } from "@/app/core/ApiResponse.ts";
 import type { BucketHash, CharacterId, ItemHash, ItemInstanceId } from "@/app/core/GetProfile.ts";
-import { DestinyInventoryBucketDefinition } from "@/app/store/Definitions.ts";
+import { DestinyDefinitions } from "@/app/store/Definitions.ts";
 
 export enum InventoryPageEnums {
   Unknown = 0,
@@ -197,6 +197,6 @@ export const ArmorStatInvestments = [
 ];
 
 export function getSectionDetails(bucket: SectionBuckets): { label: string; icon: string } {
-  const section = DestinyInventoryBucketDefinition?.[bucket]?.displayProperties?.name ?? "";
+  const section = DestinyDefinitions.inventoryBucket?.[bucket]?.displayProperties?.name ?? "";
   return { label: `\\ ${section}`, icon: iconUrl };
 }

@@ -3,15 +3,7 @@ import { deepEqual } from "fast-equals";
 
 import type { DestinyItem, DestinyItemDefinition, DestinyItemSort, ItemInstance } from "@/app/inventory/logic/Types.ts";
 import type { AccountSliceGetter, AccountSliceSetter } from "@/app/store/Account/AccountSlice";
-import {
-  consumables,
-  generalVault,
-  guardians,
-  mods,
-  rawProfileData,
-  setConsumables,
-  setMods,
-} from "@/app/store/Definitions.ts";
+import { ProfileDataHelpers, setConsumables, setMods } from "@/app/store/Definitions.ts";
 import {
   classIcons,
   getItemSubTypeIcon,
@@ -65,11 +57,11 @@ export function updateAllPages(get: AccountSliceGetter, set: AccountSliceSetter,
     set({ ggLostItemCount: totalLostItems });
   }
 
-  if (get().ggModsCount !== mods.length) {
-    set({ ggModsCount: mods.length });
+  if (get().ggModsCount !== ProfileDataHelpers.mods.length) {
+    set({ ggModsCount: ProfileDataHelpers.mods.length });
   }
-  if (get().ggConsumablesCount !== consumables.length) {
-    set({ ggConsumablesCount: consumables.length });
+  if (get().ggConsumablesCount !== ProfileDataHelpers.consumables.length) {
+    set({ ggConsumablesCount: ProfileDataHelpers.consumables.length });
   }
 
   // For each page use a deepEqual compare to see if the data has changed.
@@ -133,8 +125,9 @@ function createUIData(get: AccountSliceGetter) {
   let maxLostItemsRows = 0;
   for (const ggCharacter of ggCharacters) {
     if (ggCharacter.ggCharacterType !== GGCharacterType.Vault) {
-      const totalLostItems = guardians.get(ggCharacter.characterId)?.items.get(SectionBuckets.LostItem)
-        ?.inventory.length;
+      const totalLostItems = ProfileDataHelpers.guardians
+        .get(ggCharacter.characterId)
+        ?.items.get(SectionBuckets.LostItem)?.inventory.length;
       if (totalLostItems) {
         const totalRows = Math.ceil(totalLostItems / 5);
         if (totalRows > maxLostItemsRows) {
@@ -162,12 +155,12 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   const characterDataArray: UISections[][] = [];
   const sectionBuckets = getSectionBuckets(inventoryPage);
 
-  if (!rawProfileData || !guardians || !generalVault) {
+  if (!ProfileDataHelpers.rawProfile || !ProfileDataHelpers.guardians || !ProfileDataHelpers.generalVault) {
     console.error("No profile, guardians, or generalVault");
     return characterDataArray;
   }
 
-  for (const [characterId, characterData] of guardians) {
+  for (const [characterId, characterData] of ProfileDataHelpers.guardians) {
     const dataArray: UISections[] = [];
 
     dataArray.push(getGuardianDetails(get, characterId));
@@ -181,15 +174,15 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
 
       switch (bucket) {
         case SectionBuckets.Consumables:
-          if (consumables) {
-            sortInventoryArray(get, consumables, bucket);
-            dataArray.push(...getLootSections(consumables, "global_consumables_section"));
+          if (ProfileDataHelpers.consumables) {
+            sortInventoryArray(get, ProfileDataHelpers.consumables, bucket);
+            dataArray.push(...getLootSections(ProfileDataHelpers.consumables, "global_consumables_section"));
           }
           break;
 
         case SectionBuckets.Mods:
-          if (mods) {
-            dataArray.push(...getLootSections(mods, "global_mods_section"));
+          if (ProfileDataHelpers.mods) {
+            dataArray.push(...getLootSections(ProfileDataHelpers.mods, "global_mods_section"));
           }
           break;
 
@@ -233,7 +226,7 @@ function buildUIData(get: AccountSliceGetter, inventoryPage: InventoryPageEnums)
   }
 
   // Add vault data
-  characterDataArray.push(returnVaultUiData(get, inventoryPage, generalVault));
+  characterDataArray.push(returnVaultUiData(get, inventoryPage, ProfileDataHelpers.generalVault));
 
   return characterDataArray;
 }
@@ -422,7 +415,7 @@ function getLootSections(items: DestinyItem[], id: string): LootSection[] {
 export function calcTotalVaultItems(): number {
   let total = 0;
   for (const bucket of vaultItemBuckets) {
-    const section = generalVault.get(bucket);
+    const section = ProfileDataHelpers.generalVault.get(bucket);
     if (section) {
       total += section.length;
     }
@@ -432,7 +425,7 @@ export function calcTotalVaultItems(): number {
 
 export function calcTotalLostItems(): number[] {
   const totals: number[] = [];
-  for (const [_characterId, characterData] of guardians) {
+  for (const [_characterId, characterData] of ProfileDataHelpers.guardians) {
     const lostItems = characterData.items.get(SectionBuckets.LostItem);
     totals.push(lostItems?.inventory.length ?? 0);
   }
@@ -504,19 +497,19 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
   }
 
   if (destinyItem.previousCharacterId === VAULT_CHARACTER_ID) {
-    const previousInventory = generalVault.get(destinyItem.bucketHash);
+    const previousInventory = ProfileDataHelpers.generalVault.get(destinyItem.bucketHash);
     if (previousInventory) {
       const updatedInventory = removeLogic(previousInventory, destinyItem, stackableQuantityToMove);
-      generalVault.set(destinyItem.bucketHash, updatedInventory);
+      ProfileDataHelpers.generalVault.set(destinyItem.bucketHash, updatedInventory);
     }
   } else if (destinyItem.previousCharacterId === GLOBAL_MODS_CHARACTER_ID) {
-    const updatedMods = removeLogic(mods, destinyItem, stackableQuantityToMove);
+    const updatedMods = removeLogic(ProfileDataHelpers.mods, destinyItem, stackableQuantityToMove);
     setMods(updatedMods);
   } else if (destinyItem.previousCharacterId === GLOBAL_CONSUMABLES_CHARACTER_ID) {
-    const updatedConsumables = removeLogic(consumables, destinyItem, stackableQuantityToMove);
+    const updatedConsumables = removeLogic(ProfileDataHelpers.consumables, destinyItem, stackableQuantityToMove);
     setConsumables(updatedConsumables);
   } else {
-    const previousInventory = guardians
+    const previousInventory = ProfileDataHelpers.guardians
       .get(destinyItem.previousCharacterId)
       ?.items.get(destinyItem.bucketHash)?.inventory;
     const updatedInventory = previousInventory?.filter((item) => item.itemInstanceId !== destinyItem.itemInstanceId);
@@ -525,7 +518,7 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
       return;
     }
 
-    const updatedGuardian = guardians.get(destinyItem.previousCharacterId);
+    const updatedGuardian = ProfileDataHelpers.guardians.get(destinyItem.previousCharacterId);
     if (!updatedGuardian) {
       console.error("updatedGuardian is undefined");
       return;
@@ -538,33 +531,33 @@ export function removeInventoryItem(destinyItem: DestinyItem, stackableQuantityT
 export function addInventoryItem(destinyItem: DestinyItem, stackableQuantityToMove: number) {
   // Vault or other?
   if (destinyItem.characterId === VAULT_CHARACTER_ID) {
-    const previousSection = generalVault.get(destinyItem.bucketHash);
+    const previousSection = ProfileDataHelpers.generalVault.get(destinyItem.bucketHash);
 
     if (previousSection) {
       const updatedSection = addLogic(previousSection, destinyItem, stackableQuantityToMove);
-      generalVault.set(destinyItem.bucketHash, updatedSection);
+      ProfileDataHelpers.generalVault.set(destinyItem.bucketHash, updatedSection);
     }
   } else {
     // Is this a mod, consumable or other?
     switch (destinyItem.bucketHash) {
       case SectionBuckets.Mods: {
-        const updatedMods = addLogic(mods, destinyItem, stackableQuantityToMove);
+        const updatedMods = addLogic(ProfileDataHelpers.mods, destinyItem, stackableQuantityToMove);
         setMods(updatedMods);
         break;
       }
       case SectionBuckets.Consumables: {
-        const updatedConsumables = addLogic(consumables, destinyItem, stackableQuantityToMove);
+        const updatedConsumables = addLogic(ProfileDataHelpers.consumables, destinyItem, stackableQuantityToMove);
         setConsumables(updatedConsumables);
         break;
       }
       default: {
-        const currentInventory = guardians
+        const currentInventory = ProfileDataHelpers.guardians
           .get(destinyItem.characterId)
           ?.items.get(destinyItem.bucketHash)
           ?.inventory.slice(0);
         if (currentInventory) {
           currentInventory.push(destinyItem);
-          const section = guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash);
+          const section = ProfileDataHelpers.guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash);
           if (section) {
             section.inventory = currentInventory;
           }
@@ -660,7 +653,9 @@ function rebuildStackableItems(total: number, destinyItem: DestinyItem, mode: "A
 }
 
 export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
-  const previousInventorySection = guardians.get(destinyItem.characterId)?.items.get(destinyItem.bucketHash);
+  const previousInventorySection = ProfileDataHelpers.guardians
+    .get(destinyItem.characterId)
+    ?.items.get(destinyItem.bucketHash);
 
   const updatedInventory = previousInventorySection?.inventory?.filter(
     (item) => item.itemInstanceId !== destinyItem.itemInstanceId,
@@ -675,7 +670,7 @@ export function swapEquipAndInventoryItem(destinyItem: DestinyItem) {
     updatedInventory.push(previousEquippedItem);
   }
 
-  const updatedGuardian = guardians.get(destinyItem.characterId);
+  const updatedGuardian = ProfileDataHelpers.guardians.get(destinyItem.characterId);
   if (!updatedGuardian) {
     console.error("updatedGuardian is undefined");
     return;
@@ -716,7 +711,7 @@ export function transformSuccessfulPullFromPostmasterItem(destinyItem: DestinyIt
 const deepSightItemHash: number[] = [101423981, 213377779, 1948344346, 2373253941, 2400712188, 3394691176, 3632593563];
 
 export function hasSocketedResonance(itemInstanceId: ItemInstanceId): boolean {
-  const liveSocketJson = rawProfileData?.Response.itemComponents?.sockets.data[itemInstanceId];
+  const liveSocketJson = ProfileDataHelpers.rawProfile?.Response.itemComponents?.sockets.data[itemInstanceId];
   if (!liveSocketJson) {
     return false;
   }

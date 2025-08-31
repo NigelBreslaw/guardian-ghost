@@ -14,16 +14,15 @@ import {
 } from "@/app/inventory/logic/Types.ts";
 import { findMaxQuantityToTransfer, getCharactersAndVault } from "@/app/store/Account/AccountLogic";
 import {
+  DestinyDefinitions,
   Helpers,
-  itemsDefinition,
-  rawProfileData,
+  ProfileDataHelpers,
   setConsumables,
   setGeneralVault,
   setGuardians,
   setLostItems,
   setMods,
   setRawProfileData,
-  guardians,
 } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
@@ -279,7 +278,7 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
   setSecondarySpecial: (characterId, itemHash) => {
     const character = get().ggCharacters.find((c) => c.characterId === characterId);
     if (character) {
-      const itemDefinition = itemsDefinition[itemHash];
+      const itemDefinition = DestinyDefinitions.itemsDefinition[itemHash];
       if (itemDefinition?.ss) {
         character.secondarySpecial = `${iconUrl}${itemDefinition.ss}`;
       }
@@ -322,15 +321,16 @@ export const createAccountSlice: StateCreator<IStore, [], [], AccountSlice> = (s
         let lightLevel = 0;
         let foundItems = 0;
         for (const bucket of lightLevelBuckets) {
-          const equippedItem = guardians.get(ggCharacter.characterId)?.items.get(bucket)?.equipped;
+          const equippedItem = ProfileDataHelpers.guardians.get(ggCharacter.characterId)?.items.get(bucket)?.equipped;
           if (equippedItem) {
             lightLevel += equippedItem.instance.primaryStat;
             foundItems++;
           }
         }
         ggCharacter.basePowerLevel = Math.floor(lightLevel / foundItems);
-        const artifactPrimaryStat = guardians.get(ggCharacter.characterId)?.items.get(SectionBuckets.Artifact)?.equipped
-          ?.instance.primaryStat;
+        const artifactPrimaryStat = ProfileDataHelpers.guardians
+          .get(ggCharacter.characterId)
+          ?.items.get(SectionBuckets.Artifact)?.equipped?.instance.primaryStat;
         ggCharacter.artifactBonus = artifactPrimaryStat ?? 0;
       });
     });
@@ -578,7 +578,8 @@ function addDefinition(
   });
 
   if (baseItem.itemInstanceId !== undefined) {
-    const itemComponent = rawProfileData?.Response.itemComponents?.instances.data[baseItem.itemInstanceId];
+    const itemComponent =
+      ProfileDataHelpers.rawProfile?.Response.itemComponents?.instances.data[baseItem.itemInstanceId];
     if (itemComponent) {
       if (definitionItem.itemType === ItemType.Engram) {
         itemInstance.itemLevel = itemComponent.itemLevel;
@@ -626,7 +627,7 @@ function addDefinition(
 }
 
 function getCraftedType(itemHash: ItemHash): "crafted" | "enhanced" {
-  const socketsIndex = itemsDefinition[itemHash]?.sk?.se;
+  const socketsIndex = DestinyDefinitions.itemsDefinition[itemHash]?.sk?.se;
   if (socketsIndex) {
     const se = Helpers.SocketEntries[socketsIndex];
     if (se !== undefined) {
@@ -716,7 +717,7 @@ export function getItemDefinition(itemHash: ItemHash): DestinyItemDefinition {
     watermark: "",
   };
 
-  const itemDef = itemsDefinition[itemHash];
+  const itemDef = DestinyDefinitions.itemsDefinition[itemHash];
   if (!itemDef) {
     itemDefinitionCache.set(itemHash, definitionItem);
     return definitionItem;
@@ -829,7 +830,7 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
   const itemInstanceId = destinyItem.itemInstanceId;
   if (itemInstanceId) {
     if (destinyItem.def.tierType === TierType.Exotic) {
-      const liveSockets = rawProfileData?.Response.itemComponents?.sockets.data[itemInstanceId]?.sockets;
+      const liveSockets = ProfileDataHelpers.rawProfile?.Response.itemComponents?.sockets.data[itemInstanceId]?.sockets;
       if (!liveSockets) {
         return false;
       }
@@ -842,7 +843,8 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
         }
       }
     } else {
-      const reusablePlugs = rawProfileData?.Response.itemComponents?.reusablePlugs.data[itemInstanceId]?.plugs;
+      const reusablePlugs =
+        ProfileDataHelpers.rawProfile?.Response.itemComponents?.reusablePlugs.data[itemInstanceId]?.plugs;
       if (!reusablePlugs) {
         return false;
       }
@@ -857,8 +859,8 @@ function checkForCraftedMasterwork(destinyItem: DestinyItem): boolean {
       }
 
       // If the tierType is equal to 3 it is enhanced
-      const thirdSocketIsEnhanced = itemsDefinition[third]?.t === 3;
-      const fourthSocketIsEnhanced = itemsDefinition[fourth]?.t === 3;
+      const thirdSocketIsEnhanced = DestinyDefinitions.itemsDefinition[third]?.t === 3;
+      const fourthSocketIsEnhanced = DestinyDefinitions.itemsDefinition[fourth]?.t === 3;
 
       return thirdSocketIsEnhanced && fourthSocketIsEnhanced;
     }

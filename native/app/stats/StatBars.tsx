@@ -5,7 +5,7 @@ import { ItemSubType, ItemType, StatType } from "@/app/bungie/Enums.ts";
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import type { ItemStats } from "@/app/stats/Logic.ts";
-import { DestinyStatDefinition } from "@/app/store/Definitions.ts";
+import { DestinyDefinitions } from "@/app/store/Definitions.ts";
 import RecoilStat from "@/app/stats/RecoilStat.tsx";
 import { createSockets } from "@/app/inventory/logic/Sockets.ts";
 
@@ -227,7 +227,7 @@ function getName(statType: StatType) {
     case StatType.Separator:
       return "";
     default:
-      return DestinyStatDefinition?.[statType]?.displayProperties.name ?? "";
+      return DestinyDefinitions.stat?.[statType]?.displayProperties.name ?? "";
   }
 }
 
