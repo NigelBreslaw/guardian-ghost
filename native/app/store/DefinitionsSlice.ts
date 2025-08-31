@@ -7,7 +7,7 @@ import { deepEqual } from "fast-equals";
 import * as Defs from "@/app/store/Definitions.ts";
 import type { ItemsDefinition } from "@/app/store/Definitions.ts";
 import type { IStore } from "@/app/store/GGStore.ts";
-import { type AsyncStorageKey } from "@/app/store/Types.ts";
+import type { AsyncStorageKey } from "@/app/store/Types.ts";
 import { getCustomItemDefinition, getJsonBlob } from "@/app/utilities/Helpers.ts";
 import {
   ItemResponseSchema,
