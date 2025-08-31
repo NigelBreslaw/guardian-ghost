@@ -8,7 +8,6 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import OptionsMenu from "@/components/ui/OptionsMenu.tsx";
 import type { TouchableOpacityProps } from "react-native-gesture-handler";
 
 function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
@@ -34,8 +33,7 @@ export default function InventoryPages() {
   // So the height now depends on this safeArea being larger than zero.
 
   return (
-    <View style={{ flex: 1 }}>
-      <OptionsMenu />
+    <View style={{ flex: 1, position: 'relative' }}>
       <Tab.Navigator
         detachInactiveScreens={true}
         initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
