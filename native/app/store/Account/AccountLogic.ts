@@ -1,7 +1,7 @@
 import { safeParse } from "valibot";
 
 import type { GGCharacterUiData, Guardian, DestinyItem } from "@/app/inventory/logic/Types.ts";
-import { consumables, generalVault, guardians, lostItems, mods } from "@/app/store/Definitions.ts";
+import { ProfileDataHelpers } from "@/app/store/Definitions.ts";
 import {
   GLOBAL_CONSUMABLES_CHARACTER_ID,
   GLOBAL_LOST_ITEMS_CHARACTER_ID,
@@ -77,7 +77,9 @@ function addCharacterDefinition(guardianData: GuardianData): GGCharacterUiData {
 // materials in the lost items of two different characters. So the characterId is needed to find the correct item.
 export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyItem | null {
   if (itemIdentifier.bucketHash === SectionBuckets.LostItem) {
-    const guardianLostItems = guardians.get(itemIdentifier.characterId)?.items.get(SectionBuckets.LostItem)?.inventory;
+    const guardianLostItems = ProfileDataHelpers.guardians
+      .get(itemIdentifier.characterId)
+      ?.items.get(SectionBuckets.LostItem)?.inventory;
     if (guardianLostItems) {
       try {
         const item = findDestinyItemInArray(guardianLostItems, itemIdentifier);
@@ -90,7 +92,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
 
   switch (itemIdentifier.characterId) {
     case VAULT_CHARACTER_ID: {
-      const vaultSectionInventory = generalVault.get(itemIdentifier.bucketHash);
+      const vaultSectionInventory = ProfileDataHelpers.generalVault.get(itemIdentifier.bucketHash);
       if (vaultSectionInventory) {
         try {
           const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
@@ -107,9 +109,9 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
       break;
     }
     case GLOBAL_MODS_CHARACTER_ID: {
-      if (mods) {
+      if (ProfileDataHelpers.mods) {
         try {
-          const item = findDestinyItemInArray(mods, itemIdentifier);
+          const item = findDestinyItemInArray(ProfileDataHelpers.mods, itemIdentifier);
           return item;
         } catch {
           console.error("Failed to find item in GLOBAL_MODS");
@@ -118,9 +120,9 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
       break;
     }
     case GLOBAL_CONSUMABLES_CHARACTER_ID: {
-      if (consumables) {
+      if (ProfileDataHelpers.consumables) {
         try {
-          const item = findDestinyItemInArray(consumables, itemIdentifier);
+          const item = findDestinyItemInArray(ProfileDataHelpers.consumables, itemIdentifier);
           return item;
         } catch {
           console.error("Failed to find item in GLOBAL_CONSUMABLES");
@@ -129,9 +131,9 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
       break;
     }
     case GLOBAL_LOST_ITEMS_CHARACTER_ID: {
-      if (lostItems) {
+      if (ProfileDataHelpers.lostItems) {
         try {
-          const item = findDestinyItemInArray(lostItems, itemIdentifier);
+          const item = findDestinyItemInArray(ProfileDataHelpers.lostItems, itemIdentifier);
           return item;
         } catch {
           console.error("Failed to find item in GLOBAL_LOST_ITEMS");
@@ -140,7 +142,9 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
       break;
     }
     default: {
-      const section = guardians.get(itemIdentifier.characterId)?.items.get(itemIdentifier.bucketHash);
+      const section = ProfileDataHelpers.guardians
+        .get(itemIdentifier.characterId)
+        ?.items.get(itemIdentifier.bucketHash);
 
       if (section) {
         if (section.equipped && section.equipped?.itemInstanceId === itemIdentifier.itemInstanceId) {
@@ -167,7 +171,7 @@ export function findDestinyItem(itemIdentifier: DestinyItemIdentifier): DestinyI
 }
 
 function searchAllGuardians(itemIdentifier: DestinyItemIdentifier): DestinyItem | null {
-  for (const [characterId, guardian] of guardians) {
+  for (const [characterId, guardian] of ProfileDataHelpers.guardians) {
     if (characterId === VAULT_CHARACTER_ID) {
       continue;
     }
@@ -186,7 +190,7 @@ function searchAllGuardians(itemIdentifier: DestinyItemIdentifier): DestinyItem 
     }
   }
   // Search the vault
-  const vaultSectionInventory = generalVault.get(itemIdentifier.bucketHash);
+  const vaultSectionInventory = ProfileDataHelpers.generalVault.get(itemIdentifier.bucketHash);
   if (vaultSectionInventory) {
     try {
       const item = findDestinyItemInArray(vaultSectionInventory, itemIdentifier);
@@ -202,17 +206,17 @@ function searchAllGuardians(itemIdentifier: DestinyItemIdentifier): DestinyItem 
 export function findMaxQuantityToTransfer(destinyItem: DestinyItem): number {
   switch (destinyItem.characterId) {
     case GLOBAL_MODS_CHARACTER_ID: {
-      const filteredItems = mods.filter((item) => item.itemHash === destinyItem.itemHash);
+      const filteredItems = ProfileDataHelpers.mods.filter((item) => item.itemHash === destinyItem.itemHash);
       const totalStackedQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
       return totalStackedQuantity;
     }
     case GLOBAL_CONSUMABLES_CHARACTER_ID: {
-      const filteredItems = consumables.filter((item) => item.itemHash === destinyItem.itemHash);
+      const filteredItems = ProfileDataHelpers.consumables.filter((item) => item.itemHash === destinyItem.itemHash);
       const totalStackedQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
       return totalStackedQuantity;
     }
     case VAULT_CHARACTER_ID: {
-      const vaultSectionInventory = generalVault.get(destinyItem.bucketHash);
+      const vaultSectionInventory = ProfileDataHelpers.generalVault.get(destinyItem.bucketHash);
       if (!vaultSectionInventory) {
         console.error("Failed to find section inventory");
         return 1;

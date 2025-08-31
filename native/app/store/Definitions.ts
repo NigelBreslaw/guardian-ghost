@@ -12,26 +12,30 @@ import { SectionBuckets } from "@/app/bungie/Enums.ts";
 
 export type ItemsDefinition = Record<string, MiniSingleItemDefinition>;
 
-export let itemsDefinition: ItemsDefinition = {};
 // Centralized Helpers store (all minified helper arrays)
 type HelpersType = ItemResponse["helpers"];
 const helpersStore: Partial<HelpersType> = {};
 export const Helpers = helpersStore as Readonly<HelpersType>;
 
-export let rawProfileData: ProfileData | null;
-export let lostItems: DestinyItem[] = [];
-export let consumables: DestinyItem[] = [];
-export let mods: DestinyItem[] = [];
-export let generalVault: Map<number, DestinyItem[]> = new Map<number, DestinyItem[]>();
-export let guardians: Map<CharacterId, Guardian> = new Map<CharacterId, Guardian>();
+export const DestinyDefinitions = {
+  itemsDefinition: {} as ItemsDefinition,
+  socketCategory: {} as SocketCategoryDefinition,
+  stat: {} as StatDefinition,
+  inventoryBucket: {} as InventoryBucketDefinition,
+};
 
-export let DestinySocketCategoryDefinition: SocketCategoryDefinition;
-export let DestinyStatDefinition: StatDefinition;
-export let StatGroupHelper: StatGroupHelper = new Map<number, Map<number, DisplayInterpolation>>();
-export let DestinyInventoryBucketDefinition: InventoryBucketDefinition;
+export const ProfileDataHelpers = {
+  rawProfile: {} as ProfileData,
+  lostItems: {} as DestinyItem[],
+  consumables: {} as DestinyItem[],
+  mods: {} as DestinyItem[],
+  generalVault: {} as Map<number, DestinyItem[]>,
+  guardians: {} as Map<CharacterId, Guardian>,
+  statGroupHelper: {} as StatGroupHelper,
+};
 
 export function setItemDefinition(newItemsDefinition: ItemsDefinition) {
-  itemsDefinition = newItemsDefinition;
+  DestinyDefinitions.itemsDefinition = newItemsDefinition;
 }
 
 export function setHelpers(newHelpers: HelpersType) {
@@ -39,44 +43,44 @@ export function setHelpers(newHelpers: HelpersType) {
 }
 
 export function setRawProfileData(profileData: ProfileData) {
-  rawProfileData = profileData;
+  ProfileDataHelpers.rawProfile = profileData;
 }
 
 export function setLostItems(newLostItems: DestinyItem[]) {
-  lostItems = newLostItems;
+  ProfileDataHelpers.lostItems = newLostItems;
 }
 
 export function setConsumables(newConsumables: DestinyItem[]) {
-  consumables = newConsumables;
+  ProfileDataHelpers.consumables = newConsumables;
 }
 
 export function setMods(newMods: DestinyItem[]) {
-  mods = newMods;
+  ProfileDataHelpers.mods = newMods;
 }
 
 export function setGeneralVault(newGeneralVault: Map<number, DestinyItem[]>) {
-  generalVault = newGeneralVault;
+  ProfileDataHelpers.generalVault = newGeneralVault;
 }
 
 export function setGuardians(newGuardians: Map<CharacterId, Guardian>) {
-  guardians = newGuardians;
+  ProfileDataHelpers.guardians = newGuardians;
 }
 
 export function setDestinySocketCategoryDefinition(newDestinySocketCategoryDefinition: SocketCategoryDefinition) {
-  DestinySocketCategoryDefinition = newDestinySocketCategoryDefinition;
+  DestinyDefinitions.socketCategory = newDestinySocketCategoryDefinition;
 }
 
 export function setDestinyStatGroupDefinition(newDestinyStatGroupDefinition: StatGroupDefinition) {
-  StatGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
+  ProfileDataHelpers.statGroupHelper = buildStatGroupDefinitionHelper(newDestinyStatGroupDefinition);
 }
 
 export function setDestinyStatDefinition(newDestinyStatDefinition: StatDefinition) {
-  DestinyStatDefinition = newDestinyStatDefinition;
+  DestinyDefinitions.stat = newDestinyStatDefinition;
   updateDestinyText();
 }
 
 export function setDestinyInventoryBucketDefinition(newDestinyInventoryBucketDefinition: InventoryBucketDefinition) {
-  DestinyInventoryBucketDefinition = newDestinyInventoryBucketDefinition;
+  DestinyDefinitions.inventoryBucket = newDestinyInventoryBucketDefinition;
   updateBucketSizes();
 }
 
@@ -127,12 +131,12 @@ export const DESTINY_TEXT = {
 
 function updateBucketSizes() {
   BUCKET_SIZES[SectionBuckets.Consumables] =
-    DestinyInventoryBucketDefinition?.[SectionBuckets.Consumables]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Mods] = DestinyInventoryBucketDefinition?.[SectionBuckets.Mods]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyInventoryBucketDefinition?.[SectionBuckets.LostItem]?.itemCount ?? 5;
-  BUCKET_SIZES[SectionBuckets.Vault] = DestinyInventoryBucketDefinition?.[SectionBuckets.Vault]?.itemCount ?? 5;
+    DestinyDefinitions.inventoryBucket?.[SectionBuckets.Consumables]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Mods] = DestinyDefinitions.inventoryBucket?.[SectionBuckets.Mods]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.LostItem] = DestinyDefinitions.inventoryBucket?.[SectionBuckets.LostItem]?.itemCount ?? 5;
+  BUCKET_SIZES[SectionBuckets.Vault] = DestinyDefinitions.inventoryBucket?.[SectionBuckets.Vault]?.itemCount ?? 5;
 }
 
 function updateDestinyText() {
-  DESTINY_TEXT.POWER = DestinyStatDefinition?.[1935470627]?.displayProperties.name ?? "";
+  DESTINY_TEXT.POWER = DestinyDefinitions.stat?.[1935470627]?.displayProperties.name ?? "";
 }

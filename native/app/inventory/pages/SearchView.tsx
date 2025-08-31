@@ -7,20 +7,13 @@ import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
-import {
-  consumables,
-  generalVault,
-  guardians,
-  itemsDefinition,
-  mods,
-  rawProfileData,
-} from "@/app/store/Definitions.ts";
+import { DestinyDefinitions, ProfileDataHelpers } from "@/app/store/Definitions.ts";
 import { SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import ResultsSectionUI, { type ResultsSection } from "@/app/inventory/pages/ResultsSectionUI.tsx";
 
 function getAllItems(): DestinyItem[] {
   const items = [];
-  for (const [_key, guardian] of guardians) {
+  for (const [_key, guardian] of ProfileDataHelpers.guardians) {
     for (const [_key, bucket] of guardian.items) {
       if (bucket.equipped) {
         items.push(bucket.equipped);
@@ -31,17 +24,17 @@ function getAllItems(): DestinyItem[] {
     }
   }
 
-  for (const [_key, bucket] of generalVault) {
+  for (const [_key, bucket] of ProfileDataHelpers.generalVault) {
     for (const item of bucket) {
       items.push(item);
     }
   }
 
-  for (const item of mods) {
+  for (const item of ProfileDataHelpers.mods) {
     items.push(item);
   }
 
-  for (const item of consumables) {
+  for (const item of ProfileDataHelpers.consumables) {
     items.push(item);
   }
 
@@ -75,12 +68,13 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
 
   const foundPlugHashes: number[] = [];
 
-  const liveSockets = rawProfileData?.Response.itemComponents?.sockets.data[destinyItem.itemInstanceId]?.sockets;
+  const liveSockets =
+    ProfileDataHelpers.rawProfile?.Response.itemComponents?.sockets.data[destinyItem.itemInstanceId]?.sockets;
   if (liveSockets) {
     for (const socket of liveSockets) {
       const plugHash = socket.plugHash;
       if (plugHash && !plugsToIgnore.has(plugHash) && !foundPlugHashes.includes(plugHash)) {
-        const itemName = itemsDefinition[plugHash]?.n;
+        const itemName = DestinyDefinitions.itemsDefinition[plugHash]?.n;
         if (itemName) {
           destinyItem.instance.search += ` ${itemName.toLowerCase()}`;
         }
@@ -89,7 +83,7 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
     }
 
     const reusablePlugs =
-      rawProfileData?.Response.itemComponents?.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
+      ProfileDataHelpers.rawProfile?.Response.itemComponents?.reusablePlugs.data[destinyItem.itemInstanceId]?.plugs;
     if (reusablePlugs) {
       for (const key in reusablePlugs) {
         const column = reusablePlugs[key];
@@ -97,7 +91,7 @@ function addSocketSearchClues(destinyItem: DestinyItem) {
           for (const plug of column) {
             const plugHash = plug.plugItemHash;
             if (!plugsToIgnore.has(plugHash) && !foundPlugHashes.includes(plugHash)) {
-              const def = itemsDefinition[plugHash];
+              const def = DestinyDefinitions.itemsDefinition[plugHash];
               const itemName = def?.n;
               if (itemName) {
                 destinyItem.instance.search += ` ${itemName.toLocaleLowerCase()}`;

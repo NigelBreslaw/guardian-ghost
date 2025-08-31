@@ -1,5 +1,5 @@
 import { randomUUID } from "expo-crypto";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAsyncStorage, removeAsyncStorageItem, getAsyncStorageJSON } from "@/app/store/DefinitionsSlice.ts";
 import { object, safeParse, string } from "valibot";
 import { parse as linkingParse } from "expo-linking";
 
@@ -15,33 +15,27 @@ import {
 import { getLinkedProfiles } from "@/app/bungie/Account.ts";
 import type { AccountSliceGetter } from "@/app/store/Account/AccountSlice";
 import { linkedProfilesSchema, type LinkedProfiles } from "@/app/core/ApiResponse.ts";
-import { Store } from "@/app/store/Types.ts";
+import type { AsyncStorageKey } from "@/app/store/Types.ts";
 
 const queue: (() => Promise<void>)[] = [];
 let isProcessing = false;
 const usedAuthCodes: string[] = [];
 
 export async function loadBungieUser(): Promise<BungieUser | null> {
-  const savedAccount = await AsyncStorage.getItem(Store._bungie_user);
-  if (savedAccount) {
-    const validatedAccount = safeParse(BungieUserSchema, JSON.parse(savedAccount));
-    if (validatedAccount.success) {
-      return validatedAccount.output;
-    }
-    throw new Error("Validation failed");
+  const savedAccount = await getAsyncStorageJSON("BUNGIE_USER");
+  const validatedAccount = safeParse(BungieUserSchema, savedAccount);
+  if (validatedAccount.success) {
+    return validatedAccount.output;
   }
   throw new Error("No saved account found");
 }
 
 export async function loadToken(membershipId: string): Promise<AuthToken | null> {
-  const savedToken = await AsyncStorage.getItem(`${membershipId}${Store._refresh_token}`);
-  if (savedToken) {
-    const tokenParse = safeParse(authTokenSchema, JSON.parse(savedToken));
+  const savedToken = await getAsyncStorageJSON(`${membershipId}"REFRESH_TOKEN"` as AsyncStorageKey);
+  const tokenParse = safeParse(authTokenSchema, savedToken);
 
-    if (tokenParse.success) {
-      return tokenParse.output;
-    }
-    throw new Error("Validation failed");
+  if (tokenParse.success) {
+    return tokenParse.output;
   }
   throw new Error("No saved token found");
 }
@@ -141,8 +135,8 @@ async function getTokenInternal(
 
 export async function deleteUserData(membershipId: string) {
   try {
-    await AsyncStorage.removeItem(Store._bungie_user);
-    await AsyncStorage.removeItem(`${membershipId}${Store._refresh_token}`);
+    await removeAsyncStorageItem("BUNGIE_USER");
+    await removeAsyncStorageItem(`${membershipId}"REFRESH_TOKEN"` as AsyncStorageKey);
   } catch {
     throw new Error("Error removing current user from storage");
   }
@@ -209,7 +203,7 @@ export async function saveToken(token: AuthToken, membershipId: string): Promise
 
   if (parsedToken.success) {
     try {
-      await AsyncStorage.setItem(`${membershipId}${Store._refresh_token}`, JSON.stringify(token));
+      await setAsyncStorage(`${membershipId}"REFRESH_TOKEN"` as AsyncStorageKey, JSON.stringify(token));
     } catch (error: unknown) {
       console.error("Failed to save token", error);
       throw new Error("Failed to save token");
@@ -224,7 +218,7 @@ export async function saveBungieUser(bungieUser: BungieUser): Promise<void> {
 
   if (parsedAccount.success) {
     try {
-      await AsyncStorage.setItem(Store._bungie_user, JSON.stringify(bungieUser));
+      await setAsyncStorage("BUNGIE_USER", JSON.stringify(bungieUser));
     } catch (error: unknown) {
       console.error("Failed to save bungie user", error);
       throw new Error("Failed to save bungie user");

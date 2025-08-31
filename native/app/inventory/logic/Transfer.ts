@@ -4,7 +4,7 @@ import { DestinyClass, ItemType, SectionBuckets, TierType } from "@/app/bungie/E
 import type { DestinyItem } from "@/app/inventory/logic/Types.ts";
 import { basePath } from "@/app/core/ApiResponse.ts";
 import { armorBuckets, sectionSupportsBlockingExotic, weaponBuckets } from "@/app/inventory/logic/Helpers.ts";
-import { guardians, itemsDefinition } from "@/app/store/Definitions.ts";
+import { DestinyDefinitions, ProfileDataHelpers } from "@/app/store/Definitions.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { GLOBAL_INVENTORY_NAMES, VAULT_CHARACTER_ID } from "@/app/utilities/Constants.ts";
 import { bitmaskContains } from "@/app/utilities/Helpers.ts";
@@ -70,7 +70,7 @@ export function startTransfer(
 }
 
 function showTransferSuccess(transferBundle: TransferBundle) {
-  const itemDefinition = itemsDefinition[transferBundle.primaryItem.destinyItem.itemHash];
+  const itemDefinition = DestinyDefinitions.itemsDefinition[transferBundle.primaryItem.destinyItem.itemHash];
   const successMessage = `${itemDefinition?.n} has been transferred${
     transferBundle.primaryItem.equipOnTarget ? " and equipped." : "."
   }`;
@@ -172,12 +172,14 @@ async function equipItemLogic(transferBundle: TransferBundle, transferItem: Tran
     // is there an unequip item for the other exotic?
     const itemToUnequip = returnBlockingExotic(transferItem.destinyItem);
     if (itemToUnequip) {
-      const sectionItems = guardians.get(itemToUnequip.characterId)?.items.get(itemToUnequip.bucketHash)?.inventory;
+      const sectionItems = ProfileDataHelpers.guardians
+        .get(itemToUnequip.characterId)
+        ?.items.get(itemToUnequip.bucketHash)?.inventory;
 
       if (sectionItems && sectionItems.length > 0) {
         const unequipItem = getUnequipItem(sectionItems, false);
         if (unequipItem) {
-          const name = itemsDefinition[unequipItem.itemHash]?.n;
+          const name = DestinyDefinitions.itemsDefinition[unequipItem.itemHash]?.n;
           console.log("unequipItem", name);
           // create a transferItem for it and set it on the transferBundle otherItem
           const unequipTransferItem: TransferItem = {
@@ -252,7 +254,7 @@ function returnBlockingExotic(destinyItem: DestinyItem): DestinyItem | null {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = guardians.get(characterId)?.items;
+  const guardiansItems = ProfileDataHelpers.guardians.get(characterId)?.items;
 
   if (!guardiansItems) {
     return null;
@@ -286,7 +288,7 @@ function getUnequipItem(sectionItems: DestinyItem[], allowExotics = false): Dest
 
 function unequipError(destinyItem: DestinyItem, exotic = false) {
   console.error("Failed to unequip item as section has no items");
-  const name = itemsDefinition[destinyItem.itemHash]?.n;
+  const name = DestinyDefinitions.itemsDefinition[destinyItem.itemHash]?.n;
 
   if (exotic) {
     useGGStore
@@ -302,7 +304,7 @@ function unequipError(destinyItem: DestinyItem, exotic = false) {
 function unequipItemLogic(transferBundle: TransferBundle, transferItem: TransferItem) {
   try {
     // Bail if the section has no items
-    const sectionItems = guardians
+    const sectionItems = ProfileDataHelpers.guardians
       .get(transferItem.destinyItem.characterId)
       ?.items.get(transferItem.destinyItem.bucketHash)?.inventory;
     if (!sectionItems || sectionItems.length === 0) {
@@ -314,7 +316,7 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
     unequipItem = getUnequipItem(sectionItems, false);
 
     if (unequipItem) {
-      const name = itemsDefinition[unequipItem.itemHash]?.n;
+      const name = DestinyDefinitions.itemsDefinition[unequipItem.itemHash]?.n;
       console.log("unequipItem", name);
       // create a transferItem for it and set it on the transferBundle otherItem
       const unequipTransferItem: TransferItem = {
@@ -331,7 +333,7 @@ function unequipItemLogic(transferBundle: TransferBundle, transferItem: Transfer
     unequipItem = getUnequipItem(sectionItems, true);
     // Can an exotic be equipped? If the currently equipped item is an exotic there is no issue
     if (!hasBlockingExotic(transferItem.destinyItem) && unequipItem) {
-      const name = itemsDefinition[unequipItem.itemHash]?.n;
+      const name = DestinyDefinitions.itemsDefinition[unequipItem.itemHash]?.n;
       console.log("unequipItem", name);
       // create a transferItem for it and set it on the transferBundle otherItem
       const unequipTransferItem: TransferItem = {
@@ -367,7 +369,7 @@ function hasBlockingExotic(destinyItem: DestinyItem): boolean {
   }
 
   const characterId = destinyItem.characterId;
-  const guardiansItems = guardians.get(characterId)?.items;
+  const guardiansItems = ProfileDataHelpers.guardians.get(characterId)?.items;
 
   if (!guardiansItems) {
     return false;
@@ -432,7 +434,7 @@ type TransferItemData = {
 
 async function moveItem(transferItem: TransferItem): Promise<[JSON, DestinyItem]> {
   if (DEBUG_TRANSFER) {
-    const itemDefinition = itemsDefinition[transferItem.destinyItem.itemHash];
+    const itemDefinition = DestinyDefinitions.itemsDefinition[transferItem.destinyItem.itemHash];
     console.log("move", itemDefinition?.n);
   }
 
@@ -631,7 +633,9 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   console.log("do not include exotics", doNotIncludeExotics);
 
   /// Is there an item in this section that can unequip the item?
-  let itemsInSection = guardians.get(itemToUnequip.characterId)?.items.get(itemToUnequip.bucketHash)?.inventory;
+  let itemsInSection = ProfileDataHelpers.guardians
+    .get(itemToUnequip.characterId)
+    ?.items.get(itemToUnequip.bucketHash)?.inventory;
   if (!itemsInSection) {
     throw new Error("No items in section");
   }
@@ -648,7 +652,9 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
   if (!unequipItem) {
     console.log("now trying vault");
     /// failed to find any on that character so now lets try the vault
-    itemsInSection = guardians.get(VAULT_CHARACTER_ID)?.items.get(itemToUnequip.bucketHash)?.inventory;
+    itemsInSection = ProfileDataHelpers.guardians
+      .get(VAULT_CHARACTER_ID)
+      ?.items.get(itemToUnequip.bucketHash)?.inventory;
     if (!itemsInSection) {
       throw new Error("No items in section");
     }
@@ -667,7 +673,7 @@ function _getUnequipItem(itemToUnequip: DestinyItem): DestinyItem {
       }
     }
   }
-  const itemDefinition = itemsDefinition[unequipItem.itemHash];
+  const itemDefinition = DestinyDefinitions.itemsDefinition[unequipItem.itemHash];
   console.log("getUnequipItem returns", itemDefinition?.n);
   return unequipItem;
 }

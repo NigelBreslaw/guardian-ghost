@@ -117,9 +117,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       currentListIndex: 0,
       previousDefinitionsSuccessfullyLoaded: false,
     });
-    await removeAsyncStorageItem("@GG_profile");
-    await removeAsyncStorageItem("@GG_itemComponents");
-    await removeAsyncStorageItem("@GG_profilePlugSets");
+    await removeAsyncStorageItem("CACHED_PROFILE");
     const membershipId = get().bungieUser.profile.membershipId;
     await deleteUserData(membershipId);
   },

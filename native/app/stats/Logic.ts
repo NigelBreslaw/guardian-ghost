@@ -2,7 +2,7 @@ import { ItemType, SocketCategoryEnum, StatType, TierType } from "@/app/bungie/E
 import { ArmorStatInvestments } from "@/app/inventory/logic/Helpers.ts";
 import type { SocketCategory, Sockets } from "@/app/inventory/logic/Sockets.ts";
 import type { DestinyItem, StatsCollection } from "@/app/inventory/logic/Types.ts";
-import { StatGroupHelper } from "@/app/store/Definitions.ts";
+import { ProfileDataHelpers } from "@/app/store/Definitions.ts";
 
 // CREDIT: DIM for this article and code that collates information from their app,
 // the community and info directly from Bungie.
@@ -11,7 +11,7 @@ export function interpolateStatValue(value: number, investment: StatType, socket
   if (ArmorStatInvestments.includes(investment)) {
     return value;
   }
-  const statData = StatGroupHelper.get(socketTypeHash)?.get(investment);
+  const statData = ProfileDataHelpers.statGroupHelper.get(socketTypeHash)?.get(investment);
   if (!statData) {
     return value;
   }
