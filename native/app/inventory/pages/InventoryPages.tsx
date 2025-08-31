@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
@@ -8,7 +8,7 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import type { TouchableOpacityProps } from "react-native-gesture-handler";
+import { Pressable, type PressableProps } from "react-native-gesture-handler";
 
 function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
   switch (pageEnum) {
@@ -60,8 +60,8 @@ export default function InventoryPages() {
           options={{
             tabBarLabel: "Weapons",
             tabBarButton: (props) => (
-              <TouchableOpacity
-                {...(props as TouchableOpacityProps)}
+              <Pressable
+                {...(props as PressableProps)}
                 style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
@@ -81,8 +81,8 @@ export default function InventoryPages() {
           options={{
             tabBarLabel: "Armor",
             tabBarButton: (props) => (
-              <TouchableOpacity
-                {...(props as TouchableOpacityProps)}
+              <Pressable
+                {...(props as PressableProps)}
                 style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
@@ -102,8 +102,8 @@ export default function InventoryPages() {
           options={{
             tabBarLabel: "Inventory",
             tabBarButton: (props) => (
-              <TouchableOpacity
-                {...(props as TouchableOpacityProps)}
+              <Pressable
+                {...(props as PressableProps)}
                 style={[{ alignSelf: "center", justifyContent: "center", height: "100%" }]}
                 onPressIn={() => {
                   if (Platform.OS !== "web") {
