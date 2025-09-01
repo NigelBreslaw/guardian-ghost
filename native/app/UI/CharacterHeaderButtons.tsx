@@ -97,5 +97,5 @@ const styles = StyleSheet.create({
   highlight: {
     opacity: 0.8,
     borderWidth: StyleSheet.hairlineWidth,
-  }
+  },
 });

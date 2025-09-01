@@ -24,7 +24,8 @@ function MenuButton() {
   return (
     <Pressable
       style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
-      onPress={() => useGGStore.getState().showInventoryMenu(true)}>
+      onPress={() => useGGStore.getState().showInventoryMenu(true)}
+    >
       <View style={styles.iconButton}>
         {refreshing && (
           <View style={styles.spinner}>
@@ -248,4 +249,3 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-
