@@ -1,5 +1,6 @@
-import { Platform, TouchableOpacity, View } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import { Pressable } from "react-native-gesture-handler";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
 import Animated, {
@@ -48,9 +49,10 @@ export default function CharacterHeaderButtons() {
     <Animated.View style={[viewAnimationStyle, { flexDirection: "row", gap: 10, paddingBottom }]}>
       {ggCharacters.map((ggCharacter, index) => {
         return (
-          <TouchableOpacity
+          <Pressable
             onPress={() => useGGStore.getState().setJumpToIndex({ index, animate: true })}
             key={ggCharacter.characterId}
+            style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
           >
             <View
               style={{
@@ -81,9 +83,19 @@ export default function CharacterHeaderButtons() {
                 }}
               />
             </View>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  pressable: {
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  highlight: {
+    opacity: 0.8,
+    borderWidth: StyleSheet.hairlineWidth,
+  }
+});
