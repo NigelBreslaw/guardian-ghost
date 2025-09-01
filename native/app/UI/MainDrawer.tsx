@@ -1,6 +1,6 @@
 import { type DrawerContentComponentProps, createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { Image } from "expo-image";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import * as SplashScreen from "expo-splash-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,13 +15,17 @@ import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
 import Ellipses from "@/images/svg/ellipses-horizontal.svg";
 import CharacterHeaderButtons from "@/app/UI/CharacterHeaderButtons.tsx";
+import { Pressable } from "react-native-gesture-handler";
 
 function MenuButton() {
   "use memo";
   const refreshing = useGGStore((state) => state.refreshing);
 
   return (
-    <TouchableOpacity onPress={() => useGGStore.getState().showInventoryMenu(true)}>
+    <Pressable
+      style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
+      onPress={() => useGGStore.getState().showInventoryMenu(true)}
+    >
       <View style={styles.iconButton}>
         {refreshing && (
           <View style={styles.spinner}>
@@ -30,7 +34,7 @@ function MenuButton() {
         )}
         <Ellipses style={styles.iconImage} width={24} height={24} />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
@@ -94,7 +98,8 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
         <Text style={styles.textDark}>Guardian Ghost</Text>
         <View>
           {__DEV__ && (
-            <TouchableOpacity
+            <Pressable
+              style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
               onPress={() => {
                 useGGStore.getState().clearCache();
               }}
@@ -102,9 +107,10 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Clear Cache</Text>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           )}
-          <TouchableOpacity
+          <Pressable
+            style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
             onPress={() => {
               navigation.closeDrawer();
               useGGStore.getState().logoutCurrentUser();
@@ -118,7 +124,7 @@ function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps)
             <View style={styles.button}>
               <Text style={styles.buttonText}>Logout</Text>
             </View>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -180,6 +186,13 @@ export default function MainDrawer() {
 }
 
 const styles = StyleSheet.create({
+  pressable: {
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  highlight: {
+    opacity: 0.5,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
   container: {
     flex: 1,
     height: "100%",
