@@ -15,8 +15,8 @@ importers:
         specifier: 6.1.1
         version: 6.1.1(expo@54.0.0-preview.14)(react-dom@19.1.0(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
       '@gorhom/bottom-sheet':
-        specifier: 5.2.4
-        version: 5.2.4(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-reanimated@4.1.0(@babel/core@7.28.3)(react-native-worklets@0.5.0(@babel/core@7.28.3)(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
+        specifier: 5.2.5
+        version: 5.2.5(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-reanimated@4.1.0(@babel/core@7.28.3)(react-native-worklets@0.5.0(@babel/core@7.28.3)(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
       '@react-navigation/bottom-tabs':
         specifier: 7.4.7
         version: 7.4.7(@react-navigation/native@7.1.17(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.1(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-screens@4.15.4(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
@@ -957,8 +957,8 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@gorhom/bottom-sheet@5.2.4':
-    resolution: {integrity: sha512-fItmuq5DUWXE4CNUrarboXxfS4hyVEi0uRhoTTyRrGHeL6Hib+bWaJkXMSou744KLAvgLLuwOWUry/wuTQTO6Q==}
+  '@gorhom/bottom-sheet@5.2.5':
+    resolution: {integrity: sha512-nj+i6tLg+SoUmF2ff6lypdrpAyBFYH3edqht36jQ7/MdlkxRYI1WroV5T936nny+aB/Np9PmuC+i3UD0lts64g==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-native': '*'
@@ -5802,7 +5802,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@gorhom/bottom-sheet@5.2.4(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-reanimated@4.1.0(@babel/core@7.28.3)(react-native-worklets@0.5.0(@babel/core@7.28.3)(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)':
+  '@gorhom/bottom-sheet@5.2.5(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native-reanimated@4.1.0(@babel/core@7.28.3)(react-native-worklets@0.5.0(@babel/core@7.28.3)(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@gorhom/portal': 1.0.14(react-native@0.81.1(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
       invariant: 2.2.4
