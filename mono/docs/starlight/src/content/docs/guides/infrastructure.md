@@ -27,7 +27,7 @@ checks for security vulnerabilities in any of the code.
 ### Code Quality
 
 Locally and in CI [Biome](https://biomejs.dev/) is used to enforce standard code formatting. Biome is also used in place of
-eslint to lint the code. Finally all pushes and PR's are scanned with [Sonarqube](https://www.sonarsource.com/products/sonarqube/).
+eslint to lint the code.
 
 
 
