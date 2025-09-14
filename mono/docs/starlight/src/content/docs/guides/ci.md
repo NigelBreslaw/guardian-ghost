@@ -25,8 +25,6 @@ jobs:
 The CI is powered by
 [Dependabot](https://github.com/dependabot) is enabled on the repo and runs everyday. In general the number of dependencies is kept as low as possible. However the aim is to only have items updated on a weekly basis.
 
-[Sonarqube](https://sonarcloud.io/organizations/nigelbreslaw/projects) offers a free tier for public projects and runs as a quality gate on every PR.
-
 ### Oracle Cloud VM setup
 Oracle Cloud's free tier is used to host a linux VM running a [Turborepo](https://turbo.build) remote cache. The VM is simply configured to use the free AMD x64 instance and the Ubuntu 22.10 image. I did try the Oracle Linux image and found it to be slow and unreliable. The VM would often get stuck.
 
