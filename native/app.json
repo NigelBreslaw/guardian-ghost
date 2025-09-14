@@ -16,7 +16,8 @@
       "bundleIdentifier": "com.guardianghost.mobile",
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "buildReactNativeFromSource": true
     },
     "androidStatusBar": {
       "barStyle": "light-content"
@@ -66,8 +67,8 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
             "buildToolsVersion": "35.0.0"
           }
         }
