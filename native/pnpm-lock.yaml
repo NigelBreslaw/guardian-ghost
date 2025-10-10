@@ -6225,7 +6225,7 @@ snapshots:
       metro: 0.83.1
       metro-config: 0.83.1
       metro-core: 0.83.1
-      semver: 7.7.2
+      semver: 7.7.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7602,7 +7602,7 @@ snapshots:
     dependencies:
       ajv: 8.17.1
       expo: 54.0.7(@babel/core@7.28.4)(@expo/metro-runtime@6.1.2)(graphql@15.9.0)(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
-      semver: 7.7.2
+      semver: 7.7.3
 
   expo-constants@18.0.8(expo@54.0.7)(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.12)(react@19.1.0)):
     dependencies:
@@ -9122,7 +9122,7 @@ snapshots:
       react-refresh: 0.14.2
       regenerator-runtime: 0.13.11
       scheduler: 0.26.0
-      semver: 7.7.2
+      semver: 7.7.3
       stacktrace-parser: 0.1.11
       whatwg-fetch: 3.6.20
       ws: 6.2.3
