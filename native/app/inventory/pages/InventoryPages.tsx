@@ -7,7 +7,7 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import OptionsMenu from "@/components/ui/OptionsMenu.tsx";
+import OptionsMenu from "@/components/ui/OptionsMenu";
 
 function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
   switch (pageEnum) {
