@@ -13,7 +13,6 @@ import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
 import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
-import Ellipses from "@/images/svg/ellipses-horizontal.svg";
 import CharacterHeaderButtons from "@/app/UI/CharacterHeaderButtons.tsx";
 import { Pressable } from "react-native-gesture-handler";
 
@@ -32,7 +31,7 @@ function MenuButton() {
             <Spinner size={70} />
           </View>
         )}
-        <Ellipses style={styles.iconImage} width={24} height={24} />
+        <Image source={"@/images/ellipses-horizontal.png"} style={[styles.iconImage, { width: 24, height: 24 }]} />
       </View>
     </Pressable>
   );

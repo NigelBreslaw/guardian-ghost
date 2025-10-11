@@ -2,10 +2,11 @@ import type { NavigationProp } from "@react-navigation/native";
 import { addEventListener, useURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
-import { Image, Platform, ScrollView, StyleSheet, TextInput, View, useColorScheme } from "react-native";
+import { Platform, ScrollView, StyleSheet, TextInput, View, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image } from "expo-image";
 
 import Text from "@/app/UI/Text.tsx";
 import { stateID } from "@/app/store/Authentication/AuthenticationLogic.ts";
@@ -13,10 +14,6 @@ import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
 import { LOGO_DARK, LOGO_LIGHT } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
-import Psn from "@/images/svg/psn.svg";
-import Xbox from "@/images/svg/xbox.svg";
-import Steam from "@/images/svg/steam.svg";
-import Epic from "@/images/svg/epic.svg";
 import { getBungieUser } from "@/app/bungie/Account.ts";
 import React from "react";
 
@@ -237,13 +234,13 @@ enum BungieMembershipType {
 function returnMembershipIcon(bungieMembershipType: BungieMembershipType) {
   switch (bungieMembershipType) {
     case BungieMembershipType.Xbox:
-      return <Xbox width={defaultSize} height={defaultSize} />;
+      return <Image source={"@/images/xbox.png"} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Psn:
-      return <Psn width={defaultSize} height={defaultSize} />;
+      return <Image source={"@/images/psn.png"} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Steam:
-      return <Steam width={defaultSize} height={defaultSize} />;
+      return <Image source={"@/images/steam.png"} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Egs:
-      return <Epic width={defaultSize} height={defaultSize} />;
+      return <Image source={"@/images/epic.png"} style={{ width: defaultSize, height: defaultSize }} />;
     default:
       return null;
   }
