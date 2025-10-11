@@ -9,7 +9,7 @@ import Spinner from "@/app/UI/Spinner.tsx";
 
 export default function OptionsMenu() {
   "use memo";
-  
+
   const refreshing = useGGStore((state) => state.refreshing);
   const weaponsSort = useGGStore((state) => state.weaponsSort);
   const setWeaponsSort = useGGStore((state) => state.setWeaponsSort);
@@ -26,48 +26,48 @@ export default function OptionsMenu() {
     <Host style={{ width: 48, height: 48, marginRight: 8 }}>
       <ContextMenu>
         <ContextMenu.Items>
-            <Picker
-              label="Weapons sort"
-              options={weaponsSortOptions}
-              variant="menu"
-              selectedIndex={weaponsSortIndex}
-              onOptionSelected={({ nativeEvent: { index } }) => {
-                if (index === 0) setWeaponsSort(WeaponsSort.Power);
-                else if (index === 1) setWeaponsSort(WeaponsSort.Type);
-                else setWeaponsSort(WeaponsSort.TypeAndPower);
-              }}
-            />
-            <Picker
-              label="Armor sort"
-              options={armorSortOptions}
-              variant="menu"
-              selectedIndex={armorSortIndex}
-              onOptionSelected={({ nativeEvent: { index } }) => {
-                if (index === 0) setArmorSort(ArmorSort.Power);
-                else setArmorSort(ArmorSort.Type);
-              }}
-            />
-            <Button
-              variant="bordered"
-              onPress={() => {
-                getFullProfile();
-              }}
-            >
-              Refresh
-            </Button>
-          </ContextMenu.Items>
-          <ContextMenu.Trigger>
-            <View style={styles.iconButton}>
-              {refreshing && (
-                <View style={styles.spinner}>
-                  <Spinner size={70} />
-                </View>
-              )}
-              <Image source={ELLIPSES_HORIZONTAL} style={{ width: 24, height: 24 }} />
-            </View>
-          </ContextMenu.Trigger>
-        </ContextMenu>
-      </Host>
+          <Picker
+            label="Weapons sort"
+            options={weaponsSortOptions}
+            variant="menu"
+            selectedIndex={weaponsSortIndex}
+            onOptionSelected={({ nativeEvent: { index } }) => {
+              if (index === 0) setWeaponsSort(WeaponsSort.Power);
+              else if (index === 1) setWeaponsSort(WeaponsSort.Type);
+              else setWeaponsSort(WeaponsSort.TypeAndPower);
+            }}
+          />
+          <Picker
+            label="Armor sort"
+            options={armorSortOptions}
+            variant="menu"
+            selectedIndex={armorSortIndex}
+            onOptionSelected={({ nativeEvent: { index } }) => {
+              if (index === 0) setArmorSort(ArmorSort.Power);
+              else setArmorSort(ArmorSort.Type);
+            }}
+          />
+          <Button
+            variant="bordered"
+            onPress={() => {
+              getFullProfile();
+            }}
+          >
+            Refresh
+          </Button>
+        </ContextMenu.Items>
+        <ContextMenu.Trigger>
+          <View style={styles.iconButton}>
+            {refreshing && (
+              <View style={styles.spinner}>
+                <Spinner size={70} />
+              </View>
+            )}
+            <Image source={ELLIPSES_HORIZONTAL} style={{ width: 24, height: 24 }} />
+          </View>
+        </ContextMenu.Trigger>
+      </ContextMenu>
+    </Host>
   );
 }
 
@@ -84,4 +84,3 @@ const styles = StyleSheet.create({
     right: -11,
   },
 });
-

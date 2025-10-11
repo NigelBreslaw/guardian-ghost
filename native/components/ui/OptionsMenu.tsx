@@ -13,4 +13,3 @@ const OptionsMenu = Platform.select({
 });
 
 export default OptionsMenu;
-
