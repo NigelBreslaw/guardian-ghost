@@ -31,11 +31,13 @@ export default function InventoryPages() {
       <OptionsMenu />
       <Tab.Navigator
         initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
-        tabBarActiveTintColor="white"
+        tabBarActiveTintColor="orange"
         tabBarInactiveTintColor="gray"
         tabBarStyle={{
           backgroundColor: "#17101F",
         }}
+        disablePageAnimations={true}
+        hapticFeedbackEnabled={Platform.OS !== "web"}
         screenListeners={{
           tabPress: () => {
             if (Platform.OS !== "web") {
