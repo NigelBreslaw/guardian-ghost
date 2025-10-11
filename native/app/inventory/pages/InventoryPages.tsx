@@ -50,6 +50,7 @@ export default function InventoryPages() {
           options={{
             title: "Weapons",
             tabBarIcon: () => require("../../../images/sword.svg"),
+            lazy: false,
           }}
         />
         <Tab.Screen
@@ -58,6 +59,7 @@ export default function InventoryPages() {
           options={{
             title: "Armor",
             tabBarIcon: () => require("../../../images/shield.svg"),
+            lazy: false,
           }}
         />
         <Tab.Screen
@@ -66,6 +68,7 @@ export default function InventoryPages() {
           options={{
             title: "Inventory",
             tabBarIcon: () => require("../../../images/package.svg"),
+            lazy: false,
           }}
         />
       </Tab.Navigator>
