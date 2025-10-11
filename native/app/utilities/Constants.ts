@@ -32,6 +32,11 @@ export const GEAR_TIER_2 = require("../../images/icons/inventory-item-tier2.png"
 export const GEAR_TIER_3 = require("../../images/icons/inventory-item-tier3.png");
 export const GEAR_TIER_4 = require("../../images/icons/inventory-item-tier4.png");
 export const GEAR_TIER_5 = require("../../images/icons/inventory-item-tier5.png");
+export const ELLIPSES_HORIZONTAL = require("../../images/svg/ellipses-horizontal.svg");
+export const XBOX_ICON = require("../../images/svg/xbox.svg");
+export const PSN_ICON = require("../../images/svg/psn.svg");
+export const STEAM_ICON = require("../../images/svg/steam.svg");
+export const EPIC_ICON = require("../../images/svg/epic.svg");
 
 const SOLAR_MINI_ICON_URI = require("../../images/damage/solar_mini.webp");
 const VOID_MINI_ICON_URI = require("../../images/damage/void_mini.webp");
