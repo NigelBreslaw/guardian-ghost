@@ -7,7 +7,6 @@ import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
 import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import OptionsMenu from "@/components/ui/OptionsMenu.tsx";
 
 function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
   switch (pageEnum) {
@@ -28,7 +27,6 @@ export default function InventoryPages() {
 
   return (
     <View style={{ flex: 1 }}>
-      <OptionsMenu />
       <Tab.Navigator
         initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
         tabBarActiveTintColor="orange"
