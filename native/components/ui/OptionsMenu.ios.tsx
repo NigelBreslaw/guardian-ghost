@@ -1,12 +1,16 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Image } from "expo-image";
 import { Host, ContextMenu, Button, Picker } from "@expo/ui/swift-ui";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
+import { ELLIPSES_HORIZONTAL } from "@/app/utilities/Constants.ts";
+import Spinner from "@/app/UI/Spinner.tsx";
 
 export default function OptionsMenu() {
   "use memo";
-
+  
+  const refreshing = useGGStore((state) => state.refreshing);
   const weaponsSort = useGGStore((state) => state.weaponsSort);
   const setWeaponsSort = useGGStore((state) => state.setWeaponsSort);
   const armorSort = useGGStore((state) => state.armorSort);
@@ -19,10 +23,9 @@ export default function OptionsMenu() {
   const armorSortIndex = armorSort === ArmorSort.Power ? 0 : 1;
 
   return (
-    <View className="absolute top-0 right-0 w-16 h-16 active:bg-primary/5">
-      <Host style={{ position: 'absolute', width: 64, height: 64 }}>
-        <ContextMenu>
-          <ContextMenu.Items>
+    <Host style={{ width: 48, height: 48, marginRight: 8 }}>
+      <ContextMenu>
+        <ContextMenu.Items>
             <Picker
               label="Weapons sort"
               options={weaponsSortOptions}
@@ -54,13 +57,31 @@ export default function OptionsMenu() {
             </Button>
           </ContextMenu.Items>
           <ContextMenu.Trigger>
-            <Button variant="bordered">
-              ⋯
-            </Button>
+            <View style={styles.iconButton}>
+              {refreshing && (
+                <View style={styles.spinner}>
+                  <Spinner size={70} />
+                </View>
+              )}
+              <Image source={ELLIPSES_HORIZONTAL} style={{ width: 24, height: 24 }} />
+            </View>
           </ContextMenu.Trigger>
         </ContextMenu>
       </Host>
-    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  iconButton: {
+    width: 48,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  spinner: {
+    position: "absolute",
+    top: -11,
+    right: -11,
+  },
+});
 
