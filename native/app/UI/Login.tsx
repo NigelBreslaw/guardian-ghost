@@ -12,7 +12,7 @@ import Text from "@/app/UI/Text.tsx";
 import { stateID } from "@/app/store/Authentication/AuthenticationLogic.ts";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { clientID, isLocalWeb, redirectURL } from "@/constants/env.ts";
-import { LOGO_DARK, LOGO_LIGHT } from "@/app/utilities/Constants.ts";
+import { LOGO_DARK, LOGO_LIGHT, PSN_ICON, STEAM_ICON, XBOX_ICON, EPIC_ICON } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
 import { getBungieUser } from "@/app/bungie/Account.ts";
 import React from "react";
@@ -234,13 +234,13 @@ enum BungieMembershipType {
 function returnMembershipIcon(bungieMembershipType: BungieMembershipType) {
   switch (bungieMembershipType) {
     case BungieMembershipType.Xbox:
-      return <Image source={"@/images/xbox.png"} style={{ width: defaultSize, height: defaultSize }} />;
+      return <Image source={XBOX_ICON} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Psn:
-      return <Image source={"@/images/psn.png"} style={{ width: defaultSize, height: defaultSize }} />;
+      return <Image source={PSN_ICON} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Steam:
-      return <Image source={"@/images/steam.png"} style={{ width: defaultSize, height: defaultSize }} />;
+      return <Image source={STEAM_ICON} style={{ width: defaultSize, height: defaultSize }} />;
     case BungieMembershipType.Egs:
-      return <Image source={"@/images/epic.png"} style={{ width: defaultSize, height: defaultSize }} />;
+      return <Image source={EPIC_ICON} style={{ width: defaultSize, height: defaultSize }} />;
     default:
       return null;
   }

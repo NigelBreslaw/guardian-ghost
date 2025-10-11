@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Text from "@/app/UI/Text.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
-import { LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
+import { ELLIPSES_HORIZONTAL, LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 import InventoryHeader from "@/app/inventory/pages/InventoryHeader.tsx";
 import InventoryPages from "@/app/inventory/pages/InventoryPages.tsx";
 import Spinner from "@/app/UI/Spinner.tsx";
@@ -31,7 +31,7 @@ function MenuButton() {
             <Spinner size={70} />
           </View>
         )}
-        <Image source={"@/images/ellipses-horizontal.png"} style={[styles.iconImage, { width: 24, height: 24 }]} />
+        <Image source={ELLIPSES_HORIZONTAL} style={{ width: 24, height: 24 }} />
       </View>
     </Pressable>
   );
