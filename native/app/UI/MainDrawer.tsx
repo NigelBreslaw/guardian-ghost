@@ -14,7 +14,9 @@ import SearchView from "@/app/inventory/pages/SearchView.tsx";
 import Settings from "@/app/screens/Settings.tsx";
 import CharacterHeaderButtons from "@/app/UI/CharacterHeaderButtons.tsx";
 import { Pressable } from "react-native-gesture-handler";
-import OptionsMenu from "@/components/ui/OptionsMenu";
+import ContextIosMenu from "@/components/ui/ContextIosMenu";
+import Spinner from "@/app/UI/Spinner.tsx";
+import { ELLIPSES_HORIZONTAL } from "@/app/utilities/Constants.ts";
 
 export type GGDrawerType = {
   Inventory: undefined;
@@ -24,6 +26,27 @@ export type GGDrawerType = {
 };
 
 const Drawer = createDrawerNavigator<GGDrawerType>();
+
+function MenuButton() {
+  "use memo";
+  const refreshing = useGGStore((state) => state.refreshing);
+
+  return (
+    <Pressable
+      style={({ pressed }) => (pressed ? styles.highlight : styles.pressable)}
+      onPress={() => useGGStore.getState().showInventoryMenu(true)}
+    >
+      <View style={styles.iconButton}>
+        {refreshing && (
+          <View style={styles.spinner}>
+            <Spinner size={70} />
+          </View>
+        )}
+        <Image source={ELLIPSES_HORIZONTAL} style={{ width: 24, height: 24 }} />
+      </View>
+    </Pressable>
+  );
+}
 
 function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps) {
   "use memo";
@@ -132,7 +155,7 @@ export default function MainDrawer() {
         component={InventoryPages}
         options={{
           headerTintColor: "white",
-          headerRight: OptionsMenu,
+          headerRight: Platform.OS === "ios" ? ContextIosMenu : MenuButton,
           headerTitle: CharacterHeaderButtons,
           headerBackground: InventoryHeader,
         }}

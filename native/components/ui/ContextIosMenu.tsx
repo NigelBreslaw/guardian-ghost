@@ -7,7 +7,7 @@ import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
 import { ELLIPSES_HORIZONTAL } from "@/app/utilities/Constants.ts";
 import Spinner from "@/app/UI/Spinner.tsx";
 
-export default function OptionsMenu() {
+export default function ContextIosMenu() {
   "use memo";
 
   const refreshing = useGGStore((state) => state.refreshing);
