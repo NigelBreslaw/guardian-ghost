@@ -1558,7 +1558,7 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-  - react-native-bottom-tabs (0.12.2):
+  - react-native-bottom-tabs (1.0.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1570,7 +1570,7 @@ PODS:
     - React-graphics
     - React-ImageManager
     - React-jsi
-    - react-native-bottom-tabs/common (= 0.12.2)
+    - react-native-bottom-tabs/common (= 1.0.0)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-renderercss
@@ -1582,7 +1582,7 @@ PODS:
     - ReactNativeDependencies
     - SwiftUIIntrospect (~> 1.0)
     - Yoga
-  - react-native-bottom-tabs/common (0.12.2):
+  - react-native-bottom-tabs/common (1.0.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2700,7 +2700,7 @@ SPEC CHECKSUMS:
   React-logger: 472e292c035c024ac73070cd6cbd011a827136f9
   React-Mapbuffer: 823a2c0e0d1826c784f808174626d5229f59be17
   React-microtasksnativemodule: 70cdf4826e52c7bcf98bc55255c3e30b5455d318
-  react-native-bottom-tabs: e329aff56b8b1df28acf435da669a336b8f1742e
+  react-native-bottom-tabs: 2b7629df07d713283dc03f66ebfa4fe61957a3a7
   react-native-safe-area-context: add9b4ba236fe95ec600604d0fc72f395433dd59
   React-NativeModulesApple: e653919faff1f76eadf02373bda26c085bf348e3
   React-oscompat: 73db7dbc80edef36a9d6ed3c6c4e1724ead4236d
