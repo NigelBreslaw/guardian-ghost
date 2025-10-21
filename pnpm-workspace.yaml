@@ -1,0 +1,15 @@
+packages:
+  - native
+  - mono/apps/*
+  - mono/docs/*
+  - mono/examples/*
+
+catalog:
+  typescript: 5.9.3
+  astro: 5.14.5
+  "@biomejs/biome": 2.2.6
+
+onlyBuiltDependencies:
+  - '@sentry/cli'
+  - esbuild
+  - sharp
