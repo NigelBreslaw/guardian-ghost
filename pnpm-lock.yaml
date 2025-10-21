@@ -4,6 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    astro:
+      specifier: 5.14.5
+      version: 5.14.5
+    typescript:
+      specifier: 5.9.3
+      version: 5.9.3
+
 importers:
 
   .: {}
@@ -11,7 +20,7 @@ importers:
   mono/apps/site:
     dependencies:
       astro:
-        specifier: 5.14.5
+        specifier: 'catalog:'
         version: 5.14.5(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
 
   mono/docs/starlight:
@@ -20,7 +29,7 @@ importers:
         specifier: 0.36.1
         version: 0.36.1(astro@5.14.5(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))
       astro:
-        specifier: 5.14.5
+        specifier: 'catalog:'
         version: 5.14.5(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       rehype:
         specifier: 13.0.2
@@ -36,7 +45,7 @@ importers:
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.1))
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       vitest:
         specifier: 3.2.4
@@ -52,7 +61,7 @@ importers:
         specifier: 0.34.4
         version: 0.34.4(solid-js@1.9.9)(vite@7.1.10(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.1))
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       vite:
         specifier: 7.1.10
@@ -248,7 +257,7 @@ importers:
         specifier: 0.4.3
         version: 0.4.3(expo@54.0.13)
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       typescript-eslint:
         specifier: 8.46.1

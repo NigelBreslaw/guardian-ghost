@@ -4,7 +4,9 @@ packages:
   - mono/docs/*
   - mono/examples/*
 
-catalog: null
+catalog:
+  typescript: 5.9.3
+  astro: 5.14.5
 
 onlyBuiltDependencies:
   - '@sentry/cli'
