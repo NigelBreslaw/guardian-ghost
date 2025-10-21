@@ -9,5 +9,8 @@
     "lint:fix": "pnpm --stream -r lint:fix",
     "type-check": "pnpm --stream -r type-check"
   },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:"
+  },
   "packageManager": "pnpm@10.19.0"
 }
