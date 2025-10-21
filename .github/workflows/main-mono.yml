@@ -2,8 +2,6 @@ name: main-ci-mono
 
 on:
   push:
-    paths:
-        - "mono/**"
 
 jobs:
   main-ci-mono:
