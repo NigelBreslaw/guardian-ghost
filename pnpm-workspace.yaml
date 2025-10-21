@@ -1,0 +1,12 @@
+packages:
+  - native
+  - mono/apps/*
+  - mono/docs/*
+  - mono/examples/*
+
+catalog: null
+
+onlyBuiltDependencies:
+  - '@sentry/cli'
+  - esbuild
+  - sharp
