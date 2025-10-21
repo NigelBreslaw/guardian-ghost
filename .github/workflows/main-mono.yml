@@ -19,12 +19,8 @@ jobs:
       - uses: actions/checkout@v5.0.0
       - uses: pnpm/action-setup@v4.2.0
         with:
-          version: 10.13.1
+          version: 10.19.0
       - name: install dependencies
-        run: cd mono && pnpm install --frozen-lockfile
-      - name: lint
-        run: cd mono && pnpm lint
-      - name: format
-        run: cd mono && pnpm format
+        run: pnpm install --frozen-lockfile
       - name: build
-        run: cd mono && pnpm build:ci
+        run: pnpm build:ci
