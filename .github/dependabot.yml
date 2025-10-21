@@ -43,8 +43,13 @@ updates:
           - "@babel*"
       react:
         patterns:
-          - "react*"
+          - "react"
+          - "react-dom"
+          - "react-*"
           - "@types/react*"
+        exclude-patterns:
+          - "react-native*"
+          - "@react-native*"
       astro:
         patterns:
           - "astro*"
