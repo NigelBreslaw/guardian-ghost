@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@biomejs/biome':
+      specifier: 2.2.6
+      version: 2.2.6
     astro:
       specifier: 5.14.5
       version: 5.14.5
@@ -22,6 +25,10 @@ importers:
       astro:
         specifier: 'catalog:'
         version: 5.14.5(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 'catalog:'
+        version: 2.2.6
 
   mono/docs/starlight:
     dependencies:
@@ -41,6 +48,9 @@ importers:
       '@astrojs/check':
         specifier: 0.9.4
         version: 0.9.4(typescript@5.9.3)
+      '@biomejs/biome':
+        specifier: 'catalog:'
+        version: 2.2.6
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.1))
@@ -57,6 +67,9 @@ importers:
         specifier: 1.9.9
         version: 1.9.9
     devDependencies:
+      '@biomejs/biome':
+        specifier: 'catalog:'
+        version: 2.2.6
       solid-devtools:
         specifier: 0.34.4
         version: 0.34.4(solid-js@1.9.9)(vite@7.1.10(@types/node@24.9.1)(jiti@1.21.7)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.1))
