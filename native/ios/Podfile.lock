@@ -2024,7 +2024,7 @@ PODS:
     - React-utils (= 0.81.4)
     - ReactNativeDependencies
   - ReactNativeDependencies (0.81.4)
-  - RNGestureHandler (2.28.0):
+  - RNGestureHandler (2.29.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2416,7 +2416,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - "ReactCommon/turbomodule/core (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.4_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon`)"
   - "ReactNativeDependencies (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.4_@types+react@19.1.12_react@19.1.0/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)"
-  - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.81.4_@babel+core@7.28.4_@types+react_9d501f1550a1b3628203aa96a7ae371d/node_modules/react-native-gesture-handler`)"
+  - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.29.0_react-native@0.81.4_@babel+core@7.28.4_@types+react_6d596cd030b5afaa92847405df5eddef/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.1.3_@babel+core@7.28.4_react-native-worklets@0.6.1_@babel+cor_9243fa4253dfa50e8e8b743701886d0f/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.17.1_react-native@0.81.4_@babel+core@7.28.4_@types+react@19.1.12_react@19.1.0__react@19.1.0/node_modules/react-native-screens`)"
   - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.4.0_expo@54.0.17_react-native@0.81.4_@babel+core@7.28.4_@types+r_c960e744ee229231bfc10e74f5a51d6d/node_modules/@sentry/react-native`)"
@@ -2623,7 +2623,7 @@ EXTERNAL SOURCES:
   ReactNativeDependencies:
     :podspec: "../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.4_@types+react@19.1.12_react@19.1.0/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
   RNGestureHandler:
-    :path: "../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.81.4_@babel+core@7.28.4_@types+react_9d501f1550a1b3628203aa96a7ae371d/node_modules/react-native-gesture-handler"
+    :path: "../../node_modules/.pnpm/react-native-gesture-handler@2.29.0_react-native@0.81.4_@babel+core@7.28.4_@types+react_6d596cd030b5afaa92847405df5eddef/node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../../node_modules/.pnpm/react-native-reanimated@4.1.3_@babel+core@7.28.4_react-native-worklets@0.6.1_@babel+cor_9243fa4253dfa50e8e8b743701886d0f/node_modules/react-native-reanimated"
   RNScreens:
@@ -2733,7 +2733,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 1a09be7c8ef84cf5eb646f5c9f0fa4ea036d365d
   ReactCommon: 149b6c05126f2e99f2ed0d3c63539369546f8cae
   ReactNativeDependencies: ed6d1e64802b150399f04f1d5728ec16b437251e
-  RNGestureHandler: 2914750df066d89bf9d8f48a10ad5f0051108ac3
+  RNGestureHandler: ef45f72589eb85f7b8cd9b83f518b3fc8b83a532
   RNReanimated: c2ab53b91f2dc894e3f5f30166f490471a38c779
   RNScreens: db8ce1da5a1423fca091b856ac7fecec6596ddb8
   RNSentry: e78a3261af399234a1bd78663ffa73e89cf5087d
