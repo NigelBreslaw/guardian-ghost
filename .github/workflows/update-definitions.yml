@@ -23,14 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5.0.0
       - uses: oven-sh/setup-bun@v2
+      - uses: pnpm/action-setup@v4.1.0
+        with:
+          version: 10.19.0
       - name: bun install
         run: cd minifier && bun run next_gen.ts --check-manifest
         shell: bash {0}
       - name: copy json definitions
         run: cd minifier && mv json  ../native/public
-      # - uses: pnpm/action-setup@v4.1.0
-      #   with:
-      #     version: 10.19.0
+
       # - name: install dependencies
       #   run: cd native && pnpm install --frozen-lockfile
       # - name: add .env file
