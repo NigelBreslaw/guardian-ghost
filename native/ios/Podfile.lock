@@ -1605,7 +1605,7 @@ PODS:
     - ReactNativeDependencies
     - SwiftUIIntrospect (~> 1.0)
     - Yoga
-  - react-native-safe-area-context (5.6.1):
+  - react-native-safe-area-context (5.6.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1617,8 +1617,8 @@ PODS:
     - React-graphics
     - React-ImageManager
     - React-jsi
-    - react-native-safe-area-context/common (= 5.6.1)
-    - react-native-safe-area-context/fabric (= 5.6.1)
+    - react-native-safe-area-context/common (= 5.6.2)
+    - react-native-safe-area-context/fabric (= 5.6.2)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-renderercss
@@ -1629,7 +1629,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-safe-area-context/common (5.6.1):
+  - react-native-safe-area-context/common (5.6.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1651,7 +1651,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-safe-area-context/fabric (5.6.1):
+  - react-native-safe-area-context/fabric (5.6.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2384,7 +2384,7 @@ DEPENDENCIES:
   - "React-Mapbuffer (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon`)"
   - "React-microtasksnativemodule (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)"
   - "react-native-bottom-tabs (from `../../node_modules/.pnpm/react-native-bottom-tabs@0.12.2_react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0__react@19.1.0/node_modules/react-native-bottom-tabs`)"
-  - "react-native-safe-area-context (from `../../node_modules/.pnpm/react-native-safe-area-context@5.6.1_react-native@0.81.4_@babel+core@7.28.5_@types+reac_c1bbf7c8126d5f679c1ae389901c62ae/node_modules/react-native-safe-area-context`)"
+  - "react-native-safe-area-context (from `../../node_modules/.pnpm/react-native-safe-area-context@5.6.2_react-native@0.81.4_@babel+core@7.28.5_@types+reac_10faff17ed34689e6cac2db1629ae880/node_modules/react-native-safe-area-context`)"
   - "React-NativeModulesApple (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)"
   - "React-oscompat (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon/oscompat`)"
   - "React-perflogger (from `../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon/reactperflogger`)"
@@ -2559,7 +2559,7 @@ EXTERNAL SOURCES:
   react-native-bottom-tabs:
     :path: "../../node_modules/.pnpm/react-native-bottom-tabs@0.12.2_react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0__react@19.1.0/node_modules/react-native-bottom-tabs"
   react-native-safe-area-context:
-    :path: "../../node_modules/.pnpm/react-native-safe-area-context@5.6.1_react-native@0.81.4_@babel+core@7.28.5_@types+reac_c1bbf7c8126d5f679c1ae389901c62ae/node_modules/react-native-safe-area-context"
+    :path: "../../node_modules/.pnpm/react-native-safe-area-context@5.6.2_react-native@0.81.4_@babel+core@7.28.5_@types+reac_10faff17ed34689e6cac2db1629ae880/node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
     :path: "../../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.0/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -2701,7 +2701,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: fbe1da882a187e5898bdf125e1cc6e603d27ecae
   React-microtasksnativemodule: 76905804171d8ccbe69329fc84c57eb7934add7f
   react-native-bottom-tabs: e37c9d1565b1ee48c4c0e4b4fa4b804775f82dfa
-  react-native-safe-area-context: 42a1b4f8774b577d03b53de7326e3d5757fe9513
+  react-native-safe-area-context: 37e680fc4cace3c0030ee46e8987d24f5d3bdab2
   React-NativeModulesApple: a9464983ccc0f66f45e93558671f60fc7536e438
   React-oscompat: 73db7dbc80edef36a9d6ed3c6c4e1724ead4236d
   React-perflogger: 123272debf907cc423962adafcf4513320e43757
