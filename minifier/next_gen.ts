@@ -113,19 +113,26 @@ function stripImageUrl(url: string): string {
 }
 
 export async function downloadJsonFile(url: string): Promise<any> {
-  try {
-    const response = await fetch(url);
+  const maxAttempts = 5;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await fetch(url);
 
-    if (!response.ok) {
-      console.error(`Failed to fetch JSON: ${response.statusText}`);
-      process.exit(1);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Failed to download JSON file (attempt ${attempt}/${maxAttempts}) from ${url}: ${error}`);
+      if (attempt === maxAttempts) {
+        process.exit(1);
+      }
+      const backoffMs = attempt * 500;
+      await new Promise((resolve) => setTimeout(resolve, backoffMs));
     }
-
-    return response.json();
-  } catch (error) {
-    console.error(`Failed to download JSON file: ${error}`);
-    process.exit(1);
   }
+  process.exit(1);
 }
 
 type ProcessedData = {
