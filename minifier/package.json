@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "bun run next_gen.ts"
+    "start": "bun run next_gen.ts",
+    "benchmark": "bun run benchmark.ts",
+    "benchmark:baseline": "bun run benchmark.ts --baseline",
+    "benchmark:compare": "bun run benchmark.ts --compare",
+    "verify:baseline": "bun run verify-output.ts --save-baseline",
+    "verify:compare": "bun run verify-output.ts --compare"
   },
   "devDependencies": {
     "@types/bun": "1.3.0",
