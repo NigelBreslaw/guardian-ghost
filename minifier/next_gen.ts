@@ -98,7 +98,14 @@ interface JsonData {
 
 // Strip off the url so only the image name is left
 // http:bungie.com/blah/blah/123.jpg -> 123.jpg
+const stripImageUrlCache = new Map<string, string>();
+
 function stripImageUrl(url: string): string {
+  const cached = stripImageUrlCache.get(url);
+  if (cached !== undefined) {
+    return cached;
+  }
+
   const index = url.lastIndexOf("/");
   let shortUrl = url.substring(index + 1);
 
@@ -109,6 +116,7 @@ function stripImageUrl(url: string): string {
   //   shortUrl = shortUrl.replace(".png", ".p");
   // }
 
+  stripImageUrlCache.set(url, shortUrl);
   return shortUrl;
 }
 
