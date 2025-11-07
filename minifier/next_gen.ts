@@ -112,7 +112,7 @@ function stripImageUrl(url: string): string {
   return shortUrl;
 }
 
-async function downloadJsonFile(url: string): Promise<any> {
+export async function downloadJsonFile(url: string): Promise<any> {
   try {
     const response = await fetch(url);
 
@@ -135,7 +135,7 @@ type ProcessedData = {
   id: string;
 };
 
-function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedData {
+export function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedData {
   // Dictionary of the repeat string arrays
   const repeatStrings: Record<RepeatStringsName, string[]> = {
     [RepeatStringsName.Descriptions]: [],
@@ -789,7 +789,7 @@ function createMiniDefinition(jsonData: JsonData, uniqueKey: string): ProcessedD
   return processedData;
 }
 
-async function saveToJsonFile(data: any, filePath: string): Promise<void> {
+export async function saveToJsonFile(data: any, filePath: string): Promise<void> {
   try {
     const jsonString = JSON.stringify(data, null, 0);
     await Bun.write(filePath, jsonString);
