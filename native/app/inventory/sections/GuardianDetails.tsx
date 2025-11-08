@@ -68,7 +68,7 @@ export default function GuardianDetails({ characterIndex }: Props) {
 
   const destinyClassType = useGGStore.getState().ggCharacters[characterIndex]?.guardianClassType;
   const destinyClassName = getGuardianClassType(destinyClassType);
-  const destinyRaceType = useGGStore.getState().ggCharacters[characterIndex]?.raceType!;
+  const destinyRaceType = useGGStore.getState().ggCharacters[characterIndex]?.raceType ?? 3;
   const destinyRaceName = getGuardianRaceType(destinyRaceType).toUpperCase();
 
   const characterId = useGGStore((state) => state.ggCharacters[characterIndex]?.characterId);
