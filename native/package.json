@@ -73,6 +73,8 @@
     "@biomejs/biome": "2.3.4",
     "@types/react": "19.1.12",
     "@types/react-dom": "19.1.9",
+    "babel-preset-expo": "54.0.7-canary-20251031-b135dff",
+    "@babel/plugin-transform-react-jsx": "7.27.1",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "expo-atlas": "0.4.3",
