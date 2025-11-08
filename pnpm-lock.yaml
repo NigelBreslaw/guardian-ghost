@@ -282,6 +282,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
+      babel-preset-expo:
+        specifier: 54.0.7-canary-20251031-b135dff
+        version: 54.0.7-canary-20251031-b135dff(@babel/core@7.28.5)(@babel/runtime@7.28.4)(expo@55.0.0-canary-20251031-b135dff)(react-refresh@0.14.2)
       eslint-plugin-react-compiler:
         specifier: 19.1.0-rc.2
         version: 19.1.0-rc.2(eslint@9.39.1(jiti@1.21.7))
