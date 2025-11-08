@@ -5,10 +5,10 @@ packages:
   - mono/examples/*
 
 catalog:
-  typescript: 5.9.3
+  '@biomejs/biome': 2.2.6
   astro: 5.15.4
   turbo: 2.5.8
-  "@biomejs/biome": 2.2.6
+  typescript: 5.9.3
 
 onlyBuiltDependencies:
   - '@sentry/cli'
