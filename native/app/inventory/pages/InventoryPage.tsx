@@ -1,7 +1,8 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
-import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Platform, RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { useBottomTabBarHeight } from "react-native-bottom-tabs";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { InventoryPageEnums, UISections } from "@/app/inventory/logic/Helpers.ts";
@@ -31,6 +32,8 @@ const getItemType = (item: UISections) => item.type;
 export default function InventoryPage({ inventoryPageEnum }: Props) {
   "use memo";
   const { width } = useWindowDimensions();
+  const tabBarHeight = useBottomTabBarHeight();
+  const bottomPadding = Platform.OS === "ios" ? tabBarHeight : 0;
   const HOME_WIDTH = width;
 
   const listRefs = useRef<(FlashListRef<UISections> | null)[]>([]);
@@ -120,6 +123,7 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
                   // biome-ignore lint/style/noParameterAssign: works fine
                   listRefs.current[index] = ref;
                 }}
+                contentContainerStyle={{ paddingBottom: bottomPadding }}
                 refreshControl={
                   <RefreshControl
                     enabled={true}
