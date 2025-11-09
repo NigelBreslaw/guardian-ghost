@@ -14,3 +14,6 @@ onlyBuiltDependencies:
   - '@sentry/cli'
   - esbuild
   - sharp
+
+patchedDependencies:
+  '@gorhom/bottom-sheet': patches/@gorhom__bottom-sheet.patch
