@@ -1,0 +1,15 @@
+{
+    "ignore_dirs": [
+        "node_modules/.cache",
+        ".expo",
+        "android/.gradle",
+        "android/app/build",
+        "ios/build",
+        "ios/DerivedData",
+        "native/.expo",
+        "native/android/.gradle",
+        "native/android/app/build",
+        "native/ios/build",
+        "native/ios/DerivedData"
+    ]
+}
