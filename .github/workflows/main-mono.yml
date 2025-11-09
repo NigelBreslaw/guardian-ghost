@@ -20,5 +20,7 @@ jobs:
           version: 10.20.0
       - name: install dependencies
         run: pnpm install --frozen-lockfile
+      - name: type check
+        run: pnpm type-check
       - name: build
         run: pnpm build:ci

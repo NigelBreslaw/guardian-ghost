@@ -6,11 +6,11 @@ declare const __brand: unique symbol;
 type Brand<B> = { [__brand]: B };
 export type Branded<T, B> = T & Brand<B>;
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
+// biome-ignore lint/complexity/noBannedTypes: The debounce helper forwards any callable without narrowing the signature.
 export const debounce = (func: Function, delay = 0) => {
-  let timeoutId: string | number | NodeJS.Timeout | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: Variadic arguments must remain untyped to preserve the wrapped call signature.
   return (...args: any) => {
     clearTimeout(timeoutId);
 
