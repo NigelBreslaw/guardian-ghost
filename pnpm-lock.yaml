@@ -176,8 +176,8 @@ importers:
         specifier: 6.0.17-canary-20251031-b135dff
         version: 6.0.17-canary-20251031-b135dff(expo@55.0.0-canary-20251031-b135dff)
       expo-glass-effect:
-        specifier: 0.1.6
-        version: 0.1.6(expo@55.0.0-canary-20251031-b135dff)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
+        specifier: 0.2.0-canary-20251031-b135dff
+        version: 0.2.0-canary-20251031-b135dff(expo@55.0.0-canary-20251031-b135dff)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       expo-haptics:
         specifier: 15.0.8-canary-20251031-b135dff
         version: 15.0.8-canary-20251031-b135dff(expo@55.0.0-canary-20251031-b135dff)
@@ -3812,10 +3812,10 @@ packages:
       react: '*'
       react-native: '*'
 
-  expo-glass-effect@0.1.6:
-    resolution: {integrity: sha512-cwYJJJcvzwvl5XULEAVCrR5EPe/x/M/LOHq7wcsRR4ATuce2z/ZGGv/7cGcbOcHlWn30a3g3BIiuEynGCC47wg==}
+  expo-glass-effect@0.2.0-canary-20251031-b135dff:
+    resolution: {integrity: sha512-bo7Vdx1Pyq47oj9x42tNfc14szTUYix8PmmvdhxL9vIAgDEPbmV9heCO14GKKasD8VmF5TfAEZ9BpjPGTs6s3w==}
     peerDependencies:
-      expo: '*'
+      expo: 55.0.0-canary-20251031-b135dff
       react: '*'
       react-native: '*'
 
@@ -11219,7 +11219,7 @@ snapshots:
       react: 19.1.1
       react-native: 0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1)
 
-  expo-glass-effect@0.1.6(expo@55.0.0-canary-20251031-b135dff)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1):
+  expo-glass-effect@0.2.0-canary-20251031-b135dff(expo@55.0.0-canary-20251031-b135dff)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1):
     dependencies:
       expo: 55.0.0-canary-20251031-b135dff(@babel/core@7.28.5)(@expo/dom-webview@0.2.8-canary-20251031-b135dff)(@expo/metro-runtime@6.2.0-canary-20251031-b135dff)(expo-router@7.0.0-canary-20251031-b135dff)(react-dom@19.1.1(react@19.1.1))(react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       react: 19.1.1
