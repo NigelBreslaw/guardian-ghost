@@ -1,7 +1,5 @@
 import { createNativeBottomTabNavigator } from "@bottom-tabs/react-navigation";
 import { Platform, View } from "react-native";
-import * as Haptics from "expo-haptics";
-
 import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
 import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
 import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
@@ -36,15 +34,7 @@ export default function InventoryPages() {
         tabBarStyle={{
           backgroundColor: "#17101F",
         }}
-        disablePageAnimations={true}
-        hapticFeedbackEnabled={Platform.OS !== "web"}
-        screenListeners={{
-          tabPress: () => {
-            if (Platform.OS !== "web") {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            }
-          },
-        }}
+        hapticFeedbackEnabled={true}
       >
         <Tab.Screen
           name="tab-weapons"
