@@ -1,8 +1,8 @@
 PODS:
   - EXConstants (18.1.0-canary-20251031-b135dff):
     - ExpoModulesCore
-  - EXJSONUtils (0.15.1-canary-20251031-b135dff)
-  - EXManifests (1.0.9-canary-20251031-b135dff):
+  - EXJSONUtils (0.15.0)
+  - EXManifests (1.0.8):
     - ExpoModulesCore
   - Expo (55.0.0-canary-20251031-b135dff):
     - ExpoModulesCore
@@ -29,15 +29,15 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-client (6.0.17-canary-20251031-b135dff):
+  - expo-dev-client (6.0.17):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (6.1.0-canary-20251031-b135dff):
+  - expo-dev-launcher (6.0.17):
     - EXManifests
-    - expo-dev-launcher/Main (= 6.1.0-canary-20251031-b135dff)
+    - expo-dev-launcher/Main (= 6.0.17)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -66,7 +66,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Main (6.1.0-canary-20251031-b135dff):
+  - expo-dev-launcher/Main (6.0.17):
     - EXManifests
     - expo-dev-launcher/Unsafe
     - expo-dev-menu
@@ -97,7 +97,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Unsafe (6.1.0-canary-20251031-b135dff):
+  - expo-dev-launcher/Unsafe (6.0.17):
     - EXManifests
     - expo-dev-menu
     - expo-dev-menu-interface
@@ -127,9 +127,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu (7.1.0-canary-20251031-b135dff):
-    - expo-dev-menu/Main (= 7.1.0-canary-20251031-b135dff)
-    - expo-dev-menu/ReactNativeCompatibles (= 7.1.0-canary-20251031-b135dff)
+  - expo-dev-menu (7.0.16):
+    - expo-dev-menu/Main (= 7.0.16)
+    - expo-dev-menu/ReactNativeCompatibles (= 7.0.16)
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -151,8 +151,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu-interface (2.0.1-canary-20251031-b135dff)
-  - expo-dev-menu/Main (7.1.0-canary-20251031-b135dff):
+  - expo-dev-menu-interface (2.0.0)
+  - expo-dev-menu/Main (7.0.16):
     - EXManifests
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -178,7 +178,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu/ReactNativeCompatibles (7.1.0-canary-20251031-b135dff):
+  - expo-dev-menu/ReactNativeCompatibles (7.0.16):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -254,15 +254,15 @@ PODS:
     - Yoga
   - ExpoSplashScreen (31.0.11-canary-20251031-b135dff):
     - ExpoModulesCore
-  - ExpoSQLite (16.0.9-canary-20251031-b135dff):
+  - ExpoSQLite (16.0.9):
     - ExpoModulesCore
   - ExpoSystemUI (6.0.9-canary-20251031-b135dff):
     - ExpoModulesCore
   - ExpoUI (0.2.0-canary-20251031-b135dff):
     - ExpoModulesCore
-  - ExpoWebBrowser (15.0.9-canary-20251031-b135dff):
+  - ExpoWebBrowser (15.0.9):
     - ExpoModulesCore
-  - EXUpdatesInterface (2.0.1-canary-20251031-b135dff):
+  - EXUpdatesInterface (2.0.0):
     - ExpoModulesCore
   - FBLazyVector (0.82.1)
   - hermes-engine (0.82.1):
@@ -2380,13 +2380,13 @@ PODS:
 
 DEPENDENCIES:
   - "EXConstants (from `../../node_modules/.pnpm/expo-constants@18.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react_35f56c99e6f8a54d4371678d40ba92b0/node_modules/expo-constants/ios`)"
-  - "EXJSONUtils (from `../../node_modules/.pnpm/expo-json-utils@0.15.1-canary-20251031-b135dff/node_modules/expo-json-utils/ios`)"
-  - "EXManifests (from `../../node_modules/.pnpm/expo-manifests@1.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-manifests/ios`)"
+  - "EXJSONUtils (from `../../node_modules/.pnpm/expo-json-utils@0.15.0/node_modules/expo-json-utils/ios`)"
+  - "EXManifests (from `../../node_modules/.pnpm/expo-manifests@1.0.8_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-manifests/ios`)"
   - "Expo (from `../../node_modules/.pnpm/expo@55.0.0-canary-20251031-b135dff_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_701965c49686394390ba0db8d1e0f35b/node_modules/expo`)"
-  - "expo-dev-client (from `../../node_modules/.pnpm/expo-dev-client@6.0.17-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-client/ios`)"
-  - "expo-dev-launcher (from `../../node_modules/.pnpm/expo-dev-launcher@6.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-launcher`)"
-  - "expo-dev-menu (from `../../node_modules/.pnpm/expo-dev-menu@7.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu`)"
-  - "expo-dev-menu-interface (from `../../node_modules/.pnpm/expo-dev-menu-interface@2.0.1-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu-interface/ios`)"
+  - "expo-dev-client (from `../../node_modules/.pnpm/expo-dev-client@6.0.17_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-client/ios`)"
+  - "expo-dev-launcher (from `../../node_modules/.pnpm/expo-dev-launcher@6.0.17_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-launcher`)"
+  - "expo-dev-menu (from `../../node_modules/.pnpm/expo-dev-menu@7.0.16_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu`)"
+  - "expo-dev-menu-interface (from `../../node_modules/.pnpm/expo-dev-menu-interface@2.0.0_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu-interface/ios`)"
   - "ExpoAsset (from `../../node_modules/.pnpm/expo-asset@12.0.10-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-na_5f919cc2aceb8b745fefbb21032fc2a0/node_modules/expo-asset/ios`)"
   - "ExpoCrypto (from `../../node_modules/.pnpm/expo-crypto@15.0.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-crypto/ios`)"
   - "ExpoDomWebView (from `../../node_modules/.pnpm/@expo+dom-webview@0.2.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_47d81c2051077ba777b85d16231c34d1/node_modules/@expo/dom-webview/ios`)"
@@ -2401,11 +2401,11 @@ DEPENDENCIES:
   - "ExpoLogBox (from `../../node_modules/.pnpm/@expo+log-box@0.0.13-canary-20251031-b135dff_@expo+dom-webview@0.2.8-canary-20251031-b1_4cd1884b4d3c8bb2ee7b25d392436cfd/node_modules/@expo/log-box`)"
   - "ExpoModulesCore (from `../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251031-b135dff_react-native@0.82.1_@babel+core@7.28.5__0baa2b43826c446501103a82850d4e47/node_modules/expo-modules-core`)"
   - "ExpoSplashScreen (from `../../node_modules/.pnpm/expo-splash-screen@31.0.11-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-splash-screen/ios`)"
-  - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-na_c86f54309f5b7d10e5c62b83fdda1faa/node_modules/expo-sqlite/ios`)"
+  - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.0.9_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+core@_5135f8a2bbe21b517a32f1fa77171caf/node_modules/expo-sqlite/ios`)"
   - "ExpoSystemUI (from `../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-_b7b3c765a163ed77998b72d09d1019e4/node_modules/expo-system-ui/ios`)"
   - "ExpoUI (from `../../node_modules/.pnpm/@expo+ui@0.2.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-native_772fcb19317669eae7d7d6f9c751c494/node_modules/@expo/ui/ios`)"
-  - "ExpoWebBrowser (from `../../node_modules/.pnpm/expo-web-browser@15.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_2227d3a7335cdb9728a10b01ec3fc520/node_modules/expo-web-browser/ios`)"
-  - "EXUpdatesInterface (from `../../node_modules/.pnpm/expo-updates-interface@2.0.1-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-updates-interface/ios`)"
+  - "ExpoWebBrowser (from `../../node_modules/.pnpm/expo-web-browser@15.0.9_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+_c15c95c3f6e7236142af9fca69333564/node_modules/expo-web-browser/ios`)"
+  - "EXUpdatesInterface (from `../../node_modules/.pnpm/expo-updates-interface@2.0.0_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-updates-interface/ios`)"
   - "FBLazyVector (from `../../node_modules/.pnpm/react-native@0.82.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.1/node_modules/react-native/Libraries/FBLazyVector`)"
   - "hermes-engine (from `../../node_modules/.pnpm/react-native@0.82.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.1/node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)"
   - "RCTDeprecation (from `../../node_modules/.pnpm/react-native@0.82.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.1/node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)"
@@ -2501,19 +2501,19 @@ EXTERNAL SOURCES:
   EXConstants:
     :path: "../../node_modules/.pnpm/expo-constants@18.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react_35f56c99e6f8a54d4371678d40ba92b0/node_modules/expo-constants/ios"
   EXJSONUtils:
-    :path: "../../node_modules/.pnpm/expo-json-utils@0.15.1-canary-20251031-b135dff/node_modules/expo-json-utils/ios"
+    :path: "../../node_modules/.pnpm/expo-json-utils@0.15.0/node_modules/expo-json-utils/ios"
   EXManifests:
-    :path: "../../node_modules/.pnpm/expo-manifests@1.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-manifests/ios"
+    :path: "../../node_modules/.pnpm/expo-manifests@1.0.8_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-manifests/ios"
   Expo:
     :path: "../../node_modules/.pnpm/expo@55.0.0-canary-20251031-b135dff_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_701965c49686394390ba0db8d1e0f35b/node_modules/expo"
   expo-dev-client:
-    :path: "../../node_modules/.pnpm/expo-dev-client@6.0.17-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-client/ios"
+    :path: "../../node_modules/.pnpm/expo-dev-client@6.0.17_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-client/ios"
   expo-dev-launcher:
-    :path: "../../node_modules/.pnpm/expo-dev-launcher@6.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-launcher"
+    :path: "../../node_modules/.pnpm/expo-dev-launcher@6.0.17_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-launcher"
   expo-dev-menu:
-    :path: "../../node_modules/.pnpm/expo-dev-menu@7.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu"
+    :path: "../../node_modules/.pnpm/expo-dev-menu@7.0.16_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu"
   expo-dev-menu-interface:
-    :path: "../../node_modules/.pnpm/expo-dev-menu-interface@2.0.1-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu-interface/ios"
+    :path: "../../node_modules/.pnpm/expo-dev-menu-interface@2.0.0_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-dev-menu-interface/ios"
   ExpoAsset:
     :path: "../../node_modules/.pnpm/expo-asset@12.0.10-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-na_5f919cc2aceb8b745fefbb21032fc2a0/node_modules/expo-asset/ios"
   ExpoCrypto:
@@ -2543,15 +2543,15 @@ EXTERNAL SOURCES:
   ExpoSplashScreen:
     :path: "../../node_modules/.pnpm/expo-splash-screen@31.0.11-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-splash-screen/ios"
   ExpoSQLite:
-    :path: "../../node_modules/.pnpm/expo-sqlite@16.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-na_c86f54309f5b7d10e5c62b83fdda1faa/node_modules/expo-sqlite/ios"
+    :path: "../../node_modules/.pnpm/expo-sqlite@16.0.9_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+core@_5135f8a2bbe21b517a32f1fa77171caf/node_modules/expo-sqlite/ios"
   ExpoSystemUI:
     :path: "../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-_b7b3c765a163ed77998b72d09d1019e4/node_modules/expo-system-ui/ios"
   ExpoUI:
     :path: "../../node_modules/.pnpm/@expo+ui@0.2.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-native_772fcb19317669eae7d7d6f9c751c494/node_modules/@expo/ui/ios"
   ExpoWebBrowser:
-    :path: "../../node_modules/.pnpm/expo-web-browser@15.0.9-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_2227d3a7335cdb9728a10b01ec3fc520/node_modules/expo-web-browser/ios"
+    :path: "../../node_modules/.pnpm/expo-web-browser@15.0.9_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+_c15c95c3f6e7236142af9fca69333564/node_modules/expo-web-browser/ios"
   EXUpdatesInterface:
-    :path: "../../node_modules/.pnpm/expo-updates-interface@2.0.1-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-updates-interface/ios"
+    :path: "../../node_modules/.pnpm/expo-updates-interface@2.0.0_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-updates-interface/ios"
   FBLazyVector:
     :path: "../../node_modules/.pnpm/react-native@0.82.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.1/node_modules/react-native/Libraries/FBLazyVector"
   hermes-engine:
@@ -2710,13 +2710,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   EXConstants: cc548b8af5ac33aa6fdfc5afa8329c4bef42e737
-  EXJSONUtils: 07e266118f69657d5e04278a2d88c62245d0a23b
-  EXManifests: 1a33303a038231c94bff77df25f86934d554ebef
+  EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
+  EXManifests: 224345a575fca389073c416297b6348163f28d1a
   Expo: 7ec7f18a00b726189ed0bf15890b75aaf3809ba4
-  expo-dev-client: b152d73cf38d9d17d4f0355da70ca56164381cf8
-  expo-dev-launcher: 5a536a59f59cfff1e6d6b380420faade37b3a447
-  expo-dev-menu: 064f159ee5c31a265f927c30d4d5d9450f66efa3
-  expo-dev-menu-interface: 38697c9d47fd0714f3ba13bf161c64e3859e2e73
+  expo-dev-client: b6e7b4f4063ae44b5e68cc6a8bcc0c79c3037c1a
+  expo-dev-launcher: 0dc3edcb5f1a6471b0607a598a60f473121329b1
+  expo-dev-menu: 545d938b829b3af6324de34c1a99abc925838f1d
+  expo-dev-menu-interface: 600df12ea01efecdd822daaf13cc0ac091775533
   ExpoAsset: f97f16577d10f0f7a057193c37ba9c786a6e2bd3
   ExpoCrypto: 140d8579f5b6fd1c5d3d4f60d38453595d58925b
   ExpoDomWebView: 62df039af831e515715aa6048c9e4c80f60086d8
@@ -2731,11 +2731,11 @@ SPEC CHECKSUMS:
   ExpoLogBox: 3f176d9bec7101e31000923d9741584bd685ba7d
   ExpoModulesCore: 578cb018ff8e36b1df7d8b41073caccfe24bfad1
   ExpoSplashScreen: 34b5a0b2802e171052f914d2837abe8091a49a8d
-  ExpoSQLite: 91c9ef789cc91772a6fa38ea899aa4b0f6f031a3
+  ExpoSQLite: b312b02c8b77ab55951396e6cd13992f8db9215f
   ExpoSystemUI: 8bf7327db448314e001713048effaadd57945757
   ExpoUI: 22d1fd99c22994c99fb9fbc54bbcb1492bda9ffb
-  ExpoWebBrowser: 2fc96f289e201ba32e306bce38ae87f61a09be9b
-  EXUpdatesInterface: 84e77ddb672401e5d10ce75280b614844442058d
+  ExpoWebBrowser: b973e1351fdcf5fec0c400997b1851f5a8219ec3
+  EXUpdatesInterface: 5adf50cb41e079c861da6d9b4b954c3db9a50734
   FBLazyVector: 2e5b5553df729e080483373db6f045201ff4e6db
   hermes-engine: 273e30e7fb618279934b0b95ffab60ecedb7acf5
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
