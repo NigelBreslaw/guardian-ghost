@@ -166,10 +166,8 @@ export default function RootLayout() {
           <Toast />
           <PortalHost />
         </>
-      ) : (
-        /* Waiting for hydration */
-        null
-      )}
+      ) : /* Waiting for hydration */
+      null}
     </GestureHandlerRootView>
   );
 }
