@@ -36,11 +36,11 @@ export default function Index() {
       });
       router.replace("/sign-in");
     } else if (authenticated === "AUTHENTICATED") {
-      console.log("[Index] Redirecting to /_authenticated/weapons");
+      console.log("[Index] Redirecting to /_authenticated/(tabs)/weapons");
       SplashScreen.hideAsync().catch(() => {
         // Ignore errors
       });
-      router.replace("/_authenticated/weapons");
+      router.replace("/_authenticated/(tabs)/weapons");
     } else {
       console.log("[Index] Still initializing, authenticated state:", authenticated);
     }
@@ -61,8 +61,8 @@ export default function Index() {
   }
 
   if (authenticated === "AUTHENTICATED") {
-    console.log("[Index] Rendering Redirect to /_authenticated/weapons");
-    return <Redirect href="/_authenticated/weapons" />;
+    console.log("[Index] Rendering Redirect to /_authenticated/(tabs)/weapons");
+    return <Redirect href="/_authenticated/(tabs)/weapons" />;
   }
 
   // Still initializing - don't render anything

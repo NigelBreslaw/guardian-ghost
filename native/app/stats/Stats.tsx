@@ -19,7 +19,7 @@ export default function Stats({ destinyItem }: Props) {
   const stats = createStats(destinyItem, sockets);
 
   return (
-    <View style={{ width: "100%" }}>
+    <View style={{ width: "100%", backgroundColor: "transparent" }}>
       {stats && <StatBars stats={stats} destinyItem={destinyItem} />}
       {sockets?.socketCategories
         .filter((category) => category.categoryStyle === CategoryStyle.Reusable)
