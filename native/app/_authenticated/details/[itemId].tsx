@@ -63,11 +63,10 @@ export default function DetailsView() {
   }, [focus, destinyItem, router]);
 
   const animationConfigs = useBottomSheetSpringConfigs({
+    mass: 20,
     damping: 80,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.1,
-    restSpeedThreshold: 0.1,
-    stiffness: 500,
+    duration: 250,
+    dampingRatio: 0.8,
   });
 
   function dismissBottomSheet() {
@@ -76,7 +75,8 @@ export default function DetailsView() {
 
   function transfer(characterId: CharacterId) {
     if (destinyItem) {
-      startTransfer(destinyItem, characterId);
+      const transferQuantity = useGGStore.getState().quantityToTransfer;
+      startTransfer(characterId, destinyItem, transferQuantity);
       router.back();
     }
   }
