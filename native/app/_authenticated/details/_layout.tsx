@@ -5,6 +5,7 @@ export default function DetailsLayout() {
   return (
     <Stack
       screenOptions={{
+        headerShown: true, // Explicitly show header
         headerBackTitle: "Back",
         headerStyle: {
           backgroundColor: "#17101F",

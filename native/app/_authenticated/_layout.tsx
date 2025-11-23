@@ -33,9 +33,7 @@ export default function AuthenticatedLayout() {
       />
       <Stack.Screen
         name="details"
-        options={{
-          headerShown: false, // Details stack handles its own header
-        }}
+        // Remove headerShown: false - let child Stack control its own header
       />
     </Stack>
   );
