@@ -33,7 +33,7 @@ export default function TabsLayout() {
           tabBarStyle: {
             backgroundColor: "#17101F",
           },
-          headerShown: true,
+          headerShown: false, // Headers are now handled by drawer
         }}
       >
         <Tabs.Screen
