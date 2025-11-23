@@ -69,4 +69,3 @@ export default function Index() {
   console.log("[Index] Returning null - still initializing");
   return null;
 }
-

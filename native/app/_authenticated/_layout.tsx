@@ -117,4 +117,3 @@ const headerStyles = StyleSheet.create({
     opacity: 0.4,
   },
 });
-

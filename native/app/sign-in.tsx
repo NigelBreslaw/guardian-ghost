@@ -140,7 +140,9 @@ export default function SignIn() {
 
             {bungieMembershipProfiles.length === 0 && (
               <View>
-                <Text style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}>
+                <Text
+                  style={{ ...themeTextStyle, fontSize: 50, fontWeight: "bold", letterSpacing: -2, lineHeight: 48 }}
+                >
                   {"Welcome to Guardian Ghost"}
                 </Text>
                 <View style={{ marginTop: 40 }} />
@@ -333,4 +335,3 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-

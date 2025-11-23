@@ -42,7 +42,12 @@ export default function TabsLayout() {
             title: "Weapons",
             tabBarIcon: ({ color, size }) => {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
-              return <Image source={require("../../../images/sword.svg")} style={{ width: size || 24, height: size || 24, tintColor: color }} />;
+              return (
+                <Image
+                  source={require("../../../images/sword.svg")}
+                  style={{ width: size || 24, height: size || 24, tintColor: color }}
+                />
+              );
             },
           }}
         />
@@ -52,7 +57,12 @@ export default function TabsLayout() {
             title: "Armor",
             tabBarIcon: ({ color, size }) => {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
-              return <Image source={require("../../../images/shield.svg")} style={{ width: size || 24, height: size || 24, tintColor: color }} />;
+              return (
+                <Image
+                  source={require("../../../images/shield.svg")}
+                  style={{ width: size || 24, height: size || 24, tintColor: color }}
+                />
+              );
             },
           }}
         />
@@ -62,7 +72,12 @@ export default function TabsLayout() {
             title: "Inventory",
             tabBarIcon: ({ color, size }) => {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
-              return <Image source={require("../../../images/package.svg")} style={{ width: size || 24, height: size || 24, tintColor: color }} />;
+              return (
+                <Image
+                  source={require("../../../images/package.svg")}
+                  style={{ width: size || 24, height: size || 24, tintColor: color }}
+                />
+              );
             },
           }}
         />
@@ -70,4 +85,3 @@ export default function TabsLayout() {
     </View>
   );
 }
-

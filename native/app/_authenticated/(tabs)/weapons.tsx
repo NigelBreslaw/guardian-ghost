@@ -5,4 +5,3 @@ export default function WeaponsPage() {
   "use memo";
   return <InventoryPage inventoryPageEnum={InventoryPageEnums.Weapons} />;
 }
-

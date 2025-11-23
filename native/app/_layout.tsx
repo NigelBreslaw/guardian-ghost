@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalHost } from "@rn-primitives/portal";
 import Toast from "react-native-toast-message";
 import * as NavigationBar from "expo-navigation-bar";
-import { Slot } from "expo-router";
+import { Slot, useRouter, useSegments } from "expo-router";
 
 import { BUNGIE_MANIFEST_URL, CUSTOM_MANIFEST_URL, getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { getJsonBlob } from "@/app/utilities/Helpers.ts";
@@ -95,21 +95,24 @@ export default function RootLayout() {
   const SCREEN_WIDTH = width;
   const stateHydrated = useGGStore((state) => state.stateHydrated);
   const appReady = useGGStore((state) => state.appReady);
+  const router = useRouter();
+  const segments = useSegments();
 
   // Initialize authentication on mount (not at module load time)
   useEffect(() => {
     init();
   }, []);
 
-  // Debug logging
+  // Global auth state listener - safety net for logout navigation
   useEffect(() => {
-    console.log("[RootLayout] State:", {
-      stateHydrated,
-      authenticated,
-      appReady,
-      width: SCREEN_WIDTH,
-    });
-  }, [stateHydrated, authenticated, appReady, SCREEN_WIDTH]);
+    if (stateHydrated && authenticated === "NO-AUTHENTICATION") {
+      // User logged out - ensure we're not on authenticated routes
+      const currentRoute = segments[0];
+      if (currentRoute === "_authenticated") {
+        router.replace("/sign-in");
+      }
+    }
+  }, [authenticated, stateHydrated, segments, router]);
 
   useEffect(() => {
     async function setAndroidStatusBarColor() {
@@ -155,9 +158,6 @@ export default function RootLayout() {
     }
   }, [stateHydrated]);
 
-  // Render minimal structure even when not hydrated so Expo Router can work
-  console.log("[RootLayout] Rendering, stateHydrated:", stateHydrated);
-  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       {stateHydrated ? (
@@ -172,4 +172,3 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
-

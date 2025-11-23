@@ -31,18 +31,39 @@ export default function CharacterHeaderButtons() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <This subscribes on mount>
   useEffect(() => {
-    const unsubscribe = useGGStore.subscribe(
+    const checkAndShow = () => {
+      const initialPageLoaded = useGGStore.getState().initialPageLoaded;
+      const currentGGCharacters = useGGStore.getState().ggCharacters;
+      if (initialPageLoaded && currentGGCharacters.length > 0) {
+        opacity.value = withSpring(1, {
+          duration: 1250,
+          reduceMotion: ReduceMotion.System,
+        });
+      }
+    };
+
+    // Check initial state
+    checkAndShow();
+
+    // Subscribe to both initialPageLoaded and ggCharacters changes
+    const unsubscribe1 = useGGStore.subscribe(
       (state) => state.initialPageLoaded,
-      (initialPageLoaded, _previous) => {
-        if (initialPageLoaded) {
-          opacity.value = withSpring(1, {
-            duration: 1250,
-            reduceMotion: ReduceMotion.System,
-          });
-        }
+      () => {
+        checkAndShow();
       },
     );
-    return unsubscribe;
+
+    const unsubscribe2 = useGGStore.subscribe(
+      (state) => state.ggCharacters,
+      () => {
+        checkAndShow();
+      },
+    );
+
+    return () => {
+      unsubscribe1();
+      unsubscribe2();
+    };
   }, []);
 
   return (

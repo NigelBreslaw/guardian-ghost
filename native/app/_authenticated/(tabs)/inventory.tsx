@@ -5,4 +5,3 @@ export default function InventoryPageRoute() {
   "use memo";
   return <InventoryPage inventoryPageEnum={InventoryPageEnums.General} />;
 }
-

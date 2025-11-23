@@ -5,4 +5,3 @@ export default function ArmorPage() {
   "use memo";
   return <InventoryPage inventoryPageEnum={InventoryPageEnums.Armor} />;
 }
-

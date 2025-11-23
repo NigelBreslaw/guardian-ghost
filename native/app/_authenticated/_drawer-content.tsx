@@ -37,9 +37,11 @@ export default function CustomDrawerContent({ navigation, state }: DrawerContent
     router.push("/_authenticated/settings");
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     navigation.closeDrawer();
-    useGGStore.getState().logoutCurrentUser();
+    await useGGStore.getState().logoutCurrentUser();
+    // Navigate to sign-in immediately after logout
+    router.replace("/sign-in");
   };
 
   return (
@@ -166,4 +168,3 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
 });
-
