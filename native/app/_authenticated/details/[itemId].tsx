@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import BottomSheet, { BottomSheetView, useBottomSheetSpringConfigs } from "@gorhom/bottom-sheet";
-import { Stack } from "expo-router";
 
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { startTransfer } from "@/app/inventory/logic/Transfer.ts";
@@ -88,72 +87,65 @@ export default function DetailsView() {
   }
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          headerBackTitle: "Back",
-          headerStyle: {
-            backgroundColor: "#17101F",
-          },
-          headerTintColor: "white",
+    <View style={{ flex: 1, backgroundColor: "#17101F" }}>
+      <View style={{ flex: 1, paddingBottom: 80 }}>
+        <ScrollView
+          style={{ backgroundColor: "#17101F" }}
+          keyboardShouldPersistTaps="always"
+          onScrollBeginDrag={dismissBottomSheet}
+        >
+          {destinyItem && (
+            <View>
+              <ScreenInfo destinyItem={destinyItem} />
+              <Stats destinyItem={destinyItem} />
+            </View>
+          )}
+        </ScrollView>
+      </View>
+
+      {showBottomSheet(destinyItem) && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          animationConfigs={animationConfigs}
+          snapPoints={[60]}
+          animateOnMount={false}
+          index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
+          onChange={(e) => {
+            if (e === 0) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
+            } else if (e === 1) {
+              useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
+            }
+          }}
+          handleIndicatorStyle={{ backgroundColor: "gray" }}
+          bottomInset={insets.bottom}
+          backgroundStyle={{
+            backgroundColor: BOTTOM_SHEET_COLOR,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <TransferEquipButtons
+              close={() => {
+                router.back();
+              }}
+              destinyItem={destinyItem}
+              startTransfer={transfer}
+            />
+          </BottomSheetView>
+        </BottomSheet>
+      )}
+      <View
+        style={{
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderColor: "grey",
+          position: "absolute",
+          width: "100%",
+          backgroundColor: BOTTOM_SHEET_COLOR,
+          height: insets.bottom,
+          bottom: 0,
         }}
       />
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, paddingBottom: 80 }}>
-          <ScrollView style={{}} keyboardShouldPersistTaps="always" onScrollBeginDrag={dismissBottomSheet}>
-            {destinyItem && (
-              <View>
-                <ScreenInfo destinyItem={destinyItem} />
-                <Stats destinyItem={destinyItem} />
-              </View>
-            )}
-          </ScrollView>
-        </View>
-
-        {showBottomSheet(destinyItem) && (
-          <BottomSheet
-            ref={bottomSheetRef}
-            animationConfigs={animationConfigs}
-            snapPoints={[60]}
-            animateOnMount={false}
-            index={useGGStore.getState().showNextBottomSheet === ShowBottomSheet.show ? 1 : 0}
-            onChange={(e) => {
-              if (e === 0) {
-                useGGStore.getState().setShowBottomSheet(ShowBottomSheet.minimize);
-              } else if (e === 1) {
-                useGGStore.getState().setShowBottomSheet(ShowBottomSheet.show);
-              }
-            }}
-            handleIndicatorStyle={{ backgroundColor: "gray" }}
-            bottomInset={insets.bottom}
-            backgroundStyle={{
-              backgroundColor: BOTTOM_SHEET_COLOR,
-            }}
-          >
-            <BottomSheetView style={styles.contentContainer}>
-              <TransferEquipButtons
-                close={() => {
-                  router.back();
-                }}
-                destinyItem={destinyItem}
-                startTransfer={transfer}
-              />
-            </BottomSheetView>
-          </BottomSheet>
-        )}
-        <View
-          style={{
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderColor: "grey",
-            position: "absolute",
-            width: "100%",
-            backgroundColor: BOTTOM_SHEET_COLOR,
-            height: insets.bottom,
-            bottom: 0,
-          }}
-        />
-      </View>
-    </>
+    </View>
   );
 }
 

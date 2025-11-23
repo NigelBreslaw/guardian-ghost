@@ -44,7 +44,7 @@ export default function TabsLayout() {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
               return (
                 <Image
-                  source={require("../../../images/sword.svg")}
+                  source={require("../../../../images/sword.svg")}
                   style={{ width: size || 24, height: size || 24, tintColor: color }}
                 />
               );
@@ -59,7 +59,7 @@ export default function TabsLayout() {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
               return (
                 <Image
-                  source={require("../../../images/shield.svg")}
+                  source={require("../../../../images/shield.svg")}
                   style={{ width: size || 24, height: size || 24, tintColor: color }}
                 />
               );
@@ -74,7 +74,7 @@ export default function TabsLayout() {
               // eslint-disable-next-line @typescript-eslint/no-require-imports
               return (
                 <Image
-                  source={require("../../../images/package.svg")}
+                  source={require("../../../../images/package.svg")}
                   style={{ width: size || 24, height: size || 24, tintColor: color }}
                 />
               );

@@ -17,6 +17,7 @@ export default function CustomDrawerContent({ navigation }: DrawerContentCompone
   const segments = useSegments();
 
   // Determine if we're on tabs (Inventory) route
+  // Note: (drawer) is a route group and doesn't appear in segments
   const isOnTabsRoute = segments.includes("(tabs)");
   const isOnSearchRoute = segments[segments.length - 1] === "search";
   const isOnSettingsRoute = segments[segments.length - 1] === "settings";
@@ -24,16 +25,19 @@ export default function CustomDrawerContent({ navigation }: DrawerContentCompone
   const handleInventoryPress = () => {
     navigation.closeDrawer();
     // Navigate to weapons tab (default inventory tab)
+    // Route group (drawer) is transparent in URLs
     router.push("/_authenticated/(tabs)/weapons");
   };
 
   const handleSearchPress = () => {
     navigation.closeDrawer();
+    // Route group (drawer) is transparent in URLs
     router.push("/_authenticated/search");
   };
 
   const handleSettingsPress = () => {
     navigation.closeDrawer();
+    // Route group (drawer) is transparent in URLs
     router.push("/_authenticated/settings");
   };
 
