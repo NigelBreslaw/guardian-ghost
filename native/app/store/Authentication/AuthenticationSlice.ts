@@ -128,9 +128,9 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
       get().processBungieMembershipProfiles(authToken, linkedProfiles);
     } catch (error) {
       console.error("Failed to create authenticated account", error);
-      
+
       const errorMessage = error instanceof Error ? error.message : String(error);
-      
+
       // If code was already used, check if we're authenticated
       if (errorMessage === "Code already used") {
         const currentAuth = get().authenticated;
@@ -140,7 +140,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
           return;
         }
       }
-      
+
       // Check if authentication already succeeded (code was already used but auth worked)
       const currentAuth = get().authenticated;
       if (currentAuth === "AUTHENTICATED" || currentAuth === "DEMO-MODE") {
@@ -148,7 +148,7 @@ export const createAuthenticationSlice: StateCreator<IStore, [], [], Authenticat
         console.log("Authentication already succeeded, ignoring duplicate processing");
         return;
       }
-      
+
       // Only show error if authentication actually failed
       // TODO: Show alert as login modal overlaps snackbar
       get().showSnackBar("Failed to create authenticated account");
