@@ -113,8 +113,8 @@ importers:
         specifier: 6.2.0-canary-20251118-8f7ee64
         version: 6.2.0-canary-20251118-8f7ee64(@expo/dom-webview@0.2.8-canary-20251031-b135dff)(expo@55.0.0-canary-20251118-8f7ee64)(react-dom@19.1.1(react@19.1.1))(react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       '@expo/ui':
-        specifier: 0.2.0-canary-20251118-8f7ee64
-        version: 0.2.0-canary-20251118-8f7ee64(expo@55.0.0-canary-20251118-8f7ee64)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
+        specifier: 0.2.0-beta.8
+        version: 0.2.0-beta.8(expo@55.0.0-canary-20251118-8f7ee64)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       '@gorhom/bottom-sheet':
         specifier: 5.2.6
         version: 5.2.6(patch_hash=16c5ffaafb23eaa50101328e8c6e24d6ba06cef50d931f748abd686a745a387e)(@types/react@19.1.12)(react-native-gesture-handler@2.29.1(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
@@ -1362,8 +1362,8 @@ packages:
   '@expo/sudo-prompt@9.3.2':
     resolution: {integrity: sha512-HHQigo3rQWKMDzYDLkubN5WQOYXJJE2eNqIQC2axC2iO3mHdwnIR7FgZVvHWtBwAdzBgAP0ECp8KqS8TiMKvgw==}
 
-  '@expo/ui@0.2.0-canary-20251118-8f7ee64':
-    resolution: {integrity: sha512-h6qt3vvhEL6ww9mJN4c2KlMQB1U08xGGowRDkkStmPevKUA12aE3ARh355KLgvUlgVmixuCbwYHOlD7DJgKzbA==}
+  '@expo/ui@0.2.0-beta.8':
+    resolution: {integrity: sha512-Lt/s9iv0AFcpvO45dKFEZQTkWAqkbkKe746CaJPlZU/XdsULiW8JH949u5toGz/PcCiQgTzz8gQxd1WOIA6YyQ==}
     peerDependencies:
       expo: '*'
       react: '*'
@@ -8590,7 +8590,7 @@ snapshots:
 
   '@expo/sudo-prompt@9.3.2': {}
 
-  '@expo/ui@0.2.0-canary-20251118-8f7ee64(expo@55.0.0-canary-20251118-8f7ee64)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)':
+  '@expo/ui@0.2.0-beta.8(expo@55.0.0-canary-20251118-8f7ee64)(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)':
     dependencies:
       expo: 55.0.0-canary-20251118-8f7ee64(@babel/core@7.28.5)(@expo/dom-webview@0.2.8-canary-20251031-b135dff)(@expo/metro-runtime@6.2.0-canary-20251118-8f7ee64)(expo-router@7.0.0-canary-20251031-b135dff)(react-dom@19.1.1(react@19.1.1))(react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       react: 19.1.1

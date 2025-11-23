@@ -263,7 +263,7 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (6.0.9-canary-20251118-8f7ee64):
     - ExpoModulesCore
-  - ExpoUI (0.2.0-canary-20251118-8f7ee64):
+  - ExpoUI (0.2.0-beta.8):
     - ExpoModulesCore
   - ExpoWebBrowser (15.0.9):
     - ExpoModulesCore
@@ -2409,7 +2409,7 @@ DEPENDENCIES:
   - "ExpoSplashScreen (from `../../node_modules/.pnpm/expo-splash-screen@31.0.11_expo@55.0.0-canary-20251118-8f7ee64/node_modules/expo-splash-screen/ios`)"
   - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.0.9_expo@55.0.0-canary-20251118-8f7ee64_react-native@0.82.1_@babel+core@_1328abf82a338ccecd0e7a7f284ab3c7/node_modules/expo-sqlite/ios`)"
   - "ExpoSystemUI (from `../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251118-8f7ee64_expo@55.0.0-canary-20251118-8f7ee64_react-_59676dd78a2c34e05f4b11c887500831/node_modules/expo-system-ui/ios`)"
-  - "ExpoUI (from `../../node_modules/.pnpm/@expo+ui@0.2.0-canary-20251118-8f7ee64_expo@55.0.0-canary-20251118-8f7ee64_react-native_8d98120fa407b730885b4c80ae95ab4a/node_modules/@expo/ui/ios`)"
+  - "ExpoUI (from `../../node_modules/.pnpm/@expo+ui@0.2.0-beta.8_expo@55.0.0-canary-20251118-8f7ee64_react-native@0.82.1_@babel+co_44de052b9154d56bf8bb66daa94904c2/node_modules/@expo/ui/ios`)"
   - "ExpoWebBrowser (from `../../node_modules/.pnpm/expo-web-browser@15.0.9_expo@55.0.0-canary-20251118-8f7ee64_react-native@0.82.1_@babel+_835f0cb835517cb03293b1dc0809caf6/node_modules/expo-web-browser/ios`)"
   - "EXUpdatesInterface (from `../../node_modules/.pnpm/expo-updates-interface@2.0.0_expo@55.0.0-canary-20251118-8f7ee64/node_modules/expo-updates-interface/ios`)"
   - "FBLazyVector (from `../../node_modules/.pnpm/react-native@0.82.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.1.1/node_modules/react-native/Libraries/FBLazyVector`)"
@@ -2555,7 +2555,7 @@ EXTERNAL SOURCES:
   ExpoSystemUI:
     :path: "../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251118-8f7ee64_expo@55.0.0-canary-20251118-8f7ee64_react-_59676dd78a2c34e05f4b11c887500831/node_modules/expo-system-ui/ios"
   ExpoUI:
-    :path: "../../node_modules/.pnpm/@expo+ui@0.2.0-canary-20251118-8f7ee64_expo@55.0.0-canary-20251118-8f7ee64_react-native_8d98120fa407b730885b4c80ae95ab4a/node_modules/@expo/ui/ios"
+    :path: "../../node_modules/.pnpm/@expo+ui@0.2.0-beta.8_expo@55.0.0-canary-20251118-8f7ee64_react-native@0.82.1_@babel+co_44de052b9154d56bf8bb66daa94904c2/node_modules/@expo/ui/ios"
   ExpoWebBrowser:
     :path: "../../node_modules/.pnpm/expo-web-browser@15.0.9_expo@55.0.0-canary-20251118-8f7ee64_react-native@0.82.1_@babel+_835f0cb835517cb03293b1dc0809caf6/node_modules/expo-web-browser/ios"
   EXUpdatesInterface:
@@ -2742,7 +2742,7 @@ SPEC CHECKSUMS:
   ExpoSplashScreen: 268b2f128dc04284c21010540a6c4dd9f95003e3
   ExpoSQLite: b312b02c8b77ab55951396e6cd13992f8db9215f
   ExpoSystemUI: d13f096421c751303e5fc508ed2605e1f11c0548
-  ExpoUI: d4bf4079ffdad1b9dd4085547ed446cb36fe9bd0
+  ExpoUI: b2f7694e7ee194f3e1532cbe5a045774dce08e1f
   ExpoWebBrowser: b973e1351fdcf5fec0c400997b1851f5a8219ec3
   EXUpdatesInterface: 5adf50cb41e079c861da6d9b4b954c3db9a50734
   FBLazyVector: 2e5b5553df729e080483373db6f045201ff4e6db
