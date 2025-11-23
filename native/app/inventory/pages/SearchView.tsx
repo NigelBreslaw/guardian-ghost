@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
+import { KeyboardAvoidingView, TextInput, Platform, View } from "react-native";
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 
@@ -160,14 +160,17 @@ export default function SearchView() {
     setAllItems(getAllItems());
   });
 
+  const searchItems = useCallback(
+    (clue: string) => {
+      const newFoundItems = find(clue, allItems);
+      setFoundItems(newFoundItems);
+    },
+    [allItems],
+  );
+
   useEffect(() => {
     searchItems(searchText);
-  }, [searchText]);
-
-  function searchItems(clue: string) {
-    const newFoundItems = find(clue, allItems);
-    setFoundItems(newFoundItems);
-  }
+  }, [searchText, searchItems]);
 
   return (
     <KeyboardAvoidingView

@@ -54,12 +54,12 @@ export default function LostItemsUI({ items: destinyItems }: Props) {
                 );
               }
               return (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                // biome-ignore lint/suspicious/noArrayIndexKey: array index is stable
                 <DestinyCell key={index} destinyItem={item} />
               );
             }
             return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              // biome-ignore lint/suspicious/noArrayIndexKey: array index is stable
               <EmptyCell key={index} />
             );
           })}

@@ -77,7 +77,7 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
     },
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This subscribes on mount
   useEffect(() => {
     const unsubscribe = useGGStore.subscribe(
       (state) => state.animateToCharacterPage,
@@ -123,7 +123,6 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
             <View key={index} style={styles.page}>
               <FlashList
                 ref={(ref) => {
-                  // biome-ignore lint/style/noParameterAssign: works fine
                   listRefs.current[index] = ref;
                 }}
                 contentContainerStyle={{ paddingBottom: bottomPadding }}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { View } from "react-native";
 import Animated, {
   Easing,
@@ -28,11 +28,7 @@ export default function Spinner({ color, size }: Props) {
   const progress = useSharedValue(0);
   const rotation = useSharedValue(0);
 
-  useEffect(() => {
-    startAnimation();
-  }, []);
-
-  function startAnimation() {
+  const startAnimation = useCallback(() => {
     progress.value = withTiming(0.6, { duration: 1000 });
 
     progress.value = withRepeat(
@@ -42,7 +38,7 @@ export default function Spinner({ color, size }: Props) {
     );
 
     rotation.value = withRepeat(withTiming(360, { duration: 900, easing: Easing.linear }), -1, false);
-  }
+  }, [progress, rotation]);
 
   const animatedCircleProps = useAnimatedProps(() => {
     return {
@@ -50,9 +46,13 @@ export default function Spinner({ color, size }: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    startAnimation();
+  }, [startAnimation]);
+
   const animatedViewStyle = useAnimatedStyle(() => {
     return {
-      // biome-ignore lint/style/useTemplate: <explanation>
+      // biome-ignore lint/style/useTemplate: false positive
       transform: [{ rotate: rotation.value + "deg" }],
     };
   }, []);

@@ -32,25 +32,27 @@ export default function DetailsView() {
   const router = useRouter();
   const params = useLocalSearchParams<{ itemId: string }>();
   const insets = useSafeAreaInsets();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const focus = useIsFocused();
 
   // Parse the itemId parameter back to DestinyItemIdentifier
   // The itemId is passed as a JSON string, URL encoded
-  let itemIdentifier: DestinyItemIdentifier;
+  let itemIdentifier: DestinyItemIdentifier | null = null;
   try {
     const decodedItemId = decodeURIComponent(params.itemId);
     itemIdentifier = JSON.parse(decodedItemId) as DestinyItemIdentifier;
   } catch {
-    router.back();
-    useGGStore.getState().showSnackBar("Invalid item identifier");
-    return null;
+    // Error handling moved to useEffect to avoid early return before hooks
   }
 
-  const destinyItem = findDestinyItem(itemIdentifier);
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const focus = useIsFocused();
+  const destinyItem = itemIdentifier ? findDestinyItem(itemIdentifier) : null;
 
   useEffect(() => {
+    if (!itemIdentifier) {
+      router.back();
+      useGGStore.getState().showSnackBar("Invalid item identifier");
+      return;
+    }
     if (focus) {
       if (destinyItem) {
         const maxQuantityToTransfer = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
@@ -60,7 +62,7 @@ export default function DetailsView() {
         useGGStore.getState().showSnackBar("Failed to find item");
       }
     }
-  }, [focus, destinyItem, router]);
+  }, [focus, destinyItem, router, itemIdentifier]);
 
   const animationConfigs = useBottomSheetSpringConfigs({
     mass: 20,

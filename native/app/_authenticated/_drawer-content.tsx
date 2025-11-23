@@ -10,7 +10,7 @@ import Text from "@/app/UI/Text.tsx";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { LOGO_DARK, SEARCH_ICON } from "@/app/utilities/Constants.ts";
 
-export default function CustomDrawerContent({ navigation, state }: DrawerContentComponentProps) {
+export default function CustomDrawerContent({ navigation }: DrawerContentComponentProps) {
   "use memo";
   const insets = useSafeAreaInsets();
   const router = useRouter();

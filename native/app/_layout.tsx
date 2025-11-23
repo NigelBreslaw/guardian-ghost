@@ -167,7 +167,8 @@ export default function RootLayout() {
           <PortalHost />
         </>
       ) : (
-        <>{/* Waiting for hydration */}</>
+        /* Waiting for hydration */
+        null
       )}
     </GestureHandlerRootView>
   );
