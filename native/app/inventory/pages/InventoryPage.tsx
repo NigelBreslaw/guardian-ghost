@@ -1,8 +1,8 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "expo-router";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
 import { Platform, RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
-import { useBottomTabBarHeight } from "react-native-bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { InventoryPageEnums, UISections } from "@/app/inventory/logic/Helpers.ts";
@@ -32,8 +32,10 @@ const getItemType = (item: UISections) => item.type;
 export default function InventoryPage({ inventoryPageEnum }: Props) {
   "use memo";
   const { width } = useWindowDimensions();
-  const tabBarHeight = useBottomTabBarHeight();
-  const bottomPadding = Platform.OS === "ios" ? tabBarHeight : 0;
+  const insets = useSafeAreaInsets();
+  // Standard iOS tab bar height is 49px, plus safe area bottom inset for devices with home indicator
+  const tabBarHeight = Platform.OS === "ios" ? 49 + insets.bottom : 0;
+  const bottomPadding = tabBarHeight;
   const HOME_WIDTH = width;
 
   const listRefs = useRef<(FlashListRef<UISections> | null)[]>([]);

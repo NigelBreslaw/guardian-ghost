@@ -41,6 +41,7 @@
     "expo-linear-gradient": "15.0.8-canary-20251120-e46b3cc",
     "expo-linking": "8.0.10-canary-20251120-e46b3cc",
     "expo-navigation-bar": "5.0.10-canary-20251120-e46b3cc",
+    "expo-router": "7.0.0-canary-20251120-e46b3cc",
     "expo-splash-screen": "31.0.12-canary-20251120-e46b3cc",
     "expo-sqlite": "16.1.0-canary-20251120-e46b3cc",
     "expo-system-ui": "6.0.9-canary-20251120-e46b3cc",
@@ -81,7 +82,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "8.47.0"
   },
-  "main": "app/index.js",
+  "main": "expo-router/entry",
   "name": "native_gg",
   "version": "1.0.0",
   "packageManager": "pnpm@10.16.1",

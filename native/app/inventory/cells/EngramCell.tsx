@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Image } from "expo-image";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -14,7 +14,7 @@ type Props = {
 export default function EngramCell({ destinyItem }: Props) {
   "use memo";
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   if (destinyItem === undefined) {
     return (
@@ -25,12 +25,13 @@ export default function EngramCell({ destinyItem }: Props) {
   }
 
   const handlePress = () => {
-    navigation.navigate("Details", {
+    const itemIdentifier = {
       characterId: destinyItem.characterId,
       itemHash: destinyItem.itemHash,
       itemInstanceId: destinyItem.itemInstanceId,
       bucketHash: destinyItem.bucketHash,
-    });
+    };
+    router.push(`/_authenticated/details/${encodeURIComponent(JSON.stringify(itemIdentifier))}`);
   };
 
   return (

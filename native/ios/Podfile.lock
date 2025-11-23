@@ -234,6 +234,9 @@ PODS:
     - hermes-engine
     - React-Core
     - ReactCommon
+  - ExpoRouter (7.0.0-canary-20251120-e46b3cc):
+    - ExpoModulesCore
+    - RNScreens
   - ExpoSplashScreen (31.0.12-canary-20251120-e46b3cc):
     - ExpoModulesCore
   - ExpoSQLite (16.1.0-canary-20251120-e46b3cc):
@@ -2462,7 +2465,7 @@ DEPENDENCIES:
   - "EXConstants (from `../../node_modules/.pnpm/expo-constants@18.1.0-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc_react_04fee7f1bbc5f6b226ddc783b70d2bdd/node_modules/expo-constants/ios`)"
   - "EXJSONUtils (from `../../node_modules/.pnpm/expo-json-utils@0.15.1-canary-20251120-e46b3cc/node_modules/expo-json-utils/ios`)"
   - "EXManifests (from `../../node_modules/.pnpm/expo-manifests@1.0.10-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-manifests/ios`)"
-  - "Expo (from `../../node_modules/.pnpm/expo@55.0.0-canary-20251120-e46b3cc_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_0c186d2c5d0bcb977b1abc9b9996ce69/node_modules/expo`)"
+  - "Expo (from `../../node_modules/.pnpm/expo@55.0.0-canary-20251120-e46b3cc_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_2920f667814987ab7ebe07def5c3e10f/node_modules/expo`)"
   - "expo-dev-client (from `../../node_modules/.pnpm/expo-dev-client@6.0.19-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-dev-client/ios`)"
   - "expo-dev-launcher (from `../../node_modules/.pnpm/expo-dev-launcher@6.1.0-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-dev-launcher`)"
   - "expo-dev-menu (from `../../node_modules/.pnpm/expo-dev-menu@7.1.0-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-dev-menu`)"
@@ -2481,6 +2484,7 @@ DEPENDENCIES:
   - "ExpoLogBox (from `../../node_modules/.pnpm/@expo+log-box@0.0.13-canary-20251120-e46b3cc_@expo+dom-webview@0.2.8-canary-20251031-b1_23f56ed3c18c83d4ba4d69c87a79fcb2/node_modules/@expo/log-box`)"
   - "ExpoModulesCore (from `../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core`)"
   - "ExpoModulesJSI (from `../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core`)"
+  - "ExpoRouter (from `../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_5a5bfd8693fcc9d1ae6297abf754509b/node_modules/expo-router/ios`)"
   - "ExpoSplashScreen (from `../../node_modules/.pnpm/expo-splash-screen@31.0.12-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-splash-screen/ios`)"
   - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.1.0-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc_react-na_a63477d042f199da7e63569502f61d1c/node_modules/expo-sqlite/ios`)"
   - "ExpoSystemUI (from `../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc_react-_113498c440b52ce59ffee87230160ba1/node_modules/expo-system-ui/ios`)"
@@ -2590,7 +2594,7 @@ EXTERNAL SOURCES:
   EXManifests:
     :path: "../../node_modules/.pnpm/expo-manifests@1.0.10-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-manifests/ios"
   Expo:
-    :path: "../../node_modules/.pnpm/expo@55.0.0-canary-20251120-e46b3cc_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_0c186d2c5d0bcb977b1abc9b9996ce69/node_modules/expo"
+    :path: "../../node_modules/.pnpm/expo@55.0.0-canary-20251120-e46b3cc_@babel+core@7.28.5_@expo+dom-webview@0.2.8-canary-2_2920f667814987ab7ebe07def5c3e10f/node_modules/expo"
   expo-dev-client:
     :path: "../../node_modules/.pnpm/expo-dev-client@6.0.19-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-dev-client/ios"
   expo-dev-launcher:
@@ -2627,6 +2631,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core"
   ExpoModulesJSI:
     :path: "../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core"
+  ExpoRouter:
+    :path: "../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_5a5bfd8693fcc9d1ae6297abf754509b/node_modules/expo-router/ios"
   ExpoSplashScreen:
     :path: "../../node_modules/.pnpm/expo-splash-screen@31.0.12-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-splash-screen/ios"
   ExpoSQLite:
@@ -2826,6 +2832,7 @@ SPEC CHECKSUMS:
   ExpoLogBox: 12eb4163d861820a1690fcee25db6c8e8425287f
   ExpoModulesCore: 15ea315ade59fe99c180949773952be84a31d026
   ExpoModulesJSI: 4969b7b685fb85cfcd25f89dd8e7a8c4cdfc40b8
+  ExpoRouter: 736bc4f9135652407b87cd8798ac27a8546e6f1b
   ExpoSplashScreen: 64b9561a460b009901c7a2e59b5694de1a498578
   ExpoSQLite: 6cbf9e03f52b02db1fbc2f75867f6a9df9f81688
   ExpoSystemUI: b8d051bb8cb5d216c4b60a81580690065774a889
@@ -2833,7 +2840,7 @@ SPEC CHECKSUMS:
   ExpoWebBrowser: da1a725ca053b55c78ded9b0d35fffbdb531bc85
   EXUpdatesInterface: 71a3c0432e6d751163221ea4846bcdf6d8d42f5c
   FBLazyVector: b646be4c4049ed1148c023f253aee06f3d401b05
-  hermes-engine: 296aed358407d6757a3dc549e9315d031b33ca61
+  hermes-engine: d9b1fe2407baf8ce0d6bb33f8ff2df8c2bd50f4a
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
@@ -2845,7 +2852,7 @@ SPEC CHECKSUMS:
   React: f9ab831425e9ade339e2a3bafc294e2ad66c1958
   React-callinvoker: adc036a8e4319005db65ffebe132ba329c9c0192
   React-Core: 6d3f1649ac97493e8b77cdf23eb0fe2a586d8b83
-  React-Core-prebuilt: a0ae234adfeb5c752df1874c4a49dd05cf352a2f
+  React-Core-prebuilt: 0b8f847e652da4eb99b2652ace84ea4e70269c5d
   React-CoreModules: 0707640a7b9b9be1583e31dd91a509fed6fa6aca
   React-cxxreact: 18453eeee51ce372e21f95a1025b7c161bbbe98c
   React-debug: 0d7b1733e03010db2a8039689f1d46cc8fbb559c
@@ -2908,7 +2915,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: fa388c45cc80b26339a7064e7d62255f4e2a9fe7
   ReactCodegen: b0de8859413055b1a5f781b287dba846d2d0750f
   ReactCommon: 27604f5fcd5b9b9151df729dd46c97897bee5e2c
-  ReactNativeDependencies: 3ad05d526259594184300d51a22168d2425caeb2
+  ReactNativeDependencies: e157af3aaba30b8313bbee615fb8d4b225616152
   RNGestureHandler: b3c44a3420c74a8a45e5acbf87680092a72c72ff
   RNReanimated: d0c051156edf73b413cd4b97bfef9a0ae3350378
   RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
