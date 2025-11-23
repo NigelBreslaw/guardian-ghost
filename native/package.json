@@ -9,7 +9,9 @@
     "lint": "biome lint ./app",
     "lint:fix": "biome lint --fix ./app",
     "type-check": "time tsc --noEmit",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "knip": "knip",
+    "knip:production": "knip --production"
   },
   "dependencies": {
     "@bottom-tabs/react-navigation": "1.0.2",
@@ -79,6 +81,7 @@
     "babel-preset-expo": "54.0.7-canary-20251031-b135dff",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "expo-atlas": "0.4.3",
+    "knip": "5.70.1",
     "typescript": "catalog:",
     "typescript-eslint": "8.47.0"
   },
