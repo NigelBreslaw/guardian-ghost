@@ -2331,7 +2331,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNSentry (7.2.0):
+  - RNSentry (7.8.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2353,7 +2353,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - Sentry/HybridSDK (= 8.56.1)
+    - Sentry/HybridSDK (= 8.57.3)
     - Yoga
   - RNSVG (15.15.0):
     - hermes-engine
@@ -2471,9 +2471,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - SDWebImage (5.21.3):
-    - SDWebImage/Core (= 5.21.3)
-  - SDWebImage/Core (5.21.3)
+  - SDWebImage (5.21.5):
+    - SDWebImage/Core (= 5.21.5)
+  - SDWebImage/Core (5.21.5)
   - SDWebImageAVIFCoder (0.11.1):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
@@ -2482,7 +2482,7 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.56.1)
+  - Sentry/HybridSDK (8.57.3)
   - SwiftUIIntrospect (1.3.0)
   - Yoga (0.0.0)
 
@@ -2595,7 +2595,7 @@ DEPENDENCIES:
   - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.83.1_@babel+core@7.28.5_@types+react_f3ad78b858e5d1cb33d824eae62b1173/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.2.1_react-native-worklets@0.7.1_@babel+core@7.28.5_react-nati_9de77cc32b459d8ce8441603204d4be7/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens`)"
-  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_2057c88d559abd2c38b3541b5e6685ee/node_modules/@sentry/react-native`)"
+  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.8.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_d3c3db411ddc4b0e1d3ce163e379d3cf/node_modules/@sentry/react-native`)"
   - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-svg`)"
   - "RNWorklets (from `../../node_modules/.pnpm/react-native-worklets@0.7.1_@babel+core@7.28.5_react-native@0.83.1_@babel+core@7.28.5_@_ed7679da23102cd0eabd14b167afb339/node_modules/react-native-worklets`)"
   - "Yoga (from `../../node_modules/.pnpm/react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3/node_modules/react-native/ReactCommon/yoga`)"
@@ -2829,7 +2829,7 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens"
   RNSentry:
-    :path: "../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_2057c88d559abd2c38b3541b5e6685ee/node_modules/@sentry/react-native"
+    :path: "../../node_modules/.pnpm/@sentry+react-native@7.8.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_d3c3db411ddc4b0e1d3ce163e379d3cf/node_modules/@sentry/react-native"
   RNSVG:
     :path: "../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-svg"
   RNWorklets:
@@ -2869,7 +2869,7 @@ SPEC CHECKSUMS:
   ExpoWebBrowser: 17b064c621789e41d4816c95c93f429b84971f52
   EXUpdatesInterface: 5adf50cb41e079c861da6d9b4b954c3db9a50734
   FBLazyVector: 3a7ea85f6009224ad89f7daeda516f189e6b5759
-  hermes-engine: 296aed358407d6757a3dc549e9315d031b33ca61
+  hermes-engine: d9b1fe2407baf8ce0d6bb33f8ff2df8c2bd50f4a
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
@@ -2881,7 +2881,7 @@ SPEC CHECKSUMS:
   React: 4bc1f928568ad4bcfd147260f907b4ea5873a03b
   React-callinvoker: 8dd44c31888a314694efd0ef5f19ab7e0e855ef8
   React-Core: f18c490c5fe062f23028121b3b8eb7896dfccf33
-  React-Core-prebuilt: 3ab2502837c9283d086b00dc2fe574bc485a84e9
+  React-Core-prebuilt: b495223cf404d9513650798894f49cbd442adfc3
   React-CoreModules: b247f4542b65276ad0a79cf4215a67b615edcebd
   React-cxxreact: 10e54c76ab0b06c8c7af6ad548133320fa1f5fa8
   React-debug: 60be0767f5672afc81bfd6a50d996507430f7906
@@ -2944,18 +2944,18 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 0eb286cc274abb059ee601b862ebddac2e681d01
   ReactCodegen: f36240f5a46545722ffaf048aaf15baa53d2160a
   ReactCommon: c24a308601d0bce5c9edf2f36afb0dbf7afaf6ef
-  ReactNativeDependencies: 570519d6aa9832b29d599576a984470ceaf09f72
+  ReactNativeDependencies: d4036def7fe8a35c2501ddc67f8f6bdc32feda8a
   RNGestureHandler: b3c44a3420c74a8a45e5acbf87680092a72c72ff
   RNReanimated: 909bd5af29ff01d38a828b528a75807352c18f06
   RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
-  RNSentry: 41979b419908128847ef662cc130a400b7576fa9
+  RNSentry: d32cbfc5b5a7cbefbcf51daa5bf00587d1298049
   RNSVG: fc2d520289c8c2d9fd0bfcb8ba2c907068de7a90
   RNWorklets: a5ac56c95ebe6b32fb995a867e9e2584b39a40da
-  SDWebImage: 16309af6d214ba3f77a7c6f6fdda888cb313a50a
+  SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: b3ec44d01708fce73f99b544beb57e890eca4406
+  Sentry: c643eb180df401dd8c734c5036ddd9dd9218daa6
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   Yoga: 35d573dff66536d48493acb65a519482f8219fe8
 
