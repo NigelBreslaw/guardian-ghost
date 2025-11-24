@@ -2306,7 +2306,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNSentry (7.2.0):
+  - RNSentry (7.6.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2328,7 +2328,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - Sentry/HybridSDK (= 8.56.1)
+    - Sentry/HybridSDK (= 8.57.2)
     - Yoga
   - RNSVG (15.15.0):
     - hermes-engine
@@ -2457,7 +2457,7 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.56.1)
+  - Sentry/HybridSDK (8.57.2)
   - SwiftUIIntrospect (1.3.0)
   - Yoga (0.0.0)
 
@@ -2569,7 +2569,7 @@ DEPENDENCIES:
   - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+_82d90f63b7cdbccce7c0b6819c693daa/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.1.5_@babel+core@7.28.5_react-native-worklets@0.6.1_@babel+cor_4c2dafb33808857cffa98818a9ee88c2/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-screens`)"
-  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_3c3d42bc4bbcdb6d407217104865de3b/node_modules/@sentry/react-native`)"
+  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.6.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_8e8eb93a41880aca3f0c265e26994ba5/node_modules/@sentry/react-native`)"
   - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg`)"
   - "RNWorklets (from `../../node_modules/.pnpm/react-native-worklets@0.6.1_@babel+core@7.28.5_react-native@0.83.0-rc.2_@babel+core@7.2_c189d040900196049fdc77bcf224a763/node_modules/react-native-worklets`)"
   - "Yoga (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/yoga`)"
@@ -2801,7 +2801,7 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-screens"
   RNSentry:
-    :path: "../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_3c3d42bc4bbcdb6d407217104865de3b/node_modules/@sentry/react-native"
+    :path: "../../node_modules/.pnpm/@sentry+react-native@7.6.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_8e8eb93a41880aca3f0c265e26994ba5/node_modules/@sentry/react-native"
   RNSVG:
     :path: "../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg"
   RNWorklets:
@@ -2919,14 +2919,14 @@ SPEC CHECKSUMS:
   RNGestureHandler: b3c44a3420c74a8a45e5acbf87680092a72c72ff
   RNReanimated: d0c051156edf73b413cd4b97bfef9a0ae3350378
   RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
-  RNSentry: 41979b419908128847ef662cc130a400b7576fa9
+  RNSentry: be6d501966b60b30547abe59ea86626d80ad2680
   RNSVG: fc2d520289c8c2d9fd0bfcb8ba2c907068de7a90
   RNWorklets: b124e59f927c96eec49a63e982956e673a50bd97
   SDWebImage: 16309af6d214ba3f77a7c6f6fdda888cb313a50a
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: b3ec44d01708fce73f99b544beb57e890eca4406
+  Sentry: 83a3814c3ca042874b39c5c5bdffb6570d4d760e
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   Yoga: 5781d3c082ce0ec453e8060ea2afd7f2f1a5899c
 
