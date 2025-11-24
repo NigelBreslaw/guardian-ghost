@@ -2163,7 +2163,7 @@ PODS:
     - React-utils (= 0.83.0-rc.2)
     - ReactNativeDependencies
   - ReactNativeDependencies (0.83.0-rc.2)
-  - RNGestureHandler (2.28.0):
+  - RNGestureHandler (2.29.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2484,7 +2484,7 @@ DEPENDENCIES:
   - "ExpoLogBox (from `../../node_modules/.pnpm/@expo+log-box@0.0.13-canary-20251120-e46b3cc_@expo+dom-webview@0.2.8-canary-20251031-b1_23f56ed3c18c83d4ba4d69c87a79fcb2/node_modules/@expo/log-box`)"
   - "ExpoModulesCore (from `../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core`)"
   - "ExpoModulesJSI (from `../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core`)"
-  - "ExpoRouter (from `../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_5a5bfd8693fcc9d1ae6297abf754509b/node_modules/expo-router/ios`)"
+  - "ExpoRouter (from `../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_3e1689bb6ad694fdfffa59a974ab4d27/node_modules/expo-router/ios`)"
   - "ExpoSplashScreen (from `../../node_modules/.pnpm/expo-splash-screen@31.0.12-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-splash-screen/ios`)"
   - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.1.0-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc_react-na_a63477d042f199da7e63569502f61d1c/node_modules/expo-sqlite/ios`)"
   - "ExpoSystemUI (from `../../node_modules/.pnpm/expo-system-ui@6.0.9-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc_react-_113498c440b52ce59ffee87230160ba1/node_modules/expo-system-ui/ios`)"
@@ -2566,7 +2566,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios/ReactCodegen`)
   - "ReactCommon/turbomodule/core (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon`)"
   - "ReactNativeDependencies (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)"
-  - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+_82d90f63b7cdbccce7c0b6819c693daa/node_modules/react-native-gesture-handler`)"
+  - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.29.1_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+_2ba7928ee6758feda3e3be7cb8c4d2a9/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.1.5_@babel+core@7.28.5_react-native-worklets@0.6.1_@babel+cor_4c2dafb33808857cffa98818a9ee88c2/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-screens`)"
   - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_3c3d42bc4bbcdb6d407217104865de3b/node_modules/@sentry/react-native`)"
@@ -2632,7 +2632,7 @@ EXTERNAL SOURCES:
   ExpoModulesJSI:
     :path: "../../node_modules/.pnpm/expo-modules-core@3.1.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_@babel+core@7._107bdbb64a607aaeb615af151a936c58/node_modules/expo-modules-core"
   ExpoRouter:
-    :path: "../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_5a5bfd8693fcc9d1ae6297abf754509b/node_modules/expo-router/ios"
+    :path: "../../node_modules/.pnpm/expo-router@7.0.0-canary-20251120-e46b3cc_3e1689bb6ad694fdfffa59a974ab4d27/node_modules/expo-router/ios"
   ExpoSplashScreen:
     :path: "../../node_modules/.pnpm/expo-splash-screen@31.0.12-canary-20251120-e46b3cc_expo@55.0.0-canary-20251120-e46b3cc/node_modules/expo-splash-screen/ios"
   ExpoSQLite:
@@ -2795,7 +2795,7 @@ EXTERNAL SOURCES:
   ReactNativeDependencies:
     :podspec: "../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
   RNGestureHandler:
-    :path: "../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+_82d90f63b7cdbccce7c0b6819c693daa/node_modules/react-native-gesture-handler"
+    :path: "../../node_modules/.pnpm/react-native-gesture-handler@2.29.1_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+_2ba7928ee6758feda3e3be7cb8c4d2a9/node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../../node_modules/.pnpm/react-native-reanimated@4.1.5_@babel+core@7.28.5_react-native-worklets@0.6.1_@babel+cor_4c2dafb33808857cffa98818a9ee88c2/node_modules/react-native-reanimated"
   RNScreens:
@@ -2916,7 +2916,7 @@ SPEC CHECKSUMS:
   ReactCodegen: b0de8859413055b1a5f781b287dba846d2d0750f
   ReactCommon: 27604f5fcd5b9b9151df729dd46c97897bee5e2c
   ReactNativeDependencies: 3ad05d526259594184300d51a22168d2425caeb2
-  RNGestureHandler: b3c44a3420c74a8a45e5acbf87680092a72c72ff
+  RNGestureHandler: a638882567a6d9a57bd1d239790d0b7c3f617ef4
   RNReanimated: d0c051156edf73b413cd4b97bfef9a0ae3350378
   RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
   RNSentry: 41979b419908128847ef662cc130a400b7576fa9
