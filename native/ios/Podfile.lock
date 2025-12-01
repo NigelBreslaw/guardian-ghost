@@ -1663,7 +1663,7 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-  - react-native-bottom-tabs (1.0.2):
+  - react-native-bottom-tabs (1.0.4):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1675,7 +1675,7 @@ PODS:
     - React-graphics
     - React-ImageManager
     - React-jsi
-    - react-native-bottom-tabs/common (= 1.0.2)
+    - react-native-bottom-tabs/common (= 1.0.4)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-renderercss
@@ -1687,7 +1687,7 @@ PODS:
     - ReactNativeDependencies
     - SwiftUIIntrospect (~> 1.0)
     - Yoga
-  - react-native-bottom-tabs/common (1.0.2):
+  - react-native-bottom-tabs/common (1.0.4):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2530,7 +2530,7 @@ DEPENDENCIES:
   - "React-logger (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/logger`)"
   - "React-Mapbuffer (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon`)"
   - "React-microtasksnativemodule (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)"
-  - "react-native-bottom-tabs (from `../../node_modules/.pnpm/react-native-bottom-tabs@1.0.2_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react_127194794bb1ec6cce0d87a2b96c4ed4/node_modules/react-native-bottom-tabs`)"
+  - "react-native-bottom-tabs (from `../../node_modules/.pnpm/react-native-bottom-tabs@1.0.4_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react_0d5d8de9bae48c65a78810a1eda31ef3/node_modules/react-native-bottom-tabs`)"
   - "react-native-safe-area-context (from `../../node_modules/.pnpm/react-native-safe-area-context@5.6.2_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types_7caf40f7e2515bcf740cb34a562026c0/node_modules/react-native-safe-area-context`)"
   - "React-NativeModulesApple (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)"
   - "React-networking (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/react/networking`)"
@@ -2723,7 +2723,7 @@ EXTERNAL SOURCES:
   React-microtasksnativemodule:
     :path: "../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-bottom-tabs:
-    :path: "../../node_modules/.pnpm/react-native-bottom-tabs@1.0.2_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react_127194794bb1ec6cce0d87a2b96c4ed4/node_modules/react-native-bottom-tabs"
+    :path: "../../node_modules/.pnpm/react-native-bottom-tabs@1.0.4_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react_0d5d8de9bae48c65a78810a1eda31ef3/node_modules/react-native-bottom-tabs"
   react-native-safe-area-context:
     :path: "../../node_modules/.pnpm/react-native-safe-area-context@5.6.2_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types_7caf40f7e2515bcf740cb34a562026c0/node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -2880,7 +2880,7 @@ SPEC CHECKSUMS:
   React-logger: 7c6217751ab3d7cbf44f7dea76bf0ba83543f5d3
   React-Mapbuffer: be42c2fd10d13b1e1b924d98dc1890daff74e80c
   React-microtasksnativemodule: 2630dcabad4db0ea6819d38ac8c841f3d625fdcf
-  react-native-bottom-tabs: b6459855502662d724d84b7edc937ea2b5a988ff
+  react-native-bottom-tabs: 514ba317bf9a801da79083d73bfd103d94220455
   react-native-safe-area-context: 37e680fc4cace3c0030ee46e8987d24f5d3bdab2
   React-NativeModulesApple: 80b0b3b142cff4e6371cd1dae2600f9121c4c3fd
   React-networking: 5534e503029702c261d5838ae6275902a26b4953
