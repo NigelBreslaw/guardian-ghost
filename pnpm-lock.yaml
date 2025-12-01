@@ -108,7 +108,7 @@ importers:
     dependencies:
       '@bottom-tabs/react-navigation':
         specifier: 1.0.2
-        version: 1.0.2(@react-navigation/native@7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-bottom-tabs@1.0.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
+        version: 1.0.2(@react-navigation/native@7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-bottom-tabs@1.0.4(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       '@expo/metro-runtime':
         specifier: 6.2.0-canary-20251120-e46b3cc
         version: 6.2.0-canary-20251120-e46b3cc(@expo/dom-webview@0.2.8-canary-20251031-b135dff)(expo@55.0.0-canary-20251120-e46b3cc)(react-dom@19.2.0(react@19.2.0))(react-native-web@0.21.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
@@ -230,8 +230,8 @@ importers:
         specifier: 0.83.0-rc.2
         version: 0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0)
       react-native-bottom-tabs:
-        specifier: 1.0.2
-        version: 1.0.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
+        specifier: 1.0.4
+        version: 1.0.4(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       react-native-css-interop:
         specifier: 0.2.1
         version: 0.2.1(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-safe-area-context@5.6.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-svg@15.15.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)(tailwindcss@3.4.17)
@@ -5813,8 +5813,8 @@ packages:
   react-is@19.2.0:
     resolution: {integrity: sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==}
 
-  react-native-bottom-tabs@1.0.2:
-    resolution: {integrity: sha512-eWNuTpJVefKRaROda4ZeWHvW1cUEb0mw8L7FyLEcPPsd7Tp3rfLRrhptl/O/3mAki9gvpzYE8ASE3GwUrjfp+Q==}
+  react-native-bottom-tabs@1.0.4:
+    resolution: {integrity: sha512-L2/ouhGNdW0l4xWGNZV8KZTu2kcnHPOqNgoL67UTeCug/8QWM9EzO4FIX7ESDTrDHh70VfTHb6/pvnyUnSpJ2Q==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -8129,13 +8129,13 @@ snapshots:
   '@biomejs/cli-win32-x64@2.3.7':
     optional: true
 
-  '@bottom-tabs/react-navigation@1.0.2(@react-navigation/native@7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-bottom-tabs@1.0.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)':
+  '@bottom-tabs/react-navigation@1.0.2(@react-navigation/native@7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-bottom-tabs@1.0.4(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@react-navigation/native': 7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       color: 5.0.2
       react: 19.2.0
       react-native: 0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0)
-      react-native-bottom-tabs: 1.0.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
+      react-native-bottom-tabs: 1.0.4(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
 
   '@capsizecss/unpack@3.0.1':
     dependencies:
@@ -14186,7 +14186,7 @@ snapshots:
 
   react-is@19.2.0: {}
 
-  react-native-bottom-tabs@1.0.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0):
+  react-native-bottom-tabs@1.0.4(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-freeze: 1.0.4(react@19.2.0)
