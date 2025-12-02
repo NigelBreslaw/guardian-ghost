@@ -2330,7 +2330,7 @@ PODS:
     - ReactNativeDependencies
     - Sentry/HybridSDK (= 8.56.1)
     - Yoga
-  - RNSVG (15.15.0):
+  - RNSVG (15.15.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2351,9 +2351,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNSVG/common (= 15.15.0)
+    - RNSVG/common (= 15.15.1)
     - Yoga
-  - RNSVG/common (15.15.0):
+  - RNSVG/common (15.15.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2570,7 +2570,7 @@ DEPENDENCIES:
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.1.5_@babel+core@7.28.5_react-native-worklets@0.6.1_@babel+cor_4c2dafb33808857cffa98818a9ee88c2/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-screens`)"
   - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_3c3d42bc4bbcdb6d407217104865de3b/node_modules/@sentry/react-native`)"
-  - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg`)"
+  - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.1_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg`)"
   - "RNWorklets (from `../../node_modules/.pnpm/react-native-worklets@0.6.1_@babel+core@7.28.5_react-native@0.83.0-rc.2_@babel+core@7.2_c189d040900196049fdc77bcf224a763/node_modules/react-native-worklets`)"
   - "Yoga (from `../../node_modules/.pnpm/react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0/node_modules/react-native/ReactCommon/yoga`)"
 
@@ -2803,7 +2803,7 @@ EXTERNAL SOURCES:
   RNSentry:
     :path: "../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251120-e46b3cc_react-native@0.83.0-rc.2_3c3d42bc4bbcdb6d407217104865de3b/node_modules/@sentry/react-native"
   RNSVG:
-    :path: "../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg"
+    :path: "../../node_modules/.pnpm/react-native-svg@15.15.1_react-native@0.83.0-rc.2_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.0__react@19.2.0/node_modules/react-native-svg"
   RNWorklets:
     :path: "../../node_modules/.pnpm/react-native-worklets@0.6.1_@babel+core@7.28.5_react-native@0.83.0-rc.2_@babel+core@7.2_c189d040900196049fdc77bcf224a763/node_modules/react-native-worklets"
   Yoga:
@@ -2920,7 +2920,7 @@ SPEC CHECKSUMS:
   RNReanimated: d0c051156edf73b413cd4b97bfef9a0ae3350378
   RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
   RNSentry: 41979b419908128847ef662cc130a400b7576fa9
-  RNSVG: fc2d520289c8c2d9fd0bfcb8ba2c907068de7a90
+  RNSVG: bb9dc09f078cafaf09683a67dd5fde641e3e33cb
   RNWorklets: b124e59f927c96eec49a63e982956e673a50bd97
   SDWebImage: 16309af6d214ba3f77a7c6f6fdda888cb313a50a
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
