@@ -116,8 +116,8 @@ importers:
         specifier: 0.2.0-canary-20251120-e46b3cc
         version: 0.2.0-canary-20251120-e46b3cc(expo@55.0.0-canary-20251120-e46b3cc)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       '@gorhom/bottom-sheet':
-        specifier: 5.2.6
-        version: 5.2.6(patch_hash=16c5ffaafb23eaa50101328e8c6e24d6ba06cef50d931f748abd686a745a387e)(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
+        specifier: 5.2.8
+        version: 5.2.8(patch_hash=16c5ffaafb23eaa50101328e8c6e24d6ba06cef50d931f748abd686a745a387e)(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       '@react-navigation/drawer':
         specifier: 7.7.4
         version: 7.7.4(@react-navigation/native@7.1.21(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-gesture-handler@2.28.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-safe-area-context@5.6.2(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-screens@4.18.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
@@ -1393,8 +1393,8 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@gorhom/bottom-sheet@5.2.6':
-    resolution: {integrity: sha512-vmruJxdiUGDg+ZYcDmS30XDhq/h/+QkINOI5LY/uGjx8cPGwgJW0H6AB902gNTKtccbiKe/rr94EwdmIEz+LAQ==}
+  '@gorhom/bottom-sheet@5.2.8':
+    resolution: {integrity: sha512-+N27SMpbBxXZQ/IA2nlEV6RGxL/qSFHKfdFKcygvW+HqPG5jVNb1OqehLQsGfBP+Up42i0gW5ppI+DhpB7UCzA==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-native': '*'
@@ -8692,7 +8692,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@gorhom/bottom-sheet@5.2.6(patch_hash=16c5ffaafb23eaa50101328e8c6e24d6ba06cef50d931f748abd686a745a387e)(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)':
+  '@gorhom/bottom-sheet@5.2.8(patch_hash=16c5ffaafb23eaa50101328e8c6e24d6ba06cef50d931f748abd686a745a387e)(@types/react@19.1.12)(react-native-gesture-handler@2.28.0(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native-reanimated@4.1.5(@babel/core@7.28.5)(react-native-worklets@0.6.1(@babel/core@7.28.5)(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0))(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@gorhom/portal': 1.0.14(react-native@0.83.0-rc.2(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.2.0))(react@19.2.0)
       invariant: 2.2.4
