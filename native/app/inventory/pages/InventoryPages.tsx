@@ -1,69 +1,13 @@
-import { createNativeBottomTabNavigator } from "@bottom-tabs/react-navigation";
-import { Platform, View } from "react-native";
-import WeaponsPage from "@/app/inventory/pages/WeaponsPage.tsx";
-import ArmorPage from "@/app/inventory/pages/ArmorPage.tsx";
-import GeneralPage from "@/app/inventory/pages/GeneralPage.tsx";
-import { InventoryPageEnums } from "@/app/inventory/logic/Helpers.ts";
-import { useGGStore } from "@/app/store/GGStore.ts";
-import OptionsMenu from "@/components/ui/OptionsMenu.tsx";
+// Legacy file - using old @bottom-tabs/react-navigation package which has been removed
+// This file is kept for reference but is not used in the current Expo Router implementation
+// The app now uses Expo Router native tabs in app/_authenticated/(drawer)/(tabs)/_layout.tsx
+// TODO: Remove this file once confirmed unused
 
-function pageEnumToPageName(pageEnum: InventoryPageEnums): string {
-  switch (pageEnum) {
-    case InventoryPageEnums.Armor:
-      return "tab-armor";
-    case InventoryPageEnums.General:
-      return "tab-inventory";
-    case InventoryPageEnums.Weapons:
-      return "tab-weapons";
-  }
-  return "tab-weapons";
-}
-
-const Tab = createNativeBottomTabNavigator();
+import { View } from "react-native";
 
 export default function InventoryPages() {
   "use memo";
-
-  return (
-    <View style={{ flex: 1 }}>
-      {Platform.OS !== "ios" && <OptionsMenu />}
-      <Tab.Navigator
-        initialRouteName={pageEnumToPageName(useGGStore.getState().currentInventoryPage)}
-        tabBarActiveTintColor="orange"
-        tabBarInactiveTintColor="gray"
-        tabBarStyle={{
-          backgroundColor: "#17101F",
-        }}
-        hapticFeedbackEnabled={true}
-      >
-        <Tab.Screen
-          name="tab-weapons"
-          component={WeaponsPage}
-          options={{
-            title: "Weapons",
-            tabBarIcon: () => require("../../../images/sword.svg"),
-            lazy: false,
-          }}
-        />
-        <Tab.Screen
-          name="tab-armor"
-          component={ArmorPage}
-          options={{
-            title: "Armor",
-            tabBarIcon: () => require("../../../images/shield.svg"),
-            lazy: false,
-          }}
-        />
-        <Tab.Screen
-          name="tab-inventory"
-          component={GeneralPage}
-          options={{
-            title: "Inventory",
-            tabBarIcon: () => require("../../../images/package.svg"),
-            lazy: false,
-          }}
-        />
-      </Tab.Navigator>
-    </View>
-  );
+  // Legacy component - replaced by Expo Router native tabs
+  // This is a placeholder to prevent import errors
+  return <View />;
 }

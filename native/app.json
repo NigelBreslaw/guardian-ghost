@@ -77,12 +77,6 @@
       ],
       "expo-sqlite",
       "expo-web-browser",
-      [
-        "react-native-bottom-tabs",
-        {
-          "theme": "material3-expressive"
-        }
-      ],
       "expo-image",
       "expo-router",
       "@sentry/react-native"
