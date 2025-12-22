@@ -14,9 +14,9 @@
     "knip:production": "knip --production"
   },
   "dependencies": {
-    "@bottom-tabs/react-navigation": "1.1.0",
     "@expo/metro-runtime": "6.2.0-canary-20251216-3f01dbf",
     "@expo/ui": "0.2.0-canary-20251216-3f01dbf",
+    "@expo/vector-icons": "15.0.3",
     "@gorhom/bottom-sheet": "5.2.8",
     "@react-navigation/drawer": "7.7.10",
     "@react-navigation/native": "7.1.26",
@@ -55,7 +55,6 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.83.1",
-    "react-native-bottom-tabs": "1.1.0",
     "react-native-css-interop": "0.2.1",
     "react-native-gesture-handler": "2.30.0",
     "react-native-reanimated": "4.2.1",
