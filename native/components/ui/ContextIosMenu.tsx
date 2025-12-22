@@ -31,7 +31,7 @@ export default function ContextIosMenu() {
             label="Weapons sort"
             modifiers={[pickerStyle("menu")]}
             selection={weaponsSortSelection}
-            onSelectionChange={({ nativeEvent: { selection } }) => {
+            onSelectionChange={(selection) => {
               if (selection === 0) setWeaponsSort(WeaponsSort.Power);
               else if (selection === 1) setWeaponsSort(WeaponsSort.Type);
               else setWeaponsSort(WeaponsSort.TypeAndPower);
@@ -47,7 +47,7 @@ export default function ContextIosMenu() {
             label="Armor sort"
             modifiers={[pickerStyle("menu")]}
             selection={armorSortSelection}
-            onSelectionChange={({ nativeEvent: { selection } }) => {
+            onSelectionChange={(selection) => {
               if (selection === 0) setArmorSort(ArmorSort.Power);
               else setArmorSort(ArmorSort.Type);
             }}
