@@ -59,12 +59,11 @@ export default function ContextIosMenu() {
             ))}
           </Picker>
           <Button
-            variant="bordered"
             onPress={() => {
               getFullProfile();
             }}
           >
-            Refresh
+            <Text>Refresh</Text>
           </Button>
         </ContextMenu.Items>
         <ContextMenu.Trigger>
