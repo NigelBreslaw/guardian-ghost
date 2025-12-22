@@ -2284,7 +2284,7 @@ PODS:
     - ReactNativeDependencies
     - RNWorklets
     - Yoga
-  - RNScreens (4.18.0):
+  - RNScreens (4.19.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2306,9 +2306,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNScreens/common (= 4.18.0)
+    - RNScreens/common (= 4.19.0)
     - Yoga
-  - RNScreens/common (4.18.0):
+  - RNScreens/common (4.19.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2509,7 +2509,7 @@ DEPENDENCIES:
   - "ExpoLogBox (from `../../node_modules/.pnpm/@expo+log-box@0.0.13-canary-20251216-6e1f9a7_@expo+dom-webview@0.2.8-canary-20251031-b1_4e95a52a9c7c4d7412ce04feed3a6818/node_modules/@expo/log-box`)"
   - "ExpoModulesCore (from `../../node_modules/.pnpm/expo-modules-core@4.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@babel+core@7.28.5__6eeb67f2fc937373cc246d97c0da3d1c/node_modules/expo-modules-core`)"
   - "ExpoModulesJSI (from `../../node_modules/.pnpm/expo-modules-core@4.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@babel+core@7.28.5__6eeb67f2fc937373cc246d97c0da3d1c/node_modules/expo-modules-core`)"
-  - "ExpoRouter (from `../../node_modules/.pnpm/expo-router@7.0.0-canary-20251216-6e1f9a7_ce9b74684b1b8a819dbaa1a2f84ddfc1/node_modules/expo-router/ios`)"
+  - "ExpoRouter (from `../../node_modules/.pnpm/expo-router@7.0.0-canary-20251216-6e1f9a7_1fc5558325eb1977cd3ba7f3b2c0bea1/node_modules/expo-router/ios`)"
   - "ExpoSplashScreen (from `../../node_modules/.pnpm/expo-splash-screen@31.0.13_expo@55.0.0-canary-20251216-6e1f9a7/node_modules/expo-splash-screen/ios`)"
   - "ExpoSQLite (from `../../node_modules/.pnpm/expo-sqlite@16.1.0-canary-20251216-6e1f9a7_expo@55.0.0-canary-20251216-6e1f9a7_react-na_dbf9d2748c0824f27298ed961f46eb66/node_modules/expo-sqlite/ios`)"
   - "ExpoSymbols (from `../../node_modules/.pnpm/expo-symbols@1.1.0-canary-20251216-6e1f9a7_@expo-google-fonts+material-symbols@0.4.16_e_82685b1373e4a9161d67d1b4119dd8ad/node_modules/expo-symbols/ios`)"
@@ -2594,7 +2594,7 @@ DEPENDENCIES:
   - "ReactNativeDependencies (from `../../node_modules/.pnpm/react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)"
   - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.28.0_react-native@0.83.1_@babel+core@7.28.5_@types+react_f3ad78b858e5d1cb33d824eae62b1173/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.2.1_react-native-worklets@0.7.1_@babel+core@7.28.5_react-nati_9de77cc32b459d8ce8441603204d4be7/node_modules/react-native-reanimated`)"
-  - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens`)"
+  - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.19.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens`)"
   - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_2057c88d559abd2c38b3541b5e6685ee/node_modules/@sentry/react-native`)"
   - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-svg`)"
   - "RNWorklets (from `../../node_modules/.pnpm/react-native-worklets@0.7.1_@babel+core@7.28.5_react-native@0.83.1_@babel+core@7.28.5_@_ed7679da23102cd0eabd14b167afb339/node_modules/react-native-worklets`)"
@@ -2658,7 +2658,7 @@ EXTERNAL SOURCES:
   ExpoModulesJSI:
     :path: "../../node_modules/.pnpm/expo-modules-core@4.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@babel+core@7.28.5__6eeb67f2fc937373cc246d97c0da3d1c/node_modules/expo-modules-core"
   ExpoRouter:
-    :path: "../../node_modules/.pnpm/expo-router@7.0.0-canary-20251216-6e1f9a7_ce9b74684b1b8a819dbaa1a2f84ddfc1/node_modules/expo-router/ios"
+    :path: "../../node_modules/.pnpm/expo-router@7.0.0-canary-20251216-6e1f9a7_1fc5558325eb1977cd3ba7f3b2c0bea1/node_modules/expo-router/ios"
   ExpoSplashScreen:
     :path: "../../node_modules/.pnpm/expo-splash-screen@31.0.13_expo@55.0.0-canary-20251216-6e1f9a7/node_modules/expo-splash-screen/ios"
   ExpoSQLite:
@@ -2827,7 +2827,7 @@ EXTERNAL SOURCES:
   RNReanimated:
     :path: "../../node_modules/.pnpm/react-native-reanimated@4.2.1_react-native-worklets@0.7.1_@babel+core@7.28.5_react-nati_9de77cc32b459d8ce8441603204d4be7/node_modules/react-native-reanimated"
   RNScreens:
-    :path: "../../node_modules/.pnpm/react-native-screens@4.18.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens"
+    :path: "../../node_modules/.pnpm/react-native-screens@4.19.0_react-native@0.83.1_@babel+core@7.28.5_@types+react@19.1.12_react@19.2.3__react@19.2.3/node_modules/react-native-screens"
   RNSentry:
     :path: "../../node_modules/.pnpm/@sentry+react-native@7.2.0_expo@55.0.0-canary-20251216-6e1f9a7_react-native@0.83.1_@bab_2057c88d559abd2c38b3541b5e6685ee/node_modules/@sentry/react-native"
   RNSVG:
@@ -2947,7 +2947,7 @@ SPEC CHECKSUMS:
   ReactNativeDependencies: 570519d6aa9832b29d599576a984470ceaf09f72
   RNGestureHandler: b3c44a3420c74a8a45e5acbf87680092a72c72ff
   RNReanimated: 909bd5af29ff01d38a828b528a75807352c18f06
-  RNScreens: 61c18865ab074f4d995ac8d7cf5060522a649d05
+  RNScreens: 6f7a6128b0d33ce66e60309b6c998a2235abe1f3
   RNSentry: 41979b419908128847ef662cc130a400b7576fa9
   RNSVG: fc2d520289c8c2d9fd0bfcb8ba2c907068de7a90
   RNWorklets: a5ac56c95ebe6b32fb995a867e9e2584b39a40da
