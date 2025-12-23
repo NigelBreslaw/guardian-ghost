@@ -210,7 +210,7 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (14.0.10-canary-20251031-b135dff):
     - ExpoModulesCore
-  - ExpoGlassEffect (0.1.6):
+  - ExpoGlassEffect (0.2.0-canary-20251031-b135dff):
     - ExpoModulesCore
   - ExpoHaptics (15.0.8-canary-20251031-b135dff):
     - ExpoModulesCore
@@ -2392,7 +2392,7 @@ DEPENDENCIES:
   - "ExpoDomWebView (from `../../node_modules/.pnpm/@expo+dom-webview@0.2.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_47d81c2051077ba777b85d16231c34d1/node_modules/@expo/dom-webview/ios`)"
   - "ExpoFileSystem (from `../../node_modules/.pnpm/expo-file-system@19.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_589aff2effded6eddded6e7ded166521/node_modules/expo-file-system/ios`)"
   - "ExpoFont (from `../../node_modules/.pnpm/expo-font@14.0.10-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-nat_5c3370095d2680940c5da74381b84c01/node_modules/expo-font/ios`)"
-  - "ExpoGlassEffect (from `../../node_modules/.pnpm/expo-glass-effect@0.1.6_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+_93236593ae807571f5432ebcb2d68e55/node_modules/expo-glass-effect/ios`)"
+  - "ExpoGlassEffect (from `../../node_modules/.pnpm/expo-glass-effect@0.2.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_3e96f1f921ed0fc998e9d1865aa39268/node_modules/expo-glass-effect/ios`)"
   - "ExpoHaptics (from `../../node_modules/.pnpm/expo-haptics@15.0.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-haptics/ios`)"
   - "ExpoImage (from `../../node_modules/.pnpm/expo-image@3.1.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-nati_787c2647ccdb0a6faf648208dc5213bc/node_modules/expo-image/ios`)"
   - "ExpoKeepAwake (from `../../node_modules/.pnpm/expo-keep-awake@15.0.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react@19.1.1/node_modules/expo-keep-awake/ios`)"
@@ -2525,7 +2525,7 @@ EXTERNAL SOURCES:
   ExpoFont:
     :path: "../../node_modules/.pnpm/expo-font@14.0.10-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_react-nat_5c3370095d2680940c5da74381b84c01/node_modules/expo-font/ios"
   ExpoGlassEffect:
-    :path: "../../node_modules/.pnpm/expo-glass-effect@0.1.6_expo@55.0.0-canary-20251031-b135dff_react-native@0.82.1_@babel+_93236593ae807571f5432ebcb2d68e55/node_modules/expo-glass-effect/ios"
+    :path: "../../node_modules/.pnpm/expo-glass-effect@0.2.0-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff_rea_3e96f1f921ed0fc998e9d1865aa39268/node_modules/expo-glass-effect/ios"
   ExpoHaptics:
     :path: "../../node_modules/.pnpm/expo-haptics@15.0.8-canary-20251031-b135dff_expo@55.0.0-canary-20251031-b135dff/node_modules/expo-haptics/ios"
   ExpoImage:
@@ -2722,7 +2722,7 @@ SPEC CHECKSUMS:
   ExpoDomWebView: 62df039af831e515715aa6048c9e4c80f60086d8
   ExpoFileSystem: 848f4a5cc12fbbb9904a4aade9f356db429cfce1
   ExpoFont: 110e5222e5484c2acc70ec6ea245245b9d809bc4
-  ExpoGlassEffect: 84523fbad3e2103bc8f80dc927fc23ead8b036f2
+  ExpoGlassEffect: af9c9e082e5ca5195350e379c948e78b9181c422
   ExpoHaptics: 11960682a998de1cc5feb5d86c6806e4613012be
   ExpoImage: 37b5da245fc8f8546dd29751f3d53da9d12e45cf
   ExpoKeepAwake: 2bc6d96abe08ba2b6086a10936e43f47b6c93f75
