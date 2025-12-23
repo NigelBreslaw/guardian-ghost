@@ -1,8 +1,8 @@
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useEffect, useRef, useState } from "react";
 import { Platform, RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "react-native-bottom-tabs";
 
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import type { InventoryPageEnums, UISections } from "@/app/inventory/logic/Helpers.ts";
@@ -32,10 +32,8 @@ const getItemType = (item: UISections) => item.type;
 export default function InventoryPage({ inventoryPageEnum }: Props) {
   "use memo";
   const { width } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
-  // Standard iOS tab bar height is 49px, plus safe area bottom inset for devices with home indicator
-  const tabBarHeight = Platform.OS === "ios" ? 49 + insets.bottom : 0;
-  const bottomPadding = tabBarHeight;
+  const tabBarHeight = useBottomTabBarHeight();
+  const bottomPadding = Platform.OS === "ios" ? tabBarHeight : 0;
   const HOME_WIDTH = width;
 
   const listRefs = useRef<(FlashListRef<UISections> | null)[]>([]);
@@ -77,7 +75,7 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
     },
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: This subscribes on mount
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const unsubscribe = useGGStore.subscribe(
       (state) => state.animateToCharacterPage,
@@ -107,9 +105,8 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
 
   const debouncedMove = debounce(listMovedRef.current, 40);
   const debounceListIndex = debounce(calcCurrentListIndex, 40);
-
   return (
-    <View style={[{ flex: 1, width: "100%", height: "100%", backgroundColor: "#17101F" }]}>
+    <View style={[{ flex: 1, width: "100%", height: "100%" }]}>
       <ScrollView
         horizontal
         pagingEnabled
@@ -123,6 +120,7 @@ export default function InventoryPage({ inventoryPageEnum }: Props) {
             <View key={index} style={styles.page}>
               <FlashList
                 ref={(ref) => {
+                  // biome-ignore lint/style/noParameterAssign: works fine
                   listRefs.current[index] = ref;
                 }}
                 contentContainerStyle={{ paddingBottom: bottomPadding }}

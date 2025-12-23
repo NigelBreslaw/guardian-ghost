@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
@@ -16,7 +16,7 @@ type Props = {
 export default function ArtifactCell({ destinyItem }: Props) {
   "use memo";
 
-  const router = useRouter();
+  const navigation = useNavigation();
 
   if (destinyItem === undefined) {
     return (
@@ -28,13 +28,12 @@ export default function ArtifactCell({ destinyItem }: Props) {
   const borderColor = returnBorderColor(destinyItem);
 
   const handlePress = () => {
-    const itemIdentifier = {
+    navigation.navigate("Details", {
       characterId: destinyItem.characterId,
       itemHash: destinyItem.itemHash,
       itemInstanceId: destinyItem.itemInstanceId,
       bucketHash: destinyItem.bucketHash,
-    };
-    router.push(`/_authenticated/details/${encodeURIComponent(JSON.stringify(itemIdentifier))}`);
+    });
   };
 
   return (

@@ -25,49 +25,18 @@ export default function InventoryHeader() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <This subscribes on mount>
   useEffect(() => {
-    const checkAndShow = () => {
-      const initialPageLoaded = useGGStore.getState().initialPageLoaded;
-      const ggCharacters = useGGStore.getState().ggCharacters;
-      const currentIndex = useGGStore.getState().currentListIndex;
-      const emblem = ggCharacters[currentIndex]?.secondarySpecial;
-      if (initialPageLoaded && ggCharacters.length > 0 && emblem) {
-        opacity.value = withSpring(1, {
-          duration: 1250,
-          reduceMotion: ReduceMotion.System,
-        });
-      }
-    };
-
-    // Check initial state
-    checkAndShow();
-
-    // Subscribe to initialPageLoaded, ggCharacters, and currentListIndex changes
-    const unsubscribe1 = useGGStore.subscribe(
+    const unsubscribe = useGGStore.subscribe(
       (state) => state.initialPageLoaded,
-      () => {
-        checkAndShow();
+      (initialPageLoaded, _previous) => {
+        if (initialPageLoaded) {
+          opacity.value = withSpring(1, {
+            duration: 1250,
+            reduceMotion: ReduceMotion.System,
+          });
+        }
       },
     );
-
-    const unsubscribe2 = useGGStore.subscribe(
-      (state) => state.ggCharacters,
-      () => {
-        checkAndShow();
-      },
-    );
-
-    const unsubscribe3 = useGGStore.subscribe(
-      (state) => state.currentListIndex,
-      () => {
-        checkAndShow();
-      },
-    );
-
-    return () => {
-      unsubscribe1();
-      unsubscribe2();
-      unsubscribe3();
-    };
+    return unsubscribe;
   }, []);
 
   return (
