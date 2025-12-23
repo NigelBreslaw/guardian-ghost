@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { useIsFocused } from "@react-navigation/native";
-import { useDrawerStatus } from "@react-navigation/drawer";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { KeyboardAvoidingView, TextInput, Platform, View, Keyboard } from "react-native";
+import { KeyboardAvoidingView, TextInput, Platform, View } from "react-native";
 import { Image } from "expo-image";
 import { FlashList } from "@shopify/flash-list";
 
@@ -149,36 +148,29 @@ export const UiCellRenderItem = ({ item }: { item: ResultsSection }) => {
 
 export default function SearchView() {
   "use memo";
-  const drawerStatus = useDrawerStatus();
   const insets = useSafeAreaInsets();
   const [searchText, setSearchText] = useState("");
   const textInputRef = useRef<TextInput>(null);
-  const focus = useIsFocused();
 
   const [allItems, setAllItems] = useState<DestinyItem[]>([]);
   const [foundItems, setFoundItems] = useState<ResultsSection[]>([]);
 
-  useEffect(() => {
-    if (focus) {
-      textInputRef.current?.focus();
-      setAllItems(getAllItems());
-    }
-  }, [focus]);
+  useFocusEffect(() => {
+    textInputRef.current?.focus();
+    setAllItems(getAllItems());
+  });
 
-  useEffect(() => {
-    if (drawerStatus === "open") {
-      Keyboard.dismiss();
-    }
-  }, [drawerStatus]);
+  const searchItems = useCallback(
+    (clue: string) => {
+      const newFoundItems = find(clue, allItems);
+      setFoundItems(newFoundItems);
+    },
+    [allItems],
+  );
 
   useEffect(() => {
     searchItems(searchText);
-  }, [searchText]);
-
-  function searchItems(clue: string) {
-    const newFoundItems = find(clue, allItems);
-    setFoundItems(newFoundItems);
-  }
+  }, [searchText, searchItems]);
 
   return (
     <KeyboardAvoidingView

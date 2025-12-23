@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
-import { Host, ContextMenu, Button, Picker } from "@expo/ui/swift-ui";
+import { Host, ContextMenu, Button, Picker, Text } from "@expo/ui/swift-ui";
+import { tag, pickerStyle } from "@expo/ui/swift-ui/modifiers";
 import { useGGStore } from "@/app/store/GGStore.ts";
 import { getFullProfile } from "@/app/bungie/BungieApi.ts";
 import { ArmorSort, WeaponsSort } from "@/app/store/Types.ts";
@@ -17,10 +18,10 @@ export default function ContextIosMenu() {
   const setArmorSort = useGGStore((state) => state.setArmorSort);
 
   const weaponsSortOptions = ["By Power", "By Type", "By Type and Power"];
-  const weaponsSortIndex = weaponsSort === WeaponsSort.Power ? 0 : weaponsSort === WeaponsSort.Type ? 1 : 2;
+  const weaponsSortSelection = weaponsSort === WeaponsSort.Power ? 0 : weaponsSort === WeaponsSort.Type ? 1 : 2;
 
   const armorSortOptions = ["By Power", "By Type"];
-  const armorSortIndex = armorSort === ArmorSort.Power ? 0 : 1;
+  const armorSortSelection = armorSort === ArmorSort.Power ? 0 : 1;
 
   return (
     <Host style={{ width: 48, height: 48, marginRight: 8 }}>
@@ -28,32 +29,41 @@ export default function ContextIosMenu() {
         <ContextMenu.Items>
           <Picker
             label="Weapons sort"
-            options={weaponsSortOptions}
-            variant="menu"
-            selectedIndex={weaponsSortIndex}
-            onOptionSelected={({ nativeEvent: { index } }) => {
-              if (index === 0) setWeaponsSort(WeaponsSort.Power);
-              else if (index === 1) setWeaponsSort(WeaponsSort.Type);
+            modifiers={[pickerStyle("menu")]}
+            selection={weaponsSortSelection}
+            onSelectionChange={(selection) => {
+              if (selection === 0) setWeaponsSort(WeaponsSort.Power);
+              else if (selection === 1) setWeaponsSort(WeaponsSort.Type);
               else setWeaponsSort(WeaponsSort.TypeAndPower);
             }}
-          />
+          >
+            {weaponsSortOptions.map((option, index) => (
+              <Text key={option} modifiers={[tag(index)]}>
+                {option}
+              </Text>
+            ))}
+          </Picker>
           <Picker
             label="Armor sort"
-            options={armorSortOptions}
-            variant="menu"
-            selectedIndex={armorSortIndex}
-            onOptionSelected={({ nativeEvent: { index } }) => {
-              if (index === 0) setArmorSort(ArmorSort.Power);
+            modifiers={[pickerStyle("menu")]}
+            selection={armorSortSelection}
+            onSelectionChange={(selection) => {
+              if (selection === 0) setArmorSort(ArmorSort.Power);
               else setArmorSort(ArmorSort.Type);
             }}
-          />
+          >
+            {armorSortOptions.map((option, index) => (
+              <Text key={option} modifiers={[tag(index)]}>
+                {option}
+              </Text>
+            ))}
+          </Picker>
           <Button
-            variant="bordered"
             onPress={() => {
               getFullProfile();
             }}
           >
-            Refresh
+            <Text>Refresh</Text>
           </Button>
         </ContextMenu.Items>
         <ContextMenu.Trigger>

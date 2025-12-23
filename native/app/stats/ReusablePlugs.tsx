@@ -27,12 +27,12 @@ export default function ReusablePlugs({ socketCategory }: Props) {
             return null;
           }
           return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            // biome-ignore lint/suspicious/noArrayIndexKey: array index is stable
             <View key={index} style={styles.column}>
               {column.map((e, index) => {
                 return (
                   <PerkCircle
-                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    // biome-ignore lint/suspicious/noArrayIndexKey: array index is stable
                     key={index}
                     icon={e.def?.icon}
                     isEnabled={e.isEnabled}

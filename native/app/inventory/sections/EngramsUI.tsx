@@ -17,7 +17,7 @@ export default function EngramsUI({ items }: Props) {
       {array10.map((_v, index) => {
         const item = items[index];
         return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          // biome-ignore lint/suspicious/noArrayIndexKey: array index is stable
           <EngramCell key={index} destinyItem={item} />
         );
       })}
