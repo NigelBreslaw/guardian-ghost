@@ -23,7 +23,7 @@ export default function QuantityPicker({ destinyItem }: Props) {
           value={quantity === 0 ? "" : quantity.toString()}
           onChangeText={(value) => {
             const maxAmount = useGGStore.getState().findMaxQuantityToTransfer(destinyItem);
-            const valueAsNumber = Number.parseInt(value, 10);
+            const valueAsNumber = Number.parseInt(value);
             if (valueAsNumber > maxAmount) {
               useGGStore.getState().setQuantityToTransfer(maxAmount);
             } else if (valueAsNumber < 1 || Number.isNaN(valueAsNumber)) {

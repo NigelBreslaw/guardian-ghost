@@ -5,12 +5,15 @@ packages:
   - mono/examples/*
 
 catalog:
-  '@biomejs/biome': 2.3.10
-  astro: 5.16.6
-  turbo: 2.7.1
+  '@biomejs/biome': 2.3.4
+  astro: 5.15.4
+  turbo: 2.6.0
   typescript: 5.9.3
 
 onlyBuiltDependencies:
   - '@sentry/cli'
   - esbuild
   - sharp
+
+patchedDependencies:
+  '@gorhom/bottom-sheet': patches/@gorhom__bottom-sheet.patch
