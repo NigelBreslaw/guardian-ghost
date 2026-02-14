@@ -2,14 +2,14 @@
   "name": "@gg-monorepo/starlight",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/starlight": "0.36.2",
+    "@astrojs/starlight": "0.37.6",
     "astro": "catalog:",
     "rehype": "13.0.2",
     "sharp": "0.34.5"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@astrojs/check": "0.9.5",
+    "@astrojs/check": "0.9.6",
     "@vitest/coverage-v8": "4.0.8",
     "typescript": "catalog:",
     "vitest": "4.0.8",
