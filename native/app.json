@@ -77,7 +77,23 @@
       ],
       "expo-sqlite",
       "expo-web-browser",
-      ["react-native-bottom-tabs", { "theme": "material3-expressive" }]
+      [
+        "react-native-bottom-tabs",
+        {
+          "theme": "material3-expressive"
+        }
+      ],
+      "@sentry/react-native",
+      "expo-image",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "guardian-ghost",
+          "organization": "nigel-breslaw"
+        }
+      ]
     ]
   }
 }
