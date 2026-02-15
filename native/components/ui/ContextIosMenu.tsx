@@ -25,8 +25,7 @@ export default function ContextIosMenu() {
       : weaponsSort === WeaponsSort.Type
         ? WEAPONS_SORT_OPTIONS[1]
         : WEAPONS_SORT_OPTIONS[2];
-  const armorSortSelection =
-    armorSort === ArmorSort.Power ? ARMOR_SORT_OPTIONS[0] : ARMOR_SORT_OPTIONS[1];
+  const armorSortSelection = armorSort === ArmorSort.Power ? ARMOR_SORT_OPTIONS[0] : ARMOR_SORT_OPTIONS[1];
 
   return (
     <View style={styles.wrapper}>
