@@ -40,5 +40,5 @@ jobs:
               run: cd native/ios && pod install --repo-update
 
             - name: Suggest format changes
-              uses: autofix-ci/action@v1.3.2
+              uses: autofix-ci/action@v1.3.3
 
