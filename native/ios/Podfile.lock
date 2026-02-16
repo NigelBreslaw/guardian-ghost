@@ -2306,7 +2306,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNSentry (7.11.0):
+  - RNSentry (8.0.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2328,7 +2328,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - Sentry/HybridSDK (= 8.58.0)
+    - Sentry (= 9.4.1)
     - Yoga
   - RNSVG (15.15.3):
     - hermes-engine
@@ -2457,7 +2457,9 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.58.0)
+  - Sentry (9.4.1):
+    - Sentry/Core (= 9.4.1)
+  - Sentry/Core (9.4.1)
   - SwiftUIIntrospect (1.3.0)
   - Yoga (0.0.0)
 
@@ -2568,7 +2570,7 @@ DEPENDENCIES:
   - "RNGestureHandler (from `../../node_modules/.pnpm/react-native-gesture-handler@2.30.0_react-native@0.83.2_@babel+core@7.29.0_@types+react_6b80415f53854bd5d614ad1c2bd3a6a2/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../node_modules/.pnpm/react-native-reanimated@4.2.1_react-native-worklets@0.7.3_@babel+core@7.29.0_react-nati_ea19f2054ac57f9479630bc4d4391804/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../node_modules/.pnpm/react-native-screens@4.23.0_react-native@0.83.2_@babel+core@7.29.0_@types+react@19.2.14_react@19.2.0__react@19.2.0/node_modules/react-native-screens`)"
-  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@7.11.0_expo@55.0.0-preview.10_react-native@0.83.2_@babel+core@7.29_e03e745018dda30f761e677c746eb869/node_modules/@sentry/react-native`)"
+  - "RNSentry (from `../../node_modules/.pnpm/@sentry+react-native@8.0.0_expo@55.0.0-preview.10_react-native@0.83.2_@babel+core@7.29._d4708a20673da9323ea1722eb22c3491/node_modules/@sentry/react-native`)"
   - "RNSVG (from `../../node_modules/.pnpm/react-native-svg@15.15.3_react-native@0.83.2_@babel+core@7.29.0_@types+react@19.2.14_react@19.2.0__react@19.2.0/node_modules/react-native-svg`)"
   - "RNWorklets (from `../../node_modules/.pnpm/react-native-worklets@0.7.3_@babel+core@7.29.0_react-native@0.83.2_@babel+core@7.29.0_@_35ff3a3a79722fc379753abff441f509/node_modules/react-native-worklets`)"
   - "Yoga (from `../../node_modules/.pnpm/react-native@0.83.2_@babel+core@7.29.0_@types+react@19.2.14_react@19.2.0/node_modules/react-native/ReactCommon/yoga`)"
@@ -2798,7 +2800,7 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../../node_modules/.pnpm/react-native-screens@4.23.0_react-native@0.83.2_@babel+core@7.29.0_@types+react@19.2.14_react@19.2.0__react@19.2.0/node_modules/react-native-screens"
   RNSentry:
-    :path: "../../node_modules/.pnpm/@sentry+react-native@7.11.0_expo@55.0.0-preview.10_react-native@0.83.2_@babel+core@7.29_e03e745018dda30f761e677c746eb869/node_modules/@sentry/react-native"
+    :path: "../../node_modules/.pnpm/@sentry+react-native@8.0.0_expo@55.0.0-preview.10_react-native@0.83.2_@babel+core@7.29._d4708a20673da9323ea1722eb22c3491/node_modules/@sentry/react-native"
   RNSVG:
     :path: "../../node_modules/.pnpm/react-native-svg@15.15.3_react-native@0.83.2_@babel+core@7.29.0_@types+react@19.2.14_react@19.2.0__react@19.2.0/node_modules/react-native-svg"
   RNWorklets:
@@ -2915,14 +2917,14 @@ SPEC CHECKSUMS:
   RNGestureHandler: 5494787ce29288a8941fa825663f2b1fa0a5aaf1
   RNReanimated: 8ea5cfa3fed1341704b7f128fcd7ecf65dea0cbc
   RNScreens: 14243fa0d9842ffa7f8bb2d00b6c3cfd3ca817e8
-  RNSentry: fbdf0705a341b40f9c78cce0cb3adf7fdcc895cf
+  RNSentry: 1e1ac789648ea1be530dd810c24893c8234baabf
   RNSVG: 0bd149b873018bc6e0e3321e2f6435bdba294460
   RNWorklets: e6fbeab5461dccd8aa7c8a0e5132cc1abb075b04
   SDWebImage: 1bb6a1b84b6fe87b972a102bdc77dd589df33477
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: d587a8fe91ca13503ecd69a1905f3e8a0fcf61be
+  Sentry: 990a381d8592207a52e7be654b31a27738c3a6a8
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   Yoga: dd994d8c85dca5cc9b10f5df8c01f9ef1d0da191
 
