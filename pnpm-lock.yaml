@@ -1363,10 +1363,6 @@ packages:
       react: '*'
       react-native: '*'
 
-  '@expo/env@2.1.0':
-    resolution: {integrity: sha512-vbLItCcADX2WFlfQOlAXfdDL8opBjXUnbzShSY/+3zyrkSMoxwSTgrgS8JdoGla47pVRjpKtziD5HgJgMjf8Tg==}
-    engines: {node: '>=20.12.0'}
-
   '@expo/env@2.1.1':
     resolution: {integrity: sha512-rVvHC4I6xlPcg+mAO09ydUi2Wjv1ZytpLmHOSzvXzBAz9mMrJggqCe4s4dubjJvi/Ino/xQCLhbaLCnTtLpikg==}
     engines: {node: '>=20.12.0'}
@@ -2741,9 +2737,6 @@ packages:
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
-  '@types/node@25.2.3':
-    resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
-
   '@types/node@25.3.0':
     resolution: {integrity: sha512-4K3bqJpXpqfg2XKGK9bpDTc6xO/xoUP/RBWS7AtRMug6zZFaRekiLzjVtAoZMquxoAbzBvy5nxQ7veS5eYzf8A==}
 
@@ -3821,12 +3814,6 @@ packages:
     resolution: {integrity: sha512-UER+rM6yDBCxBy1Bc0fxwj+eOg77khXw0lAUzq1L/f6f4C7TwyKRPyZiZ7D0Rm87AzPBrn2osa8gjA63N48wlQ==}
     peerDependencies:
       expo: '*'
-
-  expo-constants@55.0.4:
-    resolution: {integrity: sha512-zdPxsYnL8LrW91sXivdBIH5nouTDUG0npMZxaYhvEO/2p60iN0W4jK3n2sRFrPl31WctLWSs4ato/wIKnRuUFA==}
-    peerDependencies:
-      expo: '*'
-      react-native: '*'
 
   expo-constants@55.0.5:
     resolution: {integrity: sha512-CJh8aET4yRUDPrRj8ojqaVgNMYTwgoswKHoLB8x3UAN4tVreu2C+utsD+lCCifP632v2YJLbUURmk7JI9uBKZw==}
@@ -5077,10 +5064,6 @@ packages:
     resolution: {integrity: sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ==}
     engines: {node: '>=4'}
 
-  minimatch@10.2.0:
-    resolution: {integrity: sha512-ugkC31VaVg9cF0DFVoADH12k6061zNZkZON+aX8AWsR9GhPcErkcMBceb6znR8wLERM2AkkOxy2nWRLpT9Jq5w==}
-    engines: {node: 20 || >=22}
-
   minimatch@10.2.1:
     resolution: {integrity: sha512-MClCe8IL5nRRmawL6ib/eT4oLyeKMGCghibcDWK+J0hh0Q8kqSdia6BvbRMVk6mPa6WqUa5uR2oxt6C5jd533A==}
     engines: {node: 20 || >=22}
@@ -6260,9 +6243,6 @@ packages:
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
-
-  undici-types@7.16.0:
-    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
@@ -7921,7 +7901,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 3.0.1
       debug: 4.4.3
-      minimatch: 10.2.0
+      minimatch: 10.2.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8076,14 +8056,6 @@ snapshots:
       expo: 55.0.0-preview.11(@babel/core@7.29.0)(@expo/dom-webview@55.0.3)(@expo/metro-runtime@55.0.6)(react-dom@19.2.0(react@19.2.0))(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
       react: 19.2.0
       react-native: 0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
-
-  '@expo/env@2.1.0':
-    dependencies:
-      chalk: 4.1.2
-      debug: 4.4.3
-      getenv: 2.0.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@expo/env@2.1.1':
     dependencies:
@@ -8489,14 +8461,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -8530,7 +8502,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -9577,10 +9549,6 @@ snapshots:
 
   '@types/node@17.0.45': {}
 
-  '@types/node@25.2.3':
-    dependencies:
-      undici-types: 7.16.0
-
   '@types/node@25.3.0':
     dependencies:
       undici-types: 7.18.2
@@ -9595,7 +9563,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
 
   '@types/stack-utils@2.0.3': {}
 
@@ -10833,7 +10801,7 @@ snapshots:
       imurmurhash: 0.1.4
       is-glob: 4.0.3
       json-stable-stringify-without-jsonify: 1.0.1
-      minimatch: 10.2.0
+      minimatch: 10.2.1
       natural-compare: 1.4.0
       optionator: 0.9.4
     optionalDependencies:
@@ -10940,16 +10908,6 @@ snapshots:
       resolve-from: 5.0.0
       semver: 7.7.4
 
-  expo-constants@55.0.4(expo@55.0.0-preview.11)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(typescript@5.9.3):
-    dependencies:
-      '@expo/config': 55.0.6(typescript@5.9.3)
-      '@expo/env': 2.1.0
-      expo: 55.0.0-preview.11(@babel/core@7.29.0)(@expo/dom-webview@55.0.3)(@expo/metro-runtime@55.0.6)(react-dom@19.2.0(react@19.2.0))(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
-      react-native: 0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   expo-constants@55.0.5(expo@55.0.0-preview.11)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(typescript@5.9.3):
     dependencies:
       '@expo/config': 55.0.6(typescript@5.9.3)
@@ -11041,7 +10999,7 @@ snapshots:
 
   expo-linking@55.0.4(expo@55.0.0-preview.11)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)(typescript@5.9.3):
     dependencies:
-      expo-constants: 55.0.4(expo@55.0.0-preview.11)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(typescript@5.9.3)
+      expo-constants: 55.0.5(expo@55.0.0-preview.11)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(typescript@5.9.3)
       invariant: 2.2.4
       react: 19.2.0
       react-native: 0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
@@ -11785,7 +11743,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -11795,7 +11753,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -11822,7 +11780,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       jest-util: 29.7.0
 
   jest-regex-util@29.6.3: {}
@@ -11830,7 +11788,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -12743,10 +12701,6 @@ snapshots:
   mime@1.6.0: {}
 
   mimic-fn@1.2.0: {}
-
-  minimatch@10.2.0:
-    dependencies:
-      brace-expansion: 5.0.2
 
   minimatch@10.2.1:
     dependencies:
@@ -14083,8 +14037,6 @@ snapshots:
   ultrahtml@1.6.0: {}
 
   uncrypto@0.1.3: {}
-
-  undici-types@7.16.0: {}
 
   undici-types@7.18.2: {}
 
